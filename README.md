@@ -146,7 +146,7 @@ https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#requirem
 | `Axure`         | 原型设计工具          | 9         | https://www.axure.com/                                       |
 | `MindMaster`    | 思维导图设计工具      | latest    | http://www.edrawsoft.cn/mindmaster                           |
 | `Visio`         | 流程图绘制工具        | latest    | https://www.microsoft.com/zh-cn/microsoft-365/visio/flowchart-software |
-| `Apipost`       | `API`接口调试工具     | latest    | https://www.apipost.cn/                                      |
+| `Apifox`        | `API`接口调试工具     | latest    | https://apifox.com/                                          |
 | `Mock.js`       | `API`接口模拟测试     | latest    | http://mockjs.com/                                           |
 | `Git`           | 项目版本管控工具      | latest    | https://git-scm.com/                                         |
 | `Codeup`        | 项目源码托管平台      | latest    | https://codeup.aliyun.com                                    |
