@@ -131,16 +131,12 @@ under the License.
       <passphrase>optional; leave empty if not used.</passphrase>
     </server>
     -->
+    <!-- Aliyun codeup -->
 	<server>
-		<id>archiva.internal</id> 
-		<username>admin</username> 
-		<password>admin123</password> 
-	</server>
-	<server>
-		<id>archiva.snapshots</id> 
-		<username>admin</username> 
-		<password>admin123</password> 
-	</server>
+      <id>2383166-snapshot-6TSW5l</id>
+      <username>64794d2073120cb7e7ef6f1a</username>
+      <password>hnC])Je1TEBu</password>
+    </server>
   </servers>
 
   <!-- mirrors
@@ -167,12 +163,20 @@ under the License.
       <url>http://my.repository.com/repo/path</url>
     </mirror>
      -->
+	<!--
 	<mirror>
 		<id>alimaven</id>
 		<name>aliyun maven</name>
-		<url>https://maven.aliyun.com/repository/public</url>
+		<url>https://maven.aliyun.com/repository/public/</url>
 		<mirrorOf>central</mirrorOf>
 	</mirror>
+	 -->
+	<mirror>
+     <id>mirror</id>
+     <mirrorOf>central,jcenter,!2383166-snapshot-6TSW5l</mirrorOf>
+     <name>mirror</name>
+     <url>https://maven.aliyun.com/nexus/content/groups/public</url>
+    </mirror>
   </mirrors>
 
   <!-- profiles
@@ -238,7 +242,82 @@ under the License.
 		<maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
 	  </properties>
 	</profile>
-
+	<!-- Aliyun codeup push -->
+	<profile>
+	  <id>rdc</id>
+	  <properties>
+	    <altReleaseDeploymentRepository>
+          2383166-snapshot-6TSW5l::default::https://packages.aliyun.com/maven/repository/2383166-snapshot-6TSW5l
+	    </altReleaseDeploymentRepository>
+		<altSnapshotDeploymentRepository>
+          2383166-snapshot-6TSW5l::default::https://packages.aliyun.com/maven/repository/2383166-snapshot-6TSW5l
+       </altSnapshotDeploymentRepository>
+	  </properties>
+	  <repositories>
+	    <repository>
+	      <id>central</id>
+	      <url>https://maven.aliyun.com/nexus/content/groups/public</url>
+	      <releases>
+	        <enabled>true</enabled>
+	      </releases>
+	      <snapshots>
+	        <enabled>false</enabled>
+	      </snapshots>
+	    </repository>
+	    <repository>
+	      <id>snapshots</id>
+	      <url>https://maven.aliyun.com/nexus/content/groups/public</url>
+	      <releases>
+	        <enabled>false</enabled>
+	      </releases>
+	      <snapshots>
+	        <enabled>true</enabled>
+	      </snapshots>
+	    </repository>
+	    <repository>
+	      <id>2383166-snapshot-6TSW5l</id>
+	      <url>https://packages.aliyun.com/maven/repository/2383166-snapshot-6TSW5l</url>
+	      <releases>
+	        <enabled>true</enabled>
+	      </releases>
+	      <snapshots>
+	        <enabled>true</enabled>
+	      </snapshots>
+	    </repository>
+	  </repositories>
+	  <pluginRepositories>
+	    <pluginRepository>
+	      <id>central</id>
+	      <url>https://maven.aliyun.com/nexus/content/groups/public</url>
+	      <releases>
+	         <enabled>true</enabled>
+	      </releases>
+	      <snapshots>
+	        <enabled>false</enabled>
+	      </snapshots>
+	    </pluginRepository>
+	    <pluginRepository>
+	      <id>snapshots</id>
+	      <url>https://maven.aliyun.com/nexus/content/groups/public</url>
+	      <releases>
+	        <enabled>false</enabled>
+	      </releases>
+	      <snapshots>
+	        <enabled>true</enabled>
+	      </snapshots>
+	    </pluginRepository>
+	    <pluginRepository>
+	      <id>2383166-snapshot-6TSW5l</id>
+	      <url>https://packages.aliyun.com/maven/repository/2383166-snapshot-6TSW5l</url>
+	      <releases>
+	        <enabled>true</enabled>
+	      </releases>
+	      <snapshots>
+	        <enabled>true</enabled>
+	      </snapshots>
+	    </pluginRepository>
+	  </pluginRepositories>
+	</profile>
     <!--
      | Here is another profile, activated by the system property 'target-env' with a value of 'dev',
      | which provides a specific path to the Tomcat instance. To use this, your plugin configuration
@@ -278,9 +357,9 @@ under the License.
   <!-- activeProfiles
    | List of profiles that are active for all builds.
    |
-  <activeProfiles>
-    <activeProfile>alwaysActiveProfile</activeProfile>
-    <activeProfile>anotherAlwaysActiveProfile</activeProfile>
-  </activeProfiles>
   -->
+  <activeProfiles>
+    <activeProfile>jdk-1.8</activeProfile>
+    <activeProfile>rdc</activeProfile>
+  </activeProfiles>
 </settings>
