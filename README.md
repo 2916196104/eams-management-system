@@ -108,6 +108,7 @@ https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#requirem
 | `wangEditor`         | 富文本编辑器  | v5     | https://www.wangeditor.com/v5/                               |
 | `pdfobject`          | `pdf`预览插件 | 2.3.0  | https://github.com/pipwerks/PDFObject                        |
 | `Vitest`             | 测试框架      | 1.6.0  | https://cn.vitest.dev/<br>https://cn.vuejs.org/guide/scaling-up/testing.html |
+| `pinyin-pro`         | 汉字转拼音库  | latest | https://pinyin-pro.cn/                                       |
 
 ### `CPP`技术栈
 
