@@ -17,7 +17,7 @@
 | elasticsearch        | 7.6.2            |                       |
 | logstash             | 7.6.2            |                       |
 | kibana               | 7.6.2            |                       |
-| rocketmq-dashboard   | latest           |                       |
+| rocketmq-dashboard   | 1.0.0<br>latest  |                       |
 | rocketmq             | 4.9.3            |                       |
 | nginx                | latest           |                       |
 | redis                | 6.2.7<br>7.4.2   |                       |
