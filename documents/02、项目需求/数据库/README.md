@@ -4,8 +4,9 @@
 
 `SQL`文件说明:
 
-- `xxx.sql`：
-- `xxx.sql`：
+- `zo_eams.sql`：脚本包含建库、建表语句，<b style="color:red">必须执行</b>
+- `zo_eams_init*.sql`：脚本定义系统初始化必须要创建的数据，<b style="color:red">必须执行</b>
+- `zo_eams_test*.sql`：脚本定义开发测试数据，<b style="color:blue">可选执行</b>
 
 在执行 `SQL` 文件的时候如果运行报错的话，检查你的 `sql_mode` 是否删除了下面的选项：
 
@@ -15,7 +16,7 @@ NO_ZERO_DAT
 NO_ZERO_IN_DATE
 ```
 
-你可以通过下面命令行查看sql_mode情况
+你可以通过下面命令行查看`sql_mode`情况
 
 ```sql
 # 查看当前sql_mode
@@ -41,8 +42,5 @@ set @@sql_mode = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBST
 set global max_allowed_packet=1024102416;
 ```
 
-# 业务参考系统核心表
 
-```sql
-```
 
