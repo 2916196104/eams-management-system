@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>零壹聊天室</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #4b6cb7, #182848);
+        background-attachment: fixed;
+        color: #333;
+        line-height: 1.5;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+      }
+
+      .container {
+        background: rgba(255, 255, 255, 0.97);
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        width: 100%;
+        max-width: 480px;
+        padding: 20px;
+        transition: transform 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(to right, #4b6cb7, #3498db);
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 15px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #3498db;
+      }
+
+      .logo {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #4b6cb7, #3498db);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+      }
+
+      .logo i {
+        font-size: 20px;
+        color: white;
+      }
+
+      h1 {
+        color: #2c3e50;
+        font-size: 1.6rem;
+        text-align: center;
+        letter-spacing: 0.5px;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+        position: relative;
+      }
+
+      label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 6px;
+        font-weight: 600;
+        color: #2c3e50;
+        font-size: 0.9rem;
+      }
+
+      label i {
+        color: #3498db;
+        width: 18px;
+        text-align: center;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 10px 12px 10px 38px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        transition: all 0.3s;
+        background: #f8f9fa;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      input:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+      }
+
+      input {
+        height: 40px;
+      }
+
+      textarea {
+        height: 85px;
+        resize: vertical;
+        min-height: 70px;
+        padding-left: 12px;
+      }
+
+      .input-icon {
+        position: absolute;
+        left: 12px;
+        top: 35px;
+        color: #7f8c8d;
+        font-size: 16px;
+      }
+
+      .btn-container {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 15px;
+      }
+
+      button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        background: linear-gradient(to right, #3498db, #2980b9);
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        flex: 1;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+        min-height: 40px;
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      button:active {
+        transform: translateY(1px);
+      }
+
+      #connectBtn {
+        background: linear-gradient(to right, #2ecc71, #27ae60);
+      }
+
+      #closeBtn {
+        background: linear-gradient(to right, #e74c3c, #c0392b);
+      }
+
+      #output {
+        border: 1px solid #ddd;
+        max-height: 160px;
+        overflow-y: auto;
+        padding: 12px;
+        border-radius: 8px;
+        background: #f5f9ff;
+        margin-top: 15px;
+        min-height: 80px;
+        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+
+      #output p {
+        padding: 8px 12px;
+        margin-bottom: 8px;
+        border-radius: 6px;
+        background: white;
+        animation: fadeIn 0.3s ease;
+        font-size: 0.85rem;
+        line-height: 1.5;
+        position: relative;
+        padding-left: 38px;
+      }
+
+      #output p:before {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 16px;
+        width: 25px;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+      }
+
+      #output p:nth-child(odd) {
+        background: #f8f9ff;
+      }
+
+      .status-info {
+        color: #27ae60;
+        font-weight: 500;
+      }
+
+      .status-info:before {
+        content: "\f05a";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        color: #27ae60;
+        background: rgba(39, 174, 96, 0.1);
+      }
+
+      .status-error {
+        color: #c0392b;
+        font-weight: 500;
+      }
+
+      .status-error:before {
+        content: "\f06a";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        color: #c0392b;
+        background: rgba(192, 57, 43, 0.1);
+      }
+
+      .message-received {
+        border-left: 2px solid #3498db;
+      }
+
+      .message-received:before {
+        content: "\f086";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        color: #3498db;
+        background: rgba(52, 152, 219, 0.1);
+      }
+
+      .message-sent {
+        border-left: 2px solid #2ecc71;
+      }
+
+      .message-sent:before {
+        content: "\f1d8";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        color: #2ecc71;
+        background: rgba(46, 204, 113, 0.1);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 15px;
+        color: #7f8c8d;
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+      }
+
+      .online-status {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.75rem;
+        margin-top: 4px;
+      }
+
+      .online-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #ccc;
+      }
+
+      .online-dot.active {
+        background: #2ecc71;
+      }
+
+      /* 响应式调整 */
+      @media (max-height: 600px) {
+        .container {
+          padding: 15px;
+        }
+
+        h1 {
+          font-size: 1.5rem;
+        }
+
+        input {
+          height: 38px;
+        }
+
+        textarea {
+          height: 75px;
+        }
+
+        #output {
+          max-height: 150px;
+        }
+      }
+
+      @media (max-height: 500px) {
+        h1 {
+          font-size: 1.4rem;
+        }
+
+        textarea {
+          height: 60px;
+        }
+
+        #output {
+          max-height: 120px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .btn-container {
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .container {
+          padding: 15px 12px;
+        }
+
+        .header {
+          flex-direction: column;
+          text-align: center;
+          gap: 6px;
+        }
+      }
+
+      /* 自定义滚动条 */
+      #output::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      #output::-webkit-scrollbar-track {
+        background: #e1e8ff;
+        border-radius: 4px;
+      }
+
+      #output::-webkit-scrollbar-thumb {
+        background: #a1a9d9;
+        border-radius: 4px;
+      }
+
+      #output::-webkit-scrollbar-thumb:hover {
+        background: #7c85c7;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="logo">
+          <i class="fas fa-comments"></i>
+        </div>
+        <h1>零壹聊天室</h1>
+      </div>
+
+      <div class="form-group">
+        <label for="token"> <i class="fas fa-key"></i>发送者凭证： </label>
+        <div class="input-icon">
+          <i class="fas fa-lock"></i>
+        </div>
+        <input type="password" id="token" placeholder="输入登录凭证" />
+      </div>
+
+      <div class="form-group">
+        <button id="connectBtn" onclick="init()">
+          <i class="fas fa-plug"></i>连接服务器
+        </button>
+      </div>
+
+      <div class="form-group">
+        <label for="receiverId">
+          <i class="fas fa-user"></i>接收者编号：
+        </label>
+        <div class="input-icon">
+          <i class="fas fa-id-card"></i>
+        </div>
+        <input
+          id="receiverId"
+          placeholder="接收者编号 (输入'all'广播)"
+          value="all"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="message">
+          <i class="fas fa-comment-dots"></i>消息内容：
+        </label>
+        <textarea id="message" placeholder="输入消息内容"></textarea>
+      </div>
+
+      <div class="btn-container">
+        <button onclick="send()">
+          <i class="fas fa-paper-plane"></i>发送消息
+        </button>
+        <button id="closeBtn" onclick="closeConnect()">
+          <i class="fas fa-power-off"></i>关闭连接
+        </button>
+      </div>
+
+      <div id="output"></div>
+
+      <footer>
+        <i class="fas fa-code"></i>
+        <p>零壹聊天室 v1.0</p>
+        <div class="online-status">
+          <div class="online-dot"></div>
+          <span>离线</span>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      // 屏幕回显输出方法
+      function writeToScreen(message, type = "info") {
+        let pre = document.createElement("p");
+        pre.style.wordWrap = "break-word";
+
+        // 添加样式类
+        if (type === "info") {
+          pre.classList.add("status-info");
+        } else if (type === "error") {
+          pre.classList.add("status-error");
+        } else if (type === "received") {
+          pre.classList.add("message-received");
+        } else if (type === "sent") {
+          pre.classList.add("message-sent");
+        }
+
+        pre.innerHTML = message;
+        let output = document.getElementById("output");
+        output.appendChild(pre);
+
+        // 自动滚动到底部
+        setTimeout(function () {
+          output.scrollTop = output.scrollHeight;
+        }, 10);
+
+        // 更新在线状态
+        updateOnlineStatus();
+      }
+
+      // 更新在线状态显示
+      function updateOnlineStatus() {
+        const statusDot = document.querySelector(".online-dot");
+        const statusText = document.querySelector(".online-status span");
+
+        if (echo_websocket && echo_websocket.readyState === WebSocket.OPEN) {
+          statusDot.classList.add("active");
+          statusText.textContent = "在线";
+        } else {
+          statusDot.classList.remove("active");
+          statusText.textContent = "离线";
+        }
+      }
+
+      // 初始化websocket
+      let echo_websocket = null;
+      function init() {
+        if (echo_websocket) return;
+
+        // 获取输入的凭证
+        let token = document.getElementById("token").value;
+        if (!token) {
+          alert("请输入登录凭证");
+          return;
+        }
+
+        let wsUri = "ws://localhost:8090/chat";
+        writeToScreen("正在连接到：" + wsUri, "info");
+
+        try {
+          // 1.创建WebSocket客户端对象
+          echo_websocket = new WebSocket(wsUri, token);
+
+          // 2.开门握手完成回调
+          echo_websocket.onopen = function (evt) {
+            writeToScreen(`连接成功！可以开始聊天`, "info");
+            updateOnlineStatus();
+          };
+
+          // 3.监听服务端的消息
+          echo_websocket.onmessage = function (evt) {
+            writeToScreen("接收消息: " + evt.data, "received");
+          };
+
+          // 4.如果连接中断
+          echo_websocket.onerror = function (evt) {
+            writeToScreen("连接错误: " + (evt.message || "未知错误"), "error");
+            closeConnect();
+          };
+
+          // 5.注册close事件
+          echo_websocket.onclose = function (evt) {
+            writeToScreen("连接已关闭", "info");
+            if (evt.reason) {
+              writeToScreen(`关闭原因: ${evt.reason}`, "error");
+            }
+            echo_websocket = null;
+            updateOnlineStatus();
+          };
+        } catch (e) {
+          writeToScreen("连接失败: " + e.message, "error");
+          echo_websocket = null;
+          updateOnlineStatus();
+        }
+      }
+
+      // 6.向服务发送消息
+      function send() {
+        if (!echo_websocket) {
+          alert("请先连接服务器");
+          return;
+        }
+
+        let message = document.getElementById("message").value;
+        let receiver = document.getElementById("receiverId").value;
+
+        if (!receiver) {
+          alert("请输入消息接收人的编号");
+          return;
+        }
+
+        if (!message) {
+          alert("请输入要发送的消息");
+          return;
+        }
+
+        try {
+          echo_websocket.send(receiver + "::" + message);
+          writeToScreen("发送消息: " + message, "sent");
+          // 清空消息框
+          document.getElementById("message").value = "";
+        } catch (e) {
+          writeToScreen("发送失败: " + e.message, "error");
+        }
+      }
+
+      // 7.关闭连接
+      function closeConnect() {
+        if (!echo_websocket) return;
+
+        try {
+          echo_websocket.close();
+          echo_websocket = null;
+          updateOnlineStatus();
+        } catch (e) {
+          writeToScreen("关闭连接时出错: " + e.message, "error");
+        }
+      }
+
+      // 初始加载时添加示例消息
+      document.addEventListener("DOMContentLoaded", function () {
+        writeToScreen("欢迎使用零壹聊天室", "info");
+        writeToScreen("请输入凭证并连接服务器", "info");
+      });
+    </script>
+  </body>
+</html>
