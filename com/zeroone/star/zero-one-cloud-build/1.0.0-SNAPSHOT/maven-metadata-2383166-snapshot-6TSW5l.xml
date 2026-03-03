@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>com.zeroone.star</groupId>
+  <artifactId>zero-one-cloud-build</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20260106.030811</timestamp>
+      <buildNumber>5</buildNumber>
+    </snapshot>
+    <lastUpdated>20260106030811</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>1.0.0-20260106.030811-5</value>
+        <updated>20260106030811</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>
