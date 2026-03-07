@@ -38,6 +38,7 @@
         <module>eams-login</module>
         <module>eams-doc</module>
         <module>eams-sample</module>
+        <module>eams-sample-captcha</module>
     </modules>
     <properties>
         <!-- 项目版本号 -->
