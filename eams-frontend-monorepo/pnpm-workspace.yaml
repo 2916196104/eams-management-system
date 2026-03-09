@@ -3,3 +3,8 @@ packages:
   - old/*
   - packages/*
   - configs/*
+
+onlyBuiltDependencies:
+  - core-js
+  - ejs
+  - yorkie
