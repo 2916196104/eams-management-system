@@ -1,0 +1,42 @@
+{
+  "name": "@eams-monorepo/root",
+  "private": true,
+  "version": "1.0.0",
+  "description": "EAMS 前端单仓架构项目根目录",
+  "type": "module",
+  "packageManager": "pnpm@10.21.0",
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "postinstall": "simple-git-hooks",
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "eslint .",
+    "format": "prettier --write '**/*.{js,jsx,ts,tsx,mts,json,css,scss,md,yml,yaml,html,vue}' --ignore-path .gitignore",
+    "format:check": "prettier --check '**/*.{js,jsx,ts,tsx,mts,json,css,scss,md,yml,yaml,html,vue}' --ignore-path .gitignore",
+    "clean": "rimraf -g '**/{dist,.turbo,.cache,.temp}' --glob",
+    "clean:deps": "rimraf -g '**/node_modules' --glob",
+    "commit": "git-cz",
+    "changeset:add": "changeset add",
+    "changeset:version": "changeset version",
+    "changeset:publish": "changeset publish",
+    "release": "pnpm build && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.29.4",
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "@eslint/js": "^9.22.0",
+    "commitizen": "^4.3.1",
+    "cz-git": "^1.11.1",
+    "eslint": "^9.22.0",
+    "lint-staged": "^15.5.0",
+    "prettier": "^3.5.3",
+    "rimraf": "^6.0.1",
+    "simple-git-hooks": "^2.12.1",
+    "turbo": "^2.4.4",
+    "typescript": "^5.8.2"
+  }
+}
