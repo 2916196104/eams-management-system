@@ -1,14 +1,41 @@
+import * as prettierPluginOxc from "@prettier/plugin-oxc";
+import prettierPluginLintMd from "prettier-plugin-lint-md";
+
+// @ts-check
 /** @type {import("prettier").Config} */
-export default {
-  semi: true,
-  singleQuote: false,
-  tabWidth: 2,
-  useTabs: false,
-  printWidth: 120,
-  trailingComma: "all",
-  bracketSpacing: true,
-  arrowParens: "always",
-  endOfLine: "lf",
-  htmlWhitespaceSensitivity: "ignore",
-  vueIndentScriptAndStyle: false,
+const config = {
+	plugins: ["prettier-plugin-lint-md"],
+
+	/** @see https://github.com/prettier/prettier/tree/main/packages/plugin-oxc */
+	overrides: [
+		{
+			files: ["**/*.{js,mjs,cjs,jsx}"],
+			parser: "oxc",
+			plugins: [prettierPluginOxc],
+		},
+		{
+			files: ["**/*.{ts,mts,cts,tsx}"],
+			parser: "oxc-ts",
+			plugins: [prettierPluginOxc],
+		},
+	],
+
+	singleQuote: false,
+	printWidth: 120,
+	semi: true,
+	jsxSingleQuote: true,
+	useTabs: true,
+	tabWidth: 2,
+	endOfLine: "auto",
+	trailingComma: "all",
+	bracketSpacing: true,
+	arrowParens: "always",
+	htmlWhitespaceSensitivity: "ignore",
+	vueIndentScriptAndStyle: false,
+	"space-around-alphabet": true,
+	"space-around-number": true,
+	"no-empty-code-lang": false,
+	"no-empty-code": false,
 };
+
+export default config;
