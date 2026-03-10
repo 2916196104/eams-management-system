@@ -44,3 +44,6 @@ pnpm-debug.log*
 # Lock files (only keep pnpm-lock.yaml)
 package-lock.json
 yarn.lock
+
+# 忽略本地缓存目录
+local_cache
