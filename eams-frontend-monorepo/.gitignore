@@ -35,6 +35,12 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# Source maps
+*.map
+*.js.map
+*.css.map
+*.d.ts.map
+
 # Lock files (only keep pnpm-lock.yaml)
 package-lock.json
 yarn.lock
