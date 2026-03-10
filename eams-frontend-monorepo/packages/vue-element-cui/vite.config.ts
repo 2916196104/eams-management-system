@@ -20,11 +20,13 @@ export default defineConfig({
       fileName: (format) => `index.${format === 'es' ? 'js' : 'cjs'}`,
     },
     rollupOptions: {
-      external: ['vue', 'element-plus'],
+      external: ['vue', 'element-plus', '@element-plus/icons-vue', 'xlsx'],
       output: {
         globals: {
           vue: 'Vue',
           'element-plus': 'ElementPlus',
+          '@element-plus/icons-vue': 'ElementPlusIconsVue',
+          'xlsx': 'XLSX',
         },
         assetFileNames: (assetInfo) => {
           if (assetInfo.name === 'style.css') {
