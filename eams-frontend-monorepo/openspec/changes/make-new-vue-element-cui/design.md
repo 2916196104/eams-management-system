@@ -70,21 +70,29 @@
 - 独立的 VitePress 文档 + Vite playground：更模块化但需要维护两个项目
 - Storybook：适合组件目录但对叙述性文档不够灵活
 
-### 决策 3：tsdown vs 其他构建工具
+### 决策 3：Vite Library Mode vs 其他构建工具
 
-**选择：** 使用 tsdown 构建组件库
+**选择：** 使用 Vite library mode 构建组件库
 
 **理由：**
-- 专为 TypeScript 库构建设计
-- 自动生成类型声明并解析依赖
-- 相比 Rollup/Vite library mode 配置更简单
-- 基于 esbuild 的快速构建
-- 在 Vue 3 生态中采用率不断增长
+- 初期选择 tsdown，但在实际构建中发现 Vue 组件语法兼容性问题
+- Vite library mode 提供更成熟的 Vue 3 单文件组件支持
+- 通过 vite-plugin-dts 完整支持 TypeScript 类型声明生成
+- 更灵活的 external 依赖配置，避免打包第三方库
+- 与 Nuxt 3 开发工具链保持一致，便于调试
 
-**考虑的替代方案：**
-- Vite library mode：配置更复杂，主要为应用设计
-- Rollup：需要更多插件和配置
-- tsup：类似但 tsdown 的 TypeScript DTS 处理更好
+**实施细节：**
+- 配置 external 依赖：vue, element-plus, @element-plus/icons-vue, xlsx
+- 使用 vite-plugin-dts 自动生成 .d.ts 文件
+- 支持 ESM/CJS 双格式输出
+- 构建输出：dist/index.js (ESM), dist/index.cjs (CJS), dist/index.d.ts (类型)
+
+**迁移过程：**
+1. 删除 tsdown.config.ts
+2. 创建 vite.config.ts 并配置 library mode
+3. 修复 Vue 组件语法错误（移除 */ 后缀）
+4. 配置 external 依赖解决 Rollup 导入问题
+5. 验证构建成功并生成所有必需文件
 
 ### 决策 4：使用 Interface 定义 Props
 

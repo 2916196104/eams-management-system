@@ -3,34 +3,33 @@
 ## 任务进度总览（截至 2026-03-11）
 
 ### 已完成的阶段
-- ✅ Phase 1: 基础设施搭建（8/9 任务完成，待验证构建输出）
+- ✅ Phase 1: 基础设施搭建（9/9 任务完成）
 - ✅ Phase 2: Nuxt 文档系统（9/9 任务完成）
 - ⏸️ Phase 3: CuiTable 组件（0/13 任务，待开始）
 - ✅ Phase 4: CuiForm 组件（10/10 任务完成）
 - ✅ Phase 5: CuiSearch 组件（9/9 任务完成）
 - ✅ Phase 6: CuiDialogForm 组件（10/10 任务完成）
-- 🔄 Phase 7: P1 功能组件（9/14 任务完成，待补充测试和文档）
+- ✅ Phase 7: P1 功能组件（14/14 任务完成）
 - 🔄 Phase 8: P2 表单控件（1/12 任务完成）
 - ⏸️ Phase 9-14: 样式、类型、测试、文档、构建、验证（待开始）
-- 🔄 Phase 15: 构建工具切换（5/10 任务完成）
+- ✅ Phase 15: 构建工具切换（10/10 任务完成）
 
 ### 关键里程碑
 - ✅ 2026-03-10: 完成 CuiForm、CuiSearch、CuiDialogForm 核心组件
 - ✅ 2026-03-11: 发现 tsdown 构建问题，切换到 Vite library mode
 - ✅ 2026-03-11: 编写 tsdown 失败技术报告
-- ⏳ 待完成: 验证 Vite 构建成功
-- ⏳ 待完成: 更新项目文档（3个文件）
-- ⏳ 待完成: 补充 P1 组件测试和文档
+- ✅ 2026-03-11: 修复 Vue 组件语法错误（移除 */ 后缀）
+- ✅ 2026-03-11: 配置 Vite external 依赖，验证构建成功
+- ✅ 2026-03-11: 更新项目文档（3个文件）和 OpenSpec 变更记录
+- ✅ 2026-03-11: 完成 P1 组件测试和文档（4个测试文件，5个演示页面，5个文档页面）
 - ⏳ 待完成: 实现剩余 P2 组件
+- ⏳ 待完成: 完成 CuiTable 组件
 
 ### 下一步行动（优先级排序）
-1. **验证 Vite 构建** - 运行 `pnpm run build` 确认构建成功
-2. **更新项目文档** - 同步构建工具变更到 3 个 markdown 文件
-3. **更新 OpenSpec 变更记录** - 记录构建工具迁移决策
-4. **补充 P1 组件测试** - CuiDetail、CuiExcel、CuiTab、CuiSelectBox 单元测试
-5. **补充 P1 组件文档** - 演示示例和文档页面
-6. **实现剩余 P2 组件** - CuiSelect、CuiSelectDict、CuiRadio*、CuiCheckbox*、CuiAutocomplete
-7. **完成 CuiTable 组件** - P0 核心组件，优先级高
+1. **实现剩余 P2 组件** - CuiSelect、CuiSelectDict、CuiRadio*、CuiCheckbox*、CuiAutocomplete
+2. **完成 CuiTable 组件** - P0 核心组件，优先级高
+3. **修复 TypeScript 类型警告** - CuiAutocomplete、CuiTab 的类型兼容性问题
+4. **补充组件样式** - 为所有组件实现 SCSS 文件
 
 ---
 
@@ -44,7 +43,7 @@
 - [x] 1.6 配置 TypeScript 严格模式和路径别名
 - [x] 1.7 创建 src/global.d.ts 用于 Volar 全局组件类型
 - [x] 1.8 设置 package.json 导出配置，包括主入口、样式和类型
-- [ ] 1.9 验证构建输出（dist/index.js、dist/index.cjs、dist/index.d.ts、dist/styles/）
+- [x] 1.9 验证构建输出（dist/index.js、dist/index.cjs、dist/index.d.ts、dist/styles/）
 
 ## 2. Nuxt 文档系统
 
@@ -117,17 +116,17 @@
 - [x] 7.1 实现 CuiDialog 组件（带插槽的对话框容器）
 - [x] 7.2 创建 CuiDialog 单元测试（目标：75% 覆盖率）
 - [x] 7.3 实现 CuiDetail 组件（结构化数据展示）
-- [ ] 7.4 创建 CuiDetail 单元测试（目标：75% 覆盖率）
+- [x] 7.4 创建 CuiDetail 单元测试（目标：75% 覆盖率）
 - [x] 7.5 实现 CuiExcel 组件（Excel 导入/导出）
-- [ ] 7.6 创建 CuiExcel 单元测试（目标：75% 覆盖率）
+- [x] 7.6 创建 CuiExcel 单元测试（目标：75% 覆盖率）
 - [x] 7.7 实现 CuiTab 组件（标签页容器）
-- [ ] 7.8 创建 CuiTab 单元测试（目标：75% 覆盖率）
+- [x] 7.8 创建 CuiTab 单元测试（目标：75% 覆盖率）
 - [x] 7.9 实现 CuiSelectBox 组件（选择容器）
-- [ ] 7.10 创建 CuiSelectBox 单元测试（目标：75% 覆盖率）
+- [x] 7.10 创建 CuiSelectBox 单元测试（目标：75% 覆盖率）
 - [x] 7.11 从 src/index.ts 导出所有 P1 组件
 - [x] 7.12 更新 src/global.d.ts，添加 P1 组件类型
-- [ ] 7.13 为所有 P1 组件创建演示示例
-- [ ] 7.14 为所有 P1 组件创建文档
+- [x] 7.13 为所有 P1 组件创建演示示例
+- [x] 7.14 为所有 P1 组件创建文档
 
 ## 8. P2 表单控件
 
@@ -207,11 +206,11 @@
 - [x] 15.3 创建 vite.config.ts 配置文件，配置 library mode
 - [x] 15.4 更新 package.json 构建脚本（dev、build、build:js）
 - [x] 15.5 添加 vite-plugin-dts 依赖用于类型生成
-- [ ] 15.6 验证 Vite 构建成功（运行 pnpm run build）
-- [ ] 15.7 更新 docs/plans/2026-03-10-vue-element-cui-migration-design.md（构建工具变更说明）
-- [ ] 15.8 更新 docs/plans/2026-03-10-make-new-vue-element-cui.md（构建工具变更说明）
-- [ ] 15.9 更新 packages/vue-element-cui/docs/prompts/init-components-lib.md（构建工具变更说明）
-- [ ] 15.10 更新 OpenSpec 变更记录（delta-specs.md 或 proposal.md）
+- [x] 15.6 验证 Vite 构建成功（运行 pnpm run build）
+- [x] 15.7 更新 docs/plans/2026-03-10-vue-element-cui-migration-design.md（构建工具变更说明）
+- [x] 15.8 更新 docs/plans/2026-03-10-make-new-vue-element-cui.md（构建工具变更说明）
+- [x] 15.9 更新 packages/vue-element-cui/docs/prompts/init-components-lib.md（构建工具变更说明）
+- [x] 15.10 更新 OpenSpec 变更记录（design.md 已更新）
 
 ## 14. 最终验证
 
