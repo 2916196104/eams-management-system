@@ -2,11 +2,11 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** 将 old/vue-element-cui (Vue 2) 完全重写为现代化组件库 packages/vue-element-cui (Vue 3 + TypeScript + tsdown)，并配套 Nuxt 3 playground + docs
+**Goal:** 将 old/vue-element-cui (Vue 2) 完全重写为现代化组件库 packages/vue-element-cui (Vue 3 + TypeScript + Vite)，并配套 Nuxt 3 playground + docs
 
-**Architecture:** 采用 Nuxt 3 All-in-One 架构（playground + docs 合并），核心组件库使用 tsdown 构建，支持 ESM/CJS 双格式输出和完整的 TypeScript 类型声明
+**Architecture:** 采用 Nuxt 3 All-in-One 架构（playground + docs 合并），核心组件库使用 Vite 构建，支持 ESM/CJS 双格式输出和完整的 TypeScript 类型声明
 
-**Tech Stack:** Vue 3, TypeScript, tsdown, Element Plus, SCSS, Nuxt 3, Nuxt Content, vitest
+**Tech Stack:** Vue 3, TypeScript, Vite, Element Plus, SCSS, Nuxt 3, Nuxt Content, vitest
 
 ---
 
@@ -17,7 +17,7 @@
 **Files:**
 - Create: `packages/vue-element-cui/package.json`
 - Create: `packages/vue-element-cui/tsconfig.json`
-- Create: `packages/vue-element-cui/tsdown.config.ts`
+- Create: `packages/vue-element-cui/vite.config.ts`
 - Create: `packages/vue-element-cui/src/index.ts`
 - Create: `packages/vue-element-cui/.gitignore`
 
@@ -43,8 +43,8 @@
   },
   "files": ["dist"],
   "scripts": {
-    "dev": "tsdown --watch",
-    "build": "tsdown",
+    "dev": "vite build --watch",
+    "build": "vite build && pnpm run build:styles",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage"
@@ -59,9 +59,9 @@
     "element-plus": "^2.8.0",
     "jsdom": "^24.0.0",
     "sass": "^1.70.0",
-    "tsdown": "^0.2.0",
     "typescript": "^5.3.0",
     "vite": "^5.0.0",
+    "vite-plugin-dts": "^7.0.0",
     "vitest": "^1.2.0",
     "vue": "^3.4.0"
   }
@@ -91,23 +91,37 @@
 }
 ```
 
-**Step 3: 创建 tsdown.config.ts**
+**Step 3: 创建 vite.config.ts**
 
 ```typescript
-import { defineConfig } from 'tsdown'
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import dts from 'vite-plugin-dts'
 
 export default defineConfig({
-  entry: ['src/index.ts'],
-  format: ['esm', 'cjs'],
-  dts: {
-    resolve: true,
-    entry: 'src/index.ts'
-  },
-  clean: true,
-  external: ['vue', 'element-plus'],
-  esbuildOptions: (options) => {
-    options.drop = ['debugger']
-    return options
+  plugins: [
+    vue(),
+    dts({
+      include: ['src/**/*.ts', 'src/**/*.vue'],
+      exclude: ['src/**/*.test.ts']
+    })
+  ],
+  build: {
+    lib: {
+      entry: 'src/index.ts',
+      name: 'VueElementCui',
+      formats: ['es', 'cjs'],
+      fileName: (format) => `index.${format === 'es' ? 'js' : 'cjs'}`
+    },
+    rollupOptions: {
+      external: ['vue', 'element-plus', '@element-plus/icons-vue', 'xlsx'],
+      output: {
+        globals: {
+          vue: 'Vue',
+          'element-plus': 'ElementPlus'
+        }
+      }
+    }
   }
 })
 ```
@@ -145,7 +159,7 @@ Expected: 在 dist/ 目录生成 index.js, index.cjs, index.d.ts
 git add packages/vue-element-cui
 git commit -m "🎉 init(vue-element-cui): 初始化核心组件库包结构
 
-- 配置 tsdown 构建工具
+- 配置 Vite 构建工具
 - 配置 TypeScript 严格模式
 - 配置 vitest 测试框架
 - 支持 ESM/CJS 双格式输出
@@ -340,7 +354,7 @@ Modify: `packages/vue-element-cui/package.json`
 Add to scripts:
 ```json
 "build:styles": "sass src/styles/index.scss dist/styles/index.css --no-source-map",
-"build": "pnpm build:styles && tsdown"
+"build": "vite build && pnpm run build:styles"
 ```
 
 **Step 5: 测试样式构建**

@@ -17,7 +17,7 @@
 
 | 类别 | 技术选型 |
 |------|---------|
-| 构建工具 | tsdown |
+| 构建工具 | Vite library mode |
 | 开发语言 | TypeScript（严格模式） |
 | Vue 版本 | Vue 3 |
 | 测试工具 | vitest |
@@ -183,28 +183,74 @@ const emit = defineEmits<{
 
 ## 第三部分：构建配置与类型系统
 
-### tsdown 构建配置
+### Vite Library Mode 构建配置
 
-**vue-element-cui/tsdown.config.ts**：
+**vue-element-cui/vite.config.ts**：
+
+配置 Vite library mode，支持 ESM/CJS 双输出，并配置外部依赖。
 
 ```typescript
-import { defineConfig } from 'tsdown'
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import dts from 'vite-plugin-dts';
+import { resolve } from 'path';
 
 export default defineConfig({
-  entry: ['src/index.ts'],
-  format: ['esm', 'cjs'],
-  dts: {
-    resolve: true,  // 解析类型依赖
-    entry: 'src/index.ts'
+  plugins: [
+    vue(),
+    dts({
+      insertTypesEntry: true,
+      copyDtsFiles: true,
+      include: ['src/**/*.ts', 'src/**/*.d.ts', 'src/**/*.vue'],
+    }),
+  ],
+  build: {
+    lib: {
+      entry: resolve(__dirname, 'src/index.ts'),
+      name: 'VueElementCui',
+      formats: ['es', 'cjs'],
+      fileName: (format) => `index.${format === 'es' ? 'js' : 'cjs'}`,
+    },
+    rollupOptions: {
+      external: ['vue', 'element-plus', '@element-plus/icons-vue', 'xlsx'],
+      output: {
+        globals: {
+          vue: 'Vue',
+          'element-plus': 'ElementPlus',
+          '@element-plus/icons-vue': 'ElementPlusIconsVue',
+          'xlsx': 'XLSX',
+        },
+      },
+    },
   },
-  clean: true,
-  external: ['vue', 'element-plus'],  // 外部依赖不打包
-  esbuildOptions: (options) => {
-    options.drop = ['debugger']
-    return options
-  }
-})
+});
 ```
+
+**关键配置说明：**
+
+1. **external 依赖**：将 Vue、Element Plus 及其图标库、xlsx 标记为外部依赖，避免打包到组件库中
+2. **vite-plugin-dts**：自动生成 TypeScript 类型声明文件
+3. **双格式输出**：同时生成 ESM (index.js) 和 CommonJS (index.cjs) 格式
+
+**构建输出：**
+- `dist/index.js` - ESM 格式
+- `dist/index.cjs` - CommonJS 格式
+- `dist/index.d.ts` - TypeScript 类型声明
+- `dist/styles/` - SCSS 编译后的样式文件
+
+**构建工具迁移说明**：
+
+初期选择 tsdown 作为构建工具，但在实际构建中发现 Vue 组件语法兼容性问题。经过评估，切换到 Vite library mode 以获得：
+- 更成熟的 Vue 3 支持和组件编译
+- 通过 vite-plugin-dts 完整的类型声明生成
+- 更灵活的 external 依赖配置
+- 与 Nuxt 3 开发工具链的一致性
+
+**External 依赖配置**：
+- `vue`：核心框架，由使用者提供
+- `element-plus`：UI 基础库，由使用者提供
+- `@element-plus/icons-vue`：Element Plus 图标库
+- `xlsx`：Excel 导入导出功能依赖
 
 ### 样式构建策略
 
