@@ -1,20 +1,61 @@
 <!-- 登录页面 -->
 <template>
-  <el-card class="box-card">
-    <el-form :model="formData" status-icon label-width="60px">
-      <el-form-item label="账号" prop="username">
-        <el-input v-model="formData.username"></el-input>
-      </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input v-model="formData.password" type="password"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="submitForm()">登录</el-button>
-      </el-form-item>
-    </el-form>
-    <!-- 测试示例访问入口 -->
-    <router-link to="/sample" v-if="showTestLink">进入示例演示页面</router-link>
-  </el-card>
+  <div class="login-container">
+    <div class="login-wrapper">
+      <div class="left-section">
+        <div class="logo-area">
+          <img src="/logo.jpg" alt="教务系统Logo" class="logo-img" />
+          <h1 class="system-title">零一教务系统</h1>
+        </div>
+        <div class="illustration-area">
+          <img src="" alt="左侧插图" class="illustration-img" />
+        </div>
+      </div>
+      <div class="right-section">
+        <div class="login-box">
+          <h2 class="welcome-title">欢迎登录</h2>
+          <el-form :model="formData" class="login-form">
+            <el-form-item>
+              <el-input
+                v-model="formData.username"
+                placeholder="请输入账号"
+                size="large"
+                :prefix-icon="User"
+              />
+            </el-form-item>
+            <el-form-item>
+              <el-input
+                v-model="formData.password"
+                type="password"
+                placeholder="请输入密码"
+                size="large"
+                :prefix-icon="Lock"
+                show-password
+              />
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" size="large" class="login-btn" @click="submitForm">
+                欢迎登录
+              </el-button>
+            </el-form-item>
+            <el-form-item>
+              <el-button
+                type="default"
+                size="large"
+                class="qrcode-btn"
+                @click="dialogVisible = true"
+              >
+                手机端二维码
+              </el-button>
+            </el-form-item>
+          </el-form>
+          <router-link to="/sample" v-if="showTestLink" class="test-link"
+            >进入示例演示页面</router-link
+          >
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- 验证码组件 -->
   <Verify
     mode="pop"
@@ -23,6 +64,23 @@
     ref="verify"
     @success="handleSuccess"
   ></Verify>
+  <!-- 二维码弹窗 -->
+  <el-dialog v-model="dialogVisible" title="请用手机扫描" width="500px">
+    <div class="qrcode-container">
+      <div class="qrcode-item">
+        <div class="qrcode-box">
+          <img src="@/assets/images/teacher-qrcode.png" alt="老师端" class="qrcode-img" />
+        </div>
+        <div class="qrcode-label">老师端</div>
+      </div>
+      <div class="qrcode-item">
+        <div class="qrcode-box">
+          <img src="@/assets/images/parent-qrcode.png" alt="家长端" class="qrcode-img" />
+        </div>
+        <div class="qrcode-label">家长端</div>
+      </div>
+    </div>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
@@ -32,6 +90,8 @@ import { login } from '@/apis/login/index'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { useTabStore } from '@/stores/tab'
+import { User } from '@element-plus/icons-vue'
+import { Lock } from '@element-plus/icons-vue'
 
 // 是否显示示例演示界面连接
 const showTestLink = ref(import.meta.env.DEV)
@@ -41,6 +101,9 @@ const enableVerify = ref(!import.meta.env.DEV)
 
 // 获取router对象
 const $router = useRouter()
+
+// 二维码弹窗状态
+const dialogVisible = ref(false)
 
 // 定义登录数据对象
 const formData = reactive({
@@ -75,7 +138,11 @@ function doLogin(code: string) {
 
 // 定义登录提交函数
 function submitForm() {
-  // 是否启用验证码
+  if (!formData.username || !formData.password) {
+    ElMessage.warning('请输入账号和密码')
+    return
+  }
+
   if (!enableVerify.value) {
     doLogin('')
     return
@@ -108,10 +175,153 @@ function handleSuccess(res: { captchaVerification: string }) {
 }
 </script>
 
-<style>
-.box-card {
-  width: 480px;
-  margin: 50px auto;
-  padding: 20px;
+<style scoped>
+.login-container {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-wrapper {
+  width: 72%;
+  max-width: 960px;
+  height: 64vh;
+  max-height: 480px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  display: flex;
+  overflow: hidden;
+}
+
+.left-section {
+  flex: 1;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  position: relative;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40px;
+  position: relative;
+  top: 20px;
+}
+
+.logo-img {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+  margin-right: 10px;
+}
+
+.system-title {
+  font-size: 25px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+  line-height: 1;
+}
+
+.illustration-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.illustration-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.right-section {
+  width: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.login-box {
+  width: 100%;
+}
+
+.welcome-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.login-form {
+  width: 100%;
+}
+
+.login-btn {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.test-link {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: #909399;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.test-link:hover {
+  color: #409eff;
+}
+
+.qrcode-btn {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.qrcode-container {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px 0;
+}
+
+.qrcode-item {
+  text-align: center;
+}
+
+.qrcode-box {
+  width: 180px;
+  height: 180px;
+  background: #667eea;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.qrcode-img {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+}
+
+.qrcode-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
 }
 </style>
