@@ -1,0 +1,258 @@
+# CuiSearch 搜索组件
+
+CuiSearch 是基于 Element Plus Form 组件封装的搜索表单组件，提供了快速构建搜索表单的能力，支持多种字段类型和高级搜索折叠功能。
+
+## 基础用法
+
+使用 `fields` 属性定义搜索字段配置，使用 `v-model` 绑定表单数据。
+
+```vue
+<template>
+  <CuiSearch
+    v-model="searchForm"
+    :fields="fields"
+    @search="handleSearch"
+    @reset="handleReset"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+import { CuiSearch } from '@eams/vue-element-cui';
+import type { CuiSearchField } from '@eams/vue-element-cui';
+
+const searchForm = ref({});
+
+const fields: CuiSearchField[] = [
+  { prop: 'name', label: '姓名', type: 'input', placeholder: '请输入姓名' },
+  { prop: 'email', label: '邮箱', type: 'input', placeholder: '请输入邮箱' },
+];
+
+const handleSearch = (values: any) => {
+  console.log('搜索:', values);
+};
+
+const handleReset = (values: any) => {
+  console.log('重置:', values);
+};
+</script>
+```
+
+## 字段类型
+
+支持 4 种基础字段类型：`input`、`select`、`date`、`daterange`。
+
+### 文本输入
+
+```vue
+<script setup lang="ts">
+const fields: CuiSearchField[] = [
+  { prop: 'keyword', label: '关键词', type: 'input', placeholder: '请输入关键词' },
+];
+</script>
+```
+
+### 选择器
+
+```vue
+<script setup lang="ts">
+const fields: CuiSearchField[] = [
+  {
+    prop: 'status',
+    label: '状态',
+    type: 'select',
+    placeholder: '请选择状态',
+    options: [
+      { label: '启用', value: 1 },
+      { label: '禁用', value: 0 },
+    ],
+  },
+];
+</script>
+```
+
+### 日期选择器
+
+```vue
+<script setup lang="ts">
+const fields: CuiSearchField[] = [
+  { prop: 'createDate', label: '创建日期', type: 'date', placeholder: '请选择日期' },
+];
+</script>
+```
+
+### 日期范围选择器
+
+```vue
+<script setup lang="ts">
+const fields: CuiSearchField[] = [
+  { prop: 'dateRange', label: '日期范围', type: 'daterange' },
+];
+</script>
+```
+
+## 高级搜索
+
+通过在字段配置中设置 `advanced: true` 标记高级搜索字段，使用 `collapsible` 属性控制是否可折叠。
+
+```vue
+<template>
+  <CuiSearch
+    v-model="searchForm"
+    :fields="fields"
+    :collapsible="true"
+    @search="handleSearch"
+    @reset="handleReset"
+  />
+</template>
+
+<script setup lang="ts">
+const fields: CuiSearchField[] = [
+  { prop: 'name', label: '姓名', type: 'input' },
+  { prop: 'email', label: '邮箱', type: 'input', advanced: true },
+  { prop: 'phone', label: '电话', type: 'input', advanced: true },
+];
+</script>
+```
+
+## 布局模式
+
+通过 `inline` 属性控制表单布局模式。
+
+### 内联布局（默认）
+
+```vue
+<CuiSearch v-model="searchForm" :fields="fields" :inline="true" />
+```
+
+### 非内联布局
+
+```vue
+<CuiSearch v-model="searchForm" :fields="fields" :inline="false" />
+```
+
+## 综合示例
+
+```vue
+<template>
+  <CuiSearch
+    v-model="searchForm"
+    :fields="fields"
+    :collapsible="true"
+    @search="handleSearch"
+    @reset="handleReset"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+import { CuiSearch } from '@eams/vue-element-cui';
+import type { CuiSearchField } from '@eams/vue-element-cui';
+
+const searchForm = ref({});
+
+const fields: CuiSearchField[] = [
+  { prop: 'keyword', label: '关键词', type: 'input', placeholder: '请输入关键词' },
+  {
+    prop: 'category',
+    label: '分类',
+    type: 'select',
+    placeholder: '请选择分类',
+    options: [
+      { label: '文章', value: 'article' },
+      { label: '视频', value: 'video' },
+    ],
+  },
+  { prop: 'createDate', label: '创建日期', type: 'date' },
+  { prop: 'author', label: '作者', type: 'input', advanced: true },
+  {
+    prop: 'status',
+    label: '状态',
+    type: 'select',
+    advanced: true,
+    options: [
+      { label: '已发布', value: 'published' },
+      { label: '草稿', value: 'draft' },
+    ],
+  },
+  { prop: 'dateRange', label: '更新时间', type: 'daterange', advanced: true },
+];
+
+const handleSearch = (values: any) => {
+  console.log('搜索:', values);
+  // 执行搜索逻辑
+};
+
+const handleReset = (values: any) => {
+  console.log('重置:', values);
+  // 执行重置逻辑
+};
+</script>
+```
+
+## API 参考
+
+### CuiSearchProps
+
+| 属性 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| fields | 搜索字段配置 | `CuiSearchField[]` | `[]` |
+| modelValue | 表单值（支持 v-model） | `Record<string, any>` | `{}` |
+| inline | 是否内联布局 | `boolean` | `true` |
+| collapsible | 是否可折叠高级搜索 | `boolean` | `true` |
+
+### CuiSearchField
+
+| 属性 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| prop | 字段属性名 | `string` | - |
+| label | 字段标签 | `string` | - |
+| type | 字段类型 | `'input' \| 'select' \| 'date' \| 'daterange'` | - |
+| placeholder | 占位符文本 | `string` | - |
+| options | 选项列表（用于 select 类型） | `Array<{ label: string; value: any }>` | - |
+| advanced | 是否为高级搜索字段 | `boolean` | `false` |
+
+### Events
+
+| 事件名 | 说明 | 回调参数 |
+| --- | --- | --- |
+| search | 搜索按钮点击时触发 | `values: Record<string, any>` |
+| reset | 重置按钮点击时触发 | `values: Record<string, any>` |
+| update:modelValue | 表单值变化时触发（v-model） | `values: Record<string, any>` |
+
+## 注意事项
+
+1. `fields` 是必需的属性
+2. 使用 `v-model` 绑定表单数据，支持双向绑定
+3. 高级搜索字段需要在字段配置中设置 `advanced: true`
+4. `collapsible` 属性控制高级搜索是否可折叠，默认为 `true`
+5. 点击重置按钮会清空所有字段值
+6. 组件基于 Element Plus Form，通过 `v-bind="$attrs"` 透传其他 props
+
+## 类型定义
+
+```typescript
+interface CuiSearchField {
+  prop: string;
+  label: string;
+  type: 'input' | 'select' | 'date' | 'daterange';
+  placeholder?: string;
+  options?: Array<{ label: string; value: any }>;
+  advanced?: boolean;
+}
+
+interface CuiSearchProps {
+  fields: CuiSearchField[];
+  modelValue: Record<string, any>;
+  inline?: boolean;
+  collapsible?: boolean;
+}
+```
+
+## 最佳实践
+
+1. **字段配置**：合理组织基础搜索字段和高级搜索字段，将常用字段放在基础搜索中
+2. **选项数据**：对于 select 类型，建议将选项数据定义为常量或从后端获取
+3. **搜索逻辑**：在 `search` 事件中执行实际的搜索逻辑，可以结合 CuiTable 组件使用
+4. **重置逻辑**：重置后可以选择是否自动触发一次搜索，根据业务需求决定
+5. **布局选择**：字段较多时建议使用非内联布局（`inline: false`），提高可读性
