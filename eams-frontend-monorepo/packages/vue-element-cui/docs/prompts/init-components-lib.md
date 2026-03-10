@@ -35,3 +35,5 @@
 
 - https://github.com/plus-pro-components/plus-pro-components
 - https://github.com/qddidi/easyest
+
+## 01 <!-- TODO: 长期任务 --> 执行 `make-new-vue-element-cui` 这款 openspec 任务
