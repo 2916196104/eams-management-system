@@ -2,7 +2,15 @@
 
 ## 概述
 
-CuiTab 是一个基于 Element Plus 的 Tab 组件，提供了简洁的 API 和灵活的配置选项。
+CuiTab 是一个基于 Element Plus 的标签页组件，提供了简洁的 API 和灵活的配置选项。支持基础标签页切换、可关闭标签页、可添加标签页等功能，适用于多视图内容展示场景。
+
+## 主要特性
+
+- 支持多种标签页类型（card、border-card）
+- 支持标签页的添加和删除
+- 支持单个标签页的禁用和关闭控制
+- 支持自定义标签页内容插槽
+- 完整的事件回调支持
 
 ## 基础用法
 
@@ -67,7 +75,7 @@ interface CuiTabItem {
 
 ## 示例
 
-### 可关闭的 Tab
+### 可关闭的标签页
 
 ```vue
 <template>
@@ -81,26 +89,142 @@ interface CuiTabItem {
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import { CuiTab } from '@packages/vue-element-cui';
+
+const activeTab = ref('tab1');
+const tabs = ref([
+  { label: 'Tab 1', name: 'tab1', content: '内容 1' },
+  { label: 'Tab 2', name: 'tab2', content: '内容 2' },
+  { label: 'Tab 3', name: 'tab3', content: '内容 3' },
+]);
+
 const handleRemoveTab = (tabName) => {
-  tabs.value = tabs.value.filter(tab => tab.name !== tabName);
+  const index = tabs.value.findIndex(tab => tab.name === tabName);
+  if (index !== -1) {
+    tabs.value.splice(index, 1);
+    // 如果删除的是当前活跃标签，切换到第一个标签
+    if (activeTab.value === tabName && tabs.value.length > 0) {
+      activeTab.value = tabs.value[0].name;
+    }
+  }
 };
 </script>
 ```
 
-### 带插槽的 Tab
+### 可添加标签页
 
 ```vue
 <template>
   <cui-tab
     :tabs="tabs"
     :active-tab="activeTab"
+    :addable="true"
+    :closable="true"
+    editable-type="both"
+    @update:active-tab="activeTab = $event"
+    @add="handleAddTab"
+    @remove="handleRemoveTab"
+  />
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const activeTab = ref('tab1');
+const tabs = ref([
+  { label: 'Tab 1', name: 'tab1', content: '内容 1' },
+]);
+
+let tabIndex = 2;
+
+const handleAddTab = () => {
+  const newTabName = `tab${tabIndex++}`;
+  tabs.value.push({
+    label: `Tab ${tabIndex - 1}`,
+    name: newTabName,
+    content: `新标签页内容 ${tabIndex - 1}`,
+  });
+  activeTab.value = newTabName;
+};
+
+const handleRemoveTab = (tabName) => {
+  const index = tabs.value.findIndex(tab => tab.name === tabName);
+  if (index !== -1) {
+    tabs.value.splice(index, 1);
+    if (activeTab.value === tabName && tabs.value.length > 0) {
+      activeTab.value = tabs.value[0].name;
+    }
+  }
+};
+</script>
+```
+
+### 带插槽的自定义内容
+
+```vue
+<template>
+  <cui-tab
+    :tabs="tabs"
+    :active-tab="activeTab"
+    @update:active-tab="activeTab = $event"
   >
-    <template #tab-tab1>
-      <div>自定义内容 1</div>
+    <template #tab-tab1="{ tab }">
+      <div>
+        <h3>{{ tab.label }}</h3>
+        <p>这是自定义的标签页内容</p>
+      </div>
     </template>
     <template #tab-tab2>
-      <div>自定义内容 2</div>
+      <el-form>
+        <el-form-item label="用户名">
+          <el-input placeholder="请输入用户名" />
+        </el-form-item>
+      </el-form>
     </template>
   </cui-tab>
 </template>
+
+<script setup>
+import { ref } from 'vue';
+
+const activeTab = ref('tab1');
+const tabs = [
+  { label: '自定义内容', name: 'tab1' },
+  { label: '表单内容', name: 'tab2' },
+];
+</script>
 ```
+
+### 禁用特定标签页
+
+```vue
+<template>
+  <cui-tab
+    :tabs="tabs"
+    :active-tab="activeTab"
+    @update:active-tab="activeTab = $event"
+  />
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const activeTab = ref('tab1');
+const tabs = [
+  { label: 'Tab 1', name: 'tab1', content: '内容 1' },
+  { label: 'Tab 2（禁用）', name: 'tab2', content: '内容 2', disabled: true },
+  { label: 'Tab 3', name: 'tab3', content: '内容 3' },
+];
+</script>
+```
+
+## 注意事项
+
+1. **必需属性**：`tabs` 和 `activeTab` 是必需的，必须提供有效值
+2. **唯一标识**：每个标签页的 `name` 必须唯一，用于标识和切换标签页
+3. **删除处理**：使用 `closable` 时，需要在 `remove` 事件中手动处理标签页数组的删除逻辑
+4. **活跃标签切换**：删除当前活跃标签时，建议自动切换到其他标签页
+5. **插槽命名**：自定义内容插槽使用 `tab-${name}` 格式命名，其中 `name` 是标签页的 name 属性
+6. **类型选择**：`type` 属性支持 `card` 和 `border-card` 两种样式，根据设计需求选择
+7. **可编辑类型**：`editableType` 配合 `addable` 和 `closable` 使用，控制标签页的编辑行为

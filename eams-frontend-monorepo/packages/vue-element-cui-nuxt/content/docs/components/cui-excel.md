@@ -1,8 +1,15 @@
-# CuiExcel 组件文档
+# CuiExcel Excel 导入组件
 
-## 概述
+CuiExcel 是基于 Element Plus Upload 组件和 CuiDialog 组件封装的 Excel 文件导入组件，提供了拖拽上传、模板下载等功能，简化了 Excel 数据导入的开发流程。
 
-CuiExcel 是一个用于 Excel 文件导入的组件，提供了拖拽上传和模板下载功能。
+## 功能特性
+
+- 支持拖拽上传和点击上传
+- 支持模板文件下载
+- 自动文件类型校验（.xls、.xlsx）
+- 自定义请求头和参数
+- 上传成功/失败回调
+- 基于对话框的交互方式
 
 ## 基础用法
 
@@ -32,25 +39,27 @@ const handleSuccess = (response, file, fileList) => {
 </script>
 ```
 
-## Props
+## API 参考
 
-| 属性 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
-| `modelValue` | `boolean` | - | 对话框是否显示（必需） |
-| `uploadUrl` | `string` | - | 上传 URL（必需） |
-| `title` | `string` | `'导入 Excel'` | 对话框标题 |
-| `templateUrl` | `string` | - | 模板下载 URL |
-| `headers` | `Record<string, string>` | `{}` | 上传请求头 |
-| `params` | `Record<string, any>` | `{}` | 上传额外参数 |
-| `accept` | `string` | `'.xls,.xlsx'` | 接受的文件类型 |
+### Props
 
-## Events
+| 属性 | 说明 | 类型 | 默认值 | 必填 |
+| --- | --- | --- | --- | --- |
+| modelValue | 对话框是否显示 | `boolean` | - | 是 |
+| uploadUrl | 上传接口地址 | `string` | - | 是 |
+| title | 对话框标题 | `string` | `'导入 Excel'` | 否 |
+| templateUrl | 模板文件下载地址 | `string` | - | 否 |
+| headers | 上传请求头 | `Record<string, string>` | `{}` | 否 |
+| params | 上传额外参数 | `Record<string, any>` | `{}` | 否 |
+| accept | 接受的文件类型 | `string` | `'.xls,.xlsx'` | 否 |
 
-| 事件名 | 参数 | 说明 |
-|--------|------|------|
-| `update:modelValue` | `value: boolean` | 对话框显示状态更新 |
-| `success` | `response, file, fileList` | 上传成功 |
-| `error` | `error` | 上传失败 |
+### Events
+
+| 事件名 | 说明 | 回调参数 |
+| --- | --- | --- |
+| update:modelValue | 对话框显示状态更新 | `(value: boolean)` |
+| success | 文件上传成功时触发 | `(response: any, file: any, fileList: any)` |
+| error | 文件上传失败时触发 | `(error: any)` |
 
 ## 示例
 
@@ -88,4 +97,52 @@ const handleSuccess = (response) => {
   }
 };
 </script>
+```
+
+## 注意事项
+
+1. `modelValue` 和 `uploadUrl` 是必需的属性，使用时必须提供
+2. 组件使用 `v-model` 绑定对话框的显示状态
+3. 上传接口需要符合 Element Plus Upload 组件的要求，返回标准的响应格式
+4. 如果提供了 `templateUrl`，会在对话框顶部显示模板下载链接
+5. 文件上传采用手动上传模式（`auto-upload="false"`），点击确认按钮后才会触发上传
+6. 上传成功后会自动关闭对话框
+7. 默认只接受 `.xls` 和 `.xlsx` 格式的文件
+8. 可以通过 `headers` 属性传递认证信息（如 Token）
+9. 可以通过 `params` 属性传递额外的业务参数
+
+## 类型定义
+
+```typescript
+/**
+ * Excel 导入组件 Props
+ */
+interface CuiExcelProps {
+  /** 对话框是否显示 */
+  modelValue: boolean;
+  /** 对话框标题 */
+  title?: string;
+  /** 上传 URL */
+  uploadUrl: string;
+  /** 模板下载 URL */
+  templateUrl?: string;
+  /** 上传请求头 */
+  headers?: Record<string, string>;
+  /** 上传额外参数 */
+  params?: Record<string, any>;
+  /** 接受的文件类型 */
+  accept?: string;
+}
+
+/**
+ * Excel 导入事件
+ */
+interface CuiExcelEmits {
+  /** 对话框显示状态更新 */
+  'update:modelValue': [value: boolean];
+  /** 上传成功 */
+  'success': [response: any, file: any, fileList: any];
+  /** 上传失败 */
+  'error': [error: any];
+}
 ```
