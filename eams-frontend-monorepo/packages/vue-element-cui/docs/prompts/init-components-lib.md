@@ -14,6 +14,7 @@
 ## 组件库架构上需要实现的功能
 
 - 样式导入路径。
+- 全局导入类型提示。适配 volar 插件的类型识别导出路径。
 - playground 在线演示的子项目。
 - 可以实现交互的 docs 文档，使用 nuxt 风格的 doc 文档。
 - 适配 unplugin-vue-components 和 unplugin-auto-import，实现组件库的 resolver 按需导入工具。（暂不实现）
