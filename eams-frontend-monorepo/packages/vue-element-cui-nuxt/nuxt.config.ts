@@ -1,12 +1,30 @@
 export default defineNuxtConfig({
-  modules: ['@nuxt/content', '@nuxtjs/tailwindcss'],
+  extends: ['@nuxt/ui-pro'],
+
+  modules: ['@nuxt/content', '@nuxt/ui'],
+
+  vite: {
+    optimizeDeps: {
+      include: ['@eams/vue-element-cui']
+    }
+  },
 
   content: {
     highlight: {
-      theme: 'github-dark',
+      theme: {
+        default: 'github-light',
+        dark: 'github-dark'
+      },
       preload: ['vue', 'typescript', 'javascript', 'bash']
     }
   },
+
+  components: [
+    {
+      path: '~/components',
+      pathPrefix: false
+    }
+  ],
 
   compatibilityDate: '2024-11-01',
 
