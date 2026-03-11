@@ -165,14 +165,14 @@ describe('CuiSelectDict', () => {
       global: {
         stubs: {
           ElSelect: true,
-          ElOption: false,
+          ElOption: true,
         },
       },
     });
 
     await wrapper.vm.$nextTick();
-    const options = wrapper.findAllComponents({ name: 'ElOption' });
-    expect(options).toHaveLength(3);
+    expect(wrapper.vm.options).toHaveLength(3);
+    expect(wrapper.vm.options.map((o: any) => o.value)).toEqual(['1', '2', '3']);
   });
 
   test('handles different dictionary codes', async () => {
