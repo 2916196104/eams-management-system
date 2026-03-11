@@ -1,0 +1,272 @@
+# CuiDetail 详情展示组件
+
+CuiDetail 是一个用于展示详情信息的组件，采用网格布局，支持多列展示和自定义渲染。适用于用户信息、订单详情、产品信息等场景。
+
+## 基础用法
+
+使用 `fields` 和 `data` 定义字段配置和数据。
+
+```vue
+<template>
+  <CuiDetail
+    :fields="fields"
+    :data="data"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+import { CuiDetail } from '@eams/vue-element-cui';
+import type { CuiDetailField } from '@eams/vue-element-cui';
+
+const fields: CuiDetailField[] = [
+  { label: '姓名', prop: 'name' },
+  { label: '邮箱', prop: 'email' },
+  { label: '电话', prop: 'phone' },
+  { label: '地址', prop: 'address' },
+];
+
+const data = ref({
+  name: 'John Doe',
+  email: 'john@example.com',
+  phone: '13800138000',
+  address: '北京市朝阳区',
+});
+</script>
+```
+
+## 多列布局
+
+通过 `columns` 属性设置列数，默认为 2 列。
+
+```vue
+<template>
+  <!-- 单列布局 -->
+  <CuiDetail
+    :fields="fields"
+    :data="data"
+    :columns="1"
+  />
+
+  <!-- 三列布局 -->
+  <CuiDetail
+    :fields="fields"
+    :data="data"
+    :columns="3"
+  />
+</template>
+```
+
+## 自定义标签宽度
+
+通过 `labelWidth` 属性设置标签宽度。
+
+```vue
+<template>
+  <CuiDetail
+    :fields="fields"
+    :data="data"
+    label-width="120px"
+  />
+</template>
+```
+
+## 自定义渲染
+
+通过字段配置中的 `render` 函数自定义字段值的渲染方式。
+
+```vue
+<template>
+  <CuiDetail
+    :fields="fields"
+    :data="data"
+  />
+</template>
+
+<script setup lang="ts">
+import type { CuiDetailField } from '@eams/vue-element-cui';
+
+const fields: CuiDetailField[] = [
+  { label: '姓名', prop: 'name' },
+  {
+    label: '状态',
+    prop: 'status',
+    render: (row) => row.status === 1 ? '活跃' : '禁用',
+  },
+  {
+    label: '创建时间',
+    prop: 'createdAt',
+    render: (row) => new Date(row.createdAt).toLocaleDateString('zh-CN'),
+  },
+  {
+    label: '金额',
+    prop: 'amount',
+    render: (row) => `¥${row.amount.toFixed(2)}`,
+  },
+];
+
+const data = ref({
+  name: 'John Doe',
+  status: 1,
+  createdAt: '2024-01-15T10:30:00',
+  amount: 1234.56,
+});
+</script>
+```
+
+## 复杂示例
+
+结合多种配置展示完整的详情页面。
+
+```vue
+<template>
+  <div class="detail-page">
+    <el-card header="用户信息">
+      <CuiDetail
+        :fields="userFields"
+        :data="userData"
+        :columns="2"
+        label-width="100px"
+      />
+    </el-card>
+
+    <el-card header="订单信息" style="margin-top: 20px;">
+      <CuiDetail
+        :fields="orderFields"
+        :data="orderData"
+        :columns="3"
+        label-width="100px"
+      />
+    </el-card>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+import { CuiDetail } from '@eams/vue-element-cui';
+import type { CuiDetailField } from '@eams/vue-element-cui';
+
+const userFields: CuiDetailField[] = [
+  { label: '用户名', prop: 'username' },
+  { label: '真实姓名', prop: 'realName' },
+  { label: '邮箱', prop: 'email' },
+  { label: '手机号', prop: 'phone' },
+  {
+    label: '注册时间',
+    prop: 'registerTime',
+    render: (row) => new Date(row.registerTime).toLocaleString('zh-CN'),
+  },
+  {
+    label: '账户状态',
+    prop: 'status',
+    render: (row) => {
+      const statusMap = { 0: '禁用', 1: '正常', 2: '冻结' };
+      return statusMap[row.status] || '未知';
+    },
+  },
+];
+
+const orderFields: CuiDetailField[] = [
+  { label: '订单号', prop: 'orderNo' },
+  {
+    label: '订单金额',
+    prop: 'amount',
+    render: (row) => `¥${row.amount.toFixed(2)}`,
+  },
+  {
+    label: '订单状态',
+    prop: 'orderStatus',
+    render: (row) => {
+      const statusMap = { 1: '待支付', 2: '已支付', 3: '已完成', 4: '已取消' };
+      return statusMap[row.orderStatus] || '未知';
+    },
+  },
+  {
+    label: '创建时间',
+    prop: 'createTime',
+    render: (row) => new Date(row.createTime).toLocaleString('zh-CN'),
+  },
+  { label: '收货地址', prop: 'address' },
+  { label: '备注', prop: 'remark' },
+];
+
+const userData = ref({
+  username: 'johndoe',
+  realName: 'John Doe',
+  email: 'john@example.com',
+  phone: '13800138000',
+  registerTime: '2024-01-01T10:00:00',
+  status: 1,
+});
+
+const orderData = ref({
+  orderNo: 'ORD20240315001',
+  amount: 1234.56,
+  orderStatus: 2,
+  createTime: '2024-03-15T14:30:00',
+  address: '北京市朝阳区某某街道123号',
+  remark: '请尽快发货',
+});
+</script>
+```
+
+## API 参考
+
+### CuiDetailProps
+
+| 属性 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| fields | 字段配置（必需） | `CuiDetailField[]` | - |
+| data | 详情数据（必需） | `Record<string, any>` | - |
+| labelWidth | 标签宽度 | `string` | `'140px'` |
+| columns | 列数 | `number` | `2` |
+
+### CuiDetailField
+
+| 属性 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| label | 字段标签 | `string` | - |
+| prop | 字段属性名 | `string` | - |
+| width | 字段宽度（暂未实现） | `string` | - |
+| render | 自定义渲染函数 | `(row: any) => any` | - |
+
+## 注意事项
+
+1. `fields` 和 `data` 是必需的属性
+2. `render` 函数接收完整的 `data` 对象作为参数，可以访问所有字段
+3. 组件使用 CSS Grid 布局，自动适配列数
+4. 标签默认右对齐，背景色为浅灰色
+5. 每个字段项都有底部边框，形成表格样式
+6. 字段值支持自动换行，适应长文本内容
+
+## 类型定义
+
+```typescript
+/**
+ * 详情字段配置
+ */
+interface CuiDetailField {
+  /** 字段标签 */
+  label: string;
+  /** 字段属性名 */
+  prop: string;
+  /** 字段宽度 */
+  width?: string;
+  /** 自定义渲染函数 */
+  render?: (row: any) => any;
+}
+
+/**
+ * 详情组件 Props
+ */
+interface CuiDetailProps {
+  /** 详情字段配置 */
+  fields: CuiDetailField[];
+  /** 详情数据 */
+  data: Record<string, any>;
+  /** 标签宽度 */
+  labelWidth?: string;
+  /** 列数 */
+  columns?: number;
+}
+```
