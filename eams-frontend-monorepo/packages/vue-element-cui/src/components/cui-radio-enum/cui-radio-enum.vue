@@ -4,7 +4,11 @@
     :disabled="disabled"
     @update:model-value="handleChange"
   >
-    <el-radio v-for="option in options" :key="option.value" :label="option.value">
+    <el-radio
+      v-for="option in options"
+      :key="option.value"
+      :label="option.value"
+    >
       {{ option.label }}
     </el-radio>
   </el-radio-group>
@@ -20,9 +24,13 @@ const props = withDefaults(defineProps<CuiRadioEnumProps>(), {
 });
 
 const emit = defineEmits<CuiRadioEnumEmits>();
+
 const options = ref<CuiRadioEnumOption[]>([]);
 
+/* 获取枚举选项 */
 const loadEnumOptions = () => {
+  /* TODO: 根据 enumCode 从枚举系统获取选项 */
+  /* 这是一个示例实现，实际应该调用枚举服务 */
   options.value = [
     { label: '选项 1', value: '1' },
     { label: '选项 2', value: '2' },
