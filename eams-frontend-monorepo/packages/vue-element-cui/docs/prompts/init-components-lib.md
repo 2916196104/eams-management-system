@@ -37,3 +37,30 @@
 - https://github.com/qddidi/easyest
 
 ## 01 <!-- TODO: 长期任务 --> 执行 `make-new-vue-element-cui` 这款 openspec 任务
+
+## 02 <!-- TODO: 长期任务 --> 执行 `improve-vue-element-cui-nuxt-docs-with-docus` 这款 openspec 任务
+
+## 03 重点迭代 `@eams/vue-element-cui-nuxt` 文档页的效果
+
+我对 `@eams/vue-element-cui-nuxt` 文档页的效果很不满。其生成效果根本不是我期望的 nuxt content 风格的页面。请你针对性的学习并修改。
+
+参考资料：
+
+- docus 模板仓库： https://github.com/nuxt-content/docus
+- docus 模板文档： https://docus.dev/en
+
+参考项目：
+
+- https://vue-final-modal.org/
+- https://github.com/vue-final/vue-final-modal
+
+- https://vunix.dewib.com/
+- https://github.com/gaetansenn/vunix
+
+我要求你重点学习 docus 这个框架如何使用。
+
+你应该重点去学习 https://vunix.dewib.com/ 和 https://github.com/vue-final/vue-final-modal 仓库是怎么使用 docus 模板并且实现交互式组件库文档站点的。
+
+我的核心目的是希望 `@eams/vue-element-cui-nuxt` 文档项目使用 docus 来完成组件库文档站点的开发，就像 vunix 一样。vunix 做的非常好，我就是想要这种的文档站点。
+
+去更新 `make-new-vue-element-cui` 这款 openspec 任务，这款任务没有记录详细的 `@eams/vue-element-cui-nuxt` 组件库文档项目该如何制作。
