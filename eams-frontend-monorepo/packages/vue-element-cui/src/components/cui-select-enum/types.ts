@@ -6,7 +6,9 @@
  * 选择框选项
  */
 export interface CuiSelectEnumOption {
+  /** 选项标签 */
   label: string;
+  /** 选项值 */
   value: any;
 }
 
