@@ -22,7 +22,7 @@
 - `build-system`: tsdown 构建配置，支持 ESM/CJS 输出、类型声明生成、样式编译
 - `type-system`: TypeScript 类型系统，包括全局类型声明、Volar 支持、泛型组件类型
 - `testing-infrastructure`: vitest 测试框架配置和测试工具集
-- `documentation-system`: Nuxt 3 + Nuxt Content 文档系统，包含 playground 和交互式文档
+- `documentation-system`: Nuxt 3 + Docus 文档系统，包含 playground 和交互式文档（详见 `improve-vue-element-cui-nuxt-docs-with-docus` 变更）
 - `p0-core-components`: P0 核心组件（CuiTable, CuiForm, CuiSearch, CuiDialogForm）
 - `p1-functional-components`: P1 功能组件（CuiDialog, CuiDetail, CuiExcel, CuiTab, CuiSelectBox）
 - `p2-form-controls`: P2 表单控件（7 个基于 Element Plus 的封装组件）
@@ -50,7 +50,7 @@
 
 **文档和演示**:
 - 新增 Nuxt 3 开发服务器
-- 新增 Nuxt Content 文档站点
+- 新增 Docus 框架文档站点（详见 `improve-vue-element-cui-nuxt-docs-with-docus` 变更）
 
 **不影响**:
 - 旧组件库 `old/vue-element-cui` 保持不变，作为参考
