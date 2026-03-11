@@ -38,13 +38,13 @@ const props = withDefaults(defineProps<CuiTabProps>(), {
 });
 
 const emit = defineEmits<{
-  'update:activeTab': [value: string];
-  'tab-change': [value: string];
+  'update:activeTab': [value: string | number];
+  'tab-change': [value: string | number];
   'add': [];
-  'remove': [value: string];
+  'remove': [value: string | number];
 }>();
 
-const handleTabChange = (tabName: string) => {
+const handleTabChange = (tabName: string | number) => {
   emit('tab-change', tabName);
 };
 </script>

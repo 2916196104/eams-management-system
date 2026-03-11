@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { ElTabs, ElTabPane } from 'element-plus';
-import CuiTab from '../cui-tab.vue';
+import CuiTab from './cui-tab.vue';
 
 describe('CuiTab', () => {
   const defaultProps = {
