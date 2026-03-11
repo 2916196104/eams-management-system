@@ -2,6 +2,29 @@
 @use './variables.scss' as *;
 @use './mixins.scss' as *;
 
+// ========== 组件样式 ==========
+// P0 组件
+@use './components/cui-table';
+@use './components/cui-form';
+@use './components/cui-search';
+@use './components/cui-dialog-form';
+
+// P1 组件
+@use './components/cui-dialog';
+@use './components/cui-detail';
+@use './components/cui-excel';
+@use './components/cui-tab';
+@use './components/cui-select-box';
+
+// P2 组件
+@use './components/cui-select';
+@use './components/cui-select-enum';
+@use './components/cui-select-dict';
+@use './components/cui-radio-enum';
+@use './components/cui-radio-dict';
+@use './components/cui-checkbox-enum';
+@use './components/cui-autocomplete';
+
 // ========== 全局样式重置 ==========
 * {
   box-sizing: border-box;
