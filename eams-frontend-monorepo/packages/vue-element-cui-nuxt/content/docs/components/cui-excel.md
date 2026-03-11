@@ -29,7 +29,7 @@ CuiExcel 是基于 Element Plus Upload 组件和 CuiDialog 组件封装的 Excel
 
 <script setup>
 import { ref } from 'vue';
-import { CuiExcel } from '@packages/vue-element-cui';
+import { CuiExcel } from '@eams/vue-element-cui';
 
 const visible = ref(false);
 

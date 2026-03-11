@@ -15,8 +15,8 @@ CuiAutocomplete 是一个基于 Element Plus 的自动完成组件，支持建�
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CuiAutocomplete } from '@ruan-cat/vue-element-cui';
-import type { CuiAutocompleteSuggestion } from '@ruan-cat/vue-element-cui';
+import { CuiAutocomplete } from '@eams/vue-element-cui';
+import type { CuiAutocompleteSuggestion } from '@eams/vue-element-cui';
 
 const value = ref('');
 const suggestions: CuiAutocompleteSuggestion[] = [
@@ -65,8 +65,8 @@ interface CuiAutocompleteSuggestion {
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CuiAutocomplete } from '@ruan-cat/vue-element-cui';
-import type { CuiAutocompleteSuggestion } from '@ruan-cat/vue-element-cui';
+import { CuiAutocomplete } from '@eams/vue-element-cui';
+import type { CuiAutocompleteSuggestion } from '@eams/vue-element-cui';
 
 const value = ref('');
 const suggestions: CuiAutocompleteSuggestion[] = [

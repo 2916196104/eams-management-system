@@ -14,7 +14,7 @@ CuiRadioDict 是一个基于字典代码的单选框组件，自动加载字典�
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CuiRadioDict } from '@ruan-cat/vue-element-cui';
+import { CuiRadioDict } from '@eams/vue-element-cui';
 
 const value = ref('');
 </script>

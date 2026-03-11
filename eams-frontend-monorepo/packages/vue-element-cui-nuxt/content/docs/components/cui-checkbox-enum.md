@@ -14,7 +14,7 @@ CuiCheckboxEnum 是一个基于枚举代码的复选框组件，自动加载枚�
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CuiCheckboxEnum } from '@ruan-cat/vue-element-cui';
+import { CuiCheckboxEnum } from '@eams/vue-element-cui';
 
 const values = ref([]);
 </script>

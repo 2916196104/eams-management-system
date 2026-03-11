@@ -25,7 +25,7 @@ CuiDialogForm 是一个结合了对话框和表单功能的组件，用于在对
 
 <script setup>
 import { ref } from 'vue';
-import { CuiDialogForm } from '@packages/vue-element-cui';
+import { CuiDialogForm } from '@eams/vue-element-cui';
 
 const visible = ref(false);
 const formData = ref({ name: '', email: '' });

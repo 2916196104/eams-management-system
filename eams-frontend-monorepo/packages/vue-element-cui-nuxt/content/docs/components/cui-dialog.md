@@ -24,7 +24,7 @@ CuiDialog 是一个基于 Element Plus 的对话框组件，提供了简洁的 A
 
 <script setup>
 import { ref } from 'vue';
-import { CuiDialog } from '@packages/vue-element-cui';
+import { CuiDialog } from '@eams/vue-element-cui';
 
 const visible = ref(false);
 
