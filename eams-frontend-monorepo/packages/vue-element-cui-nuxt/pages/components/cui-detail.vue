@@ -83,8 +83,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CuiDetail } from '@packages/vue-element-cui';
-import type { CuiDetailField } from '@packages/vue-element-cui';
+import { CuiDetail } from '@eams/vue-element-cui';
+import type { CuiDetailField } from '@eams/vue-element-cui';
 
 // 基础字段
 const basicFields: CuiDetailField[] = [
