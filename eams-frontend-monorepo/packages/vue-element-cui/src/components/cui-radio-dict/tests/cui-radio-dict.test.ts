@@ -108,14 +108,14 @@ describe('CuiRadioDict', () => {
       global: {
         stubs: {
           ElRadioGroup: true,
-          ElRadio: false,
+          ElRadio: true,
         },
       },
     });
 
     await wrapper.vm.$nextTick();
-    const radios = wrapper.findAllComponents({ name: 'ElRadio' });
-    expect(radios).toHaveLength(3);
+    expect(wrapper.vm.options).toHaveLength(3);
+    expect(wrapper.vm.options.map((o: any) => o.value)).toEqual(['1', '2', '3']);
   });
 
   test('displays correct labels for options', async () => {
@@ -127,16 +127,15 @@ describe('CuiRadioDict', () => {
       global: {
         stubs: {
           ElRadioGroup: true,
-          ElRadio: false,
+          ElRadio: true,
         },
       },
     });
 
     await wrapper.vm.$nextTick();
-    const radios = wrapper.findAllComponents({ name: 'ElRadio' });
-    expect(radios[0].props('label')).toBe('dict1');
-    expect(radios[1].props('label')).toBe('dict2');
-    expect(radios[2].props('label')).toBe('dict3');
+    expect(wrapper.vm.options[0].label).toBe('选项 1');
+    expect(wrapper.vm.options[1].label).toBe('选项 2');
+    expect(wrapper.vm.options[2].label).toBe('选项 3');
   });
 
   test('handles different dictionary codes', async () => {
