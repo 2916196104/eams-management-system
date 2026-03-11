@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
-import CuiDetail from '../cui-detail.vue';
+import CuiDetail from './cui-detail.vue';
 
 describe('CuiDetail', () => {
   const defaultProps = {
