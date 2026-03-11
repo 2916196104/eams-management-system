@@ -1,5 +1,11 @@
 ## 新增需求
 
+> **重要说明：** 本规范已被 `improve-vue-element-cui-nuxt-docs-with-docus` 变更取代。
+> 文档系统现在使用 Docus 框架而非基础 Nuxt Content。
+> 请参考 `openspec/changes/improve-vue-element-cui-nuxt-docs-with-docus/` 获取最新的文档系统规范。
+>
+> 以下内容仅作为历史参考保留。
+
 ### 需求：Nuxt 3 项目结构
 文档系统应当是一个位于 `packages/vue-element-cui-nuxt/` 的 Nuxt 3 项目，同时作为演练场和文档站点。
 
