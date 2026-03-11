@@ -1,0 +1,88 @@
+# 迁移指南
+
+本指南帮助你从旧版 vue-element-cui 迁移到新版本。
+
+## 主要变更
+
+### 构建系统
+
+- 从 tsdown 切换到 Vite library mode
+- 支持 ESM 和 CJS 双输出格式
+- 改进的类型声明生成
+
+### 组件导入
+
+新版本支持按需导入和全量导入：
+
+```typescript
+// 按需导入（推荐）
+import { CuiTable, CuiForm } from '@eams/vue-element-cui';
+
+// 全量导入
+import * as VueElementCui from '@eams/vue-element-cui';
+```
+
+### 样式导入
+
+```typescript
+// 导入全部样式
+import '@eams/vue-element-cui/dist/styles/index.css';
+
+// 或使用打包后的 CSS
+import '@eams/vue-element-cui/dist/vue-element-cui.css';
+```
+
+## 组件变更
+
+### CuiTable
+
+- Props 接口保持兼容
+- 新增更好的类型支持
+
+### CuiForm
+
+- 表单字段配置接口优化
+- 验证规则类型更严格
+
+### CuiSearch
+
+- 搜索字段配置保持兼容
+- 事件命名保持一致
+
+## TypeScript 支持
+
+新版本提供完整的 TypeScript 类型定义：
+
+```typescript
+import type { CuiTableProps, CuiTableColumn } from '@eams/vue-element-cui';
+
+const columns: CuiTableColumn[] = [
+  { prop: 'name', label: '姓名' }
+];
+```
+
+## Volar 支持
+
+新版本支持 Volar 全局组件类型提示，无需额外配置。
+
+## 常见问题
+
+### 导入路径变更
+
+如果你之前使用相对路径导入，现在应该使用包名：
+
+```typescript
+// 旧版
+import CuiTable from '../components/cui-table';
+
+// 新版
+import { CuiTable } from '@eams/vue-element-cui';
+```
+
+### 样式未生效
+
+确保已导入样式文件：
+
+```typescript
+import '@eams/vue-element-cui/dist/vue-element-cui.css';
+```

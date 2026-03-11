@@ -1,0 +1,74 @@
+# 变更日志
+
+## v1.0.0 (2026-03-11)
+
+### 破坏性变更
+
+#### 构建系统切换
+
+- 从 tsdown 切换到 Vite library mode
+- 输出格式变更：
+  - ESM: `dist/index.js`
+  - CJS: `dist/index.cjs`
+  - 类型声明: `dist/index.d.ts`
+
+#### 包导出配置
+
+更新了 package.json 的 exports 字段：
+
+```json
+{
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./dist/styles/*": "./dist/styles/*",
+    "./dist/*.css": "./dist/*.css"
+  }
+}
+```
+
+### 新增功能
+
+#### 核心组件 (P0)
+
+- CuiTable - 数据表格组件
+- CuiForm - 动态表单组件
+- CuiSearch - 搜索组件
+- CuiDialogForm - 对话框表单组件
+
+#### 功能组件 (P1)
+
+- CuiDialog - 对话框容器
+- CuiDetail - 详情展示组件
+- CuiExcel - Excel 导入导出
+- CuiTab - 标签页组件
+- CuiSelectBox - 选择容器
+
+#### 表单控件 (P2)
+
+- CuiSelect - 增强选择框
+- CuiSelectEnum - 枚举选择框
+- CuiSelectDict - 字典选择框
+- CuiRadioEnum - 枚举单选组
+- CuiRadioDict - 字典单选组
+- CuiCheckboxEnum - 枚举复选组
+- CuiAutocomplete - 自动完成输入框
+
+### 改进
+
+- 完整的 TypeScript 类型支持
+- Volar 全局组件类型提示
+- BEM 命名规范的组件样式
+- 完善的单元测试覆盖
+- 详细的组件文档
+
+### 技术债务
+
+- SCSS 使用了已弃用的全局 mix 函数，需要迁移到 `color.mix`
+
+## 已知问题
+
+- 无

@@ -1,0 +1,195 @@
+# 故障排除
+
+本页面列出了使用 Vue Element CUI 时的常见问题和解决方案。
+
+## 安装问题
+
+### 依赖冲突
+
+**问题**: 安装时出现 peer dependency 警告
+
+**解决方案**: 确保安装了正确版本的依赖：
+
+```bash
+pnpm add vue@^3.0.0 element-plus@^2.0.0
+```
+
+### 类型声明缺失
+
+**问题**: TypeScript 提示找不到类型声明
+
+**解决方案**: 确保 tsconfig.json 包含正确的类型引用：
+
+```json
+{
+  "compilerOptions": {
+    "types": ["@eams/vue-element-cui"]
+  }
+}
+```
+
+## 样式问题
+
+### 样式未生效
+
+**问题**: 组件显示异常，样式未加载
+
+**解决方案**: 确保导入了样式文件：
+
+```typescript
+import 'element-plus/dist/index.css'
+import '@eams/vue-element-cui/dist/vue-element-cui.css'
+```
+
+### 样式冲突
+
+**问题**: 组件样式与项目样式冲突
+
+**解决方案**: 使用 CSS 变量覆盖主题：
+
+```css
+:root {
+  --cui-color-primary: #409eff;
+  --cui-border-radius: 4px;
+}
+```
+
+## 组件问题
+
+### CuiTable 数据不显示
+
+**问题**: 表格组件不显示数据
+
+**检查清单**:
+1. 确保 `data` prop 是数组格式
+2. 确保 `columns` 配置正确
+3. 检查 `prop` 字段是否与数据字段匹配
+
+```typescript
+const columns: CuiTableColumn[] = [
+  { prop: 'name', label: '姓名' } // prop 必须匹配数据字段
+]
+
+const data = [
+  { name: '张三' } // 字段名必须匹配
+]
+```
+
+### CuiForm 验证不工作
+
+**问题**: 表单验证规则不生效
+
+**解决方案**: 确保字段配置包含验证规则：
+
+```typescript
+const fields: CuiFormField[] = [
+  {
+    prop: 'email',
+    label: '邮箱',
+    type: 'input',
+    required: true,
+    rules: [
+      { required: true, message: '请输入邮箱' },
+      { type: 'email', message: '邮箱格式不正确' }
+    ]
+  }
+]
+```
+
+### CuiSearch 搜索无响应
+
+**问题**: 点击搜索按钮没有反应
+
+**解决方案**: 确保监听了 `search` 事件：
+
+```vue
+<template>
+  <CuiSearch :fields="fields" @search="handleSearch" />
+</template>
+
+<script setup lang="ts">
+const handleSearch = (values: any) => {
+  console.log('搜索参数:', values)
+}
+</script>
+```
+
+## 构建问题
+
+### Vite 构建失败
+
+**问题**: 使用 Vite 构建时报错
+
+**解决方案**: 确保 vite.config.ts 正确配置了依赖外部化：
+
+```typescript
+export default defineConfig({
+  optimizeDeps: {
+    include: ['element-plus']
+  }
+})
+```
+
+### TypeScript 类型错误
+
+**问题**: 构建时出现类型错误
+
+**解决方案**: 确保使用正确的类型导入：
+
+```typescript
+import type { CuiTableProps, CuiTableColumn } from '@eams/vue-element-cui'
+```
+
+## 性能问题
+
+### 表格渲染慢
+
+**问题**: 大数据量时表格渲染缓慢
+
+**解决方案**: 使用虚拟滚动或分页：
+
+```vue
+<CuiTable
+  :data="tableData"
+  :columns="columns"
+  :pagination="{ pageSize: 20 }"
+/>
+```
+
+### 表单字段过多
+
+**问题**: 表单字段过多导致性能下降
+
+**解决方案**: 使用动态字段或分步表单：
+
+```typescript
+const fields = computed(() => {
+  return showAdvanced.value ? allFields : basicFields
+})
+```
+
+## 兼容性问题
+
+### 浏览器兼容性
+
+**支持的浏览器**:
+- Chrome >= 90
+- Firefox >= 88
+- Safari >= 14
+- Edge >= 90
+
+### Vue 版本兼容性
+
+**要求**: Vue 3.0.0 或更高版本
+
+### Element Plus 版本兼容性
+
+**要求**: Element Plus 2.0.0 或更高版本
+
+## 获取更多帮助
+
+如果以上方案无法解决您的问题：
+
+1. 查看 [GitHub Issues](https://github.com/eams/vue-element-cui/issues)
+2. 提交新的 Issue 并提供详细信息
+3. 联系技术支持团队
