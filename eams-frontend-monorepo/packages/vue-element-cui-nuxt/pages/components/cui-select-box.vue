@@ -152,7 +152,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { ElButton, ElCheckbox, ElInput, ElMessage } from 'element-plus';
-import { CuiSelectBox } from '@packages/vue-element-cui';
+import { CuiSelectBox } from '@eams/vue-element-cui';
 
 const basicValue = ref('');
 const singleValue = ref('');

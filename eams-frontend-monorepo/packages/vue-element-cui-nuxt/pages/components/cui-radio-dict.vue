@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CuiRadioDict } from '@ruan-cat/vue-element-cui';
+import { CuiRadioDict } from '@eams/vue-element-cui';
 
 const basicValue = ref('');
 const disabledValue = ref('dict1');

@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CuiRadioEnum } from '@ruan-cat/vue-element-cui';
+import { CuiRadioEnum } from '@eams/vue-element-cui';
 
 const basicValue = ref('');
 const disabledValue = ref('1');

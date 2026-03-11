@@ -81,7 +81,7 @@
         <template #customField="{ value, updateValue }">
           <div class="custom-field">
             <el-slider
-              :model-value="value"
+              :model-value="Number(value)"
               :min="0"
               :max="100"
               show-input

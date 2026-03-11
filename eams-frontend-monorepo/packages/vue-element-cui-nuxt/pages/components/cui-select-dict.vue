@@ -43,7 +43,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CuiSelectDict } from '@ruan-cat/vue-element-cui';
+import { CuiSelectDict } from '@eams/vue-element-cui';
 
 const basicValue = ref('');
 const disabledValue = ref('dict1');
