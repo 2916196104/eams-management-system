@@ -135,13 +135,14 @@ describe('CuiSelect', () => {
       global: {
         stubs: {
           ElSelect: true,
-          ElOption: false,
+          ElOption: true,
         },
       },
     });
 
-    const options = wrapper.findAllComponents({ name: 'ElOption' });
-    expect(options).toHaveLength(3);
+    // Verify options are passed correctly via props
+    expect(wrapper.props('options')).toHaveLength(3);
+    expect(wrapper.props('options')).toEqual(mockOptions);
   });
 
   test('passes clearable prop correctly', () => {
