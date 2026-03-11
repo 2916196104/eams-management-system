@@ -8,7 +8,7 @@
           <h1 class="system-title">零一教务系统</h1>
         </div>
         <div class="illustration-area">
-          <img src="" alt="左侧插图" class="illustration-img" />
+          <img src="#" alt="左侧插图" class="illustration-img" />
         </div>
       </div>
       <div class="right-section">
@@ -69,13 +69,13 @@
     <div class="qrcode-container">
       <div class="qrcode-item">
         <div class="qrcode-box">
-          <img src="@/assets/images/teacher-qrcode.png" alt="老师端" class="qrcode-img" />
+          <img src="#" alt="老师端" class="qrcode-img" />
         </div>
         <div class="qrcode-label">老师端</div>
       </div>
       <div class="qrcode-item">
         <div class="qrcode-box">
-          <img src="@/assets/images/parent-qrcode.png" alt="家长端" class="qrcode-img" />
+          <img src="#" alt="家长端" class="qrcode-img" />
         </div>
         <div class="qrcode-label">家长端</div>
       </div>
