@@ -4,7 +4,11 @@
     :disabled="disabled"
     @update:model-value="handleChange"
   >
-    <el-checkbox v-for="option in options" :key="option.value" :label="option.value">
+    <el-checkbox
+      v-for="option in options"
+      :key="option.value"
+      :label="option.value"
+    >
       {{ option.label }}
     </el-checkbox>
   </el-checkbox-group>
@@ -20,9 +24,13 @@ const props = withDefaults(defineProps<CuiCheckboxEnumProps>(), {
 });
 
 const emit = defineEmits<CuiCheckboxEnumEmits>();
+
 const options = ref<CuiCheckboxEnumOption[]>([]);
 
+/* 获取枚举选项 */
 const loadEnumOptions = () => {
+  /* TODO: 根据 enumCode 从枚举系统获取选项 */
+  /* 这是一个示例实现，实际应该调用枚举服务 */
   options.value = [
     { label: '选项 1', value: '1' },
     { label: '选项 2', value: '2' },
@@ -30,7 +38,7 @@ const loadEnumOptions = () => {
   ];
 };
 
-const handleChange = (value: any) => {
+const handleChange = (value: any[]) => {
   emit('update:modelValue', value);
   emit('change', value);
 };

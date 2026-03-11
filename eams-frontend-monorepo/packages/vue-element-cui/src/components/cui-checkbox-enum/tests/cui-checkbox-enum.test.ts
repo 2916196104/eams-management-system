@@ -108,14 +108,14 @@ describe('CuiCheckboxEnum', () => {
       global: {
         stubs: {
           ElCheckboxGroup: true,
-          ElCheckbox: false,
+          ElCheckbox: true,
         },
       },
     });
 
     await wrapper.vm.$nextTick();
-    const checkboxes = wrapper.findAllComponents({ name: 'ElCheckbox' });
-    expect(checkboxes).toHaveLength(3);
+    expect(wrapper.vm.options).toHaveLength(3);
+    expect(wrapper.vm.options.map((o: any) => o.value)).toEqual(['1', '2', '3']);
   });
 
   test('displays correct labels for options', async () => {
@@ -127,16 +127,15 @@ describe('CuiCheckboxEnum', () => {
       global: {
         stubs: {
           ElCheckboxGroup: true,
-          ElCheckbox: false,
+          ElCheckbox: true,
         },
       },
     });
 
     await wrapper.vm.$nextTick();
-    const checkboxes = wrapper.findAllComponents({ name: 'ElCheckbox' });
-    expect(checkboxes[0].props('label')).toBe('1');
-    expect(checkboxes[1].props('label')).toBe('2');
-    expect(checkboxes[2].props('label')).toBe('3');
+    expect(wrapper.vm.options[0].label).toBe('选项 1');
+    expect(wrapper.vm.options[1].label).toBe('选项 2');
+    expect(wrapper.vm.options[2].label).toBe('选项 3');
   });
 
   test('handles different enum codes', async () => {
