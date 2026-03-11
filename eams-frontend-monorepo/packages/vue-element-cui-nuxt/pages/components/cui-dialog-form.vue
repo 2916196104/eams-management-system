@@ -71,8 +71,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { ElButton, ElMessage } from 'element-plus';
-import { CuiDialogForm } from '@packages/vue-element-cui';
-import type { CuiFormField } from '@packages/vue-element-cui';
+import { CuiDialogForm } from '@eams/vue-element-cui';
+import type { CuiFormField } from '@eams/vue-element-cui';
 
 const showBasicForm = ref(false);
 const showValidationForm = ref(false);

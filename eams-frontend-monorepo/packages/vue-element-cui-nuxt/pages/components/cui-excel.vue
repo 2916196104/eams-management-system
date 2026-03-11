@@ -85,7 +85,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { ElButton, ElTable, ElTableColumn, ElTag, ElMessage } from 'element-plus';
-import { CuiExcel } from '@packages/vue-element-cui';
+import { CuiExcel } from '@eams/vue-element-cui';
 
 // 对话框状态
 const showBasicImport = ref(false);

@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CuiCheckboxEnum } from '@ruan-cat/vue-element-cui';
+import { CuiCheckboxEnum } from '@eams/vue-element-cui';
 
 const basicValue = ref([]);
 const disabledValue = ref(['1', '2']);

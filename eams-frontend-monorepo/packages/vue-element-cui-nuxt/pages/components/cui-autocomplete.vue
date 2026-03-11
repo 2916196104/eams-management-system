@@ -46,8 +46,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CuiAutocomplete } from '@ruan-cat/vue-element-cui';
-import type { CuiAutocompleteSuggestion } from '@ruan-cat/vue-element-cui';
+import { CuiAutocomplete } from '@eams/vue-element-cui';
+import type { CuiAutocompleteSuggestion } from '@eams/vue-element-cui';
 
 const basicValue = ref('');
 const disabledValue = ref('apple');

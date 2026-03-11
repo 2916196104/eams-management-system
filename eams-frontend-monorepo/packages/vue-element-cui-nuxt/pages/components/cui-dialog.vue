@@ -182,7 +182,7 @@
 import { ref } from 'vue';
 import { ElButton, ElForm, ElFormItem, ElInput, ElSelect, ElOption, ElCheckbox, ElIcon, ElMessage } from 'element-plus';
 import { WarningFilled } from '@element-plus/icons-vue';
-import { CuiDialog } from '@packages/vue-element-cui';
+import { CuiDialog } from '@eams/vue-element-cui';
 
 // 基础对话框
 const showBasicDialog = ref(false);
