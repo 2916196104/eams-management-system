@@ -33,11 +33,12 @@ yarn add @eams/vue-element-cui
 ```typescript
 import { createApp } from 'vue'
 import App from './App.vue'
-import VueElementCui from '@eams/vue-element-cui'
-import '@eams/vue-element-cui/dist/style.css'
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+import '@eams/vue-element-cui/dist/vue-element-cui.css'
 
 const app = createApp(App)
-app.use(VueElementCui)
+app.use(ElementPlus)
 app.mount('#app')
 ```
 
@@ -47,14 +48,35 @@ app.mount('#app')
 
 ```vue
 <script setup lang="ts">
+import { ref } from 'vue'
 import { CuiTable, CuiForm } from '@eams/vue-element-cui'
-import '@eams/vue-element-cui/dist/style.css'
+import type { CuiTableColumn, CuiFormField } from '@eams/vue-element-cui'
+
+const tableData = ref([
+  { id: 1, name: '张三', age: 25 },
+  { id: 2, name: '李四', age: 30 }
+])
+
+const columns: CuiTableColumn[] = [
+  { prop: 'name', label: '姓名' },
+  { prop: 'age', label: '年龄' }
+]
+
+const formData = ref({
+  name: '',
+  email: ''
+})
+
+const fields: CuiFormField[] = [
+  { prop: 'name', label: '姓名', type: 'input', required: true },
+  { prop: 'email', label: '邮箱', type: 'input', required: true }
+]
 </script>
 
 <template>
   <div>
     <CuiTable :data="tableData" :columns="columns" />
-    <CuiForm :model="formData" :rules="rules" />
+    <CuiForm :model="formData" :fields="fields" />
   </div>
 </template>
 ```
@@ -65,7 +87,7 @@ import '@eams/vue-element-cui/dist/style.css'
 
 ```typescript
 import 'element-plus/dist/index.css'
-import '@eams/vue-element-cui/dist/style.css'
+import '@eams/vue-element-cui/dist/vue-element-cui.css'
 ```
 
 ## TypeScript 支持

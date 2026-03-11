@@ -15,8 +15,8 @@ CuiSelect 是一个基于 Element Plus 的选择器组件，支持单选、多�
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CuiSelect } from '@ruan-cat/vue-element-cui';
-import type { CuiSelectOption } from '@ruan-cat/vue-element-cui';
+import { CuiSelect } from '@eams/vue-element-cui';
+import type { CuiSelectOption } from '@eams/vue-element-cui';
 
 const value = ref('');
 const options: CuiSelectOption[] = [
@@ -69,7 +69,7 @@ interface CuiSelectOption {
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CuiSelect } from '@ruan-cat/vue-element-cui';
+import { CuiSelect } from '@eams/vue-element-cui';
 
 const values = ref([]);
 </script>

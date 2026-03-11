@@ -25,7 +25,7 @@ CuiTab 是一个基于 Element Plus 的标签页组件，提供了简洁的 API 
 
 <script setup>
 import { ref } from 'vue';
-import { CuiTab } from '@packages/vue-element-cui';
+import { CuiTab } from '@eams/vue-element-cui';
 
 const activeTab = ref('tab1');
 const tabs = [
@@ -90,7 +90,7 @@ interface CuiTabItem {
 
 <script setup>
 import { ref } from 'vue';
-import { CuiTab } from '@packages/vue-element-cui';
+import { CuiTab } from '@eams/vue-element-cui';
 
 const activeTab = ref('tab1');
 const tabs = ref([

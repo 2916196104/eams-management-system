@@ -14,7 +14,7 @@ CuiRadioEnum 是一个基于枚举代码的单选框组件，自动加载枚举�
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CuiRadioEnum } from '@ruan-cat/vue-element-cui';
+import { CuiRadioEnum } from '@eams/vue-element-cui';
 
 const value = ref('');
 </script>

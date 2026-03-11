@@ -24,7 +24,7 @@ CuiSelectBox 是一个高级选择框组件，支持弹出式选择器和自定�
 
 <script setup>
 import { ref } from 'vue';
-import { CuiSelectBox } from '@packages/vue-element-cui';
+import { CuiSelectBox } from '@eams/vue-element-cui';
 
 const selectedValue = ref('');
 

@@ -15,7 +15,7 @@ CuiSelectDict 是一个基于字典代码的选择器组件，自动加载字典
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CuiSelectDict } from '@ruan-cat/vue-element-cui';
+import { CuiSelectDict } from '@eams/vue-element-cui';
 
 const value = ref('');
 </script>

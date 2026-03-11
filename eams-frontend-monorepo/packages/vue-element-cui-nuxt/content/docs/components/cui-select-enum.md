@@ -15,7 +15,7 @@ CuiSelectEnum 是一个基于枚举代码的选择器组件，自动加载枚举
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CuiSelectEnum } from '@ruan-cat/vue-element-cui';
+import { CuiSelectEnum } from '@eams/vue-element-cui';
 
 const value = ref('');
 </script>

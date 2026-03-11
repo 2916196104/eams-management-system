@@ -193,6 +193,112 @@ const columns: CuiTableColumn[] = [
 5. 支持 TypeScript 泛型，可以为表格数据指定类型
 6. `formatter` 用于简单的文本格式化，`slot` 用于复杂的自定义渲染
 
+## 固定列
+
+通过在列配置中设置 `fixed` 属性固定列。
+
+```vue
+<template>
+  <CuiTable :data="tableData" :columns="columns" />
+</template>
+
+<script setup lang="ts">
+const columns: CuiTableColumn[] = [
+  { prop: 'name', label: '姓名', width: 100, fixed: 'left' },
+  { prop: 'address', label: '地址', width: 300 },
+  { prop: 'email', label: '邮箱', width: 200 },
+  { prop: 'phone', label: '电话', width: 150, fixed: 'right' },
+];
+</script>
+```
+
+## 格式化列内容
+
+通过 `formatter` 属性格式化单元格内容。
+
+```vue
+<script setup lang="ts">
+const columns: CuiTableColumn[] = [
+  { prop: 'name', label: '姓名' },
+  {
+    prop: 'salary',
+    label: '薪资',
+    formatter: (row, column, cellValue) => `¥${cellValue.toLocaleString()}`,
+  },
+  {
+    prop: 'createTime',
+    label: '创建时间',
+    formatter: (row, column, cellValue) => new Date(cellValue).toLocaleDateString('zh-CN'),
+  },
+];
+</script>
+```
+
+## 行和单元格点击事件
+
+监听 `row-click` 和 `cell-click` 事件处理行和单元格点击。
+
+```vue
+<template>
+  <CuiTable
+    :data="tableData"
+    :columns="columns"
+    @row-click="handleRowClick"
+    @cell-click="handleCellClick"
+  />
+</template>
+
+<script setup lang="ts">
+const handleRowClick = (row: any, column: any, event: Event) => {
+  console.log('行点击:', row);
+};
+
+const handleCellClick = (row: any, column: any, cell: any, event: Event) => {
+  console.log('单元格点击:', row, column.property);
+};
+</script>
+```
+
+## 自定义排序
+
+设置 `sortable: 'custom'` 实现自定义排序逻辑。
+
+```vue
+<template>
+  <CuiTable
+    :data="sortedData"
+    :columns="columns"
+    @sort-change="handleSortChange"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+
+const tableData = ref([...]);
+const sortConfig = ref({ prop: '', order: null });
+
+const sortedData = computed(() => {
+  if (!sortConfig.value.order) return tableData.value;
+
+  return [...tableData.value].sort((a, b) => {
+    const prop = sortConfig.value.prop;
+    const order = sortConfig.value.order === 'ascending' ? 1 : -1;
+    return (a[prop] > b[prop] ? 1 : -1) * order;
+  });
+});
+
+const columns: CuiTableColumn[] = [
+  { prop: 'name', label: '姓名', sortable: 'custom' },
+  { prop: 'age', label: '年龄', sortable: 'custom' },
+];
+
+const handleSortChange = (event: SortChangeEvent) => {
+  sortConfig.value = event;
+};
+</script>
+```
+
 ## 类型定义
 
 ```typescript
@@ -204,12 +310,7 @@ interface CuiTableColumn<T = any> {
   sortable?: boolean | 'custom';
   fixed?: boolean | 'left' | 'right';
   align?: 'left' | 'center' | 'right';
-  formatter?: (row: T, column: any, cellValue: any, index: number) => string | number;
-  slot?: string;
-}
-  fixed?: boolean | 'left' | 'right';
-  align?: 'left' | 'center' | 'right';
-  formatter?: (row: T, column: TableColumnCtx<T>, cellValue: any, index: number) => any;
+  formatter?: (row: T, column: any, cellValue: any, index: number) => any;
   slot?: string;
 }
 
@@ -229,4 +330,6 @@ interface SortChangeEvent {
   prop: string;
   order: 'ascending' | 'descending' | null;
 }
+
+type SelectionChangeEvent<T = any> = T[];
 ```
