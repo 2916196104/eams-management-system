@@ -13,7 +13,7 @@
   "dependencies": {
     "@eams/vue-element-cui": "workspace:*",
     "@nuxt/content": "^2.13.4",
-    "@nuxtjs/tailwindcss": "^6.12.2",
+    "@nuxt/ui-pro": "^1.4.4",
     "nuxt": "^3.15.1",
     "vue": "^3.5.13"
   },
