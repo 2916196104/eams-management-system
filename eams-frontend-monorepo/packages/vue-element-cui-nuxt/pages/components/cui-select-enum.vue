@@ -43,7 +43,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CuiSelectEnum } from '@ruan-cat/vue-element-cui';
+import { CuiSelectEnum } from '@eams/vue-element-cui';
 
 const basicValue = ref('');
 const disabledValue = ref('1');

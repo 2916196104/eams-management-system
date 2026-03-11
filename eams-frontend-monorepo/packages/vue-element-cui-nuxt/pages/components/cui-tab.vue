@@ -7,7 +7,7 @@
       <cui-tab
         :tabs="basicTabs"
         :active-tab="activeTab1"
-        @update:active-tab="activeTab1 = $event"
+        @update:active-tab="activeTab1 = String($event)"
       />
     </div>
 
@@ -17,7 +17,7 @@
         :tabs="basicTabs"
         :active-tab="activeTab2"
         type="card"
-        @update:active-tab="activeTab2 = $event"
+        @update:active-tab="activeTab2 = String($event)"
       />
     </div>
 
@@ -27,7 +27,7 @@
         :tabs="closableTabs"
         :active-tab="activeTab3"
         :closable="true"
-        @update:active-tab="activeTab3 = $event"
+        @update:active-tab="activeTab3 = String($event)"
         @remove="handleRemoveTab"
       />
     </div>
@@ -54,7 +54,7 @@
       <cui-tab
         :tabs="slotTabs"
         :active-tab="activeTab4"
-        @update:active-tab="activeTab4 = $event"
+        @update:active-tab="activeTab4 = String($event)"
       >
         <template #tab-tab1>
           <div style="padding: 20px">
@@ -76,8 +76,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { ElButton, ElInput } from 'element-plus';
-import { CuiTab } from '@packages/vue-element-cui';
-import type { CuiTabItem } from '@packages/vue-element-cui';
+import { CuiTab } from '@eams/vue-element-cui';
+import type { CuiTabItem } from '@eams/vue-element-cui';
 
 const activeTab1 = ref('tab1');
 const activeTab2 = ref('tab1');
@@ -109,7 +109,7 @@ const dynamicTabs = ref<CuiTabItem[]>([
 
 let tabIndex = 3;
 
-const handleRemoveTab = (tabName: string) => {
+const handleRemoveTab = (tabName: string | number) => {
   closableTabs.value = closableTabs.value.filter((tab) => tab.name !== tabName);
 };
 
@@ -125,7 +125,7 @@ const handleAddTab = () => {
   tabIndex++;
 };
 
-const handleRemoveDynamicTab = (tabName: string) => {
+const handleRemoveDynamicTab = (tabName: string | number) => {
   const tabs = dynamicTabs.value;
   const index = tabs.findIndex((tab) => tab.name === tabName);
 
@@ -141,8 +141,8 @@ const handleRemoveDynamicTab = (tabName: string) => {
   }
 };
 
-const handleTabChange = (tabName: string) => {
-  activeTab5.value = tabName;
+const handleTabChange = (tabName: string | number) => {
+  activeTab5.value = String(tabName);
   console.log('Tab 切换到:', tabName);
 };
 </script>

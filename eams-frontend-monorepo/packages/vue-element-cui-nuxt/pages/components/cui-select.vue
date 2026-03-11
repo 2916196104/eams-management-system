@@ -54,8 +54,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CuiSelect } from '@ruan-cat/vue-element-cui';
-import type { CuiSelectOption } from '@ruan-cat/vue-element-cui';
+import { CuiSelect } from '@eams/vue-element-cui';
+import type { CuiSelectOption } from '@eams/vue-element-cui';
 
 const basicValue = ref('');
 const disabledValue = ref('opt1');
