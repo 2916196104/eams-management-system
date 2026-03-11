@@ -55,20 +55,24 @@
 - 渐进式迁移：需要同时维护两个版本，增加复杂性
 - 自动化迁移工具：对于包含业务逻辑的复杂组件不可靠
 
-### 决策 2：Nuxt 3 一体化 vs 独立 Playground 和文档
+### 决策 2：Nuxt 3 + Docus 一体化 vs 独立 Playground 和文档
 
-**选择：** Nuxt 3 一体化架构（playground + docs 在单个项目中）
+**选择：** Nuxt 3 + Docus 一体化架构（playground + docs 在单个项目中）
 
 **理由：**
-- Nuxt Content 的 MDC 语法允许直接在文档中嵌入实时组件
+- Docus 基于 Nuxt Content，提供专业的组件库文档模板
+- MDC 语法允许直接在文档中嵌入实时组件
 - 单个开发服务器减少上下文切换
 - 更简单的部署（一个站点而不是两个）
 - 更容易保持文档和演示同步
-- 遵循参考项目使用的模式（plus-pro-components、easyest）
+- 遵循参考项目使用的模式（vunix、vue-final-modal）
 
 **考虑的替代方案：**
 - 独立的 VitePress 文档 + Vite playground：更模块化但需要维护两个项目
 - Storybook：适合组件目录但对叙述性文档不够灵活
+- 基础 Nuxt Content：缺少专业文档站点的开箱即用功能
+
+**注意：** 文档系统的详细实现规范请参考 `improve-vue-element-cui-nuxt-docs-with-docus` 变更
 
 ### 决策 3：Vite Library Mode vs 其他构建工具
 
@@ -147,7 +151,7 @@
 
 **阶段 1：基础设施（第 1 周）**
 1. 使用 tsdown、TypeScript、vitest 初始化 packages/vue-element-cui
-2. 使用 Nuxt 3 + Nuxt Content 初始化 packages/vue-element-cui-nuxt
+2. 使用 Nuxt 3 + Docus 初始化 packages/vue-element-cui-nuxt（详见 `improve-vue-element-cui-nuxt-docs-with-docus` 变更）
 3. 设置 monorepo workspace 依赖关系
 4. 配置构建脚本和 CI/CD
 
