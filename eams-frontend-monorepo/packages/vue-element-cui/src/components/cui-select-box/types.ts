@@ -10,7 +10,7 @@ export interface CuiSelectBoxOption {
   id: string | number;
   /** 选项标签 */
   label: string;
-  /** 其他属性 */
+  /** 其他自定义属性 */
   [key: string]: any;
 }
 
