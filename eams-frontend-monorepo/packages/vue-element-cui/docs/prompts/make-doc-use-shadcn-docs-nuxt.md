@@ -19,6 +19,10 @@
 - ijkml/nuxt-umami-docs `D:\code\github-desktop-store\nuxt-umami-docs__ijkml`
 - isbrandonw/shadcn-docs-ui-thing `D:\code\github-desktop-store\shadcn-docs-ui-thing__isbrandonw`
 
+## 根据报告的要求完成针对性探索和学习
+
+报告 `docs\reports\2026-3-12-use-shadcn-docs-nuxt.md` 同时还说明了如何完成针对性的探索和学习，请务必认真学习。
+
 ## 不需要保留之前的写法
 
 我允许你大胆的，批量删除现有的 vue-element-cui-nuxt 目录，允许你推重新来，
