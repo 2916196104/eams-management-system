@@ -15,7 +15,9 @@
       <!-- 预览区域 -->
       <div class="preview-area p-6 bg-white dark:bg-gray-950 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-gray-800">
         <div class="preview-content">
-          <slot name="preview" />
+          <ClientOnly>
+            <slot name="preview" />
+          </ClientOnly>
         </div>
       </div>
 
