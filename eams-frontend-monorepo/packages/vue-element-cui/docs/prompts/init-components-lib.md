@@ -40,7 +40,11 @@
 
 ## 02 <!-- TODO: 长期任务 --> 执行 `improve-vue-element-cui-nuxt-docs-with-docus` 这款 openspec 任务
 
-## 03 重点迭代 `@eams/vue-element-cui-nuxt` 文档页的效果
+## 03 <!-- 效果很差，打算用 shadcn-docs-nuxt 来重构一次文档 --> 重点迭代 `@eams/vue-element-cui-nuxt` 文档页的效果
+
+使用 vunix 的效果很差，打算直接用 shadcn-docs-nuxt 来完成开发了。 https://github.com/ZTL-UwU/shadcn-docs-nuxt 。
+
+---
 
 我对 `@eams/vue-element-cui-nuxt` 文档页的效果很不满。其生成效果根本不是我期望的 nuxt content 风格的页面。请你针对性的学习并修改。
 
