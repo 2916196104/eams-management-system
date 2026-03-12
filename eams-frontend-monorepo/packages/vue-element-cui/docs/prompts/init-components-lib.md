@@ -38,7 +38,7 @@
 
 ## 01 <!-- TODO: 长期任务 --> 执行 `make-new-vue-element-cui` 这款 openspec 任务
 
-## 02 <!-- TODO: 长期任务 --> 执行 `improve-vue-element-cui-nuxt-docs-with-docus` 这款 openspec 任务
+## 02 <!-- 该任务已关闭 --> 执行 `improve-vue-element-cui-nuxt-docs-with-docus` 这款 openspec 任务
 
 ## 03 <!-- 效果很差，打算用 shadcn-docs-nuxt 来重构一次文档 --> 重点迭代 `@eams/vue-element-cui-nuxt` 文档页的效果
 
@@ -68,3 +68,9 @@
 我的核心目的是希望 `@eams/vue-element-cui-nuxt` 文档项目使用 docus 来完成组件库文档站点的开发，就像 vunix 一样。vunix 做的非常好，我就是想要这种的文档站点。
 
 去更新 `make-new-vue-element-cui` 这款 openspec 任务，这款任务没有记录详细的 `@eams/vue-element-cui-nuxt` 组件库文档项目该如何制作。
+
+## 04 <!-- TODO: --> 处理 vue-element-cui 组件库出现的类型故障
+
+我不希望在迁移组件库的时候，在新迁移的组件库内，出现类型错误。请你使用 vue-tsc 的最佳实践，在 vue-element-cui 包内安装该 vue-tsc 工具，并拓展 vue-element-cui 的类型检查能力。
+
+在确保其满足 `openspec\changes\make-new-vue-element-cui\specs` 全部设计要求，和 `openspec\changes\make-new-vue-element-cui` 全部设计理念，和具体的迁移任务的前提下，完成类型检查能力的拓展，并修复其出现的组件库类型报错。
