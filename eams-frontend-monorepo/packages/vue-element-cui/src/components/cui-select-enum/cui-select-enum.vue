@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, defineProps, defineEmits, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { ElSelect, ElOption } from 'element-plus';
 import type { CuiSelectEnumProps, CuiSelectEnumEmits, CuiSelectEnumOption } from './types';
 

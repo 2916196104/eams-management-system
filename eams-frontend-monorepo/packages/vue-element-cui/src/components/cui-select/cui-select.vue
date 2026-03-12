@@ -21,7 +21,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
 import { ElSelect, ElOption } from 'element-plus';
 import type { CuiSelectProps, CuiSelectEmits } from './types';
 

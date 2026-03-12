@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, computed } from 'vue';
+import { computed } from 'vue';
 import { ElAutocomplete } from 'element-plus';
 import type { CuiAutocompleteProps, CuiAutocompleteEmits, CuiAutocompleteSuggestion } from './types';
 

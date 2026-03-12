@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
+
 import { ElDialog, ElButton } from 'element-plus';
 import type { CuiDialogProps, CuiDialogEmits } from './types';
 

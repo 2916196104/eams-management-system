@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, defineProps, defineEmits, watch } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { ElPopover, ElInput } from 'element-plus';
 import type { CuiSelectBoxProps, CuiSelectBoxEmits } from './types';
 

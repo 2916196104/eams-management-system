@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, defineProps, defineEmits } from 'vue';
+import { ref, onMounted } from 'vue';
 import { ElSelect, ElOption } from 'element-plus';
 import type { CuiSelectDictProps, CuiSelectDictEmits, CuiSelectDictOption } from './types';
 

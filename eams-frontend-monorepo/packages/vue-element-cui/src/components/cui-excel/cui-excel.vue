@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref } from 'vue';
 import { ElUpload, ElButton, ElIcon } from 'element-plus';
 import { UploadFilled } from '@element-plus/icons-vue';
 import { CuiDialog } from '../cui-dialog';
