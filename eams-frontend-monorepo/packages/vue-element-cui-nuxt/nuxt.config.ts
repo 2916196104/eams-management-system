@@ -1,11 +1,20 @@
 export default defineNuxtConfig({
-  extends: ['@nuxt/ui-pro'],
+  extends: ['@nuxt-themes/docus'],
 
-  modules: ['@nuxt/content', '@nuxt/ui'],
+  modules: ['@nuxt/content'],
 
   vite: {
     optimizeDeps: {
       include: ['@eams/vue-element-cui']
+    },
+    css: {
+      preprocessorMaxWorkers: true,
+      postcss: {
+        plugins: []
+      }
+    },
+    build: {
+      cssCodeSplit: true
     }
   },
 
