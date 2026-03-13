@@ -69,7 +69,7 @@
 
 去更新 `make-new-vue-element-cui` 这款 openspec 任务，这款任务没有记录详细的 `@eams/vue-element-cui-nuxt` 组件库文档项目该如何制作。
 
-## 04 <!-- TODO: --> 处理 vue-element-cui 组件库出现的类型故障
+## 04 处理 vue-element-cui 组件库出现的类型故障
 
 我不希望在迁移组件库的时候，在新迁移的组件库内，出现类型错误。请你使用 vue-tsc 的最佳实践，在 vue-element-cui 包内安装该 vue-tsc 工具，并拓展 vue-element-cui 的类型检查能力。
 
