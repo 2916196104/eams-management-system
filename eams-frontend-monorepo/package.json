@@ -21,7 +21,7 @@
     "git:main-2-dev": "git rebase f1 f1-ruancat && pnpm git:push",
     "git:push": "git push --follow-tags",
     "preinstall": "npx only-allow pnpm",
-    "postinstall": "simple-git-hooks",
+    "prepare": "simple-git-hooks",
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "eslint .",
