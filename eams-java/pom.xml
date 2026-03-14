@@ -37,6 +37,8 @@
         <module>eams-gateway</module>
         <module>eams-login</module>
         <module>eams-doc</module>
+        <module>eams-j4-student</module>
+        <module>eams-j4-academic</module>
     </modules>
     <properties>
         <!-- 项目版本号 -->
