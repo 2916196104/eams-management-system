@@ -126,7 +126,7 @@ add_subdirectory ("你的模块对应的文件夹名")
 这里是模块简介。
 
 ## 目录结构说明
-> `你的模块文件夹名称`
+> `eams-c5-stu-mobile`
 >
 > > `conf` -- Windows平台需要的配置文件
 > >
