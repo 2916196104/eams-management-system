@@ -65,6 +65,9 @@ function initChart() {
   //初始化图表实例
   chartInstance = echarts.init(chartRef.value, props.theme)
 
+  // 绑定点击事件（确保 chartInstance 存在）
+  chartInstance.on('click', handleChartClick)
+
   //渲染图表
   renderChart()
 
@@ -204,16 +207,11 @@ watch(
   },
   { deep: true } // 深度监听
 )
-//生命周期钩子
+
 // 组件挂载后
 onMounted(() => {
   initChart()
   window.addEventListener('resize', handleResize)
-
-  // 绑定点击事件
-  if (chartInstance) {
-    chartInstance.on('click', handleChartClick)
-  }
 })
 
 // 组件卸载前

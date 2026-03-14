@@ -17,7 +17,7 @@ export interface ChartCommonProps {
 
 //折线图属性
 export interface LineChartProps extends ChartCommonProps {
-  xAxisData: Array<string | null> //x轴数据
+  xAxisData: Array<string | number> //x轴数据
   seriesData: ChartSeriesData[] //折线数据
   smooth?: boolean //是否平滑折线
   showSymbol?: boolean //是否显示数据点
@@ -27,7 +27,7 @@ export interface LineChartProps extends ChartCommonProps {
 
 //柱状图属性
 export interface BarChartProps extends ChartCommonProps {
-  xAxisData: Array<string | null> //x轴数据
+  xAxisData: Array<string | number> //x轴数据
   seriesData: ChartSeriesData[] //柱状数据
   horizontal?: boolean //是否水平柱状图
   showLabel?: boolean //是否显示数据标签
