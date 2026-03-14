@@ -83,7 +83,7 @@ public class JsonVO<T> implements Serializable {
      * @param <T>  JsonVO嵌套元素类型
      * @return 返回创建的JSON VO对象
      */
-    public static <T> JsonVO<T> success(T data) {
+    public static <T> JsonVO<T> success(String data) {
         return create(data, ResultStatus.SUCCESS);
     }
 
@@ -107,3 +107,4 @@ public class JsonVO<T> implements Serializable {
         return create(null, ResultStatus.FAIL.getCode(), message);
     }
 }
+

@@ -1,0 +1,160 @@
+package com.zeroone.star.stumanager.entity;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * <p>
+ * 课程表
+ * </p>
+ *
+ * @author dabidai
+ * @since 2026-03-14
+ */
+@Getter
+@Setter
+public class Lesson implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 主键
+     */
+    private Long id;
+
+    /**
+     * 课程标题
+     */
+    private String title;
+
+    /**
+     * 课节数 第几节课
+     */
+    private Integer sn;
+
+    /**
+     * 课程id
+     */
+    private Long courseId;
+
+    /**
+     * 编排计划id
+     */
+    private Long scheduleId;
+
+    /**
+     * 班级id
+     */
+    private Long classId;
+
+    /**
+     * 教室id
+     */
+    private Long roomId;
+
+    /**
+     * 上课日期
+     */
+    private LocalDate date;
+
+    /**
+     * 开始时间
+     */
+    private LocalTime startTime;
+
+    /**
+     * 结束时间
+     */
+    private LocalTime endTime;
+
+    /**
+     * 创建人
+     */
+    private Long creator;
+
+    /**
+     * 编辑者
+     */
+    private Long editor;
+
+    /**
+     * 添加时间
+     */
+    private LocalDateTime addTime;
+
+    /**
+     * 修改时间
+     */
+    private LocalDateTime editTime;
+
+    /**
+     * 删除标记
+     */
+    private Boolean deleted;
+
+    /**
+     * 应扣课次数
+     */
+    private Integer decCount;
+
+    /**
+     * 备注
+     */
+    private String remark;
+
+    /**
+     * 授课方式
+     */
+    private Integer teachType;
+
+    /**
+     * 是否开启试听
+     */
+    private Boolean onTrial;
+
+    /**
+     * 试听结果
+     */
+    private String trialResult;
+
+    /**
+     * 课次状态
+     */
+    private Integer state;
+
+    /**
+     * 结课时间
+     */
+    private LocalDateTime closeTime;
+
+    /**
+     * 结课人
+     */
+    private Long closeOperator;
+
+    /**
+     * 主讲人(只用于数据权限)
+     */
+    private Long teacherId;
+
+    /**
+     * 是否开放预约
+     */
+    private Boolean bookable;
+
+    /**
+     * 老师所属学校ID
+     */
+    private Long schoolId;
+
+    /**
+     * 创建者所属组织ID
+     */
+    private Long orgId;
+
+
+}
