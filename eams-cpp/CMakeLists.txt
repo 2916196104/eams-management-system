@@ -164,3 +164,6 @@ if(UNIX)
 	add_subdirectory ("nacos-register")
 endif()
 # 在后面添加你的模块
+add_subdirectory("eams-c3-teachertimetable")
+add_subdirectory("eams-c3-teacherclass")
+add_subdirectory("eams-c3-managermove")
