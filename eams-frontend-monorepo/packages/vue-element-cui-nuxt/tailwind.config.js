@@ -4,7 +4,12 @@ export default {
 	darkMode: "class",
 	safelist: ["dark"],
 	prefix: "",
-	content: ["./content/**/*", "./app/**/*.vue", "./components/**/*.vue"],
+	content: [
+		"./content/**/*",
+		"./app/**/*.vue",
+		"./components/**/*.vue",
+		"../../node_modules/shadcn-docs-nuxt/**/*.{vue,js,ts,mjs}",
+	],
 	theme: {
 		container: {
 			center: true,

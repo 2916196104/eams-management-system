@@ -1,4 +1,11 @@
+import { createRequire } from "node:module";
+
 import { getVueElementCuiAliases } from "./workspace-aliases";
+
+const require = createRequire(import.meta.url);
+const dayjsEsmEntry = require.resolve("dayjs/esm/index.js");
+const mermaidEsmEntry = require.resolve("mermaid/dist/mermaid.esm.mjs");
+const debugShimEntry = require.resolve("./shims/debug.ts");
 
 export default defineNuxtConfig({
 	extends: ["shadcn-docs-nuxt"],
@@ -15,6 +22,29 @@ export default defineNuxtConfig({
 	},
 
 	vite: {
+		optimizeDeps: {
+			include: ["debug", "dayjs", "@braintree/sanitize-url", "mermaid"],
+			esbuildOptions: {
+				target: "esnext",
+			},
+		},
+		resolve: {
+			alias: [
+				{
+					find: /^dayjs$/,
+					replacement: dayjsEsmEntry,
+				},
+				{
+					find: /^mermaid$/,
+					replacement: mermaidEsmEntry,
+				},
+				{
+					find: /^debug$/,
+					replacement: debugShimEntry,
+				},
+			],
+			dedupe: ["dayjs"],
+		},
 		ssr: {
 			noExternal: ["debug"],
 		},
