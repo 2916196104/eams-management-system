@@ -1,8 +1,9 @@
+#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/08 21:19:14
+ @Date: 2026/03/14 19:27:22
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,7 +17,18 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#include "stdafx.h"
-#include "Authcontroller.h"
-//实现接口执行函数
+#ifndef _ATTENDANCEVO_H_
+#define _ATTENDANCEVO_H_
 
+#include "../../GlobalInclude.h"
+
+#include OATPP_CODEGEN_BEGIN(DTO)
+
+/**
+ * 定义显示对象
+ */
+
+
+#include OATPP_CODEGEN_END(DTO)
+
+#endif // !_ATTENDANCEVO_H_
