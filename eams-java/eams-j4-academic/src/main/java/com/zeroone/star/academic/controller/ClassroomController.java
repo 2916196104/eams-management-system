@@ -7,10 +7,13 @@ import com.zeroone.star.project.query.j4.academic.ClassroomQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j4.academic.ClassroomVO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
@@ -33,7 +36,7 @@ public class ClassroomController implements ClassroomApis {
 
     @Override
     @GetMapping("/{id}")
-    @ApiOperation("获取教室详情（用于编辑数据回显）")
+    @ApiOperation("获取教室详情")
     public JsonVO<ClassroomVO> getClassroomById(@PathVariable Long id) {
         // TODO: 调用 service 层实现
         return null;
@@ -50,7 +53,8 @@ public class ClassroomController implements ClassroomApis {
     @Override
     @DeleteMapping("/delete")
     @ApiOperation("删除教室（批量）")
-    public JsonVO<List<Long>> deleteClassroom(@RequestBody List<Long> ids) {
+    @ApiImplicitParam(name = "ids", value = "教室ID列表",type = "Array",paramType = "body",required = true,example = "[\"1\", \"2\"]")
+    public JsonVO<List<Long>> deleteClassroom(@RequestBody @Valid @NotEmpty(message = "删除 ID 列表不能为空") List<Long> ids) {
         // TODO: 调用 service 层实现
         return null;
     }

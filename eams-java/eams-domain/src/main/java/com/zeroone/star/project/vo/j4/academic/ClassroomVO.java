@@ -16,19 +16,19 @@ import java.time.LocalDateTime;
 @Data
 @ApiModel(value = "ClassroomVO", description = "教室视图对象")
 public class ClassroomVO {
-    @ApiModelProperty(value = "教室ID")
+    @ApiModelProperty(value = "教室ID",example = "1")
     private Long id;
 
-    @ApiModelProperty(value = "教室名")
+    @ApiModelProperty(value = "教室名",example = "教室101")
     private String name;
 
-    @ApiModelProperty(value = "位置")
+    @ApiModelProperty(value = "位置",example = "宏德楼")
     private String address;
 
-    @ApiModelProperty(value = "面积（平方米）")
+    @ApiModelProperty(value = "面积（平方米）",example = "50")
     private Integer area;
 
-    @ApiModelProperty(value = "备注")
+    @ApiModelProperty(value = "备注",example = "本部校区")
     private String remark;
 
     @ApiModelProperty(value = "创建者 ID")
