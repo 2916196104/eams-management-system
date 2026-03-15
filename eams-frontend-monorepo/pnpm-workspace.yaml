@@ -4,11 +4,6 @@ packages:
   - packages/*
   - configs/*
 
-overrides:
-  "@nuxtjs/i18n": "9.5.4"
-  "nuxt>vue-router": "^4.6.4"
-  "@nuxt/kit>vue-router": "^4.6.4"
-
 onlyBuiltDependencies:
   - "@parcel/watcher"
   - core-js
