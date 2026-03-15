@@ -21,11 +21,11 @@ importers:
         specifier: ^0.1.3
         version: 0.1.3
       '@ruan-cat/commitlint-config':
-        specifier: ^4.9.2
-        version: 4.9.2(async-validator@4.2.5)(commitizen@4.3.1(@types/node@25.5.0)(typescript@5.9.3))(cz-git@1.12.0)(fuse.js@7.1.0)(magicast@0.5.2)(typescript@5.9.3)(unplugin-vue-router@0.12.0(vue-router@4.6.4(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3))
+        specifier: ^4.9.4
+        version: 4.9.4(async-validator@4.2.5)(commitizen@4.3.1(@types/node@25.5.0)(typescript@5.9.3))(cz-git@1.12.0)(fuse.js@7.1.0)(magicast@0.5.2)(typescript@5.9.3)(unplugin-vue-router@0.12.0(vue-router@4.6.4(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3))
       '@ruan-cat/taze-config':
-        specifier: ^1.0.2
-        version: 1.0.2(async-validator@4.2.5)(fuse.js@7.1.0)(taze@19.10.0)(typescript@5.9.3)(unplugin-vue-router@0.12.0(vue-router@4.6.4(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3))
+        specifier: ^1.0.4
+        version: 1.0.4(async-validator@4.2.5)(fuse.js@7.1.0)(taze@19.10.0)(typescript@5.9.3)(unplugin-vue-router@0.12.0(vue-router@4.6.4(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3))
       commitizen:
         specifier: ^4.3.1
         version: 4.3.1(@types/node@25.5.0)(typescript@5.9.3)
@@ -3209,15 +3209,15 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@ruan-cat/commitlint-config@4.9.2':
-    resolution: {integrity: sha512-LF+kyeWsChqb6FOMcENw/rmebg11b8lIUdEL6SGVTeICcfVxWomAM/Ak8b3uVJ8476TwtU7gmx8WQlOuOn+DfQ==}
+  '@ruan-cat/commitlint-config@4.9.4':
+    resolution: {integrity: sha512-BO21z0kJXFDesbiPenbFSQsny1TB9wRL0TrvR4Y4MgkRoYIZc6nrTVR8uHdjWCJEaPz92A0i3nWBx5sh2LoQlg==}
     hasBin: true
     peerDependencies:
       commitizen: '>=4'
       cz-git: '>=1'
 
-  '@ruan-cat/taze-config@1.0.2':
-    resolution: {integrity: sha512-DFVDoOYf1GG7+K5w9BxrcbXn+JI4S1qSj4F2cCSfAZIhNCZpFt/ognqkvA7Z6V4kCUFfmxWeyOC5PlgyfMBJMA==}
+  '@ruan-cat/taze-config@1.0.4':
+    resolution: {integrity: sha512-4eOEKQL40nRg9CVa0t71XVY3vgD7AVzlr69ORrWVuGemD6FINQ3Y741c84q7BoXzI2wqCA61KlTbWdaazDU9jg==}
     hasBin: true
     peerDependencies:
       taze: '>=19'
@@ -3225,8 +3225,9 @@ packages:
       taze:
         optional: true
 
-  '@ruan-cat/utils@4.20.0':
-    resolution: {integrity: sha512-FhU411EmqeQIqY7esdnXOZLz7QK/Hj4TqGZF5ddwyuJ9rRNaSZPOP99EBb3HMsdG3sTOjeFyAHs4oVn1zdfifQ==}
+  '@ruan-cat/utils@4.22.0':
+    resolution: {integrity: sha512-nUdcBJI94Q7cliqCHZcHDCHKlkPq6cyUSLHmcYDvSwnn7932edQR+CzjnYXtKmhp8UwezH/JjXx0ba3kUzlcYQ==}
+    hasBin: true
     peerDependencies:
       js-yaml: '*'
       typescript: '>=5'
@@ -15653,9 +15654,9 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.59.0':
     optional: true
 
-  '@ruan-cat/commitlint-config@4.9.2(async-validator@4.2.5)(commitizen@4.3.1(@types/node@25.5.0)(typescript@5.9.3))(cz-git@1.12.0)(fuse.js@7.1.0)(magicast@0.5.2)(typescript@5.9.3)(unplugin-vue-router@0.12.0(vue-router@4.6.4(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3))':
+  '@ruan-cat/commitlint-config@4.9.4(async-validator@4.2.5)(commitizen@4.3.1(@types/node@25.5.0)(typescript@5.9.3))(cz-git@1.12.0)(fuse.js@7.1.0)(magicast@0.5.2)(typescript@5.9.3)(unplugin-vue-router@0.12.0(vue-router@4.6.4(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3))':
     dependencies:
-      '@ruan-cat/utils': 4.20.0(async-validator@4.2.5)(fuse.js@7.1.0)(js-yaml@4.1.1)(typescript@5.9.3)(unplugin-vue-router@0.12.0(vue-router@4.6.4(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3))
+      '@ruan-cat/utils': 4.22.0(async-validator@4.2.5)(fuse.js@7.1.0)(js-yaml@4.1.1)(typescript@5.9.3)(unplugin-vue-router@0.12.0(vue-router@4.6.4(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3))
       changelogen: 0.6.2(magicast@0.5.2)
       commander: 13.1.0
       commitizen: 4.3.1(@types/node@25.5.0)(typescript@5.9.3)
@@ -15684,9 +15685,9 @@ snapshots:
       - vite-plugin-autogeneration-import-file
       - vue
 
-  '@ruan-cat/taze-config@1.0.2(async-validator@4.2.5)(fuse.js@7.1.0)(taze@19.10.0)(typescript@5.9.3)(unplugin-vue-router@0.12.0(vue-router@4.6.4(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3))':
+  '@ruan-cat/taze-config@1.0.4(async-validator@4.2.5)(fuse.js@7.1.0)(taze@19.10.0)(typescript@5.9.3)(unplugin-vue-router@0.12.0(vue-router@4.6.4(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3))':
     dependencies:
-      '@ruan-cat/utils': 4.20.0(async-validator@4.2.5)(fuse.js@7.1.0)(js-yaml@4.1.1)(typescript@5.9.3)(unplugin-vue-router@0.12.0(vue-router@4.6.4(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3))
+      '@ruan-cat/utils': 4.22.0(async-validator@4.2.5)(fuse.js@7.1.0)(js-yaml@4.1.1)(typescript@5.9.3)(unplugin-vue-router@0.12.0(vue-router@4.6.4(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3))
       commander: 13.1.0
       consola: 3.4.2
     optionalDependencies:
@@ -15710,7 +15711,7 @@ snapshots:
       - vite-plugin-autogeneration-import-file
       - vue
 
-  '@ruan-cat/utils@4.20.0(async-validator@4.2.5)(fuse.js@7.1.0)(js-yaml@4.1.1)(typescript@5.9.3)(unplugin-vue-router@0.12.0(vue-router@4.6.4(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3))':
+  '@ruan-cat/utils@4.22.0(async-validator@4.2.5)(fuse.js@7.1.0)(js-yaml@4.1.1)(typescript@5.9.3)(unplugin-vue-router@0.12.0(vue-router@4.6.4(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3))':
     dependencies:
       '@vueuse/integrations': 13.9.0(async-validator@4.2.5)(axios@1.13.6)(fuse.js@7.1.0)(vue@3.5.30(typescript@5.9.3))
       axios: 1.13.6
