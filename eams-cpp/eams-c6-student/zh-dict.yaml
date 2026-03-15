@@ -1,0 +1,9 @@
+SummaryClass:
+  query:
+    summary: 课时汇总查询
+  studentName: 学员姓名
+  courseName: 课程
+  attendanceRecord: 上课记录
+  totalLessons: 总课次
+  usedLessons: 已上课次
+  remainingLessons: 剩余课次
