@@ -166,3 +166,4 @@ endif()
 # 在后面添加你的模块
 add_subdirectory("eams-c3-teachermove")
 add_subdirectory("eams-c3-managerorg")
+

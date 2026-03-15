@@ -10,7 +10,7 @@
 
 class GradeTable: public oatpp::DTO
 {
-	DTO_INIT(GradeTable, DTO)
+	DTO_INIT(GradeTable, DTO);
 };
 
 #include OATPP_CODEGEN_END(DTO)
