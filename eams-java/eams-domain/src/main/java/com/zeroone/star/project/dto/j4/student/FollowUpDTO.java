@@ -1,5 +1,6 @@
 package com.zeroone.star.project.dto.j4.student;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import java.time.LocalDateTime;
@@ -30,6 +31,7 @@ public class FollowUpDTO {
     private Integer resultType;
 
     @ApiModelProperty(value = "下次跟进时间", example = "2026-03-20 10:00:00")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime nextFollowTime;
 
     @ApiModelProperty(value = "跟进人ID", example = "1001")
@@ -39,5 +41,6 @@ public class FollowUpDTO {
     private String followUserName;
 
     @ApiModelProperty(value = "创建时间", example = "2026-03-15 16:20:00")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;
 }

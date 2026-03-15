@@ -1,8 +1,11 @@
 package com.zeroone.star.project.query.j4.student;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zeroone.star.project.query.PageQuery;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDateTime;
 
 /**
@@ -22,8 +25,12 @@ public class FollowUpQuery extends PageQuery {
     private Integer followType;
 
     @ApiModelProperty(value = "开始时间", example = "2026-01-01 00:00:00")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startTime;
 
     @ApiModelProperty(value = "结束时间", example = "2026-03-15 23:59:59")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endTime;
 }
