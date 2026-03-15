@@ -164,3 +164,7 @@ if(UNIX)
 	add_subdirectory ("nacos-register")
 endif()
 # 在后面添加你的模块
+add_subdirectory ("eams-c1-Home")
+add_subdirectory ("eams-c1-login")
+add_subdirectory ("eams-c1-schedule")
+
