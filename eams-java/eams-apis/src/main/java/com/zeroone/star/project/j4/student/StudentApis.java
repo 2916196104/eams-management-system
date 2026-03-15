@@ -9,16 +9,16 @@ import com.zeroone.star.project.vo.JsonVO;
 public interface StudentApis {
 
     /**
-     * åˆ†é¡µæŸ¥è¯¢æŒ‡å®šè¯¾ç¨‹çš„å­¦ç”Ÿ
-     * @param condition æŸ¥è¯¢æ¡ä»¶
-     * @return å­¦ç”Ÿä¿¡æ¯
+     * ·ÖÒ³²éÑ¯Ö¸¶¨¿Î³ÌµÄÑ§Éú
+     * @param condition ²éÑ¯Ìõ¼ş
+     * @return Ñ§ÉúĞÅÏ¢
      */
     JsonVO<PageDTO<StudentDTO>> queryCourseStudent(CourseQuery condition);
 
     /**
-     * åˆ†é¡µæŸ¥è¯¢å­¦ç”Ÿåˆ—è¡¨
-     * @param condition æŸ¥è¯¢æ¡ä»¶
-     * @return å­¦ç”Ÿä¿¡æ¯
+     * ·ÖÒ³²éÑ¯Ñ§ÉúÁĞ±í
+     * @param condition ²éÑ¯Ìõ¼ş
+     * @return Ñ§ÉúĞÅÏ¢
      */
     JsonVO<PageDTO<StudentDTO>> listAllStudent(StudentQuery condition);
 

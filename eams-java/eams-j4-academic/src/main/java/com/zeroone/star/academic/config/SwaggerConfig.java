@@ -1,4 +1,4 @@
-package com.zeroone.star.student.config;
+package com.zeroone.star.academic.config;
 
 import com.zeroone.star.project.config.swagger.SwaggerCore;
 import org.springframework.context.annotation.Bean;
