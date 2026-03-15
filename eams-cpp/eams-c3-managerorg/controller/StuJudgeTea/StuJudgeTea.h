@@ -3,7 +3,7 @@
 
 #ifndef __STUJUDGETEA_H__
 #define __STUJUDGETEA_H__
-
+#include "oatpp/web/server/api/ApiController.hpp"
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
 

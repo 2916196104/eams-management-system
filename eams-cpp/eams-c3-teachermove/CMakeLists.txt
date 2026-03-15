@@ -4,7 +4,7 @@
 cmake_minimum_required (VERSION 3.8)
 
 # 设置文件名称
-set (appName eams-c3-teacherclass)
+set (appName eams-c3-teachermove)
 
 # 包含库目录
 include_directories ("./")

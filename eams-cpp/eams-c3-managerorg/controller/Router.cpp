@@ -24,7 +24,7 @@
 #include "TeaJudgeStu/TeaJudgeStu.h"
 #include "StuJudgeTea/StuJudgeTea.h"
 #include "GradeTable/GradeTable.h"
-#include "GradeTable/GradeManager.h"
+#include "GradeTable/GradeManage.h"
 #include "BoardManager/BoardManager.h"
 
 

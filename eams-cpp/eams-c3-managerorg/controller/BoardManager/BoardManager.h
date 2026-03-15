@@ -3,7 +3,7 @@
 
 #ifndef __BOARDMANAGER_H__
 #define __BOARDMANAGER_H__
-
+#include "oatpp/web/server/api/ApiController.hpp"
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
 /*公告管理控制器*/
