@@ -214,6 +214,11 @@ const menus = reactive([
     id: 12,
     path: '/sample/mydialog',
     text: '自定义对话框'
+  },
+  {
+    id: 13,
+    path: '/sample/mycalendar',
+    text: '课程表(预约管理)'
   }
 ])
 </script>
