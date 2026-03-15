@@ -164,14 +164,14 @@ function renderChart() {
           borderWidth: 2,
           borderColor: '#fff'
         },
-        label: props.showLabel
+        label: props.showLabel // 是否显示数据标签
           ? {
               show: true,
               position: 'top',
               color: color
             }
           : undefined,
-        areaStyle: props.showArea
+        areaStyle: props.showArea // 是否显示区域填充
           ? {
               color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                 { offset: 0, color: color + '30' },
@@ -228,6 +228,7 @@ function handleChartClick(params: any) {
   emit('click', params)
 }
 
+// 暴露方法
 defineExpose({
   getChartInstance: () => chartInstance, // 获取图表实例
   refresh: () => renderChart(), // 刷新图表
