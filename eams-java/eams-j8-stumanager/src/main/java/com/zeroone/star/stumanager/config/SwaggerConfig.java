@@ -19,8 +19,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 @EnableSwagger2WebMvc
 public class SwaggerConfig {
     @Bean
-    Docket loginApi() {
-        return SwaggerCore.defaultDocketBuilder("登录模块", "com.zeroone.star.login.controller", "login");
+    Docket stumanagerApi() {
+        return SwaggerCore.defaultDocketBuilder("学员模块", "com.zeroone.star.stumanager.controller", "stumanager");
     }
 }
 
