@@ -1,0 +1,27 @@
+﻿set_status:
+  title: 设置上课状态  
+  sign_time: 签到时间    
+  sign_type: 签到方式      
+  sign_state: 签到状态   
+  id: Id（是每一条信息的id，不是学生id）
+  flag: 课表              
+  response:
+    code: 错误码
+    message: 错误信息
+evaluate: 
+  flag: 课表
+  title1: 获取课次点评列表（条件+分页）
+  title2: 点评指定学员
+  field:
+    id: Id（是每一条信息的id，不是学生id）
+    name: 学生姓名 
+    name_eg: 朱厚熜
+    score: 评分分数
+    has_sign: 是否签到
+    has_evaluation: 是否点评
+    evaluation: 点评
+    operator: 点评人
+    operation_time: 操作时间
+  response:
+    code: 错误码
+    message: 错误信息
