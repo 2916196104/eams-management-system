@@ -37,7 +37,7 @@
         <module>eams-gateway</module>
         <module>eams-login</module>
         <module>eams-doc</module>
-        <module>j6-grademanager</module>
+        <module>j6-eas</module>
         <module>j6-interact</module>
         <module>j6-finance</module>
     </modules>
