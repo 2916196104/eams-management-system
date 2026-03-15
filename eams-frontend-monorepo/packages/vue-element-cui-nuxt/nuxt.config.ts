@@ -60,6 +60,16 @@ export default defineNuxtConfig({
 		},
 	},
 
+	i18n: {
+		defaultLocale: "zh-CN",
+		locales: [
+			{
+				code: "zh-CN",
+				name: "简体中文",
+			},
+		],
+	},
+
 	ogImage: {
 		enabled: false,
 	},

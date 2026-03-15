@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // SCSS Variables - 参考 Element Plus 设计系统
 
 // ========== 颜色系统 ==========
@@ -11,12 +13,12 @@ $cui-color-error: #f56c6c !default;
 $cui-color-info: #909399 !default;
 
 // 主题色变体
-$cui-color-primary-light-3: mix(#fff, $cui-color-primary, 30%) !default;
-$cui-color-primary-light-5: mix(#fff, $cui-color-primary, 50%) !default;
-$cui-color-primary-light-7: mix(#fff, $cui-color-primary, 70%) !default;
-$cui-color-primary-light-8: mix(#fff, $cui-color-primary, 80%) !default;
-$cui-color-primary-light-9: mix(#fff, $cui-color-primary, 90%) !default;
-$cui-color-primary-dark-2: mix(#000, $cui-color-primary, 20%) !default;
+$cui-color-primary-light-3: color.mix(#fff, $cui-color-primary, 30%) !default;
+$cui-color-primary-light-5: color.mix(#fff, $cui-color-primary, 50%) !default;
+$cui-color-primary-light-7: color.mix(#fff, $cui-color-primary, 70%) !default;
+$cui-color-primary-light-8: color.mix(#fff, $cui-color-primary, 80%) !default;
+$cui-color-primary-light-9: color.mix(#fff, $cui-color-primary, 90%) !default;
+$cui-color-primary-dark-2: color.mix(#000, $cui-color-primary, 20%) !default;
 
 // 中性色
 $cui-color-white: #ffffff !default;
