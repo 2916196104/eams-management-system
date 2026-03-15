@@ -3,6 +3,8 @@
 
 #ifndef __TeaJudgeStu_H__
 #define __TeaJudgeStu_H__
+
+#include "domain/GlobalInclude.h"
 #include "oatpp/web/server/api/ApiController.hpp"
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
