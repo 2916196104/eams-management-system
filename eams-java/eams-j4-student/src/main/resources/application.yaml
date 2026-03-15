@@ -1,0 +1,5 @@
+server:
+  port: ${sp.j4}
+spring:
+  application:
+    name: ${sn.j4}
