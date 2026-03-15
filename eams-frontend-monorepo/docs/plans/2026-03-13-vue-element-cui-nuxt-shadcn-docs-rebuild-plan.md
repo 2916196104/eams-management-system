@@ -2,30 +2,48 @@
 
 > **For agentic workers:** REQUIRED: Use superpowers:subagent-driven-development (if subagents available) or superpowers:executing-plans to implement this plan. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 使用 `shadcn-docs-nuxt` 完整重建 `packages/vue-element-cui-nuxt` 组件库文档应用，尽量保留现有 markdown 内容资产，并按新的组件类型信息架构重排为完整的组件库官网。
+**Goal:** 在保持 `packages/vue-element-cui-nuxt/content` 当前目录层级不变的前提下，使用 `shadcn-docs-nuxt` 重建稳定的组件库文档应用，并把配置与样式基线严格收敛到参考项目的简洁实现。
 
-**Architecture:** 以 `shadcn-docs-nuxt` 为文档底座，重建 `app/` 展示层、`components/content/` 内容组件层和新的 `content/` 目录体系，形成“原文案尽量保留、站点结构重做、live demo 强化”的双层文档架构。组件文档按类型分组，旧路径全部废弃，新增独立的“规范”顶级栏目，并让 live demo 直接跑真实的 `@eams/vue-element-cui` 组件。
+**Architecture:** 以 `shadcn-docs-nuxt` 为文档底座，以 `ijkml/nuxt-umami-docs` 为最高优先级的配置与样式参考，重点收敛 `package.json`、`nuxt.config.ts`、`app.config.ts`、`assets/css`、`tailwind.config.js`。当前阶段不再继续重排 `content/` 目录，只修正文档站底层配置和样式边界，避免在 `i18n` 与 `icon` 模块上走偏，并让 live demo 继续跑真实的 `@eams/vue-element-cui` 组件。
 
 **Tech Stack:** Nuxt 3, shadcn-docs-nuxt, @nuxt/content, Vue 3, TypeScript, Tailwind CSS, vitest, Vue Test Utils, @eams/vue-element-cui, Element Plus
 
 ---
+
+## Strict Constraints for Current Phase
+
+- 参考项目优先级必须固定为：
+  1. `ijkml/nuxt-umami-docs`
+  2. `ZTL-UwU/shadcn-docs-nuxt-starter`
+  3. `ZTL-UwU/shadcn-docs-nuxt`
+  4. `isbrandonw/shadcn-docs-ui-thing`
+- 本阶段必须重点阅读并优先照搬以下文件族：
+  - `nuxt.config.ts`
+  - `app.config.ts`
+  - `assets/css`
+  - `tailwind.config.js`
+- 样式层优先参考 `tailwind.config.js` 与 `assets/css`；不允许再凭主观调整文档主版心，不允许把桌面宽屏页面做成窄小页面。
+- `packages/vue-element-cui-nuxt/content` 当前目录结构视为已确认方案，本阶段禁止继续改动其层级与分组。
+- `nuxt.config.ts` 与 `app.config.ts` 应尽量保持 `nuxt-umami-docs` 那种最小可用复杂度；多余配置应先删减，再按构建错误最小补回。
+- 避免在 `i18n` 模块和 `icon` 模块上折腾兼容写法；图标仅沿用 `shadcn-docs-nuxt` 默认可工作的方式，不单独扩展图标体系。
+- 当前执行范围优先处理配置与样式收敛，页面内容与信息架构改造延后，除非为修复构建或布局回归所必需。
 
 ## File Structure Map
 
 ### 目标目录结构
 
 - `packages/vue-element-cui-nuxt/package.json`
-  负责文档站依赖、脚本、测试脚本和 `shadcn-docs-nuxt` 相关依赖声明。
+  负责文档站依赖、脚本、测试脚本和最小必要的 `shadcn-docs-nuxt` 相关依赖声明。
 - `packages/vue-element-cui-nuxt/nuxt.config.ts`
-  负责从旧 `@nuxt-themes/docus` 切换到 `shadcn-docs-nuxt` 的核心配置。
+  负责以 `nuxt-umami-docs` 为主参考的最小核心配置。
 - `packages/vue-element-cui-nuxt/app.config.ts`
-  负责 `shadcnDocs` 站点级配置，包括导航、首页入口、侧边栏行为、搜索、页脚等。
+  负责 `shadcnDocs` 站点级配置，包括导航、侧边栏行为、搜索、页脚等，要求保持简洁。
 - `packages/vue-element-cui-nuxt/tailwind.config.js`
-  负责文档站主题、字体、颜色与 demo 组件用到的样式扫描范围。
-- `packages/vue-element-cui-nuxt/app.vue`
-  仅保留最小根布局，避免旧壳层残留。
-- `packages/vue-element-cui-nuxt/app/assets/css/tailwind.css`
-  负责 Tailwind 与站点级自定义样式入口。
+  负责文档站主题、颜色、动画与样式扫描范围，优先直接参考 `nuxt-umami-docs` 与 starter。
+- `packages/vue-element-cui-nuxt/assets/css/tailwind.css`
+  负责 Tailwind 与站点级基础样式入口，应优先直接照搬参考项目的稳定实现。
+- `packages/vue-element-cui-nuxt/assets/css/main.css`
+  负责本项目最小必要的 demo 隔离与表格补充样式，不得覆盖文档主版心宽度。
 - `packages/vue-element-cui-nuxt/app/components/demo/`
   存放 live demo 组件，示例由文档站内部手写维护。
 - `packages/vue-element-cui-nuxt/app/components/site/`
@@ -52,7 +70,8 @@
 ### 建议创建或重写的关键文件
 
 - Create: `packages/vue-element-cui-nuxt/tailwind.config.js`
-- Create: `packages/vue-element-cui-nuxt/app/assets/css/tailwind.css`
+- Modify: `packages/vue-element-cui-nuxt/assets/css/tailwind.css`
+- Modify: `packages/vue-element-cui-nuxt/assets/css/main.css`
 - Create: `packages/vue-element-cui-nuxt/app/components/site/HomeCategoryGrid.vue`
 - Create: `packages/vue-element-cui-nuxt/app/components/site/HomeQuickStartLinks.vue`
 - Create: `packages/vue-element-cui-nuxt/app/components/demo/data-display/TableBasicDemo.vue`
@@ -80,82 +99,92 @@
 - Delete or replace: `packages/vue-element-cui-nuxt/components/ComponentCard.vue`
 - Delete or replace: 旧 `content/` 下按旧路径组织的组件页面文件
 
-## Chunk 1: Foundation and Scaffold
+## Chunk 1: Foundation and Style Baseline Reset
 
-### Task 1: 用 `shadcn-docs-nuxt` 重建文档站底座
+### Task 1: 以 `nuxt-umami-docs` 为主参考重置配置与样式底座
 
 **Files:**
 
 - Modify: `packages/vue-element-cui-nuxt/package.json`
 - Modify: `packages/vue-element-cui-nuxt/nuxt.config.ts`
 - Modify: `packages/vue-element-cui-nuxt/app.config.ts`
-- Modify: `packages/vue-element-cui-nuxt/app.vue`
 - Create: `packages/vue-element-cui-nuxt/tailwind.config.js`
-- Create: `packages/vue-element-cui-nuxt/app/assets/css/tailwind.css`
+- Modify: `packages/vue-element-cui-nuxt/assets/css/tailwind.css`
+- Modify: `packages/vue-element-cui-nuxt/assets/css/main.css`
 - Modify: `.gitignore`
 
-- [ ] **Step 1: 重写依赖与脚本声明**
+- [ ] **Step 1: 精简依赖与脚本声明**
 
-将 `packages/vue-element-cui-nuxt/package.json` 从旧 `docus` 方案切换到 `shadcn-docs-nuxt` 主线，并补齐文档站测试脚本。
+将 `packages/vue-element-cui-nuxt/package.json` 收敛到最小必要依赖集合，优先移除 `shadcn-docs-nuxt` 已内置或已间接提供的重复模块声明，并保留文档站测试脚本。
 
 关键结果：
 
-- 移除 `@nuxt-themes/docus`
-- 引入 `shadcn-docs-nuxt`
-- 引入 `@nuxtjs/tailwindcss`、`@nuxtjs/color-mode`、`@nuxt/icon`、`@nuxt/fonts`、`@vueuse/nuxt`
-- 增加 `test` 脚本与测试依赖
+- 保留 `shadcn-docs-nuxt`
+- 保留 `@eams/vue-element-cui`、`element-plus`、`nuxt`、`vue`
+- 删除当前子包中重复声明的 `@nuxt/icon`、`@nuxtjs/i18n`、`@nuxt/image`、`@nuxt/fonts`、`@nuxt/scripts`、`@vueuse/nuxt`、`@ztl-uwu/nuxt-content`、`shadcn-nuxt`、`nuxt-og-image`
+- 保留 `test` 脚本与测试依赖
 
 - [ ] **Step 2: 安装依赖并生成锁文件更新**
 
 Run: `pnpm install --filter @eams/vue-element-cui-nuxt...`
 Expected: `packages/vue-element-cui-nuxt` 依赖安装成功，`pnpm-lock.yaml` 更新
 
-- [ ] **Step 3: 重写 `nuxt.config.ts`**
+- [ ] **Step 3: 以最小复杂度重写 `nuxt.config.ts`**
 
 目标：
 
 - `extends: ['shadcn-docs-nuxt']`
-- 启用内容系统与基础增强模块
-- 配置内容高亮、字体、图标、颜色模式
-- 保留文档站作为独立应用的最小必要配置
+- 仅保留 `nuxt-umami-docs` 级别的最小必要配置骨架
+- 保留 `build.transpile`、必要的 `vite.ssr.noExternal`、`content.highlight`、`icon.clientBundle`
+- 先删除当前的 `i18n`、`nitro.prerender`、`prerender:routes`、路径别名和 shim 配置；只有在构建失败时才最小补回
 
-- [ ] **Step 4: 重写 `app.config.ts` 为 `shadcnDocs` 结构**
+- [ ] **Step 4: 按参考项目简化 `app.config.ts`**
 
 目标：
 
-- 首页定位为组件库入口页
 - 一级导航包含 `快速开始`、`组件`、`规范`、`更新`
 - 侧边栏与 TOC 行为贴近 `shadcn-docs-nuxt`
 - 不做额外品牌营销页扩张
+- 不扩展 `i18n` 和图标模块配置，只沿用 `shadcnDocs` 的常规写法
 
-- [ ] **Step 5: 建立 Tailwind 与样式入口**
+- [ ] **Step 5: 直接参考稳定样式建立 Tailwind 与 CSS 入口**
 
-创建 `packages/vue-element-cui-nuxt/tailwind.config.js` 与 `packages/vue-element-cui-nuxt/app/assets/css/tailwind.css`，使扫描范围覆盖：
+创建 `packages/vue-element-cui-nuxt/tailwind.config.js`，并重写 `packages/vue-element-cui-nuxt/assets/css/tailwind.css` 与 `packages/vue-element-cui-nuxt/assets/css/main.css`。
+
+要求：
+
+- `tailwind.config.js` 直接参考 `nuxt-umami-docs` 与 starter 的 container / colors / borderRadius / animation 配置
+- `assets/css/tailwind.css` 直接以参考项目为底稿，避免自定义破坏宽屏布局
+- `assets/css/main.css` 只保留 demo 隔离和表格类最小补充
+- 扫描范围覆盖：
 
 - `content/**/*`
 - `components/content/**/*`
 - `app/components/**/*`
+- 不新增会压缩主内容宽度的自定义容器规则
 
-- [ ] **Step 6: 简化根组件并补 `.gitignore`**
+- [ ] **Step 6: 补 `.gitignore` 并清理与新基线冲突的残留**
 
 目标：
 
-- `app.vue` 保持最小壳层
 - `.gitignore` 增加 `.superpowers/`
+- 清理已不再被最小配置使用的 shim/脚本残留文件
 
-- [ ] **Step 7: 运行构建冒烟验证**
+- [ ] **Step 7: 运行构建与桌面宽屏冒烟验证**
 
 Run: `pnpm --filter @eams/vue-element-cui-nuxt build`
-Expected: Nuxt 构建通过，不再引用 `@nuxt-themes/docus`
+Expected: Nuxt 构建通过，桌面端不再出现主内容区被做窄的问题
 
 - [ ] **Step 8: 提交基础底座重建**
 
 ```bash
-git add .gitignore packages/vue-element-cui-nuxt/package.json packages/vue-element-cui-nuxt/nuxt.config.ts packages/vue-element-cui-nuxt/app.config.ts packages/vue-element-cui-nuxt/app.vue packages/vue-element-cui-nuxt/tailwind.config.js packages/vue-element-cui-nuxt/app/assets/css/tailwind.css pnpm-lock.yaml
-git commit -m "feat(vue-element-cui-nuxt): rebuild docs foundation with shadcn-docs-nuxt"
+git add .gitignore packages/vue-element-cui-nuxt/package.json packages/vue-element-cui-nuxt/nuxt.config.ts packages/vue-element-cui-nuxt/app.config.ts packages/vue-element-cui-nuxt/tailwind.config.js packages/vue-element-cui-nuxt/assets/css/tailwind.css packages/vue-element-cui-nuxt/assets/css/main.css pnpm-lock.yaml
+git commit -m "feat(vue-element-cui-nuxt): reset docs config and style baseline"
 ```
 
 ## Chunk 2: Demo and Content Component System
+
+> Current phase note: 该 Chunk 仅处理为配置与样式基线验证所必需的 demo / 内容组件问题；不再扩展新的内容结构设计。
 
 ### Task 2: 建立文档站自有 live demo 与内容组件体系
 
@@ -235,6 +264,8 @@ git commit -m "feat(vue-element-cui-nuxt): add docs-owned live demo system"
 ```
 
 ## Chunk 3: Information Architecture and Content Migration
+
+> Current phase note: 该 Chunk 已冻结。`packages/vue-element-cui-nuxt/content` 当前结构已被用户确认，本阶段禁止继续重排目录层级；仅允许做最小内容修补。
 
 ### Task 3: 重排内容目录并迁移“快速开始 / 更新”内容
 
@@ -349,6 +380,8 @@ git commit -m "feat(vue-element-cui-nuxt): reorganize component docs by type"
 ```
 
 ## Chunk 4: Guidelines and Site Experience
+
+> Current phase note: 该 Chunk 已冻结。仅当配置与样式收敛完成后，且用户再次明确要求时，才重新打开。
 
 ### Task 5: 新增独立“规范”顶级栏目
 
@@ -500,7 +533,7 @@ git commit -m "test(vue-element-cui-nuxt): verify rebuilt docs application"
 
 - [ ] 废弃现有全部旧文档路径，不做兼容保留
 - [ ] 废弃当前 `@nuxt-themes/docus` 方案
-- [ ] 允许重排 `packages/vue-element-cui-nuxt/content/` 目录
+- [ ] 当前阶段不再重排 `packages/vue-element-cui-nuxt/content/` 目录
 - [ ] 允许合并旧组件页面为新的体系页
 - [ ] 允许重写 demo 容器与导航辅助组件
 - [ ] 允许新增完整 `app/` 层级并将文档站升级为完整应用结构
@@ -519,6 +552,7 @@ git commit -m "test(vue-element-cui-nuxt): verify rebuilt docs application"
 
 ## Execution Notes
 
+- 当前优先只执行 Chunk 1；Chunk 2 仅做构建与样式验证所需的最小补充；Chunk 3 和 Chunk 4 暂不推进。
 - 优先按 Chunk 顺序执行，避免同时大面积改配置和改内容导致回归难定位。
 - 每个 Chunk 完成后先跑对应验证，再进入下一个 Chunk。
 - 如发现 `@eams/vue-element-cui` 样式接入问题，优先在 Chunk 2 解决，不要把样式问题拖到内容迁移末期。
