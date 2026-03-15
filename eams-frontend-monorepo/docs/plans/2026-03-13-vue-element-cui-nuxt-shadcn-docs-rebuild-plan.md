@@ -1,3 +1,8 @@
+<!--
+  认定基本完成对 shadcn-docs-nuxt 模板的转录与使用 不需要继续跟进了
+  未来在考虑酌情删除
+-->
+
 # Vue Element CUI Nuxt Shadcn Docs Rebuild Implementation Plan
 
 > **For agentic workers:** REQUIRED: Use superpowers:subagent-driven-development (if subagents available) or superpowers:executing-plans to implement this plan. Steps use checkbox (`- [ ]`) syntax for tracking.

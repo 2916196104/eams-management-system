@@ -39,7 +39,7 @@
 
 务必认真遵循 `docs\plans\2026-03-13-vue-element-cui-nuxt-shadcn-docs-rebuild-plan.md` 和 `openspec\changes\rebuild-vue-element-cui-nuxt-shadcn-docs` 内全部的规范。
 
-## 02 阅读参考性质的 tailwind.css 和其他基于 shadcn-docs-nuxt
+## 02 <!-- 个人认定基本完成了对 shadcn-docs-nuxt 框架的转录 --> 阅读参考性质的 tailwind.css 和其他基于 shadcn-docs-nuxt
 
 我注意到你在上一次文档构建任务内，出现了很多卡点，为了避免你绕圈子犯错，我需要你重新按照我给的路径来认真实现基于 `shadcn-docs-nuxt` 模板的组件库文档制作。
 
@@ -87,4 +87,43 @@
 
 我们的 `nuxt.config.ts` 和 `app.config.ts` 应该保持精简，就像 `ijkml/nuxt-umami-docs` 项目一样精简。避免出现复杂化的误区。`ijkml/nuxt-umami-docs` 实现文档做起来很简单，我们也应该要简单的实现文档。现在我们的做法过于复杂了。陷入误区了。
 
-## 03 <!-- TODO: --> 将使用 shadcn-docs-nuxt 制作组件库的知识制作成通用的，可以跨项目服用的技能
+## 03 <!-- 已处理，本质上是dayjs出现的客户端水和错误 --> 处理 `@eams/vue-element-cui-nuxt` 文档出现的问题
+
+1. 使用谷歌浏览器 MCP 运行 dev 命令。
+2. 现在的文档无法完成明暗主题的切换。点击暗黑模式按钮，无法切换成暗黑模式。
+3. 左侧侧边栏的折叠栏，无法实现点击效果。点击无法实现折叠的基础功能。
+4. 认真参考 `D:\code\github-desktop-store\shadcn-docs-nuxt__ZTL-UwU\www` 目录的 `shadcn-docs-nuxt` 框架配置。看看是不是我们那里错配了？
+5. 仔细检查是不是样式部分出现问题了。重点查看：
+   - `packages\vue-element-cui-nuxt\tailwind.config.js`
+   - `packages\vue-element-cui-nuxt\assets\css\tailwind.css`
+
+### 排错结论
+
+- 暗黑模式切换失败、侧边栏折叠点击无效，只是表象。真正的根因不是单纯的 CSS，而是 Nuxt 开发态客户端出现了水和错误（hydration error），导致文档页的交互事件没有正确挂载。
+- 这次最先暴露出来的核心依赖是 `dayjs`。浏览器端实际报错是 `dayjs.min.js does not provide an export named 'default'`，说明当前运行链路错误地吃到了不兼容的入口。
+- 顺着浏览器 console 继续排查，还会继续出现 `@braintree/sanitize-url`、`debug`、`mermaid` 相关的 ESM/CJS 兼容问题。如果不逐个修掉，前端会一直处于半瘫痪状态，看起来像是“主题没生效”“按钮不能点”。
+- 样式并不是唯一根因，但 `tailwind.config.js` 的 `content` 扫描范围如果没有覆盖 `shadcn-docs-nuxt`，会让主题样式更难判断，所以它属于必须补齐的兜底项。
+
+### 解决方案记忆
+
+- 不要修改 `extends: ["shadcn-docs-nuxt"]`。这不是问题根因，错误方向的改动只会继续制造噪音。
+- 要优先在 `packages\vue-element-cui-nuxt\nuxt.config.ts` 里做 Vite 层面的客户端兼容处理，避免 Nuxt 再次出现客户端水和错误。
+- 当前已经验证有效的处理方式如下：
+  - 使用 `createRequire(import.meta.url)` 明确解析依赖入口。
+  - 将 `dayjs` 别名到 `dayjs/esm/index.js`，避免浏览器端再落到错误入口。
+  - 将 `mermaid` 别名到 `mermaid/dist/mermaid.esm.mjs`，强制使用 ESM 入口。
+  - 将 `debug` 别名到本地 `./shims/debug.ts`，规避其浏览器端默认导出兼容问题。
+  - 在 `vite.optimizeDeps.include` 中显式包含 `debug`、`dayjs`、`@braintree/sanitize-url`、`mermaid`。
+  - 在 `vite.resolve.dedupe` 中加入 `dayjs`，避免重复解析造成前后端入口不一致。
+  - 在 `vite.ssr.noExternal` 中加入 `debug`，避免 SSR/客户端走出不同解析结果。
+- 在 `packages\vue-element-cui-nuxt\tailwind.config.js` 中，必须补上 `../../node_modules/shadcn-docs-nuxt/**/*.{vue,js,ts,mjs}` 的扫描路径，避免 shadcn 文档层的暗黑样式类被裁剪。
+
+### Debug 复用步骤
+
+1. 先用 Chrome MCP 打开 dev 页面，不要一上来就只盯着样式。
+2. 第一时间看浏览器 console，确认是否有客户端模块导入错误。
+3. 按错误链逐个修复依赖入口，不要只修第一个 `dayjs` 报错就停下。
+4. 每修完一项都重新刷新并复测暗黑模式按钮、侧边栏折叠按钮。
+5. 只有当 console 不再出现阻断 hydration 的模块错误后，再去判断 Tailwind 或主题样式问题。
+
+## 04 <!-- TODO: --> 将使用 shadcn-docs-nuxt 制作组件库的知识制作成通用的，可以跨项目服用的技能
