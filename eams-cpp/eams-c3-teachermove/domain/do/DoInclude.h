@@ -22,6 +22,7 @@
 
 #include "../../Macros.h"
 #include "BaseDO.h"
+#include "domain/do/class/ClassDO.h"
 #include <string>
 #include <list>
 #include <memory>

@@ -1,0 +1,8 @@
+﻿class:
+    list: 获取班级列表
+    teacher: 老师
+    name: 班级名
+    course: 课程
+    school: 学校
+    org: 组织
+    beOver: 是否完结
