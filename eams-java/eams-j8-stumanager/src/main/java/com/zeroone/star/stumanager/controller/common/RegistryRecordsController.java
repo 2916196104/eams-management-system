@@ -1,7 +1,42 @@
 package com.zeroone.star.stumanager.controller.common;
 
+import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j8.stumanager.PayOverdueDTO;
+import com.zeroone.star.project.dto.j8.stumanager.RefundDTO;
+import com.zeroone.star.project.dto.j8.stumanager.RegistryRecordsDTO;
+import com.zeroone.star.project.j8.stumanager.common.RegistryRecordsApis;
+import com.zeroone.star.project.query.j8.stumanager.RegistryRecordsQuery;
+import com.zeroone.star.project.vo.JsonVO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
+
+
 /**
  * 报名记录
  */
-public class RegistryRecordsController {
+@RestController
+@RequestMapping("/j8/stumanager")
+@Api(tags = "报名记录")
+public class RegistryRecordsController implements RegistryRecordsApis {
+    @GetMapping("/query-all")
+    @ApiOperation("获取报名记录（条件+分页）")
+    @Override
+    public JsonVO<PageDTO<RegistryRecordsDTO>> queryRegistryRecords(RegistryRecordsQuery condition) {
+        return null;
+    }
+
+    @PutMapping("/modify-refund/{id}")
+    @ApiOperation("退费")
+    @Override
+    public JsonVO<String> modifyRefund(@RequestBody RefundDTO dto, @PathVariable Long id) {
+        return null;
+    }
+
+    @PutMapping("/modify-payOverdue/{id}")
+    @ApiOperation("缴纳欠费")
+    @Override
+    public JsonVO<String> modifyPayOverdue(@RequestBody PayOverdueDTO dto, @PathVariable Long id) {
+        return null;
+    }
 }
