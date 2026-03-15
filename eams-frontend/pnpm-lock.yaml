@@ -35,6 +35,9 @@ importers:
       bpmn-js-properties-panel:
         specifier: ^5.23.0
         version: 5.53.0(@bpmn-io/properties-panel@3.40.3)(bpmn-js@18.13.1)(camunda-bpmn-js-behaviors@1.14.1(bpmn-js@18.13.1)(camunda-bpmn-moddle@7.0.1)(zeebe-bpmn-moddle@1.12.0))(diagram-js@15.9.1)
+      countup.js:
+        specifier: ^2.10.0
+        version: 2.10.0
       crypto-js:
         specifier: ^4.2.0
         version: 4.2.0
@@ -1519,6 +1522,9 @@ packages:
 
   core-js@3.48.0:
     resolution: {integrity: sha512-zpEHTy1fjTMZCKLHUZoVeylt9XrzaIN2rbPXEt0k+q7JE5CkCZdo6bNq55bn24a69CH7ErAVLKijxJja4fw+UQ==}
+
+  countup.js@2.10.0:
+    resolution: {integrity: sha512-QQpZx7oYxsR+OeITlZe46fY/OQjV11oBqjY8wgIXzLU2jIz8GzOrbMhqKLysGY8bWI3T1ZNrYkwGzKb4JNgyzg==}
 
   crelt@1.0.6:
     resolution: {integrity: sha512-VQ2MBenTq1fWZUH9DJNGti7kKv6EeAuYr3cLwxUWhIu1baTaXh4Ib5W2CqHVqib4/MqbYGJqiL3Zb8GJZr3l4g==}
@@ -4657,6 +4663,8 @@ snapshots:
   core-js-pure@3.48.0: {}
 
   core-js@3.48.0: {}
+
+  countup.js@2.10.0: {}
 
   crelt@1.0.6: {}
 
