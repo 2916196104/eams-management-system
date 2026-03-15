@@ -35,4 +35,56 @@
 
 要求认真遵循 openspec 这款技能的要求，完成长任务的新建。新建的规格必须要用中文说明清楚。
 
-## 01 <!-- TODO: --> 将使用 shadcn-docs-nuxt 制作组件库的知识制作成通用的，可以跨项目服用的技能
+## 01 <!-- 暂时不考虑继续执行，疑似出现误区 --> 执行 `rebuild-vue-element-cui-nuxt-shadcn-docs` openspec 任务
+
+务必认真遵循 `docs\plans\2026-03-13-vue-element-cui-nuxt-shadcn-docs-rebuild-plan.md` 和 `openspec\changes\rebuild-vue-element-cui-nuxt-shadcn-docs` 内全部的规范。
+
+## 02 阅读参考性质的 tailwind.css 和其他基于 shadcn-docs-nuxt
+
+我注意到你在上一次文档构建任务内，出现了很多卡点，为了避免你绕圈子犯错，我需要你重新按照我给的路径来认真实现基于 `shadcn-docs-nuxt` 模板的组件库文档制作。
+
+### 需要重点阅读，学习，甚至是照搬的核心配置文件
+
+为了避免你出现故障，我需要你重点去阅读以下项目提供的这些文件：
+
+- `nuxt.config.ts`
+- `app.config.ts`
+- `assets/css`
+- `tailwind.config.js`
+
+其中，关于样式我希望你重点去阅读 `tailwind.config.js` 和 `assets/css` 相关的文件。我不希望你在样式上面出现严重的问题。按理说你应该一次性的就完成配置了，直接照抄样式就可以了，基本上不会出错。我不希望你在样式上面，出现弯路。因为你在之前的任务内，就经常把已经做好的样式做坏了。把宽屏页面搞成了窄小屏幕的页面。
+
+### 保持现在的 content 目录内容写法和目录架构
+
+我对目前的 `packages\vue-element-cui-nuxt\content` 目录很满意。你不应该被参考项目带偏，不需要你乱改文档的目录层级。
+
+### 需要阅读的本地项目代码
+
+以下是你需要重点阅读的本地项目，但是你需要按照顺序，根据权重来阅读。按照权重，根据顺序排布的项目列表如下：
+
+1. ijkml/nuxt-umami-docs `D:\code\github-desktop-store\nuxt-umami-docs__ijkml`
+2. ZTL-UwU/shadcn-docs-nuxt-starter `D:\code\github-desktop-store\shadcn-docs-nuxt-starter__ZTL-UwU`
+3. ZTL-UwU/shadcn-docs-nuxt `D:\code\github-desktop-store\shadcn-docs-nuxt__ZTL-UwU`
+4. isbrandonw/shadcn-docs-ui-thing `D:\code\github-desktop-store\shadcn-docs-ui-thing__isbrandonw`
+
+---
+
+1. 项目 `ijkml/nuxt-umami-docs` 是最重要的，最核心的参考项目。这个项目提供了非常合适的配置。你应该要重点学习。
+2. 项目 `shadcn-docs-nuxt-starter` 是最简单的，最基础的文档架构配置。我们的文档项目 `packages\vue-element-cui-nuxt\package.json` ，应该至少全面的包括这个基架的基础项目。
+3. 项目 `shadcn-docs-nuxt` 是框架源码。你不应该模仿太多的写法，避免安装过多的依赖和配置。
+4. 减少对 `shadcn-docs-ui-thing` 项目的阅读，增加对 `nuxt-umami-docs` 项目的阅读比重。
+
+### 避免出现模块兼容的误区
+
+我们的核心目的是为了模仿 `ijkml/nuxt-umami-docs`，在 `shadcn-docs-nuxt` 组件库文档模板框架的基础上，搭建组件库。所以我们不应该在以下地方出现严重的误区：
+
+- i18n 模块
+- icon 模块
+
+重点是 icon 模块。我们不应该去折腾 icon。
+
+### 保持精简
+
+我们的 `nuxt.config.ts` 和 `app.config.ts` 应该保持精简，就像 `ijkml/nuxt-umami-docs` 项目一样精简。避免出现复杂化的误区。`ijkml/nuxt-umami-docs` 实现文档做起来很简单，我们也应该要简单的实现文档。现在我们的做法过于复杂了。陷入误区了。
+
+## 03 <!-- TODO: --> 将使用 shadcn-docs-nuxt 制作组件库的知识制作成通用的，可以跨项目服用的技能
