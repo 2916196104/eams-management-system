@@ -1,7 +1,13 @@
+import { getVueElementCuiAliases } from "./workspace-aliases";
+
 export default defineNuxtConfig({
 	extends: ["shadcn-docs-nuxt"],
 	compatibilityDate: "2025-05-13",
 	devtools: { enabled: true },
+	alias: getVueElementCuiAliases(),
+	experimental: {
+		appManifest: false,
+	},
 
 	build: {
 		// 警告 不需要配置 "shiki" 因为最简单的 `shadcn-docs-nuxt-starter` 项目本身也没有配置 "shiki"
@@ -14,22 +20,11 @@ export default defineNuxtConfig({
 		},
 	},
 
-	i18n: {
-		defaultLocale: "zh-cn",
-		locales: [
-			{
-				code: "zh-cn",
-				name: "简体中文",
-				language: "zh-CN",
-			},
-		],
-	},
-
 	content: {
 		highlight: {
 			theme: {
 				default: "github-light",
-				dark: "github-dark",
+				dark: "houston",
 			},
 			preload: ["vue", "typescript", "javascript", "bash"],
 		},

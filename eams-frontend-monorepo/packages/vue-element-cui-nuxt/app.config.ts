@@ -2,12 +2,11 @@ export default defineAppConfig({
 	shadcnDocs: {
 		site: {
 			name: "Vue Element CUI",
-			description:
-				"企业级 Vue 3 组件库，基于 Element Plus 封装，提供更简洁的 API 和常用功能的快速配置。",
+			description: "企业级 Vue 3 组件库，基于 Element Plus 封装，提供更简洁的 API 和常用功能的快速配置。",
 		},
 		theme: {
 			customizable: true,
-			color: "blue",
+			color: "stone",
 			radius: 0.5,
 		},
 		header: {
@@ -45,8 +44,11 @@ export default defineAppConfig({
 			],
 		},
 		aside: {
-			useLevel: false,
+			useLevel: true,
 			collapse: false,
+			levelStyle: "aside",
+			collapseLevel: 1,
+			folderStyle: "default",
 		},
 		main: {
 			breadCrumb: true,
