@@ -173,6 +173,7 @@
 
 - `packages/vue-element-cui` 在 `vite@8` 下出现过构建事故：`rollupOptions.output.assetFileNames` 直接返回 `assetInfo.name`，当 CSS 资源名缺失时会返回 `undefined`，进而触发 `vite:css-post` 的 `path` 类型错误。处理原则：不降级依赖，不改依赖版本，优先补齐构建配置回退值，例如返回 `assetInfo.name ?? "assets/[name][extname]"`。
 - `packages/vue-element-cui-nuxt` 在 `nuxt dev` 下出现过启动事故：不能假设 workspace 依赖包已经先构建完，也不能假设 `.nuxt` 目录已提前存在。处理原则：为 `dev/build` 增加 `nuxt prepare` 前置，给 `@eams/vue-element-cui` 和 `@eams/vue-element-cui/styles` 配源码别名，并显式关闭当前模板链不稳定的 `experimental.appManifest`。这样做是为了让文档站开发态直接消费源码，避免因缺失 `.nuxt` 产物、缺失组件库 `dist` 样式或 `#app-manifest` 解析失败而再次启动报错。
+- `packages/vue-element-cui-nuxt` 在文档站交互上出现过一次客户端事故：暗黑模式无法切换、侧边栏折叠按钮点击无效，不要先入为主地归因为样式问题。根因是 Nuxt 开发态客户端 hydration 被依赖入口兼容问题打断，首个明确信号是浏览器报错 `dayjs.min.js does not provide an export named 'default'`，后续还会串出 `@braintree/sanitize-url`、`debug`、`mermaid` 的 ESM/CJS 兼容错误。处理原则：保持 `extends: ["shadcn-docs-nuxt"]` 不变，优先在 `packages/vue-element-cui-nuxt/nuxt.config.ts` 的 Vite 层做兼容修正，包括将 `dayjs` 指向 `dayjs/esm/index.js`、将 `mermaid` 指向 `mermaid/dist/mermaid.esm.mjs`、将 `debug` 指向本地 `./shims/debug.ts`，并补齐 `vite.optimizeDeps.include`、`vite.resolve.dedupe = ["dayjs"]`、`vite.ssr.noExternal = ["debug"]`；样式层只做兜底，`tailwind.config.js` 必须覆盖 `shadcn-docs-nuxt` 的内容扫描路径。排错顺序固定为：先用 Chrome MCP 看 console 模块错误，再修依赖入口，最后再看 Tailwind 或主题样式。
 
 # Memorix — Automatic Memory Rules
 
