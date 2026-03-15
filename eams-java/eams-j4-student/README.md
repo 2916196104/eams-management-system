@@ -1,11 +1,11 @@
-# 工程简介
+common模块 -> resource -> config -> bootstrap-dev.properties
+修改以下两个配置
+nacos.namespace=4833404f-4b82-462e-889a-3c508160c6b4->
+                eams-dev(根据你自己nacos来, 暂时使用阿伟学长演示项目中的配置,用到的服务器跟着演示视频配就好)
+nacos.addr=192.168.220.128:8848->
+            自己的ip:port
+同理使用sentinel时也记得修改bootstrap-dev.properties
 
-示例项目用于演示，Nacos注册中心与配置中心,knife4j,mybatis-plus,druid数据源
+nacos中data-source.yaml数据库的数据库名称hzb_ems
 
-# 延伸阅读
-
-参考链接：
-http://www.mybatis.org/mybatis-3/zh/index.html
-https://baomidou.com/
-https://github.com/alibaba/druid
-https://doc.xiaominfo.com/docs/quick-start
+在写具体业务流程时记得修改pom文件连接自己的的数据库
