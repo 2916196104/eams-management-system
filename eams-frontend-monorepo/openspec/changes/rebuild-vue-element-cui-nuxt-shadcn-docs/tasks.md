@@ -1,14 +1,14 @@
 ## 1. 重建文档站底座
 
-- [ ] 1.1 重写 `packages/vue-element-cui-nuxt/package.json`，移除旧文档主题依赖并接入 `shadcn-docs-nuxt` 所需依赖与脚本
-- [ ] 1.2 重写 `packages/vue-element-cui-nuxt/nuxt.config.ts`、`app.config.ts` 和 `app.vue`，建立 `shadcn-docs-nuxt` 底座与首页/导航基础配置
-- [ ] 1.3 建立文档站自有的 `app/`、`components/content/`、样式入口与 Tailwind 扫描配置，并确认 `.superpowers/` 已被 Git 忽略
-- [ ] 1.4 重写 `packages/vue-element-cui-nuxt/plugins/vue-element-cui.ts`，确认真实组件库与样式链路可被文档站正确加载
+- [x] 1.1 重写 `packages/vue-element-cui-nuxt/package.json`，移除旧文档主题依赖并接入 `shadcn-docs-nuxt` 所需依赖与脚本
+- [x] 1.2 重写 `packages/vue-element-cui-nuxt/nuxt.config.ts`、`app.config.ts` 和 `app.vue`，建立 `shadcn-docs-nuxt` 底座与首页/导航基础配置
+- [x] 1.3 建立文档站自有的 `app/`、`components/content/`、样式入口与 Tailwind 扫描配置，并确认 `.superpowers/` 已被 Git 忽略
+- [x] 1.4 重写 `packages/vue-element-cui-nuxt/plugins/vue-element-cui.ts`，确认真实组件库与样式链路可被文档站正确加载
 
 ## 2. 建立首页与导航体验
 
 - [ ] 2.1 实现首页入口组件，使首页优先提供安装、快速开始、组件分类和规范入口
-- [ ] 2.2 配置顶部导航、侧边导航和必要的页脚信息，确保一级栏目固定为“快速开始 / 组件 / 规范 / 更新”
+- [ ] 2.2 配置顶部导航、侧边导航和必要的页脚信息，确保一级栏目固定为"快速开始 / 组件 / 规范 / 更新"
 - [ ] 2.3 验证桌面端与移动端导航均可正常访问文档结构
 
 ## 3. 建立 live demo 与内容组件体系
@@ -20,7 +20,7 @@
 
 ## 4. 重排内容信息架构并迁移文案
 
-- [ ] 4.1 重建 `content/` 顶级目录为“快速开始 / 组件 / 规范 / 更新”结构，并创建新的首页文档
+- [ ] 4.1 重建 `content/` 顶级目录为"快速开始 / 组件 / 规范 / 更新"结构，并创建新的首页文档
 - [ ] 4.2 迁移安装、快速开始、迁移指南、排障和更新内容，尽量保留原有 markdown 文案
 - [ ] 4.3 按组件类型重组组件文档，并将可合并的旧页面重编排为新的体系页
 - [ ] 4.4 清理旧文档路径和旧内容入口，确保导航与正式入口中不再暴露旧结构
