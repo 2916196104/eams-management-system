@@ -42,6 +42,7 @@ public interface ConsoleApis {
      * @return 课程报名列表
      */
     JsonVO<List<CourseEnrollmentVO>> getCourseEnrollments();
+<<<<<<< HEAD
     
     // ==================== 我的课表模块 ====================
     
@@ -116,4 +117,6 @@ public interface ConsoleApis {
      * @return 操作结果
      */
     JsonVO<Void> removeMyCustomer(Long id);
+=======
+>>>>>>> 0f876b11 (控制台功能)
 }
