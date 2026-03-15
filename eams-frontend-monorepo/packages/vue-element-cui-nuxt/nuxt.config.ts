@@ -1,41 +1,48 @@
 export default defineNuxtConfig({
-  extends: ['@nuxt-themes/docus'],
+	extends: ["shadcn-docs-nuxt"],
+	compatibilityDate: "2025-05-13",
+	devtools: { enabled: true },
 
-  modules: ['@nuxt/content'],
+	build: {
+		// 警告 不需要配置 "shiki" 因为最简单的 `shadcn-docs-nuxt-starter` 项目本身也没有配置 "shiki"
+		transpile: ["ohash"],
+	},
 
-  vite: {
-    optimizeDeps: {
-      include: ['@eams/vue-element-cui']
-    },
-    css: {
-      preprocessorMaxWorkers: true,
-      postcss: {
-        plugins: []
-      }
-    },
-    build: {
-      cssCodeSplit: true
-    }
-  },
+	vite: {
+		ssr: {
+			noExternal: ["debug"],
+		},
+	},
 
-  content: {
-    highlight: {
-      theme: {
-        default: 'github-light',
-        dark: 'github-dark'
-      },
-      preload: ['vue', 'typescript', 'javascript', 'bash']
-    }
-  },
+	i18n: {
+		defaultLocale: "zh-cn",
+		locales: [
+			{
+				code: "zh-cn",
+				name: "简体中文",
+				language: "zh-CN",
+			},
+		],
+	},
 
-  components: [
-    {
-      path: '~/components',
-      pathPrefix: false
-    }
-  ],
+	content: {
+		highlight: {
+			theme: {
+				default: "github-light",
+				dark: "github-dark",
+			},
+			preload: ["vue", "typescript", "javascript", "bash"],
+		},
+	},
 
-  compatibilityDate: '2024-11-01',
+	ogImage: {
+		enabled: false,
+	},
 
-  devtools: { enabled: true }
-})
+	icon: {
+		clientBundle: {
+			scan: true,
+			sizeLimitKb: 512,
+		},
+	},
+});
