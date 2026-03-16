@@ -9,6 +9,7 @@ import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -30,7 +31,7 @@ public class ChangeSubjectStateController implements CourseApi {
     @Override
     @PutMapping
     @ApiOperation(value = "启/禁用课程")
-    public JsonVO<Void> updateStatus(@RequestBody CourseStatusDTO stateDTO) {
+    public JsonVO<Void> updateStatus(@Validated @RequestBody CourseStatusDTO stateDTO) {
         // 防止前端传个空的过来
         if (stateDTO == null || CollUtil.isEmpty(stateDTO.getIds())) {
             return JsonVO.fail("请选择要操作的课程");
