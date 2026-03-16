@@ -1,5 +1,6 @@
-﻿class:
+class:
     list: 获取班级列表
+    studentList: 班级学员列表
     teacher: 老师
     name: 班级名
     course: 课程
@@ -7,3 +8,6 @@
     org: 组织
     beOver: 是否完结
     detail: 班级详情
+classStudent:
+    classId: 班级ID
+    studentName: 学员姓名
