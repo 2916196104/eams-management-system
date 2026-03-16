@@ -7,7 +7,7 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * ?? DTO?? class ??????
+ * 班级 DTO（与 class 表字段对应）
  */
 class ClassDTO : public oatpp::DTO
 {
@@ -37,7 +37,7 @@ class ClassDTO : public oatpp::DTO
 };
 
 /**
- * ???? DTO
+ * 班级分页 DTO
  */
 class ClassPageDTO : public PageDTO<ClassDTO::Wrapper>
 {

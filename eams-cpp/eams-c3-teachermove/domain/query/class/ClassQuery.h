@@ -5,38 +5,38 @@
 #include"domain/query/PageQuery.h"
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/* °à¼¶²éÑ¯²ÎÊý */
+/* ç­çº§æŸ¥è¯¢å‚æ•° */
 
 class ClassQuery : public PageQuery
 {
 	DTO_INIT(ClassQuery, PageQuery);
 
-	// °à¼¶¸ºÔðÈË/ÀÏÊ¦ID
+	// ç­çº§è´Ÿè´£äºº/è€å¸ˆID
 	DTO_FIELD(String, teacher_id);
 	DTO_FIELD_INFO(teacher_id) {
 		info->description = ZH_WORDS_GETTER("class.teacher");
 	}
-	// °à¼¶Ãû£¨Ä£ºý£©
+	// ç­çº§åï¼ˆæ¨¡ç³Šï¼‰
 	DTO_FIELD(String, name);
 	DTO_FIELD_INFO(name) {
 		info->description = ZH_WORDS_GETTER("class.name");
 	}
-	// ¿Î³ÌID
+	// è¯¾ç¨‹ID
 	DTO_FIELD(String, course_id);
 	DTO_FIELD_INFO(course_id) {
 		info->description = ZH_WORDS_GETTER("class.course");
 	}
-	// Ñ§Ð£ID
+	// å­¦æ ¡ID
 	DTO_FIELD(String, school_id);
 	DTO_FIELD_INFO(school_id) {
 		info->description = ZH_WORDS_GETTER("class.school");
 	}
-	// ×éÖ¯ID
+	// ç»„ç»‡ID
 	DTO_FIELD(String, org_id);
 	DTO_FIELD_INFO(org_id) {
 		info->description = ZH_WORDS_GETTER("class.org");
 	}
-	// ÊÇ·ñÍê½á£º0 Î´Íê½á£¬1 ÒÑÍê½á
+	// æ˜¯å¦å®Œç»“ï¼š0 æœªå®Œç»“ï¼Œ1 å·²å®Œç»“
 	DTO_FIELD(String, be_over);
 	DTO_FIELD_INFO(be_over) {
 		info->description = ZH_WORDS_GETTER("class.beOver");

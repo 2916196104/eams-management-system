@@ -5,7 +5,7 @@
 #include"domain/dto/class/ClassDTO.h"
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/* ?????? */
+/* 班级视图对象 */
 
 
 class ClassVO : public JsonVO<ClassDTO::Wrapper>
