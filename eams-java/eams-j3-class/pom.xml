@@ -8,7 +8,7 @@
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>eams-sample</artifactId>
+    <artifactId>eams-j3-class</artifactId>
     <dependencies>
         <!-- spring web mvc -->
         <dependency>
@@ -92,7 +92,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.zeroone.star.sample.SampleApplication</mainClass>
+                    <mainClass>com.zeroone.star.sample.EamsJ3ClassApplication</mainClass>
                 </configuration>
             </plugin>
             <plugin>
