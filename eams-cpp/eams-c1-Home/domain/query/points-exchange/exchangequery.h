@@ -26,9 +26,14 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * ÂÆö‰πâÊü•ËØ¢Á±ª
+ * ∂®“Â≤È—Ø¿‡
  */
-
+// µ±«∞”√ªß“—∂“ªª…Ã∆∑
+class AcceptGoodsQuery : public PageQuery
+{
+	DTO_INIT(AcceptGoodsQuery, PageQuery);
+	API_DTO_FIELD_REQUIRE(Int64, studentId, ZH_WORDS_GETTER("goods.student_id"), true);
+};
 
 #include OATPP_CODEGEN_END(DTO)
 
