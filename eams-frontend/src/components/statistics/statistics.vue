@@ -1,5 +1,5 @@
 <template>
-  <el-card class="statistics">
+  <el-card class="statistics" :style="{ '--hover-color': hoverColor }">
     <div class="wrapper">
       <!-- 左侧图标 -->
       <div class="icon">
@@ -15,10 +15,60 @@
     </div>
   </el-card>
 </template>
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import peopleIcon from './people.svg'
+import { CountUp } from 'countup.js'
+const countRef = ref(null)
+const { targetText, targetNumber } = defineProps({
+  targetText: {
+    type: String,
+    default: '学员数'
+  },
+  // 目标数字
+  targetNumber: {
+    type: Number,
+    default: 1000
+  },
+  // 图标颜色(未启用)
+  color: {
+    type: String,
+    default: 'black'
+  },
+  // 鼠标悬停时图标颜色
+  hoverColor: {
+    type: String,
+    default: 'red'
+  }
+})
+onMounted(() => {
+  // 提取目标数字为变量，避免硬编码
+  if (countRef.value) {
+    // 判断是否需要千分位
+    const useGrouping = targetNumber >= 1000
+    // 创建数字滚动实例
+    const countUp = new CountUp(countRef.value, targetNumber, {
+      startVal: 0, // 起始值
+      duration: 2, // 持续时间（秒）
+      separator: ',', // 千分位分隔符
+      useEasing: true,
+      decimalPlaces: 0, // 明确指定小数位数（整数设为0）
+      useGrouping: useGrouping // 是否使用千分位分隔符
+    })
+    // 启动动画
+    if (!countUp.error) {
+      countUp.start()
+    } else {
+      console.error('数字滚动初始化失败:', countUp.error)
+    }
+  }
+})
+</script>
 <style scoped>
 .statistics {
   height: 108px;
   cursor: pointer;
+  container-type: inline-size; /* 创建容器 */
 }
 .statistics :deep(.el-card__body) {
   padding: 0px;
@@ -28,6 +78,7 @@
   align-items: center;
   justify-content: space-between;
   height: 100%;
+  transition: background-color 0.3s ease;
 }
 .statistics .icon {
   font-size: 48px;
@@ -39,7 +90,7 @@
   border-radius: 8px;
 }
 .statistics:hover .icon {
-  background-color: black;
+  background-color: var(--hover-color);
 }
 .statistics .svg {
   width: 1em;
@@ -65,35 +116,20 @@
   font-weight: 700;
   line-height: 1;
 }
-</style>
-
-<script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import peopleIcon from './people.svg'
-import { CountUp } from 'countup.js'
-const countRef = ref()
-const targetText = ref('学员数') // 目标文本
-const targetNumber = 12333 // 目标数字
-onMounted(() => {
-  // 提取目标数字为变量，避免硬编码
-  if (countRef.value) {
-    // 创建数字滚动实例
-    const countUp = new CountUp(countRef.value, targetNumber, {
-      startVal: 0, // 起始值
-      duration: 2, // 持续时间（秒）
-      separator: '', // 去掉千分位分隔符（根据需求调整）
-      useEasing: true,
-      decimalPlaces: 0, // 明确指定小数位数（整数设为0）
-      useGrouping: false // 关闭分组（千分位），和 separator 配合使用
-    })
-    // 启动动画
-    if (!countUp.error) {
-      countUp.start()
-    } else {
-      console.error('数字滚动初始化失败:', countUp.error)
-      // 降级显示目标数字，而非固定0
-      countRef.value.textContent = targetNumber.toString()
-    }
+/* 容器查询：当卡片小于一定宽度时 */
+@container (max-width: 245px) {
+  .statistics .text-container {
+    display: none;
   }
-})
-</script>
+  .statistics .wrapper {
+    justify-content: center;
+  }
+  .statistics .wrapper:hover {
+    background-color: var(--hover-color);
+  }
+  /* 覆盖原来的 hover 效果 */
+  .statistics:hover .icon {
+    background-color: transparent;
+  }
+}
+</style>
