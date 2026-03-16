@@ -1,8 +1,8 @@
 server:
-  port: ${sp.sample}
+  port: ${sp.data}
 spring:
   application:
-    name: ${sn.sample}
+    name: ${sn.data}
 seata:
   tx-service-group: tx-business
   enabled: true

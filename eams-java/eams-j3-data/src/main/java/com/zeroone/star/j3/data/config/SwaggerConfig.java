@@ -1,4 +1,4 @@
-package com.zeroone.star.sample.config;
+package com.zeroone.star.j3.data.config;
 
 import com.zeroone.star.project.config.swagger.SwaggerCore;
 import org.springframework.context.annotation.Bean;
@@ -10,16 +10,14 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
  * <p>
  * 描述：Swagger配置类
  * </p>
- * <p>版权：&copy;01星球</p>
- * <p>地址：01星球总部</p>
- * @author 阿伟学长
+ * @author yeyue
  * @version 1.0.0
  */
 @Configuration
 @EnableSwagger2WebMvc
 public class SwaggerConfig {
     @Bean
-    Docket sampleApi() {
-        return SwaggerCore.defaultDocketBuilder("示例模块", "com.zeroone.star.sample.controller", "sample");
+    Docket dataApi() {
+        return SwaggerCore.defaultDocketBuilder("数据模块", "com.zeroone.star.j3.data.controller", "data");
     }
 }

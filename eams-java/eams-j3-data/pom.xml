@@ -80,7 +80,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.zeroone.star.sample.SampleApplication</mainClass>
+                    <mainClass>com.zeroone.star.j3.data.SampleApplication</mainClass>
                 </configuration>
             </plugin>
             <plugin>

@@ -1,4 +1,4 @@
-package com.zeroone.star.sample;
+package com.zeroone.star.j3.data;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,18 +9,16 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * <p>
  * 描述：程序启动入口
  * </p>
- * <p>版权：&copy;01星球</p>
- * <p>地址：01星球总部</p>
- * @author 阿伟学长
+ * @author yeyue
  * @version 1.0.0
  */
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
-public class SampleApplication {
+public class DataApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SampleApplication.class, args);
+        SpringApplication.run(DataApplication.class, args);
     }
 
 }
