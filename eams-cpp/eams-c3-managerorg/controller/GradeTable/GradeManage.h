@@ -13,7 +13,7 @@
 #define API_TAG ZH_WORDS_GETTER("Grade.tags.t1")
 /*成绩管理控制器*/
 
-namespace web = oatpp::web;
+//namespace web = oatpp::web;
 class GradeManage : public oatpp::web::server::api::ApiController
 {
 	//定义控制器访问入口

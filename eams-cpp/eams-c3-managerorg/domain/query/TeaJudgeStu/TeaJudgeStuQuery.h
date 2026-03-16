@@ -1,7 +1,7 @@
 #ifndef __TeaJudgeStuQuery_h__
 #define __TeaJudgeStuQuery_h__
 
-#include "../GlobalInclude.h"
+#include "domain/GlobalInclude.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 

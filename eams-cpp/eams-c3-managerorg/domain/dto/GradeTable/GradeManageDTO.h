@@ -1,7 +1,7 @@
 #ifndef __GRADE_MANAGE_DTO_H__
 #define __GRADE_MANAGE_DTO_H__
 
-#include "../../GlobalInclude.h"
+#include "domain\GlobalInclude.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 

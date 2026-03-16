@@ -2,8 +2,8 @@
 #ifndef _GRADEMANAGEVO_H_
 #define _GRADEMANAGEVO_H_
 
-#include "../../GlobalInclude.h"
-#include "../../dto/GradeTable/GradeManageDTO.h"
+#include "domain/GlobalInclude.h"
+#include "domain/dto/GradeTable/GradeManageDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
