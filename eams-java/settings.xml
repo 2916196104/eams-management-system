@@ -173,10 +173,10 @@ under the License.
 	</mirror>
 	 -->
 	<mirror>
-     <id>mirror</id>
-     <mirrorOf>central,jcenter,!2383166-snapshot-6TSW5l</mirrorOf>
-     <name>mirror</name>
-     <url>https://maven.aliyun.com/nexus/content/groups/public</url>
+     <id>aliyunmaven</id>
+     <mirrorOf>central</mirrorOf>
+     <name>阿里云公共仓库</name>
+     <url>https://maven.aliyun.com/repository/public</url>
     </mirror>
   </mirrors>
 
