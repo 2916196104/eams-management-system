@@ -2,24 +2,77 @@
   <el-card class="statistics">
     <div class="wrapper">
       <!-- 左侧图标 -->
-      <el-icon class="icon">
-        <img :src="People" class="svg" />
-      </el-icon>
+      <div class="icon">
+        <img :src="peopleIcon" class="svg" />
+      </div>
       <!-- 右侧文字 -->
       <div class="text-container">
         <!-- 主文字 -->
-        <div class="main">学员数</div>
+        <div class="main">{{ targetText }}</div>
         <!-- 副文字 -->
         <div class="sub" ref="countRef">0</div>
       </div>
     </div>
   </el-card>
 </template>
+<style scoped>
+.statistics {
+  height: 108px;
+  cursor: pointer;
+}
+.statistics :deep(.el-card__body) {
+  padding: 0px;
+}
+.statistics .wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+.statistics .icon {
+  font-size: 48px;
+  margin: 14px;
+  padding: 16px;
+  line-height: 1;
+  /* 过渡动画：hover变色更丝滑，避免生硬切换 */
+  transition: background-color 0.3s ease;
+  border-radius: 8px;
+}
+.statistics:hover .icon {
+  background-color: black;
+}
+.statistics .svg {
+  width: 1em;
+  height: 1em;
+}
+.statistics .text-container {
+  display: flex;
+  flex-direction: column;
+  margin: 26px;
+  margin-left: 0;
+  line-height: 1; /* 重置文字默认行高 */
+}
+.statistics .text-container .main {
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  line-height: 1;
+}
+.statistics .text-container .sub {
+  color: #666;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+}
+</style>
+
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import People from './people.svg'
+import peopleIcon from './people.svg'
 import { CountUp } from 'countup.js'
 const countRef = ref()
+const targetText = ref('学员数') // 目标文本
 const targetNumber = 12333 // 目标数字
 onMounted(() => {
   // 提取目标数字为变量，避免硬编码
@@ -44,37 +97,3 @@ onMounted(() => {
   }
 })
 </script>
-<style scoped>
-.statistics {
-  height: 108px;
-  cursor: pointer;
-}
-.statistics .wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 100%;
-}
-.statistics .icon {
-  padding: 16px;
-}
-.statistics .svg {
-  width: 1em;
-  height: 1em;
-  font-size: 48px;
-}
-.statistics .text-container {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.statistics .text-container .main {
-  color: rgba(0, 0, 0, 0.45);
-  font-size: 16px;
-  font-weight: 700;
-}
-.statistics .text-container .sub {
-  font-size: 20px;
-  font-weight: 700;
-}
-</style>
