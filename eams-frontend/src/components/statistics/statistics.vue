@@ -1,3 +1,4 @@
+<!-- 统计组件(控制版) -->
 <template>
   <el-card class="statistics" :style="{ '--hover-color': hoverColor }">
     <div class="wrapper">
