@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.zeroone.star</groupId>
@@ -131,7 +131,7 @@
                     <!-- 数据库连接信息配置 -->
                     <dbConfig>
                         <!-- 数据库主机地址 -->
-                        <host>192.168.220.128</host>
+                        <host>192.168.43.113</host>
                         <!-- 数据库端口 -->
                         <port>3306</port>
                         <!-- 数据库名称 -->
