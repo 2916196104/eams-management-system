@@ -39,6 +39,7 @@
         <module>eams-doc</module>
         <module>eams-sample</module>
         <module>eams-sample-captcha</module>
+        <module>eams-j2-sys</module>
     </modules>
     <properties>
         <!-- 项目版本号 -->
