@@ -21,14 +21,40 @@
 #define _CLASSVO_H_
 
 #include "../../GlobalInclude.h"
-
+#include "../../dto/class/classDTO.h"
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * 定义显示对象
+ * 班级列表显示对象
  */
+class classListJsonVO : public JsonVO<ClassListDTO::Wrapper>
+{
+	DTO_INIT(classListJsonVO, JsonVO<ClassListDTO::Wrapper>);
+};
 
+/*
+* 班级分页显示对象
+*/
+class classPageJsonVO : public JsonVO<ClassPageDTO::Wrapper>
+{
+	DTO_INIT(classPageJsonVO, JsonVO<ClassPageDTO::Wrapper>);
+};
 
+/*
+* 班级详情显示对象
+*/
+class classInfoJsonVO : public JsonVO<ClassInfoDTO::Wrapper>
+{
+	DTO_INIT(classInfoJsonVO, JsonVO<ClassInfoDTO::Wrapper>);
+};
+
+/*
+* 学生列表显示对象
+*/
+class studentListJsonVO : public JsonVO<StudentListDTO::Wrapper>
+{
+	DTO_INIT(studentListJsonVO, JsonVO<StudentListDTO::Wrapper>);
+};
 #include OATPP_CODEGEN_END(DTO)
 
 #endif // !_CLASSVO_H_
