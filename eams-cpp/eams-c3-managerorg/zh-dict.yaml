@@ -1,0 +1,7 @@
+Homework:
+  GetHomeworkList:
+    summary:获取作业列表（条件+分页）
+  GetHomeworkDetail:
+    summary:获取作业详情
+  SaveHomework:
+    summary:保存作业
