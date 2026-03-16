@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class EamsJ3SuppliesApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(EamsJ3SuppliesApplication.class, args);
     }
 
