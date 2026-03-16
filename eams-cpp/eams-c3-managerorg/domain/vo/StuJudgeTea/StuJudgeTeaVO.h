@@ -1,7 +1,7 @@
 #ifndef __STUJUDGETEA_VO_H__
 #define __STUJUDGETEA_VO_H__
 
-#include "../GlobalInclude.h"
+#include "domain/GlobalInclude.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 

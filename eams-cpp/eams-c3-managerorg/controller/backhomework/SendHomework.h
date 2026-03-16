@@ -7,6 +7,7 @@
 
 #include "domain/GlobalInclude.h"
 #include "oatpp/web/server/api/ApiController.hpp"
+#include "domain/GlobalInclude.h"
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
 
