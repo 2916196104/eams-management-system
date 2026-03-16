@@ -1,0 +1,14 @@
+timetable:
+  reserve: "课程预约"
+  tag: "课程预约管理"
+  leave: "课程请假"
+
+  classname: "班级名称"
+  coursename: "课程名称"
+  teachername: "教师名称"
+  starttime: "开始时间"
+  endtime: "结束时间"
+  status: "课程状态"
+  canreserve: "是否可预约"
+  canleave: "是否可请假"
+  querydate: "查询日期"
