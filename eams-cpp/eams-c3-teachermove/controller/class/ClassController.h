@@ -3,6 +3,7 @@
 
 #ifndef _CLASSCONTROLLER_H_
 #define _CLASSCONTROLLER_H_
+#include "domain/GlobalInclude.h"
 #include "oatpp/web/server/api/ApiController.hpp"
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
