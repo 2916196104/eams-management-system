@@ -3,6 +3,7 @@
   sign_time: 签到时间    
   sign_type: 签到方式      
   sign_state: 签到状态   
+  count: 实扣课次
   id: Id（是每一条信息的id，不是学生id）
   flag: 课表              
   response:

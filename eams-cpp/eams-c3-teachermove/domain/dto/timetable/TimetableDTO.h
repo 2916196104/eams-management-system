@@ -22,7 +22,10 @@ class SetStudyStatusDTO : public oatpp::DTO {
 	DTO_FIELD_INFO(id) {
 		info->description = ZH_WORDS_GETTER("set_status.id");
 	}
-
+	DTO_FIELD(Int32, count);
+	DTO_FIELD_INFO(count) {
+		info->description = ZH_WORDS_GETTER("set_status.count");
+	}
 	DTO_FIELD(Int8, type);
 	DTO_FIELD_INFO(type) {
 		info->description = ZH_WORDS_GETTER("set_status.sign_type");
