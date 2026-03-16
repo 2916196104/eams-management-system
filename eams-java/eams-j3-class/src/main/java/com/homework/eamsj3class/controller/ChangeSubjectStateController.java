@@ -1,11 +1,13 @@
 package com.homework.eamsj3class.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import com.alibaba.excel.EasyExcel;
 import com.zeroone.star.project.dto.j3.course.CourseExportDTO;
 import com.zeroone.star.project.dto.j3.course.CourseStatusDTO;
 import com.zeroone.star.project.j3.course.CourseApi;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,10 +32,14 @@ public class ChangeSubjectStateController implements CourseApi {
     @ApiOperation(value = "启/禁用课程")
     public JsonVO<Void> updateStatus(@RequestBody CourseStatusDTO stateDTO) {
         // 防止前端传个空的过来
-        if (stateDTO == null || stateDTO.getIds() == null || stateDTO.getIds().isEmpty()) {
+        if (stateDTO == null || CollUtil.isEmpty(stateDTO.getIds())) {
             return JsonVO.fail("请选择要操作的课程");
         }
-
+        // 校验状态值是否合法（假设只允许 0 和 1）
+        Integer status = stateDTO.getStatus();
+        if (status == null || (status != 0 && status != 1)) {
+            return JsonVO.fail("非法状态值");
+        }
         // 2. 这里的逻辑交给 Service 处理
 //         boolean success = courseService.updateCourseStatus(stateDTO.getIds(), stateDTO.getStatus());
 

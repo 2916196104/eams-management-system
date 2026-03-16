@@ -7,8 +7,8 @@ import java.util.List;
 
 @Data
 public class CourseStatusDTO {
-    @ApiModelProperty(value = "需要修改的课程的id", required = true)
+    @ApiModelProperty(value = "课程ID列表", example = "[1, 2, 3]", required = true)
     private List<Long> ids;
-    @ApiModelProperty(value = "需要修改的目标状态", required = true, example = "1")
-    private Integer status; // 目标状态
+    @ApiModelProperty(value = "目标状态 (1:启用, 0:禁用)", example = "1", required = true)
+    private Integer status;
 }
