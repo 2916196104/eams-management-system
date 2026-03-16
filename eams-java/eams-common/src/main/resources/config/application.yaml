@@ -20,8 +20,6 @@ zo:
         user-password: 123456
 
 spring:
-  application:
-    name: eams-finance
   # 全局jackson配置
   jackson:
     default-property-inclusion: non_null
