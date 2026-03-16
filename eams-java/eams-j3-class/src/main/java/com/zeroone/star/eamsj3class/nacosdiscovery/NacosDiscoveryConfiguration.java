@@ -14,17 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.homework.eamsj3class.demos.nacosdiscoveryprovider;
+package com.zeroone.star.eamsj3class.nacosdiscovery;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.context.annotation.Configuration;
 
-@RestController
-public class EchoServiceController {
-
-    @GetMapping("/echo/{message}")
-    public String echo(@PathVariable String message) {
-        return "[ECHO] : " + message;
-    }
+/**
+ * @author <a href="mailto:chenxilzx1@gmail.com">theonefx</a>
+ */
+@EnableDiscoveryClient
+@Configuration
+public class NacosDiscoveryConfiguration {
 }
