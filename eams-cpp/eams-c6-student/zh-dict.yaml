@@ -1,0 +1,30 @@
+﻿sample:
+ tags:
+  t1: 基础示例接口
+  t2: 声明式服务示例接口
+ get:
+  summary: 分页查询示例数据
+ post:
+  summary: 新增一条示例数据
+ put:
+  summary: 修改一条示例数据
+ delete:
+  summary: 删除数据支持批量
+ query-by-id:
+  summary: 通过ID获取单条数据
+ export:
+  summary: 导出示例数据(响应Excel文件)
+ export-pdf:
+  summary: 导出示例数据(响应PdfBase64字符串)
+ import:
+  summary: 导入示例数据
+ query-one:
+  summary: 使用声明式服务查询一条数据
+ query-all:
+  summary: 使用声明式服务查询多条数据
+ field:
+  id: 编号
+  age: 年龄
+  name: 姓名
+  sex: 性别
+  excel: 导入报表文件
