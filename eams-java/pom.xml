@@ -37,6 +37,9 @@
         <module>eams-gateway</module>
         <module>eams-login</module>
         <module>eams-doc</module>
+        <module>eams-j3-class</module>
+        <module>eams-j3-supplies</module>
+        <module>eams-j3-system</module>
     </modules>
     <properties>
         <!-- 项目版本号 -->

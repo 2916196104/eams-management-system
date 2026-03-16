@@ -1,4 +1,4 @@
-package com.homework.eamsj3class;
+package com.zeroone.eamsj3class;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
