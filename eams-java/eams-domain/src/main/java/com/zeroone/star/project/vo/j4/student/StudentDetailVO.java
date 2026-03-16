@@ -4,16 +4,15 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-//StudentDetailVO：详情页使用，包含报名记录、积分、历史记录。
 @Data
-@ApiModel(description = "学员详情响应对象")
+@ApiModel(description = "学员课次详情VO")
 public class StudentDetailVO {
-
-    @ApiModelProperty(value = "学员ID", example = "1001")
+    @ApiModelProperty("学员ID")
     private String studentId;
-
-    @ApiModelProperty(value = "学员姓名", example = "测试学员")
+    @ApiModelProperty("学员姓名")
     private String studentName;
-
-    // 其他字段...
+    @ApiModelProperty("课程总次数")
+    private Integer courseTimes;
+    @ApiModelProperty("剩余课程次数")
+    private Integer remainingTimes;
 }
