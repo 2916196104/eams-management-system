@@ -11,7 +11,7 @@ import java.util.List;
 * 描述：新增or修改排课计划参数对象
 * */
 @Data
-public class scheduleSaveDTO {
+public class ScheduleSaveDTO {
     @ApiModelProperty(value = "排课计划id 新增不传，修改必须传", example = "1")
     private Long id;
 
