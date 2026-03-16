@@ -18,5 +18,22 @@
 */
 #include "stdafx.h"
 #include "exchangecontroller.h"
-//瀹炵幇鎺ュ彛鎵ц鍑芥暟
+//实现接口执行函数
 
+
+GoodsPageJsonVO::Wrapper exchangeController::executeQueryAll(const PageQuery::Wrapper& query)
+{
+	return {};
+}
+
+
+AcceptGoodsPageJsonVO::Wrapper exchangeController::executeQueryAcceptGoods(const AcceptGoodsQuery::Wrapper& acceptGoods)
+{
+	return {};
+}
+
+
+SettingJsonVO::Wrapper exchangeController::executeQueryRule(const UInt64& id)
+{
+	return {};
+}

@@ -1,0 +1,49 @@
+exchange:
+  tag: 积分兑换
+  query-allGoods:
+    summary: 查询所有商品
+  query-rule:
+    summary: 查询兑换规则
+  query-accept:
+    summary: 查询已兑换商品
+  field:
+    id: 主键
+    school_id: 所属学校
+    material_id: 物料分类
+    category_id: 礼品分类id
+    category_name: 分类名称
+    name: 礼品名称
+    credit: 兑换所用积分
+    state: 是否可以兑换
+    sale_num: 历史兑换数量
+    view_num: 预览次数
+    content: 详情内容
+    creator: 创建人
+    editor: 编辑人
+    add_time: 添加时间
+    edit_time: 编辑时间
+    deleted: 删除标记
+    org_id: 创建者所属组织id
+    cover: 路径
+    school_name: 学校名称
+    storage: 库存数量
+    credit_mall_id: 礼品对应的积分商城id
+    student_id: 学生id
+    user_id: 用户id
+    num: 兑换数量
+    verify_state: 审核状态
+    verify_time: 审核时间
+    verify_staff: 审核人
+    verify_remark: 审核备注
+    student_name: 学生姓名
+    mobile: 手机号
+    verify_staff_name: 审核人姓名
+  setting:
+    id: 主键
+    setting_id: 组id
+    name: 名称
+    code: 码
+    value: 值
+    value_type: 值数据类型
+    info: 说明
+    sort_num: 排序
