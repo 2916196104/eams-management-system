@@ -19,21 +19,21 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/j4/student")
 @Api(tags = "学员管理")
 public class StudentController implements StudentApis {
-    @GetMapping
+    @GetMapping("/queryOmyLessonCount")
     @ApiOperation("获取消课记录（条件+分页）")
     @Override
     public JsonVO<PageDTO<LessonCountDTO>> queryOmyLessonCount(@RequestParam(value = "name",required = true) String StudentID) {
         return null;
     }
 
-    @GetMapping
+    @GetMapping("/queryCreditLog")
     @ApiOperation("获取积分记录（条件+分页）")
     @Override
     public JsonVO<PageDTO<CreditLogDTO>> queryCreditLog(@RequestBody CreditSelectQuery creditSelectQuery) {
         return null;
     }
 
-    @GetMapping
+    @PostMapping("/saveCreditLog")
     @ApiOperation("调整积分")
     @Override
     public JsonVO<Long> saveCreditLog(@RequestBody ChangeCreditDTO changeCreditDTO) {
