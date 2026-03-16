@@ -1,13 +1,17 @@
 package com.zeroone.star.student.controller;
 
 import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j4.student.ClassDTO;
+import com.zeroone.star.project.dto.j4.student.ClassStudentDTO;
 import com.zeroone.star.project.dto.j4.student.FollowUpDTO;
 import com.zeroone.star.project.j4.student.StudentApis;
+import com.zeroone.star.project.query.j4.student.ClassQuery;
 import com.zeroone.star.project.query.j4.student.FollowUpQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,6 +55,34 @@ public class StudentController implements StudentApis {
     @Override
     public JsonVO<FollowUpDTO> getFollowUpDetail(@PathVariable Long id) {
         // TODO: 调用 Service 层实现业务逻辑
+        return null;
+    }
+    @GetMapping("/page")
+    @ApiOperation("获取班级列表（条件+分页）")
+    @Override
+    public JsonVO<PageDTO<ClassDTO>> queryClassPage(ClassQuery condition) {
+        // TODO: 调用 Service 层实现业务逻辑
+        // 示例返回结构，实际需替换为 Service 调用
+        return null;
+    }
+
+    @PostMapping("/student/join")
+    @ApiOperation("加入班级")
+    @Override
+    public JsonVO<Long> joinClass(@RequestBody ClassStudentDTO dto) {
+        // TODO: 调用 Service 层实现业务逻辑
+        // 检查是否已存在，不存在则插入 class_student 表
+        return null;
+    }
+
+    @DeleteMapping("/student/quit")
+    @ApiOperation("退出班级")
+    @Override
+    public JsonVO<List<Long>> quitClass(
+            @ApiParam(value = "班级ID", required = true, example = "2008418408985583620") @RequestParam Long classId,
+            @ApiParam(value = "学生ID", required = true, example = "2008418408985583617") @RequestParam Long studentId) {
+        // TODO: 调用 Service 层实现业务逻辑
+        // 根据 classId 和 studentId 逻辑删除或物理删除 class_student 表记录
         return null;
     }
 }

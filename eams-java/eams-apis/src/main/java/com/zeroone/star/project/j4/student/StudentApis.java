@@ -1,7 +1,10 @@
 package com.zeroone.star.project.j4.student;
 
 import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j4.student.ClassDTO;
+import com.zeroone.star.project.dto.j4.student.ClassStudentDTO;
 import com.zeroone.star.project.dto.j4.student.FollowUpDTO;
+import com.zeroone.star.project.query.j4.student.ClassQuery;
 import com.zeroone.star.project.query.j4.student.FollowUpQuery;
 import com.zeroone.star.project.vo.JsonVO;
 
@@ -35,4 +38,26 @@ public interface StudentApis {
      * @return 跟进记录详情
      */
     JsonVO<FollowUpDTO> getFollowUpDetail(Long id);
+
+    /**
+     * 获取班级列表（条件+分页）
+     * @param condition 查询条件
+     * @return 分页结果
+     */
+    JsonVO<PageDTO<ClassDTO>> queryClassPage(ClassQuery condition);
+
+    /**
+     * 加入班级
+     * @param dto 班级学员关系信息
+     * @return 操作成功后的关联记录ID
+     */
+    JsonVO<Long> joinClass(ClassStudentDTO dto);
+
+    /**
+     * 退出班级
+     * @param classId 班级ID
+     * @param studentId 学生ID
+     * @return 删除成功的记录ID列表 (通常为一个)
+     */
+    JsonVO<List<Long>> quitClass(Long classId, Long studentId);
 }
