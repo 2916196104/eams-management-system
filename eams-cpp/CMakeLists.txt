@@ -162,7 +162,8 @@ add_subdirectory ("lib-mysql")
 add_subdirectory ("lib-common")
 if(UNIX)
 	add_subdirectory ("nacos-register")
-	add_subdirectory("eams-c7-class")
-	add_subdirectory("eams-c7-workbench")
+	
 endif()
 # 在后面添加你的模块
+	add_subdirectory("eams-c7-class")
+	add_subdirectory("eams-c7-workbench")

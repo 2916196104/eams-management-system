@@ -21,7 +21,7 @@
 #define _GETCLASSDETAILSCONTROLLER_
 
 #include "domain/vo/BaseJsonVO.h"
-
+#include "ApiHelper.h"
 #include OATPP_CODEGEN_BEGIN(ApiController) //<- Begin Codegen
 
 class GetClassDetailsController : public oatpp::web::server::api::ApiController

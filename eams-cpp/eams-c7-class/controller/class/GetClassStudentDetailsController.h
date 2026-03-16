@@ -21,6 +21,7 @@
 #define _GETCLASSSTUDENTDETAILSCONTROLLER_
 
 #include "domain/vo/BaseJsonVO.h"
+#include "ApiHelper.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController) //<- Begin Codegen
 
