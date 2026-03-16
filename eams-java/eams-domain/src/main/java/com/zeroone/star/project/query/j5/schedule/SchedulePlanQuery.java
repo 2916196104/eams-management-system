@@ -2,11 +2,10 @@ package com.zeroone.star.project.query.j5.schedule;
 
 import com.zeroone.star.project.query.PageQuery;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 
 /*
-* 描述：排课计划查询对象p
+* 描述：排课计划查询对象
 * */
 @Data
 public class SchedulePlanQuery extends PageQuery {
