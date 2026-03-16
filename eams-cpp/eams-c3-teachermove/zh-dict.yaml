@@ -1,0 +1,38 @@
+# 中文词典配置
+# 用于Swagger UI接口文档的中文显示
+
+class:
+  tags:
+    t1: 班级管理
+  endpoints:
+    getStudentDetail:
+      title: 获取班级学员详情
+      summary: 根据学生ID获取班级学员的详细信息，包括基本信息和个人资料
+      params:
+        studentId: 学生ID
+    getStudentCourseList:
+      title: 获取班级学员课程列表（分页）
+      summary: 根据学生ID获取班级学员的课程列表，支持分页查询，返回课程基本信息和学习进度
+      params:
+        studentId: 学生ID
+        page: 当前页码
+        size: 每页大小
+  dto:
+    StudentDetailDTO:
+      name: 姓名
+      phone: 电话号码
+      gender: 性别
+      age: 年龄
+      birthday: 出生日期
+      studentType: 学生类型
+      remark: 备注
+    CourseInfoDTO:
+      courseName: 课程名称
+      progress: 学习进度
+      validityPeriod: 有效期
+      remainingCount: 剩余次数
+    CourseListResponseDTO:
+      items: 课程列表
+      total: 总记录数
+      page: 当前页码
+      size: 每页大小
