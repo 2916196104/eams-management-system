@@ -2,9 +2,13 @@ package com.zeroone.star.project.vo.j4.student;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @ApiModel("返回课表统计")
+@Data
 public class CourseCounterVO {
     @ApiModelProperty(value = "课程名", example = "足球")
     String courseName;
@@ -22,10 +26,10 @@ public class CourseCounterVO {
     int remainingCount;
 
     @ApiModelProperty(value = "单价", example = "300")
-    double unitPrice;
+    BigDecimal unitPrice;
 
     @ApiModelProperty(value = "剩余金额", example = "3000")
-    double remainingAmount;
+    BigDecimal remainingAmount;
 
     @ApiModelProperty(value = "到期日期", example = "2026-04-16")
     LocalDate expireDate;
