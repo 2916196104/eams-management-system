@@ -1,4 +1,4 @@
-package com.zeroone.star.grademanager;
+package com.zeroone.star.eas;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

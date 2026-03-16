@@ -28,4 +28,26 @@ public interface GradeManagerApis {
      * 获取年级名称列表
      */
     JsonVO<List<GradeManagerDto>> QueryGradeNameList(String name);
+
+    /**
+     * 保存年级信息
+     * @param  gradeManagerDto 年级参数
+     * @return 保存结果
+     */
+    JsonVO<Long> saveClassGrade(GradeManagerDto gradeManagerDto);
+
+    /**
+     * 删除年级信息
+     * @param ids 年级id
+     * @return 删除结果
+     */
+    JsonVO<List<Long>> deleteClassGrade(List<Long> ids);
+
+
+    /**
+     * 升级年级信息
+     * @param ids 年级id
+     * @return 升级结果
+     */
+    JsonVO<List<Long>> upgradeClassGrade(List<Long> ids);
 }

@@ -1,4 +1,4 @@
-package com.zeroone.star.grademanager.config;
+package com.zeroone.star.eas.config;
 
 import com.zeroone.star.project.config.swagger.SwaggerCore;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +16,7 @@ public class SwaggerConfig {
     Docket gradeManagerApi() {
         return SwaggerCore.defaultDocketBuilder(
             "年级管理模块",
-            "com.zeroone.star.grademanager.controller",
+            "com.zeroone.star.eas.controller",
             "grademanager"
         );
     }

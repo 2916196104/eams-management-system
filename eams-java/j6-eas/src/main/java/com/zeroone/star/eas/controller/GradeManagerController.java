@@ -1,4 +1,4 @@
-package com.zeroone.star.grademanager.controller;
+package com.zeroone.star.eas.controller;
 
 
 import com.zeroone.star.project.dto.PageDTO;
@@ -7,14 +7,10 @@ import com.zeroone.star.project.j6.eas.GradeManagerApis;
 import com.zeroone.star.project.query.j6.eas.GradeManagerQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import org.checkerframework.checker.units.qual.A;
-import org.springframework.boot.actuate.endpoint.web.annotation.RestControllerEndpoint;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.ApiParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -60,5 +56,44 @@ public class GradeManagerController implements GradeManagerApis {
         return null;
     }
 
+    /**
+     *
+     * @param gradeManagerDto  年级信息
+     * @return 返回结果
+     */
+    @PostMapping("/save-classgrade")
+    @ApiOperation("保存职位")
+    @Override
+    public JsonVO<Long> saveClassGrade(@RequestBody GradeManagerDto gradeManagerDto) {
+        return null;
+    }
 
+    /**
+     * 删除年级
+     * @param ids 年级id
+     * @return
+     */
+    @DeleteMapping("/delete-classgrade")
+    @ApiOperation("删除年级（支持批量删除）")
+    @Override
+    @ApiImplicitParam
+    public JsonVO<List<Long>> deleteClassGrade(
+            @ApiParam(value = "编号列表", required = true, example = "[\"1\",\"2\"]")
+            @RequestBody List<Long> ids) {
+        return null;
+    }
+
+    /**
+     * 升级年级
+     * @param ids 年级id
+     * @return
+     */
+    @PostMapping("/upgrade-classgrade")
+    @ApiOperation("升级年级（支持批量）")
+    @Override
+    public JsonVO<List<Long>> upgradeClassGrade(
+            @ApiParam(value = "编号列表", required = true, example = "[\"1\",\"2\"]")
+            @RequestBody List<Long> ids) {
+        return null;
+    }
 }
