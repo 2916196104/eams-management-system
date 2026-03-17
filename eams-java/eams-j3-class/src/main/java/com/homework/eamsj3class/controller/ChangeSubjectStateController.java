@@ -52,7 +52,7 @@ public class ChangeSubjectStateController implements CourseApi {
         if (status == null || (status != 0 && status != 1)) {
             return JsonVO.fail("非法状态值");
         }
-        // 2. 这里的逻辑交给 Service 处理
+        // 2.TODO 这里的逻辑交给 Service 处理
 //         boolean success = courseService.updateCourseStatus(stateDTO.getIds(), stateDTO.getStatus());
 
         // 3. 返回操作结果
