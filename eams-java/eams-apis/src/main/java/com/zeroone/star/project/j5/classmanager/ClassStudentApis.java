@@ -11,4 +11,13 @@ public interface ClassStudentApis {
     JsonVO<Integer> removeClassStudent(List<Integer> studentIds);
 
     JsonVO<Integer> transferClassBatch(List<ClassStudentDTO> classStudentDTOs, int targetClassId);
+
+    //保存班级
+    JsonVO<Long> saveClass(ClassDTO classDTO);
+
+    //删除班级
+    JsonVO<List<Long>> deleteClass(List<Long> ids);
+
+    //结业班级
+    JsonVO<List<Long>> endClass(List<Long> ids);
 }
