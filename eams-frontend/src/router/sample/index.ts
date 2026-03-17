@@ -84,6 +84,16 @@ const routes = [
         name: 'smydetaildialog',
         path: '/sample/mydetaildialog',
         component: () => import('@/views/sample/mydetaildialog/Index.vue')
+      },
+      {
+        name: 'statistics',
+        path: '/sample/statistics',
+        component: () => import('@/views/sample/statistics/Index.vue')
+      },
+      {
+        name: 'pagination',
+        path: '/sample/pagination',
+        component: () => import('@/views/sample/pagination/Index.vue')
       }
     ]
   }

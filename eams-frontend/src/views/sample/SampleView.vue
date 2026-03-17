@@ -247,6 +247,16 @@ const menus = reactive([
     id: 13,
     path: '/sample/mydetaildialog',
     text: '课时详情对话框'
+  },
+  {
+    id: 13,
+    path: '/sample/statistics',
+    text: '统计数据(控制台)'
+  },
+  {
+    id: 14,
+    path: '/sample/pagination',
+    text: '分页'
   }
 ])
 </script>

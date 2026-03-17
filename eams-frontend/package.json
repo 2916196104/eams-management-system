@@ -23,6 +23,7 @@
     "axios": "^1.7.2",
     "bpmn-js": "^18.9.1",
     "bpmn-js-properties-panel": "^5.23.0",
+    "countup.js": "^2.10.0",
     "crypto-js": "^4.2.0",
     "diagram-js-minimap": "^5.2.0",
     "echarts": "^5.5.0",
