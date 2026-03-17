@@ -73,10 +73,10 @@ public:
         execAddLeave(dto, authObject->getPayload())
     );
 private: // 定义接口执行函数
-    // 3.3 演示家长提交预约申请逻辑
+    // 3.3 家长提交预约申请逻辑
     StringJsonVO::Wrapper execAddAppointment(const ScheduleAppointmentDTO::Wrapper& dto, const PayloadDTO& payload);
 
-    // 3.3 演示家长提交请假申请逻辑
+    // 3.3 家长提交请假申请逻辑
     StringJsonVO::Wrapper execAddLeave(const ScheduleLeaveDTO::Wrapper& dto, const PayloadDTO& payload);
 };
 
