@@ -26,6 +26,11 @@ import java.util.List;
 @RequestMapping("/j4/classroom")
 @Api(tags = "教室管理")
 public class ClassroomController implements ClassroomApis {
+    /**
+     * 获取教室列表（条件+分页）
+     * @param query 查询条件
+     * @return 教室列表
+     */
     @Override
     @GetMapping("/list")
     @ApiOperation("获取教室列表（条件+分页）")
@@ -34,6 +39,11 @@ public class ClassroomController implements ClassroomApis {
         return null;
     }
 
+    /**
+     * 获取教室详情
+     * @param id 教室ID
+     * @return 教室详情
+     */
     @Override
     @GetMapping("/{id}")
     @ApiOperation("获取教室详情")
@@ -42,6 +52,11 @@ public class ClassroomController implements ClassroomApis {
         return null;
     }
 
+    /**
+     * 保存教室
+     * @param classroomDTO 教室数据传输对象
+     * @return 教室ID
+     */
     @Override
     @PostMapping("/save")
     @ApiOperation("保存教室")
@@ -50,6 +65,11 @@ public class ClassroomController implements ClassroomApis {
         return null;
     }
 
+    /**
+     * 删除教室
+     * @param ids 教室ID列表
+     * @return 删除结果
+     */
     @Override
     @DeleteMapping("/delete")
     @ApiOperation("删除教室（批量）")

@@ -10,7 +10,6 @@ import javax.validation.constraints.NotBlank;
  * <p>
  * 教室数据传输对象
  * </p>
- *
  * @author ab
  */
 @Data
@@ -25,13 +24,13 @@ public class ClassroomDTO {
      * 教室名称
      */
     @NotBlank(message = "教室名称不能为空")
-    @ApiModelProperty(value = "教室名称",example = "教学楼")
+    @ApiModelProperty(value = "教室名称",required = true,example = "教学楼")
     private String name;
     /**
      * 教室地址
      */
     @NotBlank(message = "教室地址不能为空")
-    @ApiModelProperty(value = "教室地址",example = "崇文楼")
+    @ApiModelProperty(value = "教室地址",required = true,example = "崇文楼")
     private String address;
     /**
      * 教室面积

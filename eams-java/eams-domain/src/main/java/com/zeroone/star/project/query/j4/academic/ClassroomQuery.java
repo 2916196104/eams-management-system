@@ -15,6 +15,6 @@ public class ClassroomQuery extends PageQuery {
     /**
      * 教室名称
      */
-    @ApiModelProperty(value = "教室名（模糊搜索）", example = "教学楼")
+    @ApiModelProperty(value = "教室名", example = "教学楼")
     private String name;
 }
