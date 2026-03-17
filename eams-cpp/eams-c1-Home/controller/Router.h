@@ -19,6 +19,7 @@
 */
 #ifndef _ROUTER_
 #define _ROUTER_
+#include "homework/homeworkcontroller.h"
 #include "oatpp/web/server/api/Endpoint.hpp"
 #include "oatpp/web/server/HttpRouter.hpp"
 using namespace oatpp::web::server;

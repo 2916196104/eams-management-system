@@ -26,6 +26,33 @@
 /**
  * 数据传输对象
  */
+class HomeworkDTO : public oatpp::DTO
+{
+	DTO_INIT(HomeworkDTO, DTO);
+
+	API_DTO_FIELD_DEFAULT(UInt64, id, ZH_WORDS_GETTER("homework.field.id"));
+	API_DTO_FIELD_DEFAULT(String, title, ZH_WORDS_GETTER("homework.field.title"));
+	API_DTO_FIELD_DEFAULT(String, courseName, ZH_WORDS_GETTER("homework.field.courseName"));
+	API_DTO_FIELD_DEFAULT(String, teacherName, ZH_WORDS_GETTER("homework.field.teacherName"));
+};
+
+class HomeworkDetailDTO : public oatpp::DTO
+{
+	DTO_INIT(HomeworkDetailDTO, DTO);
+
+	API_DTO_FIELD_DEFAULT(UInt64, id, ZH_WORDS_GETTER("homework.field.id"));
+	API_DTO_FIELD_DEFAULT(String, title, ZH_WORDS_GETTER("homework.field.title"));
+	API_DTO_FIELD_DEFAULT(String, courseName, ZH_WORDS_GETTER("homework.field.courseName"));
+	API_DTO_FIELD_DEFAULT(String, startTime, ZH_WORDS_GETTER("homework.field.startTime"));
+	API_DTO_FIELD_DEFAULT(String, endTime, ZH_WORDS_GETTER("homework.field.endTime"));
+	API_DTO_FIELD_DEFAULT(String, teacherName, ZH_WORDS_GETTER("homework.field.teacherName"));
+};
+
+class HomeworkPageDTO : public PageDTO<HomeworkDTO::Wrapper>
+{
+	DTO_INIT(HomeworkPageDTO, PageDTO<HomeworkDTO::Wrapper>);
+};
+
 
 #include OATPP_CODEGEN_END(DTO)
 
