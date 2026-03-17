@@ -49,4 +49,5 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(Record_name);
 	ROUTER_SIMPLE_BIND(ClassController);
 
+
 }
