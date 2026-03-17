@@ -25,69 +25,69 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * ·ÖÒ³Êý¾ÝÊµÌå
+ * ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½
  */
 template <class T>
 class PageDTO : public oatpp::DTO
 {
-	// ³õÊ¼»¯
+	// ï¿½ï¿½Ê¼ï¿½ï¿½
 	DTO_INIT(PageDTO, DTO);
 
 	/**
-	 * µ±Ç°Ò³Âë
+	 * ï¿½ï¿½Ç°Ò³ï¿½ï¿½
 	 */
 	DTO_FIELD(UInt64, pageIndex) = 1;
 	DTO_FIELD_INFO(pageIndex) {
 		info->required = true;
 #ifndef LINUX
-		info->description = u8"µ±Ç°Ò³Âë";
+		info->description = u8"ï¿½ï¿½Ç°Ò³ï¿½ï¿½";
 #else
 		info->description = "page index";
 #endif
 	}
 	/**
-	 * Ã¿Ò³ÏÔÊ¾×î´óÊý¾ÝÌõÊý
+	 * Ã¿Ò³ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	DTO_FIELD(UInt64, pageSize) = 5;
 	DTO_FIELD_INFO(pageSize) {
 		info->required = true;
 #ifndef LINUX
-		info->description = u8"Ã¿Ò³Êý¾ÝÌõÊý";
+		info->description = u8"Ã¿Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
 #else
 		info->description = "page size";
 #endif
 	}
 	/**
-	 * Êý¾ÝµÄ×ÜÌõÊý
+	 * ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	DTO_FIELD(Int64, total) = 9;
 	DTO_FIELD_INFO(total) {
 		info->required = true;
 #ifndef LINUX
-		info->description = u8"Êý¾ÝµÄ×ÜÌõÊý";
+		info->description = u8"ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
 #else
 		info->description = "total";
 #endif
 	}
 	/**
-	 * Êý¾ÝµÄ×ÜÒ³Êý
+	 * ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½Ò³ï¿½ï¿½
 	 */
 	DTO_FIELD(Int64, pages) = 2;
 	DTO_FIELD_INFO(pages) {
 		info->required = true;
 #ifndef LINUX
-		info->description = u8"Êý¾ÝµÄ×ÜÒ³Êý";
+		info->description = u8"ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½Ò³ï¿½ï¿½";
 #else
 		info->description = "pages";
 #endif
 	}
 	/**
-	 * µ±Ç°Ò³Êý¾ÝÁÐ±í
+	 * ï¿½ï¿½Ç°Ò³ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 	 */
 	DTO_FIELD(List<T>, rows) = {};
 	DTO_FIELD_INFO(rows) {
 #ifndef LINUX
-		info->description = u8"µ±Ç°Ò³Êý¾ÝÁÐ±í";
+		info->description = u8"ï¿½ï¿½Ç°Ò³ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½";
 #else
 		info->description = "page data list";
 #endif
@@ -97,7 +97,7 @@ public:
 		this->total = v_int64(0);
 		this->pages = v_int64(0);
 	}
-	// ³õÊ¼»¯ËùÓÐÄÚÈÝ
+	// ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	void initAll(UInt64 pageIndex, UInt64 pageSize, Int64 total, Int64 pages, List<T> rows) {
 		this->pageIndex = pageIndex;
 		this->pageSize = pageSize;
@@ -105,12 +105,12 @@ public:
 		this->pages = pages;
 		this->rows = rows;
 	}
-	// ¼ÆËã×ÜÒ³Êý
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½
 	void calcPages() {
 		this->pages = total.getValue(0) / pageSize.getValue(1);
 		this->pages = total.getValue(0) % pageSize.getValue(1) == 0 ? this->pages.getValue(0) : this->pages.getValue(0) + 1;
 	}
-	// Ìí¼ÓÒ»ÌõÊý¾Ý
+	// ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	void addData(T one) {
 		this->rows->push_back(one);
 	}

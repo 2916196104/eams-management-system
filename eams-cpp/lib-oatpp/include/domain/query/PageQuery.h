@@ -24,28 +24,28 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 /**
- * ·ÖÒ³²éÑ¯¶ÔÏó¸¸Àà£¬ºóÐø·ÖÒ³²éÑ¯¶ÔÏó¿ÉÒÔ¼Ì³ÐËü
+ * ï¿½ï¿½Ò³ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½à£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼Ì³ï¿½ï¿½ï¿½
  */
 class PageQuery : public oatpp::DTO
 {
-	// ³õÊ¼»¯¶¨Òå
+	// ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	DTO_INIT(PageQuery, DTO);
-	// ²éÑ¯Ò³Âë
+	// ï¿½ï¿½Ñ¯Ò³ï¿½ï¿½
 	DTO_FIELD(UInt64, pageIndex) = 1;
 	DTO_FIELD_INFO(pageIndex) {
 		info->required = true;
 #ifndef LINUX
-		info->description = u8"µ±Ç°Ò³Âë";
+		info->description = u8"ï¿½ï¿½Ç°Ò³ï¿½ï¿½";
 #else
 		info->description = "curr page index";
 #endif
 	}
-	// ²éÑ¯ÌõÊý
+	// ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
 	DTO_FIELD(UInt64, pageSize) = 10;
 	DTO_FIELD_INFO(pageSize) {
 		info->required = true;
 #ifndef LINUX
-		info->description = u8"Ã¿Ò³Êý¾ÝÌõÊý";
+		info->description = u8"Ã¿Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
 #else
 		info->description = "curr page size";
 #endif

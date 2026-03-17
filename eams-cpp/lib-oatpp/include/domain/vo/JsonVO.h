@@ -25,41 +25,41 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * Ç°ºó¶ËÊý¾Ý¶Ô½ÓÊý¾Ý¶ÔÏó
+ * Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¶Ô½ï¿½ï¿½ï¿½ï¿½Ý¶ï¿½ï¿½ï¿½
  */
 template<class T>
 class JsonVO : public NoDataJsonVO
 {
-	// ³õÊ¼»¯¶¨Òå
+	// ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	DTO_INIT(JsonVO, NoDataJsonVO);
 
-	// Êý¾Ý¶ÔÏó
+	// ï¿½ï¿½ï¿½Ý¶ï¿½ï¿½ï¿½
 	DTO_FIELD(T, data, "data");
 	DTO_FIELD_INFO(data) {
 #ifndef LINUX
-		info->description = u8"Êý¾Ý¶ÔÏó";
+		info->description = u8"ï¿½ï¿½ï¿½Ý¶ï¿½ï¿½ï¿½";
 #else
 		info->description = "data object";
 #endif
 	}
 
 public:
-	// ÉèÖÃ×´Ì¬
+	// ï¿½ï¿½ï¿½ï¿½×´Ì¬
 	void setStatus(ResultStatus resultStatus) {
 		this->message = resultStatus.getMessage();
 		this->code = resultStatus.getCode();
 	}
-	// ³õÊ¼»¯
+	// ï¿½ï¿½Ê¼ï¿½ï¿½
 	void init(T data, ResultStatus resultStatus) {
 		this->data = data;
 		this->setStatus(resultStatus);
 	}
-	// ¹¹½¨³É¹¦ÏûÏ¢
+	// ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½ï¿½ï¿½Ï¢
 	void success(T data) {
 		this->setStatus(RS_SUCCESS);
 		this->data = data;
 	}
-	// ¹¹½¨Ê§°ÜÏûÏ¢
+	// ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½ï¿½ï¿½Ï¢ 
 	void fail(T data) {
 		this->setStatus(RS_FAIL);
 		this->data = data;

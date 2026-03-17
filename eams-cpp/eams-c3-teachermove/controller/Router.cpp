@@ -24,13 +24,13 @@
 #include "timetable/Record_name.h"
 #include "class/ClassController.h"
 
-// Èç¹û¶¨ÒåÁË¹Ø±ÕSwaggerÎÄµµºê
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¹Ø±ï¿½Swaggerï¿½Äµï¿½ï¿½ï¿½
 #ifdef CLOSE_SWAGGER_DOC
-// ¼ò»¯°ó¶¨¿ØÖÆÆ÷ºê¶¨Òå
+// ï¿½ò»¯°ó¶¨¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê¶¨ï¿½ï¿½
 #define ROUTER_SIMPLE_BIND(__CLASS__) \
 router->addController(__CLASS__::createShared())
 #else
-// ¼ò»¯°ó¶¨¿ØÖÆÆ÷ºê¶¨Òå
+// ï¿½ò»¯°ó¶¨¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê¶¨ï¿½ï¿½
 #define ROUTER_SIMPLE_BIND(__CLASS__) \
 BIND_CONTROLLER(docEndpoints, router, __CLASS__)
 #endif
@@ -43,7 +43,7 @@ Router::Router(Endpoints* docEndpoints, HttpRouter* router)
 
 void Router::initRouter()
 {
-	//#TIP :ÏµÍ³À©Õ¹Â·ÓÉ¶¨Òå£¬Ð´ÔÚÕâ¸öºóÃæ
+	//#TIP :ÏµÍ³ï¿½ï¿½Õ¹Â·ï¿½É¶ï¿½ï¿½å£¬Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	ROUTER_SIMPLE_BIND(GetCommonDatetime);
 	ROUTER_SIMPLE_BIND(Record_comment);
 	ROUTER_SIMPLE_BIND(Record_name);
