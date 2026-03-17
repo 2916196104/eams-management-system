@@ -24,19 +24,27 @@
 #include "ServerInfo.h"
 #include "Macros.h"
 #include "domain/vo/BaseJsonVO.h"
-#include "domain/query/PageQuery.h"
+#include "domain/query/score/scorequery.h"
+#include "domain/vo/score/scoreVO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
+#define API_TAG ZH_WORDS_GETTER("score.tag")
 //成绩模块控制器
-class scoreController : public oatpp::web::server::api::ApiController
+class ScoreController : public oatpp::web::server::api::ApiController
 {
 	// 定义控制器访问入口
-	API_ACCESS_DECLARE(scoreController);
+	API_ACCESS_DECLARE(ScoreController);
 public: // 定义接口
-
+	// 定义获取成绩列表（条件+分页）接口描述
+	API_DEF_ENDPOINT_INFO_QUERY_AUTH(
+		ZH_WORDS_GETTER("score.query-score.summary"), queryScore, ScoreQuery, ScorePageJsonVO::Wrapper, API_TAG,
+	);
+	// 定义获取成绩列表（条件+分页）接口处理
+	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c1/home/score/query-score-list", queryScore, ScoreQuery, execQueryScore(query));
 
 private: // 定义接口执行函数
-
+	// 定义获取成绩列表（条件+分页）接口执行函数
+	ScorePageJsonVO::Wrapper execQueryScore(const ScoreQuery::Wrapper& query);
 };
 
 #include OATPP_CODEGEN_END(ApiController)

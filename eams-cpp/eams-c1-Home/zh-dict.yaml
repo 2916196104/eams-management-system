@@ -1,0 +1,12 @@
+﻿score:
+  tag: 成绩
+  id: 成绩唯一标识
+  grade_id: 考核项id
+  grade_title: 考核项名称
+  student_id: 学生id
+  student_name: 学生姓名
+  score: 考试分数
+  add_time: 添加时间
+  query-score:
+    summary: 获取成绩列表（条件+分页）
+
