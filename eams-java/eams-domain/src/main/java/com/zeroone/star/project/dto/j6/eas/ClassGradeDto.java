@@ -7,7 +7,7 @@ import lombok.Data;
  * 年级管理
  */
 @Data
-public class GradeManagerDto {
+public class ClassGradeDto {
     /**
      * 年级id
      */
