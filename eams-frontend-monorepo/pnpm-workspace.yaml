@@ -4,6 +4,9 @@ packages:
   - packages/*
   - configs/*
 
+overrides:
+  unconfig: "7.3.2"
+
 onlyBuiltDependencies:
   - "@carbon/icons"
   - "@parcel/watcher"

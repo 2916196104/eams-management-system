@@ -126,10 +126,5 @@
 		"unplugin-auto-import": "^0.18.2",
 		"vite": "^5.2.8",
 		"vue-tsc": "^2.0.29"
-	},
-	"pnpm": {
-		"overrides": {
-			"unconfig": "7.3.2"
-		}
 	}
 }
