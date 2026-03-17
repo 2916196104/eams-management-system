@@ -7,11 +7,10 @@
 
 /*公告管理视图类*/
 
-
-class BoardManagerVO : public
-{
-	DTO_INIT(BoardManagerVO, )
-};
+//class BoardManagerVO : public
+//{
+//	DTO_INIT(BoardManagerVO, )
+//};
 
 #include OATPP_CODEGEN_END(DTO)
 

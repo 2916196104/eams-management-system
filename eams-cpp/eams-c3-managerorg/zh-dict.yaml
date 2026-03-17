@@ -28,3 +28,19 @@
   item: 考核项
   name: 姓名
   sc: 成绩
+board:
+ tag: 公告管理
+ save:
+  summary: 保存公告
+ delete:
+  summary: 删除公告（支持批量删除）
+ start:
+  summary: 启用公告
+ end:
+  summary: 停用公告
+ field:
+  id: 编号
+  boardTitle: 公告标题
+  boardType: 公告类型
+  boardAddId: 文章编码(如果是新增不需要上传唯一ID,如果是修改就需要上传唯一ID)
+  boardText: 公告文字内容

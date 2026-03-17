@@ -1,2 +1,2 @@
-#include "TeaJudgeStu.h"
 #include "stdafx.h"
+#include "TeaJudgeStu.h"
