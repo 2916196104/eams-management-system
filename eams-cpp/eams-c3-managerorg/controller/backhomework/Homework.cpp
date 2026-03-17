@@ -1,2 +1,7 @@
+﻿#include "stdafx.h"
 #include "Homework.h"
-#include "stdafx.h"
+
+StringJsonVO::Wrapper Homework::executeDelHomework(const Backhomework::Wrapper& backhomework)
+{
+	return {};
+}

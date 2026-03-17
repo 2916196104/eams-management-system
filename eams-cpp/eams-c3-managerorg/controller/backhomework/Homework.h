@@ -1,24 +1,32 @@
-#pragma once
+ï»¿#pragma once
 
 
 #ifndef __HOMEWORK_H__
 #define __HOMEWORK_H__
 
 #include "domain/GlobalInclude.h"
+#include "ApiHelper.h"
 #include "oatpp/web/server/api/ApiController.hpp"
+#include "domain/vo/BaseJsonVO.h"
+#include "domain/dto/backhomework/backhomeworkDTO.h"
+#include "domain/vo/backhomework/backhomeworkVO.h"
+
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
-
-/*×÷Òµ¿ØÖÆÆ÷*/
+/*ä½œä¸šæ§åˆ¶å™¨*/
 
 class Homework: public oatpp::web::server::api::ApiController
 {
-	//¶¨Òå¿ØÖÆÆ÷·ÃÎÊÈë¿Ú
+	//å®šä¹‰æ§åˆ¶å™¨è®¿é—®å…¥å£
 	API_ACCESS_DECLARE(Homework);
-public:		//¶¨Òå½Ó¿Ú
+public:		//å®šä¹‰æ¥å£
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("DelHomework.summary"),DelHomework,StringJsonVO::Wrapper,"Homework");
 
-private:	//¶¨Òå½Ó¿ÚÖ´ĞĞº¯Êı
+	API_HANDLER_ENDPOINT_AUTH(API_M_DEL,"/DelHomework",DelHomework,BODY_DTO(Backhomework::Wrapper, HomeworkIds),executeDelHomework(HomeworkIds));
 
+
+private:	//å®šä¹‰æ¥å£æ‰§è¡Œå‡½æ•°
+	StringJsonVO::Wrapper executeDelHomework(const Backhomework::Wrapper& backhomework);
 };
 
 #include OATPP_CODEGEN_END(ApiController)
