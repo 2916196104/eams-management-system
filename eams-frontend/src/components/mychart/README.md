@@ -180,8 +180,9 @@ const seriesData = ref([
 
 同 LineChart 组件。
 
-```vue
-```
+# 后端数据交互
+
+后期axios按需求编写api
 
 ## &#x20;综合示例
 
