@@ -164,3 +164,5 @@ if(UNIX)
 	add_subdirectory ("nacos-register")
 endif()
 # 在后面添加你的模块
+add_subdirectory("eams-c2-me")
+add_subdirectory("eams-c2-org")
