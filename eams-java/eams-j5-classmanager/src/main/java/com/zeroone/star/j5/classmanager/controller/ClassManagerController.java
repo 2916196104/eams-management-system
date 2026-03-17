@@ -43,4 +43,26 @@ public class ClassManagerController implements ClassStudentApis {
     public JsonVO<Integer> transferClassBatch(List<ClassStudentDTO> classStudentDTOs, int targetClassId) {
         return null;
     }
+    @PostMapping
+    @ApiOperation("保存班级")
+    @Override
+    public JsonVO<Long> saveClass(@RequestBody ClassDTO classDTO) {
+        return null;
+    }
+
+    @DeleteMapping
+    @ApiOperation("删除班级")
+    @ApiImplicitParam(name = "ids", value = "班级id列表")
+    @Override
+    public JsonVO<List<Long>> deleteClass(@RequestBody List<Long> ids) {
+        return null;
+    }
+
+    @GetMapping
+    @ApiOperation("结业班级")
+    @ApiImplicitParam(name = "ids", value = "班级已结业")
+    @Override
+    public JsonVO<List<Long>> endClass(@RequestBody List<Long> ids) {
+        return null;
+    }
 }
