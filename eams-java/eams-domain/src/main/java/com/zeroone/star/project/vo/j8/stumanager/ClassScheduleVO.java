@@ -14,9 +14,9 @@ public class ClassScheduleVO {
     private Long id;
     @ApiModelProperty(value = "日期", example = "2026-01-02")
     private LocalDate date;
-    @ApiModelProperty(value = "开始时间", example = "10:00")
+    @ApiModelProperty(value = "开始时间", example = "10:00", dataType = "java.lang.String")
     private LocalTime beginTime;
-    @ApiModelProperty(value = "结束时间", example = "11:30")
+    @ApiModelProperty(value = "结束时间", example = "11:30", dataType = "java.lang.String")
     private LocalTime endTime;
     @ApiModelProperty(value = "课程标题", example = "xxxx")
     private String title;

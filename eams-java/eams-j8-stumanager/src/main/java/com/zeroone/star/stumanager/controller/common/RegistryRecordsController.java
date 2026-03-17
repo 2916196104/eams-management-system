@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/j8/stumanager")
-@Api(tags = "报名记录")
+@Api(tags = "共用接口-报名记录")
 public class RegistryRecordsController implements RegistryRecordsApis {
     @GetMapping("/query-all")
     @ApiOperation("获取报名记录（条件+分页）")

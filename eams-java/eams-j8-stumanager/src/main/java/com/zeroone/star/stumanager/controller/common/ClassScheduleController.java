@@ -20,7 +20,7 @@ import java.time.LocalDate;
  */
 @RequestMapping("/common")
 @RestController
-@Api(tags = "ClassSchedule")
+@Api(tags = "共用接口-班级与课表")
 public class ClassScheduleController implements ClassScheduleApis {
     @Override
     @ApiOperation(value = "查询班级列表")

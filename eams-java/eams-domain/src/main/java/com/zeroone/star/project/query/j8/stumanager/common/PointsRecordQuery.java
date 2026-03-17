@@ -1,4 +1,4 @@
-﻿package com.zeroone.star.project.query.j8.stumanager.common;
+package com.zeroone.star.project.query.j8.stumanager.common;
 
 import com.zeroone.star.project.query.PageQuery;
 import io.swagger.annotations.ApiModel;

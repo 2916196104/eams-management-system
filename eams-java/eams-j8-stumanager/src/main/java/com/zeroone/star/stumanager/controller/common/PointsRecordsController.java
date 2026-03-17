@@ -35,7 +35,7 @@ import java.util.Optional;
 @RestController
 @Validated
 @RequestMapping("/common/points-records")
-@Api(tags = "学员公用-积分记录")
+@Api(tags = "共用接口-积分记录")
 public class PointsRecordsController implements PointsRecordsApis {
     @Resource
     private IStudentCreditLogService studentCreditLogService;

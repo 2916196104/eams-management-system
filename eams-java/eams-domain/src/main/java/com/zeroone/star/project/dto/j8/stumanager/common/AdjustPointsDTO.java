@@ -1,4 +1,4 @@
-﻿package com.zeroone.star.project.dto.j8.stumanager.common;
+package com.zeroone.star.project.dto.j8.stumanager.common;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
