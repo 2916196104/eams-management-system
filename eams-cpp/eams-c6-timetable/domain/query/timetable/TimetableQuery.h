@@ -10,7 +10,7 @@
 class TimetableQuery : public PageQuery
 {
     // 查询日期（必传）
-    API_DTO_FIELD(String, queryDate, ZH_WORDS_GETTER("timetable.querydate"), true, "")
+    API_DTO_FIELD(String, queryDate, ZH_WORDS_GETTER("filed.timetable.querydate"), true, "")
       
 
 

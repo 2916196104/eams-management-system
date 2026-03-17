@@ -13,21 +13,21 @@ class TimetableDTO :public oatpp::DTO
 
     DTO_INIT(TimetableDTO, DTO);
     //教室名字
-    API_DTO_FIELD_DEFAULT(String, className, ZH_WORDS_GETTER("timetable.classname"))
+    API_DTO_FIELD_DEFAULT(String, className, ZH_WORDS_GETTER("filed.timetable.classname"))
         //课程名字
-        API_DTO_FIELD_DEFAULT(String, courseName, ZH_WORDS_GETTER("timetable.coursename"))
+        API_DTO_FIELD_DEFAULT(String, courseName, ZH_WORDS_GETTER("filed.timetable.coursename"))
         //教师名字
-        API_DTO_FIELD_DEFAULT(String, teacherName, ZH_WORDS_GETTER("timetable.teachername"))
+        API_DTO_FIELD_DEFAULT(String, teacherName, ZH_WORDS_GETTER("filed.timetable.teachername"))
         //开始时间
-        API_DTO_FIELD_DEFAULT(String, startTime, ZH_WORDS_GETTER("timetable.starttime"))
+        API_DTO_FIELD_DEFAULT(String, startTime, ZH_WORDS_GETTER("filed.timetable.starttime"))
         //结束时间
-        API_DTO_FIELD_DEFAULT(String, endTime, ZH_WORDS_GETTER("timetable.endtime"))
+        API_DTO_FIELD_DEFAULT(String, endTime, ZH_WORDS_GETTER("filed.timetable.endtime"))
         //课程状态
-        API_DTO_FIELD_DEFAULT(String, status, ZH_WORDS_GETTER("timetable.status"))
+        API_DTO_FIELD_DEFAULT(String, status, ZH_WORDS_GETTER("filed.timetable.status"))
         //是否预约
-        API_DTO_FIELD_DEFAULT(Boolean, canReserve, ZH_WORDS_GETTER("timetable.canreserve"))
+        API_DTO_FIELD_DEFAULT(Boolean, canReserve, ZH_WORDS_GETTER("filed.timetable.can-reserve"))
         //是否请假
-        API_DTO_FIELD_DEFAULT(Boolean, canLeave, ZH_WORDS_GETTER("timetable.canleave"))
+        API_DTO_FIELD_DEFAULT(Boolean, canLeave, ZH_WORDS_GETTER("filed.timetable.can-leave"))
    
 
 	

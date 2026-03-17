@@ -8,7 +8,7 @@
 
 #include OATPP_CODEGEN_BEGIN(ApiController) 
 
-#define API_TAG  ZH_WORDS_GETTER("timetable.tag")
+#define API_TAG  ZH_WORDS_GETTER("timetable.api-tag")
 class TimetableController :public oatpp::web::server::api::ApiController
 {
 	// 定义控制器访问入口
@@ -18,7 +18,7 @@ public:
 	
 	// 1. 预约接口描述文档
 	API_DEF_ENDPOINT_INFO_AUTH(
-		ZH_WORDS_GETTER("timetable.reserve"),
+		ZH_WORDS_GETTER("interface.reserve"),
 		TimeReserve,
 	  TimetablePageDTO::Wrapper,
 		API_TAG,
@@ -34,7 +34,7 @@ public:
 	);
 	// 1. 请假接口描述文档
 	API_DEF_ENDPOINT_INFO_AUTH(
-		ZH_WORDS_GETTER("timetable.leave"),
+		ZH_WORDS_GETTER("interface.leave"),
 		TimeLeave,
 		TimetablePageDTO::Wrapper,
 		API_TAG,

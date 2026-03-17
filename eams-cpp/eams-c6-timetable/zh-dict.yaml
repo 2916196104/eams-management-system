@@ -1,14 +1,17 @@
+#è¯¾è¡¨æ¥å£
 timetable:
-  reserve: "¿Î³ÌÔ¤Ô¼"
-  tag: "¿Î³ÌÔ¤Ô¼¹ÜÀí"
-  leave: "¿Î³ÌÇë¼Ù"
-
-  classname: "°à¼¶Ãû³Æ"
-  coursename: "¿Î³ÌÃû³Æ"
-  teachername: "½ÌÊ¦Ãû³Æ"
-  starttime: "¿ªÊ¼Ê±¼ä"
-  endtime: "½áÊøÊ±¼ä"
-  status: "¿Î³Ì×´Ì¬"
-  canreserve: "ÊÇ·ñ¿ÉÔ¤Ô¼"
-  canleave: "ÊÇ·ñ¿ÉÇë¼Ù"
-  querydate: "²éÑ¯ÈÕÆÚ"
+  api-tag: "è¯¾è¡¨æ¥å£"
+interface:
+  reserve: "è¯¾ç¨‹é¢„çº¦"
+  leave: "è¯¾ç¨‹è¯·å‡"
+filed:
+ timetable:
+  classname: "ç­çº§åç§°"
+  coursename: "è¯¾ç¨‹åç§°"
+  teachername: "æ•™å¸ˆåç§°"
+  starttime: "å¼€å§‹æ—¶é—´"
+  endtime: "ç»“æŸæ—¶é—´"
+  status: "è¯¾ç¨‹çŠ¶æ€"
+  can-reserve: "æ˜¯å¦å¯é¢„çº¦"
+  can-leave: "æ˜¯å¦å¯è¯·å‡"
+  querydate: "æŸ¥è¯¢æ—¥æœŸ"
