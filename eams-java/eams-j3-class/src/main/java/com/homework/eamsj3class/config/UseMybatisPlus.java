@@ -1,4 +1,4 @@
-package com.zeroone.star.eamsj3class.config;
+package com.homework.eamsj3class.config;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
  */
 @Configuration
 @ComponentScan("com.zeroone.star.project.config.mybatis")
-public class MpConfig {
+public class UseMybatisPlus {
 
     @Bean
     public MetaObjectHandler metaObjectHandler() {
