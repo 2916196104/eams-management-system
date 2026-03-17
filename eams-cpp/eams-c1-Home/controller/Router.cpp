@@ -20,7 +20,7 @@
 #include "Router.h"
 #include "ApiHelper.h"
 #include "controller/registration-records/registrationcontroller.h"
-
+#include "score/scorecontroller.h"		// 查询成绩接口控制器
 #include "points-exchange/exchangecontroller.h"
 #include "controller/review-records/reviewcontroller.h"
 #include "class/classcontroller.h"
@@ -48,4 +48,5 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(exchangeController);
 	ROUTER_SIMPLE_BIND(classController);
 	ROUTER_SIMPLE_BIND(RegistrationRecodeController);
+	ROUTER_SIMPLE_BIND(ScoreController);	// 查询成绩接口控制器的路由绑定
 }

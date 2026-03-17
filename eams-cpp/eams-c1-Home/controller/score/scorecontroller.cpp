@@ -20,3 +20,8 @@
 #include "scorecontroller.h"
 //实现接口执行函数
 
+// 实现获取成绩列表（条件+分页）接口执行函数
+ScorePageJsonVO::Wrapper ScoreController::execQueryScore(const ScoreQuery::Wrapper& query)
+{
+	return {};
+}

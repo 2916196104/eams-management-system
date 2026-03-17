@@ -21,12 +21,17 @@
 #define _SCOREVO_H_
 
 #include "../../GlobalInclude.h"
+#include "../../dto/score/scoreDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * 定义显示对象
+ * 成绩分页显示对象
  */
+class ScorePageJsonVO : public JsonVO<ScorePageDTO::Wrapper>
+{
+	DTO_INIT(ScorePageJsonVO, JsonVO<ScorePageDTO::Wrapper>);
+};
 
 
 #include OATPP_CODEGEN_END(DTO)

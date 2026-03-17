@@ -132,4 +132,15 @@ exchange:
   # actual_receipt: 实际收款
   # ---RegistrationRecodeController
   query-records:
-    summary: 获取报名课程列表（条件+分页）
+    summary: 获取报名课程列表（条件+分页）score:
+  tag: 成绩
+  id: 成绩唯一标识
+  grade_id: 考核项id
+  grade_title: 考核项名称
+  student_id: 学生id
+  student_name: 学生姓名
+  score: 考试分数
+  add_time: 添加时间
+  query-score:
+    summary: 获取成绩列表（条件+分页）
+
