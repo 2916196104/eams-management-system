@@ -1,7 +1,7 @@
 #ifndef __CLASS_STUDENT_QUERY_H__
 #define __CLASS_STUDENT_QUERY_H__
 
-#include "../../GlobalInclude.h"
+#include "domain/GlobalInclude.h"
 #include "domain/query/PageQuery.h"
 #include OATPP_CODEGEN_BEGIN(DTO)
 

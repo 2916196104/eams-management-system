@@ -3,17 +3,22 @@
 #ifndef _CLASSCONTROLLER_H_
 #define _CLASSCONTROLLER_H_
 
-#include "domain/vo/BaseJsonVO.h"
+
 #include "domain/dto/class/ClassDTO.h"
 #include "domain/vo/class/ClassVO.h"
 #include "Macros.h"
-
 #include "oatpp/web/server/api/ApiController.hpp"
 #include "domain/GlobalInclude.h"
-#include "domain/vo/class/ClassVO.h"
 #include "domain/vo/class/ClassStudentVO.h"
 #include "domain/query/class/ClassQuery.h"
 #include "domain/query/class/ClassStudentQuery.h"
+
+using namespace oatpp;
+using namespace oatpp::web;
+using namespace oatpp::web::server;
+using namespace oatpp::web::server::api;
+using namespace oatpp::web::protocol::http;
+
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
 #define API_TAG ZH_WORDS_GETTER("class.tags.t1")
@@ -38,11 +43,12 @@ public:
 		API_DEF_ADD_QUERY_PARAMS(String, "course_id", ZH_WORDS_GETTER("class.course"), "", false);     // 
 		API_DEF_ADD_QUERY_PARAMS(String, "school_id", ZH_WORDS_GETTER("class.school"), "", false);     // 
 		API_DEF_ADD_QUERY_PARAMS(String, "org_id", ZH_WORDS_GETTER("class.org"), "", false);           // 
-		API_DEF_ADD_QUERY_PARAMS(String, "be_over", ZH_WORDS_GETTER("class.beOver"), "", false);      
+		API_DEF_ADD_QUERY_PARAMS(String, "be_over", ZH_WORDS_GETTER("class.beOver"), "", false);    
+		API_DEF_ADD_TAG(API_TAG);
 	}
 
 
-	ENDPOINT(API_M_GET, "/classList", queryClassList, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_GET, "class/classList", queryClassList, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
 		// Query
 		API_HANDLER_QUERY_PARAM(userQuery, ClassQuery, queryParams);
 		// 
@@ -62,9 +68,10 @@ public:
 		API_DEF_ADD_QUERY_PARAMS(String, "school_id", ZH_WORDS_GETTER("class.school"), "", false);     // ID
 		API_DEF_ADD_QUERY_PARAMS(String, "org_id", ZH_WORDS_GETTER("class.org"), "", false);           // ID
 		API_DEF_ADD_QUERY_PARAMS(String, "be_over", ZH_WORDS_GETTER("class.beOver"), "", false);      // 0 1 
+		API_DEF_ADD_TAG(API_TAG);
 	}
 
-	ENDPOINT(API_M_GET, "/classdetail", queryClassDetail, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_GET, "class/classdetail", queryClassDetail, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
 		// Qu
 		API_HANDLER_QUERY_PARAM(userQuery, ClassDTO, queryParams);
 		//
@@ -76,8 +83,9 @@ public:
 		API_DEF_ADD_AUTH();
 		API_DEF_ADD_RSP_JSON_WRAPPER(ClassStudentPageJsonVO);
 		API_DEF_ADD_PAGE_PARAMS();
-		API_DEF_ADD_QUERY_PARAMS(String, "class_id", ZH_WORDS_GETTER("classStudent.classId"), "", true);
-		API_DEF_ADD_QUERY_PARAMS(String, "student_name", ZH_WORDS_GETTER("classStudent.studentName"), "", false);
+		API_DEF_ADD_QUERY_PARAMS(String, "class_id", ZH_WORDS_GETTER("class.classStudent.classId"), "", true);
+		API_DEF_ADD_QUERY_PARAMS(String, "student_name", ZH_WORDS_GETTER("class.classStudent.studentName"), "", false);
+		API_DEF_ADD_TAG(API_TAG);
 	}
  // 定义接口
 	// 3.1 定义获取班级学员详情接口描述
@@ -88,7 +96,7 @@ public:
 	// 3.2 定义获取班级学员详情接口处理
 	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/class/student/detail", getStudentDetail, QUERY(String, studentId), execGetStudentDetail(studentId));
 
-	ENDPOINT(API_M_GET, "/classStudentList", queryClassStudentList, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_GET, "/classStudentList", queryClassStudentList, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME){
 		API_HANDLER_QUERY_PARAM(userQuery, ClassStudentQuery, queryParams);
 		API_HANDLER_RESP_VO(execQueryClassStudentList(userQuery));
 	}
@@ -96,7 +104,8 @@ public:
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("class.endpoints.getStudentCourseList.title"), getStudentCourseList, CourseListQuery, oatpp::Object<CourseListResponseDTO>, API_TAG);
 	// 3.2 定义获取班级学员课程列表接口处理
 	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/class/student/course/list", getStudentCourseList, QUERIES(QueryParams, queryParams),
-		API_HANDLER_QUERY_PARAM(courseQuery, CourseListQuery, queryParams); API_HANDLER_RESP_VO(execGetStudentCourseList(courseQuery, authObject->getPayload())););
+		API_HANDLER_QUERY_PARAM(courseQuery, CourseListQuery, queryParams); API_HANDLER_RESP_VO(execGetStudentCourseList(courseQuery, authObject->getPayload()));
+	);
 private: 
 	// 定义接口执行函数
 	ClassPageJsonVO::Wrapper execQueryClassList(const ClassQuery::Wrapper& query) {

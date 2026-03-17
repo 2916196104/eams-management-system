@@ -1,7 +1,7 @@
 #ifndef __CLASS_STUDENT_DTO_H__
 #define __CLASS_STUDENT_DTO_H__
 
-#include "../../GlobalInclude.h"
+#include "domain/GlobalInclude.h"
 #include "domain/dto/PageDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)

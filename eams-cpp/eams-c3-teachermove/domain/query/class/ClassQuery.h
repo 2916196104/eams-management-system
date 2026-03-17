@@ -42,6 +42,7 @@ class ClassQuery : public PageQuery
 	DTO_FIELD_INFO(be_over) {
 		info->description = ZH_WORDS_GETTER("class.beOver");
 	}
+};
 // 课程列表查询参数
 class CourseListQuery : public oatpp::DTO
 {

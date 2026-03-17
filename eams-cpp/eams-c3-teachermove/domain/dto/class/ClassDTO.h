@@ -79,7 +79,7 @@ class CourseInfoDTO : public oatpp::DTO
 };
 
 // 课程列表响应DTO
-class CourseListResponseDTO : public oatpp::DTO
+class CourseListResponseDTO : public oatpp::DTO {
 	DTO_INIT(CourseListResponseDTO, DTO);
 	// 课程列表
 	API_DTO_FIELD_DEFAULT(Vector<oatpp::Object<CourseInfoDTO>>, items, ZH_WORDS_GETTER("class.dto.CourseListResponseDTO.items"));
@@ -89,9 +89,8 @@ class CourseListResponseDTO : public oatpp::DTO
 	API_DTO_FIELD_DEFAULT(Int32, page, ZH_WORDS_GETTER("class.dto.CourseListResponseDTO.page"));
 	// 每页大小
 	API_DTO_FIELD_DEFAULT(Int32, size, ZH_WORDS_GETTER("class.dto.CourseListResponseDTO.size"));
-class ClassPageDTO : public PageDTO<ClassDTO::Wrapper>{
-	DTO_INIT(ClassPageDTO, PageDTO<ClassDTO::Wrapper>);
 };
+
 
 #include OATPP_CODEGEN_END(DTO)
 
