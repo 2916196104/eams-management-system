@@ -23,11 +23,13 @@
 
 #include "summaryclass/SummaryClassController.h"
 #include "parentaccount/ParentAccountController.h"
-
+// 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
+// 简化绑定控制器宏定义
 #define ROUTER_SIMPLE_BIND(__CLASS__) \
 router->addController(__CLASS__::createShared())
 #else
+// 简化绑定控制器宏定义
 #define ROUTER_SIMPLE_BIND(__CLASS__) \
 BIND_CONTROLLER(docEndpoints, router, __CLASS__)
 #endif
