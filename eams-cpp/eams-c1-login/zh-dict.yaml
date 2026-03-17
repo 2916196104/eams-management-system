@@ -2,8 +2,31 @@ login:
   tag: 登录模块
   send-code:
     summary: 发送验证码
-  reset-password:
-    summary: 重置密码
+  send:
+    success: 发送结果
+    msg: 结果分析
+    error1: 验证码已经存在，请过5分钟后重新发送
+    error2: 验证码发送失败，请检查邮箱配置和Redis配置是否正确
+    error3: 当前用户不存在
+    error4: 手机号码或邮箱格式不正确
+    lastSuccess: 验证码发送成功，请查收
+  update:
+    success: 发送结果
+    msg: 结果分析
+    error1: 验证码错误，请输入正确的验证码
+    error2: 密码更新错误，请检查手机号或邮箱是否正确
+    error3:: 手机号码或邮箱格式不正确
+    lastSuccess: 密码修改成功
+  modify-password:
+    summary: 修改密码
+    mail:
+      subject: 重置密码验证码
+      greeting: 您好！
+      verify-code-prefix: 您本次找回密码的验证码为：
+      expire-prefix: 验证码
+      expire-minutes: 5
+      expire-suffix: 分钟内有效，请勿泄露给他人。
+      ignore-tip: 如非本人操作，请忽略此邮件。
   field:
     mobile: 手机号
     email: 邮箱

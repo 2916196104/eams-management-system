@@ -28,6 +28,7 @@
  * 数据传输对象
  */
 
+// 发送验证码传输对象
 class SendResetCodeDTO : public oatpp::DTO
 {
     DTO_INIT(SendResetCodeDTO, oatpp::DTO);
@@ -36,21 +37,19 @@ class SendResetCodeDTO : public oatpp::DTO
     API_DTO_FIELD_REQUIRE(String, email, ZH_WORDS_GETTER("login.field.email"), true);
 };
 
-
+// 发送验证码结果传输对象
 class SendResetCodeRespDTO : public oatpp::DTO
 {
     DTO_INIT(SendResetCodeRespDTO, oatpp::DTO);
-
-    API_DTO_FIELD_DEFAULT(String, mobile, ZH_WORDS_GETTER("login.field.mobile"));
-    API_DTO_FIELD_DEFAULT(String, email, ZH_WORDS_GETTER("login.field.email"));
-    API_DTO_FIELD_DEFAULT(Int32, expireSeconds, ZH_WORDS_GETTER("login.field.expire-seconds")); // 300秒
+    API_DTO_FIELD_DEFAULT(Boolean, sendResult, ZH_WORDS_GETTER("login.send.success"));
+    API_DTO_FIELD_DEFAULT(String, msg, ZH_WORDS_GETTER("login.send.msg")); // 300秒
 };
 
 
-
-class ResetPasswordDTO : public oatpp::DTO
+// 修改密码传输对象
+class UpdatePasswordDTO : public oatpp::DTO
 {
-    DTO_INIT(ResetPasswordDTO, oatpp::DTO);
+    DTO_INIT(UpdatePasswordDTO, oatpp::DTO);
 
     API_DTO_FIELD_REQUIRE(String, mobile, ZH_WORDS_GETTER("login.field.mobile"), true);
     API_DTO_FIELD_REQUIRE(String, email, ZH_WORDS_GETTER("login.field.email"), true);
@@ -58,12 +57,12 @@ class ResetPasswordDTO : public oatpp::DTO
     API_DTO_FIELD_REQUIRE(String, newPassword, ZH_WORDS_GETTER("login.field.new-password"), true);
 };
 
-class ResetPasswordRespDTO : public oatpp::DTO
+// 发送验证码传输对象
+class UpdatePasswordRespDTO : public oatpp::DTO
 {
-    DTO_INIT(ResetPasswordRespDTO, oatpp::DTO);
-
-    API_DTO_FIELD_DEFAULT(Boolean, success, ZH_WORDS_GETTER("login.reset.success"));
-    API_DTO_FIELD_DEFAULT(String, mobile, ZH_WORDS_GETTER("login.reset.mobile"));
+    DTO_INIT(UpdatePasswordRespDTO, oatpp::DTO);
+    API_DTO_FIELD_DEFAULT(Boolean, updateResult, ZH_WORDS_GETTER("login.update.success"));
+    API_DTO_FIELD_DEFAULT(String, msg, ZH_WORDS_GETTER("login.update.msg")); // 300秒
 };
 
 
