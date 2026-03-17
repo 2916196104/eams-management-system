@@ -131,8 +131,5 @@
 		"overrides": {
 			"unconfig": "7.3.2"
 		}
-	},
-	"lint-staged": {
-		"*": "eslint --fix"
 	}
 }
