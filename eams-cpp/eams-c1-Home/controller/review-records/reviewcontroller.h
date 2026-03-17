@@ -24,19 +24,38 @@
 #include "ServerInfo.h"
 #include "Macros.h"
 #include "domain/vo/BaseJsonVO.h"
+#include "domain/vo/review-records/reviewVO.h"
 #include "domain/query/PageQuery.h"
+#include "domain/query/review-records/reviewquery.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
+#define API_TAG ZH_WORDS_GETTER("review_records.tag")
 //点评记录模块控制器
-class reviewController : public oatpp::web::server::api::ApiController
+class ReviewRecordController : public oatpp::web::server::api::ApiController
 {
 	// 定义控制器访问入口
-	API_ACCESS_DECLARE(reviewController);
+	API_ACCESS_DECLARE(ReviewRecordController);
 public: // 定义接口
-
+	// 定义获取点评记录（条件+分页）接口描述
+	API_DEF_ENDPOINT_INFO_QUERY_AUTH(
+		ZH_WORDS_GETTER("review_records.query-reviews.summary"),
+		queryReviews,
+        ReviewRecordQuery,
+		ReviewRecordPageJsonVO::Wrapper,
+		API_TAG
+	);
+	// 定义获取点评记录（条件+分页）接口处理
+	API_HANDLER_ENDPOINT_QUERY_AUTH(
+		API_M_GET,
+		"/c1/review-records/query-reviews",
+		queryReviews,
+		ReviewRecordQuery,
+		execQueryReviews(query)
+	);
 
 private: // 定义接口执行函数
-
+	// 定义获取点评记录（条件 + 分页）接口执行函数
+	ReviewRecordPageJsonVO::Wrapper execQueryReviews(const ReviewRecordQuery::Wrapper& query);
 };
 
 #include OATPP_CODEGEN_END(ApiController)

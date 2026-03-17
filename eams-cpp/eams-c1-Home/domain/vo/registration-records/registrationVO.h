@@ -21,13 +21,17 @@
 #define _REGISTRATIONVO_H_
 
 #include "../../GlobalInclude.h"
+#include "domain/dto/registration-records/registrationDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
  * 定义显示对象
  */
-
+class RegistrationRecordPageJsonVO : public JsonVO<RegistrationRecordPageDTO::Wrapper>
+{
+	DTO_INIT(RegistrationRecordPageJsonVO, JsonVO<RegistrationRecordPageDTO::Wrapper>);
+};
 
 #include OATPP_CODEGEN_END(DTO)
 

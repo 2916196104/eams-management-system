@@ -21,12 +21,35 @@
 #define _REVIEWDTO_H_
 
 #include "../../GlobalInclude.h"
+#include "domain/dto/PageDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
  * 数据传输对象
  */
+// 点评记录DTO
+class ReviewRecordDTO : public oatpp::DTO
+{
+	DTO_INIT(ReviewRecordDTO, oatpp::DTO);
+	// 唯一标识
+	API_DTO_FIELD_DEFAULT(UInt64, id, ZH_WORDS_GETTER("review_records.id"));
+	// 评价人
+	API_DTO_FIELD_DEFAULT(String, creator_name, ZH_WORDS_GETTER("review_records.creator_name"));
+	// 评价内容
+	API_DTO_FIELD_DEFAULT(String, content, ZH_WORDS_GETTER("review_records.content"));
+	// 评分星级
+	API_DTO_FIELD_DEFAULT(Int8, score, ZH_WORDS_GETTER("review_records.score"));
+	// 评价时间
+	API_DTO_FIELD_DEFAULT(String, add_time, ZH_WORDS_GETTER("review_records.add_time"));
+};
+
+// 点评记录分页DTO
+class ReviewRecordPageDTO : public PageDTO<ReviewRecordDTO::Wrapper>
+{
+	DTO_INIT(ReviewRecordPageDTO, PageDTO<ReviewRecordDTO::Wrapper>);
+};
+
 
 #include OATPP_CODEGEN_END(DTO)
 
