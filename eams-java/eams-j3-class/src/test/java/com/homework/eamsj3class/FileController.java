@@ -1,4 +1,4 @@
-package com.homework.eamsj3class.controller;
+package com.homework.eamsj3class;
 
 import cn.hutool.core.date.DateTime;
 import com.zeroone.star.project.components.fastdfs.FastDfsClientComponent;
