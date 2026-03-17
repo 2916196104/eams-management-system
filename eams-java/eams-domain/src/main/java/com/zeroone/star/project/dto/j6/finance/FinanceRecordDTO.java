@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 
+/**
+ * 财务记录表
+ */
 @Data
 public class FinanceRecordDTO {
     @ApiModelProperty(value = "财务记录id",example = "123456789")

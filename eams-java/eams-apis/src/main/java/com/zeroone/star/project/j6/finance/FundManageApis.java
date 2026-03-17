@@ -8,16 +8,19 @@ import com.zeroone.star.project.vo.JsonVO;
 
 import java.util.List;
 
-public interface FinanceRecordApis {
+/**
+ * 款项管理Apis
+ */
+public interface FundManageApis {
     /**
-     * 分页查询款项信息
+     * 获取款项列表（条件+分页）
      * @param condition 查询条件
      * @return 款项信息
      */
     JsonVO<PageDTO<FinanceRecordDTO>> queryPage(FinanceRecordQuery condition);
 
     /**
-     * 批量认款
+     * 批量确认
      * @param ids 财务记录id
      * @return 修改款项信息
      */

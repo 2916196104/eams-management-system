@@ -2,7 +2,7 @@ package com.zeroone.star.eas.controller;
 
 
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.dto.j6.eas.GradeManagerDto;
+import com.zeroone.star.project.dto.j6.eas.ClassGradeDto;
 import com.zeroone.star.project.j6.eas.GradeManagerApis;
 import com.zeroone.star.project.query.j6.eas.GradeManagerQuery;
 import com.zeroone.star.project.vo.JsonVO;
@@ -18,7 +18,7 @@ import java.util.List;
  * 年级管理接口实现
  */
 @RestController
-@RequestMapping("/j6/eas")
+@RequestMapping("/j6/eas/class_grade")
 @Api(tags = "年级管理")
 public class GradeManagerController implements GradeManagerApis {
     /**
@@ -30,7 +30,7 @@ public class GradeManagerController implements GradeManagerApis {
     @GetMapping
     @ApiOperation("获取年级列表（条件+分页）")
     @Override
-    public JsonVO<PageDTO<GradeManagerDto>> queryPage(GradeManagerQuery query) {
+    public JsonVO<PageDTO<ClassGradeDto>> queryPage(GradeManagerQuery query) {
         return null;
     }
 
@@ -42,7 +42,7 @@ public class GradeManagerController implements GradeManagerApis {
     @GetMapping("/{id}")
     @ApiOperation("获取年级详情")
     @Override
-    public JsonVO<GradeManagerDto> getGradeById(@PathVariable("id") Integer id) {
+    public JsonVO<ClassGradeDto> getGradeById(@PathVariable("id") Integer id) {
         return null;
     }
 
@@ -52,7 +52,7 @@ public class GradeManagerController implements GradeManagerApis {
     @GetMapping("/name")
     @ApiOperation("获取年级名称列表")
     @Override
-    public JsonVO<List<GradeManagerDto>> QueryGradeNameList(@RequestParam("name") String name) {
+    public JsonVO<List<ClassGradeDto>> QueryGradeNameList(@RequestParam("name") String name) {
         return null;
     }
 
@@ -61,10 +61,10 @@ public class GradeManagerController implements GradeManagerApis {
      * @param gradeManagerDto  年级信息
      * @return 返回结果
      */
-    @PostMapping("/save-classgrade")
-    @ApiOperation("保存职位")
+    @PostMapping("/save")
+    @ApiOperation("保存年级")
     @Override
-    public JsonVO<Long> saveClassGrade(@RequestBody GradeManagerDto gradeManagerDto) {
+    public JsonVO<Long> saveClassGrade(@RequestBody ClassGradeDto gradeManagerDto) {
         return null;
     }
 
@@ -73,7 +73,7 @@ public class GradeManagerController implements GradeManagerApis {
      * @param ids 年级id
      * @return
      */
-    @DeleteMapping("/delete-classgrade")
+    @DeleteMapping("/delete")
     @ApiOperation("删除年级（支持批量删除）")
     @Override
     @ApiImplicitParam
@@ -88,7 +88,7 @@ public class GradeManagerController implements GradeManagerApis {
      * @param ids 年级id
      * @return
      */
-    @PostMapping("/upgrade-classgrade")
+    @PostMapping("/upgrade")
     @ApiOperation("升级年级（支持批量）")
     @Override
     public JsonVO<List<Long>> upgradeClassGrade(

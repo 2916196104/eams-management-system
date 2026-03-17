@@ -1,7 +1,7 @@
 package com.zeroone.star.project.j6.eas;
 
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.dto.j6.eas.GradeManagerDto;
+import com.zeroone.star.project.dto.j6.eas.ClassGradeDto;
 import com.zeroone.star.project.query.j6.eas.GradeManagerQuery;
 import com.zeroone.star.project.vo.JsonVO;
 
@@ -17,24 +17,24 @@ public interface GradeManagerApis {
      * @param query
      * @return
      */
-    JsonVO<PageDTO<GradeManagerDto>> queryPage(GradeManagerQuery query);
+    JsonVO<PageDTO<ClassGradeDto>> queryPage(GradeManagerQuery query);
 
     /**
      * 获取年级详情
      */
-    JsonVO<GradeManagerDto> getGradeById(Integer id);
+    JsonVO<ClassGradeDto> getGradeById(Integer id);
 
     /**
      * 获取年级名称列表
      */
-    JsonVO<List<GradeManagerDto>> QueryGradeNameList(String name);
+    JsonVO<List<ClassGradeDto>> QueryGradeNameList(String name);
 
     /**
      * 保存年级信息
      * @param  gradeManagerDto 年级参数
      * @return 保存结果
      */
-    JsonVO<Long> saveClassGrade(GradeManagerDto gradeManagerDto);
+    JsonVO<Long> saveClassGrade(ClassGradeDto gradeManagerDto);
 
     /**
      * 删除年级信息
