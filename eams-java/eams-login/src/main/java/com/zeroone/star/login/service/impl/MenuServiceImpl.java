@@ -8,8 +8,10 @@ import com.zeroone.star.project.utils.tree.TreeNode;
 import com.zeroone.star.project.utils.tree.TreeNodeMapper;
 import com.zeroone.star.project.utils.tree.TreeUtils;
 import com.zeroone.star.project.vo.login.MenuTreeVO;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Service;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +52,7 @@ class MenuTreeNodMapper implements TreeNodeMapper<Menu> {
  * @author 阿伟
  */
 @Service
+@ConditionalOnBean(DataSource.class)
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IMenuService {
 
     @Override
