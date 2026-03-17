@@ -35,4 +35,4 @@ mybatis-plus:
 knife4j:
   enable: true
   setting:
-    language: zh_cn
+    language: zh-CN
