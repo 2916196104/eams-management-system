@@ -8,14 +8,14 @@ std::shared_ptr<oatpp::web::server::api::ApiController::OutgoingResponse> Online
 	const OnlineExcelQuery::Wrapper& query)
 {
 	// 生成 Excel
-	auto buff = ExcelComponent().writeVectorToBuff("intended_student",
+	auto buff = ExcelComponent().writeVectorToBuff("online_student",
 		[&](ExcelComponent* ex) {
 			// 写入表头
 			ex->addHeader({
-				ZH_WORDS_GETTER("common.field.student.id") ,
-				ZH_WORDS_GETTER("common.field.student.name") ,
-				ZH_WORDS_GETTER("common.field.student.age") ,
-				ZH_WORDS_GETTER("common.field.student.sex")
+				ZH_WORDS_GETTER("onlinestudent.field.student.id") ,
+				ZH_WORDS_GETTER("onlinestudent.field.student.name") ,
+				ZH_WORDS_GETTER("onlinestudent.field.student.age") ,
+				ZH_WORDS_GETTER("onlinestudent.field.student.sex")
 				});
 
 			// 写入数据

@@ -4,12 +4,11 @@
 
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/query/onlinestudent/OnlineStudentQuery.h"
-#include "domain/dto/onlinestudent/OnlineStudentDTO.h"
 
 // 定义API控制器使用宏
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
-#define API_TAG ZH_WORDS_GETTER("common.api-tag")
+#define API_TAG ZH_WORDS_GETTER("onlinestudent.api-tag")
 
 /**
  *	意向成员控制器
@@ -22,7 +21,7 @@ class OnlineStudentController : public oatpp::web::server::api::ApiController
 public:
 	// 定义导出接口描述
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(
-		"export",									// 标题
+		ZH_WORDS_GETTER("onlinestudent.interface.export"),										// 标题
 		exportExcel,                                 // 函数名
 		OnlineExcelQuery,                                 // 查询参数类型
 		Void,                                        // Swagger 无响应体

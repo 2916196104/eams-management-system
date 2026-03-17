@@ -14,17 +14,17 @@ class IntendAddDTO : public oatpp::DTO
 	// 姓名
 	DTO_FIELD(String, name);
 	DTO_FIELD_INFO(name) {
-		info->description = ZH_WORDS_GETTER("common.field.student.name");
+		info->description = ZH_WORDS_GETTER("intendedstudent.field.student.name");
 	}
 	// 年龄
 	DTO_FIELD(Int32, age);
 	DTO_FIELD_INFO(age) {
-		info->description = ZH_WORDS_GETTER("common.field.student.age");
+		info->description = ZH_WORDS_GETTER("intendedstudent.field.student.age");
 	}
 	// 性别
 	DTO_FIELD(String, sex);
 	DTO_FIELD_INFO(sex) {
-		info->description = ZH_WORDS_GETTER("common.field.student.sex");
+		info->description = ZH_WORDS_GETTER("intendedstudent.field.student.sex");
 	}
 
 	// 关联一个PayloadDTO负载数据对象

@@ -45,3 +45,24 @@ common:
    drop-class-count: 退课数量
    refund-describe: 退费说明
    refund-status: 退费状态
+
+intendedstudent:
+ api-tag: 意向学员
+ interface:
+  export: 意向学员导出
+  import: 意向学员导入
+ field:
+  student:
+   sex: 学员性别
+   age: 学员年龄
+   name: 学员名字
+ 
+onlinestudent:
+ api-tag: 在线成员
+ interface:
+  export: 在线成员导出
+ field:
+  student:
+   sex: 学员性别
+   age: 学员年龄
+   name: 学员名字

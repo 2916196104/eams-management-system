@@ -15,19 +15,19 @@ class IntendExcelQuery : public oatpp::DTO
 	// 姓名
 	DTO_FIELD(String, name);
 	DTO_FIELD_INFO(name) {
-		info->description = ZH_WORDS_GETTER("common.field.student.name");
+		info->description = ZH_WORDS_GETTER("intendedstudent.field.student.name");
 	}
 
 	// 性别
 	DTO_FIELD(String, sex);
 	DTO_FIELD_INFO(sex) {
-		info->description = ZH_WORDS_GETTER("common.field.student.sex");
+		info->description = ZH_WORDS_GETTER("intendedstudent.field.student.sex");
 	}
 
 	// 年龄
 	DTO_FIELD(UInt32, age);
 	DTO_FIELD_INFO(age) {
-		info->description = ZH_WORDS_GETTER("common.field.student.age");
+		info->description = ZH_WORDS_GETTER("intendedstudent.field.student.age");
 	}
 };
 

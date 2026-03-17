@@ -12,10 +12,10 @@ std::shared_ptr<oatpp::web::server::api::ApiController::OutgoingResponse> Intend
 		[&](ExcelComponent* ex) {
 			// 写入表头
 			ex->addHeader({
-				ZH_WORDS_GETTER("common.field.student.id") ,
-				ZH_WORDS_GETTER("common.field.student.name") ,
-				ZH_WORDS_GETTER("common.field.student.age") ,
-				ZH_WORDS_GETTER("common.field.student.sex")
+				ZH_WORDS_GETTER("intendedstudent.field.student.id") ,
+				ZH_WORDS_GETTER("intendedstudent.field.student.name") ,
+				ZH_WORDS_GETTER("intendedstudent.field.student.age") ,
+				ZH_WORDS_GETTER("intendedstudent.field.student.sex")
 			});
 
 			// 写入数据
