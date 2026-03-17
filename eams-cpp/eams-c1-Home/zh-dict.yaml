@@ -1,0 +1,12 @@
+﻿review_records:
+  tag: 点评记录
+  # ---ReviewRecordDTO
+  id: 点评唯一标识
+  student_id: 学生id
+  creator_name: 评价人
+  content: 评价内容
+  score: 评分
+  add_time: 添加时间
+  # ReviewRecordController
+  query-reviews:
+    summary: 获取点评记录列表（条件+分页）

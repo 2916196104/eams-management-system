@@ -21,12 +21,17 @@
 #define _REVIEWVO_H_
 
 #include "../../GlobalInclude.h"
+#include "domain/dto/review-records/reviewDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
  * 定义显示对象
  */
+class ReviewRecordPageJsonVO : JsonVO<ReviewRecordPageDTO::Wrapper>
+{
+	DTO_INIT(ReviewRecordPageJsonVO, JsonVO<ReviewRecordPageDTO::Wrapper>)
+};
 
 
 #include OATPP_CODEGEN_END(DTO)
