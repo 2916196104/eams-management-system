@@ -15,7 +15,7 @@ public class SwaggerConfig {
     @Bean
     Docket gradeManagerApi() {
         return SwaggerCore.defaultDocketBuilder(
-            "年级管理模块",
+            "互动模块",
             "com.zeroone.star.interact.controller",
             "interact"
         );
