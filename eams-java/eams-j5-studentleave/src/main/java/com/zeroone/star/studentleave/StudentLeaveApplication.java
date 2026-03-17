@@ -1,4 +1,4 @@
-package com.zeroone.star.doc;
+package com.zeroone.star.studentleave;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,10 +13,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @version 1.0.0
  */
 @SpringBootApplication
-public class DocApplication {
+public class StudentLeaveApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DocApplication.class, args);
+        SpringApplication.run(StudentLeaveApplication.class, args);
     }
 
 }
