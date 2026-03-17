@@ -28,7 +28,15 @@
 /**
  * 定义查询类
  */
-
+// 查询某个学生的报名记录
+class RegistrationRecordQuery : public PageQuery
+{
+	DTO_INIT(RegistrationRecordQuery, PageQuery);
+	// 学生id
+	API_DTO_FIELD_REQUIRE(Int64, student_id, ZH_WORDS_GETTER("registration-records.student_id"), true);
+	// 是否排除已过期的课程
+	API_DTO_FIELD_DEFAULT(Boolean, exclude_expired, ZH_WORDS_GETTER("registration-records.exclude_expired"));
+};
 
 #include OATPP_CODEGEN_END(DTO)
 

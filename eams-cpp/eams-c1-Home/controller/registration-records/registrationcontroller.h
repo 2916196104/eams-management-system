@@ -24,19 +24,37 @@
 #include "ServerInfo.h"
 #include "Macros.h"
 #include "domain/vo/BaseJsonVO.h"
+#include "domain/vo/registration-records/registrationVO.h"
 #include "domain/query/PageQuery.h"
+#include "domain/query/registration-records/registrationquery.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
+#define API_TAG ZH_WORDS_GETTER("registration-records.tag")
 //报名记录模块控制器
-class registrationController : public oatpp::web::server::api::ApiController
+class RegistrationRecodeController : public oatpp::web::server::api::ApiController
 {
 	// 定义控制器访问入口
-	API_ACCESS_DECLARE(registrationController);
+	API_ACCESS_DECLARE(RegistrationRecodeController);
 public: // 定义接口
+	// 定义获取报名记录列表（条件+分页）接口描述
+	API_DEF_ENDPOINT_INFO_QUERY_AUTH(
+		ZH_WORDS_GETTER("registration-records.query-records.summary"),
+		queryRecords,
+		RegistrationRecordQuery,
+		RegistrationRecordPageJsonVO::Wrapper,
+		API_TAG);
+	// 定义获取报名记录列表（条件+分页）接口处理
+	API_HANDLER_ENDPOINT_QUERY_AUTH(
+		API_M_GET,
+		"/c1/registration-records/query-records",
+		queryRecords,
+		RegistrationRecordQuery,
+		execQueryRecords(query)
+	);
 
 
 private: // 定义接口执行函数
-
+	RegistrationRecordPageJsonVO::Wrapper execQueryRecords(const RegistrationRecordQuery::Wrapper& query);
 };
 
 #include OATPP_CODEGEN_END(ApiController)
