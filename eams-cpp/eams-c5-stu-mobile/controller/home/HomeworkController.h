@@ -4,6 +4,8 @@
 #define _HOMEWORKCONTROLLER_H_
 
 #include "ApiHelper.h"
+#include"ServerInfo.h"
+#include"Macros.h"
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/query/PageQuery.h"
 
@@ -14,13 +16,15 @@ class HomeworkController : public oatpp::web::server::api::ApiController {
 	API_ACCESS_DECLARE(HomeworkController);
 public://定义接口
 	ENDPOINT_INFO(queryHomework) {
-		info->summary = "获取作业列表";
+		info->summary = ZH_WORDS_GETTER("homework.summary");
 		//支持授权
 		API_DEF_ADD_AUTH();
 		//定义响应参数格式
 		API_DEF_ADD_RSP_JSON_WRAPPER(StringJsonVO); 
 		//API_DEF_ADD_RSP_JSON(StringJsonVO::Wrapper);
 		API_DEF_ADD_PAGE_PARAMS();
+		API_DEF_ADD_QUERY_PARAMS(String, "id", ZH_WORDS_GETTER("homework.id"), "0001", false);
+		API_DEF_ADD_QUERY_PARAMS(String, "subject", ZH_WORDS_GETTER("homework.subject"), ZH_WORDS_GETTER("homework.example"), false);
 	}
 
 	ENDPOINT(API_M_GET, "/homework", queryHomework,QUERIES(QueryParams, params),API_HANDLER_AUTH_PARAME) {

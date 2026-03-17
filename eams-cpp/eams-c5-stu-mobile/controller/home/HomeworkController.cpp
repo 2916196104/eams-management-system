@@ -2,8 +2,8 @@
 #include"HomeworkController.h"
 
 StringJsonVO::Wrapper HomeworkController::executeQueryHomework(const PageQuery::Wrapper& query) {
-	//´´½¨Ò»¸öÏìÓ¦½á¹û
+	//åˆ›å»ºä¸€ä¸ªå“åº”ç»“æžœ
 	auto vo = StringJsonVO::createShared();
-	vo->success("success");
+	vo->success(ZH_WORDS_GETTER("homework.resp"));
 	return vo;
 }

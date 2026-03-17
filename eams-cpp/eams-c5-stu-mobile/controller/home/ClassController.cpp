@@ -3,6 +3,6 @@
 
 StringJsonVO::Wrapper ClassController::executeQueryClass(const PageQuery::Wrapper& query) {
 	auto vo=StringJsonVO::createShared();
-	vo->success("success");
+	vo->success(ZH_WORDS_GETTER("class.resp"));
 	return vo;
 }

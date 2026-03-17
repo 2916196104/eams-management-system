@@ -4,6 +4,8 @@
 #define _CLASSCONTROLLER_H_
 
 #include"ApiHelper.h"
+#include"ServerInfo.h"
+#include"Macros.h"
 #include"domain/vo/BaseJsonVO.h"
 #include"domain/query/PageQuery.h"	
 
@@ -19,10 +21,11 @@ class ClassController : public oatpp::web::server::api::ApiController{
 	API_ACCESS_DECLARE(ClassController);
 public:		
 	ENDPOINT_INFO(queryClass, ) {
-		info->summary = "查询班级学员列表";
+		info->summary =ZH_WORDS_GETTER("class.summary");
 		API_DEF_ADD_AUTH();
 		API_DEF_ADD_RSP_JSON_WRAPPER(StringJsonVO);
 		API_DEF_ADD_PAGE_PARAMS();
+		API_DEF_ADD_QUERY_PARAMS(String, "id", ZH_WORDS_GETTER("class.id"),"0001", false);
 	}
 	
 	//定义接口
