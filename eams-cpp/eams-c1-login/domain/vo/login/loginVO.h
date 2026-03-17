@@ -21,12 +21,29 @@
 #define _LOGINVO_H_
 
 #include "../../GlobalInclude.h"
+#include "../../dto/login/AuthDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
  * 定义显示对象
  */
+
+ /**
+  * 发送验证码返回 VO
+  */
+class SendResetCodeJsonVO : public JsonVO<SendResetCodeRespDTO::Wrapper>
+{
+	DTO_INIT(SendResetCodeJsonVO, JsonVO<SendResetCodeRespDTO::Wrapper>);
+};
+
+/**
+ * 找回密码返回 VO
+ */
+class ResetPasswordJsonVO : public JsonVO<ResetPasswordRespDTO::Wrapper>
+{
+	DTO_INIT(ResetPasswordJsonVO, JsonVO<ResetPasswordRespDTO::Wrapper>);
+};
 
 
 #include OATPP_CODEGEN_END(DTO)

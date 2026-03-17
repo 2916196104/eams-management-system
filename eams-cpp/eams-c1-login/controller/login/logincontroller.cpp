@@ -20,3 +20,12 @@
 #include "logincontroller.h"
 //实现接口执行函数
 
+SendResetCodeJsonVO::Wrapper loginController::executeSendResetCode(const SendResetCodeDTO::Wrapper& dto)
+{
+	return {};
+}
+
+ResetPasswordJsonVO::Wrapper loginController::executeResetPassword(const ResetPasswordDTO::Wrapper& dto)
+{
+	return {};
+}

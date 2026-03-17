@@ -1,0 +1,13 @@
+login:
+  tag: 登录模块
+  send-code:
+    summary: 发送验证码
+  reset-password:
+    summary: 重置密码
+  field:
+    mobile: 手机号
+    email: 邮箱
+    expire-seconds: 过期时间
+    verify-code: 验证码
+    new-password: 新密码
+    success: 是否成功
