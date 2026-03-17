@@ -1,4 +1,4 @@
-package com.homework.eamsj3class.controller1;
+package com.homework.eamsj3class.controller;
 
 import cn.hutool.core.collection.CollUtil;
 import com.alibaba.excel.EasyExcel;
