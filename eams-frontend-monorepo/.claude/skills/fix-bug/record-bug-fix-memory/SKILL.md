@@ -116,6 +116,15 @@ description: 当用户要求在 bug 已经定位并修复后，记录排错经�
 - 记忆重点：未来写记忆时，要明确区分当次采用的是“compat 覆盖路径”还是“显式单语 `defaultLocale/locales` 路线”，不要把历史上的不同修法混写成一个结论。
 - 后续约束：如果文档站本质上是单语站点，记录时必须强调“不要把多语言运行路径当默认前提”。
 
+### `simple-git-hooks` 钩子安装到假 `.git` 目录导致 lint-staged 从未触发
+
+- 问题现象：每次 `git commit` 时 `lint-staged` 和 `commitlint` 均未触发，暂存区文件未被格式化，提交信息未被校验。
+- 实际根因：Git 仓库根目录在 `01s-2603-13eams/`（`.git` 在这一层），而 pnpm monorepo 工作区在其子目录 `eams-frontend-monorepo/`。`eams-frontend-monorepo/` 内存在一个假的 `.git` 目录（仅含 `hooks/` 子目录，无 HEAD、config 等），`simple-git-hooks` 在 `postinstall` 时从 monorepo 目录向上查找 `.git`，先命中了这个假目录，于是把钩子安装到了 `eams-frontend-monorepo/.git/hooks/`。但 Git 执行提交时查找的是真正的 `01s-2603-13eams/.git/hooks/`（里面只有 `.sample` 文件），钩子从未被执行。
+- 关键线索：`git rev-parse --git-dir` 返回 `01s-2603-13eams/.git`，而 `ls eams-frontend-monorepo/.git/` 只有一个 `hooks/` 子目录且无任何 git 元数据文件，证实这是 `simple-git-hooks` 自行创建的假 `.git`。对比真正的 `.git/hooks/` 目录——里面没有任何非 `.sample` 钩子文件，直接确认钩子装错了位置。
+- 有效修复：三步组合修复：(1) 设置 `git config core.hooksPath eams-frontend-monorepo/.git/hooks`，让 Git 从 monorepo 的钩子目录读取钩子；(2) 更新 `simple-git-hooks.mjs`，钩子命令加 `cd eams-frontend-monorepo` 前缀，使 `npx` 能在 monorepo 目录下找到依赖和配置；(3) `commit-msg` 钩子用 `ROOT=$(pwd)` 先保存仓库根绝对路径，cd 后用 `"$ROOT/$1"` 拼出提交信息文件的完整路径（因为 `$1` 是相对于仓库根的路径，cd 后会失效）。
+- 验证方式：`git commit --allow-empty -m "test: hook trigger test"` 后看到 lint-staged 输出 `→ No staged files found.`，commitlint 也未拒绝合法信息，确认两个钩子均正常触发。
+- 后续约束：当 Git 仓库根与 monorepo 工作区不在同一层级时，必须检查 `git rev-parse --git-dir` 与 `simple-git-hooks` 实际写入钩子的位置是否一致。不要假设 `.git` 目录和 `package.json` 在同一层。删除假 `.git` 无效——`simple-git-hooks` 会重新创建，必须配合 `core.hooksPath` 使用。
+
 ### `packages/vue-element-cui-nuxt` 的 dev warning 清理经验
 
 - 历史现象：即使页面可打开，`nuxt dev` 里仍可能残留 i18n、OG Image、Icon、Sass 等 warning。
