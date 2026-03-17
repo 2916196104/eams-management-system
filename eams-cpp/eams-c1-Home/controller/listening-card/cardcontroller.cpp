@@ -20,3 +20,15 @@
 #include "cardcontroller.h"
 //实现接口执行函数
 
+/*
+* 获取试听卡列表
+*/
+cardListJsonVO::Wrapper cardController::executeCardListQuery() {
+	return {};
+}
+/*
+* 获取试听卡使用规则
+*/
+cardRuleJsonVO::Wrapper cardController::executeCardRuleQuery() {
+	return {};
+}

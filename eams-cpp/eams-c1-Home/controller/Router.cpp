@@ -19,10 +19,10 @@
 #include "stdafx.h"
 #include "Router.h"
 #include "ApiHelper.h"
+#include "listening-card/cardcontroller.h"
 #include "attendance-records/attendancecontroller.h"
 #include "points-exchange/exchangecontroller.h"
-#include "class/classcontroller.h"
-// 如果定义了关闭Swagger文档宏
+#include "class/classcontroller.h"// 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
 // 简化绑定控制器宏定义
 #define ROUTER_SIMPLE_BIND(__CLASS__) \
@@ -42,7 +42,7 @@ Router::Router(Endpoints* docEndpoints, HttpRouter* router)
 void Router::initRouter()
 {
 	//#TIP :系统扩展路由定义，写在这个后面
+	ROUTER_SIMPLE_BIND(cardController);
 	ROUTER_SIMPLE_BIND(exchangeController);
 	ROUTER_SIMPLE_BIND(classController);
-	ROUTER_SIMPLE_BIND(attendanceController);
-}
+	ROUTER_SIMPLE_BIND(attendanceController);}
