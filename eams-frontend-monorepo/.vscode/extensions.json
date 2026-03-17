@@ -1,4 +1,20 @@
 {
-	"recommendations": ["esbenp.prettier-vscode", "Spades.vs-picgo", "antfu.iconify", "antfu.unocss", "antfu.goto-alias"],
+	"recommendations": [
+		"esbenp.prettier-vscode",
+		"dbaeumer.vscode-eslint",
+		"EditorConfig.EditorConfig",
+		"Vue.volar",
+		"vitest.explorer",
+		"antfu.vite",
+		"antfu.iconify",
+		"antfu.unocss",
+		"antfu.goto-alias",
+		"Spades.vs-picgo",
+		"gruntfuggly.todo-tree",
+		"wayou.vscode-todo-highlight",
+		"uni-helper.uni-helper-vscode",
+		"alova.alova-vscode-extension",
+		"wot-ui.wot-ui-intellisense"
+	],
 	"unwantedRecommendations": []
 }

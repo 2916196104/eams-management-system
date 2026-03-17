@@ -1,0 +1,23 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Debug h5 (eams-fronttea)",
+			"type": "chrome",
+			"runtimeArgs": ["--remote-debugging-port=9222"],
+			"request": "launch",
+			"url": "http://localhost:5173",
+			"webRoot": "${workspaceFolder}/apps/eams-fronttea",
+			"preLaunchTask": "uni:h5:tea"
+		},
+		{
+			"name": "Debug h5 (eams-frontstu)",
+			"type": "chrome",
+			"runtimeArgs": ["--remote-debugging-port=9222"],
+			"request": "launch",
+			"url": "http://localhost:5173",
+			"webRoot": "${workspaceFolder}/apps/eams-frontstu",
+			"preLaunchTask": "uni:h5:stu"
+		}
+	]
+}
