@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, defineProps, defineEmits } from 'vue';
+import { ref, onMounted } from 'vue';
 import { ElCheckboxGroup, ElCheckbox } from 'element-plus';
 import type { CuiCheckboxEnumProps, CuiCheckboxEnumEmits, CuiCheckboxEnumOption } from './types';
 

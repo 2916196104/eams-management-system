@@ -2,6 +2,15 @@
 
 本项目是 EAMS（企业资产管理系统）的前端单仓架构项目。
 
+## 本项目的技能表
+
+- `record-bug-fix-memory`
+- 路径：`.claude/skills/fix-bug/record-bug-fix-memory/SKILL.md`
+- 用途：在 bug 已经定位并修复后，记录事故结论、排错经验、AI 记忆更新、复盘摘要和本地 MCP 记忆。
+- 触发时机：当用户要求“记录经验教训”“补充 AI 记忆”“写事故记录”“同步本地 MCP 记忆”时，必须使用；当主代理完成错误处理后，也应主动参考并补充这个技能。
+- 参考作用：后续处理错误时，应先把这个技能作为历史事故模式、稳定基线、验证证据写法的参考来源之一。
+- 约束：这个技能只负责记忆沉淀和经验总结，不承担具体修复职责；解决错误后，应主动把新增的根因、关键误导点、有效修复、验证方式和后续约束补充回这个技能。
+
 ## 主动问询实施细节
 
 在我与你沟通并要求你具体实施更改时，难免会遇到很多模糊不清的事情。
@@ -168,6 +177,13 @@
 ## 项目概述
 
 这是一个基于 pnpm workspace 的 monorepo 项目，包含多个前端应用和共享包。
+
+## AI 记忆补充
+
+- `packages/vue-element-cui` 在 `vite@8` 下出现过构建事故：`rollupOptions.output.assetFileNames` 直接返回 `assetInfo.name`，当 CSS 资源名缺失时会返回 `undefined`，进而触发 `vite:css-post` 的 `path` 类型错误。处理原则：不降级依赖，不改依赖版本，优先补齐构建配置回退值，例如返回 `assetInfo.name ?? "assets/[name][extname]"`。
+- `packages/vue-element-cui-nuxt` 在 `nuxt dev` 下出现过启动事故：不能假设 workspace 依赖包已经先构建完，也不能假设 `.nuxt` 目录已提前存在。处理原则：为 `dev/build` 增加 `nuxt prepare` 前置，给 `@eams/vue-element-cui` 和 `@eams/vue-element-cui/styles` 配源码别名，并显式关闭当前模板链不稳定的 `experimental.appManifest`。这样做是为了让文档站开发态直接消费源码，避免因缺失 `.nuxt` 产物、缺失组件库 `dist` 样式或 `#app-manifest` 解析失败而再次启动报错。
+- `packages/vue-element-cui-nuxt` 在文档站交互上出现过一次客户端事故：暗黑模式无法切换、侧边栏折叠按钮点击无效，不要先入为主地归因为样式问题。根因是 Nuxt 开发态客户端 hydration 被依赖入口兼容问题打断，首个明确信号是浏览器报错 `dayjs.min.js does not provide an export named 'default'`，后续还会串出 `@braintree/sanitize-url`、`debug`、`mermaid` 的 ESM/CJS 兼容错误。处理原则：保持 `extends: ["shadcn-docs-nuxt"]` 不变，优先在 `packages/vue-element-cui-nuxt/nuxt.config.ts` 的 Vite 层做兼容修正，包括将 `dayjs` 指向 `dayjs/esm/index.js`、将 `mermaid` 指向 `mermaid/dist/mermaid.esm.mjs`、将 `debug` 指向本地 `./shims/debug.ts`，并补齐 `vite.optimizeDeps.include`、`vite.resolve.dedupe = ["dayjs"]`、`vite.ssr.noExternal = ["debug"]`；样式层只做兜底，`tailwind.config.js` 必须覆盖 `shadcn-docs-nuxt` 的内容扫描路径。排错顺序固定为：先用 Chrome MCP 看 console 模块错误，再修依赖入口，最后再看 Tailwind 或主题样式。
+- `.claude/skills/fix-bug/record-bug-fix-memory/SKILL.md` 是本项目专用的错误经验沉淀技能。后续处理 bug、warning、启动事故或 hydration 问题时，可以先把这个技能作为历史经验参考；一旦确认问题已经修复，应主动把新增的根因、关键误导点、有效修复、验证方式和后续约束补充回这个技能，并在需要时同步回根级 AI 记忆文档与 Memorix。不要把这个技能写成具体修复步骤清单。
 
 # Memorix — Automatic Memory Rules
 

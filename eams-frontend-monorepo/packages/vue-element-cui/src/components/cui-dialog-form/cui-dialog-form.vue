@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { CuiDialog } from '../cui-dialog';
 import { CuiForm } from '../cui-form';
 import type { CuiDialogFormProps, CuiDialogFormEmits } from './types';

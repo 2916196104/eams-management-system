@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
+
 import type { CuiDetailProps } from './types';
 
 const props = withDefaults(defineProps<CuiDetailProps>(), {

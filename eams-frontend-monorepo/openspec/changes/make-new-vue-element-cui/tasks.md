@@ -209,8 +209,8 @@
 - [x] 15.4 更新 package.json 构建脚本（dev、build、build:js）
 - [x] 15.5 添加 vite-plugin-dts 依赖用于类型生成
 - [x] 15.6 验证 Vite 构建成功（运行 pnpm run build）
-- [x] 15.7 更新 docs/plans/2026-03-10-vue-element-cui-migration-design.md（构建工具变更说明）
-- [x] 15.8 更新 docs/plans/2026-03-10-make-new-vue-element-cui.md（构建工具变更说明）
+- [x] 15.7 更新组件库迁移设计计划中的构建工具变更说明（现已并入 2026-03-13 主计划）
+- [x] 15.8 更新组件库迁移实施计划中的构建工具变更说明（现已并入 2026-03-13 主计划）
 - [x] 15.9 更新 packages/vue-element-cui/docs/prompts/init-components-lib.md（构建工具变更说明）
 - [x] 15.10 更新 OpenSpec 变更记录（design.md 已更新）
 

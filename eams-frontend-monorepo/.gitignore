@@ -49,5 +49,8 @@ pnpm-debug.log*
 package-lock.json
 yarn.lock
 
+# Local AI collaboration artifacts
+.superpowers/
+
 # 忽略本地缓存目录
 local_cache

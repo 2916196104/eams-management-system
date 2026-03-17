@@ -235,6 +235,21 @@ const menus = reactive([
   },
   {
     id: 13,
+    path: '/sample/mycalendar',
+    text: '课程表(预约管理)'
+  },
+  {
+    id: 123,
+    path: '/sample/f1table',
+    text: 'F1自定义表格'
+  },
+  {
+    id: 13,
+    path: '/sample/mydetaildialog',
+    text: '课时详情对话框'
+  },
+  {
+    id: 13,
     path: '/sample/statistics',
     text: '统计数据(控制台)'
   },

@@ -5,6 +5,11 @@ packages:
   - configs/*
 
 onlyBuiltDependencies:
+  - "@parcel/watcher"
   - core-js
   - ejs
+  - esbuild
+  - sharp
+  - simple-git-hooks
+  - vue-demi
   - yorkie
