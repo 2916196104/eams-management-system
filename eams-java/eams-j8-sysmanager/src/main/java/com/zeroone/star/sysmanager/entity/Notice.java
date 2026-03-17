@@ -4,7 +4,12 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
-
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 /**
  * <p>
  * 公告
@@ -22,43 +27,54 @@ public class Notice implements Serializable {
     /**
      * id
      */
+    @ApiModelProperty(value = "ID", example = "1")
     private Long id;
 
     /**
      * 公告标题
      */
+    @ApiModelProperty(value = "公告标题", example = "1")
     private String title;
 
     /**
      * 公告内容
      */
+    @ApiModelProperty(value = "公告内容", example = "1")
     private String content;
 
+    @ApiModelProperty(value = "viewNum", example = "1")
     private Integer viewNum;
 
     /**
      * 创建人
      */
+    @ApiModelProperty(value = "创建人", example = "1")
     private Long creator;
 
     /**
      * 编辑人
      */
+    @ApiModelProperty(value = "编辑人", example = "1")
     private Long editor;
 
     /**
      * 添加时间
      */
+    @ApiModelProperty(value = "添加时间", example = "2023-01-01")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime addTime;
 
     /**
      * 编辑时间
      */
+    @ApiModelProperty(value = "编辑时间", example = "2023-01-01")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime editTime;
 
     /**
      * 删除标记
      */
+    @ApiModelProperty(value = "创建人", example = "1")
     private Boolean deleted;
 
 
