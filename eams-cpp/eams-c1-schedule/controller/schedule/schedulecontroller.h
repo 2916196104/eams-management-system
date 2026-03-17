@@ -25,18 +25,59 @@
 #include "Macros.h"
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/query/PageQuery.h"
+#include "domain/dto/schedule/ScheduleDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
 //课表模块控制器
-class scheduleController : public oatpp::web::server::api::ApiController
+//定义接口分类标签，通过语言包宏获取
+#define API_TAG ZH_WORDS_GETTER("schedule.tag")
+class ScheduleController : public oatpp::web::server::api::ApiController
 {
 	// 定义控制器访问入口
-	API_ACCESS_DECLARE(scheduleController);
-public: // 定义接口
-
-
+	API_ACCESS_DECLARE(ScheduleController);
+public: 
+    // =======================================================
+    // 接口 1：家长提交课程预约申请
+    // =======================================================
+    // 1 定义新增预约接口描述
+    API_DEF_ENDPOINT_INFO_AUTH(
+        ZH_WORDS_GETTER("schedule.appointment.summary"),      // 接口标题
+        addAppointment,                                      // 端点函数名
+        StringJsonVO::Wrapper,                               // 响应数据类型
+        API_TAG                                              // Swagger 标签
+    );
+    // 3.2 定义新增预约接口处理
+    API_HANDLER_ENDPOINT_AUTH(
+        API_M_POST,
+        "schedule/appointment",
+        addAppointment,
+        BODY_DTO(ScheduleAppointmentDTO::Wrapper, dto),
+        execAddAppointment(dto, authObject->getPayload()) // 传递 DTO 和 Payload (通常包含当前用户/家长信息)
+    );
+    // =======================================================
+    // 接口 2：家长提交课程请假申请
+    // =======================================================
+    // 3.1 定义新增请假接口描述
+    API_DEF_ENDPOINT_INFO_AUTH(
+        ZH_WORDS_GETTER("schedule.leave.summary"),
+        addLeave,
+        StringJsonVO::Wrapper,
+        API_TAG
+    );
+    // 3.2 定义新增请假接口处理
+    API_HANDLER_ENDPOINT_AUTH(
+        API_M_POST,
+        "schedule/leave",
+        addLeave,
+        BODY_DTO(ScheduleLeaveDTO::Wrapper, dto),
+        execAddLeave(dto, authObject->getPayload())
+    );
 private: // 定义接口执行函数
+    // 3.3 演示家长提交预约申请逻辑
+    StringJsonVO::Wrapper execAddAppointment(const ScheduleAppointmentDTO::Wrapper& dto, const PayloadDTO& payload);
 
+    // 3.3 演示家长提交请假申请逻辑
+    StringJsonVO::Wrapper execAddLeave(const ScheduleLeaveDTO::Wrapper& dto, const PayloadDTO& payload);
 };
 
 #include OATPP_CODEGEN_END(ApiController)
