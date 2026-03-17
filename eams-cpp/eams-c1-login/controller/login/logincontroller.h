@@ -25,18 +25,109 @@
 #include "Macros.h"
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/query/PageQuery.h"
+#include "domain/dto/login/AuthDTO.h"
+#include "domain/vo/login/loginVO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
-//ç™»é™†æ¨¡å—æ§åˆ¶å™¨
+#define API_TAG ZH_WORDS_GETTER("login.tag")
+
+//µÇÂ½Ä£¿é¿ØÖÆÆ÷
 class loginController : public oatpp::web::server::api::ApiController
 {
-	// å®šä¹‰æ§åˆ¶å™¨è®¿é—®å…¥å£
+	// ¶¨Òå¿ØÖÆÆ÷·ÃÎÊÈë¿Ú
 	API_ACCESS_DECLARE(loginController);
-public: // å®šä¹‰æ¥å£
+public: // ¶¨Òå½Ó¿Ú
+
+	/**
+	 * 1. ·¢ËÍÑéÖ¤Âë
+	 * ÇëÇó²ÎÊı£º
+	 * {
+	 *   "mobile": "13800138000",
+	 *   "email": "123456@qq.com"
+	 * }
+	 *
+	 * ÒµÎñÂß¼­£º
+	 * 1) Ğ£ÑéÊÖ»úºÅÓëÓÊÏä¸ñÊ½
+	 * 2) ²éÑ¯Êı¾İ¿âÖĞÊÇ·ñ´æÔÚ¶ÔÓ¦ÕËºÅ
+	 * 3) Éú³É6Î»ÑéÖ¤Âë
+	 * 4) ½«ÑéÖ¤Âë´æÈë Redis£ºpwd:reset:{mobile}:{email}£¬TTL=300Ãë
+	 * 5) Í¨¹ı QQ ÓÊÏä·¢ËÍÑéÖ¤Âë
+	 */
+	API_DEF_ENDPOINT_INFO_AUTH(
+		ZH_WORDS_GETTER("login.send-code.summary"),
+		sendResetCode,
+		SendResetCodeJsonVO::Wrapper,
+		API_TAG
+	);
+
+	API_HANDLER_ENDPOINT_AUTH(
+		API_M_POST,
+		"/c1/login/send-code",
+		sendResetCode,
+		BODY_DTO(SendResetCodeDTO::Wrapper, dto),
+		executeSendResetCode(dto)
+	);
 
 
-private: // å®šä¹‰æ¥å£æ‰§è¡Œå‡½æ•°
+	/**
+ * 2. ÕÒ»ØÃÜÂë
+ * ÇëÇó²ÎÊı£º
+ * {
+ *   "mobile": "13800138000",
+ *   "email": "123456@qq.com",
+ *   "verifyCode": "123456",
+ *   "newPassword": "new123456"
+ * }
+ *
+ * ÒµÎñÂß¼­£º
+ * 1) Ğ£ÑéÇëÇó²ÎÊı
+ * 2) ¸ù¾İ Redis Key£ºpwd:reset:{mobile}:{email} ¶ÁÈ¡ÑéÖ¤Âë
+ * 3) ÑéÖ¤ÑéÖ¤ÂëÊÇ·ñ´æÔÚ¡¢ÊÇ·ñÒ»ÖÂ
+ * 4) ²éÑ¯Êı¾İ¿âÈ·ÈÏÓÃ»§´æÔÚ
+ * 5) ¼ÓÃÜĞÂÃÜÂë²¢¸üĞÂÊı¾İ¿â
+ * 6) É¾³ı Redis ÖĞÑéÖ¤Âë£¬·ÀÖ¹ÖØ¸´Ê¹ÓÃ
+ */
+	API_DEF_ENDPOINT_INFO_AUTH(
+		ZH_WORDS_GETTER("login.reset-password.summary"),
+		resetPassword,
+		ResetPasswordJsonVO::Wrapper,
+		API_TAG
+	);
 
+	API_HANDLER_ENDPOINT_AUTH(
+		API_M_PUT,
+		"/c1/login/reset-password",
+		resetPassword,
+		BODY_DTO(ResetPasswordDTO::Wrapper, dto),
+		executeResetPassword(dto)
+	);
+
+
+private: // ¶¨Òå½Ó¿ÚÖ´ĞĞº¯Êı
+	/**
+	 * Ö´ĞĞ£º·¢ËÍÑéÖ¤Âë
+	 * ÕâÀïÔÚ .cpp ÖĞ½¨ÒéÊµÏÖÒÔÏÂÂß¼­£º
+	 * 1. ÅĞ¿ÕÓë¸ñÊ½Ğ£Ñé
+	 * 2. Ğ£Ñé mobile + email ¶ÔÓ¦ÓÃ»§ÊÇ·ñ´æÔÚ
+	 * 3. Éú³ÉÑéÖ¤Âë
+	 * 4. Redis.setex("pwd:reset:" + mobile + ":" + email, 300, verifyCode)
+	 * 5. ÓÊ¼ş·¢ËÍ
+	 * 6. ×é×°·µ»ØÖµ
+	 */
+	SendResetCodeJsonVO::Wrapper executeSendResetCode(const SendResetCodeDTO::Wrapper& dto);
+
+	/**
+	 * Ö´ĞĞ£ºÕÒ»ØÃÜÂë
+	 * ÕâÀïÔÚ .cpp ÖĞ½¨ÒéÊµÏÖÒÔÏÂÂß¼­£º
+	 * 1. ÅĞ¿ÕÓë¸ñÊ½Ğ£Ñé
+	 * 2. ´Ó Redis »ñÈ¡ÑéÖ¤Âë
+	 * 3. ±È½ÏÑéÖ¤ÂëÊÇ·ñÒ»ÖÂ
+	 * 4. Ğ£ÑéÓÃ»§ÊÇ·ñ´æÔÚ
+	 * 5. ¸üĞÂÃÜÂë
+	 * 6. É¾³ı Redis key
+	 * 7. ·µ»Ø½á¹û
+	 */
+	ResetPasswordJsonVO::Wrapper executeResetPassword(const ResetPasswordDTO::Wrapper& dto);
 };
 
 #include OATPP_CODEGEN_END(ApiController)
