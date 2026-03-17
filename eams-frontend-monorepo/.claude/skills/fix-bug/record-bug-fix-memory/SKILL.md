@@ -125,6 +125,32 @@ description: 当用户要求在 bug 已经定位并修复后，记录排错经�
 - 验证方式：`git commit --allow-empty -m "test: hook trigger test"` 后看到 lint-staged 输出 `→ No staged files found.`，commitlint 也未拒绝合法信息，确认两个钩子均正常触发。
 - 后续约束：当 Git 仓库根与 monorepo 工作区不在同一层级时，必须检查 `git rev-parse --git-dir` 与 `simple-git-hooks` 实际写入钩子的位置是否一致。不要假设 `.git` 目录和 `package.json` 在同一层。删除假 `.git` 无效——`simple-git-hooks` 会重新创建，必须配合 `core.hooksPath` 使用。
 
+### `packages/vue-element-cui-nuxt` 的 MDC 文档图标丢失事故（prettier 误格式化）
+
+- 问题现象：文档站 `/getting-started`、`/components`、`/guidelines`、`/updates` 页面卡片中的图标全部消失，`title:`、`icon:`、`to:` 等 props 变成了纯文本直接渲染在页面上。
+- 实际根因：`prettier` 在格式化 `.md` 文件时，会在 MDC 组件声明行（如 `::card`）与 YAML frontmatter 起始标记（`---`）之间自动插入一个空行。MDC 解析器要求两者紧贴、不得有空行，一旦有空行，`---` 被解析为 `<hr>` 标签，所有 YAML 内容变成段落文本，props 全部失效。
+- 关键误导点：最初以为是 icon bundle 没有包含对应图标名，或 `SmartIcon` 组件缺失，花时间检查 icon 库配置。应该先看 HTML 源码——HTML 中根本没有 icon 元素，说明 props 从未被解析。
+- 有效修复：(1) 新建 `.prettierignore`，添加 `packages/vue-element-cui-nuxt/content/**/*.md`；(2) 在 `prettier.config.mjs` 的 `overrides` 中为该路径添加 `requirePragma: true` 双重保险；(3) 手动还原被格式化破坏的所有 `::card\n---`（去掉中间空行）。
+- 验证方式：`Invoke-WebRequest http://localhost:3001/getting-started` 返回的 HTML 中包含 `i-lucide:download`、`i-lucide:rocket`、`i-lucide:life-buoy`、`i-lucide:arrow-left-right` 四个 icon class。
+- 后续约束：MDC 内容文件永远不能被 prettier 格式化；`.prettierignore` 中必须覆盖所有 nuxt content 目录；排查图标消失时，先看 HTML 源码中是否存在 icon 元素，而不是先查图标库配置。
+
+### `packages/vue-element-cui-nuxt` 的 Nuxt SSR i18n 版本冲突事故（pnpm 依赖提升）
+
+- 问题现象：`nuxt dev` 启动后所有页面返回 500 错误，错误信息为 `Error: (0, __vite_ssr_import_0__.registerMessageResolver) is not a function`。
+- 实际根因：`@intlify/core-base` 存在多个版本（9.1.9 和 11.x）同时存在于依赖树中。`shamefully-hoist=false` 使 pnpm 按隔离模式管理依赖，Vite SSR 解析时命中了旧版 9.1.9（缺少 `registerMessageResolver`），而非 `vue-i18n@11.x` 所需的 11.x 版本。升级 `shamefully-hoist=true` 后，又出现旧版 `sass@1.26.8` 被提升，导致 `sass.initAsyncCompiler is not a function`。
+- 关键误导点：多次尝试 `vite.ssr.noExternal`、`vite.resolve.alias`、`vite.resolve.dedupe` 等 nuxt.config.ts 配置，全部是无效方向；正确方向是强制 pnpm 在整个 workspace 中使用单一版本，而不是在 Vite 层绕过。
+- 有效修复：(1) 在 `.npmrc` 中改为 `shamefully-hoist=true`；(2) 在 `pnpm-workspace.yaml` 的 `overrides` 中添加 `"@intlify/core-base": "11.3.0"`、`"@intlify/shared": "11.3.0"`、`"sass": "^1.98.0"`；(3) 根 `package.json` 中升级 `vue-i18n` 到 `"11.3.0"`；(4) 在 Cursor 外部的终端运行 `pnpm install` 使 overrides 生效。
+- 验证方式：Nuxt dev server 启动无 500 错误，全部页面返回 200 OK；`node_modules/@intlify/core-base/package.json` 中 `version` 字段为 `11.3.0`。
+- 后续约束：遇到 Nuxt SSR `is not a function` 错误，先用 `pnpm why <package>` 排查是否存在多版本实例，再通过 `pnpm-workspace.yaml` 的 `overrides` 强制单一版本；不要第一反应去改 `nuxt.config.ts` 的 Vite 层配置。
+
+### Cursor IDE 持有 `.node` 原生文件锁导致 `pnpm install` 失败
+
+- 问题现象：在 Cursor 内置终端运行 `pnpm install` 时，报 `EPERM: operation not permitted, unlink 'node_modules/@oxc-parser/binding-win32-x64-msvc/parser.win32-x64-msvc.node'`，安装回滚，依赖变更无法生效。
+- 实际根因：Cursor IDE 的 TypeScript 语言服务进程（tsserver）持有 `@oxc-parser` 原生 `.node` 文件的 Windows 文件锁，pnpm 无法删除该文件来完成依赖更新，导致整个安装事务回滚。
+- 有效修复：在 Cursor 外部的终端（如 PowerShell、系统 CMD）中运行 `pnpm install`，绕开 IDE 文件锁。
+- 验证方式：外部终端 `pnpm install` 结束后无 EPERM 错误，`pnpm-lock.yaml` 正确更新。
+- 后续约束：在该 monorepo 中更新任何涉及原生 Node.js addon 的依赖（如 `@oxc-parser`、`esbuild`、`@swc/*`）时，必须在 Cursor 外的终端运行 `pnpm install`；Cursor 内置终端只用于读取日志，不用于执行 install。
+
 ### `packages/vue-element-cui-nuxt` 的 dev warning 清理经验
 
 - 历史现象：即使页面可打开，`nuxt dev` 里仍可能残留 i18n、OG Image、Icon、Sass 等 warning。
