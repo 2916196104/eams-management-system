@@ -142,6 +142,17 @@ function submitForm() {
     ElMessage.warning('请输入账号和密码')
     return
   }
+  //账号格式校验
+  if (!/^[a-zA-Z0-9_]{4,16}$/.test(formData.username)) {
+    ElMessage.warning('账号格式错误，4-16位字母、数字或下划线')
+    return
+  }
+
+  // 添加密码长度校验
+  if (formData.password.length < 6) {
+    ElMessage.warning('密码长度不能少于 6 位')
+    return
+  }
 
   if (!enableVerify.value) {
     doLogin('')

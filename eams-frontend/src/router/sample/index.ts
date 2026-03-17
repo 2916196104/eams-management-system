@@ -32,8 +32,8 @@ const routes = [
       },
       {
         name: 'secharts',
-        path: '/sample/echarts',
-        component: () => import('@/views/sample/echarts/Echarts.vue')
+        path: '/sample/echarts', //更改为图表示例  LineChartDemo.vue（示例）
+        component: () => import('@/views/sample/echarts/LineChartDemo.vue')
       },
       {
         name: 'sformcreate',
