@@ -1,0 +1,9 @@
+﻿gettimeable:
+ summary: 获取课表接口
+ resp: 操作成功
+ search1: 课程名
+ search2: 师资信息
+course:
+ name1: 线性代数
+ teachername1: 老师
+      
