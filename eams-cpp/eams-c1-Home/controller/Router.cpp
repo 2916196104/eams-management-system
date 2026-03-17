@@ -1,3 +1,4 @@
+
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -24,6 +25,7 @@
 #include "points-exchange/exchangecontroller.h"
 #include "controller/review-records/reviewcontroller.h"
 #include "class/classcontroller.h"
+#include "listening-card/cardcontroller.h"
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
 // 简化绑定控制器宏定义
@@ -49,4 +51,5 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(classController);
 	ROUTER_SIMPLE_BIND(RegistrationRecodeController);
 	ROUTER_SIMPLE_BIND(ScoreController);	// 查询成绩接口控制器的路由绑定
+	ROUTER_SIMPLE_BIND(cardController);
 }
