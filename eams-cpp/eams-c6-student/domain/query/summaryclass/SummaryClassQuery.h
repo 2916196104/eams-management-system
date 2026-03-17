@@ -15,10 +15,10 @@ class SummaryClassQuery : public PageQuery
 	DTO_INIT(SummaryClassQuery, PageQuery);
 
 	//1.学员姓名
-	API_DTO_FIELD_REQUIRE(String, studentName, ZH_WORDS_GETTER("SummaryClass.studentName"), true);
+	API_DTO_FIELD_REQUIRE(String, studentName, ZH_WORDS_GETTER("SummaryClass.field.studentName"), true);
 
 	//2.课程名称
-	API_DTO_FIELD_REQUIRE(String, courseName, ZH_WORDS_GETTER("SummaryClass.courseName"), true);
+	API_DTO_FIELD_REQUIRE(String, courseName, ZH_WORDS_GETTER("SummaryClass.field.courseName"), true);
 };
 
 

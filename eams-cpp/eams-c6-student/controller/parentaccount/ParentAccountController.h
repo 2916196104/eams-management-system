@@ -15,9 +15,9 @@ class ParentAccountController : public oatpp::web::server::api::ApiController
 public:
 	ENDPOINT_INFO(parentAccountChange) {
 
-		info->summary = ZH_WORDS_GETTER("ParentAccountChange.query.summary");
+		info->summary = ZH_WORDS_GETTER("ParentAccountChange.summary");
 
-		info->addTag(ZH_WORDS_GETTER("ParentAccountChange.query.tag"));
+		info->addTag(ZH_WORDS_GETTER("ParentAccountChange.tag"));
 
 		API_DEF_ADD_AUTH();
 
@@ -36,9 +36,9 @@ public:
 
 	ENDPOINT_INFO(parentPasswordChange) {
 
-		info->summary = ZH_WORDS_GETTER("ParentPasswordChange.query.summary");
+		info->summary = ZH_WORDS_GETTER("ParentPasswordChange.summary");
 
-		info->addTag(ZH_WORDS_GETTER("ParentPasswordChange.query.tag"));
+		info->addTag(ZH_WORDS_GETTER("ParentPasswordChange.tag"));
 
 		API_DEF_ADD_AUTH();
 
