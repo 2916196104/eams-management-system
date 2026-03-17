@@ -45,7 +45,7 @@
 				</div>
 				<pre
 					class="overflow-auto rounded-xl bg-slate-900 p-4 text-sm leading-6 text-sky-100"
-				><code>pnpm add @eams/vue-element-cui element-plus</code></pre>
+				><code>pnpm add @eams-monorepo/vue-element-cui element-plus</code></pre>
 				<div class="space-y-3 text-sm text-slate-300">
 					<p>推荐先走一遍安装和快速开始，再根据组件类型进入对应栏目。</p>
 					<ul class="space-y-2">
@@ -115,7 +115,7 @@ const sectionEntries = [
 ];
 
 const installPoints = [
-	"接入真实 @eams/vue-element-cui 组件和样式。",
+	"接入真实 @eams-monorepo/vue-element-cui 组件和样式。",
 	"组件体系页默认提供 live demo 优先的阅读模型。",
 	"规范栏目专门收纳共性经验，而不是散回组件页面。",
 ];

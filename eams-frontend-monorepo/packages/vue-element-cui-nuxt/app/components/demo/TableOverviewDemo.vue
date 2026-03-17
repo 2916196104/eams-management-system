@@ -12,8 +12,8 @@
 </template>
 
 <script setup lang="ts">
-import { CuiTable } from "@eams/vue-element-cui";
-import type { CuiTableColumn } from "@eams/vue-element-cui";
+import { CuiTable } from "@eams-monorepo/vue-element-cui";
+import type { CuiTableColumn } from "@eams-monorepo/vue-element-cui";
 
 const tableData = [
 	{ id: 1, name: "固定资产", owner: "财务共享中心", status: "active" },

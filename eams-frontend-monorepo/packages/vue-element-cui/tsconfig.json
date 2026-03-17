@@ -11,7 +11,7 @@
 		"declarationMap": false,
 		"paths": {
 			"@/*": ["./src/*"],
-			"@eams/vue-element-cui": ["./src/index.ts"]
+			"@eams-monorepo/vue-element-cui": ["./src/index.ts"]
 		},
 		"types": ["vite/client", "vitest/globals"]
 	},

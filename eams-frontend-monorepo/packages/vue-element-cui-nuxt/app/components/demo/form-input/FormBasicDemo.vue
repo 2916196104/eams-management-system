@@ -16,8 +16,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import { CuiForm } from "@eams/vue-element-cui";
-import type { CuiFormField } from "@eams/vue-element-cui";
+import { CuiForm } from "@eams-monorepo/vue-element-cui";
+import type { CuiFormField } from "@eams-monorepo/vue-element-cui";
 
 const formRef = ref<InstanceType<typeof CuiForm>>();
 const formData = ref({

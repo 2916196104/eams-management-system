@@ -87,7 +87,7 @@
 
 我们的 `nuxt.config.ts` 和 `app.config.ts` 应该保持精简，就像 `ijkml/nuxt-umami-docs` 项目一样精简。避免出现复杂化的误区。`ijkml/nuxt-umami-docs` 实现文档做起来很简单，我们也应该要简单的实现文档。现在我们的做法过于复杂了。陷入误区了。
 
-## 03 <!-- 已处理，本质上是dayjs出现的客户端水和错误 --> 处理 `@eams/vue-element-cui-nuxt` 文档出现的问题
+## 03 <!-- 已处理，本质上是dayjs出现的客户端水和错误 --> 处理 `@eams-monorepo/vue-element-cui-nuxt` 文档出现的问题
 
 1. 使用谷歌浏览器 MCP 运行 dev 命令。
 2. 现在的文档无法完成明暗主题的切换。点击暗黑模式按钮，无法切换成暗黑模式。

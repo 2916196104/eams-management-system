@@ -36,7 +36,7 @@
 - [x] 4.5 实现 ComponentDemo 组件的代码高亮功能
 - [x] 4.6 实现 ComponentDemo 组件的响应式布局（桌面端并排，移动端堆叠）
 - [x] 4.7 实现 ComponentDemo 组件的代码折叠/展开功能
-- [x] 4.8 配置全局组件自动导入（从 @eams/vue-element-cui 导入）
+- [x] 4.8 配置全局组件自动导入（从 @eams-monorepo/vue-element-cui 导入）
 
 ## 5. 组件文档内容更新
 
@@ -95,7 +95,7 @@
 - [ ] 9.7 测试深色模式切换
 - [ ] 9.8 测试响应式布局（桌面端、平板、移动端）
 - [ ] 9.9 验证所有内部链接正常工作
-- [ ] 9.10 验证组件在文档中正常渲染（从 @eams/vue-element-cui 导入）
+- [ ] 9.10 验证组件在文档中正常渲染（从 @eams-monorepo/vue-element-cui 导入）
 
 ## 10. 构建和部署验证
 

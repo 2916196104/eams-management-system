@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import { CuiDialog } from "@eams/vue-element-cui";
+import { CuiDialog } from "@eams-monorepo/vue-element-cui";
 
 const visible = ref(false);
 const lastAction = ref("尚未执行");

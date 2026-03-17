@@ -1,6 +1,6 @@
 ## Context
 
-当前 `@eams/vue-element-cui-nuxt` 使用基础的 Nuxt 3 + Nuxt Content + Tailwind CSS 配置，虽然能够展示文档内容，但缺乏专业组件库文档站点应有的特性：
+当前 `@eams-monorepo/vue-element-cui-nuxt` 使用基础的 Nuxt 3 + Nuxt Content + Tailwind CSS 配置，虽然能够展示文档内容，但缺乏专业组件库文档站点应有的特性：
 
 - 缺少统一的导航系统（顶部导航、侧边栏、面包屑）
 - 缺少交互式组件演示能力
@@ -12,7 +12,7 @@ Docus 是 Nuxt Content 团队官方提供的文档模板，专为技术文档和
 
 **约束条件**:
 
-- 必须保持与 `@eams/vue-element-cui` 核心库的 workspace 依赖关系
+- 必须保持与 `@eams-monorepo/vue-element-cui` 核心库的 workspace 依赖关系
 - 必须支持在文档中实时演示组件
 - 必须保持现有文档内容的迁移路径清晰
 - 必须支持中文文档
@@ -36,7 +36,7 @@ Docus 是 Nuxt Content 团队官方提供的文档模板，专为技术文档和
 
 **Non-Goals:**
 
-- 不修改 `@eams/vue-element-cui` 核心组件库的任何代码
+- 不修改 `@eams-monorepo/vue-element-cui` 核心组件库的任何代码
 - 不实现自定义的文档构建系统（使用 Docus 提供的能力）
 - 不实现在线代码编辑器（使用 Docus 的 MDC 组件即可）
 - 不实现多语言支持（当前仅支持中文）

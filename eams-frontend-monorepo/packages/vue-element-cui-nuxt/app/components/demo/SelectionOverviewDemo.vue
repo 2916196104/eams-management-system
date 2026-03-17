@@ -22,8 +22,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import { CuiSelect } from "@eams/vue-element-cui";
-import type { CuiSelectOption } from "@eams/vue-element-cui";
+import { CuiSelect } from "@eams-monorepo/vue-element-cui";
+import type { CuiSelectOption } from "@eams-monorepo/vue-element-cui";
 
 const selectedValue = ref("equipment");
 

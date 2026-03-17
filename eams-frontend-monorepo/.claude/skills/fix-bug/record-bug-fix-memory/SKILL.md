@@ -89,7 +89,7 @@ description: 当用户要求在 bug 已经定位并修复后，记录排错经�
 
 - 问题现象：文档站开发态无法直接启动，报缺失 `.nuxt` 产物、缺失组件库样式产物，或出现 `#app-manifest` 相关错误。
 - 实际根因：错误地假设 workspace 依赖已经预构建完成，也错误地假设 `.nuxt` 目录事先存在。
-- 有效修复：为 `dev/build` 加 `nuxt prepare` 前置；给 `@eams/vue-element-cui` 和 `@eams/vue-element-cui/styles` 配源码别名；显式关闭当前模板链不稳定的 `experimental.appManifest`。
+- 有效修复：为 `dev/build` 加 `nuxt prepare` 前置；给 `@eams-monorepo/vue-element-cui` 和 `@eams-monorepo/vue-element-cui/styles` 配源码别名；显式关闭当前模板链不稳定的 `experimental.appManifest`。
 - 记忆重点：未来写记忆时，必须点明“文档站开发态直接消费源码”这一约束，而不是只记一条“加个 prepare 就好了”。
 - 后续约束：不要把文档站启动建立在组件库 `dist` 已存在这个前提上。
 

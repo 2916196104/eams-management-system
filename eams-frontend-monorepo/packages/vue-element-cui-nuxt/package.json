@@ -16,7 +16,7 @@
 		"postinstall": "nuxt prepare"
 	},
 	"dependencies": {
-		"@eams/vue-element-cui": "workspace:*",
+		"@eams-monorepo/vue-element-cui": "workspace:*",
 		"element-plus": "^2.13.5",
 		"nuxt": "^3.21.2",
 		"shadcn-docs-nuxt": "^1.1.9",

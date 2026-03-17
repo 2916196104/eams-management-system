@@ -18,8 +18,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import { CuiDialogForm } from "@eams/vue-element-cui";
-import type { CuiFormField } from "@eams/vue-element-cui";
+import { CuiDialogForm } from "@eams-monorepo/vue-element-cui";
+import type { CuiFormField } from "@eams-monorepo/vue-element-cui";
 
 const visible = ref(false);
 const lastSubmit = ref("尚未提交");

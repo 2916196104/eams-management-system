@@ -6,8 +6,8 @@ describe("getVueElementCuiAliases", () => {
 	test("points package imports to local source entries for dev-time resolution", () => {
 		const aliases = getVueElementCuiAliases();
 
-		expect(aliases["@eams/vue-element-cui"]).toMatch(/packages[\\/]+vue-element-cui[\\/]+src[\\/]+index\.ts$/);
-		expect(aliases["@eams/vue-element-cui/styles"]).toMatch(
+		expect(aliases["@eams-monorepo/vue-element-cui"]).toMatch(/packages[\\/]+vue-element-cui[\\/]+src[\\/]+index\.ts$/);
+		expect(aliases["@eams-monorepo/vue-element-cui/styles"]).toMatch(
 			/packages[\\/]+vue-element-cui[\\/]+src[\\/]+styles[\\/]+index\.scss$/,
 		);
 	});

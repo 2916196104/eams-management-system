@@ -9,9 +9,9 @@
 
 **Goal:** 在保持 `packages/vue-element-cui-nuxt/content` 当前目录层级不变的前提下，使用 `shadcn-docs-nuxt` 重建稳定的组件库文档应用，并把配置与样式基线严格收敛到参考项目的简洁实现。
 
-**Architecture:** 以 `shadcn-docs-nuxt` 为文档底座，以 `ijkml/nuxt-umami-docs` 为最高优先级的配置与样式参考，重点收敛 `package.json`、`nuxt.config.ts`、`app.config.ts`、`assets/css`、`tailwind.config.js`。当前阶段不再继续重排 `content/` 目录，只修正文档站底层配置和样式边界，避免在 `i18n` 与 `icon` 模块上走偏，并让 live demo 继续跑真实的 `@eams/vue-element-cui` 组件。
+**Architecture:** 以 `shadcn-docs-nuxt` 为文档底座，以 `ijkml/nuxt-umami-docs` 为最高优先级的配置与样式参考，重点收敛 `package.json`、`nuxt.config.ts`、`app.config.ts`、`assets/css`、`tailwind.config.js`。当前阶段不再继续重排 `content/` 目录，只修正文档站底层配置和样式边界，避免在 `i18n` 与 `icon` 模块上走偏，并让 live demo 继续跑真实的 `@eams-monorepo/vue-element-cui` 组件。
 
-**Tech Stack:** Nuxt 3, shadcn-docs-nuxt, @nuxt/content, Vue 3, TypeScript, Tailwind CSS, vitest, Vue Test Utils, @eams/vue-element-cui, Element Plus
+**Tech Stack:** Nuxt 3, shadcn-docs-nuxt, @nuxt/content, Vue 3, TypeScript, Tailwind CSS, vitest, Vue Test Utils, @eams-monorepo/vue-element-cui, Element Plus
 
 ---
 
@@ -125,13 +125,13 @@
 关键结果：
 
 - 保留 `shadcn-docs-nuxt`
-- 保留 `@eams/vue-element-cui`、`element-plus`、`nuxt`、`vue`
+- 保留 `@eams-monorepo/vue-element-cui`、`element-plus`、`nuxt`、`vue`
 - 删除当前子包中重复声明的 `@nuxt/icon`、`@nuxtjs/i18n`、`@nuxt/image`、`@nuxt/fonts`、`@nuxt/scripts`、`@vueuse/nuxt`、`@ztl-uwu/nuxt-content`、`shadcn-nuxt`、`nuxt-og-image`
 - 保留 `test` 脚本与测试依赖
 
 - [ ] **Step 2: 安装依赖并生成锁文件更新**
 
-Run: `pnpm install --filter @eams/vue-element-cui-nuxt...`
+Run: `pnpm install --filter @eams-monorepo/vue-element-cui-nuxt...`
 Expected: `packages/vue-element-cui-nuxt` 依赖安装成功，`pnpm-lock.yaml` 更新
 
 - [ ] **Step 3: 以最小复杂度重写 `nuxt.config.ts`**
@@ -177,7 +177,7 @@ Expected: `packages/vue-element-cui-nuxt` 依赖安装成功，`pnpm-lock.yaml` 
 
 - [ ] **Step 7: 运行构建与桌面宽屏冒烟验证**
 
-Run: `pnpm --filter @eams/vue-element-cui-nuxt build`
+Run: `pnpm --filter @eams-monorepo/vue-element-cui-nuxt build`
 Expected: Nuxt 构建通过，桌面端不再出现主内容区被做窄的问题
 
 - [ ] **Step 8: 提交基础底座重建**
@@ -214,7 +214,7 @@ git commit -m "feat(vue-element-cui-nuxt): reset docs config and style baseline"
 - `DemoPlayground` 能渲染预览区与代码区
 - `ApiTable` 能渲染配置项表格
 
-Run: `pnpm --filter @eams/vue-element-cui-nuxt test -- --run tests/content/demo-playground.test.ts tests/content/api-table.test.ts`
+Run: `pnpm --filter @eams-monorepo/vue-element-cui-nuxt test -- --run tests/content/demo-playground.test.ts tests/content/api-table.test.ts`
 Expected: FAIL，提示组件不存在或结构不匹配
 
 - [ ] **Step 2: 实现内容组件基础壳层**
@@ -234,7 +234,7 @@ Expected: FAIL，提示组件不存在或结构不匹配
 
 - [ ] **Step 3: 运行测试让内容组件通过**
 
-Run: `pnpm --filter @eams/vue-element-cui-nuxt test -- --run tests/content/demo-playground.test.ts tests/content/api-table.test.ts`
+Run: `pnpm --filter @eams-monorepo/vue-element-cui-nuxt test -- --run tests/content/demo-playground.test.ts tests/content/api-table.test.ts`
 Expected: PASS
 
 - [ ] **Step 4: 创建核心 demo 组件**
@@ -248,17 +248,17 @@ Expected: PASS
 
 要求：
 
-- 直接使用真实 `@eams/vue-element-cui` 组件
+- 直接使用真实 `@eams-monorepo/vue-element-cui` 组件
 - 示例数据和交互逻辑留在文档站内部
 
 - [ ] **Step 5: 重新确认组件库插件与样式接入**
 
 重写 `plugins/vue-element-cui.ts`，确认：
 
-- Element Plus 与 `@eams/vue-element-cui` 正确注册
+- Element Plus 与 `@eams-monorepo/vue-element-cui` 正确注册
 - 组件样式能够正常展示
 
-Run: `pnpm --filter @eams/vue-element-cui-nuxt dev`
+Run: `pnpm --filter @eams-monorepo/vue-element-cui-nuxt dev`
 Expected: 核心 demo 样式与交互正常，不出现裸组件状态
 
 - [ ] **Step 6: 提交 demo 与内容组件体系**
@@ -307,7 +307,7 @@ git commit -m "feat(vue-element-cui-nuxt): add docs-owned live demo system"
 
 - [ ] **Step 4: 运行内容导航检查**
 
-Run: `pnpm --filter @eams/vue-element-cui-nuxt dev`
+Run: `pnpm --filter @eams-monorepo/vue-element-cui-nuxt dev`
 Expected: 首页、快速开始、更新栏目在导航中可见，旧路径不再暴露
 
 - [ ] **Step 5: 提交第一批内容迁移**
@@ -423,7 +423,7 @@ git commit -m "feat(vue-element-cui-nuxt): reorganize component docs by type"
 
 - [ ] **Step 5: 运行导航检查**
 
-Run: `pnpm --filter @eams/vue-element-cui-nuxt dev`
+Run: `pnpm --filter @eams-monorepo/vue-element-cui-nuxt dev`
 Expected: “规范”作为独立顶级栏目出现
 
 - [ ] **Step 6: 提交规范栏目**
@@ -472,7 +472,7 @@ git commit -m "feat(vue-element-cui-nuxt): add top-level guidelines section"
 
 - [ ] **Step 5: 手工验证桌面与移动端**
 
-Run: `pnpm --filter @eams/vue-element-cui-nuxt dev`
+Run: `pnpm --filter @eams-monorepo/vue-element-cui-nuxt dev`
 Expected:
 
 - 桌面端导航可用
@@ -499,7 +499,7 @@ git commit -m "feat(vue-element-cui-nuxt): polish home entry and navigation"
 
 - [ ] **Step 1: 确认测试脚本可运行**
 
-Run: `pnpm --filter @eams/vue-element-cui-nuxt test`
+Run: `pnpm --filter @eams-monorepo/vue-element-cui-nuxt test`
 Expected: 能进入 vitest，不因 Nuxt 配置缺失直接崩溃
 
 - [ ] **Step 2: 补首页或导航最小行为测试**
@@ -508,12 +508,12 @@ Expected: 能进入 vitest，不因 Nuxt 配置缺失直接崩溃
 
 - [ ] **Step 3: 跑一次文档站自有测试集合**
 
-Run: `pnpm --filter @eams/vue-element-cui-nuxt test`
+Run: `pnpm --filter @eams-monorepo/vue-element-cui-nuxt test`
 Expected: PASS
 
 - [ ] **Step 4: 跑一次生产构建**
 
-Run: `pnpm --filter @eams/vue-element-cui-nuxt build`
+Run: `pnpm --filter @eams-monorepo/vue-element-cui-nuxt build`
 Expected: PASS
 
 - [ ] **Step 5: 手工核对关键页面**
@@ -552,14 +552,14 @@ git commit -m "test(vue-element-cui-nuxt): verify rebuilt docs application"
 - [ ] 核心 live demo 能运行且样式正常
 - [ ] 原有关键文案已迁入新结构
 - [ ] `.superpowers/` 已加入 `.gitignore`
-- [ ] `pnpm --filter @eams/vue-element-cui-nuxt test` 通过
-- [ ] `pnpm --filter @eams/vue-element-cui-nuxt build` 通过
+- [ ] `pnpm --filter @eams-monorepo/vue-element-cui-nuxt test` 通过
+- [ ] `pnpm --filter @eams-monorepo/vue-element-cui-nuxt build` 通过
 
 ## Execution Notes
 
 - 当前优先只执行 Chunk 1；Chunk 2 仅做构建与样式验证所需的最小补充；Chunk 3 和 Chunk 4 暂不推进。
 - 优先按 Chunk 顺序执行，避免同时大面积改配置和改内容导致回归难定位。
 - 每个 Chunk 完成后先跑对应验证，再进入下一个 Chunk。
-- 如发现 `@eams/vue-element-cui` 样式接入问题，优先在 Chunk 2 解决，不要把样式问题拖到内容迁移末期。
+- 如发现 `@eams-monorepo/vue-element-cui` 样式接入问题，优先在 Chunk 2 解决，不要把样式问题拖到内容迁移末期。
 - 内容迁移坚持“尽量保留原文案”，优先重编排，谨慎重写。
 - 如果需要补充 OpenSpec，后续应以本计划为执行蓝本拆分任务，而不是另起一套结构。

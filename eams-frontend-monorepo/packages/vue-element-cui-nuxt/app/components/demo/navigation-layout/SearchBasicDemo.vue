@@ -11,8 +11,8 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 
-import { CuiSearch } from "@eams/vue-element-cui";
-import type { CuiSearchField } from "@eams/vue-element-cui";
+import { CuiSearch } from "@eams-monorepo/vue-element-cui";
+import type { CuiSearchField } from "@eams-monorepo/vue-element-cui";
 
 const formData = ref({
 	keyword: "固定资产",

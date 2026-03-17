@@ -1,5 +1,5 @@
-import VueElementCui from "@eams/vue-element-cui";
-import "@eams/vue-element-cui/styles";
+import VueElementCui from "@eams-monorepo/vue-element-cui";
+import "@eams-monorepo/vue-element-cui/styles";
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 

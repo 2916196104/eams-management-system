@@ -41,7 +41,7 @@ export function install(app: App): void {
 	app.component("CuiRadioDict", CuiRadioDict);
 	app.component("CuiCheckboxEnum", CuiCheckboxEnum);
 	app.component("CuiAutocomplete", CuiAutocomplete);
-	console.log(`@eams/vue-element-cui v${version} installed`);
+	console.log(`@eams-monorepo/vue-element-cui v${version} installed`);
 }
 
 // 默认导出

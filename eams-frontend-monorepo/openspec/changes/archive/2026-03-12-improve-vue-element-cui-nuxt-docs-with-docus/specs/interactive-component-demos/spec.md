@@ -40,7 +40,7 @@
 
 ### Requirement: 组件导入和注册
 
-系统 SHALL 自动导入和注册 `@eams/vue-element-cui` 中的组件。
+系统 SHALL 自动导入和注册 `@eams-monorepo/vue-element-cui` 中的组件。
 
 #### Scenario: 全局注册核心组件
 
@@ -50,7 +50,7 @@
 #### Scenario: 支持 workspace 依赖
 
 - **WHEN** 系统导入组件
-- **THEN** 应当从 `@eams/vue-element-cui` workspace 包导入
+- **THEN** 应当从 `@eams-monorepo/vue-element-cui` workspace 包导入
 
 ### Requirement: 代码高亮
 

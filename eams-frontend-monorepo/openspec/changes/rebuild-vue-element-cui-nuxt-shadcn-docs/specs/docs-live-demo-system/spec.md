@@ -44,7 +44,7 @@
 
 ### Requirement: live demo 必须运行真实组件库能力
 
-系统 SHALL 让文档中的 live demo 直接运行真实的 `@eams/vue-element-cui` 组件，并以真实交互状态展示。
+系统 SHALL 让文档中的 live demo 直接运行真实的 `@eams-monorepo/vue-element-cui` 组件，并以真实交互状态展示。
 
 #### Scenario: 演示使用真实组件实例
 

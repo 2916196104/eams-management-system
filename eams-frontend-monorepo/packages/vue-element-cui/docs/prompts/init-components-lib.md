@@ -40,13 +40,13 @@
 
 ## 02 <!-- 该任务已关闭 --> 执行 `improve-vue-element-cui-nuxt-docs-with-docus` 这款 openspec 任务
 
-## 03 <!-- 效果很差，打算用 shadcn-docs-nuxt 来重构一次文档 --> 重点迭代 `@eams/vue-element-cui-nuxt` 文档页的效果
+## 03 <!-- 效果很差，打算用 shadcn-docs-nuxt 来重构一次文档 --> 重点迭代 `@eams-monorepo/vue-element-cui-nuxt` 文档页的效果
 
 使用 vunix 的效果很差，打算直接用 shadcn-docs-nuxt 来完成开发了。 https://github.com/ZTL-UwU/shadcn-docs-nuxt 。
 
 ---
 
-我对 `@eams/vue-element-cui-nuxt` 文档页的效果很不满。其生成效果根本不是我期望的 nuxt content 风格的页面。请你针对性的学习并修改。
+我对 `@eams-monorepo/vue-element-cui-nuxt` 文档页的效果很不满。其生成效果根本不是我期望的 nuxt content 风格的页面。请你针对性的学习并修改。
 
 参考资料：
 
@@ -65,9 +65,9 @@
 
 你应该重点去学习 https://vunix.dewib.com/ 和 https://github.com/vue-final/vue-final-modal 仓库是怎么使用 docus 模板并且实现交互式组件库文档站点的。
 
-我的核心目的是希望 `@eams/vue-element-cui-nuxt` 文档项目使用 docus 来完成组件库文档站点的开发，就像 vunix 一样。vunix 做的非常好，我就是想要这种的文档站点。
+我的核心目的是希望 `@eams-monorepo/vue-element-cui-nuxt` 文档项目使用 docus 来完成组件库文档站点的开发，就像 vunix 一样。vunix 做的非常好，我就是想要这种的文档站点。
 
-去更新 `make-new-vue-element-cui` 这款 openspec 任务，这款任务没有记录详细的 `@eams/vue-element-cui-nuxt` 组件库文档项目该如何制作。
+去更新 `make-new-vue-element-cui` 这款 openspec 任务，这款任务没有记录详细的 `@eams-monorepo/vue-element-cui-nuxt` 组件库文档项目该如何制作。
 
 ## 04 处理 vue-element-cui 组件库出现的类型故障
 

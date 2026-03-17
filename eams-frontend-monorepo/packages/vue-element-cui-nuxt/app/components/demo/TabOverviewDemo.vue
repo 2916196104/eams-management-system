@@ -10,8 +10,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import { CuiTab } from "@eams/vue-element-cui";
-import type { CuiTabItem } from "@eams/vue-element-cui";
+import { CuiTab } from "@eams-monorepo/vue-element-cui";
+import type { CuiTabItem } from "@eams-monorepo/vue-element-cui";
 
 const activeTab = ref("basic");
 

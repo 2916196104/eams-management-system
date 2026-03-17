@@ -16,7 +16,7 @@
 - [ ] 3.1 先为 `DemoPlayground`、`ApiTable` 等核心内容组件补最小失败测试
 - [ ] 3.2 实现统一的 demo 容器、代码面板、API 表和说明块内容组件
 - [ ] 3.3 在 `app/components/demo/` 中创建覆盖核心组件体系的手写 live demo
-- [ ] 3.4 让 live demo 直接运行真实 `@eams/vue-element-cui` 组件，并验证预览优先、代码可折叠的页面模型成立
+- [ ] 3.4 让 live demo 直接运行真实 `@eams-monorepo/vue-element-cui` 组件，并验证预览优先、代码可折叠的页面模型成立
 
 ## 4. 重排内容信息架构并迁移文案
 
@@ -33,7 +33,7 @@
 
 ## 6. 验证与收尾
 
-- [ ] 6.1 运行 `pnpm --filter @eams/vue-element-cui-nuxt test`，验证文档站自有测试通过
-- [ ] 6.2 运行 `pnpm --filter @eams/vue-element-cui-nuxt build`，验证文档站生产构建通过
+- [ ] 6.1 运行 `pnpm --filter @eams-monorepo/vue-element-cui-nuxt test`，验证文档站自有测试通过
+- [ ] 6.2 运行 `pnpm --filter @eams-monorepo/vue-element-cui-nuxt build`，验证文档站生产构建通过
 - [ ] 6.3 手工核对首页、快速开始页、至少一个组件体系页、至少一个规范页和更新页的最终呈现
 - [ ] 6.4 复核现有文案是否已迁入新结构、旧路径是否已正式废弃、live demo 是否可正常交互

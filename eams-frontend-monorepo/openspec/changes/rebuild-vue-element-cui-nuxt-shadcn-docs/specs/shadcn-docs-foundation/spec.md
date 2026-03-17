@@ -30,11 +30,11 @@
 
 ### Requirement: 文档站必须直接接入真实组件库和样式
 
-系统 SHALL 通过文档站插件接入真实的 `@eams/vue-element-cui` 组件库和必要样式，使文档页中的演示与实际组件行为保持一致。
+系统 SHALL 通过文档站插件接入真实的 `@eams-monorepo/vue-element-cui` 组件库和必要样式，使文档页中的演示与实际组件行为保持一致。
 
 #### Scenario: 文档页可以直接使用真实组件
 
-- **WHEN** 文档页或 demo 组件渲染 `@eams/vue-element-cui` 的组件
+- **WHEN** 文档页或 demo 组件渲染 `@eams-monorepo/vue-element-cui` 的组件
 - **THEN** 无需为文档站额外维护伪造组件实现
 
 #### Scenario: 演示样式保持真实呈现

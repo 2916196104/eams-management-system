@@ -4,7 +4,7 @@
 
 ## 目标
 
-以当前仓库真实状态为准，完成 `@eams/vue-element-cui` 组件库迁移的剩余收尾工作，并将 `@eams/vue-element-cui-nuxt` 文档站从旧 `docus` 方案重建为基于 `shadcn-docs-nuxt` 的组件库官网型文档应用。
+以当前仓库真实状态为准，完成 `@eams-monorepo/vue-element-cui` 组件库迁移的剩余收尾工作，并将 `@eams-monorepo/vue-element-cui-nuxt` 文档站从旧 `docus` 方案重建为基于 `shadcn-docs-nuxt` 的组件库官网型文档应用。
 
 这份计划不再假设“从零初始化组件库”。当前仓库里：
 
@@ -18,7 +18,7 @@
 
 当前已确认状态：
 
-- 包名已为 `@eams/vue-element-cui`
+- 包名已为 `@eams-monorepo/vue-element-cui`
 - 版本已为 `1.0.0`
 - 构建脚本当前以 `vite build` 为主
 - 已导出 16 个真实组件
@@ -48,7 +48,7 @@
 
 当前已确认状态：
 
-- 包名已为 `@eams/vue-element-cui-nuxt`
+- 包名已为 `@eams-monorepo/vue-element-cui-nuxt`
 - 仍依赖 `@nuxt-themes/docus`
 - 现有内容目录仍是旧结构
 - 已有组件文档文案资产
@@ -82,8 +82,8 @@
 
 两条主线共享同一目标：
 
-- 让 `@eams/vue-element-cui` 成为可发布、可维护、测试与类型边界清晰的组件库
-- 让 `@eams/vue-element-cui-nuxt` 成为符合当前设计结论的组件库官网型文档站
+- 让 `@eams-monorepo/vue-element-cui` 成为可发布、可维护、测试与类型边界清晰的组件库
+- 让 `@eams-monorepo/vue-element-cui-nuxt` 成为符合当前设计结论的组件库官网型文档站
 
 ## 主线 A：组件库核心包收尾计划
 
@@ -159,7 +159,7 @@
 
 - 不再依赖旧 `docus` 结构作为正式底座
 - 首页能够承担组件库入口职责
-- live demo 可运行真实 `@eams/vue-element-cui` 组件
+- live demo 可运行真实 `@eams-monorepo/vue-element-cui` 组件
 - 现有关键内容已迁入新结构
 - 桌面端和移动端导航可用
 - 文档站可通过测试与构建验证
@@ -196,15 +196,15 @@
 
 ### 核心包验证
 
-- [ ] `pnpm --filter @eams/vue-element-cui test` 通过
-- [ ] `pnpm --filter @eams/vue-element-cui build` 通过
+- [ ] `pnpm --filter @eams-monorepo/vue-element-cui test` 通过
+- [ ] `pnpm --filter @eams-monorepo/vue-element-cui build` 通过
 - [ ] 组件导出与类型导出一致
 - [ ] 样式产物可被文档站正确消费
 
 ### 文档站验证
 
-- [ ] `pnpm --filter @eams/vue-element-cui-nuxt test` 通过
-- [ ] `pnpm --filter @eams/vue-element-cui-nuxt build` 通过
+- [ ] `pnpm --filter @eams-monorepo/vue-element-cui-nuxt test` 通过
+- [ ] `pnpm --filter @eams-monorepo/vue-element-cui-nuxt build` 通过
 - [ ] 首页与一级导航符合最新设计
 - [ ] 核心组件 live demo 可正常运行
 - [ ] 现有文案已迁入新结构

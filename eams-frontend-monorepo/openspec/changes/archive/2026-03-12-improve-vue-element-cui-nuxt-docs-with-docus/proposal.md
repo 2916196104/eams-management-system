@@ -1,6 +1,6 @@
 ## Why
 
-当前 `@eams/vue-element-cui-nuxt` 文档项目使用基础的 Nuxt 3 + Nuxt Content + Tailwind 配置，生成的文档页面效果不符合预期，缺乏专业组件库文档站点应有的交互性、导航体验和视觉呈现。需要迁移到 Docus 框架（Nuxt Content 的官方文档模板），参考 vunix 和 vue-final-modal 等成功案例，实现专业级的组件库文档站点。
+当前 `@eams-monorepo/vue-element-cui-nuxt` 文档项目使用基础的 Nuxt 3 + Nuxt Content + Tailwind 配置，生成的文档页面效果不符合预期，缺乏专业组件库文档站点应有的交互性、导航体验和视觉呈现。需要迁移到 Docus 框架（Nuxt Content 的官方文档模板），参考 vunix 和 vue-final-modal 等成功案例，实现专业级的组件库文档站点。
 
 ## What Changes
 
@@ -67,5 +67,5 @@
 
 **不影响**:
 
-- `@eams/vue-element-cui` 核心组件库包不受影响
+- `@eams-monorepo/vue-element-cui` 核心组件库包不受影响
 - 组件 API 和功能不变，仅文档展示方式改变

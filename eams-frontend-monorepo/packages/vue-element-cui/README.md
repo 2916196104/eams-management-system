@@ -1,4 +1,4 @@
-# @eams/vue-element-cui
+# @eams-monorepo/vue-element-cui
 
 EAMS Vue Element Component UI Library - 基于 Element Plus 的企业级组件库
 
@@ -13,15 +13,15 @@ EAMS Vue Element Component UI Library - 基于 Element Plus 的企业级组件�
 ## 安装
 
 ```bash
-pnpm add @eams/vue-element-cui
+pnpm add @eams-monorepo/vue-element-cui
 ```
 
 ## 使用
 
 ```typescript
 import { createApp } from "vue";
-import VueElementCui from "@eams/vue-element-cui";
-import "@eams/vue-element-cui/styles";
+import VueElementCui from "@eams-monorepo/vue-element-cui";
+import "@eams-monorepo/vue-element-cui/styles";
 
 const app = createApp(App);
 app.use(VueElementCui);
