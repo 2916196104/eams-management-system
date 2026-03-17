@@ -28,7 +28,15 @@
 /**
  * 定义查询类
  */
+class HomeworkQuery : public PageQuery
+{
+	DTO_INIT(HomeworkQuery, PageQuery);
 
+	API_DTO_FIELD(String, title, ZH_WORDS_GETTER("homework.field.title"), false, "");
+
+	API_DTO_FIELD(String, courseName, ZH_WORDS_GETTER("homework.field.courseName"), false, "");
+
+};
 
 #include OATPP_CODEGEN_END(DTO)
 

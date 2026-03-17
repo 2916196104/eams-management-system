@@ -166,3 +166,12 @@ exchange:
   query-score:
     summary: 获取成绩列表（条件+分页）
 
+homework:
+  tag: "作业"
+  field:
+    id: "作业ID"
+    title: "作业标题"
+    courseName: "所属课程"
+    startTime: "开始时间"
+    endTime: "截止时间"
+    teacherName: "发布教师"
