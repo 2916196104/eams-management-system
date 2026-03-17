@@ -69,6 +69,11 @@ const routes = [
         name: 'smydialog',
         path: '/sample/mydialog',
         component: () => import('@/views/sample/mydialog/Index.vue')
+      },
+      {
+        name: 'f1table',
+        path: '/sample/f1table',
+        component: () => import('@/views/sample/f1table/index.vue')
       }
     ]
   }

@@ -4,18 +4,36 @@
     <div class="header-title">
       <img v-show="!isCollapse" class="app-icon" src="/logo.jpg" :title="appName" />
       <el-text v-show="!isCollapse" class="app-name">{{ appName }}</el-text>
-      <el-button v-show="isCollapse" link class="collapse-btn" icon="IconExpand"
-        @click="isCollapse = !isCollapse"></el-button>
-      <el-button v-show="!isCollapse" link class="collapse-btn" icon="IconFold"
-        @click="isCollapse = !isCollapse"></el-button>
+      <el-button
+        v-show="isCollapse"
+        link
+        class="collapse-btn"
+        icon="IconExpand"
+        @click="isCollapse = !isCollapse"
+      ></el-button>
+      <el-button
+        v-show="!isCollapse"
+        link
+        class="collapse-btn"
+        icon="IconFold"
+        @click="isCollapse = !isCollapse"
+      ></el-button>
     </div>
     <!-- 导航栏 -->
     <div class="header-nav">示例效果演示页</div>
   </div>
   <div class="content-row">
     <!-- 侧边菜单栏 -->
-    <el-menu :collapse="isCollapse" :default-active="activeIndex" active-text-color="#409EFF" text-color="#fff"
-      background-color="#545c64" unique-opened :collapse-transition="false" router>
+    <el-menu
+      :collapse="isCollapse"
+      :default-active="activeIndex"
+      active-text-color="#409EFF"
+      text-color="#fff"
+      background-color="#545c64"
+      unique-opened
+      :collapse-transition="false"
+      router
+    >
       <template v-for="(menu, index) in menus">
         <el-sub-menu v-if="menu.children" :key="index" :index="menu.id + 'submenu'">
           <template #title>
@@ -214,6 +232,11 @@ const menus = reactive([
     id: 12,
     path: '/sample/mydialog',
     text: '自定义对话框'
+  },
+  {
+    id: 123,
+    path: '/sample/f1table',
+    text: 'F1自定义表格'
   }
 ])
 </script>
