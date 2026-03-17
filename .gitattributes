@@ -1,0 +1,56 @@
+# Auto detect text files and perform LF normalization
+* text=auto eol=lf
+
+# Source code
+*.vue text eol=lf diff
+*.js text eol=lf diff
+*.ts text eol=lf diff
+*.jsx text eol=lf diff
+*.tsx text eol=lf diff
+*.css text eol=lf diff
+*.scss text eol=lf diff
+*.less text eol=lf diff
+*.html text eol=lf diff
+*.json text eol=lf diff
+*.yaml text eol=lf diff
+*.yml text eol=lf diff
+*.md text eol=lf diff
+*.xml text eol=lf diff
+*.java text eol=lf diff
+*.cpp text eol=lf diff
+*.h text eol=lf diff
+*.sql text eol=lf diff
+*.sh text eol=lf
+*.ps1 text eol=crlf
+
+# Binary files - no diff, no merge, no LF conversion
+*.lib binary
+*.dll binary
+*.so binary
+*.dylib binary
+*.exe binary
+*.jar binary
+*.war binary
+*.ear binary
+*.zip binary
+*.tar.gz binary
+*.rar binary
+*.7z binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.svg text eol=lf
+*.pdf binary
+*.emmx binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+
+# Lock files - exact merge to avoid conflicts
+pnpm-lock.yaml merge=binary
+package-lock.json merge=binary
+yarn.lock merge=binary
