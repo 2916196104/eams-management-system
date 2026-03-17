@@ -10,14 +10,17 @@ import com.zeroone.star.project.query.j4.student.CreditSelectQuery;
 import com.zeroone.star.project.query.j4.student.FollowUpQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
 import io.swagger.annotations.ApiParam;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * <p>
@@ -88,6 +91,22 @@ public class StudentController implements StudentApis {
     public JsonVO<Long> saveCreditLog(@RequestBody ChangeCreditQuery changeCreditQuery) {
         return null;
     }
+
+    @Override
+    public JsonVO<String> modifyConsultant(StudentDTO studentDTO) {
+        return null;
+    }
+
+    @Override
+    public JsonVO<String> importOnlineStudents(MultipartFile file) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<byte[]> exportOnlineStudents() {
+        return null;
+    }
+
     @PostMapping("/student/join")
     @ApiOperation("加入班级")
     @Override
