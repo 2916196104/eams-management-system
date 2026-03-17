@@ -24,8 +24,22 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * 数据传输对象
+ * 提交作业
  */
+class HomeworkSubmitDTO : public oatpp::DTO
+{
+	DTO_INIT(HomeworkSubmitDTO, DTO);
+
+};
+
+/**
+ * 删除重做
+ */
+class HomeworkDeleteDTO : public oatpp::DTO
+{
+	DTO_INIT(HomeworkDeleteDTO, DTO);
+
+};
 
 #include OATPP_CODEGEN_END(DTO)
 

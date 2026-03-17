@@ -21,6 +21,9 @@
 #include "ApiHelper.h"
 #include "points-exchange/exchangecontroller.h"
 #include "class/classcontroller.h"
+//新增作业模块控制器
+#include "homework/homeworkcontroller.h"
+
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
 // 简化绑定控制器宏定义
@@ -43,4 +46,5 @@ void Router::initRouter()
 	//#TIP :系统扩展路由定义，写在这个后面
 	ROUTER_SIMPLE_BIND(exchangeController);
 	ROUTER_SIMPLE_BIND(classController);
+	ROUTER_SIMPLE_BIND(homeworkController);
 }
