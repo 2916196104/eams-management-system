@@ -1,11 +1,11 @@
 package com.zeroone.star.student.controller;
 
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.dto.j4.student.ClassDTO;
-import com.zeroone.star.project.dto.j4.student.ClassStudentDTO;
-import com.zeroone.star.project.dto.j4.student.FollowUpDTO;
+import com.zeroone.star.project.dto.j4.student.*;
 import com.zeroone.star.project.j4.student.StudentApis;
+import com.zeroone.star.project.query.j4.student.ChangeCreditQuery;
 import com.zeroone.star.project.query.j4.student.ClassQuery;
+import com.zeroone.star.project.query.j4.student.CreditSelectQuery;
 import com.zeroone.star.project.query.j4.student.FollowUpQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
@@ -65,7 +65,26 @@ public class StudentController implements StudentApis {
         // 示例返回结构，实际需替换为 Service 调用
         return null;
     }
+    @GetMapping("/queryOmyLessonCount")
+    @ApiOperation("获取消课记录（条件+分页）")
+    @Override
+    public JsonVO<PageDTO<LessonCountDTO>> queryOmyLessonCount(@RequestParam(value = "2026010206",required = true) String StudentID) {
+        return null;
+    }
 
+    @GetMapping("/queryCreditLog")
+    @ApiOperation("获取积分记录（条件+分页）")
+    @Override
+    public JsonVO<PageDTO<CreditLogDTO>> queryCreditLog(@RequestBody CreditSelectQuery creditSelectQuery) {
+        return null;
+    }
+
+    @PostMapping("/saveCreditLog")
+    @ApiOperation("调整积分")
+    @Override
+    public JsonVO<Long> saveCreditLog(@RequestBody ChangeCreditQuery changeCreditQuery) {
+        return null;
+    }
     @PostMapping("/student/join")
     @ApiOperation("加入班级")
     @Override
