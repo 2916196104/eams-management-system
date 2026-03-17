@@ -28,6 +28,7 @@ SendResetCodeJsonVO::Wrapper loginController::executeSendResetCode(const SendRes
 	auto vo = SendResetCodeJsonVO::createShared();
 	vo->success(ls.sendResetCode(dto));
 	return vo;*/
+	return {};
 }
 
 // 修改密码
@@ -37,4 +38,5 @@ UpdatePasswordJsonVO::Wrapper loginController::executeModifyPassword(const Updat
 	//auto vo = UpdatePasswordJsonVO::createShared();
  //   vo->success(ls.resetPassword(dto));
 	//return vo;
+	return {};
 }
