@@ -27,15 +27,15 @@
 #include "domain/query/PageQuery.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
-//è¯•å¬å¡æ¨¡å—æ§åˆ¶å™¨
+//ÊÔÌı¿¨Ä£¿é¿ØÖÆÆ÷
 class cardController : public oatpp::web::server::api::ApiController
 {
-	// å®šä¹‰æ§åˆ¶å™¨è®¿é—®å…¥å£
+	// ¶¨Òå¿ØÖÆÆ÷·ÃÎÊÈë¿Ú
 	API_ACCESS_DECLARE(cardController);
-public: // å®šä¹‰æ¥å£
+public: // ¶¨Òå½Ó¿Ú
 
 
-private: // å®šä¹‰æ¥å£æ‰§è¡Œå‡½æ•°
+private: // ¶¨Òå½Ó¿ÚÖ´ĞĞº¯Êı
 
 };
 

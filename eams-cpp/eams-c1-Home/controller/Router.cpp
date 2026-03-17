@@ -19,6 +19,7 @@
 #include "stdafx.h"
 #include "Router.h"
 #include "ApiHelper.h"
+#include "attendance-records/attendancecontroller.h"
 #include "points-exchange/exchangecontroller.h"
 #include "class/classcontroller.h"
 // 如果定义了关闭Swagger文档宏
@@ -43,4 +44,5 @@ void Router::initRouter()
 	//#TIP :系统扩展路由定义，写在这个后面
 	ROUTER_SIMPLE_BIND(exchangeController);
 	ROUTER_SIMPLE_BIND(classController);
+	ROUTER_SIMPLE_BIND(attendanceController);
 }
