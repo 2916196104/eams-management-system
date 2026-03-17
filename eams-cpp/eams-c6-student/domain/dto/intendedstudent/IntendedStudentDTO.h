@@ -1,5 +1,4 @@
 #pragma once
-
 #ifndef _INTENDEDSTUDENT_DTO_
 #define _INTENDEDSTUDENT_DTO_
 #include "../../GlobalInclude.h"
@@ -9,9 +8,9 @@
 /**
  * 新增数据传输对象
  */
-class AddDTO : public oatpp::DTO
+class IntendAddDTO : public oatpp::DTO
 {
-	DTO_INIT(AddDTO, DTO);
+	DTO_INIT(IntendAddDTO, DTO);
 	// 姓名
 	DTO_FIELD(String, name);
 	DTO_FIELD_INFO(name) {
@@ -47,9 +46,9 @@ public:
 /**
  * 导入数据传输对象
  */
-class ImportDTO : public oatpp::DTO
+class IntendImportDTO : public oatpp::DTO
 {
-	DTO_INIT(ImportDTO, DTO);
+	DTO_INIT(IntendImportDTO, DTO);
 	// 导入报表文件
 	API_DTO_FIELD_REQUIRE(oatpp::swagger::Binary, excel, "excel", true);
 };

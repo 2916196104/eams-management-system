@@ -24,7 +24,7 @@ public:
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(
 		"export",									// 标题
 		exportExcel,                                 // 函数名
-		ExcelQuery,                                 // 查询参数类型
+		IntendExcelQuery,                                 // 查询参数类型
 		Void,                                        // Swagger 无响应体
 		API_TAG                                      // 标签
 	);
@@ -34,7 +34,7 @@ public:
 		"/c6/student/intended/export",
 		exportExcel,
 		QUERIES(QueryParams, queryParams),
-		API_HANDLER_QUERY_PARAM(query, ExcelQuery, queryParams);
+		API_HANDLER_QUERY_PARAM(query, IntendExcelQuery, queryParams);
 		return execExportExcel(query);
 	);
 
@@ -42,7 +42,7 @@ public:
 	API_DEF_ENDPOINT_INFO_FILE_AUTH(
 		"import",									   // 标题
 		importExcel,                                 // 函数名
-		ImportDTO::Wrapper,                    // 文件表单DTO
+		IntendImportDTO::Wrapper,                    // 文件表单DTO
 		StringJsonVO::Wrapper,                       // 响应JSON
 		API_TAG                                      // 标签
 	);
@@ -57,7 +57,7 @@ public:
 
 private:
 	// 执行导出
-	std::shared_ptr<OutgoingResponse> execExportExcel(const ExcelQuery::Wrapper& query);
+	std::shared_ptr<OutgoingResponse> execExportExcel(const IntendExcelQuery::Wrapper& query);
 	// 执行导入
 	StringJsonVO::Wrapper execImportExcel(std::shared_ptr<IncomingRequest> request, const PayloadDTO& payload);
 };

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef _SAMPLE_QUERY_H_
-#define _SAMPLE_QUERY_H_
+#ifndef _INTENDEDSTUDENT_QUERY_
+#define _INTENDEDSTUDENT_QUERY_
 
 #include "../../GlobalInclude.h"
 #include OATPP_CODEGEN_BEGIN(DTO)
@@ -8,9 +8,9 @@
 /**
  * Excel 导出查询对象
  */
-class ExcelQuery : public oatpp::DTO
+class IntendExcelQuery : public oatpp::DTO
 {
-	DTO_INIT(ExcelQuery, DTO);
+	DTO_INIT(IntendExcelQuery, DTO);
 
 	// 姓名
 	DTO_FIELD(String, name);

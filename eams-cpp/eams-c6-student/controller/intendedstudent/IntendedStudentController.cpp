@@ -5,7 +5,7 @@
 
 // 执行导出
 std::shared_ptr<oatpp::web::server::api::ApiController::OutgoingResponse> IntendedStudentController::execExportExcel(
-	const ExcelQuery::Wrapper& query)
+	const IntendExcelQuery::Wrapper& query)
 {
 	// 生成 Excel
 	auto buff = ExcelComponent().writeVectorToBuff("intended_student",
@@ -65,7 +65,7 @@ StringJsonVO::Wrapper IntendedStudentController::execImportExcel(
 	
 	// 5 解析与校验数据
 	std::string errmsg = "";
-	oatpp::List<AddDTO::Wrapper> exceldata = oatpp::List<AddDTO::Wrapper>::createShared();
+	oatpp::List<IntendAddDTO::Wrapper> exceldata = oatpp::List<IntendAddDTO::Wrapper>::createShared();
 	ExcelComponent::read(file->data(), file->size(), "sample", [exceldata, &errmsg, &payload](xlnt::worksheet* sheet) {
 		// 逐行解析解析数据
 		int rn = 0;
@@ -74,7 +74,7 @@ StringJsonVO::Wrapper IntendedStudentController::execImportExcel(
 			// 跳过表头
 			if (rn++ == 0) continue;
 			// 解析数据到DTO
-			auto dto = AddDTO::createShared();
+			auto dto = IntendAddDTO::createShared();
 			dto->name = row[0].to_string();
 			dto->age = std::atoi(row[1].to_string().c_str());
 			dto->sex = row[2].to_string();
