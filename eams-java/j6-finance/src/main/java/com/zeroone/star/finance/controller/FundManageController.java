@@ -1,5 +1,6 @@
 package com.zeroone.star.finance.controller;
 
+import com.alibaba.excel.EasyExcel;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j6.finance.FinanceRecordDTO;
 import com.zeroone.star.project.j6.finance.FundManageApis;
@@ -9,6 +10,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
 
 @RestController
@@ -54,5 +61,28 @@ public class FundManageController implements FundManageApis {
     @Override
     public JsonVO<List<Long>> refuse(@RequestBody List<Long> ids) {
         return null;
+    }
+
+    /**
+     * 导出Excel（下载数据模板或报表）
+     * GET /api/excel/download
+     */
+    @GetMapping("/download")
+    @ApiOperation("导出")
+    @Override
+    public void download(HttpServletResponse response) throws IOException {
+        // 1. 设置响应头
+        String fileName = URLEncoder.encode("用户列表", "UTF-8").replaceAll("\\+", "%20");
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setCharacterEncoding("utf-8");
+        response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ".xlsx");
+        //todo
+        // 2. 准备数据
+        List<FinanceRecordDTO> dataList = null;
+
+        // 3. 使用EasyExcel写入数据并输出到响应流
+        EasyExcel.write(response.getOutputStream(), FinanceRecordDTO.class)
+                .sheet("项款记录表") // 设置Sheet名称
+                .doWrite(dataList); // 写入数据
     }
 }

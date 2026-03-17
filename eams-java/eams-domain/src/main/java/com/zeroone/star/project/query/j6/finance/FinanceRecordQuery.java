@@ -4,6 +4,9 @@ import com.zeroone.star.project.query.PageQuery;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+/**
+ * 款项列表查询条件构造
+ */
 @Data
 public class FinanceRecordQuery extends PageQuery {
     @ApiModelProperty(value = "标题",example = "样例标题")

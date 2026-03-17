@@ -1,11 +1,12 @@
 package com.zeroone.star.project.j6.finance;
 
-
+import javax.servlet.http.HttpServletResponse;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j6.finance.FinanceRecordDTO;
 import com.zeroone.star.project.query.j6.finance.FinanceRecordQuery;
 import com.zeroone.star.project.vo.JsonVO;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -32,4 +33,11 @@ public interface FundManageApis {
      * @return 修改款项信息
      */
     JsonVO<List<Long>> refuse(List<Long> ids);
+
+    /**
+     * 导出
+     * @param response
+     * @throws IOException
+     */
+    void download(HttpServletResponse response) throws IOException;
 }
