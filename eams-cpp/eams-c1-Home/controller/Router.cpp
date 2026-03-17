@@ -19,7 +19,9 @@
 #include "stdafx.h"
 #include "Router.h"
 #include "ApiHelper.h"
+
 #include "points-exchange/exchangecontroller.h"
+#include "controller/review-records/reviewcontroller.h"
 #include "class/classcontroller.h"
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
@@ -41,6 +43,7 @@ Router::Router(Endpoints* docEndpoints, HttpRouter* router)
 void Router::initRouter()
 {
 	//#TIP :系统扩展路由定义，写在这个后面
+	ROUTER_SIMPLE_BIND(ReviewRecordController);
 	ROUTER_SIMPLE_BIND(exchangeController);
 	ROUTER_SIMPLE_BIND(classController);
 }
