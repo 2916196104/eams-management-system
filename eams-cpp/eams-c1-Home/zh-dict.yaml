@@ -84,4 +84,52 @@ exchange:
     value: 值
     value_type: 值数据类型
     info: 说明
-    sort_num: 排序
+    sort_num: 排序registration-records:
+  tag: 报名记录
+  # ---RegistrationRecordQuery
+  exclude_expired: 是否排除已过期课程
+  # RegistrationRecordDTO
+  # ---1. 必须的字段
+  id: 记录唯一标识
+  student_id: 学生id
+  student_name: 学生姓名
+  course_id: 课程id
+  course_name: 课程名称
+  subject_name: 科目名称
+  add_time: 报名时间
+  expire_date: 过期时间
+  amount: 课程金额
+  paid_amount: 实付金额
+  count_lesson_total: 总课次
+  count_lesson_remaining: 剩余课次
+  type: 报名类型
+  verify_state: 审核状态
+  expired: 是否已过期
+  # ---2. 可能多出的字段：状态相关
+  # start_date: 开始日期
+  # remark: 备注
+  # priority: 扣课优先级
+  # operator_name: 经办人
+  # warning: 课时不足警告
+  # ---3. 可能多出的字段：考勤统计相关
+  # count_sign: 出勤次数
+  # count_leave: 请假次数
+  # count_absent: 缺勤次数
+  # count_late: 迟到次数
+  # ---4. 可能多出的字段：财务退款相关
+  # discount_amount: 优惠金额
+  # arrearage: 欠费金额
+  # remaining_amount: 剩余金额
+  # should_refund_amount: 应退金额
+  # refund_amount: 实际退款金额
+  # refund_lesson_count: 退款课次
+  # count_lesson_refund: 已退课次
+  # unit_price: 课时单价
+  # refund_remark: 退款备注
+  # refund_state: 退款状态
+  # school_name: 所属校区
+  # plan_receipt: 计划收款
+  # actual_receipt: 实际收款
+  # ---RegistrationRecodeController
+  query-records:
+    summary: 获取报名课程列表（条件+分页）

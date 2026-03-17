@@ -19,6 +19,7 @@
 #include "stdafx.h"
 #include "Router.h"
 #include "ApiHelper.h"
+#include "controller/registration-records/registrationcontroller.h"
 
 #include "points-exchange/exchangecontroller.h"
 #include "controller/review-records/reviewcontroller.h"
@@ -46,4 +47,5 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(ReviewRecordController);
 	ROUTER_SIMPLE_BIND(exchangeController);
 	ROUTER_SIMPLE_BIND(classController);
+	ROUTER_SIMPLE_BIND(RegistrationRecodeController);
 }
