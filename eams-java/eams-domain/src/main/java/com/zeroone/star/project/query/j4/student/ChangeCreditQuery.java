@@ -1,4 +1,4 @@
-package com.zeroone.star.project.dto.j4.student;
+package com.zeroone.star.project.query.j4.student;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -6,13 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel("调整积分")
-public class ChangeCreditDTO {
+public class ChangeCreditQuery {
 
     @ApiModelProperty(value = "学员id", example = "20260316",required=true)
     private String student_id;
