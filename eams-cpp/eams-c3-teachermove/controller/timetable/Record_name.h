@@ -27,7 +27,7 @@ public:		//定义接口
 
 	API_HANDLER_ENDPOINT_OPTION_AUTH(
 		API_M_GET,
-		"/timetable/record-name/get-detail-cs",
+		"/timetable/get-detail-cs",
 		getDetailCS,
 		QUERIES(QueryParams, queryParams),
 		API_HANDLER_QUERY_PARAM(query, GetDetailCSQuery, queryParams);
@@ -39,16 +39,14 @@ public:		//定义接口
 		"Get student list with filters and pagination",
 		getStuList,
 		GetStuListJsonVO::Wrapper,
-		"GetStuList",
-		API_DEF_ADD_QUERY_PARAMS(UInt64, "lesson_id", "Lesson ID", 10002, true);
-		API_DEF_ADD_QUERY_PARAMS(String, "keyword", "Student keyword", "", false);
+		"GetCSStuList",
 		API_DEF_ADD_QUERY_PARAMS(UInt64, "page_index", "Page index", 1, false);
 		API_DEF_ADD_QUERY_PARAMS(UInt64, "page_size", "Page size", 10, false);
 	);
 
 	API_HANDLER_ENDPOINT_OPTION_AUTH(
 		API_M_GET,
-		"/timetable/record-name/get-stu-list",
+		"/timetable/get-stu-list",
 		getStuList,
 		QUERIES(QueryParams, queryParams),
 		API_HANDLER_QUERY_PARAM(query, GetStuListQuery, queryParams);

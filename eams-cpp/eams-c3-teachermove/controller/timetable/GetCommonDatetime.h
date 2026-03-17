@@ -22,7 +22,6 @@ public:		//定义接口
 		CommonDatetimeJsonVO::Wrapper,
 		"GetCommonDatetime",
 		API_DEF_ADD_QUERY_PARAMS(String, "date", "Lesson date", "2026-03-15", true);
-		API_DEF_ADD_QUERY_PARAMS(UInt64, "teacher_id", "Teacher ID", 1001, false);
 	);
 
 	API_HANDLER_ENDPOINT_OPTION_AUTH(

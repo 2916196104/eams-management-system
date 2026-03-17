@@ -3,41 +3,6 @@
 
 namespace
 {
-	StuListItemDTO::Wrapper buildStudent(
-		v_uint64 studentId,
-		const char* studentName,
-		const char* consumeCourse,
-		v_int32 attendanceState,
-		const char* attendanceStateText,
-		v_uint32 signedTimes)
-	{
-		auto item = StuListItemDTO::createShared();
-		item->student_id = studentId;
-		item->student_name = studentName;
-		item->consume_course = consumeCourse;
-		item->attendance_state = attendanceState;
-		item->attendance_state_text = attendanceStateText;
-		item->signed_times = oatpp::UInt32(signedTimes);
-		item->adjust_count = oatpp::UInt32(static_cast<v_uint32>(1));
-		item->can_change_course = true;
-		item->can_leave = true;
-		item->can_absent = true;
-		item->can_sign = true;
-		return item;
-	}
-
-	bool containsKeyword(const oatpp::String& text, const oatpp::String& keyword)
-	{
-		if (!keyword || keyword->empty())
-		{
-			return true;
-		}
-		if (!text)
-		{
-			return false;
-		}
-		return text->find(keyword->c_str()) != std::string::npos;
-	}
 }
 
 GetDetailCSJsonVO::Wrapper Record_name::execGetDetailCS(const GetDetailCSQuery::Wrapper& query)
@@ -48,7 +13,6 @@ GetDetailCSJsonVO::Wrapper Record_name::execGetDetailCS(const GetDetailCSQuery::
 	data->start_time = "15:12";
 	data->end_time = "16:12";
 	data->period_count = oatpp::UInt32(static_cast<v_uint32>(1));
-	data->period_label = "1 period";
 	data->course_title = "Piano Beginner";
 	data->teacher_name = "Zhang San";
 	data->normal_count = oatpp::UInt32(static_cast<v_uint32>(0));
@@ -65,7 +29,7 @@ GetDetailCSJsonVO::Wrapper Record_name::execGetDetailCS(const GetDetailCSQuery::
 
 GetStuListJsonVO::Wrapper Record_name::execGetStuList(const GetStuListQuery::Wrapper& query)
 {
-	v_uint64 lessonId = query && query->lesson_id ? query->lesson_id.getValue(10002) : static_cast<v_uint64>(10002);
+	v_uint64 lessonId = static_cast<v_uint64>(10002);
 	v_uint64 pageIndex = query && query->page_index ? query->page_index.getValue(1) : static_cast<v_uint64>(1);
 	v_uint64 pageSize = query && query->page_size ? query->page_size.getValue(10) : static_cast<v_uint64>(10);
 	if (pageIndex == 0)
@@ -77,24 +41,8 @@ GetStuListJsonVO::Wrapper Record_name::execGetStuList(const GetStuListQuery::Wra
 		pageSize = 10;
 	}
 
-	std::vector<StuListItemDTO::Wrapper> source;
-	source.push_back(buildStudent(70001, "Zhang Xiaoming", "Piano Beginner", 0, "Unsigned", 1));
-	source.push_back(buildStudent(70002, "Wang Ping", "Piano Beginner", 1, "Signed", 1));
-
-	std::vector<StuListItemDTO::Wrapper> filtered;
-	for (const auto& item : source)
-	{
-		if (!containsKeyword(item->student_name, query ? query->keyword : nullptr))
-		{
-			continue;
-		}
-		filtered.push_back(item);
-	}
-
-	v_uint64 total = static_cast<v_uint64>(filtered.size());
+	v_uint64 total = static_cast<v_uint64>(1);
 	v_uint64 totalPage = total == 0 ? 0 : (total + pageSize - 1) / pageSize;
-	v_uint64 start = (pageIndex - 1) * pageSize;
-	v_uint64 end = std::min(start + pageSize, total);
 
 	auto data = GetStuListDTO::createShared();
 	data->lesson_id = oatpp::UInt64(lessonId);
@@ -102,15 +50,12 @@ GetStuListJsonVO::Wrapper Record_name::execGetStuList(const GetStuListQuery::Wra
 	data->page_size = oatpp::UInt64(pageSize);
 	data->total = oatpp::UInt64(total);
 	data->total_page = oatpp::UInt64(totalPage);
-	data->records = {};
-
-	if (start < end)
-	{
-		for (v_uint64 i = start; i < end; ++i)
-		{
-			data->records->push_back(filtered[static_cast<size_t>(i)]);
-		}
-	}
+	data->student_id = oatpp::UInt64(70001);
+	data->unsigned_count = oatpp::UInt32(static_cast<v_uint32>(1));
+	data->is_change_course = false;
+	data->is_leave = false;
+	data->is_absent = false;
+	data->is_signed = false;
 
 	auto vo = GetStuListJsonVO::createShared();
 	vo->success(data);
