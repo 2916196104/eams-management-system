@@ -19,14 +19,14 @@ import java.util.List;
 public class NoticeSettingController implements NoticeApis{
 
 
-    @GetMapping
+    @GetMapping("/query-settinglist")
     @ApiOperation("获取通知设置")
     @Override
     public JsonVO<PageDTO<NoticeSettingDTO>> queryNoticeSettingList(NoticeSettingQuery noticeSettingQuery) {
         return null;
     }
 
-    @PostMapping
+    @PostMapping("/savesetting")
     @ApiOperation("保存通知设置")
     @Override
     public JsonVO<String> saveNoticeSetting( @RequestBody  NoticeSettingDTO noticeSettingDTO) {
