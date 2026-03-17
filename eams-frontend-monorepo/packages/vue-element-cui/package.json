@@ -1,7 +1,7 @@
 {
-	"name": "@eams/vue-element-cui",
-	"version": "1.0.0",
+	"name": "@eams-monorepo/vue-element-cui",
 	"description": "EAMS Vue Element Component UI Library",
+	"version": "1.0.0",
 	"type": "module",
 	"main": "./dist/index.cjs",
 	"module": "./dist/index.js",

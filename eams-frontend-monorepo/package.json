@@ -1,8 +1,8 @@
 {
 	"name": "@eams-monorepo/root",
+	"description": "EAMS 前端单仓架构项目根目录",
 	"private": true,
 	"version": "1.0.0",
-	"description": "EAMS 前端单仓架构项目根目录",
 	"type": "module",
 	"packageManager": "pnpm@10.32.1",
 	"engines": {

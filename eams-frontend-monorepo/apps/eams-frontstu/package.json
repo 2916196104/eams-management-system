@@ -1,5 +1,6 @@
 {
-	"name": "eams-stu",
+	"name": "@eams-monorepo/stu-app",
+	"description": "EAMS 前端项目。学生移动端项目。",
 	"type": "module",
 	"version": "1.3.2",
 	"private": true,

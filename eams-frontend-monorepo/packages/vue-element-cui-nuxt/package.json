@@ -1,5 +1,6 @@
 {
-	"name": "@eams/vue-element-cui-nuxt",
+	"name": "@eams-monorepo/vue-element-cui-nuxt",
+	"description": "EAMS Vue Element CUI Nuxt Documentation Site",
 	"version": "2.0.0",
 	"type": "module",
 	"private": true,

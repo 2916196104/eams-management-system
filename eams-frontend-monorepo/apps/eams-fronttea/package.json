@@ -1,5 +1,6 @@
 {
-	"name": "eams-tea",
+	"name": "@eams-monorepo/tea-app",
+	"description": "EAMS 前端项目。教师移动端项目。",
 	"type": "module",
 	"version": "1.3.2",
 	"private": true,
