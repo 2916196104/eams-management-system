@@ -1,4 +1,4 @@
-package com.zeroone.star.sample.config;
+package com.zeroone.star.eamsj3system.Config;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
@@ -10,27 +10,21 @@ import java.time.LocalDateTime;
 
 @Configuration
 @ComponentScan("com.zeroone.star.project.config.mybatis")
-
-public class UseMybatisPlus {
+public class MpConfig {
 
     @Bean
-    public MetaObjectHandler metaObjectHandler(){
-        return new MetaObjectHandler(){
+    public MetaObjectHandler metaObjectHandler() {
+        return new MetaObjectHandler() {
             @Override
             public void insertFill(MetaObject metaObject) {
-
-                this.strictInsertFill(metaObject,"creattime", LocalDateTime.class,LocalDateTime.now());
+                this.strictInsertFill(metaObject, "createTime", LocalDateTime.class, LocalDateTime.now());
             }
 
             @Override
             public void updateFill(MetaObject metaObject) {
-                this.strictUpdateFill(metaObject,"updatetime", LocalDateTime.class,LocalDateTime.now());
-
+                this.strictUpdateFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now());
             }
-
-
-
         };
     }
-
 }
+

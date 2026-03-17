@@ -1,4 +1,4 @@
-package com.zeroone.star.sample.config;
+package com.homework.eamsj3class.config;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 
 @Configuration
 @ComponentScan("com.zeroone.star.project.config.mybatis")
-
 public class UseMybatisPlus {
 
     @Bean
@@ -25,11 +24,7 @@ public class UseMybatisPlus {
             @Override
             public void updateFill(MetaObject metaObject) {
                 this.strictUpdateFill(metaObject,"updatetime", LocalDateTime.class,LocalDateTime.now());
-
             }
-
-
-
         };
     }
 
