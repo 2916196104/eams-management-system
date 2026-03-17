@@ -242,6 +242,11 @@ const menus = reactive([
     id: 123,
     path: '/sample/f1table',
     text: 'F1自定义表格'
+  },
+  {
+    id: 13,
+    path: '/sample/mydetaildialog',
+    text: '课时详情对话框'
   }
 ])
 </script>

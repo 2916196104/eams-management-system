@@ -79,6 +79,11 @@ const routes = [
         name: 'f1table',
         path: '/sample/f1table',
         component: () => import('@/views/sample/f1table/index.vue')
+      },
+      {
+        name: 'smydetaildialog',
+        path: '/sample/mydetaildialog',
+        component: () => import('@/views/sample/mydetaildialog/Index.vue')
       }
     ]
   }
