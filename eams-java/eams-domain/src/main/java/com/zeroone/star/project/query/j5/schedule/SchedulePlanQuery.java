@@ -13,6 +13,6 @@ public class SchedulePlanQuery extends PageQuery {
     private Integer classId;
     @ApiModelProperty(value = "课程名称",required = false,example = "日语")
     private String courseName;
-    @ApiModelProperty(value = "课堂类型",required = false,example = "1 大课  2 小班课 3 1v1")
-    private String lessonType;
+//    @ApiModelProperty(value = "课堂类型",required = false,example = "1 大课  2 小班课 3 1v1")
+//    private String lessonType;
 }
