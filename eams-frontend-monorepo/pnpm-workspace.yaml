@@ -5,9 +5,13 @@ packages:
   - configs/*
 
 onlyBuiltDependencies:
+  - '@carbon/icons'
   - "@parcel/watcher"
+  - '@uni-helper/unocss-preset-uni'
   - core-js
+  - core-js-pure
   - ejs
+  - es5-ext
   - esbuild
   - sharp
   - simple-git-hooks
