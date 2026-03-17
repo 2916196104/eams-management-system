@@ -71,6 +71,11 @@ const routes = [
         component: () => import('@/views/sample/mydialog/Index.vue')
       },
       {
+        name: 'smycalendar',
+        path: '/sample/mycalendar',
+        component: () => import('@/views/sample/mycalendar/Index.vue')
+      },
+      {
         name: 'f1table',
         path: '/sample/f1table',
         component: () => import('@/views/sample/f1table/index.vue')
