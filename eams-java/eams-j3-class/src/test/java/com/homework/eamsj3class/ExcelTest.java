@@ -66,5 +66,6 @@ public class ExcelTest {
         //上传到DFS中
         FastDfsFileInfo info = dfs.uploadFile(out.toByteArray(), "xlsx");
         System.out.println(info);
+        out.close();
     }
 }

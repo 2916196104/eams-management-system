@@ -1,18 +1,30 @@
 package com.homework.eamsj3class.controller;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.date.DateTime;
 import com.alibaba.excel.EasyExcel;
+import com.zeroone.star.project.components.easyexcel.EasyExcelComponent;
 import com.zeroone.star.project.dto.j3.course.CourseExportDTO;
 import com.zeroone.star.project.dto.j3.course.CourseStatusDTO;
 import com.zeroone.star.project.j3.course.CourseApi;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.SneakyThrows;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +34,14 @@ import java.util.List;
  * @author Longan
  * @description 实现课程状态的批量更新
  */
-@RestController
+@Controller
 @RequestMapping("j3/css")
 @Api(tags = "课程管理")
 public class ChangeSubjectStateController implements CourseApi {
     @Override
     @PutMapping
     @ApiOperation(value = "启/禁用课程")
+    @ResponseBody
     public JsonVO<Void> updateStatus(@Validated @RequestBody CourseStatusDTO stateDTO) {
         // 防止前端传个空的过来
         if (stateDTO == null || CollUtil.isEmpty(stateDTO.getIds())) {
@@ -49,24 +62,30 @@ public class ChangeSubjectStateController implements CourseApi {
 //         return JsonVO.fail("更新状态失败");
     }
 
+    private List<CourseExportDTO> list;
+    @Resource
+    EasyExcelComponent excel;
+
+    @PostConstruct
+    public void initExcelData(){
+        list = new ArrayList<>();
+        //TODO 从数据库获取数据
+    }
+
+    @SneakyThrows
+    @GetMapping(value = "/export", produces = "application/octet-stream")
     @ApiOperation(value = "导出课程数据")
-    @GetMapping("/export")
-    public void exportCourses(HttpServletResponse response) throws IOException {
-        // 1. 设置响应内容类型和编码
-        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-        response.setCharacterEncoding("utf-8");
-
-        // 2. 防止中文文件名乱码
-        String fileName = URLEncoder.encode("课程数据表", "UTF-8").replaceAll("\\+", "%20");
-        response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + fileName + ".xlsx");
-
-        // 3. 获取数据（实际开发中请从数据库查询，这里模拟 mock 数据）
-        List<CourseExportDTO> list = new ArrayList<>();
-        // TODO: 调用 service.listAll() 转换成 DTO
-
-        // 4. 使用 EasyExcel 写入流
-        EasyExcel.write(response.getOutputStream(), CourseExportDTO.class)
-                .sheet("课程列表")
-                .doWrite(list);
+    public ResponseEntity<byte[]> exportExcel(){
+        //导出到文件流中
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        excel.export("report", out, CourseExportDTO.class, list);
+        //响应文件
+        HttpHeaders headers = new HttpHeaders();
+        String fileName = "rep-" + DateTime.now().toString("yyyyMMddHHmmssS") + ".xlsx";
+        headers.setContentDispositionFormData("attachment", fileName);
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        byte[] bytes = out.toByteArray();
+        out.close();
+        return new ResponseEntity<>(bytes, headers, HttpStatus.CREATED);
     }
 }
