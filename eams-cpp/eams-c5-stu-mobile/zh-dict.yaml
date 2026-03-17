@@ -1,10 +1,9 @@
 class:
     summary: 获取班级学员列表
     resp: 操作成功
-    id: 班号
+    id: 班级
+    studentId: 学号
 homework:
     summary: 获取作业列表
-    resp: 操作成功 
-    subject: 科目
-    example: 语文
-    id: 学号
+    resp: 操作成功
+    id: 班级

@@ -27,7 +27,7 @@ public://定义接口
 		API_DEF_ADD_QUERY_PARAMS(String, "subject", ZH_WORDS_GETTER("homework.subject"), ZH_WORDS_GETTER("homework.example"), true);
 	}
 
-	ENDPOINT(API_M_GET, "/homework", queryHomework,QUERIES(QueryParams, params),API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_GET, "app/home/homework/list", queryHomework,QUERIES(QueryParams, params),API_HANDLER_AUTH_PARAME) {
 		//解析查询参数
 		API_HANDLER_QUERY_PARAM(query, PageQuery, params);
 		//响应结果
