@@ -24,13 +24,10 @@
 #include "summaryclass/SummaryClassController.h"
 #include "parentaccount/ParentAccountController.h"
 
-// ��������˹ر�Swagger�ĵ���
 #ifdef CLOSE_SWAGGER_DOC
-// �򻯰󶨿������궨��
 #define ROUTER_SIMPLE_BIND(__CLASS__) \
 router->addController(__CLASS__::createShared())
 #else
-// �򻯰󶨿������궨��
 #define ROUTER_SIMPLE_BIND(__CLASS__) \
 BIND_CONTROLLER(docEndpoints, router, __CLASS__)
 #endif
@@ -43,7 +40,6 @@ Router::Router(Endpoints* docEndpoints, HttpRouter* router)
 
 void Router::initRouter()
 {
-	//#TIP :ϵͳ��չ·�ɶ��壬д���������
 	ROUTER_SIMPLE_BIND(CommonController);
 	ROUTER_SIMPLE_BIND(SummaryClassController);
 	ROUTER_SIMPLE_BIND(ParentAccountController);

@@ -7,8 +7,6 @@
 
 #include "../../domain/query/summaryclass/SummaryClassQuery.h"
 
-#define API_TAG ZH_WORDS_GETTER("SummaryClass.tag")
-
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
 class SummaryClassController : public oatpp::web::server::api::ApiController
@@ -17,12 +15,12 @@ class SummaryClassController : public oatpp::web::server::api::ApiController
 
 public:
 	API_DEF_ENDPOINT_INFO_AUTH(
-		ZH_WORDS_GETTER("SummaryClass.summary"),
+		ZH_WORDS_GETTER("summaryclass.interface.query-summaryclass"),
 		summaryclassquery,
 		SummaryClassPageJsonVO::Wrapper,
-		API_TAG,
-		API_DEF_ADD_QUERY_PARAMS(String, "studentName", ZH_WORDS_GETTER("SummaryClass.field.studentName"), "zhang san", true);
-		API_DEF_ADD_QUERY_PARAMS(String, "courseName", ZH_WORDS_GETTER("SummaryClass.field.courseName"), "math", true);
+		ZH_WORDS_GETTER("summaryclass.api-tag"),
+		API_DEF_ADD_QUERY_PARAMS(String, "studentName", ZH_WORDS_GETTER("summaryclass.field.student.student-name"), "zhang san", true);
+		API_DEF_ADD_QUERY_PARAMS(String, "courseName", ZH_WORDS_GETTER("summaryclass.field.student.course-name"), "math", true);
 		API_DEF_ADD_PAGE_PARAMS();
 	);
 

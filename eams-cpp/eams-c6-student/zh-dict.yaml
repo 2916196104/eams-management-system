@@ -1,75 +1,27 @@
-﻿# 公共接口
-common:
- api-tag: 公共接口
- interface:
-  get-student-by-id: 获取学员详情
-  modify-student-picture: 修改学员头像
-  query-student-registration-record: 获取报名记录（条件+分页）
-  download-student-picture: 下载学员头像 
- field:
-  file:
-   id: 文件ID
-  student:
-   id: 学员ID
-   name: 学员姓名
-   phone: 手机号码
-   picture-path: 学员头像文件路径
-   left-course-count: 剩余课次
-   left-points: 剩余积分
-   stage: 学员阶段
-   sex: 学员性别
-   age: 学员年龄
-   birthday: 出生年月
-   identification-number: 身份证号
-   parent-name: 家长姓名
-   relation-type: 亲属关系
-   grade: 年级
-   enter-time: 入学时间
-   accurate-enter-time: 精确入学时间
-   note: 备注
-   course-progress: 课次进度
-  registration-record:
-   id: 报名记录ID
-   add-time: 添加时间
-   course: 课程
-   subject: 科目
-   buy-count: 购买课次
-   unit-price: 单价
-   course-price: 课程价格
-   sale-price: 优惠价格
-   reality-price: 实际价格
-   arrearage: 欠费金额
-   begin-time: 开始时间
-   end-time: 结束时间
-   refund-price: 退费金额
-   drop-class-count: 退课数量
-   refund-describe: 退费说明
-   refund-status: 退费状态
-SummaryClass:
-  summary: 课时汇总查询
-  tag: 
+﻿summaryclass:
+  api-tag: 课时汇总
+  interface: 
+    query-summaryclass: 课时汇总查询
   field:
-    studentName: 学员姓名
-    courseName: 课程
-    attendanceRecord: 上课记录
-    totalLessons: 总课次
-    usedLessons: 已上课次
-    remainingLessons: 剩余课次
+    student:
+      student-name: 学员姓名
+      course-name: 课程名字
+      attendance-record: 上课记录
+      total-lessons: 总课次
+      used-lessons: 已上课次
+      remaining-lessons: 剩余课次
+parentaccount:
+  api-tag: 家长账户
+  interface:
+    modify-parent-account: 家长账户更改
+    modify-parent-password: 家长密码更改
+  field:
+    parent:
+      id: 家长ID
+      name: 家长姓名
+      state: 家长账号状态
+      old-password: 旧密码
+      new-password: 新密码
 
-ParentAccountChange:
-  summary: 家长账号更改
-  tag: 家长账户
-  field:
-    id: 家长ID
-    name: 家长姓名
-    state: 家长账号状态
-
-ParentPasswordChange:
-  summary: 家长密码更改
-  tag: 家长账户
-  field:
-    id: 家长ID
-    oldPassword: 旧密码
-    newPassword: 新密码
 
 
