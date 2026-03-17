@@ -26,10 +26,10 @@ public class SchedulePlanVO {
     private String conflictIds;
 
     @ApiModelProperty(value = "上课老师名称列表",required = false,example = "张三，李四")
-    private List<String> teacherNames;
+    private String teacherNames;
 
     @ApiModelProperty(value = "助教老师列表",example = "王五，赵六")
-    private List<String> assistantTeacherNames;
+    private String assistantTeacherNames;
 
     @ApiModelProperty(value = "开始时间",example = "2021-01-01")
     private LocalDateTime startDate;
