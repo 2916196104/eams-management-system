@@ -1,4 +1,4 @@
-package com.homework.eamsj3class.controller;
+package com.homework.eamsj3class.controller1;
 
 import cn.hutool.core.collection.CollUtil;
 import com.alibaba.excel.EasyExcel;
@@ -7,12 +7,10 @@ import com.zeroone.star.project.dto.j3.course.CourseStatusDTO;
 import com.zeroone.star.project.j3.course.CourseApi;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
