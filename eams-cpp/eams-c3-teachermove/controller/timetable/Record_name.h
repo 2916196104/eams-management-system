@@ -21,7 +21,7 @@ public:		//定义接口
 		"Get lesson detail",
 		getDetailCS,
 		GetDetailCSJsonVO::Wrapper,
-		"GetDetailCS",
+		"",
 		API_DEF_ADD_QUERY_PARAMS(UInt64, "lesson_id", "Lesson ID", 10002, true);
 	);
 
@@ -39,7 +39,7 @@ public:		//定义接口
 		"Get student list with filters and pagination",
 		getStuList,
 		GetStuListJsonVO::Wrapper,
-		"GetStuList",
+		"",
 		API_DEF_ADD_QUERY_PARAMS(UInt64, "lesson_id", "Lesson ID", 10002, true);
 		API_DEF_ADD_QUERY_PARAMS(String, "keyword", "Student keyword", "", false);
 		API_DEF_ADD_QUERY_PARAMS(UInt64, "page_index", "Page index", 1, false);
