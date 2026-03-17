@@ -1,6 +1,5 @@
 #pragma once
 
-
 #ifndef __RECORD_COMMENT_H__
 #define __RECORD_COMMENT_H__
 
