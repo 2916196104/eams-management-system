@@ -24,19 +24,27 @@
 #include "ServerInfo.h"
 #include "Macros.h"
 #include "domain/vo/BaseJsonVO.h"
+#include "domain/vo/listening-card/cardVO.h"
 #include "domain/query/PageQuery.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
+
+#define API_TAG "card"
 //试听卡模块控制器
 class cardController : public oatpp::web::server::api::ApiController
 {
 	// 定义控制器访问入口
 	API_ACCESS_DECLARE(cardController);
 public: // 定义接口
-
-
+	//
+	API_DEF_ENDPOINT_INFO_AUTH(
+		ZH_WORDS_GETTER("ListeningCard.queryOneSummary"), queryCardList, ListeningCardListJsonVO::Wrapper, API_TAG,
+		API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("ListeningCard.name"), "sss", false);
+	);
+	//
+	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c1/card/pos", queryCardList, QUERY(String, name), execQueryCardList(name));
 private: // 定义接口执行函数
-
+	ListeningCardListJsonVO::Wrapper execQueryCardList(const oatpp::String& name);
 };
 
 #include OATPP_CODEGEN_END(ApiController)

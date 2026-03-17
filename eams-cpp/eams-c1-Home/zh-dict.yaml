@@ -1,0 +1,9 @@
+﻿ListeningCard:
+ course:试听卡课程名
+ name:试听卡名称
+ deadline:截止日期
+ effective_date:有效日期
+ surplus:剩余量
+ cnt:次数
+ receive_time:领取时间
+ queryOneSummary:获取试听卡列表

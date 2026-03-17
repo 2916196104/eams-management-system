@@ -20,3 +20,7 @@
 #include "cardcontroller.h"
 //实现接口执行函数
 
+ListeningCardListJsonVO::Wrapper cardController::execQueryCardList(const oatpp::String& name)
+{
+	return {};
+}

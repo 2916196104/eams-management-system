@@ -21,13 +21,26 @@
 #define _CARDVO_H_
 
 #include "../../GlobalInclude.h"
+#include"../../dto/listening-card/cardDTO.h"
+
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * 定义显示对象
+ * 试听卡分页显示对象
  */
+class ListeningCardPageJsonVO :public JsonVO< ListeningCardPageDTO::Wrapper>
+{
+	DTO_INIT(ListeningCardPageJsonVO, JsonVO< ListeningCardPageDTO::Wrapper>);
+};
 
+/**
+ * 试听卡列表显示对象
+ */
+class ListeningCardListJsonVO :public ListJsonVO< ListeningCardDTO::Wrapper>
+{
+	DTO_INIT(ListeningCardListJsonVO, ListJsonVO< ListeningCardDTO::Wrapper>);
+};
 
 #include OATPP_CODEGEN_END(DTO)
 
