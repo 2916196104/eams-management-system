@@ -14,22 +14,22 @@ import java.util.Date;
 @ApiModel("获取消课记录（条件+分页）")
 public class LessonCountDTO {
 
-    @ApiModelProperty(value = "学员id", example = "1",required=true)
-    private String student_id;
-    @ApiModelProperty(value = "课程id", example = "2",required=true)
-    private String course_id;
-    @ApiModelProperty(value = "课次id", example = "30",required=true)
-    private String lesson_id;
-    @ApiModelProperty(value = "变更课次数", example = "50",required=true)
-    private String change_count;
-//    @ApiModelProperty(value = "剩余数量", example = "100")
-//    private String remaining_count;
-    @ApiModelProperty(value = "操作人", example = "张三",required=true)
-    private String staff_id;
-    @ApiModelProperty(value = "时间", example = "2026-3-15")
-    private Date add_time;
-//    @ApiModelProperty(value = "变更阶段", example = "1")
-//    private String stage;
-    @ApiModelProperty(value = "其他说明", example = "无")
+    @ApiModelProperty(value = "序号", example = "1")
+    private String id;
+    @ApiModelProperty(value = "学生姓名", example = "张三")
+    private String student_name;
+    @ApiModelProperty(value = "变动数量", example = "+20")
+    private String change_number;
+    @ApiModelProperty(value = "剩余数量", example = "35")
+    private String remain_number;
+    @ApiModelProperty(value = "课程", example = "绘画")
+    private String course_name;
+    @ApiModelProperty(value = "上课日期", example = "2026-3-15")
+    private Date course_time;
+    @ApiModelProperty(value = "操作人", example = "管理员a")
+    private String change_person;
+    @ApiModelProperty(value = "说明", example = "无")
     private String remark;
+    @ApiModelProperty(value = "变动时间", example = "2026-3-15")
+    private String change_time;
 }
