@@ -1,4 +1,4 @@
-package com.homework.eamsj3system;
+package com.zeroone.star.eamsj3system;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

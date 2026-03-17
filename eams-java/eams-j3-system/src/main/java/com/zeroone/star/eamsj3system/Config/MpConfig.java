@@ -1,4 +1,4 @@
-package com.homework.eamsj3system.Config;
+package com.zeroone.star.eamsj3system.Config;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;

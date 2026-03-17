@@ -1,4 +1,4 @@
-package com.homework.eamsj3system.Config;
+package com.zeroone.star.eamsj3system.Config;
 
 import com.zeroone.star.project.config.swagger.SwaggerCore;
 import org.springframework.context.annotation.Bean;

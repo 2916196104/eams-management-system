@@ -1,4 +1,4 @@
-package com.homework.eamsj3system.Controller;
+package com.zeroone.star.eamsj3system.Controller;
 
 import com.zeroone.star.project.dto.j3.noticsetting.NoticeSettingDTO;
 import com.zeroone.star.project.dto.j3.noticsetting.PageDTO;
