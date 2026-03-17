@@ -23,8 +23,8 @@ public://定义接口
 		API_DEF_ADD_RSP_JSON_WRAPPER(StringJsonVO); 
 		//API_DEF_ADD_RSP_JSON(StringJsonVO::Wrapper);
 		API_DEF_ADD_PAGE_PARAMS();
-		API_DEF_ADD_QUERY_PARAMS(String, "id", ZH_WORDS_GETTER("homework.id"), "0001", false);
-		API_DEF_ADD_QUERY_PARAMS(String, "subject", ZH_WORDS_GETTER("homework.subject"), ZH_WORDS_GETTER("homework.example"), false);
+		API_DEF_ADD_QUERY_PARAMS(String, "id", ZH_WORDS_GETTER("homework.id"), "0001", true);
+		API_DEF_ADD_QUERY_PARAMS(String, "subject", ZH_WORDS_GETTER("homework.subject"), ZH_WORDS_GETTER("homework.example"), true);
 	}
 
 	ENDPOINT(API_M_GET, "/homework", queryHomework,QUERIES(QueryParams, params),API_HANDLER_AUTH_PARAME) {
