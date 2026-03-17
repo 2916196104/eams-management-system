@@ -36,7 +36,11 @@
         <module>eams-oauth2</module>
         <module>eams-gateway</module>
         <module>eams-login</module>
+        <module>eams-j1-console</module>
         <module>eams-doc</module>
+        <module>eams-j1-orgmanager</module>
+        <module>eams-j1-org</module>
+        <module>eams-j1-staff</module>
     </modules>
     <properties>
         <!-- 项目版本号 -->
@@ -58,6 +62,11 @@
             <dependency>
                 <groupId>com.zeroone.star</groupId>
                 <artifactId>eams-domain</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zeroone.star</groupId>
+                <artifactId>eams-j1-console</artifactId>
                 <version>${revision}</version>
             </dependency>
         </dependencies>
