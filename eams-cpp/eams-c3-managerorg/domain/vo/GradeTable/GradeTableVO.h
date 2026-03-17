@@ -1,16 +1,28 @@
 #ifndef __GRADETABLEVO_H__
 #define __GRADETABLEVO_H__
 
-#include "../GlobalInclude.h"
+#include "domain/GlobalInclude.h"
+#include "domain/dto/GradeTable/GradeListDTO.h"
+#include "domain/vo/JsonVO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/*³É¼¨µ¥ÊÓÍ¼Àà*/
+/*ï¿½É¼ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½*/
 
 
 class GradeTableVO : public
 {
 	DTO_INIT(GradeTableVO, )
+};
+
+class GradeListJsonVO : public JsonVO<GradeListDTO::Wrapper>
+{
+    DTO_INIT(GradeListJsonVO, JsonVO<GradeListDTO::Wrapper>);
+};
+
+class GradeListPageJsonVO : public JsonVO<GradeListPageDTO::Wrapper>
+{
+    DTO_INIT(GradeListPageJsonVO, JsonVO<GradeListPageDTO::Wrapper>);
 };
 
 #include OATPP_CODEGEN_END(DTO)

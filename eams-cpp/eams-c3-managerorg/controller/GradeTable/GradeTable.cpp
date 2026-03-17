@@ -1,2 +1,10 @@
+﻿#include "stdafx.h"
 #include "GradeTable.h"
-#include "stdafx.h"
+
+GradeListPageJsonVO::Wrapper GradeListController::ExecGradeListQuery(
+    const GradeListQuery::Wrapper& query,
+    const PayloadDTO& payload)
+{
+    /* TODO: finish implementation */
+    return nullptr;
+}
