@@ -48,5 +48,12 @@
 		"turbo": "^2.8.17",
 		"typescript": "^5.9.3",
 		"vue-i18n": "10.0.8"
+	},
+	"dependencies": {
+		"@eams-monorepo/admin": "workspace:^",
+		"@eams-monorepo/stu-app": "workspace:^",
+		"@eams-monorepo/tea-app": "workspace:^",
+		"@eams-monorepo/vue-element-cui": "workspace:^",
+		"@eams-monorepo/vue-element-cui-nuxt": "workspace:^"
 	}
 }
