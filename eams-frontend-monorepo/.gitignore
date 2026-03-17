@@ -19,7 +19,8 @@ coverage
 .nyc_output
 
 # Environment
-.env
+# 允许提交该环境变量。该环境变量提供了程序必要运行的参数。 但忽略本地环境变量
+!.env 
 .env.local
 .env.*.local
 
