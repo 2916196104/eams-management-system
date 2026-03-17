@@ -1,2 +1,2 @@
-#include "GradeTable.h"
 #include "stdafx.h"
+#include "GradeTable.h"
