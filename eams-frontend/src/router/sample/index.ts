@@ -69,6 +69,11 @@ const routes = [
         name: 'smydialog',
         path: '/sample/mydialog',
         component: () => import('@/views/sample/mydialog/Index.vue')
+      },
+      {
+        name: 'smycalendar',
+        path: '/sample/mycalendar',
+        component: () => import('@/views/sample/mycalendar/Index.vue')
       }
     ]
   }
