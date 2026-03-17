@@ -38,11 +38,11 @@ class SendResetCodeJsonVO : public JsonVO<SendResetCodeRespDTO::Wrapper>
 };
 
 /**
- * 找回密码返回 VO
+ * 修改密码返回 VO
  */
-class ResetPasswordJsonVO : public JsonVO<ResetPasswordRespDTO::Wrapper>
+class UpdatePasswordJsonVO : public JsonVO<UpdatePasswordRespDTO::Wrapper>
 {
-	DTO_INIT(ResetPasswordJsonVO, JsonVO<ResetPasswordRespDTO::Wrapper>);
+	DTO_INIT(UpdatePasswordJsonVO, JsonVO<UpdatePasswordRespDTO::Wrapper>);
 };
 
 
