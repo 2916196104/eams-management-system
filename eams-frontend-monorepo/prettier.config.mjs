@@ -18,6 +18,16 @@ const config = {
 			parser: "oxc-ts",
 			plugins: [prettierPluginOxc],
 		},
+		{
+			// MDC (Markdown Components) 文档使用 ::component\n--- 紧贴语法，
+			// prettier 格式化会在 ::component 和 --- 之间插入空行，
+			// 导致 YAML frontmatter 无法被解析，图标等 props 丢失。
+			// 因此对 nuxt content 目录的 .md 文件完全禁用格式化。
+			files: ["packages/vue-element-cui-nuxt/content/**/*.md"],
+			options: {
+				requirePragma: true,
+			},
+		},
 	],
 
 	singleQuote: false,
