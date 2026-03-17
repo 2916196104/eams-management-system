@@ -8,6 +8,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
+/**
+ * 报存请款时添加的
+ */
 @Data
 @ApiModel("请款新增DTO")
 public class CashoutAddDTO {

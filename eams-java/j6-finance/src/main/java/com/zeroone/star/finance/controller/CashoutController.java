@@ -2,6 +2,7 @@ package com.zeroone.star.finance.controller;
 
 import com.zeroone.star.finance.service.impl.CashoutServiceImpl;
 import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j6.finance.BatchVerifyDTO;
 import com.zeroone.star.project.dto.j6.finance.CashoutAddDTO;
 import com.zeroone.star.project.j6.finance.CashoutApis;
 import com.zeroone.star.project.query.j6.finance.CashoutListQuery;
@@ -73,5 +74,27 @@ public class CashoutController implements CashoutApis {
         } catch (Exception e) {
             return JsonVO.fail(e.getMessage());
         }
+    }
+
+    /**
+     * 实现批量通过方法
+     */
+    @PostMapping("/batchPass")
+    @ApiOperation("批量通过请款")
+    @ApiOperationSupport(order = 1)
+    @Override
+    public JsonVO<Void> batchPass(@RequestBody BatchVerifyDTO dto) {
+        return null;
+    }
+
+    /**
+     * 实现批量驳回方法
+     */
+    @PostMapping("/batchReject")
+    @ApiOperation("批量驳回请款")
+    @ApiOperationSupport(order = 2)
+    @Override
+    public JsonVO<Void> batchReject(@RequestBody BatchVerifyDTO dto) {
+        return null;
     }
 }

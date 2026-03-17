@@ -1,6 +1,7 @@
 package com.zeroone.star.project.j6.finance;
 
 import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j6.finance.BatchVerifyDTO;
 import com.zeroone.star.project.dto.j6.finance.CashoutAddDTO;
 import com.zeroone.star.project.query.j6.finance.CashoutListQuery;
 import com.zeroone.star.project.vo.JsonVO;
@@ -41,4 +42,20 @@ public interface CashoutApis {
      * @return 作废结果
      */
     JsonVO<Long> cancelCashout(Long id);
+
+    /**
+     * 批量通过请款
+     *
+     * @param dto 批量操作参数（IDs+审核备注）
+     * @return 操作结果
+     */
+    JsonVO<Void> batchPass(BatchVerifyDTO dto);
+
+    /**
+     * 批量驳回请款
+     *
+     * @param dto 批量操作参数（IDs+驳回备注，备注必填）
+     * @return 操作结果
+     */
+    JsonVO<Void> batchReject( BatchVerifyDTO dto);
 }
