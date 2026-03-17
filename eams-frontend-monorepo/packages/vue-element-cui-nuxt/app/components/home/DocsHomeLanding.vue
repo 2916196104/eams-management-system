@@ -16,7 +16,8 @@
 						从安装、演示到规范，按组件库官网的方式组织文档入口。
 					</h1>
 					<p class="max-w-2xl text-base leading-7 text-muted-foreground">
-						这里不再把文档当成零散的 markdown 列表。首页优先给出安装、快速开始、组件分类和规范入口，再把常见的表格、表单、选择器和弹层能力用真实组件直接跑起来。
+						这里不再把文档当成零散的 markdown
+						列表。首页优先给出安装、快速开始、组件分类和规范入口，再把常见的表格、表单、选择器和弹层能力用真实组件直接跑起来。
 					</p>
 				</div>
 
@@ -40,19 +41,15 @@
 			>
 				<div class="flex items-center justify-between">
 					<p class="text-sm font-semibold text-slate-50">安装命令</p>
-					<span class="rounded-full border border-slate-700 px-2 py-1 text-xs text-slate-300">
-						pnpm
-					</span>
+					<span class="rounded-full border border-slate-700 px-2 py-1 text-xs text-slate-300">pnpm</span>
 				</div>
-				<pre class="overflow-auto rounded-xl bg-slate-900 p-4 text-sm leading-6 text-sky-100"><code>pnpm add @eams/vue-element-cui element-plus</code></pre>
+				<pre
+					class="overflow-auto rounded-xl bg-slate-900 p-4 text-sm leading-6 text-sky-100"
+				><code>pnpm add @eams/vue-element-cui element-plus</code></pre>
 				<div class="space-y-3 text-sm text-slate-300">
 					<p>推荐先走一遍安装和快速开始，再根据组件类型进入对应栏目。</p>
 					<ul class="space-y-2">
-						<li
-							v-for="point in installPoints"
-							:key="point"
-							class="flex items-start gap-2"
-						>
+						<li v-for="point in installPoints" :key="point" class="flex items-start gap-2">
 							<span class="mt-2 h-1.5 w-1.5 rounded-full bg-sky-400" />
 							<span>{{ point }}</span>
 						</li>
@@ -65,9 +62,7 @@
 			<div class="flex items-center justify-between gap-3">
 				<div>
 					<h2 class="text-xl font-semibold text-foreground">组件分类入口</h2>
-					<p class="mt-1 text-sm text-muted-foreground">
-						先按类型找入口，再进入对应的体系页看 demo、代码和 API。
-					</p>
+					<p class="mt-1 text-sm text-muted-foreground">先按类型找入口，再进入对应的体系页看 demo、代码和 API。</p>
 				</div>
 				<NuxtLink
 					to="/components"

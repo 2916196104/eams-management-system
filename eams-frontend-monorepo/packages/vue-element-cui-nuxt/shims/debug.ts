@@ -3,7 +3,7 @@ function createDebug(namespace) {
 
 	logger.namespace = namespace;
 	logger.enabled = false;
-	logger.extend = suffix => createDebug(`${namespace}:${suffix}`);
+	logger.extend = (suffix) => createDebug(`${namespace}:${suffix}`);
 	logger.destroy = () => {};
 
 	return logger;
@@ -13,11 +13,11 @@ const debugFactory = createDebug;
 
 debugFactory.debug = debugFactory;
 debugFactory.default = debugFactory;
-debugFactory.coerce = value => value;
+debugFactory.coerce = (value) => value;
 debugFactory.disable = () => "";
 debugFactory.enable = () => {};
 debugFactory.enabled = () => false;
-debugFactory.humanize = value => String(value);
+debugFactory.humanize = (value) => String(value);
 debugFactory.destroy = () => {};
 debugFactory.formatters = {};
 debugFactory.names = [];

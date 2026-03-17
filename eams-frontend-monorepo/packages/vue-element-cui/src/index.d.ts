@@ -1,9 +1,9 @@
-import type { App, Plugin } from 'vue';
+import type { App, Plugin } from "vue";
 export declare const version: string;
 export declare function install(app: App): void;
 declare const plugin: Plugin & {
-    version: string;
+	version: string;
 };
 export default plugin;
-export * from './components';
+export * from "./components";
 //# sourceMappingURL=index.d.ts.map

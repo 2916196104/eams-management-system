@@ -1,6 +1,6 @@
 # 表格组件使用说明
 
-此表格组件主要实现了分页插件与某些常规操作的封装，**封装的主要思路就是数据来驱动表格的渲染，不需要再编写复杂的界面代码，以及繁琐的交互处理逻辑**，组件演示代码在sample中已经书写，可以自己运行观察效果。
+此表格组件主要实现了分页插件与某些常规操作的封装，**封装的主要思路就是数据来驱动表格的渲染，不需要再编写复杂的界面代码，以及繁琐的交互处理逻辑**，组件演示代码在 sample 中已经书写，可以自己运行观察效果。
 
 ## 1 整体使用步骤
 
@@ -10,9 +10,9 @@
 
 ```html
 <script setup lang="ts">
-  // 引入组件和类型
-  import MyTable from '@/components/mytable/MyTable.vue'
-  import { createPageDTO, type PageDTO, type MyTableColumn } from '@/components/mytable/type'
+	// 引入组件和类型
+	import MyTable from '@/components/mytable/MyTable.vue'
+	import { createPageDTO, type PageDTO, type MyTableColumn } from '@/components/mytable/type'
 </script>
 ```
 
@@ -92,59 +92,59 @@ export interface SampleFormData extends Record<string, any> {
 
 ```html
 <script setup lang="ts">
-  import { ref } from 'vue'
+	import { ref } from 'vue'
 
-  // 引入组件和类型
-  import MyTable from '@/components/mytable/MyTable.vue'
-  import { createPageDTO, type PageDTO, type MyTableColumn } from '@/components/mytable/type'
+	// 引入组件和类型
+	import MyTable from '@/components/mytable/MyTable.vue'
+	import { createPageDTO, type PageDTO, type MyTableColumn } from '@/components/mytable/type'
 
-  // 业务数据模型
-  import type { SampleFormData } from '@/apis/sample/type'
+	// 业务数据模型
+	import type { SampleFormData } from '@/apis/sample/type'
 
-  // 定义列数据
-  const tabdatacolumns: MyTableColumn[] = [
-    {
-      prop: 'name',
-      label: '姓名',
-      width: '80px',
-      fixed: 'left'
-    },
-    {
-      prop: 'date',
-      label: '生日',
-      width: '200px',
-      fixed: 'left',
-      align: 'center'
-    },
-    {
-      prop: 'state',
-      label: '省份',
-      width: '150px'
-    },
-    {
-      prop: 'city',
-      label: '城市',
-      width: '200px'
-    },
-    {
-      prop: 'address',
-      label: '详细地址',
-      width: '600px',
-      'show-overflow-tooltip': true
-    },
-    {
-      prop: 'zip',
-      label: '邮编',
-      width: '200px'
-    },
-    {
-      prop: 'tag',
-      label: '标签'
-    }
-  ]
+	// 定义列数据
+	const tabdatacolumns: MyTableColumn[] = [
+		{
+			prop: 'name',
+			label: '姓名',
+			width: '80px',
+			fixed: 'left'
+		},
+		{
+			prop: 'date',
+			label: '生日',
+			width: '200px',
+			fixed: 'left',
+			align: 'center'
+		},
+		{
+			prop: 'state',
+			label: '省份',
+			width: '150px'
+		},
+		{
+			prop: 'city',
+			label: '城市',
+			width: '200px'
+		},
+		{
+			prop: 'address',
+			label: '详细地址',
+			width: '600px',
+			'show-overflow-tooltip': true
+		},
+		{
+			prop: 'zip',
+			label: '邮编',
+			width: '200px'
+		},
+		{
+			prop: 'tag',
+			label: '标签'
+		}
+	]
 
-  // 定义表格数据
-  const tabdata = ref<PageDTO<SampleFormData>>(createPageDTO())
+	// 定义表格数据
+	const tabdata = ref<PageDTO<SampleFormData>>(createPageDTO())
 </script>
 ```
 
@@ -161,53 +161,53 @@ export interface SampleFormData extends Record<string, any> {
 
 ```html
 <script setup lang="ts">
-  import { ref, onMounted } from 'vue'
-  // 引入示例后端接口
-  import { listall } from '@/apis/sample/index'
+	import { ref, onMounted } from 'vue'
+	// 引入示例后端接口
+	import { listall } from '@/apis/sample/index'
 
-  // 引入组件和类型
-  import MyTable from '@/components/mytable/MyTable.vue'
-  import { createPageDTO, type PageDTO, type MyTableColumn } from '@/components/mytable/type'
+	// 引入组件和类型
+	import MyTable from '@/components/mytable/MyTable.vue'
+	import { createPageDTO, type PageDTO, type MyTableColumn } from '@/components/mytable/type'
 
-  // 业务数据模型
-  import type { SampleFormData } from '@/apis/sample/type'
+	// 业务数据模型
+	import type { SampleFormData } from '@/apis/sample/type'
 
-  // 这里省略必须属性数据定义的代码
+	// 这里省略必须属性数据定义的代码
 
-  /**
-   * 加载数据
-   */
-  function loadData() {
-    listall(
-      {
-        pageIndex: tabdata.value.pageIndex,
-        pageSize: tabdata.value.pageSize
-      },
-      (data) => {
-        tabdata.value = data
-      },
-      (error: any) => {
-        console.log(error)
-      }
-    )
-  }
+	/**
+	 * 加载数据
+	 */
+	function loadData() {
+		listall(
+			{
+				pageIndex: tabdata.value.pageIndex,
+				pageSize: tabdata.value.pageSize
+			},
+			(data) => {
+				tabdata.value = data
+			},
+			(error: any) => {
+				console.log(error)
+			}
+		)
+	}
 
-  /**
-   * 分页组件改变触发数据刷新
-   * @param data 请求数据
-   */
-  function handlePageChange(data: PageDTO<SampleFormData>) {
-    tabdata.value.pageIndex = data.pageIndex
-    tabdata.value.pageSize = data.pageSize
-    loadData()
-  }
+	/**
+	 * 分页组件改变触发数据刷新
+	 * @param data 请求数据
+	 */
+	function handlePageChange(data: PageDTO<SampleFormData>) {
+		tabdata.value.pageIndex = data.pageIndex
+		tabdata.value.pageSize = data.pageSize
+		loadData()
+	}
 
-  /**
-   * 组件挂载钩子函数
-   */
-  onMounted(() => {
-    loadData()
-  })
+	/**
+	 * 组件挂载钩子函数
+	 */
+	onMounted(() => {
+		loadData()
+	})
 </script>
 ```
 
@@ -215,11 +215,11 @@ export interface SampleFormData extends Record<string, any> {
 
 ### 1.4 编写组件标签
 
-在template中编写组件标签，并绑定数据和事件，示例代码如下
+在 template 中编写组件标签，并绑定数据和事件，示例代码如下
 
 ```html
 <template>
-  <my-table :tabdatacolumns="tabdatacolumns" :tabdata="tabdata" @page-change="handlePageChange" />
+	<my-table :tabdatacolumns="tabdatacolumns" :tabdata="tabdata" @page-change="handlePageChange" />
 </template>
 ```
 
@@ -257,12 +257,12 @@ export interface MyTableAttr {
 
 ```html
 <script setup lang="ts">
-  import type { MyTableAttr } from '@/components/mytable/type'
-  // 定义表格属性
-  const tabattr: MyTableAttr = {
-    height: 200,
-    'max-height': 400
-  }
+	import type { MyTableAttr } from '@/components/mytable/type'
+	// 定义表格属性
+	const tabattr: MyTableAttr = {
+		height: 200,
+		'max-height': 400
+	}
 </script>
 ```
 
@@ -292,15 +292,15 @@ istabpage: {
 
 ```html
 <template>
-  <my-table
-    tabtitle="表格标题"
-    :istabseq="true"
-    :istabpage="false"
-    :tabattr="tabattr"
-    :tabdatacolumns="tabdatacolumns"
-    :tabdata="tabdata"
-    @page-change="handlePageChange"
-  />
+	<my-table
+		tabtitle="表格标题"
+		:istabseq="true"
+		:istabpage="false"
+		:tabattr="tabattr"
+		:tabdatacolumns="tabdatacolumns"
+		:tabdata="tabdata"
+		@page-change="handlePageChange"
+	/>
 </template>
 ```
 
@@ -313,7 +313,7 @@ istabpage: {
 自定义列，需要通过插槽来实现，组件里面提供了一个名为`customercell`的具名插槽，通过此插槽来重新定义你需要调整的单元格，插槽输如属性值包括
 
 - `column`：当前列的列数据定义
-- `prop`：当前列的列数据对应prop值
+- `prop`：当前列的列数据对应 prop 值
 - `index`: 当前行索引值
 - `row`： 当前行的数据
 
@@ -321,20 +321,20 @@ istabpage: {
 
 ```html
 <template>
-  <my-table
-    tabtitle="自定义列"
-    :tabattr="tabattr"
-    :tabdatacolumns="tabdatacolumns"
-    :tabdata="tabdata"
-    @page-change="handlePageChange"
-  >
-    <template #customercell="{ prop, row }">
-      <!-- 对标签列特殊显示处理 -->
-      <template v-if="prop === 'tag'">
-        <el-tag>{{ row[prop] }}</el-tag>
-      </template>
-    </template>
-  </my-table>
+	<my-table
+		tabtitle="自定义列"
+		:tabattr="tabattr"
+		:tabdatacolumns="tabdatacolumns"
+		:tabdata="tabdata"
+		@page-change="handlePageChange"
+	>
+		<template #customercell="{ prop, row }">
+			<!-- 对标签列特殊显示处理 -->
+			<template v-if="prop === 'tag'">
+				<el-tag>{{ row[prop] }}</el-tag>
+			</template>
+		</template>
+	</my-table>
 </template>
 ```
 
@@ -346,37 +346,37 @@ istabpage: {
 
 ```html
 <template>
-  <my-table
-    tabtitle="复选表格"
-    :istabmultiple="true"
-    :tabattr="tabattr"
-    :tabdatacolumns="tabdatacolumns"
-    :tabdata="tabdata"
-    @selection-change="handleSelectionChange"
-  />
+	<my-table
+		tabtitle="复选表格"
+		:istabmultiple="true"
+		:tabattr="tabattr"
+		:tabdatacolumns="tabdatacolumns"
+		:tabdata="tabdata"
+		@selection-change="handleSelectionChange"
+	/>
 </template>
 <script setup lang="ts">
-  // 引入组件和类型
-  import MyTable from '@/components/mytable/MyTable.vue'
-  import {
-    createPageDTO,
-    type PageDTO,
-    type MyTableAttr,
-    type MyTableColumn
-  } from '@/components/mytable/type'
+	// 引入组件和类型
+	import MyTable from '@/components/mytable/MyTable.vue'
+	import {
+		createPageDTO,
+		type PageDTO,
+		type MyTableAttr,
+		type MyTableColumn
+	} from '@/components/mytable/type'
 
-  // 业务数据模型
-  import type { SampleFormData } from '@/apis/sample/type'
+	// 业务数据模型
+	import type { SampleFormData } from '@/apis/sample/type'
 
-  // 这里省略必须属性数据定义的代码
+	// 这里省略必须属性数据定义的代码
 
-  /**
-   * 选择行数据发生变化事件处理
-   * @param rows 选中行数据
-   */
-  function handleSelectionChange(rows: SampleFormData[]) {
-    // 这里逻辑根据自己的实际需求来完成
-  }
+	/**
+	 * 选择行数据发生变化事件处理
+	 * @param rows 选中行数据
+	 */
+	function handleSelectionChange(rows: SampleFormData[]) {
+		// 这里逻辑根据自己的实际需求来完成
+	}
 </script>
 ```
 
@@ -388,36 +388,36 @@ istabpage: {
 
 ```html
 <template>
-  <my-table
-    tabtitle="行双击表格"
-    :tabattr="tabattr"
-    :tabdatacolumns="tabdatacolumns"
-    :tabdata="tabdata"
-    @row-dbclick="handleRowDbclick"
-  />
+	<my-table
+		tabtitle="行双击表格"
+		:tabattr="tabattr"
+		:tabdatacolumns="tabdatacolumns"
+		:tabdata="tabdata"
+		@row-dbclick="handleRowDbclick"
+	/>
 </template>
 <script setup lang="ts">
-  // 引入组件和类型
-  import MyTable from '@/components/mytable/MyTable.vue'
-  import {
-    createPageDTO,
-    type PageDTO,
-    type MyTableAttr,
-    type MyTableColumn
-  } from '@/components/mytable/type'
+	// 引入组件和类型
+	import MyTable from '@/components/mytable/MyTable.vue'
+	import {
+		createPageDTO,
+		type PageDTO,
+		type MyTableAttr,
+		type MyTableColumn
+	} from '@/components/mytable/type'
 
-  // 业务数据模型
-  import type { SampleFormData } from '@/apis/sample/type'
+	// 业务数据模型
+	import type { SampleFormData } from '@/apis/sample/type'
 
-  // 这里省略必须属性数据定义的代码
+	// 这里省略必须属性数据定义的代码
 
-  /**
-   * 表格行双击事件处理
-   * @param row 当前选中行数据
-   */
-  function handleRowDbclick(row: any) {
-    // 这里逻辑根据自己的实际需求来完成
-  }
+	/**
+	 * 表格行双击事件处理
+	 * @param row 当前选中行数据
+	 */
+	function handleRowDbclick(row: any) {
+		// 这里逻辑根据自己的实际需求来完成
+	}
 </script>
 ```
 
@@ -477,136 +477,136 @@ export interface MyTableOperationsBtn {
 
 ```html
 <template>
-  <my-table
-    tabtitle="操作栏表格"
-    :tabattr="tabattr"
-    :tabdatacolumns="tabopercolumns"
-    :tabdata="tabdata"
-    :taboperbtns="taboperbtns"
-    @taboper-click="handleOperation"
-    @page-change="handlePageChange"
-  />
+	<my-table
+		tabtitle="操作栏表格"
+		:tabattr="tabattr"
+		:tabdatacolumns="tabopercolumns"
+		:tabdata="tabdata"
+		:taboperbtns="taboperbtns"
+		@taboper-click="handleOperation"
+		@page-change="handlePageChange"
+	/>
 </template>
 <script setup lang="ts">
-  // 引入组件和类型
-  import MyTable from '@/components/mytable/MyTable.vue'
-  import {
-    createPageDTO,
-    type PageDTO,
-    type MyTableAttr,
-    type MyTableColumn,
-    type MyTableOperationsColumn,
-    type MyTableOperationsBtn,
-    createMyTableOperationsColumn
-  } from '@/components/mytable/type'
+	// 引入组件和类型
+	import MyTable from '@/components/mytable/MyTable.vue'
+	import {
+		createPageDTO,
+		type PageDTO,
+		type MyTableAttr,
+		type MyTableColumn,
+		type MyTableOperationsColumn,
+		type MyTableOperationsBtn,
+		createMyTableOperationsColumn
+	} from '@/components/mytable/type'
 
-  // 业务数据模型
-  import type { SampleFormData } from '@/apis/sample/type'
+	// 业务数据模型
+	import type { SampleFormData } from '@/apis/sample/type'
 
-  // 这里省略部分必须属性数据定义的代码
+	// 这里省略部分必须属性数据定义的代码
 
-  // 定义列数据
-  const tabopercolumns: MyTableOperationsColumn[] = [
-    // 操作列
-    createMyTableOperationsColumn({
-      'min-width': 200,
-      fixed: 'right',
-      align: 'center'
-    })
-    // 省略其他列数据定义
-  ]
+	// 定义列数据
+	const tabopercolumns: MyTableOperationsColumn[] = [
+		// 操作列
+		createMyTableOperationsColumn({
+			'min-width': 200,
+			fixed: 'right',
+			align: 'center'
+		})
+		// 省略其他列数据定义
+	]
 
-  // 定义操作列按钮数据
-  const taboperbtns = ref<MyTableOperationsBtn[]>([
-    {
-      evtname: 'info',
-      text: '详情',
-      attr: {
-        type: 'primary'
-      }
-    },
-    {
-      evtname: 'edit',
-      text: '编辑',
-      attr: {
-        type: 'success',
-        icon: 'icon-edit'
-      }
-    }
-  ])
+	// 定义操作列按钮数据
+	const taboperbtns = ref<MyTableOperationsBtn[]>([
+		{
+			evtname: 'info',
+			text: '详情',
+			attr: {
+				type: 'primary'
+			}
+		},
+		{
+			evtname: 'edit',
+			text: '编辑',
+			attr: {
+				type: 'success',
+				icon: 'icon-edit'
+			}
+		}
+	])
 
-  /**
-   * 表格操作栏事件处理
-   * @param index 当前操作行索引
-   * @param row 当前操作行数据
-   * @param evtname 当前操作名称
-   */
-  function handleOperation(index: number, row: SampleFormData, evtname: string) {
-    // 这里逻辑根据自己的实际需求来完成
-    switch (evtname) {
-      case 'info':
-        console.log('info' + index, row)
-        break
-      case 'edit':
-        console.log('edit' + index, row)
-        break
-      case 'delete':
-        console.log('delete' + index, row)
-        break
-      default:
-        break
-    }
-  }
+	/**
+	 * 表格操作栏事件处理
+	 * @param index 当前操作行索引
+	 * @param row 当前操作行数据
+	 * @param evtname 当前操作名称
+	 */
+	function handleOperation(index: number, row: SampleFormData, evtname: string) {
+		// 这里逻辑根据自己的实际需求来完成
+		switch (evtname) {
+			case 'info':
+				console.log('info' + index, row)
+				break
+			case 'edit':
+				console.log('edit' + index, row)
+				break
+			case 'delete':
+				console.log('delete' + index, row)
+				break
+			default:
+				break
+		}
+	}
 </script>
 ```
 
 ### 2.5 自定义页眉页脚
 
-组件还支持自定义页眉页脚，分别对应`header`和`footer`两个插槽，两个插槽都可以输入`props`（组件的数据属性）和`table`（el-table实例），使用示例如下：
+组件还支持自定义页眉页脚，分别对应`header`和`footer`两个插槽，两个插槽都可以输入`props`（组件的数据属性）和`table`（el-table 实例），使用示例如下：
 
 ```html
 <template>
-  <my-table
-    tabtitle="自定义页眉页脚"
-    :istabmultiple="true"
-    :tabattr="tabattr"
-    :tabdatacolumns="tabopercolumns"
-    :tabdata="tabdata"
-    @page-change="handlePageChange"
-  >
-    <!-- 表格头部插槽 -->
-    <template #header>
-      <el-input
-        style="width: 200px"
-        prefix-icon="icon-search"
-        size="default"
-        placeholder="输入搜索关键词"
-        v-model="keywords"
-      />
-      <el-button type="primary">搜索</el-button>
-    </template>
-    <!-- 表格底部插槽 -->
-    <template #footer="{ table }">
-      <el-button type="primary" @click="handleSelectAll(table)">
-        <template v-if="isSelectAll">反选</template>
-        <template v-else>全选</template>
-      </el-button>
-    </template>
-  </my-table>
+	<my-table
+		tabtitle="自定义页眉页脚"
+		:istabmultiple="true"
+		:tabattr="tabattr"
+		:tabdatacolumns="tabopercolumns"
+		:tabdata="tabdata"
+		@page-change="handlePageChange"
+	>
+		<!-- 表格头部插槽 -->
+		<template #header>
+			<el-input
+				style="width: 200px"
+				prefix-icon="icon-search"
+				size="default"
+				placeholder="输入搜索关键词"
+				v-model="keywords"
+			/>
+			<el-button type="primary">搜索</el-button>
+		</template>
+		<!-- 表格底部插槽 -->
+		<template #footer="{ table }">
+			<el-button type="primary" @click="handleSelectAll(table)">
+				<template v-if="isSelectAll">反选</template>
+				<template v-else>全选</template>
+			</el-button>
+		</template>
+	</my-table>
 </template>
 <script setup lang="ts">
-  // 省略表格属性定义代码
+	// 省略表格属性定义代码
 
-  // 搜索框绑定数据
-  const keywords = ref('')
-  // 是否全选
-  const isSelectAll = ref(false)
-  /**
-   * 全选反选按钮点击事件处理
-   */
-  function handleSelectAll(table: any) {
-    table?.toggleAllSelection()
-    isSelectAll.value = !isSelectAll.value
-  }
+	// 搜索框绑定数据
+	const keywords = ref('')
+	// 是否全选
+	const isSelectAll = ref(false)
+	/**
+	 * 全选反选按钮点击事件处理
+	 */
+	function handleSelectAll(table: any) {
+		table?.toggleAllSelection()
+		isSelectAll.value = !isSelectAll.value
+	}
 </script>
 ```

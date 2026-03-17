@@ -11,18 +11,21 @@
 Docus 是 Nuxt Content 团队官方提供的文档模板，专为技术文档和组件库文档设计，提供开箱即用的导航、搜索、主题、MDC 组件等功能。参考项目 vunix 和 vue-final-modal 已成功使用 Docus 构建了专业的组件库文档站点。
 
 **约束条件**:
+
 - 必须保持与 `@eams/vue-element-cui` 核心库的 workspace 依赖关系
 - 必须支持在文档中实时演示组件
 - 必须保持现有文档内容的迁移路径清晰
 - 必须支持中文文档
 
 **利益相关者**:
+
 - 组件库开发者：需要易于维护的文档系统
 - 组件库用户：需要清晰、易用的文档和示例
 
 ## Goals / Non-Goals
 
 **Goals:**
+
 - 迁移到 Docus 框架，获得专业的文档站点体验
 - 实现交互式组件演示系统，支持实时预览和代码展示
 - 配置完整的导航系统（顶部导航、侧边栏、目录）
@@ -32,6 +35,7 @@ Docus 是 Nuxt Content 团队官方提供的文档模板，专为技术文档和
 - 保持与核心组件库的 workspace 依赖
 
 **Non-Goals:**
+
 - 不修改 `@eams/vue-element-cui` 核心组件库的任何代码
 - 不实现自定义的文档构建系统（使用 Docus 提供的能力）
 - 不实现在线代码编辑器（使用 Docus 的 MDC 组件即可）
@@ -44,12 +48,14 @@ Docus 是 Nuxt Content 团队官方提供的文档模板，专为技术文档和
 **选择**: 迁移到 Docus 框架
 
 **理由**:
+
 - Docus 是 Nuxt Content 官方文档模板，维护活跃，社区支持好
 - 提供开箱即用的导航、搜索、主题、MDC 组件等功能，减少自定义开发
 - vunix 和 vue-final-modal 等成功案例证明 Docus 适合组件库文档
 - Docus 基于 Nuxt Content，迁移成本相对较低
 
 **替代方案**:
+
 - VitePress: Vue 官方文档工具，但不是 Nuxt 生态，迁移成本高
 - 继续使用基础 Nuxt Content + 自定义开发: 开发和维护成本高，难以达到专业水平
 
@@ -58,12 +64,14 @@ Docus 是 Nuxt Content 团队官方提供的文档模板，专为技术文档和
 **选择**: 完全移除 Tailwind CSS 配置，使用 Docus 的 `@nuxt/ui-pro` 样式系统
 
 **理由**:
+
 - Docus 内置的样式系统已经提供了完整的主题和组件样式
 - 避免样式冲突和重复配置
 - Docus 的主题系统通过 `app.config.ts` 和 `tokens.config.ts` 配置，更加集中和易维护
 - 参考项目 vunix 和 vue-final-modal 都没有使用 Tailwind
 
 **替代方案**:
+
 - 保留 Tailwind 并与 Docus 共存: 会导致样式冲突，增加配置复杂度
 
 ### 决策 3: 文档内容结构采用 Docus 标准
@@ -71,12 +79,14 @@ Docus 是 Nuxt Content 团队官方提供的文档模板，专为技术文档和
 **选择**: 将文档从 `content/docs/` 迁移到 `content/` 根目录，采用 Docus 的标准目录结构
 
 **理由**:
+
 - Docus 的导航和路由系统基于 `content/` 根目录
 - 标准结构便于使用 Docus 的自动导航生成功能
 - 参考项目都采用这种结构
 
 **目录结构**:
-```
+
+```plain
 content/
 ├── 0.index.md              # 首页
 ├── 1.getting-started/      # 入门指南
@@ -90,6 +100,7 @@ content/
 ```
 
 **替代方案**:
+
 - 保持 `content/docs/` 结构: 需要额外配置 Docus 的路由，不符合最佳实践
 
 ### 决策 4: 交互式组件演示使用 Docus 的 MDC 组件
@@ -97,27 +108,33 @@ content/
 **选择**: 使用 Docus 提供的 `::code-group` 和自定义 MDC 组件实现交互式演示
 
 **理由**:
+
 - Docus 的 MDC 语法支持在 Markdown 中直接嵌入 Vue 组件
 - `::code-group` 可以同时展示代码和预览
 - 可以创建自定义的 `ComponentDemo.vue` 组件来标准化演示格式
 
 **实现方式**:
-```markdown
-::component-demo
----
-title: 表格基础用法
----
+
+````markdown
+## ::component-demo
+
+## title: 表格基础用法
+
 #preview
 <CuiTable :data="tableData" :columns="columns" />
 
 #code
+
 ```vue
 <template>
-  <CuiTable :data="tableData" :columns="columns" />
+	<CuiTable :data="tableData" :columns="columns" />
 </template>
 ```
+````
+
 ::
-```
+
+````plain
 
 **替代方案**:
 - 使用第三方组件演示库（如 vue-live）: 增加依赖，Docus 的 MDC 已经足够
@@ -157,9 +174,10 @@ title: 表格基础用法
 | 事件名 | 参数 | 说明 |
 |--------|------|------|
 | row-click | (row, index) | 行点击事件 |
-```
+````
 
 **替代方案**:
+
 - 使用自动生成工具（如 vue-docgen-api）: 增加构建复杂度，当前手动维护即可
 
 ## Risks / Trade-offs
@@ -169,6 +187,7 @@ title: 表格基础用法
 **风险**: Docus 作为相对较新的框架，未来版本更新可能引入破坏性变更
 
 **缓解措施**:
+
 - 锁定 Docus 和相关依赖的版本
 - 关注 Docus 的 changelog 和社区动态
 - 在升级前在测试环境验证
@@ -178,6 +197,7 @@ title: 表格基础用法
 **风险**: 从旧结构迁移到新结构时，可能遗漏某些文档页面或资源
 
 **缓解措施**:
+
 - 在迁移前列出所有现有文档页面清单
 - 迁移后逐一对比验证
 - 保留旧文档目录作为备份，直到确认迁移完成
@@ -187,6 +207,7 @@ title: 表格基础用法
 **风险**: 自定义的 MDC 组件（如 ComponentDemo）可能在 Docus 更新后出现兼容性问题
 
 **缓解措施**:
+
 - 尽量使用 Docus 内置的组件和语法
 - 自定义组件保持简单，避免深度依赖 Docus 内部 API
 - 参考 vunix 等项目的实现方式

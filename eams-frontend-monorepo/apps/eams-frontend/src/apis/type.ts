@@ -16,18 +16,18 @@ export { type PageDTO, createPageDTO } from '@/components/mytable/type'
  * 分页查询数据模型
  */
 export interface PageQuery {
-  /** 页码 */
-  pageIndex: number
-  /** 每页数据条数 */
-  pageSize: number
+	/** 页码 */
+	pageIndex: number
+	/** 每页数据条数 */
+	pageSize: number
 }
 
 /**
  * 下拉选项模型
  */
 export interface SelectItem {
-  /** 选项值 */
-  value: string | number
-  /** 选项显示文本 */
-  label: string
+	/** 选项值 */
+	value: string | number
+	/** 选项显示文本 */
+	label: string
 }

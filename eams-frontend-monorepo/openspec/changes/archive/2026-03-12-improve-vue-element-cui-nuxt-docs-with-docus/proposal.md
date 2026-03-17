@@ -35,31 +35,37 @@
 ## Impact
 
 **新增代码**:
+
 - `packages/vue-element-cui-nuxt/app.config.ts` - Docus 应用配置
 - `packages/vue-element-cui-nuxt/tokens.config.ts` - Docus 主题 tokens 配置（可选）
 - `packages/vue-element-cui-nuxt/components/content/` - 自定义 MDC 组件目录
 - `packages/vue-element-cui-nuxt/content/` - 重构后的文档内容目录
 
 **修改代码**:
+
 - `packages/vue-element-cui-nuxt/nuxt.config.ts` - 迁移到 Docus 配置
 - `packages/vue-element-cui-nuxt/package.json` - 更新依赖（移除 Tailwind，新增 Docus）
 - `packages/vue-element-cui-nuxt/app.vue` - 简化为 Docus 标准布局
 - `packages/vue-element-cui-nuxt/content/**/*.md` - 更新文档内容以使用 Docus 特性
 
 **移除代码**:
+
 - `packages/vue-element-cui-nuxt/tailwind.config.ts` - 不再需要 Tailwind 配置
 - `packages/vue-element-cui-nuxt/pages/` - Docus 使用基于内容的路由，不需要手动页面
 
 **依赖变更**:
+
 - 移除: `@nuxtjs/tailwindcss`
 - 新增: `@nuxt/ui-pro` (Docus 依赖)
 - 新增: `@nuxthq/studio` (可选，用于可视化编辑)
 
 **文档和演示**:
+
 - 文档站点视觉效果和交互体验显著提升
 - 组件演示更加直观和专业
 - 导航和搜索体验改善
 
 **不影响**:
+
 - `@eams/vue-element-cui` 核心组件库包不受影响
 - 组件 API 和功能不变，仅文档展示方式改变

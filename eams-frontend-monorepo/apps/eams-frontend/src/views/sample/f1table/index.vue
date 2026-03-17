@@ -1,7 +1,7 @@
 <template>
-  <div class="index">
-    <F1Table />
-  </div>
+	<div class="index">
+		<F1Table />
+	</div>
 </template>
 
 <script setup lang="ts">

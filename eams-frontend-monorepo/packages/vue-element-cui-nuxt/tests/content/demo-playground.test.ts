@@ -12,7 +12,7 @@ describe("DemoPlayground", () => {
 				description: "用于验证预览优先的布局。",
 			},
 			slots: {
-				preview: "<div data-testid=\"demo-preview\">preview</div>",
+				preview: '<div data-testid="demo-preview">preview</div>',
 				code: "<pre><code>const answer = 42;</code></pre>",
 			},
 			global: {

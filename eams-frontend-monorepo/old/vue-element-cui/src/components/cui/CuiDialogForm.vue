@@ -1,16 +1,16 @@
 <template>
-    <cui-dialog :title="title" :visible.sync="dialogVisible" @submit="formSubmit" :width="width">
-        <slot></slot>
-        <cui-form ref='formRef' :config="formConfig" @update="formUpdate" ></cui-form>
-        <!-- 组件外数据：{{formData}} -->
-        <template #btn>
-            <slot name="btn"></slot>
-        </template>
-    </cui-dialog>
+	<cui-dialog :title="title" :visible.sync="dialogVisible" @submit="formSubmit" :width="width">
+		<slot></slot>
+		<cui-form ref="formRef" :config="formConfig" @update="formUpdate"></cui-form>
+		<!-- 组件外数据：{{formData}} -->
+		<template #btn>
+			<slot name="btn"></slot>
+		</template>
+	</cui-dialog>
 </template>
 <script>
-    // 带表单的弹出窗
-    /*
+// 带表单的弹出窗
+/*
     * 例子
     * 模板：
        <cui-dialog-form
@@ -58,68 +58,68 @@
         this.$refs.cuiDialogForm.onReset();
       },
     * */
-  export default {
-    name: "CuiDialogForm",
-    props: {
-      formConfig: {
-        type: Object,
-        required: true
-      },
-      visible: {
-        type: Boolean,
-        required: true
-      },
-      title: {
-        type: String,
-        default: '信息窗口'
-      },
-      width: {
-        type: String,
-      },
-    },
-    data() {
-      return {
-        formData: {}
-      }
-    },
-    computed: {
-      dialogVisible: {
-        get: function () {
-          return !!this.visible;
-        },
-        set: function (val) {
-          this.$emit('update:visible', val)
-        }
-      }
-    },
-    methods: {
-      // 表单数据更新
-      formUpdate(value) {
-        this.formData = value
-      },
+export default {
+	name: "CuiDialogForm",
+	props: {
+		formConfig: {
+			type: Object,
+			required: true,
+		},
+		visible: {
+			type: Boolean,
+			required: true,
+		},
+		title: {
+			type: String,
+			default: "信息窗口",
+		},
+		width: {
+			type: String,
+		},
+	},
+	data() {
+		return {
+			formData: {},
+		};
+	},
+	computed: {
+		dialogVisible: {
+			get: function () {
+				return !!this.visible;
+			},
+			set: function (val) {
+				this.$emit("update:visible", val);
+			},
+		},
+	},
+	methods: {
+		// 表单数据更新
+		formUpdate(value) {
+			this.formData = value;
+		},
 
-      // 提交
-      formSubmit: async function () {
-        const valid = await this.$refs.formRef.onValidate()
-        if (valid === true) {
-          this.$emit('update:visible', false)
-          this.$emit('onSubmit', this.formData)
-        }
-      },
+		// 提交
+		formSubmit: async function () {
+			const valid = await this.$refs.formRef.onValidate();
+			if (valid === true) {
+				this.$emit("update:visible", false);
+				this.$emit("onSubmit", this.formData);
+			}
+		},
 
-      // 设置默认值和回显
-      initFormData(data) {
-        setTimeout(()=>{
-          this.$refs.formRef.setInitData(data)
-        }, 50)
-      },
+		// 设置默认值和回显
+		initFormData(data) {
+			setTimeout(() => {
+				this.$refs.formRef.setInitData(data);
+			}, 50);
+		},
 
-      // 调用的父级组件需要手动重置表单内容
-      onReset() {
-        setTimeout(()=>{
-          this.$refs.formRef.formReset()
-        }, 50)
-      }
-    }
-  }
+		// 调用的父级组件需要手动重置表单内容
+		onReset() {
+			setTimeout(() => {
+				this.$refs.formRef.formReset();
+			}, 50);
+		},
+	},
+};
 </script>

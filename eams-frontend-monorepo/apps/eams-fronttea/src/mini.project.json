@@ -1,6 +1,6 @@
 {
-  "format": 2,
-  "compileOptions": {
-    "globalObjectMode": "enable"
-  }
+	"format": 2,
+	"compileOptions": {
+		"globalObjectMode": "enable"
+	}
 }

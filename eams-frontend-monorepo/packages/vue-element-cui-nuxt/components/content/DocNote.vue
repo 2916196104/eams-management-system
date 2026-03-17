@@ -1,9 +1,5 @@
 <template>
-	<aside
-		:data-tone="tone"
-		:class="wrapperClass"
-		class="my-6 rounded-2xl border px-4 py-4"
-	>
+	<aside :data-tone="tone" :class="wrapperClass" class="my-6 rounded-2xl border px-4 py-4">
 		<p v-if="title" class="text-sm font-semibold">
 			{{ title }}
 		</p>

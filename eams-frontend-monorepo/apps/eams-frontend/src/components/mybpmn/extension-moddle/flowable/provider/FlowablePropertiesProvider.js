@@ -8,13 +8,13 @@ const LOW_PRIORITY = 500
  * @param {Object[]} entries 属性组数据
  */
 function createFlowableCustomerGroup(translate, entries) {
-  const flowableGroup = {
-    id: 'flowable',
-    label: translate('Flowable properties'),
-    entries,
-    tooltip: translate('Settings for flowable properties')
-  }
-  return flowableGroup
+	const flowableGroup = {
+		id: 'flowable',
+		label: translate('Flowable properties'),
+		entries,
+		tooltip: translate('Settings for flowable properties')
+	}
+	return flowableGroup
 }
 
 /**
@@ -24,39 +24,39 @@ function createFlowableCustomerGroup(translate, entries) {
  * @param {Function} translate 翻译函数
  */
 export default function FlowablePropertiesProvider(propertiesPanel, translate) {
-  // API ////////
+	// API ////////
 
-  /**
-   * Return the groups provided for the given element.
-   * @param {DiagramElement} element
-   * @return {(Object[]) => (Object[])} groups middleware
-   */
-  this.getGroups = function (element) {
-    /**
-     * We return a middleware that modifies
-     * the existing groups.
-     * @param {Object[]} groups
-     * @return {Object[]} modified groups
-     */
-    return function (groups) {
-      // UserTask
-      if (is(element, 'bpmn:UserTask')) {
-        groups.push(createFlowableCustomerGroup(translate, [assigneeProp(element)]))
-      }
-      // SequenceFlow
-      if (is(element, 'bpmn:SequenceFlow')) {
-        groups.push(createFlowableCustomerGroup(translate, [conExpPorp(element)]))
-      }
-      return groups
-    }
-  }
+	/**
+	 * Return the groups provided for the given element.
+	 * @param {DiagramElement} element
+	 * @return {(Object[]) => (Object[])} groups middleware
+	 */
+	this.getGroups = function (element) {
+		/**
+		 * We return a middleware that modifies
+		 * the existing groups.
+		 * @param {Object[]} groups
+		 * @return {Object[]} modified groups
+		 */
+		return function (groups) {
+			// UserTask
+			if (is(element, 'bpmn:UserTask')) {
+				groups.push(createFlowableCustomerGroup(translate, [assigneeProp(element)]))
+			}
+			// SequenceFlow
+			if (is(element, 'bpmn:SequenceFlow')) {
+				groups.push(createFlowableCustomerGroup(translate, [conExpPorp(element)]))
+			}
+			return groups
+		}
+	}
 
-  // registration ////////
+	// registration ////////
 
-  // Register our custom flowable properties provider.
-  // Use a lower priority to ensure it is loaded after
-  // the basic BPMN properties.
-  propertiesPanel.registerProvider(LOW_PRIORITY, this)
+	// Register our custom flowable properties provider.
+	// Use a lower priority to ensure it is loaded after
+	// the basic BPMN properties.
+	propertiesPanel.registerProvider(LOW_PRIORITY, this)
 }
 
 FlowablePropertiesProvider.$inject = ['propertiesPanel', 'translate']

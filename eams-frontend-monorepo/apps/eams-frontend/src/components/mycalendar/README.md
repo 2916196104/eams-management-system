@@ -11,11 +11,11 @@
 
 ```vue
 <template>
-  <my-calendar
-    title="2.课程表(预约管理、预约管理)"
-    v-model:selected-date="selectedDate"
-    @date-select="onDateSelect"
-  />
+	<my-calendar
+		title="2.课程表(预约管理、预约管理)"
+		v-model:selected-date="selectedDate"
+		@date-select="onDateSelect"
+	/>
 </template>
 
 <script setup lang="ts">
@@ -24,20 +24,20 @@ import { ref } from 'vue'
 
 const selectedDate = ref<Date | null>(null)
 function onDateSelect(date: Date) {
-  console.log('选中日期', date)
+	console.log('选中日期', date)
 }
 </script>
 ```
 
 ## Props
 
-| 属性 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
-| title | string | '' | 顶部标题 |
-| year | number | 当前年 | 展示年份 |
-| month | number | 当前月(0-11) | 展示月份 |
-| selectedDate | Date \| null | null | 当前选中日期 |
-| viewMode | 'month' \| 'week' \| 'day' | 'month' | 视图模式 |
+| 属性         | 类型                       | 默认值       | 说明         |
+| ------------ | -------------------------- | ------------ | ------------ |
+| title        | string                     | ''           | 顶部标题     |
+| year         | number                     | 当前年       | 展示年份     |
+| month        | number                     | 当前月(0-11) | 展示月份     |
+| selectedDate | Date \| null               | null         | 当前选中日期 |
+| viewMode     | 'month' \| 'week' \| 'day' | 'month'      | 视图模式     |
 
 ## 事件
 

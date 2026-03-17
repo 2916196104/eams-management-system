@@ -1,7 +1,7 @@
 <template>
-  <el-radio-group v-model="selectValue">
-    <el-radio v-for="(item,index) in dataList" :key="index" :label="item">{{item}}</el-radio>
-  </el-radio-group>
+	<el-radio-group v-model="selectValue">
+		<el-radio v-for="(item, index) in dataList" :key="index" :label="item">{{ item }}</el-radio>
+	</el-radio-group>
 </template>
 
 <script>
@@ -18,37 +18,36 @@
 import { getEnumItem } from "@/utils/common";
 
 export default {
-  name: "RadioEnum",
-  props: {
-    value: String,
-    code: {
-      type: String,
-      default: "input"
-    },
-  },
-  data() {
-    return {
-      dataList: [],
-    }
-  },
-  computed: {
-    selectValue: {
-      get: function () {
-        return this.value;
-      },
-      set: function (val) {
-        this.$emit('update:value', val)
-      }
-    }
-  },
-  created() {
-    this.fetchRequest();
-  },
-  methods: {
-    fetchRequest() {
-      this.dataList = getEnumItem(this.code);
-    },
-  
-  }
+	name: "RadioEnum",
+	props: {
+		value: String,
+		code: {
+			type: String,
+			default: "input",
+		},
+	},
+	data() {
+		return {
+			dataList: [],
+		};
+	},
+	computed: {
+		selectValue: {
+			get: function () {
+				return this.value;
+			},
+			set: function (val) {
+				this.$emit("update:value", val);
+			},
+		},
+	},
+	created() {
+		this.fetchRequest();
+	},
+	methods: {
+		fetchRequest() {
+			this.dataList = getEnumItem(this.code);
+		},
+	},
 };
 </script>

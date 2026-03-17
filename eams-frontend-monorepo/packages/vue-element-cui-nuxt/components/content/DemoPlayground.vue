@@ -1,9 +1,6 @@
 <template>
 	<section class="cui-demo-wrapper my-8 overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
-		<header
-			v-if="title || description"
-			class="border-b border-border/80 bg-muted/40 px-5 py-4"
-		>
+		<header v-if="title || description" class="border-b border-border/80 bg-muted/40 px-5 py-4">
 			<div class="flex items-start justify-between gap-4">
 				<div class="space-y-1">
 					<h3 v-if="title" class="text-base font-semibold text-foreground">
@@ -24,9 +21,7 @@
 
 		<div class="grid gap-px bg-border/70 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)]">
 			<div class="cui-demo-preview bg-background p-5">
-				<p class="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-					Preview
-				</p>
+				<p class="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Preview</p>
 				<div class="cui-demo-container rounded-xl border border-dashed border-border/80 bg-muted/20 p-4">
 					<ClientOnly>
 						<slot name="preview" />
@@ -35,11 +30,7 @@
 			</div>
 
 			<div class="flex min-w-0 flex-col bg-muted/40">
-				<DemoCodePanel
-					data-testid="code-panel"
-					:visible="isCodeVisible"
-					@toggle="toggleCode"
-				>
+				<DemoCodePanel data-testid="code-panel" :visible="isCodeVisible" @toggle="toggleCode">
 					<slot name="code" />
 				</DemoCodePanel>
 			</div>

@@ -14,9 +14,9 @@
 
 ```vue
 <template>
-  <span>
-    <slot/>
-  </span>
+	<span>
+		<slot />
+	</span>
 </template>
 ```
 
@@ -24,12 +24,10 @@
 
 ```vue
 <template>
-  <div>
-    <h1>欢迎使用 vitesse-uni-app </h1>
-    <AppAlert>
-      这个组件会自动导入
-    </AppAlert>
-  </div>
+	<div>
+		<h1>欢迎使用 vitesse-uni-app</h1>
+		<AppAlert>这个组件会自动导入</AppAlert>
+	</div>
 </template>
 ```
 
@@ -55,32 +53,30 @@
 
 `pages`
 
-​    `about/index.vue`
+​ `about/index.vue`
 
-​    `index/index.vue`
+​ `index/index.vue`
 
-​    `mine/index.vue`
+​ `mine/index.vue`
 
 示例代码
 
 ```vue
 <!--index/index.vue-->
 <template>
-  <div>
-    <h1>欢迎使用vitesse-uni-app</h1>
-    <AppAlert>
-      这个组件会自动导入
-    </AppAlert>
-  </div>
+	<div>
+		<h1>欢迎使用vitesse-uni-app</h1>
+		<AppAlert>这个组件会自动导入</AppAlert>
+	</div>
 </template>
 ```
 
 ```vue
 <!--about/index.vue-->
 <template>
-  <section>
-    <p>通过 `/pages/about/index` 来访问这个页面</p>
-  </section>
+	<section>
+		<p>通过 `/pages/about/index` 来访问这个页面</p>
+	</section>
 </template>
 ```
 
@@ -88,23 +84,19 @@
 
 ```ts
 export default defineConfig({
-    plugins: [
-        // https://github.com/uni-helper/vite-plugin-uni-pages
-        UniHelperPages({
-            dts: 'src/uni-pages.d.ts',
-            subPackages: [
-                'src/subPages',
-                'src/subEcharts',
-                'src/subAsyncEcharts',
-            ],
-            /**
-             * 排除的页面，相对于dir和subPackages
-             * @default []
-             */
-            exclude: ['**/components/**/*.*'],
-        }),
-    ],
-})
+	plugins: [
+		// https://github.com/uni-helper/vite-plugin-uni-pages
+		UniHelperPages({
+			dts: "src/uni-pages.d.ts",
+			subPackages: ["src/subPages", "src/subEcharts", "src/subAsyncEcharts"],
+			/**
+			 * 排除的页面，相对于dir和subPackages
+			 * @default []
+			 */
+			exclude: ["**/components/**/*.*"],
+		}),
+	],
+});
 ```
 
 ### subPages
@@ -124,12 +116,12 @@ export default defineConfig({
 ```vue
 <!-- src/layouts/default.vue -->
 <template>
-  <div>
-    <AppHeader />
-    <!-- src/pages/index/index.vue 和 src/pages/about/index.vue 内容展示 -->
-    <slot />
-    <AppFooter />
-  </div>
+	<div>
+		<AppHeader />
+		<!-- src/pages/index/index.vue 和 src/pages/about/index.vue 内容展示 -->
+		<slot />
+		<AppFooter />
+	</div>
 </template>
 ```
 
@@ -138,7 +130,7 @@ export default defineConfig({
 ```vue
 <route lang="json">
 {
-  "layout": "custom"
+	"layout": "custom"
 }
 </route>
 ```
@@ -203,29 +195,29 @@ export function persistPlugin(context: PiniaPluginContext) {
 
 ```ts
 // vite.config.ts
-import Uni from '@dcloudio/vite-plugin-uni'
-import UniManifest from '@uni-helper/vite-plugin-uni-manifest'
-import { defineConfig } from 'vite'
+import Uni from "@dcloudio/vite-plugin-uni";
+import UniManifest from "@uni-helper/vite-plugin-uni-manifest";
+import { defineConfig } from "vite";
 
 export default defineConfig({
-  plugins: [UniManifest(), Uni()],
-})
+	plugins: [UniManifest(), Uni()],
+});
 ```
 
 创建 `manifest.config.(ts|mts|cts|js|cjs|mjs|json)`, 然后用 `TypeScript` 编写你的 `manifest.json`。
 
 ```tsx
 // manifest.config.ts
-import { defineManifestConfig } from '@uni-helper/vite-plugin-uni-manifest'
+import { defineManifestConfig } from "@uni-helper/vite-plugin-uni-manifest";
 
 export default defineManifestConfig({
-  // code here...
-})
+	// code here...
+});
 ```
 
 在 [这里](https://github.com/uni-helper/vite-plugin-uni-manifest/blob/main/playground/manifest.config.ts)，你可以找到 `uni-app` 默认的 Vite-TS 模版的 `manifest.json` 是如何用 `TypeScript` 编写的。
 
-***TIPS：`manifest.json`文件不需要大家修改，程序会自动根据`manifest.config.ts`自动更新***
+**_TIPS：`manifest.json`文件不需要大家修改，程序会自动根据`manifest.config.ts`自动更新_**
 
 ### page.json
 
@@ -237,58 +229,60 @@ export default defineManifestConfig({
 
 ```json
 {
-  "pages": [{
-      "path": "pages/home/Home",
-      "name": "home", // 路由 name 用于命名路由的跳转
-      "style": {
-        "mp-alipay": {
-          "allowsBounceVertical": "NO"
-        },
-        "navigationBarTitleText": "首页"
-      }
-    },
-    {
-      "path": "pages/login/Login",
-      "name": "login",
-      "style": {
-        "mp-alipay": {
-          "allowsBounceVertical": "NO"
-        },
-        "navigationBarTitleText": ""
-      }
-    },
-    {
-      "path": "pages/mine/Mine",
-      "name": "mine",
-      "style": {
-        "navigationBarTitleText": "",
-        "navigationBarBackgroundColor": "#E7F0FF"
-      }
-    }
-  ],
-  "tabBar": {
-    "color": "#bfbfbf",
-    "selectedColor": "#0165FF",
-    "backgroundColor": "#ffffff",
-    "list": [{
-        "pagePath": "pages/home/Home",
-        "iconPath": "static/icon_home.png",
-        "selectedIconPath": "static/icon_home_selected.png",
-        "text": "首页"
-      },
-      {
-        "pagePath": "pages/mine/Mine",
-        "iconPath": "static/icon_mine.png",
-        "selectedIconPath": "static/icon_mine_selected.png",
-        "text": "我的"
-      }
-    ]
-  },
-  "globalStyle": {
-    "navigationBarTextStyle": "black",
-    "navigationBarBackgroundColor": "#FFF",
-    "backgroundColor": "#F8F8F8"
-  }
+	"pages": [
+		{
+			"path": "pages/home/Home",
+			"name": "home", // 路由 name 用于命名路由的跳转
+			"style": {
+				"mp-alipay": {
+					"allowsBounceVertical": "NO"
+				},
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/login/Login",
+			"name": "login",
+			"style": {
+				"mp-alipay": {
+					"allowsBounceVertical": "NO"
+				},
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/mine/Mine",
+			"name": "mine",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#E7F0FF"
+			}
+		}
+	],
+	"tabBar": {
+		"color": "#bfbfbf",
+		"selectedColor": "#0165FF",
+		"backgroundColor": "#ffffff",
+		"list": [
+			{
+				"pagePath": "pages/home/Home",
+				"iconPath": "static/icon_home.png",
+				"selectedIconPath": "static/icon_home_selected.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/mine/Mine",
+				"iconPath": "static/icon_mine.png",
+				"selectedIconPath": "static/icon_mine_selected.png",
+				"text": "我的"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarBackgroundColor": "#FFF",
+		"backgroundColor": "#F8F8F8"
+	}
 }
 ```
 
@@ -297,13 +291,13 @@ export default defineManifestConfig({
 ```vue
 <script setup lang="ts">
 definePage({
-  name: 'home',
-  layout: 'tabbar',
-  style: {
-    navigationBarTitleText: '主页',
-    titleNView: false,
-  },
-})
+	name: "home",
+	layout: "tabbar",
+	style: {
+		navigationBarTitleText: "主页",
+		titleNView: false,
+	},
+});
 </script>
 ```
 
@@ -313,42 +307,42 @@ definePage({
 
 ```json
 {
-  "light": {
-    "bgColor": "#F8F8F8",
-    "bgColorBottom": "#F8F8F8",
-    "bgColorTop": "#F8F8F8",
-    "bgTxtStyle": "dark",
-    "navBgColor": "#FFF",
-    "navTxtStyle": "black",
-    "tabBgColor": "#ffffff",
-    "tabBorderStyle": "black",
-    "tabColor": "#bfbfbf",
-    "tabSelectedColor": "#0165FF"
-  },
-  "dark": {
-    "bgColor": "#000",
-    "bgColorBottom": "#000",
-    "bgColorTop": "#000",
-    "bgTxtStyle": "light",
-    "navBgColor": "#000000",
-    "navTxtStyle": "white",
-    "tabBgColor": "#1a1a1a",
-    "tabBorderStyle": "white",
-    "tabColor": "#bfbfbf",
-    "tabSelectedColor": "#0165FF"
-  }
+	"light": {
+		"bgColor": "#F8F8F8",
+		"bgColorBottom": "#F8F8F8",
+		"bgColorTop": "#F8F8F8",
+		"bgTxtStyle": "dark",
+		"navBgColor": "#FFF",
+		"navTxtStyle": "black",
+		"tabBgColor": "#ffffff",
+		"tabBorderStyle": "black",
+		"tabColor": "#bfbfbf",
+		"tabSelectedColor": "#0165FF"
+	},
+	"dark": {
+		"bgColor": "#000",
+		"bgColorBottom": "#000",
+		"bgColorTop": "#000",
+		"bgTxtStyle": "light",
+		"navBgColor": "#000000",
+		"navTxtStyle": "white",
+		"tabBgColor": "#1a1a1a",
+		"tabBorderStyle": "white",
+		"tabColor": "#bfbfbf",
+		"tabSelectedColor": "#0165FF"
+	}
 }
 ```
 
-### *.d.ts
+### \*.d.ts
 
-这些都时候是ts类型定义文件，根据需求新增或修改内容
+这些都时候是 ts 类型定义文件，根据需求新增或修改内容
 
 ### uni.scss
 
 这里是`uni-app`内置的常用样式变量，`uni-app`官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
 
-如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的`App`
+如果你是插件开发者，建议你使用 scss 预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的`App`
 
 ## 入口文件
 

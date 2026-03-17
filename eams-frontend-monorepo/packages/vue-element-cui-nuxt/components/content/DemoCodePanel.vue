@@ -2,12 +2,8 @@
 	<div class="flex min-w-0 flex-1 flex-col">
 		<div class="flex items-center justify-between border-b border-border/80 px-5 py-3">
 			<div>
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-					Code
-				</p>
-				<p class="mt-1 text-xs text-muted-foreground">
-					先看效果，再决定是否展开代码细节。
-				</p>
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Code</p>
+				<p class="mt-1 text-xs text-muted-foreground">先看效果，再决定是否展开代码细节。</p>
 			</div>
 
 			<button

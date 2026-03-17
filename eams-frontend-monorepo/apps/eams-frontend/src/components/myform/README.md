@@ -14,9 +14,9 @@
   - `date.ts`：日期选择器组件属性
   - `radio.ts`：单选框组件属性
   - `checkbox.ts`：复选框组件属性
-  - ..........
+  - ……
 
-***TIPS：要加入新表单组件请自己封装对应的属性文件和组件渲染逻辑***
+**_TIPS：要加入新表单组件请自己封装对应的属性文件和组件渲染逻辑_**
 
 # 自定义表单组件
 
@@ -28,19 +28,19 @@
 
 ```html
 <script setup lang="ts">
-// 导入组件和类型
-import MyForm from '@/components/myform/MyForm.vue'
-// 表单相关属性，按需导入即可
-import type {
-  MyFormItemAttr,
-  MyFormInputProps,
-  MyFormSelectProps,
-  MyFormInputNumberProps,
-  MyFormDatePickerProps,
-  MyFormCheckBoxProps,
-  MyFormCheckBoxGroupProps,
-  MyFormRadioBoxGroupProps
-} from '@/components/myform/type'
+	// 导入组件和类型
+	import MyForm from '@/components/myform/MyForm.vue'
+	// 表单相关属性，按需导入即可
+	import type {
+		MyFormItemAttr,
+		MyFormInputProps,
+		MyFormSelectProps,
+		MyFormInputNumberProps,
+		MyFormDatePickerProps,
+		MyFormCheckBoxProps,
+		MyFormCheckBoxGroupProps,
+		MyFormRadioBoxGroupProps
+	} from '@/components/myform/type'
 </script>
 ```
 
@@ -79,135 +79,135 @@ export interface MyFormProps<T> {
 
 ```html
 <script setup lang="ts">
-// 定义FormData的模型
-interface FormData extends Record<string, any> {
-  name?: string
-  zero?: string
-  count?: number
-  time?: string
-  type?: string[]
-  support?: string
-  describe?: string
-}
+	// 定义FormData的模型
+	interface FormData extends Record<string, any> {
+		name?: string
+		zero?: string
+		count?: number
+		time?: string
+		type?: string[]
+		support?: string
+		describe?: string
+	}
 </script>
 ```
 
-然后再定义表单数据与表单域数据，注意：表单数据使用reactive包裹，示例如下
+然后再定义表单数据与表单域数据，注意：表单数据使用 reactive 包裹，示例如下
 
 ```html
 <script setup lang="ts">
-// 定义表单数据，表单数据也可以来自其他组件，如：表格组件选中了某条数据，传递过来也可
-const formdata = reactive<FormData>({
-  count: 1,
-  support: 'wechat'
-})
+	// 定义表单数据，表单数据也可以来自其他组件，如：表格组件选中了某条数据，传递过来也可
+	const formdata = reactive<FormData>({
+		count: 1,
+		support: 'wechat'
+	})
 
-// 定义表单域数据，表单域属性去查看对应的属性ts文件定义即可
-const formitemdata = reactive<MyFormItemAttr[]>([
-  {
-    type: 'input',
-    prop: 'name',
-    label: '活动名称',
-    rules: [{ required: true, message: '请输入活动名称', trigger: 'change' }],
-    fprops: {
-      placeholder: '请输入活动名称',
-      clearable: true
-    } as MyFormInputProps
-  },
-  {
-    type: 'select',
-    prop: 'zero',
-    label: '活动地点',
-    rules: [{ required: true, message: '请选择国家', trigger: 'change' }],
-    fprops: {
-      placeholder: '请选择地点',
-      options: [
-        { label: '广场', value: '1', disabled: true },
-        { label: '活动室', value: '2' },
-        { label: '游泳馆', value: '3' }
-      ]
-    } as MyFormSelectProps
-  },
-  {
-    type: 'number',
-    prop: 'count',
-    label: '活动数量',
-    required: true,
-    fprops: {
-      width: '100%',
-      placeholder: '请输入活动数量',
-      max: 10,
-      min: 1
-    } as MyFormInputNumberProps
-  },
-  {
-    type: 'date',
-    prop: 'time',
-    label: '活动时间',
-    required: true,
-    fprops: {
-      placeholder: '请选择活动时间',
-      type: 'datetimerange',
-      'value-format': 'YYYY-MM-DD'
-    } as MyFormDatePickerProps
-  },
-  {
-    type: 'checkbox-group',
-    prop: 'type',
-    label: '活动类型',
-    fprops: {
-      checkboxes: [
-        {
-          label: '美食/餐厅线上活动',
-          value: 'food',
-          checked: true
-        },
-        {
-          label: '地推活动',
-          value: 'sale'
-        },
-        {
-          label: '线下主题活动',
-          value: 'theme'
-        }
-      ]
-    } as MyFormCheckBoxGroupProps
-  },
-  {
-    type: 'radio-group',
-    prop: 'support',
-    label: '活动支持',
-    fprops: {
-      radioboxes: [
-        {
-          label: '微信朋友圈',
-          value: 'wechat'
-        },
-        {
-          label: 'QQ群',
-          value: 'qq'
-        },
-        {
-          label: '微博',
-          value: 'weibo'
-        }
-      ]
-    } as MyFormRadioBoxGroupProps
-  },
-  {
-    type: 'input',
-    prop: 'describe',
-    label: '活动描述',
-    fprops: {
-      placeholder: '请输入活动描述',
-      type: 'textarea'
-    } as MyFormInputProps
-  }
-])
+	// 定义表单域数据，表单域属性去查看对应的属性ts文件定义即可
+	const formitemdata = reactive<MyFormItemAttr[]>([
+		{
+			type: 'input',
+			prop: 'name',
+			label: '活动名称',
+			rules: [{ required: true, message: '请输入活动名称', trigger: 'change' }],
+			fprops: {
+				placeholder: '请输入活动名称',
+				clearable: true
+			} as MyFormInputProps
+		},
+		{
+			type: 'select',
+			prop: 'zero',
+			label: '活动地点',
+			rules: [{ required: true, message: '请选择国家', trigger: 'change' }],
+			fprops: {
+				placeholder: '请选择地点',
+				options: [
+					{ label: '广场', value: '1', disabled: true },
+					{ label: '活动室', value: '2' },
+					{ label: '游泳馆', value: '3' }
+				]
+			} as MyFormSelectProps
+		},
+		{
+			type: 'number',
+			prop: 'count',
+			label: '活动数量',
+			required: true,
+			fprops: {
+				width: '100%',
+				placeholder: '请输入活动数量',
+				max: 10,
+				min: 1
+			} as MyFormInputNumberProps
+		},
+		{
+			type: 'date',
+			prop: 'time',
+			label: '活动时间',
+			required: true,
+			fprops: {
+				placeholder: '请选择活动时间',
+				type: 'datetimerange',
+				'value-format': 'YYYY-MM-DD'
+			} as MyFormDatePickerProps
+		},
+		{
+			type: 'checkbox-group',
+			prop: 'type',
+			label: '活动类型',
+			fprops: {
+				checkboxes: [
+					{
+						label: '美食/餐厅线上活动',
+						value: 'food',
+						checked: true
+					},
+					{
+						label: '地推活动',
+						value: 'sale'
+					},
+					{
+						label: '线下主题活动',
+						value: 'theme'
+					}
+				]
+			} as MyFormCheckBoxGroupProps
+		},
+		{
+			type: 'radio-group',
+			prop: 'support',
+			label: '活动支持',
+			fprops: {
+				radioboxes: [
+					{
+						label: '微信朋友圈',
+						value: 'wechat'
+					},
+					{
+						label: 'QQ群',
+						value: 'qq'
+					},
+					{
+						label: '微博',
+						value: 'weibo'
+					}
+				]
+			} as MyFormRadioBoxGroupProps
+		},
+		{
+			type: 'input',
+			prop: 'describe',
+			label: '活动描述',
+			fprops: {
+				placeholder: '请输入活动描述',
+				type: 'textarea'
+			} as MyFormInputProps
+		}
+	])
 </script>
 ```
 
-***TIP：其他可选属性自己按需定义即可***
+**_TIP：其他可选属性自己按需定义即可_**
 
 关于组件上数据绑定直接用 `:属性名` 绑定就行了，如`:model="formdata"`
 
@@ -222,23 +222,23 @@ const formitemdata = reactive<MyFormItemAttr[]>([
 
 ```html
 <script setup lang="ts">
-/**
- * 提交修改
- * @param data 表单数据
- */
-function doSubmit(data: FormData) {
-  // 执行提交逻辑
-  console.log(data)
-}
-/**
- * 表单组件属性值更新回调
- * @param prop 属性名
- * @param val 属性值
- */
-function modelChange(prop: string, val: any) {
-  // TIPS 你可以在这里更新父组件数据，当然也可以不更新父组件数据，根据实际业务来
-  // 事件逻辑
-}
+	/**
+	 * 提交修改
+	 * @param data 表单数据
+	 */
+	function doSubmit(data: FormData) {
+		// 执行提交逻辑
+		console.log(data)
+	}
+	/**
+	 * 表单组件属性值更新回调
+	 * @param prop 属性名
+	 * @param val 属性值
+	 */
+	function modelChange(prop: string, val: any) {
+		// TIPS 你可以在这里更新父组件数据，当然也可以不更新父组件数据，根据实际业务来
+		// 事件逻辑
+	}
 </script>
 ```
 
@@ -249,15 +249,15 @@ function modelChange(prop: string, val: any) {
 
 ## 4 编写组件标签
 
-在template中编写组件标签，并绑定数据和事件，示例代码如下
+在 template 中编写组件标签，并绑定数据和事件，示例代码如下
 
 ```html
 <template>
-  <my-form :items="formitemdata" :model="formdata" @do-submit="doSubmit" />
+	<my-form :items="formitemdata" :model="formdata" @do-submit="doSubmit" />
 </template>
 ```
 
-***TIPS：以上是表单组件的基本使用步骤，前面的的操作基本上可以完成大部分业务需求了***
+**_TIPS：以上是表单组件的基本使用步骤，前面的的操作基本上可以完成大部分业务需求了_**
 
 ## 5 插槽支持
 
@@ -277,86 +277,87 @@ function modelChange(prop: string, val: any) {
 
 ```html
 <template>
-    <my-form
-      formtitle="插槽使用效果"
-      :items="formitemdata"
-      :model="formdata"
-      @do-submit="doSubmit"
-      @model-change="modelChange">
-      <!-- 组件项后置插槽 -->
-      <template #itemtail="{ item, model }">
-        <!-- 渲染全选复选框 -->
-        <template v-if="item.prop === 'type'">
-          <el-text style="margin-left: 25px" class="hidden-xs-only"></el-text>
-          <my-form-render
-            :model="ckAllModel"
-            :item="ckAllItem"
-            @update:model="ckAllChange($event, model)"/>
-        </template>
-      </template>
-    </my-form>
+	<my-form
+		formtitle="插槽使用效果"
+		:items="formitemdata"
+		:model="formdata"
+		@do-submit="doSubmit"
+		@model-change="modelChange"
+	>
+		<!-- 组件项后置插槽 -->
+		<template #itemtail="{ item, model }">
+			<!-- 渲染全选复选框 -->
+			<template v-if="item.prop === 'type'">
+				<el-text style="margin-left: 25px" class="hidden-xs-only"></el-text>
+				<my-form-render
+					:model="ckAllModel"
+					:item="ckAllItem"
+					@update:model="ckAllChange($event, model)"
+				/>
+			</template>
+		</template>
+	</my-form>
 </template>
 <script setup lang="ts">
-import 'element-plus/theme-chalk/display.css'
-import { reactive, ref } from 'vue'
+	import 'element-plus/theme-chalk/display.css'
+	import { reactive, ref } from 'vue'
 
-import MyForm from '@/components/myform/MyForm.vue'
-import MyFormRender from '@/components/myform/MyFormRender.vue'
-// 表单相关属性
-import type {
-  MyFormItemAttr,
-  MyFormInputProps,
-  MyFormSelectProps,
-  MyFormInputNumberProps,
-  MyFormDatePickerProps,
-  MyFormCheckBoxProps,
-  MyFormCheckBoxGroupProps,
-  MyFormRadioBoxGroupProps
-} from '@/components/myform/type'
+	import MyForm from '@/components/myform/MyForm.vue'
+	import MyFormRender from '@/components/myform/MyFormRender.vue'
+	// 表单相关属性
+	import type {
+		MyFormItemAttr,
+		MyFormInputProps,
+		MyFormSelectProps,
+		MyFormInputNumberProps,
+		MyFormDatePickerProps,
+		MyFormCheckBoxProps,
+		MyFormCheckBoxGroupProps,
+		MyFormRadioBoxGroupProps
+	} from '@/components/myform/type'
 
-// 省略表单属性定义代码
+	// 省略表单属性定义代码
 
-// 定义一个全选复选框表单域
-const ckAllItem = reactive<MyFormItemAttr>({
-  type: 'checkbox',
-  prop: 'ckall',
-  fprops: {
-    label: '全选',
-    value: false,
-    indeterminate: true
-  } as MyFormCheckBoxProps
-})
-// 定义一个全选后复选框组应包含的值数组
-const ckAllVal = ['food', 'sale', 'theme']
-// 定义全选复选框对应表单数据模型
-const ckAllModel = ref(false)
-/**
- * 全选复选框改变事件处理
- * @param val 值
- * @param model 自定义表单组件本地数据模型
- */
-function ckAllChange(val: any, model: FormData) {
-  // 设置全选反选效果
-  model.type = val ? ckAllVal : []
-  const ckall = ckAllItem.fprops as MyFormCheckBoxProps
-  ckall.indeterminate = false
-}
-/**
- * 表单组件属性值更新回调
- * @param prop 属性名
- * @param val 属性值
- */
-function modelChange(prop: string, val: any) {
-  // 如果是活动类型复选框
-  if (prop === 'type') {
-    // 获取选择数量
-    const checkedCount = val.length
-    // 更新全选复选框属性
-    const ckall = ckAllItem.fprops as MyFormCheckBoxProps
-    ckall.indeterminate = checkedCount > 0 && checkedCount < ckAllVal.length
-    ckAllModel.value = checkedCount === ckAllVal.length
-  }
-}
+	// 定义一个全选复选框表单域
+	const ckAllItem = reactive<MyFormItemAttr>({
+		type: 'checkbox',
+		prop: 'ckall',
+		fprops: {
+			label: '全选',
+			value: false,
+			indeterminate: true
+		} as MyFormCheckBoxProps
+	})
+	// 定义一个全选后复选框组应包含的值数组
+	const ckAllVal = ['food', 'sale', 'theme']
+	// 定义全选复选框对应表单数据模型
+	const ckAllModel = ref(false)
+	/**
+	 * 全选复选框改变事件处理
+	 * @param val 值
+	 * @param model 自定义表单组件本地数据模型
+	 */
+	function ckAllChange(val: any, model: FormData) {
+		// 设置全选反选效果
+		model.type = val ? ckAllVal : []
+		const ckall = ckAllItem.fprops as MyFormCheckBoxProps
+		ckall.indeterminate = false
+	}
+	/**
+	 * 表单组件属性值更新回调
+	 * @param prop 属性名
+	 * @param val 属性值
+	 */
+	function modelChange(prop: string, val: any) {
+		// 如果是活动类型复选框
+		if (prop === 'type') {
+			// 获取选择数量
+			const checkedCount = val.length
+			// 更新全选复选框属性
+			const ckall = ckAllItem.fprops as MyFormCheckBoxProps
+			ckall.indeterminate = checkedCount > 0 && checkedCount < ckAllVal.length
+			ckAllModel.value = checkedCount === ckAllVal.length
+		}
+	}
 </script>
 ```
-

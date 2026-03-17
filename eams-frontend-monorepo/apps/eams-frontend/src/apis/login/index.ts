@@ -12,24 +12,24 @@ const currBaseUrl = '/login'
  * @param fail 登录失败回调
  */
 export const login = async (data: LoginDTO, success: RequestCallback, fail: RequestCallback) => {
-  const us = useUserStore()
-  const http = useHttp()
-  try {
-    // 发送登录请求
-    const res = await http.post<Oauth2TokenDTO>(currBaseUrl + '/auth-login', data, {
-      upType: DataUpType.form
-    })
-    // 记录Token到本地
-    if (res.data) {
-      us.setToken(res.data)
-      // 执行成功回调
-      success(res)
-      return
-    }
-    // 执行失败回调
-    fail(res)
-  } catch (err) {
-    // 执行失败回调
-    fail(err)
-  }
+	const us = useUserStore()
+	const http = useHttp()
+	try {
+		// 发送登录请求
+		const res = await http.post<Oauth2TokenDTO>(currBaseUrl + '/auth-login', data, {
+			upType: DataUpType.form
+		})
+		// 记录Token到本地
+		if (res.data) {
+			us.setToken(res.data)
+			// 执行成功回调
+			success(res)
+			return
+		}
+		// 执行失败回调
+		fail(res)
+	} catch (err) {
+		// 执行失败回调
+		fail(err)
+	}
 }

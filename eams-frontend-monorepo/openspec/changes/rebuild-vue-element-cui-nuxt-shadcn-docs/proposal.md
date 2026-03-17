@@ -15,6 +15,7 @@
 ## Capabilities
 
 ### New Capabilities
+
 - `shadcn-docs-foundation`: 用 `shadcn-docs-nuxt` 重建文档站底座，替换旧配置、依赖和站点壳层。
 - `docs-home-navigation`: 提供组件库入口型首页和稳定的一级导航、侧边导航、移动端导航体验。
 - `docs-live-demo-system`: 建立文档站自有的 live demo 与内容组件体系，支持预览、代码、API 和说明块。
@@ -22,6 +23,7 @@
 - `docs-guidelines-system`: 新增独立“规范”栏目，承载设计规范、最佳实践和开发约定。
 
 ### Modified Capabilities
+
 - 无
 
 ## Impact

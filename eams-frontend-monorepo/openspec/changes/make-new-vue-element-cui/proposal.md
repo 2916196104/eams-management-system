@@ -35,23 +35,28 @@
 ## 影响范围
 
 **新增代码**:
+
 - `packages/vue-element-cui/` - 核心组件库包（全新创建）
 - `packages/vue-element-cui-nuxt/` - Nuxt 3 playground 和文档（全新创建）
 - `openspec/specs/` - 各能力的规范文档
 
 **依赖变更**:
+
 - 新增 peerDependencies: `vue@^3.4.0`, `element-plus@^2.8.0`
 - 新增 devDependencies: `tsdown`, `vitest`, `@vue/test-utils`, `sass`, `nuxt`, `@nuxt/content`
 
 **构建流程**:
+
 - 新增 tsdown 构建流程
 - 新增 SCSS 编译流程
 - 新增 vitest 测试流程
 
 **文档和演示**:
+
 - 新增 Nuxt 3 开发服务器
 - 新增 Docus 框架文档站点（详见 `improve-vue-element-cui-nuxt-docs-with-docus` 变更）
 
 **不影响**:
+
 - 旧组件库 `old/vue-element-cui` 保持不变，作为参考
 - 现有项目可以继续使用旧组件库，迁移是独立的新包

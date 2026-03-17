@@ -11,8 +11,7 @@ describe("ApiTable", () => {
 				description: "组件属性说明",
 			},
 			slots: {
-				default:
-					"<table><tbody><tr><td>data</td><td>表格数据</td></tr></tbody></table>",
+				default: "<table><tbody><tr><td>data</td><td>表格数据</td></tr></tbody></table>",
 			},
 		});
 

@@ -7,9 +7,7 @@
 				</el-tag>
 			</template>
 		</CuiTable>
-		<p class="text-sm text-muted-foreground">
-			示例展示了状态标签插槽、默认边框和斑马纹配置。
-		</p>
+		<p class="text-sm text-muted-foreground">示例展示了状态标签插槽、默认边框和斑马纹配置。</p>
 	</div>
 </template>
 

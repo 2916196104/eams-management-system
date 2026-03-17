@@ -29,7 +29,7 @@ pnpm preview
 
 ## 项目结构
 
-```
+```plain
 vue-element-cui-nuxt/
 ├── pages/
 │   ├── index.vue              # 首页

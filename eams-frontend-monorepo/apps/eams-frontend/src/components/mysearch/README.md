@@ -8,7 +8,7 @@
 - 常规表单组件：文本输入框、数字输入框、下拉列表框、日期选择器
 - 输入条件比较多支持部分条件折叠
 
-**封装的主要思路就是数据来驱动搜索栏的渲染，不需要再编写复杂的界面代码，以及繁琐的交互处理逻辑**，组件演示代码在sample中已经书写，可以自己运行观察效果。
+**封装的主要思路就是数据来驱动搜索栏的渲染，不需要再编写复杂的界面代码，以及繁琐的交互处理逻辑**，组件演示代码在 sample 中已经书写，可以自己运行观察效果。
 
 ## 1 整体使用步骤
 
@@ -18,9 +18,9 @@
 
 ```html
 <script setup lang="ts">
-  // 导入组件和类型
-  import MySearch from '@/components/mysearch/MySearch.vue'
-  import type { MyFormItemAttr } from '@/components/myform/type'
+	// 导入组件和类型
+	import MySearch from '@/components/mysearch/MySearch.vue'
+	import type { MyFormItemAttr } from '@/components/myform/type'
 </script>
 ```
 
@@ -50,19 +50,19 @@ export interface MySearchProps<T extends Record<string, any>> {
 
 ```html
 <script setup lang="ts">
-  import { reactive } from 'vue'
+	import { reactive } from 'vue'
 
-  // 业务数据模型，表单数据的模型根据业务自定义数据模型
-  import type { SampleFormData } from '@/views/sample/type'
+	// 业务数据模型，表单数据的模型根据业务自定义数据模型
+	import type { SampleFormData } from '@/views/sample/type'
 
-  // 导入组件和类型
-  import MySearch from '@/components/mysearch/MySearch.vue'
-  import type { MyFormItemAttr } from '@/components/myform/type'
+	// 导入组件和类型
+	import MySearch from '@/components/mysearch/MySearch.vue'
+	import type { MyFormItemAttr } from '@/components/myform/type'
 
-  // 定义表单数据，定义数据的时候根据实际情况给默认值即可，也可以不给
-  const formdata = reactive<SampleFormData>({
-    zip: 610000
-  })
+	// 定义表单数据，定义数据的时候根据实际情况给默认值即可，也可以不给
+	const formdata = reactive<SampleFormData>({
+		zip: 610000
+	})
 </script>
 ```
 
@@ -107,7 +107,7 @@ export interface MyFormItemAttr {
   - `MyFormInputNumberProps`：数字输入框属性模型
   - `MyFormSelectProps`：下拉选择框属性模型
   - `MyFormDatePickerProps`：日期选择器属性模型
-  - .........
+  - ……
 - `prop`：这个用于表单组件和表单数据进行绑定，所以一定要和表单数据中的字段名称匹配
 - `label`：表单域提示信息，就是表单组件前面的提示文本，如果没有提示文本，那么可以不传
 
@@ -115,93 +115,93 @@ export interface MyFormItemAttr {
 
 ```html
 <script setup lang="ts">
-  import { reactive } from 'vue'
-  // 导入组件和类型
-  import MySearch from '@/components/mysearch/MySearch.vue'
-  import type {
-    MyFormItemAttr,
-    MyFormInputProps,
-    MyFormSelectProps,
-    MyFormInputNumberProps,
-    MyFormDatePickerProps
-  } from '@/components/myform/type'
+	import { reactive } from 'vue'
+	// 导入组件和类型
+	import MySearch from '@/components/mysearch/MySearch.vue'
+	import type {
+		MyFormItemAttr,
+		MyFormInputProps,
+		MyFormSelectProps,
+		MyFormInputNumberProps,
+		MyFormDatePickerProps
+	} from '@/components/myform/type'
 
-  // 定义表单域数据
-  const formitemdata = reactive<MyFormItemAttr[]>([
-    {
-      type: 'input',
-      prop: 'name',
-      label: '姓名',
-      rules: [{ required: true, message: '请输入姓名', trigger: 'change' }],
-      fprops: {
-        placeholder: '请输入姓名',
-        clearable: true
-      } as MyFormInputProps
-    },
-    {
-      type: 'select',
-      prop: 'country',
-      label: '国家',
-      rules: [{ required: true, message: '请选择国家', trigger: 'change' }],
-      fprops: {
-        placeholder: '请选择国家',
-        options: [
-          {
-            label: '中国',
-            value: 'CN'
-          },
-          {
-            label: '美国',
-            value: 'US'
-          },
-          {
-            label: '日本',
-            value: 'JP',
-            disabled: true
-          }
-        ]
-      } as MyFormSelectProps
-    },
-    {
-      type: 'input',
-      prop: 'state',
-      label: '省份',
-      required: true,
-      fprops: {
-        placeholder: '请输入省份'
-      }
-    },
-    {
-      type: 'input',
-      prop: 'city',
-      label: '城市',
-      fprops: {
-        placeholder: '请输入城市'
-      }
-    },
-    {
-      type: 'number',
-      prop: 'zip',
-      label: '邮编',
-      fprops: {
-        readonly: true,
-        placeholder: '请输入邮编',
-        max: 999999,
-        min: 100000,
-        step: 100
-      } as MyFormInputNumberProps
-    },
-    {
-      type: 'date',
-      prop: 'date',
-      label: '生日',
-      fprops: {
-        placeholder: '请选择生日',
-        type: 'date',
-        'value-format': 'YYYY-MM-DD'
-      } as MyFormDatePickerProps
-    }
-  ])
+	// 定义表单域数据
+	const formitemdata = reactive<MyFormItemAttr[]>([
+		{
+			type: 'input',
+			prop: 'name',
+			label: '姓名',
+			rules: [{ required: true, message: '请输入姓名', trigger: 'change' }],
+			fprops: {
+				placeholder: '请输入姓名',
+				clearable: true
+			} as MyFormInputProps
+		},
+		{
+			type: 'select',
+			prop: 'country',
+			label: '国家',
+			rules: [{ required: true, message: '请选择国家', trigger: 'change' }],
+			fprops: {
+				placeholder: '请选择国家',
+				options: [
+					{
+						label: '中国',
+						value: 'CN'
+					},
+					{
+						label: '美国',
+						value: 'US'
+					},
+					{
+						label: '日本',
+						value: 'JP',
+						disabled: true
+					}
+				]
+			} as MyFormSelectProps
+		},
+		{
+			type: 'input',
+			prop: 'state',
+			label: '省份',
+			required: true,
+			fprops: {
+				placeholder: '请输入省份'
+			}
+		},
+		{
+			type: 'input',
+			prop: 'city',
+			label: '城市',
+			fprops: {
+				placeholder: '请输入城市'
+			}
+		},
+		{
+			type: 'number',
+			prop: 'zip',
+			label: '邮编',
+			fprops: {
+				readonly: true,
+				placeholder: '请输入邮编',
+				max: 999999,
+				min: 100000,
+				step: 100
+			} as MyFormInputNumberProps
+		},
+		{
+			type: 'date',
+			prop: 'date',
+			label: '生日',
+			fprops: {
+				placeholder: '请选择生日',
+				type: 'date',
+				'value-format': 'YYYY-MM-DD'
+			} as MyFormDatePickerProps
+		}
+	])
 </script>
 ```
 
@@ -221,59 +221,59 @@ export interface MyFormItemAttr {
 
 ```html
 <script setup lang="ts">
-  // 引入示例后端接口
-  import { listall } from '@/apis/sample/index'
+	// 引入示例后端接口
+	import { listall } from '@/apis/sample/index'
 
-  // 这里省略属性数据定义的代码
+	// 这里省略属性数据定义的代码
 
-  /**
-   * 模型数据改变事件回调
-   * @param prop 字段名
-   * @param val 字段值
-   */
-  function modelChange(prop: string, val: any) {
-    formdata[prop] = val
-    // 其他特殊处理
-  }
+	/**
+	 * 模型数据改变事件回调
+	 * @param prop 字段名
+	 * @param val 字段值
+	 */
+	function modelChange(prop: string, val: any) {
+		formdata[prop] = val
+		// 其他特殊处理
+	}
 
-  /**
-   * 执行搜索事件回调
-   */
-  function doSearch() {
-    listall(
-      {
-        pageIndex: 1,
-        pageSize: 10,
-        ...formdata
-      },
-      (data) => {
-        // 这里将数据更新到你的显示组件数据模型上面
-      },
-      (error: any) => {
-        console.log(error)
-      }
-    )
-  }
+	/**
+	 * 执行搜索事件回调
+	 */
+	function doSearch() {
+		listall(
+			{
+				pageIndex: 1,
+				pageSize: 10,
+				...formdata
+			},
+			(data) => {
+				// 这里将数据更新到你的显示组件数据模型上面
+			},
+			(error: any) => {
+				console.log(error)
+			}
+		)
+	}
 </script>
 ```
 
 关于组件上事件绑定：
 
-- 通过`@model-change`绑定模型改变事件，如：` @model-change="modelChange"`
+- 通过`@model-change`绑定模型改变事件，如：`@model-change="modelChange"`
 - 通过`@do-search`绑定搜索事件，如：`@do-search="doSearch"`
 
 ### 1.4 编写组件标签
 
-在template中编写组件标签，并绑定数据和事件，示例代码如下
+在 template 中编写组件标签，并绑定数据和事件，示例代码如下
 
 ```html
 <template>
-  <my-search
-    :model="formdata"
-    :items="formitemdata"
-    @model-change="modelChange"
-    @do-search="doSearch"
-  />
+	<my-search
+		:model="formdata"
+		:items="formitemdata"
+		@model-change="modelChange"
+		@do-search="doSearch"
+	/>
 </template>
 ```
 
@@ -311,12 +311,12 @@ export interface MyFormAttr {
 
 ```html
 <script setup lang="ts">
-  import type { MyFormAttr } from '@/components/myform/type'
-  // 定义表单属性数据
-  const formattr: MyFormAttr = {
-    'label-suffix': ':',
-    'show-count': 2
-  }
+	import type { MyFormAttr } from '@/components/myform/type'
+	// 定义表单属性数据
+	const formattr: MyFormAttr = {
+		'label-suffix': ':',
+		'show-count': 2
+	}
 </script>
 ```
 
@@ -341,15 +341,15 @@ const rules = reactive<FormRules<SampleFormData>>({
 
 ```html
 <template>
-  <my-search
-    formtitle="搜索组件示例"
-    :model="formdata"
-    :items="formitemdata"
-    :formattr="formattr"
-    :rules="rules"
-    @model-change="modelChange"
-    @do-search="doSearch"
-  />
+	<my-search
+		formtitle="搜索组件示例"
+		:model="formdata"
+		:items="formitemdata"
+		:formattr="formattr"
+		:rules="rules"
+		@model-change="modelChange"
+		@do-search="doSearch"
+	/>
 </template>
 ```
 
@@ -357,24 +357,24 @@ const rules = reactive<FormRules<SampleFormData>>({
 
 ### 2.1 自定义页眉页脚
 
-组件还支持自定义页眉页脚，分别对应`header`和`footer`两个插槽，两个插槽都可以输入`props`（组件的数据属性）和`table`（el-table实例），使用示例如下：
+组件还支持自定义页眉页脚，分别对应`header`和`footer`两个插槽，两个插槽都可以输入`props`（组件的数据属性）和`table`（el-table 实例），使用示例如下：
 
 ```html
 <template>
-  <my-search
-    :model="formdata"
-    :items="formitemdata"
-    :formattr="formattr"
-    :rules="rules"
-    @model-change="modelChange"
-    @do-search="doSearch"
-  >
-    <template #header>
-      <h3>插槽使用示例</h3>
-    </template>
-    <template #footer>
-      <el-text>带*的条件属于必填哦~道友要认真填写哦~</el-text>
-    </template>
-  </my-search>
+	<my-search
+		:model="formdata"
+		:items="formitemdata"
+		:formattr="formattr"
+		:rules="rules"
+		@model-change="modelChange"
+		@do-search="doSearch"
+	>
+		<template #header>
+			<h3>插槽使用示例</h3>
+		</template>
+		<template #footer>
+			<el-text>带*的条件属于必填哦~道友要认真填写哦~</el-text>
+		</template>
+	</my-search>
 </template>
 ```

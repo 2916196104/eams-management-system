@@ -1,12 +1,12 @@
 # `eams-frontend`
 
-下面说明能够帮助在基于Vite构建工具环境下开发`Vue3`。
+下面说明能够帮助在基于 Vite 构建工具环境下开发`Vue3`。
 
 ## `IDE`设置要求
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (需要禁用`Vetur`).
 
-## 在TS中支持 `.vue` 导入的类型
+## 在 TS 中支持 `.vue` 导入的类型
 
 默认情况下，TypeScript 无法处理 `.vue` 导入的类型信息，因此我们使用 `vue-tsc` 替代 `tsc` 命令行工具进行类型检查。在编辑器环境中，我们需要通过 [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) 插件来让 TypeScript 语言服务识别 `.vue` 文件的类型。
 

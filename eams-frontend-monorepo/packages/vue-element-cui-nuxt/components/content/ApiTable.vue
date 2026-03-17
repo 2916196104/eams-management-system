@@ -1,9 +1,6 @@
 <template>
 	<section class="my-8 rounded-2xl border border-border bg-card shadow-sm">
-		<header
-			v-if="title || description"
-			class="border-b border-border/80 bg-muted/30 px-5 py-4"
-		>
+		<header v-if="title || description" class="border-b border-border/80 bg-muted/30 px-5 py-4">
 			<h3 v-if="title" class="text-base font-semibold text-foreground">
 				{{ title }}
 			</h3>

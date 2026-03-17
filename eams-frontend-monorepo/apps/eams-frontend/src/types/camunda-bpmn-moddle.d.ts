@@ -1,4 +1,4 @@
 declare module 'camunda-bpmn-moddle/resources/camunda' {
-  const descriptor: any
-  export default descriptor
+	const descriptor: any
+	export default descriptor
 }

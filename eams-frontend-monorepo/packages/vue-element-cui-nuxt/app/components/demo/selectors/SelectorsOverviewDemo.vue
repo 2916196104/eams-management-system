@@ -1,12 +1,6 @@
 <template>
 	<div class="space-y-4">
-		<CuiSelect
-			v-model="selectedValue"
-			:options="options"
-			placeholder="请选择资产分类"
-			clearable
-			filterable
-		/>
+		<CuiSelect v-model="selectedValue" :options="options" placeholder="请选择资产分类" clearable filterable />
 
 		<div class="grid gap-3 md:grid-cols-2">
 			<div class="rounded-xl border border-border bg-background p-3">

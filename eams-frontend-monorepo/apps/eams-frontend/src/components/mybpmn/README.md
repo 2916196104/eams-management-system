@@ -29,9 +29,9 @@ export interface MyBpmnExport {
 
 ## 组件目录结构
 
-- `extension-moddle`：moddle扩展支持目录，这里是大家需要根据业务需求调整的，主要是扩展属性面板中属性设置
+- `extension-moddle`：moddle 扩展支持目录，这里是大家需要根据业务需求调整的，主要是扩展属性面板中属性设置
 - `i18n`：国际化支持，开发过程中根据需要完善语言包即可
-- `MyBpmnEditor.vue`：vue组件实现代码
+- `MyBpmnEditor.vue`：vue 组件实现代码
 - `type.ts`：类型定义文件
 
 ## 使用说明
@@ -42,26 +42,26 @@ export interface MyBpmnExport {
 
 ```html
 <script setup lang="ts">
-import { ref } from 'vue'
-import MyBpmnEditor from '@/components/mybpmn/MyBpmnEditor.vue'
-import type { MyBpmnExport } from '@/components/mybpmn/type'
+	import { ref } from 'vue'
+	import MyBpmnEditor from '@/components/mybpmn/MyBpmnEditor.vue'
+	import type { MyBpmnExport } from '@/components/mybpmn/type'
 
-// myBpmnEditor实例引用
-const myBpmnEditorRef = ref<MyBpmnExport>()
+	// myBpmnEditor实例引用
+	const myBpmnEditorRef = ref<MyBpmnExport>()
 </script>
 ```
 
 ### 编写组件标签
 
-在template中编写组件标签，示例代码如下
+在 template 中编写组件标签，示例代码如下
 
 ```html
 <template>
-  <my-bpmn-editor ref="myBpmnEditorRef" />
+	<my-bpmn-editor ref="myBpmnEditorRef" />
 </template>
 ```
 
-到此组件导入成功，如果要使用`BpmnModeler`实例完成更多的操作，可以参看sample示例，示例中演示了导入导出功能
+到此组件导入成功，如果要使用`BpmnModeler`实例完成更多的操作，可以参看 sample 示例，示例中演示了导入导出功能
 
 ## 属性扩展注意事项
 
@@ -73,16 +73,16 @@ const myBpmnEditorRef = ref<MyBpmnExport>()
 
 ```html
 <template>
-  <my-bpmn-editor ref="myBpmnEditorRef" :usePeType="ProcessEngineType.FLOWABLE" />
+	<my-bpmn-editor ref="myBpmnEditorRef" :usePeType="ProcessEngineType.FLOWABLE" />
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import MyBpmnEditor from '@/components/mybpmn/MyBpmnEditor.vue'
-import { ProcessEngineType, type MyBpmnExport } from '@/components/mybpmn/type'
+	import { ref } from 'vue'
+	import MyBpmnEditor from '@/components/mybpmn/MyBpmnEditor.vue'
+	import { ProcessEngineType, type MyBpmnExport } from '@/components/mybpmn/type'
 
-// myBpmnEditor实例引用
-const myBpmnEditorRef = ref<MyBpmnExport>()
+	// myBpmnEditor实例引用
+	const myBpmnEditorRef = ref<MyBpmnExport>()
 </script>
 ```
 

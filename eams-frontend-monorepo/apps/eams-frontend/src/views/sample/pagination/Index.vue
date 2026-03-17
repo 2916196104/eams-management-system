@@ -1,5 +1,5 @@
 <template>
-  <pagination />
+	<pagination />
 </template>
 <script setup lang="ts">
 // 引入组件和类型

@@ -1,2 +1,2 @@
-export * from './cui-table';
+export * from "./cui-table";
 //# sourceMappingURL=index.d.ts.map

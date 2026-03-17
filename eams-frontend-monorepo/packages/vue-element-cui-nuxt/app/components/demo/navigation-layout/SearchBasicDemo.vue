@@ -1,12 +1,6 @@
 <template>
 	<div class="space-y-4">
-		<CuiSearch
-			v-model="formData"
-			:fields="fields"
-			collapsible
-			@search="handleSearch"
-			@reset="handleReset"
-		/>
+		<CuiSearch v-model="formData" :fields="fields" collapsible @search="handleSearch" @reset="handleReset" />
 
 		<div class="rounded-xl border border-dashed border-border bg-muted/20 p-3 text-sm text-muted-foreground">
 			当前查询：{{ resultText }}
@@ -54,9 +48,7 @@ const fields: CuiSearchField[] = [
 ];
 
 const resultText = computed(() => {
-	return lastSearch.value
-		? JSON.stringify(lastSearch.value)
-		: "点击搜索后查看当前筛选条件。";
+	return lastSearch.value ? JSON.stringify(lastSearch.value) : "点击搜索后查看当前筛选条件。";
 });
 
 const handleSearch = (value: Record<string, unknown>) => {

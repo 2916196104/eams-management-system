@@ -5,9 +5,9 @@ packages:
   - configs/*
 
 onlyBuiltDependencies:
-  - '@carbon/icons'
+  - "@carbon/icons"
   - "@parcel/watcher"
-  - '@uni-helper/unocss-preset-uni'
+  - "@uni-helper/unocss-preset-uni"
   - core-js
   - core-js-pure
   - ejs

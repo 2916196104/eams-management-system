@@ -19,9 +19,9 @@ pnpm add @eams/vue-element-cui
 ## 使用
 
 ```typescript
-import { createApp } from 'vue';
-import VueElementCui from '@eams/vue-element-cui';
-import '@eams/vue-element-cui/styles';
+import { createApp } from "vue";
+import VueElementCui from "@eams/vue-element-cui";
+import "@eams/vue-element-cui/styles";
 
 const app = createApp(App);
 app.use(VueElementCui);

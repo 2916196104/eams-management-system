@@ -1,2 +1,2 @@
-export { default as CuiTab } from './cui-tab.vue';
-export type { CuiTabProps, CuiTabItem } from './types';
+export { default as CuiTab } from "./cui-tab.vue";
+export type { CuiTabProps, CuiTabItem } from "./types";

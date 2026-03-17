@@ -1,8 +1,7 @@
 <template>
-  <el-select :size="size" v-model="selectValue" :placeholder="placeholder||'请选择'" style="width:100%">
-    <el-option v-for="(item,index) in dataList" :key="index" :label="item" :value="item">
-    </el-option>
-  </el-select>
+	<el-select :size="size" v-model="selectValue" :placeholder="placeholder || '请选择'" style="width: 100%">
+		<el-option v-for="(item, index) in dataList" :key="index" :label="item" :value="item"></el-option>
+	</el-select>
 </template>
 
 <script>
@@ -19,41 +18,41 @@
 import { getEnumItem } from "@/utils/common";
 
 export default {
-  name: "SearchEnum",
-  props: {
-    value: String,
-    placeholder: String,
-    code: {
-      type: String,
-      default: "input"
-    },
-    size: {
-      type: String,
-      default: ''
-    }
-  },
-  data() {
-    return {
-      dataList: [],
-    }
-  },
-  computed: {
-    selectValue: {
-      get: function () {
-        return this.value;
-      },
-      set: function (val) {
-        this.$emit('update:value', val)
-      }
-    }
-  },
-  created() {
-    this.fetchRequest();
-  },
-  methods: {
-    fetchRequest() {
-      this.dataList = getEnumItem(this.code);
-    },
-  }
+	name: "SearchEnum",
+	props: {
+		value: String,
+		placeholder: String,
+		code: {
+			type: String,
+			default: "input",
+		},
+		size: {
+			type: String,
+			default: "",
+		},
+	},
+	data() {
+		return {
+			dataList: [],
+		};
+	},
+	computed: {
+		selectValue: {
+			get: function () {
+				return this.value;
+			},
+			set: function (val) {
+				this.$emit("update:value", val);
+			},
+		},
+	},
+	created() {
+		this.fetchRequest();
+	},
+	methods: {
+		fetchRequest() {
+			this.dataList = getEnumItem(this.code);
+		},
+	},
 };
 </script>

@@ -1,8 +1,8 @@
 <template>
-  <div class="editor-container">
-    <div class="canvas" ref="modeler_container"></div>
-    <div class="properties-panel-parent" ref="proppnl_container"></div>
-  </div>
+	<div class="editor-container">
+		<div class="canvas" ref="modeler_container"></div>
+		<div class="properties-panel-parent" ref="proppnl_container"></div>
+	</div>
 </template>
 <script setup lang="ts">
 /**
@@ -20,7 +20,7 @@ import 'bpmn-js/dist/assets/bpmn-js.css'
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css'
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css'
 import '@bpmn-io/properties-panel/assets/properties-panel.css'
-import "diagram-js-minimap/assets/diagram-js-minimap.css"
+import 'diagram-js-minimap/assets/diagram-js-minimap.css'
 import { ProcessEngineType, type MyBpmnExport } from './type'
 // 从Vue中引入生命周期钩子和响应式引用
 import { ref, onMounted, onBeforeUnmount } from 'vue'
@@ -29,7 +29,7 @@ import BpmnModeler from 'bpmn-js/lib/Modeler'
 // 引入国际化
 import TranslateModule from './i18n/translate'
 // 引入最小化视图
-import minimapModule from "diagram-js-minimap"
+import minimapModule from 'diagram-js-minimap'
 // 引入属性面板支持
 import { BpmnPropertiesPanelModule, BpmnPropertiesProviderModule } from 'bpmn-js-properties-panel'
 import type { ModdleExtensions } from 'bpmn-js/lib/BaseViewer'
@@ -54,61 +54,64 @@ const proppnl_container = ref<HTMLDivElement>()
 const modeler_instance = ref<BpmnModeler>()
 
 // 组件属性定义
-const props = withDefaults(defineProps<{
-  /** 使用的流程引擎类型 */
-  usePeType?: ProcessEngineType
-}>(), {
-  // 默认使用CAMUNDA流程引擎
-  usePeType: ProcessEngineType.CAMUNDA
-})
+const props = withDefaults(
+	defineProps<{
+		/** 使用的流程引擎类型 */
+		usePeType?: ProcessEngineType
+	}>(),
+	{
+		// 默认使用CAMUNDA流程引擎
+		usePeType: ProcessEngineType.CAMUNDA
+	}
+)
 
 // 初始化modeler
 onMounted(() => {
-  // 附加模块
-  const additionalModules = [
-    TranslateModule.zn,
-    minimapModule,
-    BpmnPropertiesPanelModule,
-    BpmnPropertiesProviderModule
-  ]
-  // moddle扩展属性
-  const moddleExtensions: ModdleExtensions = {}
+	// 附加模块
+	const additionalModules = [
+		TranslateModule.zn,
+		minimapModule,
+		BpmnPropertiesPanelModule,
+		BpmnPropertiesProviderModule
+	]
+	// moddle扩展属性
+	const moddleExtensions: ModdleExtensions = {}
 
-  // 根据流程引擎类型添加模块
-  if (props.usePeType == ProcessEngineType.CAMUNDA) {
-    additionalModules.push(CamundaPlatformPropertiesProviderModule)
-    moddleExtensions.camunda = CamundaBpmnModdleDescriptor
-  } else if (props.usePeType == ProcessEngineType.FLOWABLE) {
-    additionalModules.push(FlowablePropertiesProviderModule)
-    moddleExtensions.flowable = FlowableModdleDescriptor
-  } else if (props.usePeType == ProcessEngineType.ACTIVITI) {
-    additionalModules.push(ActivitiPropertiesProviderModule)
-    moddleExtensions.activiti = ActivitiModdleDescriptor
-  } else if (props.usePeType == ProcessEngineType.CUSTOM) {
-    // FIXME: 添加自定义扩展属性
-  }
-  // 创建modeler实例
-  modeler_instance.value = new BpmnModeler({
-    container: modeler_container.value,
-    propertiesPanel: {
-      parent: proppnl_container.value
-    },
-    additionalModules: additionalModules,
-    moddleExtensions: moddleExtensions
-  });
-  // 创建新面板
-  createNewDiagram()
-});
+	// 根据流程引擎类型添加模块
+	if (props.usePeType == ProcessEngineType.CAMUNDA) {
+		additionalModules.push(CamundaPlatformPropertiesProviderModule)
+		moddleExtensions.camunda = CamundaBpmnModdleDescriptor
+	} else if (props.usePeType == ProcessEngineType.FLOWABLE) {
+		additionalModules.push(FlowablePropertiesProviderModule)
+		moddleExtensions.flowable = FlowableModdleDescriptor
+	} else if (props.usePeType == ProcessEngineType.ACTIVITI) {
+		additionalModules.push(ActivitiPropertiesProviderModule)
+		moddleExtensions.activiti = ActivitiModdleDescriptor
+	} else if (props.usePeType == ProcessEngineType.CUSTOM) {
+		// FIXME: 添加自定义扩展属性
+	}
+	// 创建modeler实例
+	modeler_instance.value = new BpmnModeler({
+		container: modeler_container.value,
+		propertiesPanel: {
+			parent: proppnl_container.value
+		},
+		additionalModules: additionalModules,
+		moddleExtensions: moddleExtensions
+	})
+	// 创建新面板
+	createNewDiagram()
+})
 
 // 销毁modeler
 onBeforeUnmount(() => {
-  modeler_instance.value?.destroy();
-});
+	modeler_instance.value?.destroy()
+})
 
 // 自适应视口
 function zoomFitViewPort() {
-  const canvas = modeler_instance.value?.get("canvas") as any
-  canvas.zoom("fit-viewport", true)
+	const canvas = modeler_instance.value?.get('canvas') as any
+	canvas.zoom('fit-viewport', true)
 }
 
 /**
@@ -117,101 +120,103 @@ function zoomFitViewPort() {
  * @param key - 流程key，可选，默认不指定
  */
 function createNewDiagram(name?: string, key?: string) {
-  modeler_instance.value?.createDiagram()
-    .then(() => {
-      zoomFitViewPort()
-      // 设置流程名称和流程key
-      const regstry = modeler_instance.value?.get("elementRegistry") as any
-      if (regstry) {
-        //const process = regstry.filter((element: any) => element.type === "bpmn:Process")[0];
-        const process = regstry.get("Process_1")
-        if (process) {
-          if (name) process.businessObject.name = name
-          if (key) process.businessObject.id = key
-        }
-      }
-    })
-    .catch((err: any) => {
-      console.log(err)
-    });
+	modeler_instance.value
+		?.createDiagram()
+		.then(() => {
+			zoomFitViewPort()
+			// 设置流程名称和流程key
+			const regstry = modeler_instance.value?.get('elementRegistry') as any
+			if (regstry) {
+				//const process = regstry.filter((element: any) => element.type === "bpmn:Process")[0];
+				const process = regstry.get('Process_1')
+				if (process) {
+					if (name) process.businessObject.name = name
+					if (key) process.businessObject.id = key
+				}
+			}
+		})
+		.catch((err: any) => {
+			console.log(err)
+		})
 }
 
 // 加载XML
 function loadXML(xml: string | undefined) {
-  if (!xml) return
-  modeler_instance.value?.importXML(xml)
-    .then(() => {
-      zoomFitViewPort()
-    })
-    .catch((err: any) => {
-      console.log(err)
-    });
+	if (!xml) return
+	modeler_instance.value
+		?.importXML(xml)
+		.then(() => {
+			zoomFitViewPort()
+		})
+		.catch((err: any) => {
+			console.log(err)
+		})
 }
 
 // 定义暴露给父组件的属性和方法
 defineExpose<MyBpmnExport>({
-  modeler: modeler_instance,
-  zoomFitViewPort,
-  createNewDiagram,
-  loadXML,
+	modeler: modeler_instance,
+	zoomFitViewPort,
+	createNewDiagram,
+	loadXML
 })
 </script>
 
 <style scoped>
 .editor-container {
-  position: relative;
-  display: flex;
-  width: 100%;
-  min-height: 100%;
-  border-top: 1px solid #ccc;
+	position: relative;
+	display: flex;
+	width: 100%;
+	min-height: 100%;
+	border-top: 1px solid #ccc;
 
-  .canvas {
-    width: 80%;
-  }
+	.canvas {
+		width: 80%;
+	}
 
-  .properties-panel-parent {
-    width: 20%;
-    border-left: 1px solid #ccc;
-    overflow: auto;
+	.properties-panel-parent {
+		width: 20%;
+		border-left: 1px solid #ccc;
+		overflow: auto;
 
-    &:empty {
-      display: none;
-    }
+		&:empty {
+			display: none;
+		}
 
-    >.djs-properties-panel {
-      padding-bottom: 70px;
-      min-height: 100%;
-    }
-  }
+		> .djs-properties-panel {
+			padding-bottom: 70px;
+			min-height: 100%;
+		}
+	}
 }
 </style>
 
 <style>
 /* 调整工具栏位置 */
 .djs-palette {
-  top: 10px;
-  left: 10px;
+	top: 10px;
+	left: 10px;
 }
 
 /* 修正点击节点后弹出的菜单位置错误问题 */
 .djs-context-pad-parent {
-  position: unset;
+	position: unset;
 }
 
 /** 修改节点点击菜单样式 */
 .djs-context-pad.open {
-  background-color: white;
-  /* 描边效果 */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+	background-color: white;
+	/* 描边效果 */
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 /* 隐藏bpmn-js版权信息 */
 .bjs-powered-by {
-  display: none !important;
+	display: none !important;
 }
 
 /* 移除获得焦点后显示边框 */
 .djs-container svg:focus {
-  outline: none;
+	outline: none;
 }
 </style>

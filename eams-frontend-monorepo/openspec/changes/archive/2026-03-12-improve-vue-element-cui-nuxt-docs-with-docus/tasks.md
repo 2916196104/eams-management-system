@@ -43,6 +43,7 @@
 **当前状态**：✅ 已完成
 
 **完成情况**：
+
 - ✅ `component-explorer`：已完成 P0 核心组件源码分析，提取 API 信息
 - ✅ `table-doc-editor`：已完成 CuiTable 文档更新
 - ✅ `form-doc-editor`：已完成 CuiForm 文档更新
@@ -50,6 +51,7 @@
 - ✅ `doc-quality-checker`：已验证所有文档质量，全部通过
 
 **任务清单**：
+
 - [x] 5.1 更新 CuiTable 组件文档，使用 ComponentDemo 添加交互式演示
 - [x] 5.2 更新 CuiTable 组件文档，添加标准化的 Props API 表格
 - [x] 5.3 更新 CuiTable 组件文档，添加 Events API 表格
