@@ -20,18 +20,22 @@
 #ifndef _Class_VO_
 #define _Class_VO_
 
-#include "../../GlobalInclude.h"
-
+#include "../GlobalInclude.h"
+#include"../dto/ClassDTO.h"
 #include OATPP_CODEGEN_BEGIN(DTO)
-
-
-class ClassVO
-{
-	
+/**
+ * 班级显示JsonVO，用于响应给客户端的Json对象（单个班级详情）
+ */
+class ClassJsonVO : public JsonVO<ClassDTO::Wrapper> {
+	DTO_INIT(ClassJsonVO, JsonVO<ClassDTO::Wrapper>);
 };
 
-
-
+/**
+ * 班级分页显示JsonVO，用于响应给客户端的Json对象（班级列表分页）
+ */
+class ClassPageJsonVO : public JsonVO<ClassPageDTO::Wrapper> {
+	DTO_INIT(ClassPageJsonVO, JsonVO<ClassPageDTO::Wrapper>);
+};
 #include OATPP_CODEGEN_END(DTO)
 
-#endif // !_SAMPLE_VO_
+#endif // !_Class_VO_

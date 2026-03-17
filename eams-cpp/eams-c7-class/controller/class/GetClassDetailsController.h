@@ -22,17 +22,41 @@
 
 #include "domain/vo/BaseJsonVO.h"
 #include "ApiHelper.h"
+#include "domain/query/ClassQuery.h"
+#include "domain/vo/ClassVO.h"
 #include OATPP_CODEGEN_BEGIN(ApiController) //<- Begin Codegen
+
+#define API_TAG ZH_WORDS_GETTER("class.tag")
 
 class GetClassDetailsController : public oatpp::web::server::api::ApiController
 {
-	//定义控制器访问入口
+	// 添加访问定义
 	API_ACCESS_DECLARE(GetClassDetailsController);
-public:			 //定义接口
-private:		 //定义执行函数
+public:
+	// 定义获取班级详情接口描述
+	API_DEF_ENDPOINT_INFO_AUTH(
+		ZH_WORDS_GETTER("class.get-class-details.summary"),
+		getClassDetails,
+		ClassJsonVO::Wrapper,
+		API_TAG,
+		API_DEF_ADD_PATH_PARAMS(String, "id", ZH_WORDS_GETTER("class.field.id"), "sample_class_id", true);
+	);
 
+	// 定义获取班级详情接口端点
+	API_HANDLER_ENDPOINT_AUTH(
+		API_M_GET,
+		"/class/get-class-details/{id}",
+		getClassDetails,
+		PATH(String, id),
+		executeGetClassDetails(id)
+	);
+
+private:
+	// 获取班级详情
+	ClassJsonVO::Wrapper executeGetClassDetails(const String& id);
 };
 
+#undef API_TAG
 #include OATPP_CODEGEN_END(ApiController) //<- End Codegen
 
-#endif // _USERCONTROLLER_H_
+#endif // _GETCLASSDETAILSCONTROLLER_

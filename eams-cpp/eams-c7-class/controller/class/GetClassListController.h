@@ -22,17 +22,49 @@
 
 #include "domain/vo/BaseJsonVO.h"
 #include"ApiHelper.h"
+#include "../eams-c7-class/domain/GlobalInclude.h"
+#include"../nacos-register/Macros.h"
+#include "../../domain/dto/ClassDTO.h"
+#include "../../domain/vo/ClassVO.h"
+#include "../../domain/query/ClassQuery.h"
 #include OATPP_CODEGEN_BEGIN(ApiController) //<- Begin Codegen
 
+#define API_TAG ZH_WORDS_GETTER("class.tag")
+
+/**
+ * 获取班级列表控制器
+ */
 class GetClassListController : public oatpp::web::server::api::ApiController
 {
-	//定义控制器访问入口
-	API_ACCESS_DECLARE(GetClassListController);
-public:			 //定义接口
-private:		 //定义执行函数
+    // 添加访问定义
+    API_ACCESS_DECLARE(GetClassListController);
 
+public:
+    // 定义获取班级列表接口描述（分页查询+条件查询）
+    API_DEF_ENDPOINT_INFO_QUERY_AUTH(
+        ZH_WORDS_GETTER("class.get-list.summary"), // 接口标题
+        getClassList,                               // 接口方法名
+        ClassQuery,                                 // 查询参数类型
+        ClassPageJsonVO::Wrapper,                   // 响应类型
+        API_TAG                                     // 接口标签
+    );
+
+    // 定义获取班级列表接口端点
+    API_HANDLER_ENDPOINT_QUERY_AUTH(
+        API_M_GET,              // 请求方法
+        "/class/list",          // 请求路径
+        getClassList,           // 接口方法名
+        ClassQuery,             // 查询参数类型
+        executeGetClassList(query, authObject->getPayload())  // 执行方法
+    );
+
+private:
+    // 获取班级列表执行方法
+    ClassPageJsonVO::Wrapper executeGetClassList(const ClassQuery::Wrapper& query, const PayloadDTO& payload);
 };
+
+#undef API_TAG
 
 #include OATPP_CODEGEN_END(ApiController) //<- End Codegen
 
-#endif // _USERCONTROLLER_H_
+#endif // _GETCLASSLISTCONTROLLER_
