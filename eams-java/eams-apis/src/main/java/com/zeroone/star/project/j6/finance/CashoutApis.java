@@ -1,6 +1,7 @@
 package com.zeroone.star.project.j6.finance;
 
 import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j6.finance.CashoutAddDTO;
 import com.zeroone.star.project.query.j6.finance.CashoutListQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j6.finance.CashoutDetailVO;
@@ -26,4 +27,18 @@ public interface CashoutApis {
      * @return 请款信息详情
      */
     JsonVO<CashoutDetailVO> getCashoutDetail(Long id);
+
+    /**
+     * 保存请款申请
+     * @param cashoutAddDTO 请款数据
+     * @return 保存结果
+     */
+    JsonVO<Long> saveCashout(CashoutAddDTO cashoutAddDTO);
+
+    /**
+     * 作废请款申请
+     * @param id 请款ID
+     * @return 作废结果
+     */
+    JsonVO<Long> cancelCashout(Long id);
 }
