@@ -1,9 +1,26 @@
 SummaryClass:
   query:
     summary: 课时汇总查询
+    tag: 
   studentName: 学员姓名
   courseName: 课程
   attendanceRecord: 上课记录
   totalLessons: 总课次
   usedLessons: 已上课次
   remainingLessons: 剩余课次
+
+ParentAccountChange:
+  query:
+    summary: 家长账号更改
+    tag: 
+  id: 家长ID
+  name: 家长姓名
+  state: 家长账号状态
+
+ParentPasswordChange:
+  query:
+    summary: 家长密码更改
+    tag: 
+  id: 家长ID
+  oldPassword: 旧密码
+  newPassword: 新密码

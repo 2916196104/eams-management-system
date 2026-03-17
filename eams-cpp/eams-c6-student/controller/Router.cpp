@@ -21,6 +21,7 @@
 #include "ApiHelper.h"
 
 #include "summaryclass/SummaryClassController.h"
+#include "parentaccount/ParentAccountController.h"
 
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
@@ -43,5 +44,5 @@ void Router::initRouter()
 {
 	//#TIP :系统扩展路由定义，写在这个后面
 	ROUTER_SIMPLE_BIND(SummaryClassController);
-	
+	ROUTER_SIMPLE_BIND(ParentAccountController);
 }
