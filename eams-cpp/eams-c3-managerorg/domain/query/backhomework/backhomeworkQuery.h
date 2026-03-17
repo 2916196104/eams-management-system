@@ -1,61 +1,65 @@
-ï»¿#ifndef __BACKHOMEWORK_QUERY_H__
+#ifndef __BACKHOMEWORK_QUERY_H__
 #define __BACKHOMEWORK_QUERY_H__
 
+#include "../GlobalInclude.h"
 #include "domain/GlobalInclude.h"
 #include "../../../../lib-oatpp/include/domain/query/PageQuery.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/*è¯¾åä½œä¸šæŸ¥è¯¢ç±»*/
+/*¿Îºó×÷Òµ²éÑ¯Àà*/
 
 class BackhomeworkQuery : public PageQuery
 {
 	DTO_INIT(BackhomeworkQuery, PageQuery)
 
-//----------------------åˆ é™¤ä½œä¸š------------------------------
-	// ä½œä¸šIDåˆ—è¡¨
+class BackhomeworkQuery : public
+{
+	DTO_INIT(BoardManager, )
+//----------------------É¾³ı×÷Òµ------------------------------
+	// ×÷ÒµIDÁĞ±í
 	DTO_FIELD(List<UInt64>, homeworkIds);
 	DTO_FIELD_INFO(homeworkIds) {
 		info->description = ZH_WORDS_GETTER("backhomework.field.homeworkIds");
 	}
 
-	//åˆ é™¤ç±»å‹ï¼š0-é€»è¾‘åˆ é™¤ï¼ˆé»˜è®¤ï¼‰ 1-ç‰©ç†åˆ é™¤
+	//É¾³ıÀàĞÍ£º0-Âß¼­É¾³ı£¨Ä¬ÈÏ£© 1-ÎïÀíÉ¾³ı
 	DTO_FIELD(Int32, deleteType) = 0;
 	DTO_FIELD_INFO(deleteType) {
 		info->description = ZH_WORDS_GETTER("backhomework.field.deleteType");
 	}
 
-	//åˆ é™¤æŸä¸€è¯¾ç¨‹ä¸‹çš„æ‰€æœ‰ä½œä¸š
+	//É¾³ıÄ³Ò»¿Î³ÌÏÂµÄËùÓĞ×÷Òµ
 	DTO_FIELD(UInt64, courseId);
 	DTO_FIELD_INFO(courseId) {
 		info->description = ZH_WORDS_GETTER("backhomework.field.courseId");
 	}
 
-	//åˆ é™¤æŸä¸€è€å¸ˆçš„ä½œä¸š
+	//É¾³ıÄ³Ò»ÀÏÊ¦µÄ×÷Òµ
 	DTO_FIELD(UInt64, teacherId);
 	DTO_FIELD_INFO(teacherId) {
 		info->description = ZH_WORDS_GETTER("backhomework.field.teacherId");
 	}
 
-//----------------------è·å–ä½œä¸šæäº¤åˆ—è¡¨ï¼ˆæ¡ä»¶+åˆ†é¡µï¼‰------------------------------
-	// å­¦ç”ŸID
+//----------------------»ñÈ¡×÷ÒµÌá½»ÁĞ±í£¨Ìõ¼ş+·ÖÒ³£©------------------------------
+	// Ñ§ÉúID
 	DTO_FIELD(UInt64, studentId);
 	DTO_FIELD_INFO(studentId) {
 		info->description = ZH_WORDS_GETTER("homework.list.query.studentId");
 	}
 
-	// æäº¤çŠ¶æ€ï¼š-1-å…¨éƒ¨ï¼ˆé»˜è®¤ï¼‰ï¼Œ0-æœªæäº¤ï¼Œ1-å·²æäº¤ï¼Œ2-å·²æ‰¹æ”¹
-	// ç‚¹è¯„ä½œä¸šåŠŸèƒ½ä¹Ÿå…±ç”¨æ­¤å­—æ®µï¼ˆ1=å¾…æ‰¹æ”¹ï¼Œ2=å·²æ‰¹æ”¹ï¼‰
+	// Ìá½»×´Ì¬£º-1-È«²¿£¨Ä¬ÈÏ£©£¬0-Î´Ìá½»£¬1-ÒÑÌá½»£¬2-ÒÑÅú¸Ä
+	// µãÆÀ×÷Òµ¹¦ÄÜÒ²¹²ÓÃ´Ë×Ö¶Î£¨1=´ıÅú¸Ä£¬2=ÒÑÅú¸Ä£©
 	DTO_FIELD(Int32, status) = -1;
 	DTO_FIELD_INFO(status) {
 		info->description = ZH_WORDS_GETTER("homework.list.query.status");
 	}
 
-//----------------------ç‚¹è¯„ä½œä¸š------------------------------
-	DTO_FIELD(UInt64, homeworkId);        // ä½œä¸šID
-	DTO_FIELD(String, studentName);       // å­¦ç”Ÿå§“åï¼ˆæ¨¡ç³Šæœç´¢ï¼‰
-	DTO_FIELD(Int64, startTime);          // æäº¤å¼€å§‹æ—¶é—´
-	DTO_FIELD(Int64, endTime);            // æäº¤ç»“æŸæ—¶é—´
+//----------------------µãÆÀ×÷Òµ------------------------------
+	DTO_FIELD(UInt64, homeworkId);        // ×÷ÒµID
+	DTO_FIELD(String, studentName);       // Ñ§ÉúĞÕÃû£¨Ä£ºıËÑË÷£©
+	DTO_FIELD(Int64, startTime);          // Ìá½»¿ªÊ¼Ê±¼ä
+	DTO_FIELD(Int64, endTime);            // Ìá½»½áÊøÊ±¼ä
 };
 
 #include OATPP_CODEGEN_END(DTO)

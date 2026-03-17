@@ -1,10 +1,13 @@
-ï»¿#pragma once
+#pragma once
+
 
 #ifndef __SENDHOMEWORK_H__
 #define __SENDHOMEWORK_H__
 
+
 #include "domain/GlobalInclude.h"
 #include "oatpp/web/server/api/ApiController.hpp"
+
 #include "ApiHelper.h"
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/dto/backhomework/backhomeworkDTO.h"
@@ -12,14 +15,15 @@
 #include "domain/vo/backhomework/backhomeworkVO.h"
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
-/*ä½œä¸šæäº¤æ§åˆ¶å™¨*/
+
+/*×÷ÒµÌá½»¿ØÖÆÆ÷*/
 
 class SendHomework: public oatpp::web::server::api::ApiController
 {
-	//å®šä¹‰æ§åˆ¶å™¨è®¿é—®å…¥å£
+	//¶¨Òå¿ØÖÆÆ÷·ÃÎÊÈë¿Ú
 	API_ACCESS_DECLARE(SendHomework);
-public:		//å®šä¹‰æ¥å£
-//----------------------è·å–ä½œä¸šæäº¤åˆ—è¡¨ï¼ˆæ¡ä»¶+åˆ†é¡µï¼‰------------------------------
+public:		//¶¨Òå½Ó¿Ú
+//----------------------»ñÈ¡×÷ÒµÌá½»ÁĞ±í£¨Ìõ¼ş+·ÖÒ³£©------------------------------
     API_DEF_ENDPOINT_INFO_QUERY_AUTH(
         ZH_WORDS_GETTER("GetHomeworkList.summary"),
         GetHomeworkList,
@@ -36,8 +40,8 @@ public:		//å®šä¹‰æ¥å£
         executeGetHomeworkList(query)
     );
 
-//----------------------ç‚¹è¯„ä½œä¸š------------------------------
-    //è·å–ä½œä¸šè¯¦æƒ…ï¼ˆç”¨äºç‚¹è¯„å‰æŸ¥çœ‹ï¼‰
+//----------------------µãÆÀ×÷Òµ------------------------------
+    //»ñÈ¡×÷ÒµÏêÇé£¨ÓÃÓÚµãÆÀÇ°²é¿´£©
     API_DEF_ENDPOINT_INFO_AUTH(
         ZH_WORDS_GETTER("GetHomeworkDetail.summary"),
         GetHomeworkDetail,
@@ -54,7 +58,7 @@ public:		//å®šä¹‰æ¥å£
         executeGetHomeworkDetail(id)
     );
 
-    //æäº¤ç‚¹è¯„
+    //Ìá½»µãÆÀ
     API_DEF_ENDPOINT_INFO_AUTH(
         ZH_WORDS_GETTER("SubmitReview.summary"),
         SubmitReview,
@@ -71,12 +75,12 @@ public:		//å®šä¹‰æ¥å£
     );
 
 
-private:	//å®šä¹‰æ¥å£æ‰§è¡Œå‡½æ•°
-    //----------------------è·å–ä½œä¸šæäº¤åˆ—è¡¨ï¼ˆæ¡ä»¶+åˆ†é¡µï¼‰------------------------------
+private:	//¶¨Òå½Ó¿ÚÖ´ĞĞº¯Êı
+    //----------------------»ñÈ¡×÷ÒµÌá½»ÁĞ±í£¨Ìõ¼ş+·ÖÒ³£©------------------------------
     oatpp::List<BackhomeworkVO::Wrapper> executeGetHomeworkList(const BackhomeworkQuery::Wrapper& query);
     StringJsonVO::Wrapper executeDelHomework(const BackhomeworkQuery::Wrapper& req);
 
-    //----------------------ç‚¹è¯„ä½œä¸š------------------------------
+    //----------------------µãÆÀ×÷Òµ------------------------------
     BackhomeworkVO::Wrapper executeGetHomeworkDetail(UInt64 id);
     StringJsonVO::Wrapper executeSubmitReview(const ReviewHomeworkDTO::Wrapper& req);
 };

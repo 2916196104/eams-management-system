@@ -377,3 +377,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+#我的工作区
+c3-GradeManage/
