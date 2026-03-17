@@ -1,0 +1,27 @@
+﻿user:
+ tag: 工作台
+
+ information:
+  summary: 获取当前用户信息
+ profile:
+  summary: 获取当前用户资料
+ changepicture:
+  summary: 修改头像
+ field:
+  id: 用户ID
+  name: 用户姓名
+  mobile: 用户手机号
+  age: 用户年龄
+  birthday: 用户生日
+  gender: 性别
+  idcard: 身份证
+  school: 毕业学校
+  degree: 学历
+  remark: 备注
+  state: 状态
+  headimg: 头像地址
+  hireDate: 入职时间
+  fireDate: 离职时间
+  isInner: 是否在职
+
+

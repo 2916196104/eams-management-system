@@ -1,0 +1,22 @@
+
+class:
+  tag: 班级管理
+  
+  get-list:
+    summary: 获取班级列表
+    
+  get-details:
+    summary: 获取班级详情
+    
+  field:
+    id: 班级ID
+    className: 班级名称
+    classCode: 班级编号
+    grade: 年级
+    majorId: 专业ID
+    counselorId: 辅导员ID
+    studentCount: 班级人数
+    description: 班级描述
+    createTime: 创建时间
+    updateTime: 更新时间
+    status: 状态
