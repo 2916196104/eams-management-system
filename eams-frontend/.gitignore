@@ -34,3 +34,6 @@ coverage
 auto-imports.d.ts
 components.d.ts
 package-lock.json
+
+# 忽略vite依赖缓存
+.vite
