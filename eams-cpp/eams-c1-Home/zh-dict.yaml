@@ -1,0 +1,23 @@
+home: 
+  listening-card: 
+    tag: "试听卡模块"
+    field:
+      # 试听卡基本信息
+      id: "主键ID"
+      courseId: "课程ID"
+      courseName: "课程名称"
+      title: "体验卡名称"
+      quantity: "发行数量"
+      remainingQuantity: "剩余数量"
+      lessonCount: "课时数"
+      expireDays: "领取后有效天数"
+      endDate: "发行结束日期"
+      state: "启用状态（1：启用，0：禁用）"
+      creator: "创建人"
+      editor: "编辑人"
+      # 试听卡使用规则
+      ruleContent: "规则内容"
+      ruleDescription: "规则描述"
+    get:
+      list: "获取试听卡列表"
+      rule: "获取试听卡使用规则"
