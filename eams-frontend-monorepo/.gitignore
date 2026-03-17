@@ -25,9 +25,6 @@ coverage
 .env.*.local
 
 # IDE
-.vscode/*
-!.vscode/extensions.json
-!.vscode/settings.json
 .idea
 
 # OS
@@ -55,3 +52,6 @@ yarn.lock
 
 # 忽略本地缓存目录
 local_cache
+
+# 忽略vite依赖缓存
+.vite
