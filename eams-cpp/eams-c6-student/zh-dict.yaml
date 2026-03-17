@@ -5,12 +5,15 @@ common:
   get-student-by-id: 获取学员详情
   modify-student-picture: 修改学员头像
   query-student-registration-record: 获取报名记录（条件+分页）
+  download-student-picture: 下载学员头像 
  field:
+  file:
+   id: 文件ID
   student:
    id: 学员ID
    name: 学员姓名
    phone: 手机号码
-   picture: 学员头像
+   picture-path: 学员头像文件路径
    left-course-count: 剩余课次
    left-points: 剩余积分
    stage: 学员阶段

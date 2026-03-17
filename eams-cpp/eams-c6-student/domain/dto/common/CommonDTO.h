@@ -7,7 +7,7 @@ class StudentAddDTO : public oatpp::DTO {
 	DTO_INIT(StudentAddDTO, DTO);
 	API_DTO_FIELD_DEFAULT(String, name, ZH_WORDS_GETTER("common.field.student.name"));
 	API_DTO_FIELD_DEFAULT(String, phone, ZH_WORDS_GETTER("common.field.student.content"));
-	API_DTO_FIELD_DEFAULT(String, picture, ZH_WORDS_GETTER("common.field.student.picture"));
+	API_DTO_FIELD_DEFAULT(String, picturePath, ZH_WORDS_GETTER("common.field.student.picture-path"));
     API_DTO_FIELD_DEFAULT(Int32, leftCourseCount , ZH_WORDS_GETTER("common.field.student.left-course-count"));
 	API_DTO_FIELD_DEFAULT(Int32, leftPoints, ZH_WORDS_GETTER("common.field.student.left-points"));
 	API_DTO_FIELD_DEFAULT(Int32, stage, ZH_WORDS_GETTER("common.field.student.stage"));
@@ -52,6 +52,10 @@ class RegistrationDTO :public RegistrationAddDTO {
 class RegistrationPageDTO : public PageDTO<RegistrationDTO::Wrapper> {
 	DTO_INIT(RegistrationPageDTO, PageDTO<RegistrationDTO::Wrapper>);
 	
+};
+class FileOnlyDTO :public oatpp::DTO {
+	DTO_INIT(FileOnlyDTO, DTO);
+    API_DTO_FIELD_DEFAULT(oatpp::swagger::Binary, file, ZH_WORDS_GETTER("common.field.file.file"),true);
 };
 #include OATPP_CODEGEN_END(DTO)
 #endif
