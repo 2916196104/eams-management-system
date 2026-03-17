@@ -8,28 +8,66 @@
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>eams-doc</artifactId>
+    <artifactId>eams-j5-courseschedule</artifactId>
     <dependencies>
         <!-- spring mvc -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
         <!-- knife4j aggregation -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-aggregation-spring-boot-starter</artifactId>
         </dependency>
+
         <!-- common -->
         <dependency>
             <groupId>com.zeroone.star</groupId>
             <artifactId>eams-common</artifactId>
+        </dependency>
+
+        <!--apis-->
+        <dependency>
+            <groupId>com.zeroone.star</groupId>
+            <artifactId>eams-apis</artifactId>
+        </dependency>
+
+        <!--nacos相关-->
+        <!-- alibaba nacos discovery-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
         <!-- alibaba nacos config -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
+
+        <!--数据库相关-->
+        <!--mp-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        <!--druid-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+        </dependency>
+        <!--mysql 驱动-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <!--mapstruct-->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
@@ -37,7 +75,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.zeroone.star.doc.DocApplication</mainClass>
+                    <mainClass>com.zeroone.star.project.ProjectApplication</mainClass>
                 </configuration>
             </plugin>
             <plugin>
@@ -86,6 +124,27 @@
                             </run>
                         </image>
                     </images>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.zeroone.star</groupId>
+                <artifactId>mp-code-generator-plugin</artifactId>
+                <configuration>
+                    <!-- 数据库连接信息配置 -->
+                    <dbConfig>
+                        <!-- 数据库主机地址 -->
+                        <host>192.168.220.131</host>
+                        <!-- 数据库端口 -->
+                        <port>3306</port>
+                        <!-- 数据库名称 -->
+                        <dbname>test</dbname>
+                        <!-- 数据库用户名 -->
+                        <username>root</username>
+                        <!-- 数据库密码 -->
+                        <password>root</password>
+                    </dbConfig>
+                    <!-- 生成代码输出根目录 -->
+                    <outDir>${project.basedir}/src/main/java</outDir>
                 </configuration>
             </plugin>
         </plugins>
