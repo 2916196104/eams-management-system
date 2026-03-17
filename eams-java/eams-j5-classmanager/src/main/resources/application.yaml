@@ -1,24 +1,31 @@
 server:
-  port: ${sp.doc}
+  port: ${sp.classmanager}
+
 spring:
   application:
-    name: ${sn.doc}
-knife4j:
-  enableAggregation: true
-  nacos:
-    enable: true
-    serviceUrl: http://${nacos.addr}/${nacos.contextPath}/
-    # 注意：这里的路径配置需要配置到nacos配置中心system.yaml中
-    routes:
-      - name: 示例服务
-        serviceName: ${sn.sample}
-        namespaceId: ${nacos.namespace}
-        location: /v2/api-docs?group=sample
-      - name: 声明式CPP
-        serviceName: ${sn.cpp}
-        namespaceId: ${nacos.namespace}
-        location: /v2/api-docs?group=cpp
-      - name: 登录服务
-        serviceName: ${sn.login}
-        namespaceId: ${nacos.namespace}
-        location: /v2/api-docs?group=login
+    name: ${sn.classmanager}
+seata:
+  tx-service-group: tx-business
+  enabled: false
+  service:
+    #seata服务地址
+#    grouplist:
+#      default: ${seata.default}
+    #虚拟组和分组映射，key的名字与tx-service-group一致
+    vgroup-mapping:
+      tx-business: default
+    #开启全局事务
+    disable-global-transaction: false
+
+# FastDFS配置
+fastdfs:
+  charset: UTF-8
+  connect-timeout: 5
+  network-timeout: 30
+  http-secret-key: FastDFS1234567890
+  http-anti-steal-token: false
+  connection-pool-max-idle: 20
+  connection-pool-max-total: 20
+  connection-pool-min-idle: 2
+  nginx-servers: 172.24.13.57:8888
+  tracker-servers: 172.24.13.57:22122
