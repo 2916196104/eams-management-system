@@ -40,6 +40,7 @@
         <module>eams-j3-class</module>
         <module>eams-j3-supplies</module>
         <module>eams-j3-system</module>
+        <module>eams-j3-data</module>
     </modules>
     <properties>
         <!-- 项目版本号 -->
