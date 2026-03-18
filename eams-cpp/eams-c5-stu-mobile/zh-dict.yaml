@@ -1,0 +1,19 @@
+ListenCardRules:
+  tag: 试听卡
+  summary: 获取试听卡使用规则
+  field:
+    id: 主键
+    course_id: 课程
+    title: 名称
+    quantity: 发行数量
+    remaining_quantity: 剩余数量
+    lesson_count: 课时数
+    expire_days: 领取后有效天数
+    end_date: 发行结束日期
+    state: 启用状态
+    creator: 创建人
+    editor: 编辑人
+    add_time: 添加时间
+    edit_time: 编辑时间
+    deleted: 删除标记
+    org_id: 创建者所属组织ID  
