@@ -1,8 +1,9 @@
+#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/08 21:19:14
+ @Date: 2023/09/18 14:46:10
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,21 +17,30 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#include "stdafx.h"
-#include "homeworkcontroller.h"
-HomeworkPageJsonVO::Wrapper HomeworkController::execQueryPage(const HomeworkQuery::Wrapper& query)
-{
-	return {};
-}
+#ifndef _FILEVO_H_
+#define _FILEVO_H_
 
-HomeworkDetailJsonVO::Wrapper HomeworkController::execQueryDetail(const UInt64& id)
-{
-	return {};
-}
+#include "../../GlobalInclude.h"
+#include "../../dto/file/FileDTO.h"
 
-HomeworkJsonVO::Wrapper HomeworkController::execHomeworkSubmit(const UInt32& studentId){
-	return {};
-}
-HomeworkJsonVO::Wrapper HomeworkController::execHomeworkDelete(const UInt32& homeworkId){
-	return {};
-}
+#include OATPP_CODEGEN_BEGIN(DTO)
+
+/**
+ * editor响应图片上传结果数据
+ */
+class EditorImageVO : public JsonVO<EditorImageDTO::Wrapper>
+{
+	DTO_INIT(EditorImageVO, JsonVO<EditorImageDTO::Wrapper>);
+};
+
+/**
+ * 文件信息响应数据
+ */
+class FileJsonVO : public JsonVO<FileDTO::Wrapper>
+{
+	DTO_INIT(FileJsonVO, JsonVO<FileDTO::Wrapper>);
+};
+
+#include OATPP_CODEGEN_END(DTO)
+
+#endif // !_FILEVO_H_

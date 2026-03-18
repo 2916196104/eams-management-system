@@ -1,4 +1,3 @@
-
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -20,15 +19,12 @@
 #include "stdafx.h"
 #include "Router.h"
 #include "ApiHelper.h"
-#include "controller/registration-records/registrationcontroller.h"
-#include"listening-card/cardcontroller.h"
-#include "score/scorecontroller.h"		
-#include "points-exchange/exchangecontroller.h"
-#include "controller/review-records/reviewcontroller.h"
-#include "class/classcontroller.h"
-#include "homework/homeworkcontroller.h"
-#include "attendance-records/attendancecontroller.h"
-#include "bulletin/bulletincontroller.h"
+
+#include "user/UserController.h"
+#include "sample/SampleController.h"
+#include "file/FileController.h"
+#include "ws/WSController.h"
+
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
 // 简化绑定控制器宏定义
@@ -49,15 +45,13 @@ Router::Router(Endpoints* docEndpoints, HttpRouter* router)
 void Router::initRouter()
 {
 	//#TIP :系统扩展路由定义，写在这个后面
-	ROUTER_SIMPLE_BIND(ReviewRecordController);
-	ROUTER_SIMPLE_BIND(exchangeController);
-	ROUTER_SIMPLE_BIND(classController);
-	ROUTER_SIMPLE_BIND(RegistrationRecodeController);
-	ROUTER_SIMPLE_BIND(ScoreController);
-	ROUTER_SIMPLE_BIND(cardController);
-	ROUTER_SIMPLE_BIND(HomeworkController);
-	ROUTER_SIMPLE_BIND(attendanceController);
-	ROUTER_SIMPLE_BIND(cardController);
-	ROUTER_SIMPLE_BIND(bulletinController);
-	ROUTER_SIMPLE_BIND(HomeworkController);
+	// 绑定示例控制器
+	ROUTER_SIMPLE_BIND(SampleController);
+	// 绑定用户控制器
+	ROUTER_SIMPLE_BIND(UserController);
+	// 绑定文件控制器
+	ROUTER_SIMPLE_BIND(FileController);
+
+	// 绑定WebSocket控制器
+	router->addController(WSContorller::createShared());
 }

@@ -1,8 +1,9 @@
+#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/08 21:19:14
+ @Date: 2022/12/03 11:01:02
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,21 +17,24 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#include "stdafx.h"
-#include "homeworkcontroller.h"
-HomeworkPageJsonVO::Wrapper HomeworkController::execQueryPage(const HomeworkQuery::Wrapper& query)
-{
-	return {};
-}
+#ifndef _USERQUERY_H_
+#define _USERQUERY_H_
 
-HomeworkDetailJsonVO::Wrapper HomeworkController::execQueryDetail(const UInt64& id)
-{
-	return {};
-}
+#include "../../GlobalInclude.h"
+#include "domain/query/PageQuery.h"
 
-HomeworkJsonVO::Wrapper HomeworkController::execHomeworkSubmit(const UInt32& studentId){
-	return {};
-}
-HomeworkJsonVO::Wrapper HomeworkController::execHomeworkDelete(const UInt32& homeworkId){
-	return {};
-}
+#include OATPP_CODEGEN_BEGIN(DTO)
+
+/**
+ * 定义一个查询用户信息的数据传输模型
+ */
+class UserQuery : public PageQuery
+{
+	// 定义初始化
+	DTO_INIT(UserQuery, PageQuery);
+	// 昵称
+	API_DTO_FIELD_DEFAULT(String, nickname, ZH_WORDS_GETTER("user.field.nickname"));
+};
+
+#include OATPP_CODEGEN_END(DTO)
+#endif // !_USERQUERY_H_

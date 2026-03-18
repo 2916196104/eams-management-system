@@ -1,8 +1,9 @@
+#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/08 21:19:14
+ @Date: 2022/10/25 11:34:14
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,21 +17,28 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#include "stdafx.h"
-#include "homeworkcontroller.h"
-HomeworkPageJsonVO::Wrapper HomeworkController::execQueryPage(const HomeworkQuery::Wrapper& query)
-{
-	return {};
-}
+#ifndef _SAMPLE_VO_
+#define _SAMPLE_VO_
 
-HomeworkDetailJsonVO::Wrapper HomeworkController::execQueryDetail(const UInt64& id)
-{
-	return {};
-}
+#include "../../GlobalInclude.h"
+#include "../../dto/sample/SampleDTO.h"
 
-HomeworkJsonVO::Wrapper HomeworkController::execHomeworkSubmit(const UInt32& studentId){
-	return {};
-}
-HomeworkJsonVO::Wrapper HomeworkController::execHomeworkDelete(const UInt32& homeworkId){
-	return {};
-}
+#include OATPP_CODEGEN_BEGIN(DTO)
+
+/**
+ * 示例显示JsonVO，用于响应给客户端的Json对象
+ */
+class SampleJsonVO : public JsonVO<SampleDTO::Wrapper> {
+	DTO_INIT(SampleJsonVO, JsonVO<SampleDTO::Wrapper>);
+};
+
+/**
+ * 示例分页显示JsonVO，用于响应给客户端的Json对象
+ */
+class SamplePageJsonVO : public JsonVO<SamplePageDTO::Wrapper> {
+	DTO_INIT(SamplePageJsonVO, JsonVO<SamplePageDTO::Wrapper>);
+};
+
+#include OATPP_CODEGEN_END(DTO)
+
+#endif // !_SAMPLE_VO_

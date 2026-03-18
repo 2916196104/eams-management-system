@@ -1,8 +1,9 @@
+#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/08 21:19:14
+ @Date: 2025/07/15 16:57:53
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,21 +17,20 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#include "stdafx.h"
-#include "homeworkcontroller.h"
-HomeworkPageJsonVO::Wrapper HomeworkController::execQueryPage(const HomeworkQuery::Wrapper& query)
-{
-	return {};
-}
+#ifndef _FILESERVICE_H_
+#define _FILESERVICE_H_
+#include "domain/dto/file/FileDTO.h"
 
-HomeworkDetailJsonVO::Wrapper HomeworkController::execQueryDetail(const UInt64& id)
+/**
+ * 文件业务操作类
+ */
+class FileService
 {
-	return {};
-}
+public:
+	// 保存文件
+	std::string saveFile(const FileDTO::Wrapper& data);
+	// 获取文件
+	FileDTO::Wrapper getFile(const std::string& id);
+};
 
-HomeworkJsonVO::Wrapper HomeworkController::execHomeworkSubmit(const UInt32& studentId){
-	return {};
-}
-HomeworkJsonVO::Wrapper HomeworkController::execHomeworkDelete(const UInt32& homeworkId){
-	return {};
-}
+#endif // !_FILESERVICE_H_

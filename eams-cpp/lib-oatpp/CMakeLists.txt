@@ -3,6 +3,13 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
+# 适配 VS 多配置，自动按配置输出到 lib64/debug 或 release
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/lib64/debug)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}/lib64/release)
+# 适配 Linux 下的 Debug/Release
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_GCCDEBUG ${CMAKE_SOURCE_DIR}/lib64/debug)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_GCCRELEASE ${CMAKE_SOURCE_DIR}/lib64/release)
+
 # 包含库目录
 include_directories ("./")
 include_directories ("include")

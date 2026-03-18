@@ -1,8 +1,9 @@
+#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/08 21:19:14
+ @Date: 2025/07/19 16:18:58
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,21 +17,26 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#include "stdafx.h"
-#include "homeworkcontroller.h"
-HomeworkPageJsonVO::Wrapper HomeworkController::execQueryPage(const HomeworkQuery::Wrapper& query)
-{
-	return {};
-}
+#ifndef _USERSERVICE_H_
+#define _USERSERVICE_H_
+#include "domain/query/user/UserQuery.h"
+#include "domain/dto/user/UserDTO.h"
 
-HomeworkDetailJsonVO::Wrapper HomeworkController::execQueryDetail(const UInt64& id)
+/**
+ * 用户业务逻辑类
+ */
+class UserService
 {
-	return {};
-}
+private:
+	// 获取文件服务器地址
+	inline string getDfsServerAddrssUrl();
+public:
+	// 查询所有用户
+	UserPageDTO::Wrapper listAll(const UserQuery::Wrapper& query);
+	// 添加用户
+	std::string saveUser(const UserAddDTO::Wrapper& dto);
+	// 获取用户详情
+	UserDetailDTO::Wrapper getUserDetail(const oatpp::String& id);
+};
 
-HomeworkJsonVO::Wrapper HomeworkController::execHomeworkSubmit(const UInt32& studentId){
-	return {};
-}
-HomeworkJsonVO::Wrapper HomeworkController::execHomeworkDelete(const UInt32& homeworkId){
-	return {};
-}
+#endif // !_USERSERVICE_H_

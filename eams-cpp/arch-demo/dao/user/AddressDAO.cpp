@@ -2,7 +2,7 @@
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/08 21:19:14
+ @Date: 2025/07/31 14:49:12
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,20 +17,11 @@
  limitations under the License.
 */
 #include "stdafx.h"
-#include "homeworkcontroller.h"
-HomeworkPageJsonVO::Wrapper HomeworkController::execQueryPage(const HomeworkQuery::Wrapper& query)
-{
-	return {};
-}
+#include "AddressDAO.h"
+#include "AddressMapper.h"
 
-HomeworkDetailJsonVO::Wrapper HomeworkController::execQueryDetail(const UInt64& id)
+std::list<PtrAddressDO> AddressDAO::selectByUserId(string userId)
 {
-	return {};
-}
-
-HomeworkJsonVO::Wrapper HomeworkController::execHomeworkSubmit(const UInt32& studentId){
-	return {};
-}
-HomeworkJsonVO::Wrapper HomeworkController::execHomeworkDelete(const UInt32& homeworkId){
-	return {};
+	string sql = "select id,user_id,contact,phone,province,city,country,address,remark from sample_address where user_id = ?";
+	return sqlSession->executeQuery<PtrAddressDO>(sql, AddressMapper(), "%s", userId);
 }

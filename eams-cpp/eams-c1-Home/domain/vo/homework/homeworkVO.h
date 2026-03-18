@@ -40,6 +40,28 @@ class HomeworkDetailJsonVO : public JsonVO<HomeworkDetailDTO::Wrapper>
 {
 	DTO_INIT(HomeworkDetailJsonVO, JsonVO<HomeworkDetailDTO::Wrapper>);
 };
+
+/**
+ * 定义显示对象
+ * 作业信息VO（返回给前端的数据）
+ */
+
+class HomeworkJsonVO : public oatpp::DTO
+{
+    DTO_INIT(HomeworkJsonVO, DTO);
+
+
+
+
+
+    DTO_FIELD(UInt64, recordId);        // 记录ID
+    DTO_FIELD(UInt64, homeworkId);       // 作业ID
+    DTO_FIELD(UInt64, studentId);        // 学生ID
+    DTO_FIELD(String, content);           // 提交内容
+    DTO_FIELD(String, images);            // 图片
+    DTO_FIELD(String, addTime);           // 提交时间
+};
+
 #include OATPP_CODEGEN_END(DTO)
 
 #endif // !_HOMEWORKVO_H_

@@ -1,8 +1,9 @@
+#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/08 21:19:14
+ @Date: 2023/02/16 17:02:58
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,21 +17,26 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#include "stdafx.h"
-#include "homeworkcontroller.h"
-HomeworkPageJsonVO::Wrapper HomeworkController::execQueryPage(const HomeworkQuery::Wrapper& query)
-{
-	return {};
-}
+#ifndef _MENUVO_H_
+#define _MENUVO_H_
+#include "../../GlobalInclude.h"
+#include "../../dto/user/MenuDTO.h"
 
-HomeworkDetailJsonVO::Wrapper HomeworkController::execQueryDetail(const UInt64& id)
-{
-	return {};
-}
+#include OATPP_CODEGEN_BEGIN(DTO)
 
-HomeworkJsonVO::Wrapper HomeworkController::execHomeworkSubmit(const UInt32& studentId){
-	return {};
-}
-HomeworkJsonVO::Wrapper HomeworkController::execHomeworkDelete(const UInt32& homeworkId){
-	return {};
-}
+/**
+ * 定义一个示例菜单显示JsonVO对象，用于响应给前端
+ */
+class MenuJsonVO : public JsonVO<List<MenuDTO::Wrapper>>
+{
+	DTO_INIT(MenuJsonVO, JsonVO<List<MenuDTO::Wrapper>>);
+public:
+	// 在构造函数中实例化data列表
+	MenuJsonVO() {
+		this->data = {};
+	}
+};
+
+#include OATPP_CODEGEN_END(DTO)
+
+#endif // !_MENUVO_H_

@@ -27,7 +27,7 @@
 #include "domain/query/PageQuery.h"
 #include "domain/vo/homework/homeworkVO.h"
 #include "domain/query/homework/homeworkquery.h"
-
+#include "domain/dto/homework/homeworkDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
 #define API_TAG ZH_WORDS_GETTER("homework.tag")
@@ -36,7 +36,8 @@ class HomeworkController : public oatpp::web::server::api::ApiController
 {
 	// 定义控制器访问入口
 	API_ACCESS_DECLARE(HomeworkController);
-public: // 定义接口
+
+public:
 
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("homework.get_homework_page"), queryPage, HomeworkQuery, HomeworkPageJsonVO::Wrapper, API_TAG);
 	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c1/homework", queryPage, QUERIES(QueryParams, queryParams),
@@ -48,9 +49,45 @@ public: // 定义接口
 	);
 
 	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c1/homework/detail", queryDetail, QUERY(UInt64, id), execQueryDetail(id));
-private: // 定义接口执行函数
+
+	// 1.1 定义提交作业接口描述
+	API_DEF_ENDPOINT_INFO_AUTH(
+		ZH_WORDS_GETTER("homework.submit"),
+		homeworkSubmit,
+		HomeworkJsonVO::Wrapper,
+		API_TAG
+	);
+
+	// 1.2 定义提交作业接口处理
+	API_HANDLER_ENDPOINT_AUTH(
+		API_M_POST,
+		"c1/homework/submit",
+		homeworkSubmit,
+		QUERY(UInt32, studentId),
+		execHomeworkSubmit(studentId)
+	);
+
+	// 2.1 定义删除作业接口描述
+	API_DEF_ENDPOINT_INFO_AUTH(
+		ZH_WORDS_GETTER("homework.delete"),
+		homeworkDelete,
+		HomeworkJsonVO::Wrapper,
+		API_TAG,
+		API_DEF_ADD_QUERY_PARAMS(UInt32, "homeworkId", ZH_WORDS_GETTER("homework.whichId"), 1, true);
+	);
+
+	// 2.2 定义删除作业接口处理
+	API_HANDLER_ENDPOINT_AUTH(
+		API_M_DEL,
+		"c1/homework/delete",
+		homeworkDelete,
+		QUERY(UInt32, homeworkId),
+		execHomeworkDelete(homeworkId)
+	);private: // 定义接口执行函数
 	HomeworkPageJsonVO::Wrapper execQueryPage(const HomeworkQuery::Wrapper& query);
 	HomeworkDetailJsonVO::Wrapper execQueryDetail(const UInt64& id);
+	HomeworkJsonVO::Wrapper execHomeworkSubmit(const UInt32& studentId);
+	HomeworkJsonVO::Wrapper execHomeworkDelete(const UInt32& homeworkId);
 };
 
 #include OATPP_CODEGEN_END(ApiController)

@@ -53,7 +53,49 @@ class HomeworkPageDTO : public PageDTO<HomeworkDTO::Wrapper>
 	DTO_INIT(HomeworkPageDTO, PageDTO<HomeworkDTO::Wrapper>);
 };
 
+/**
+ * 数据传输对象
+ * 提交作业
+ */
 
+class HomeworkSubmitDTO : public oatpp::DTO
+{
+	DTO_INIT(HomeworkSubmitDTO, DTO);
+	
+    // 学生ID,对应 student_id
+    API_DTO_FIELD_REQUIRE(UInt64, studentId, ZH_WORDS_GETTER("homework.record.student_id"), true);
+    // 作业ID,对应 homework_id
+    API_DTO_FIELD_REQUIRE(UInt64, homeworkId, ZH_WORDS_GETTER("homework.record.homework_id"), true);
+    // 编辑人
+    API_DTO_FIELD_REQUIRE(UInt64, editor, ZH_WORDS_GETTER("homework.editor"),true);
+    //作业内容,对应 homework表的 content
+    API_DTO_FIELD_DEFAULT(String, homework_content, ZH_WORDS_GETTER("homework.content"));
+    // 作业内容,对应 record表的 content
+    API_DTO_FIELD_REQUIRE(String, homework_record_content, ZH_WORDS_GETTER("homework.record.content"), true);
+    // 图片附件,对应 images 字段
+    API_DTO_FIELD_DEFAULT(String, images, ZH_WORDS_GETTER("homework.record.images"));
+
+};
+
+/**
+ * 删除重做
+ */
+class HomeworkDeleteDTO : public oatpp::DTO
+{
+	DTO_INIT(HomeworkDeleteDTO, DTO);
+
+    // homework表的主键
+    API_DTO_FIELD_REQUIRE(UInt64, recordId, ZH_WORDS_GETTER("homework.record.id"), true);
+    // 学生名
+    API_DTO_FIELD_REQUIRE(UInt64, studentId, ZH_WORDS_GETTER("homework.record.student_id"), true);
+    // 编辑人
+    API_DTO_FIELD_REQUIRE(UInt64, editor, ZH_WORDS_GETTER("homework.editor"),true);
+    // 新的作业内容
+    API_DTO_FIELD_DEFAULT(String, content, ZH_WORDS_GETTER("homework.record.content"));
+    // 新的图片附件
+    API_DTO_FIELD_DEFAULT(String, images, ZH_WORDS_GETTER("homework.record.images"));
+   
+};
 #include OATPP_CODEGEN_END(DTO)
 
 #endif // !_HOMEWORKDTO_H_

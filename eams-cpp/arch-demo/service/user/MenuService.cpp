@@ -2,7 +2,7 @@
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/08 21:19:14
+ @Date: 2025/07/31 16:41:04
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,20 +17,24 @@
  limitations under the License.
 */
 #include "stdafx.h"
-#include "homeworkcontroller.h"
-HomeworkPageJsonVO::Wrapper HomeworkController::execQueryPage(const HomeworkQuery::Wrapper& query)
-{
-	return {};
-}
+#include "MenuService.h"
+#include "dao/user/MenuDAO.h"
+#include "tree/TreeUtil.h"
+#include "TreeMenuMapper.h"
 
-HomeworkDetailJsonVO::Wrapper HomeworkController::execQueryDetail(const UInt64& id)
+oatpp::List<MenuDTO::Wrapper> MenuService::listMenu()
 {
-	return {};
-}
+	// 获取菜单数据
+	std::list<PtrMenuDO> listData = MenuDAO().selectAll();
 
-HomeworkJsonVO::Wrapper HomeworkController::execHomeworkSubmit(const UInt32& studentId){
-	return {};
-}
-HomeworkJsonVO::Wrapper HomeworkController::execHomeworkDelete(const UInt32& homeworkId){
-	return {};
+	// 转换为树形结构
+	std::list<shared_ptr<TreeNode>> res = TreeUtil::listToTree<PtrMenuDO>(listData, TreeMenuMapper());
+
+	// 将根节点存储到列表中
+	auto data = oatpp::List<MenuDTO::Wrapper>::createShared();
+	for (auto one : res)
+	{
+		data->push_back(MenuDTO::Wrapper(dynamic_pointer_cast<MenuDTO>(one), MenuDTO::Wrapper::Class::getType()));
+	}
+	return data;
 }
