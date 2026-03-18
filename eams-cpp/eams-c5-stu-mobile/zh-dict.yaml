@@ -6,7 +6,20 @@
 course:
  name1: 线性代数
  teachername1: 老师
-schedule:
+Timeable:
  tags:
   t1: 课表接口
+ field:
+  id: 主键ID
+  course_id: 所属课程ID
+  title: 章节标题
+  lesson_count: 计划课时数
+  creator: 创建人
+  editor: 编辑者
+  add_time: 添加时间
+  edit_time: 修改时间
+  deleted: 删除标记
+     
+
+    
       

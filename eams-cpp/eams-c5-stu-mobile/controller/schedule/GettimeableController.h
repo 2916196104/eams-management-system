@@ -11,7 +11,7 @@
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
-#define API_TAG ZH_WORDS_GETTER("schedule.tags.t1")
+#define API_TAG ZH_WORDS_GETTER("Timeable.tags.t1")
 
 class GettimeableController : public oatpp::web::server::api::ApiController {
 
@@ -37,12 +37,14 @@ public://定义接口
         //解析查询参数
         API_HANDLER_QUERY_PARAM(query,ScheduleTimeableQuery, params);
         //响应结果
-        API_HANDLER_RESP_VO(executequerygettimeable(query));
+         API_HANDLER_RESP_VO(executeQueryTest(query));
+        //API_HANDLER_RESP_VO(executequerygettimeable(query));
 
     }
     // TODO - more endpoints here
 private://定义接口执行函数
-    ScheduleTimeableJsonVO::Wrapper executequerygettimeable(const ScheduleTimeableQuery::Wrapper& query);
+    StringJsonVO::Wrapper executeQueryTest(const PageQuery::Wrapper& query);
+    //ScheduleTimeableJsonVO::Wrapper executequerygettimeable(const ScheduleTimeableQuery::Wrapper& query);
 };
 
 #undef API_TAG
