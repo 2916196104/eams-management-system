@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -26,10 +26,10 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * ¶¨ÒåÏÔÊ¾¶ÔÏó
+ * å®šä¹‰æ˜¾ç¤ºå¯¹è±¡
  */
 
-//Í¨Öª¹«¸æ¶ÔÏó
+//é€šçŸ¥å…¬å‘Šå¯¹è±¡
 class titleJsonVO : public JsonVO<titleDTO::Wrapper>
 {
 	DTO_INIT(titleJsonVO, JsonVO<titleDTO::Wrapper>);

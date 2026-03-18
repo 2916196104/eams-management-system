@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #ifndef _BULLETINCONTROLLER_H_
 #define _BULLETINCONTROLLER_H_
 
@@ -13,59 +13,59 @@
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
-//¶¨Òå½Ó¿ÚÄ£¿é±êÇ©
+//å®šä¹‰æ¥å£æ¨¡å—æ ‡ç­¾
 #define BULLETIN_TAG ZH_WORDS_GETTER("bulletin.tag")
 
-//¹«¹²Ä£¿é¿ØÖÆÆ÷
+//å…¬å…±æ¨¡å—æ§åˆ¶å™¨
 class bulletinController : public oatpp::web::server::api::ApiController
 {
-	// ¶¨Òå¿ØÖÆÆ÷·ÃÎÊÈë¿Ú
+	// å®šä¹‰æ§åˆ¶å™¨è®¿é—®å…¥å£
 	API_ACCESS_DECLARE(bulletinController);
-public: // ¶¨Òå½Ó¿Ú
+public: // å®šä¹‰æ¥å£
 
-	//1.1 ¶¨Òå»ñÈ¡ÏÔÊ¾Í¨Öª¹«¸æ½Ó¿ÚÃèÊö
+	//1.1 å®šä¹‰è·å–æ˜¾ç¤ºé€šçŸ¥å…¬å‘Šæ¥å£æè¿°
 	API_DEF_ENDPOINT_INFO_AUTH(
 		ZH_WORDS_GETTER("bulletin.query-title.summary"), qureyTitle, titleJsonVO::Wrapper, BULLETIN_TAG
 	);
 
-	//1.2 ¶¨Òå»ñÈ¡ÏÔÊ¾Í¨Öª¹«¸æ½Ó¿Ú´¦Àí
+	//1.2 å®šä¹‰è·å–æ˜¾ç¤ºé€šçŸ¥å…¬å‘Šæ¥å£å¤„ç†
 	ENDPOINT(API_M_GET, "/app/sCenter/advertisement", qureyTitle, API_HANDLER_AUTH_PARAME) {
-		// ÏìÓ¦½á¹û
+		// å“åº”ç»“æœ
 		API_HANDLER_RESP_VO(executeQueryTitle());
 	}
 
-	// 2.1 ¶¨Òå»ñÈ¡ËùÓĞ¹«¸æ£¨·ÖÒ³£©½Ó¿ÚÃèÊö
+	// 2.1 å®šä¹‰è·å–æ‰€æœ‰å…¬å‘Šï¼ˆåˆ†é¡µï¼‰æ¥å£æè¿°
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(
 		ZH_WORDS_GETTER("bulletin.query-list.summary"), queryList, listQuery, listPageJsonVO::Wrapper, BULLETIN_TAG
 	);
 
-	// 2.2 ¶¨Òå»ñÈ¡ËùÓĞ¹«¸æ£¨·ÖÒ³£©½Ó¿Ú´¦Àí
+	// 2.2 å®šä¹‰è·å–æ‰€æœ‰å…¬å‘Šï¼ˆåˆ†é¡µï¼‰æ¥å£å¤„ç†
 	ENDPOINT(API_M_GET, "/app/sCenter/advertisementList", queryList, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
-		// ½âÎö²éÑ¯²ÎÊı
+		// è§£ææŸ¥è¯¢å‚æ•°
 		API_HANDLER_QUERY_PARAM(query, listQuery, params);
-		// ÏìÓ¦½á¹û
+		// å“åº”ç»“æœ
 		API_HANDLER_RESP_VO(executeQueryList(query));
 	}
 
-	// 3.1 ¶¨Òå»ñÈ¡Ğ¡ºìµãÌáĞÑ½Ó¿ÚÃèÊö
+	// 3.1 å®šä¹‰è·å–å°çº¢ç‚¹æé†’æ¥å£æè¿°
 	API_DEF_ENDPOINT_INFO_AUTH(
 		ZH_WORDS_GETTER("bulletin.query-red.summary"), qureyRed, redJsonVO::Wrapper, BULLETIN_TAG,
 		);
-	// 3.2 ¶¨Òå»ñÈ¡Ğ¡ºìµãÌáĞÑ½Ó¿Ú´¦Àí
+	// 3.2 å®šä¹‰è·å–å°çº¢ç‚¹æé†’æ¥å£å¤„ç†
 	ENDPOINT(API_M_GET, "/app/sCenter/student/redpoint", qureyRed, API_HANDLER_AUTH_PARAME) {
-		// ÏìÓ¦½á¹û
+		// å“åº”ç»“æœ
 		API_HANDLER_RESP_VO(executeQueryRed());
 	}
 
-private: // ¶¨Òå½Ó¿ÚÖ´ĞĞº¯Êı
+private: // å®šä¹‰æ¥å£æ‰§è¡Œå‡½æ•°
 
-	//1 »ñÈ¡ÏÔÊ¾Í¨Öª¹«¸æ
+	//1 è·å–æ˜¾ç¤ºé€šçŸ¥å…¬å‘Š
 	titleJsonVO::Wrapper executeQueryTitle();
 
-	//2 »ñÈ¡ËùÓĞ¹«¸æ£¨·ÖÒ³£©
+	//2 è·å–æ‰€æœ‰å…¬å‘Šï¼ˆåˆ†é¡µï¼‰
 	listPageJsonVO::Wrapper executeQueryList(const PageQuery::Wrapper& query);
 
-	// 3 »ñÈ¡ºìµã
+	// 3 è·å–çº¢ç‚¹
 	redJsonVO::Wrapper executeQueryRed();
 };
 

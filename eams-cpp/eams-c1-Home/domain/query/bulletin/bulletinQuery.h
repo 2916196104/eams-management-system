@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -26,7 +26,7 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * ¶¨Òå²éÑ¯Àà
+ * å®šä¹‰æŸ¥è¯¢ç±»
  */
 class listQuery : public PageQuery
 {

@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
@@ -18,7 +18,7 @@
 */
 #include "stdafx.h"
 #include "bulletinController.h"
-//ʵ�ֽӿ�ִ�к���
+//实现接口执行函数
 
 
 titleJsonVO::Wrapper bulletinController::executeQueryTitle()

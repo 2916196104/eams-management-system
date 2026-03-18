@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -23,40 +23,40 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * ¹«¸æÌáĞÑÊı¾İ´«Êä¶ÔÏó
+ * å…¬å‘Šæé†’æ•°æ®ä¼ è¾“å¯¹è±¡
  */
 
- // »ñÈ¡ÏÔÊ¾Í¨Öª¹«¸æ
+ // è·å–æ˜¾ç¤ºé€šçŸ¥å…¬å‘Š
 class titleDTO : public oatpp::DTO
 {
 	DTO_INIT(titleDTO, DTO);
-	// Ìí¼ÓÊ±¼ä
+	// æ·»åŠ æ—¶é—´
 	API_DTO_FIELD_DEFAULT(String, addTime, ZH_WORDS_GETTER("home.bulletin.field.add_time"));
-	// ±à¼­Ê±¼ä
+	// ç¼–è¾‘æ—¶é—´
 	API_DTO_FIELD_DEFAULT(String, editTime, ZH_WORDS_GETTER("bulletin.field.edit_time"));
-	// ´´½¨Õß
+	// åˆ›å»ºè€…
 	API_DTO_FIELD_DEFAULT(Int64, creator, ZH_WORDS_GETTER("bulletin.field.creator"));
-	// ±à¼­Õß
+	// ç¼–è¾‘è€…
 	API_DTO_FIELD_DEFAULT(Int64, editor, ZH_WORDS_GETTER("bulletin.field.editor"));
-	// Âß¼­É¾³ı±êÊ¶
+	// é€»è¾‘åˆ é™¤æ ‡è¯†
 	API_DTO_FIELD_DEFAULT(Int8, deleted, ZH_WORDS_GETTER("bulletin.field.deleted"));
-	// Ö÷¼üID
+	// ä¸»é”®ID
 	API_DTO_FIELD_DEFAULT(Int64, id, ZH_WORDS_GETTER("bulletin.field.id"));
-	// ±êÌâ
+	// æ ‡é¢˜
 	API_DTO_FIELD_DEFAULT(String, title, ZH_WORDS_GETTER("bulletin.field.title"));
-	// ·âÃæÍ¼
+	// å°é¢å›¾
 	API_DTO_FIELD_DEFAULT(String, cover, ZH_WORDS_GETTER("bulletin.field.cover"));
-	// ÄÚÈİ
+	// å†…å®¹
 	API_DTO_FIELD_DEFAULT(String, content, ZH_WORDS_GETTER("bulletin.field.content"));
-	// ¹ã¸æÀàĞÍ
+	// å¹¿å‘Šç±»å‹
 	API_DTO_FIELD_DEFAULT(Int8, type, ZH_WORDS_GETTER("bulletin.field.type"));
-	// ×´Ì¬
+	// çŠ¶æ€
 	API_DTO_FIELD_DEFAULT(Int8, state, ZH_WORDS_GETTER("bulletin.field.state"));
-	// ÅÅĞòºÅ
+	// æ’åºå·
 	API_DTO_FIELD_DEFAULT(Int32, sortNum, ZH_WORDS_GETTER("bulletin.field.sort_num"));
 };
 
-//»ñÈ¡ËùÓĞ¹«¸æ£¨·ÖÒ³£©
+//è·å–æ‰€æœ‰å…¬å‘Šï¼ˆåˆ†é¡µï¼‰
 //class  listDTO : public titleDTO
 //{
 //	DTO_INIT(listDTO, titleDTO);
@@ -67,15 +67,15 @@ class listPageDTO : public PageDTO<titleDTO::Wrapper>
 	DTO_INIT(listPageDTO, PageDTO<titleDTO::Wrapper>);
 };
 
-// »ñÈ¡ÏÔÊ¾Í¨Öª¹«¸æ
+// è·å–æ˜¾ç¤ºé€šçŸ¥å…¬å‘Š
 class redDTO : public oatpp::DTO
 {
 	DTO_INIT(redDTO, DTO);
-	// ³É¼¨Î´¶ÁÊı
+	// æˆç»©æœªè¯»æ•°
 	API_DTO_FIELD_DEFAULT(Int32, grade_count, ZH_WORDS_GETTER("bulletin.field.grade_count"));
-	// µãÆÀ¼ÇÂ¼Î´¶ÁÊı
+	// ç‚¹è¯„è®°å½•æœªè¯»æ•°
 	API_DTO_FIELD_DEFAULT(Int32, evaluate_count, ZH_WORDS_GETTER("bulletin.field.evaluate_count"));
-	// ×÷ÒµÎ´¶ÁÊı
+	// ä½œä¸šæœªè¯»æ•°
 	API_DTO_FIELD_DEFAULT(Int32, homework_count, ZH_WORDS_GETTER("bulletin.field.homework_count"));
 };
 
