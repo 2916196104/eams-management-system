@@ -6,7 +6,7 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/* Timetable-related business DTO classes */
+// Timetable-related business DTO classes
 class TimetableDTO : public oatpp::DTO
 {
 	DTO_INIT(TimetableDTO, DTO)

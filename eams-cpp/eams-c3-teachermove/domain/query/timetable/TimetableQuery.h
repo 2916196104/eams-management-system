@@ -6,7 +6,7 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/* Timetable query parameters */
+// Timetable query parameters
 class TimetableQuery : public oatpp::DTO
 {
 	DTO_INIT(TimetableQuery, DTO)
