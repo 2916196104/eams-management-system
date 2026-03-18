@@ -11,6 +11,7 @@
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
 
+
 class Record_name : public oatpp::web::server::api::ApiController
 {
 	// Define controller access entry

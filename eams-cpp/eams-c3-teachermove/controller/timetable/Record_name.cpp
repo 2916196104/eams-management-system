@@ -15,6 +15,7 @@ TimetableStudentPageJsonVO::Wrapper Record_name::execGetStuList(const StuListQue
 	pages->total = 2; // Simulate a total of 2 records
 	pages->calcPages(); // Calculate pagination data such as total pages
 
+
 	// 3. Generate mock data 1
 	auto stu1 = TimetableStudentDTO::createShared();
 	stu1->id = "10001";

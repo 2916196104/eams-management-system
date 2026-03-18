@@ -6,11 +6,12 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/* Timetable-related business DTO classes */
+// Timetable-related business DTO classes
 class TimetableDTO : public oatpp::DTO
 {
 	DTO_INIT(TimetableDTO, DTO)
 };
+
 
 // --- 1. Student list (with conditions + pagination) - response list item DTO ---
 class TimetableStudentDTO : public oatpp::DTO {
