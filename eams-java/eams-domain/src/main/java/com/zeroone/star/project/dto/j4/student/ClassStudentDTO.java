@@ -4,24 +4,15 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * <p>
- * 描述：班级学员关系操作DTO (加入/退出)
+ * 描述：班级学员关系操作DTO (加入班级)
+ * 对应原型图：【给班级添加学员】弹窗
  */
 @Data
 public class ClassStudentDTO {
 
-    @ApiModelProperty(value = "班级ID", required = true, example = "2008418408985583620")
+    @ApiModelProperty(value = "班级 ID (必选)", required = true, example = "2008418408985583620")
     private Long classId;
 
-    @ApiModelProperty(value = "学生ID", required = true, example = "2008418408985583617")
+    @ApiModelProperty(value = "学生 ID", notes = "通常从当前登录用户上下文自动获取，若为管理员代操作则需传入", example = "2008418408985583617", required = false)
     private Long studentId;
-
-    @ApiModelProperty(value = "加入原因 (1:正常入学 2:转班 3:补录 其他:自定义)", example = "1")
-    private Integer reason;
-
-    @ApiModelProperty(value = "备注信息", example = "从Python班转入")
-    private String remark;
-
-    @ApiModelProperty(value = "默认消费课程ID", required = true, example = "1001")
-    private Long consumeCourseId;
 }
