@@ -1,7 +1,7 @@
 #ifndef _BACKHOMEWORKDTO_H_
 #define _BACKHOMEWORKDTO_H_
 
-#include "domain/GlobalInclude.h"
+#include "../../GlobalInclude.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
@@ -20,9 +20,9 @@ class GetHomeworkDetailDTO : public oatpp::DTO
 };
 
 //±£´æ×÷Òµ
-class GetHomeworkDetailDTO : public oatpp::DTO
+class SaveHomeworkDTO : public oatpp::DTO
 {
-	DTO_INIT(GetHomeworkDetailDTO, oatpp::DTO);
+	DTO_INIT(SaveHomeworkDTO, oatpp::DTO);
 };
 
 

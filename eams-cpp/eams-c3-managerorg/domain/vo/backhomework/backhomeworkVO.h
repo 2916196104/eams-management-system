@@ -1,25 +1,27 @@
-#ifndef __BACKHOMEWORK_QUERY_H__
-#define __BACKHOMEWORK_QUERY_H__
+#ifndef __BACKHOMEWORKVO_H__
+#define __BACKHOMEWORKVO_H__
 
-#include "domain/GlobalInclude.h"
+#include "../../GlobalInclude.h"
+#include "../../dto/backhomework/backhomeworkDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
+
 
 /*课后作业视图类*/
 
 //获取作业列表（条件+分页）
-class GetHomeworkListJsonVO : public JsonVO<HomeworkDTO::Wrapper>{
-	DTO_INIT(GetHomeworkListJsonVO, JsonVO<HomeworkDTO::Wrapper>)
+class GetHomeworkListJsonVO : public JsonVO<GetHomeworkListDTO::Wrapper> {
+    DTO_INIT(GetHomeworkListJsonVO, JsonVO<GetHomeworkListDTO::Wrapper>)
 };
 
 //获取作业详情
-class GetHomeworkDetailJsonVO : public JsonVO<HomeworkDTO::Wrapper> {
-    DTO_INIT(GetHomeworkDetailJsonVO, JsonVO<HomeworkDTO::Wrapper>);
+class GetHomeworkDetailJsonVO : public JsonVO<GetHomeworkDetailDTO::Wrapper> {
+    DTO_INIT(GetHomeworkDetailJsonVO, JsonVO<GetHomeworkDetailDTO::Wrapper>);
 };
 
 //保存作业
-class SaveHomeworkJsonVO : public JsonVO<HomeworkDTO::Wrapper> {
-    DTO_INIT(SaveHomeworkJsonVO, JsonVO<HomeworkDTO::Wrapper>);
+class SaveHomeworkJsonVO : public JsonVO<GetHomeworkDetailDTO::Wrapper> {
+    DTO_INIT(SaveHomeworkJsonVO, JsonVO<GetHomeworkDetailDTO::Wrapper>);
 };
 
 #include OATPP_CODEGEN_END(DTO)

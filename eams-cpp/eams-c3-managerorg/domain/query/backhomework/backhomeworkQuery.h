@@ -2,13 +2,14 @@
 #define __BACKHOMEWORK_QUERY_H__
 
 #include "domain/GlobalInclude.h"
+#include "domain/query/PageQuery.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /*课后作业查询类*/
 
 //获取作业列表（条件+分页）
-class GetHomeworkListQuery : public PageQuery{
+class GetHomeworkListQuery : public PageQuery {
 	DTO_INIT(GetHomeworkListQuery, PageQuery);
 
 };
