@@ -1,93 +1,88 @@
 package com.zeroone.star.project.vo.j8.stumanager;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import com.zeroone.star.project.eums.FamilyRelationshipEnum;
-import com.zeroone.star.project.eums.GenderEnum;
-import com.zeroone.star.project.eums.StudentStageEnum;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
+@ApiModel(value = "StudentVO", description = "学员信息展示对象")
 public class StudentVO {
-    @ApiModelProperty(value = "主键")
+
+    @ApiModelProperty(value = "学员ID", example = "10001")
     private Long id;
-    @ApiModelProperty(value = "姓名")
+
+    @ApiModelProperty(value = "关联用户ID", example = "20001")
+    private Long userId;
+
+    @ApiModelProperty(value = "家庭关系", example = "父亲")
+    private String familyRel;
+
+    @ApiModelProperty(value = "是否默认 0-否 1-是", example = "1")
+    private Integer asDefault;
+
+    @ApiModelProperty(value = "学校ID", example = "3001")
+    private Long schoolId;
+
+    @ApiModelProperty(value = "学员姓名", example = "张三")
     private String name;
-    @ApiModelProperty(value = "亲属名")
-    private String parentName;
-    @ApiModelProperty(value = "学校名")
-    private String schoolName;
-    @ApiModelProperty(value = "家庭关系")
-    private FamilyRelationshipEnum familyRel;
-    @ApiModelProperty(value = "手机号")
-    private String mobile;
-    @ApiModelProperty(value = "阶段")
-    private StudentStageEnum stage;
-    @ApiModelProperty(value = "年龄")
-    private Integer age;
-    @ApiModelProperty(value = "性别")
-    private GenderEnum gender;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+
+    @ApiModelProperty(value = "阶段/年级", example = "高中三年级")
+    private String stage;
+
+    @ApiModelProperty(value = "性别 0-女 1-男", example = "1")
+    private Integer gender;
+
+    @ApiModelProperty(value = "出生日期", example = "2005-10-01")
     private LocalDate birthday;
+
+    @ApiModelProperty(value = "头像地址", example = "https://xxx.com/head.jpg")
     private String headImg;
-    @ApiModelProperty(value = "身份证号")
-    private String idcard;
-    @ApiModelProperty(value = "客户来源")
-    private Long joinWay;
-    @ApiModelProperty(value = "客户来源名称")
-    private String joinWayName;
-    @ApiModelProperty(value = "备注")
+
+    @ApiModelProperty(value = "入学方式", example = "统招")
+    private String joinWay;
+
+    @ApiModelProperty(value = "备注信息", example = "优秀学员")
     private String remark;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+
+    @ApiModelProperty(value = "毕业日期", example = "2025-06-15")
     private LocalDate graduationDate;
-    @ApiModelProperty(value = "毕业原因")
+
+    @ApiModelProperty(value = "毕业原因", example = "正常毕业")
     private String graduationReason;
-    @ApiModelProperty(value = "顾问姓名")
-    private String counselorName;
-    @ApiModelProperty(value = "添加时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+
+    @ApiModelProperty(value = "创建时间", example = "2025-01-01 12:00:00")
     private LocalDateTime addTime;
-    @ApiModelProperty(value = "最新跟进记录时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime contactTime;
-    @ApiModelProperty(value = "下次联系时间")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime contactNextTime;
-    @ApiModelProperty(value = "联系信息")
-    private String contactInfo;
-    // 剩余课次 当参数里有班级id的时候有只返回班级关联的课程数 todo
-    @ApiModelProperty(value = "剩余课次数")
-    private Integer countLessonRemaining;
 
-//    public Integer getAge() {
-//        return DateTool.getAgeByBirthday(this.getBirthday());
-//    }
+    @ApiModelProperty(value = "辅导员", example = "李老师")
+    private String counselor;
 
-    @ApiModelProperty(value = "课次少提醒标记")
-    private Boolean warning;
+    @ApiModelProperty(value = "身份证号", example = "430123200510011234")
+    private String idcard;
 
-    @ApiModelProperty(value = "入学年份")
-    private Integer grade;
+    @ApiModelProperty(value = "红点等级", example = "A级")
+    private String redpointGrade;
 
-    @ApiModelProperty(value = "入学时间")
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @ApiModelProperty(value = "红点评价", example = "表现优异")
+    private String redpointEvaluate;
+
+    @ApiModelProperty(value = "班级名称", example = "高三1班")
+    private String grade;
+
+    @ApiModelProperty(value = "入学日期", example = "2022-09-01")
     private LocalDate joinDate;
 
-    @ApiModelProperty(value = "当前积分")
-    private Integer credit;
+    @ApiModelProperty(value = "微信唯一标识", example = "o6_bmjrPTlm6_2sgVt7hMZOPfL2M")
+    private String wxAccessId;
 
-    @ApiModelProperty(value = "试听卡数量")
-    private Integer countCourseTrial;
+    @ApiModelProperty(value = "学分", example = "95.5")
+    private BigDecimal credit;
 
-    @ApiModelProperty(value = "年级")
+    @ApiModelProperty(value = "机构ID", example = "5001")
+    private Long orgId;
+
+    @ApiModelProperty(value = "班级ID", example = "6001")
     private Long gradeId;
-
-    private String gradeName;
-
-    public Boolean getWarning() {
-        return countLessonRemaining == null ? null : countLessonRemaining <= 5;
-    }
 }

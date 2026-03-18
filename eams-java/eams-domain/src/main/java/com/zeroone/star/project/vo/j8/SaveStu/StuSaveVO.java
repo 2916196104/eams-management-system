@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.Year;
 
 @Data
 @ApiModel("学员信息VO")
@@ -41,7 +42,7 @@ public class StuSaveVO {
     private LocalDate joinDate;
 
     @ApiModelProperty(value = "年级")
-    private String grade;
+    private Year grade;
 
     @ApiModelProperty(value = "学员阶段")
     private Integer stage;
