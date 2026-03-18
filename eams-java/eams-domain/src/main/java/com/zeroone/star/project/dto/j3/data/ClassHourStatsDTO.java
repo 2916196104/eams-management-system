@@ -1,4 +1,4 @@
-package com.zeroone.star.project.dto.j3.teachingstats;
+package com.zeroone.star.project.dto.j3.data;
 
 
 import io.swagger.annotations.ApiModelProperty;

@@ -1,4 +1,4 @@
-package com.zeroone.star.project.query.j3.teachingstats;
+package com.zeroone.star.project.query.j3.data;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
