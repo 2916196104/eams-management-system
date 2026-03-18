@@ -51,7 +51,7 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(exchangeController);
 	ROUTER_SIMPLE_BIND(classController);
 	ROUTER_SIMPLE_BIND(RegistrationRecodeController);
-	ROUTER_SIMPLE_BIND(ScoreController);	// 查询成绩接口控制器的路由绑定
+	ROUTER_SIMPLE_BIND(ScoreController);
 	ROUTER_SIMPLE_BIND(cardController);
 	ROUTER_SIMPLE_BIND(HomeworkController);
 }

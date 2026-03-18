@@ -34,29 +34,29 @@ class cardDTO : public oatpp::DTO {
     DTO_INIT(cardDTO, DTO);
 
     // 主键ID
-    API_DTO_FIELD_DEFAULT(UInt64, id, ZH_WORDS_GETTER("home.listening-card.field.id"));
+    API_DTO_FIELD_DEFAULT(UInt64, id, ZH_WORDS_GETTER("listening-card.field.id"));
     // 课程ID
-    API_DTO_FIELD_DEFAULT(UInt64, courseId, ZH_WORDS_GETTER("home.listening-card.field.courseId"));
+    API_DTO_FIELD_DEFAULT(UInt64, courseId, ZH_WORDS_GETTER("listening-card.field.courseId"));
     // 课程名称
-	API_DTO_FIELD_DEFAULT(String, courseName, ZH_WORDS_GETTER("home.listening-card.field.courseName"));
+	API_DTO_FIELD_DEFAULT(String, courseName, ZH_WORDS_GETTER("listening-card.field.courseName"));
     // 体验卡名称
-    API_DTO_FIELD_DEFAULT(String, title, ZH_WORDS_GETTER("home.listening-card.field.title"));
+    API_DTO_FIELD_DEFAULT(String, title, ZH_WORDS_GETTER("listening-card.field.title"));
     // 发行数量
-    API_DTO_FIELD_DEFAULT(Int32, quantity, ZH_WORDS_GETTER("home.listening-card.field.quantity"));
+    API_DTO_FIELD_DEFAULT(Int32, quantity, ZH_WORDS_GETTER("listening-card.field.quantity"));
     // 剩余数量
-    API_DTO_FIELD_DEFAULT(Int32, remainingQuantity, ZH_WORDS_GETTER("home.listening-card.field.remainingQuantity"));
+    API_DTO_FIELD_DEFAULT(Int32, remainingQuantity, ZH_WORDS_GETTER("listening-card.field.remainingQuantity"));
     // 课时数
-    API_DTO_FIELD_DEFAULT(UInt32, lessonCount, ZH_WORDS_GETTER("home.listening-card.field.lessonCount"));
+    API_DTO_FIELD_DEFAULT(UInt32, lessonCount, ZH_WORDS_GETTER("listening-card.field.lessonCount"));
     // 领取后有效天数
-    API_DTO_FIELD_DEFAULT(Int32, expireDays, ZH_WORDS_GETTER("home.listening-card.field.expireDays"));
+    API_DTO_FIELD_DEFAULT(Int32, expireDays, ZH_WORDS_GETTER("listening-card.field.expireDays"));
     // 发行结束日期
-    API_DTO_FIELD_DEFAULT(String, endDate, ZH_WORDS_GETTER("home.listening-card.field.endDate"));
+    API_DTO_FIELD_DEFAULT(String, endDate, ZH_WORDS_GETTER("listening-card.field.endDate"));
     // 启用状态（1：启用，0：禁用）
-    API_DTO_FIELD_DEFAULT(Int8, state, ZH_WORDS_GETTER("home.listening-card.field.state"));
+    API_DTO_FIELD_DEFAULT(Int8, state, ZH_WORDS_GETTER("listening-card.field.state"));
     // 创建人
-    API_DTO_FIELD_DEFAULT(Int64, creator, ZH_WORDS_GETTER("home.listening-card.field.creator"));
+    API_DTO_FIELD_DEFAULT(Int64, creator, ZH_WORDS_GETTER("listening-card.field.creator"));
     // 编辑人
-    API_DTO_FIELD_DEFAULT(Int64, editor, ZH_WORDS_GETTER("home.listening-card.field.editor"));
+    API_DTO_FIELD_DEFAULT(Int64, editor, ZH_WORDS_GETTER("listening-card.field.editor"));
 };
 
 /**
@@ -65,9 +65,9 @@ class cardDTO : public oatpp::DTO {
 class cardRuleDTO : public oatpp::DTO {
     DTO_INIT(cardRuleDTO, DTO);
     // 规则内容（一段文字）
-    API_DTO_FIELD_DEFAULT(String, content, ZH_WORDS_GETTER("home.listening-card.field.ruleContent"));
+    API_DTO_FIELD_DEFAULT(String, content, ZH_WORDS_GETTER("listening-card.field.ruleContent"));
     // 规则描述
-    API_DTO_FIELD_DEFAULT(String, description, ZH_WORDS_GETTER("home.listening-card.field.ruleDescription"));
+    API_DTO_FIELD_DEFAULT(String, description, ZH_WORDS_GETTER("listening-card.field.ruleDescription"));
 };
 
 /**

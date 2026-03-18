@@ -26,12 +26,12 @@
 
 /**
  * 班级列表显示对象
- */
+ 
 class classListJsonVO : public JsonVO<ClassListDTO::Wrapper>
 {
 	DTO_INIT(classListJsonVO, JsonVO<ClassListDTO::Wrapper>);
 };
-
+*/
 /*
 * 班级分页显示对象
 */

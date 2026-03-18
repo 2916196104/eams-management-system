@@ -30,7 +30,7 @@
 
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
-#define API_TAG ZH_WORDS_GETTER("home.listening-card.tag")
+#define API_TAG ZH_WORDS_GETTER("listening-card.tag")
 
 //试听卡模块控制器
 class cardController : public oatpp::web::server::api::ApiController
@@ -39,12 +39,12 @@ class cardController : public oatpp::web::server::api::ApiController
 	API_ACCESS_DECLARE(cardController);
 
 	// 定义获取试听卡接口描述
-	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("home.listening-card.get.list"), cardQuery,cardListJsonVO::Wrapper, API_TAG);
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("listening-card.get.list"), cardQuery,cardListJsonVO::Wrapper, API_TAG);
 	// 定义获取试听卡接口端点
 	API_HANDLER_ENDPOINT_NOPARAM_AUTH(API_M_GET, "/c1/home/card-list", cardQuery, executeCardListQuery());
 
 	// 定义获取试听卡规则接口描述
-	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("home.listening-card.get.rule"), cardRuleQuery, cardRuleJsonVO::Wrapper, API_TAG);
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("listening-card.get.rule"), cardRuleQuery, cardRuleJsonVO::Wrapper, API_TAG);
 	// 定义获取试听卡规则接口端点
 	API_HANDLER_ENDPOINT_NOPARAM_AUTH(API_M_GET, "/c1/home/card-rule", cardRuleQuery, executeCardRuleQuery());
 

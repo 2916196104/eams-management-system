@@ -31,7 +31,7 @@
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
-#define API_TAG ZH_WORDS_GETTER("goods.tag")
+#define API_TAG ZH_WORDS_GETTER("exchange.tag")
 
 //积分兑换模块控制器
 class exchangeController : public oatpp::web::server::api::ApiController
