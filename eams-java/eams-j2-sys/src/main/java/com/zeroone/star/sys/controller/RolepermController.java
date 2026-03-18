@@ -27,32 +27,36 @@ import java.util.List;
 @RequestMapping("/sys/roleperm")
 @Api(tags = "角色与权限")
 public class RolepermController implements RolepermApis {
-    @DeleteMapping
-    @ApiOperation("删除角色")
+
+
     @Override
+    @ApiOperation("获取角色名称列表")
+    @GetMapping("/nameList")
+    public JsonVO<List<RolepermDTO>> getNameList(RolepermQuery query) {
+        return null;
+    }
+
+    @Override
+    @GetMapping("/page")
+    @ApiOperation("获取角色分页列表")
+    public JsonVO<List<RolepermDTO>> getPage(RolepermQuery query) {
+        return null;
+    }
+
+    @Override
+    @PostMapping("/save")
+    @ApiOperation("保存角色")
+    public JsonVO<RolepermDTO> saveRole(RolepermDTO dto) {
+        return null;
+    }
+
+    @Override
+    @DeleteMapping("/{id}")
+    @ApiOperation("删除角色")
     public JsonVO<PageDTO<RolepermDTO>> removeRoleperm(RolepermQuery query) {
         return null;
     }
 
-    @GetMapping
-    @ApiOperation("获取角色员工列表（条件+分页）")
-    @Override
-    public JsonVO<PageDTO<RolepermStaffDTO>> queryListRolepermStaff(RolepermStaffQuery query) {
-        return null;
-    }
-    @PostMapping
-    @ApiOperation("给角色添加员工")
-    @Override
-    public JsonVO<String> addRolepermStaff(RolepermStaffDTO rolepermStaffDTO) {
-        return null;
-    }
-
-    @DeleteMapping("/{id}")
-    @ApiOperation("从角色移除员工")
-    @Override
-    public JsonVO<String> removeRolepermStaff(String id) {
-        return null;
-    }
 
     @Override
     @ApiModelProperty("获取可分配的权限")
@@ -74,6 +78,26 @@ public class RolepermController implements RolepermApis {
     public JsonVO<Long> savePermission(
             @PathVariable @ApiParam(value = "角色ID", required = true) String roleId,
             @RequestBody List<PermissionDTO> list) {
+        return null;
+    }
+    @Override
+    @GetMapping
+    @ApiOperation("获取角色员工列表（条件+分页）")
+    public JsonVO<PageDTO<RolepermStaffDTO>> queryListRolepermStaff(RolepermStaffQuery query) {
+        return null;
+    }
+
+    @Override
+    @PostMapping
+    @ApiOperation("给角色添加员工")
+    public JsonVO<String> addRolepermStaff(RolepermStaffDTO rolepermStaffDTO) {
+        return null;
+    }
+
+    @Override
+    @DeleteMapping("/{id}")
+    @ApiOperation("从角色移除员工")
+    public JsonVO<String> removeRolepermStaff(String id) {
         return null;
     }
 }

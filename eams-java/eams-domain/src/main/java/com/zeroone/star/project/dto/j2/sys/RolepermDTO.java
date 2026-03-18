@@ -11,6 +11,8 @@ import lombok.Data;
  */
 @Data
 public class RolepermDTO {
+    @ApiModelProperty(value = "角色ID")
+    private Long id;
     @ApiModelProperty(value = "角色名",example = "超级管理员")
     private String name;
     @ApiModelProperty(value = "编码",example = "superadmin")
