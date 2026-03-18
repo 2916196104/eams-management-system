@@ -14,8 +14,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @author 阿伟学长
  * @version 1.0.0
  */
-@SpringBootApplication
 @EnableDiscoveryClient
+@SpringBootApplication
 @EnableFeignClients
 public class StumanagerApplication {
 
