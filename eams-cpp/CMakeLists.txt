@@ -1,4 +1,4 @@
-﻿# CMakeList.txt: 顶层 CMake 项目文件，在此处执行全局配置
+# CMakeList.txt: 顶层 CMake 项目文件，在此处执行全局配置
 # 并包含子项目。
 #
 cmake_minimum_required (VERSION 3.8)
@@ -166,5 +166,3 @@ endif()
 # 在后面添加你的模块
 add_subdirectory("eams-c3-teachermove")
 add_subdirectory("eams-c3-managerorg")
-
-add_subdirectory("c3-GradeManage")

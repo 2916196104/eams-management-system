@@ -4,18 +4,19 @@
 #ifndef __GRADETABLE_H__
 #define __GRADETABLE_H__
 #include "oatpp/web/server/api/ApiController.hpp"
+#include "domain/GlobalInclude.h"
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
-/*³É¼¨µ¥¿ØÖÆÆ÷*/
+/*æˆç»©å•æ§åˆ¶å™¨*/
 
 
 class GradeTable: public oatpp::web::server::api::ApiController
 {
-	//¶¨Òå¿ØÖÆÆ÷·ÃÎÊÈë¿Ú
+	//å®šä¹‰æ§åˆ¶å™¨è®¿é—®å…¥å£
 	API_ACCESS_DECLARE(GradeTable);
-public:		//¶¨Òå½Ó¿Ú
+public:		//å®šä¹‰æ¥å£
 
-private:	//¶¨Òå½Ó¿ÚÖ´ĞĞº¯Êı
+private:	//å®šä¹‰æ¥å£æ‰§è¡Œå‡½æ•°
 
 };
 

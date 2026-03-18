@@ -1,10 +1,10 @@
-﻿# CMakeList.txt: emas-c3-managermove 的 CMake 项目，在此处包括源代码并定义
+# CMakeList.txt: emas-c3-managermove 的 CMake 项目，在此处包括源代码并定义
 # 项目特定的逻辑。
 #
 cmake_minimum_required (VERSION 3.8)
 
 # 设置文件名称
-set (appName emas-c3-managerorg)
+set (appName eams-c3-managerorg)
 
 # 包含库目录
 include_directories ("./")

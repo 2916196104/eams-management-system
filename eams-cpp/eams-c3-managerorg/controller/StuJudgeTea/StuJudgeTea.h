@@ -4,19 +4,20 @@
 #ifndef __STUJUDGETEA_H__
 #define __STUJUDGETEA_H__
 #include "oatpp/web/server/api/ApiController.hpp"
+#include "domain/GlobalInclude.h"
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
 
-/*Ñ§ÆÀ½Ì¿ØÖÆÆ÷*/
+/*å­¦è¯„æ•™æ§åˆ¶å™¨*/
 
 
 class StuJudgeTea: public oatpp::web::server::api::ApiController
 {
-	//¶¨Òå¿ØÖÆÆ÷·ÃÎÊÈë¿Ú
+	//å®šä¹‰æ§åˆ¶å™¨è®¿é—®å…¥å£
 	API_ACCESS_DECLARE(StuJudgeTea);
-public:		//¶¨Òå½Ó¿Ú
+public:		//å®šä¹‰æ¥å£
 
-private:	//¶¨Òå½Ó¿ÚÖ´ĞĞº¯Êı
+private:	//å®šä¹‰æ¥å£æ‰§è¡Œå‡½æ•°
 
 };
 

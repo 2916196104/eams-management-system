@@ -4,18 +4,19 @@
 #ifndef __BOARDMANAGER_H__
 #define __BOARDMANAGER_H__
 #include "oatpp/web/server/api/ApiController.hpp"
+#include "domain/GlobalInclude.h"
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
-/*¹«¸æ¹ÜÀí¿ØÖÆÆ÷*/
+//å…¬å‘Šç®¡ç†æ§åˆ¶å™¨
 
 
 class BoardManager: public oatpp::web::server::api::ApiController
 {
-	//¶¨Òå¿ØÖÆÆ÷·ÃÎÊÈë¿Ú
+	//å®šä¹‰æ§åˆ¶å™¨è®¿é—®å…¥å£
 	API_ACCESS_DECLARE(BoardManager);
-public:		//¶¨Òå½Ó¿Ú
+public:		//å®šä¹‰æ¥å£
 
-private:	//¶¨Òå½Ó¿ÚÖ´ĞĞº¯Êı
+private:	//å®šä¹‰æ¥å£æ‰§è¡Œå‡½æ•°
 
 };
 
