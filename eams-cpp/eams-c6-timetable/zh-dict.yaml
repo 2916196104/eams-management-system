@@ -1,11 +1,11 @@
 #课表接口
 timetable:
   api-tag: "课表接口"
-interface:
+  interface:
   reserve: "课程预约"
   leave: "课程请假"
-filed:
- timetable:
+  filed:
+  timetable:
   classname: "班级名称"
   coursename: "课程名称"
   teachername: "教师名称"
