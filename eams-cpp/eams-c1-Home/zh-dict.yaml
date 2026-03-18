@@ -23,11 +23,32 @@ home:
    id: 学生id
    name: 学生姓名
    gender: 学生性别  
+
+  homework_record:
+    id: 主键
+    homework_id: 所属作业
+    student_id: 学生名
+    add_time: 时间
+    content: 内容
+    score: 点评分数
+    comment: 点评
+    comment_time: 点评时间
+    comment_teacher: 点评老师
+    images: --
   homework:
+    id: 主键
+    class_id: 班级ID
+    title: 标题
+    content: 内容
+    creator: 创建人
+    editor: 编辑人
+    add_time: 添加时间
+    edit_time: 编辑时间
+    deleted: 删除标记
+    org_id: 创建者所属组织ID
+
     submit: 作业提交
     delete: 作业删除
-    success: 提交成功
-    whichId: 作业ID
 
 exchange:
   tag: 积分兑换

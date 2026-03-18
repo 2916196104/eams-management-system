@@ -20,9 +20,9 @@
 #include "homeworkcontroller.h"
 //实现接口执行函数
 
-HomeworkJsonVO::Wrapper homeworkController::execHomeworkSubmit(const oatpp::Object<HomeworkSubmitDTO>& request) {
+HomeworkJsonVO::Wrapper homeworkController::execHomeworkSubmit(const UInt32& studentId){
 	return {};
 }
-HomeworkJsonVO::Wrapper homeworkController::execHomeworkDelete(const oatpp::Object<HomeworkDeleteDTO>& request) {
+HomeworkJsonVO::Wrapper homeworkController::execHomeworkDelete(const UInt32& homeworkId){
 	return {};
 }

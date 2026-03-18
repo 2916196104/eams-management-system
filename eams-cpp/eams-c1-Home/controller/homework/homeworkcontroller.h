@@ -55,10 +55,10 @@ public: // 定义接口
 	// 1.2 定义提交作业接口处理
 	API_HANDLER_ENDPOINT_AUTH(
 		API_M_POST,
-		"/homework/submit",
+		"c1/homework/submit",
 		homeworkSubmit,
-		BODY_DTO(oatpp::Object<HomeworkSubmitDTO>, request),
-		execHomeworkSubmit(request)
+		QUERY(UInt32, studentId),
+		execHomeworkSubmit(studentId)
 	);
 
 	// 2.1 定义删除作业接口描述
@@ -73,7 +73,7 @@ public: // 定义接口
 	// 2.2 定义删除作业接口处理
 	API_HANDLER_ENDPOINT_AUTH(
 		API_M_DEL,
-		"/homework/delete",
+		"c1/homework/delete",
 		homeworkDelete,
 		QUERY(UInt32, homeworkId),
 		execHomeworkDelete(homeworkId)
@@ -81,8 +81,8 @@ public: // 定义接口
 
 private: // 定义接口执行函数
 
-	HomeworkJsonVO::Wrapper homeworkController::execHomeworkSubmit(const oatpp::Object<HomeworkSubmitDTO>& request);
-	HomeworkJsonVO::Wrapper homeworkController::execHomeworkDelete(const oatpp::Object<HomeworkDeleteDTO>& request);
+	HomeworkJsonVO::Wrapper homeworkController::execHomeworkSubmit(const UInt32& studentId);
+	HomeworkJsonVO::Wrapper homeworkController::execHomeworkDelete(const UInt32& homeworkId);
 };
 
 #include OATPP_CODEGEN_END(ApiController)
