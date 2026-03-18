@@ -14,11 +14,7 @@
 			<el-form :model="formData" label-width="100px" size="small">
 				<el-form-item v-for="(value, key) in formData" :key="key" :label="getFieldLabel(key)">
 					<!-- 根据数据类型显示不同的输入组件 -->
-					<el-input
-						v-if="typeof value === 'string' && !isLongText(key)"
-						v-model="formData[key]"
-						placeholder="请输入"
-					/>
+					<el-input v-if="typeof value === 'string' && !isLongText(key)" v-model="formData[key]" placeholder="请输入" />
 					<el-input
 						v-else-if="typeof value === 'string' && isLongText(key)"
 						v-model="formData[key]"
@@ -26,12 +22,7 @@
 						:rows="3"
 						placeholder="请输入"
 					/>
-					<el-input-number
-						v-else-if="typeof value === 'number'"
-						v-model="formData[key]"
-						:min="0"
-						:precision="0"
-					/>
+					<el-input-number v-else-if="typeof value === 'number'" v-model="formData[key]" :min="0" :precision="0" />
 					<el-switch v-else-if="typeof value === 'boolean'" v-model="formData[key]" />
 					<el-date-picker
 						v-else-if="isDateField(key)"
@@ -52,86 +43,86 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, watch } from 'vue'
+import { reactive, ref, watch } from "vue";
 
 const props = withDefaults(
 	defineProps<{
-		value: Record<string, any>
-		fieldLabels?: Record<string, string>
-		longTextFields?: string[]
-		dateFields?: string[]
-		editable?: boolean
+		value: Record<string, any>;
+		fieldLabels?: Record<string, string>;
+		longTextFields?: string[];
+		dateFields?: string[];
+		editable?: boolean;
 	}>(),
 	{
 		fieldLabels: () => ({}),
 		longTextFields: () => [],
 		dateFields: () => [],
-		editable: true
-	}
-)
+		editable: true,
+	},
+);
 
 const emit = defineEmits<{
-	(e: 'input', v: Record<string, any>): void
-	(e: 'save', v: Record<string, any>): void
-	(e: 'cancel'): void
-	(e: 'edit-start'): void
-}>()
+	(e: "input", v: Record<string, any>): void;
+	(e: "save", v: Record<string, any>): void;
+	(e: "cancel"): void;
+	(e: "edit-start"): void;
+}>();
 
-const isEditing = ref(false)
-const formData = reactive<Record<string, any>>({})
+const isEditing = ref(false);
+const formData = reactive<Record<string, any>>({});
 
 function clone<T>(v: T): T {
-	return JSON.parse(JSON.stringify(v)) as T
+	return JSON.parse(JSON.stringify(v)) as T;
 }
 
 watch(
 	() => props.value,
 	(v) => {
-		const next = clone(v ?? {})
-		for (const k of Object.keys(formData)) delete formData[k]
-		Object.assign(formData, next)
+		const next = clone(v ?? {});
+		for (const k of Object.keys(formData)) delete formData[k];
+		Object.assign(formData, next);
 	},
-	{ immediate: true, deep: true }
-)
+	{ immediate: true, deep: true },
+);
 
 function getFieldLabel(key: string) {
-	return props.fieldLabels[key] || key
+	return props.fieldLabels[key] || key;
 }
 
 function isLongText(key: string) {
-	return props.longTextFields.includes(key)
+	return props.longTextFields.includes(key);
 }
 
 function isDateField(key: string) {
-	return props.dateFields.includes(key)
+	return props.dateFields.includes(key);
 }
 
 function formatValue(value: unknown) {
-	if (value === null || value === undefined) return '-'
-	if (typeof value === 'boolean') return value ? '是' : '否'
-	if (value instanceof Date) return value.toLocaleDateString()
-	if (typeof value === 'object') return JSON.stringify(value)
-	return String(value)
+	if (value === null || value === undefined) return "-";
+	if (typeof value === "boolean") return value ? "是" : "否";
+	if (value instanceof Date) return value.toLocaleDateString();
+	if (typeof value === "object") return JSON.stringify(value);
+	return String(value);
 }
 
 function startEdit() {
-	isEditing.value = true
-	emit('edit-start')
+	isEditing.value = true;
+	emit("edit-start");
 }
 
 function save() {
-	isEditing.value = false
-	const payload = clone(formData)
-	emit('input', payload)
-	emit('save', payload)
+	isEditing.value = false;
+	const payload = clone(formData);
+	emit("input", payload);
+	emit("save", payload);
 }
 
 function cancel() {
-	isEditing.value = false
-	const next = clone(props.value ?? {})
-	for (const k of Object.keys(formData)) delete formData[k]
-	Object.assign(formData, next)
-	emit('cancel')
+	isEditing.value = false;
+	const next = clone(props.value ?? {});
+	for (const k of Object.keys(formData)) delete formData[k];
+	Object.assign(formData, next);
+	emit("cancel");
 }
 </script>
 

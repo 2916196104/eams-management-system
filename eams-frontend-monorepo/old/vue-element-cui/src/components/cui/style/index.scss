@@ -1,0 +1,186 @@
+.link-type,
+.link-type:focus {
+	color: #337ab7;
+	cursor: pointer;
+
+	&:hover {
+		color: rgb(32, 160, 255);
+	}
+}
+
+.filter-container {
+	padding-bottom: 10px;
+
+	.filter-item {
+		display: inline-block;
+		vertical-align: middle;
+		margin-bottom: 10px;
+	}
+}
+
+//refine vue-multiselect plugin
+.multiselect {
+	line-height: 16px;
+}
+
+.multiselect--active {
+	z-index: 1000 !important;
+}
+
+//#通用
+.margin {
+	margin: 10px !important;
+}
+.margin-left {
+	margin-left: 10px !important;
+}
+.margin-right {
+	margin-right: 10px !important;
+}
+.margin-top {
+	margin-top: 10px !important;
+}
+.margin-bottom {
+	margin-bottom: 10px !important;
+}
+
+.padding {
+	padding: 10px !important;
+}
+.padding-left {
+	padding-left: 10px !important;
+}
+.padding-right {
+	padding-right: 10px !important;
+}
+.padding-top {
+	padding-top: 10px !important;
+}
+.padding-bottom {
+	padding-bottom: 10px !important;
+}
+.padding-bottom-0 {
+	padding-bottom: 0px !important;
+}
+
+.text-gray {
+	color: gray;
+}
+.text-blue {
+	color: #1890ff;
+}
+.text-primary {
+	color: #1890ff;
+}
+.text-link {
+	color: #1890ff;
+	cursor: pointer;
+}
+.text-warning {
+	color: #f56c6c;
+}
+.text-right {
+	text-align: right;
+}
+.text-info {
+	color: gray;
+	font-size: 90%;
+}
+
+.warning-row {
+	background: oldlace !important;
+}
+
+.success-row {
+	background: #f0f9eb !important;
+}
+
+.detail-item {
+	display: flex;
+	font-size: 14px;
+	margin-bottom: 10px;
+	.label {
+		color: gray;
+		width: 140px;
+		text-align: right;
+		padding-right: 5px;
+	}
+	.info {
+		flex: 1;
+	}
+}
+.normal-border {
+	border-radius: 5px;
+	border: 1px solid #dcdfe6;
+}
+
+//#end通用
+
+// 重新定义elementui
+label {
+	font-weight: normal;
+}
+.el-date-editor--date,
+.el-date-editor--time {
+	width: 100% !important;
+}
+.search-box .el-form-item__label {
+	font-weight: normal !important;
+}
+.el-table--small th {
+	padding: 5px 0;
+	background: #f1f1f1;
+}
+.el-table--small td {
+	padding: 5px 0;
+}
+.el-table th .cell,
+.el-table td .cell {
+	//line-height: 150%;
+	padding: 0 6px;
+}
+
+.el-form-item.is-error .el-input__inner {
+	border-color: #dcdfe6;
+}
+.el-form-item--mini.el-form-item {
+	margin-bottom: 15px;
+}
+.el-table .el-button--text {
+	padding: 0px;
+}
+
+.el-dialog__body {
+	padding: 15px;
+}
+.custom-dialog {
+	border-radius: 10px;
+	overflow: hidden;
+}
+.custom-dialog .el-dialog__title {
+	font-size: 16px;
+}
+.custom-dialog .el-dialog__header {
+	background-color: #e4f2ff;
+	padding: 6px 15px;
+}
+.custom-dialog .el-dialog__headerbtn {
+	top: 10px;
+}
+
+/*
+*改变浏览器默认的滚动条样式
+*/
+.bueatyScroll .el-table__body-wrapper::-webkit-scrollbar-track-piece {
+	background-color: #f8f8f8;
+}
+.bueatyScroll .el-table__body-wrapper::-webkit-scrollbar {
+	width: 8px;
+}
+.bueatyScroll .el-table__body-wrapper::-webkit-scrollbar-thumb {
+	background-color: #dddddd;
+	border-radius: 100px;
+}
+.bueatyScroll .el-table__body-wrapper::-webkit-scrollbar-thumb:hover {
+	background-color: #bbb;
+}

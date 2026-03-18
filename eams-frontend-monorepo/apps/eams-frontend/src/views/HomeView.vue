@@ -51,11 +51,7 @@
 							</el-button>
 							<template #dropdown>
 								<el-dropdown-menu>
-									<el-dropdown-item
-										:disabled="tabs.length == 0"
-										icon="IconCloseBlod"
-										@click="handleClose(1)"
-									>
+									<el-dropdown-item :disabled="tabs.length == 0" icon="IconCloseBlod" @click="handleClose(1)">
 										关闭所有标签页
 									</el-dropdown-item>
 									<el-dropdown-item
@@ -85,81 +81,81 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { storeToRefs } from 'pinia'
-import { useUserStore } from '@/stores/user'
-import { useTabStore } from '@/stores/tab'
-import type { TabPaneName, TabsPaneContext } from 'element-plus'
-import EamsNav from '@/components/mynav/EamsNav.vue'
-import { eamsNavItems } from '@/components/mynav/nav-data'
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
+import { useUserStore } from "@/stores/user";
+import { useTabStore } from "@/stores/tab";
+import type { TabPaneName, TabsPaneContext } from "element-plus";
+import EamsNav from "@/components/mynav/EamsNav.vue";
+import { eamsNavItems } from "@/components/mynav/nav-data";
 // 应用名称
-const appName = import.meta.env.VITE_APP_TITLE
+const appName = import.meta.env.VITE_APP_TITLE;
 // 当前用户信息
-const ustore = useUserStore()
+const ustore = useUserStore();
 // 用户信息提示
-const { user } = storeToRefs(ustore)
-const userInfo = ref('欢迎用户：' + (user.value === null ? '游客' : user.value.username))
+const { user } = storeToRefs(ustore);
+const userInfo = ref("欢迎用户：" + (user.value === null ? "游客" : user.value.username));
 // 路由数据
-const router = useRouter()
+const router = useRouter();
 // 标签页数据
-const tabstore = useTabStore()
-const { tabs, activeIndex, indexPath } = storeToRefs(tabstore)
+const tabstore = useTabStore();
+const { tabs, activeIndex, indexPath } = storeToRefs(tabstore);
 
-const navItems = eamsNavItems
+const navItems = eamsNavItems;
 
 function handleNavSelect(payload: { path: string }) {
-	if (payload.path) router.push(payload.path)
+	if (payload.path) router.push(payload.path);
 }
 /** 标签页点击事件 */
 const tabClick = (pane: TabsPaneContext) => {
 	// 如果点击的是操作标签页
-	if (pane.paneName == 'tab-operation') return
+	if (pane.paneName == "tab-operation") return;
 	// 设置激活标签页
-	tabstore.setActiveIndex(pane.paneName as string)
+	tabstore.setActiveIndex(pane.paneName as string);
 	// 进行路由跳转
-	router.push({ path: activeIndex.value })
-}
+	router.push({ path: activeIndex.value });
+};
 /** 标签页关闭事件 */
 const tabColse = (name: TabPaneName) => {
 	// 如果删除的是当前标签
 	if (activeIndex.value == name) {
 		// 重新设置当前激活标签页为它相邻的标签页
-		const idx = tabstore.getTabIndex(name as string) - 1
-		if (idx >= 0) activeIndex.value = tabs.value[idx].path
-		else activeIndex.value = indexPath.value
+		const idx = tabstore.getTabIndex(name as string) - 1;
+		if (idx >= 0) activeIndex.value = tabs.value[idx].path;
+		else activeIndex.value = indexPath.value;
 		// 进行路由跳转
-		router.push({ path: activeIndex.value })
+		router.push({ path: activeIndex.value });
 	}
 	// 删除标签
-	tabstore.remTab(name as string)
-}
+	tabstore.remTab(name as string);
+};
 /** 标签页切换事件 */
 const beforeLeave = (activeName: TabPaneName) => {
 	// 操作标签不做激活操作
-	if (activeName == 'tab-operation') return false
-	return true
-}
+	if (activeName == "tab-operation") return false;
+	return true;
+};
 
 /** 管理标签页关闭 */
 function handleClose(type: number) {
 	switch (type) {
 		case 1:
 			// 重置标签页数据
-			tabstore.reset()
+			tabstore.reset();
 			// 跳转到首页
-			router.push({ path: activeIndex.value })
-			break
+			router.push({ path: activeIndex.value });
+			break;
 		case 2:
 			// 关闭当前标签页左边
-			tabstore.remBeforeTab(activeIndex.value)
-			break
+			tabstore.remBeforeTab(activeIndex.value);
+			break;
 		case 3:
 			// 关闭当前标签页右边
-			tabstore.remAfterTab(activeIndex.value)
-			break
+			tabstore.remAfterTab(activeIndex.value);
+			break;
 		default:
-			break
+			break;
 	}
 }
 </script>

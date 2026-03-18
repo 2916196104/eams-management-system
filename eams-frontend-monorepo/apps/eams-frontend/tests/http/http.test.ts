@@ -1,67 +1,67 @@
-import { expect, describe, it, beforeAll, afterAll } from 'vitest'
-import { withSetup } from '../test-apis-settings'
-import { useHttp, HttpClient } from '@/plugins/http'
-import type { PageDTO } from '@/apis/type'
-import type { Article } from './type'
+import { expect, describe, it, beforeAll, afterAll } from "vitest";
+import { withSetup } from "../test-apis-settings";
+import { useHttp, HttpClient } from "@/plugins/http";
+import type { PageDTO } from "@/apis/type";
+import type { Article } from "./type";
 
 /**
  * 演示二次封装Axios使用
  * 测试指令 npm run test:unit http
  */
-describe('http', () => {
-	let app: any
-	let http: HttpClient
+describe("http", () => {
+	let app: any;
+	let http: HttpClient;
 	beforeAll(() => {
-		app = withSetup(() => (http = useHttp()))[1]
-	})
+		app = withSetup(() => (http = useHttp()))[1];
+	});
 	afterAll(() => {
-		app.unmount()
-	})
+		app.unmount();
+	});
 	// 测试get请求
-	it('getSync', async () => {
-		const data = await http.get<PageDTO<Article>>('/article', {
+	it("getSync", async () => {
+		const data = await http.get<PageDTO<Article>>("/article", {
 			pageIndex: 1,
-			pageSize: 2
-		})
-		expect(data.code).toBe(10000)
-		console.log(data.data?.rows)
-	})
+			pageSize: 2,
+		});
+		expect(data.code).toBe(10000);
+		console.log(data.data?.rows);
+	});
 	// 测试get请求
-	it('getAsync', async () => {
-		const data = await http.get<PageDTO<Article>>('/article', {
+	it("getAsync", async () => {
+		const data = await http.get<PageDTO<Article>>("/article", {
 			pageIndex: 1,
-			pageSize: 2
-		})
-		expect(data.code).toBe(10000)
-		console.log(data.data?.rows)
-	})
+			pageSize: 2,
+		});
+		expect(data.code).toBe(10000);
+		console.log(data.data?.rows);
+	});
 	// 测试post请求
-	it('post', async () => {
-		const data = await http.post<Article>('/article', {
-			title: '测试标题',
-			keywords: '测试',
-			summary: '测试摘要',
-			content: '测试内容'
-		})
-		expect(data.code).toBe(10000)
-		console.log(data.data)
-	})
+	it("post", async () => {
+		const data = await http.post<Article>("/article", {
+			title: "测试标题",
+			keywords: "测试",
+			summary: "测试摘要",
+			content: "测试内容",
+		});
+		expect(data.code).toBe(10000);
+		console.log(data.data);
+	});
 	// 测试put请求
-	it('put', async () => {
-		const data = await http.put<Article>('/article', {
-			id: '1',
-			title: '测试标题',
-			keywords: '测试',
-			summary: '测试摘要',
-			content: '测试内容'
-		})
-		expect(data.code).toBe(10000)
-		console.log(data.data)
-	})
+	it("put", async () => {
+		const data = await http.put<Article>("/article", {
+			id: "1",
+			title: "测试标题",
+			keywords: "测试",
+			summary: "测试摘要",
+			content: "测试内容",
+		});
+		expect(data.code).toBe(10000);
+		console.log(data.data);
+	});
 	// 测试delete请求
-	it('delete', async () => {
-		const data = await http.delete<Article>('/article/233')
-		expect(data.code).toBe(10000)
-		console.log(data.data)
-	})
-})
+	it("delete", async () => {
+		const data = await http.delete<Article>("/article/233");
+		expect(data.code).toBe(10000);
+		console.log(data.data);
+	});
+});

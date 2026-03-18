@@ -1,0 +1,73 @@
+// CuiDetail 组件样式
+@use "../variables.scss" as *;
+@use "../mixins.scss" as *;
+
+.cui-detail {
+	--cui-detail-label-bg: #{$cui-fill-color-light};
+	--cui-detail-label-width: 140px;
+	--cui-detail-border-color: #{$cui-border-color-lighter};
+	--cui-detail-padding: #{$cui-spacing-sm} #{$cui-spacing-md};
+	--cui-detail-font-size: #{$cui-font-size-base};
+
+	font-size: var(--cui-detail-font-size);
+
+	// ========== Elements ==========
+
+	&__grid {
+		display: grid;
+		gap: 0;
+	}
+
+	&__item {
+		display: flex;
+		border-bottom: $cui-border-width $cui-border-style var(--cui-detail-border-color);
+		min-height: $cui-component-size-default;
+	}
+
+	&__label {
+		background-color: var(--cui-detail-label-bg);
+		padding: var(--cui-detail-padding);
+		font-weight: $cui-font-weight-primary;
+		color: $cui-color-text-regular;
+		text-align: right;
+		flex-shrink: 0;
+		width: var(--cui-detail-label-width);
+	}
+
+	&__value {
+		padding: var(--cui-detail-padding);
+		flex: 1;
+		word-break: break-word;
+		color: $cui-color-text-primary;
+	}
+
+	// ========== Modifiers ==========
+
+	&--bordered {
+		@include border("all", var(--cui-detail-border-color));
+		border-radius: $cui-border-radius-base;
+
+		.cui-detail__item {
+			&:last-child {
+				border-bottom: none;
+			}
+		}
+
+		.cui-detail__label {
+			border-right: $cui-border-width $cui-border-style var(--cui-detail-border-color);
+		}
+	}
+
+	&--compact {
+		--cui-detail-padding: #{$cui-spacing-xs} #{$cui-spacing-sm};
+		--cui-detail-font-size: #{$cui-font-size-small};
+	}
+
+	&--striped {
+		.cui-detail__item:nth-child(odd) {
+			.cui-detail__value {
+				background-color: $cui-fill-color-lighter;
+			}
+		}
+	}
+}

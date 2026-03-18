@@ -1,0 +1,77 @@
+# ============================================================
+# 项目级 Git 性能配置（共享给团队）
+#
+# 用法：在仓库根目录执行一次即可永久生效：
+#   git config --local include.path ../.gitconfig
+#
+# 原理：include.path 相对于 .git/config 文件所在目录解析
+#       ../.gitconfig → .git/../.gitconfig → <仓库根>/.gitconfig
+#
+# 此文件跟踪在 Git 中，团队成员 clone 后只需执行上述命令一次
+# ============================================================
+
+[core]
+	# Windows 文件系统缓存 - 加速文件状态查询
+	fscache = true
+	# 并行预加载索引
+	preloadindex = true
+	# 缓存未跟踪文件列表，避免重复扫描
+	untrackedCache = true
+	# 文件系统监视器 - 只检查变化的文件而非全盘扫描
+	fsmonitor = true
+
+[feature]
+	# 开启 monorepo / 大量文件场景的优化集合
+	manyFiles = true
+
+[index]
+	# 多线程加载索引
+	threads = true
+
+[pack]
+	# 使用所有 CPU 核心进行 pack 操作（0 = 自动检测）
+	threads = 0
+	# 稀疏 pack 遍历 - 减少不必要的对象遍历
+	useSparse = true
+
+[fetch]
+	# 自动清理已删除的远程分支引用
+	prune = true
+	pruneTags = true
+	# fetch 时自动更新 commit-graph
+	writeCommitGraph = true
+	# 跳跃协商算法 - 减少 fetch 时的往返次数
+	negotiationAlgorithm = skipping
+	# 并行 fetch
+	parallel = 4
+
+[gc]
+	# gc 时自动写入 commit-graph
+	writeCommitGraph = true
+
+[diff]
+	# histogram 算法 - 比默认 myers 更快更准确
+	algorithm = histogram
+	# 检测文件重命名和复制
+	renames = copies
+
+[merge]
+	# 合并时检测重命名
+	renames = true
+
+[status]
+	# 跳过 ahead/behind 计算 - 远程分支多时显著提速
+	aheadBehind = false
+
+[protocol]
+	# Git 协议 v2 - 减少传输开销
+	version = 2
+
+[submodule]
+	# 并行拉取子模块
+	fetchJobs = 4
+
+[maintenance]
+	# 自动增量维护（commit-graph、loose-objects、incremental-repack）
+	auto = true
+	strategy = incremental
