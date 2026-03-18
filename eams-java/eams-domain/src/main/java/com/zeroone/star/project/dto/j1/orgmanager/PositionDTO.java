@@ -20,7 +20,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel("职位数据对象")
-public class WorkStationDTO {
+public class PositionDTO {
     @ApiModelProperty(value = "职位ID", notes = "新增时可不传，修改时必传", example = "1813456789012345678")
     private Long id;
 
