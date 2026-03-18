@@ -13,35 +13,35 @@
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
 #define API_TAG ZH_WORDS_GETTER("board.tag")
-/*¹«¸æ¹ÜÀí¿ØÖÆÆ÷*/
+//å…¬å‘Šç®¡ç†æ§åˆ¶å™¨
 
 
 class BoardManager: public oatpp::web::server::api::ApiController
 {
-	//¶¨Òå¿ØÖÆÆ÷·ÃÎÊÈë¿Ú
+	//å®šä¹‰æ§åˆ¶å™¨è®¿é—®å…¥å£
 	API_ACCESS_DECLARE(BoardManager);
-public:		//¶¨Òå½Ó¿Ú
-	// ¶¨Òå±£´æ¹«¸æ½Ó¿ÚÃèÊö
+public:		//å®šä¹‰æ¥å£
+	// å®šä¹‰ä¿å­˜å…¬å‘Šæ¥å£æè¿°
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("board.save.summary"), SaveBoard, StringJsonVO::Wrapper, API_TAG);
-	// ¶¨Òå±£´æ¹«¸æ½Ó¿Ú¶Ëµã
+	// å®šä¹‰ä¿å­˜å…¬å‘Šæ¥å£ç«¯ç‚¹
 	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/board/add-board", SaveBoard, BODY_DTO(BoardAddDTO::Wrapper, dto), executeAddBoard(dto, authObject->getPayload()));
 	
-	// 3.1 ¶¨ÒåÉ¾³ı¹«¸æ£¨Ö§³ÖÅúÁ¿É¾³ı£©½Ó¿ÚÃèÊö
+	// 3.1 å®šä¹‰åˆ é™¤å…¬å‘Šï¼ˆæ”¯æŒæ‰¹é‡åˆ é™¤ï¼‰æ¥å£æè¿°
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("board.delete.summary"), removeBoard, ListJsonVO<String>::Wrapper, API_TAG);
-	// 3.2 ¶¨ÒåÉ¾³ı¹«¸æ£¨Ö§³ÖÅúÁ¿É¾³ı£©½Ó¿Ú´¦Àí
+	// 3.2 å®šä¹‰åˆ é™¤å…¬å‘Šï¼ˆæ”¯æŒæ‰¹é‡åˆ é™¤ï¼‰æ¥å£å¤„ç†
 	API_HANDLER_ENDPOINT_AUTH(API_M_DEL, "/board/remove-board", removeBoard, BODY_DTO(List<String>, ids), execRemoveBoard(ids));
 	
-	// 3.1 ¶¨ÒåÆôÓÃ¹«¸æ½Ó¿ÚÃèÊö
+	// 3.1 å®šä¹‰å¯ç”¨å…¬å‘Šæ¥å£æè¿°
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("board.start.summary"), startBoard, ListJsonVO<String>::Wrapper, API_TAG);
-	// 3.2 ¶¨ÒåÆôÓÃ¹«¸æ½Ó¿Ú´¦Àí
+	// 3.2 å®šä¹‰å¯ç”¨å…¬å‘Šæ¥å£å¤„ç†
 	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "/board/start-board", startBoard, BODY_DTO(List<String>, ids), execStartBoard(ids));
 
-	// 3.1 ¶¨ÒåÍ£ÓÃ¹«¸æ½Ó¿ÚÃèÊö
+	// 3.1 å®šä¹‰åœç”¨å…¬å‘Šæ¥å£æè¿°
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("board.end.summary"), endBoard, ListJsonVO<String>::Wrapper, API_TAG);
-	// 3.2 ¶¨ÒåÍ£ÓÃ¹«¸æ½Ó¿Ú´¦Àí
+	// 3.2 å®šä¹‰åœç”¨å…¬å‘Šæ¥å£å¤„ç†
 	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "/board/end-board", endBoard, BODY_DTO(List<String>, ids), execEndBoard(ids));
 
-private:	//¶¨Òå½Ó¿ÚÖ´ĞĞº¯Êı
+private:	//å®šä¹‰æ¥å£æ‰§è¡Œå‡½æ•°
 	StringJsonVO::Wrapper executeAddBoard(const BoardAddDTO::Wrapper& dto,const PayloadDTO& payload);
 	ListJsonVO<String>::Wrapper execRemoveBoard(const List<String>& ids);
 	ListJsonVO<String>::Wrapper execStartBoard(const List<String>& ids);

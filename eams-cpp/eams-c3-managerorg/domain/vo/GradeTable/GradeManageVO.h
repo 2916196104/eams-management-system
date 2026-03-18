@@ -13,6 +13,7 @@
 class GradeManagePageJsonVO : public JsonVO<GradeManagePageDTO::Wrapper>
 {
 	DTO_INIT(GradeManagePageJsonVO, JsonVO<GradeManagePageDTO::Wrapper>);
+
 };
 
 #include OATPP_CODEGEN_END(DTO)

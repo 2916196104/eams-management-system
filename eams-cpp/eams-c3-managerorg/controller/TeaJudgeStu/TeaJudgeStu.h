@@ -10,16 +10,16 @@
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
 
-/*½ÌÆÀÑ§¿ØÖÆÆ÷*/
+/*æ•™è¯„å­¦æ§åˆ¶å™¨*/
 
 
 class TeaJudgeStu : public oatpp::web::server::api::ApiController
 {
-	//¶¨Òå¿ØÖÆÆ÷·ÃÎÊÈë¿Ú
+	//å®šä¹‰æ§åˆ¶å™¨è®¿é—®å…¥å£
 	API_ACCESS_DECLARE(TeaJudgeStu);
-public:		//¶¨Òå½Ó¿Ú
+public:		//å®šä¹‰æ¥å£
 
-private:	//¶¨Òå½Ó¿ÚÖ´ĞĞº¯Êı
+private:	//å®šä¹‰æ¥å£æ‰§è¡Œå‡½æ•°
 
 };
 

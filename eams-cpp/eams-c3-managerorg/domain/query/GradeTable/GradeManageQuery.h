@@ -8,15 +8,19 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /*
-	�ɼ���ѯ��
+	成绩查询类
 */
 
 class GradeManageQuery : public PageQuery
 {
-	// �����ʼ��
+	// 定义初始化
 	DTO_INIT(GradeManageQuery, PageQuery);
-	// ������ (����)
+
+	// 考核项 (必填，用于精准查询某次考核的成绩)
 	API_DTO_FIELD_REQUIRE(String, item, ZH_WORDS_GETTER("Grade.field.item"), true);
+
+	// 如果后续需要按学生姓名模糊查询，可以加在这里（非必填）
+	// API_DTO_FIELD(String, name, ZH_WORDS_GETTER("Grade.field.name"));
 };
 
 #include OATPP_CODEGEN_END(DTO)
