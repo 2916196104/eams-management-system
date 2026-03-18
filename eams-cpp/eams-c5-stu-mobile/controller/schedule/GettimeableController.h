@@ -28,9 +28,11 @@ public://定义接口
         API_DEF_ADD_TAG(API_TAG);
         // 定义请求参数格式
         API_DEF_ADD_PAGE_PARAMS();
-        //asd之后需要加入中文词典
-        API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("gettimeable.search1"), ZH_WORDS_GETTER("course.name1"), false);
-        API_DEF_ADD_QUERY_PARAMS(String,"teacher_info", ZH_WORDS_GETTER("gettimeable.search2"), "Roin"+ZH_WORDS_GETTER("course.teachername1"), false);
+        API_DEF_ADD_QUERY_PARAMS(String, "student_id", ZH_WORDS_GETTER("gettimeable.search1"), "101", false);
+        API_DEF_ADD_QUERY_PARAMS(String, "class_id", ZH_WORDS_GETTER("gettimeable.search3"), "101", false);
+        API_DEF_ADD_QUERY_PARAMS(String, "data", ZH_WORDS_GETTER("gettimeable.search2"), "2026-9-5", false);
+        /*API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("gettimeable.search1"), ZH_WORDS_GETTER("course.name1"), false);
+        API_DEF_ADD_QUERY_PARAMS(String,"teacher_info", ZH_WORDS_GETTER("gettimeable.search2"), "Roin"+ZH_WORDS_GETTER("course.teachername1"), false);*/
     }
     //接口等待后期更改
     ENDPOINT(API_M_GET, "/course/list/get", ScheduleTimeable, QUERIES(QueryParams, params),API_HANDLER_AUTH_PARAME){

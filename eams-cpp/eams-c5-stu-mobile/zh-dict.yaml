@@ -1,11 +1,14 @@
 ﻿gettimeable:
  summary: 获取课表接口
  resp: 操作成功
- search1: 课程名
- search2: 师资信息
+ search1: 学生id
+ search2: 日期
+ search3: 班级id
 course:
  name1: 线性代数
  teachername1: 老师
+ searchname1: 
+ searchname2:
 Timeable:
  tags:
   t1: 课表接口
