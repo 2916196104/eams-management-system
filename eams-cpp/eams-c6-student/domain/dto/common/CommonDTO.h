@@ -33,63 +33,6 @@ class CommonDTO : public oatpp::DTO
 	API_DTO_FIELD_DEFAULT(UInt64, id, ZH_WORDS_GETTER("file.field.ft"));
 	// 学员名称
 	API_DTO_FIELD_REQUIRE(String, name, ZH_WORDS_GETTER("file.field.ft"), true);
-	
-	// 文件存储类型编码
-	API_DTO_FIELD_REQUIRE(String, saveType, ZH_WORDS_GETTER("file.field.st"), true);
-	// 备注
-	API_DTO_FIELD_DEFAULT(String, remark, ZH_WORDS_GETTER("file.field.remark"));
-};
-
-/**
- * 添加文件数据模型
- */
-class FileAddDTO : public CommonDTO
-{
-	DTO_INIT(FileAddDTO, FileAddFormDTO);
-	// 文件数据
-	API_DTO_FIELD_REQUIRE(oatpp::swagger::Binary, file, ZH_WORDS_GETTER("file.field.file"), true);
-};
-
-/**
- * 完整文件数据存储模型
- */
-class FileDTO : public CommonDTO
-{
-	DTO_INIT(FileDTO, FileAddFormDTO);
-	// 唯一标识
-	API_DTO_FIELD_REQUIRE(String, id, ZH_WORDS_GETTER("file.field.id"), true);
-	// 保存路径
-	API_DTO_FIELD_REQUIRE(String, savePath, ZH_WORDS_GETTER("file.field.path"), true);
-	// 数据状态
-	API_DTO_FIELD_DEFAULT(Int32, status, ZH_WORDS_GETTER("file.field.status"));
-	// 文件类型名称
-	API_DTO_FIELD_DEFAULT(String, fileTypeName, ZH_WORDS_GETTER("file.field.ftn"));
-	// 文件存储类型名称
-	API_DTO_FIELD_DEFAULT(String, saveTypeName, ZH_WORDS_GETTER("file.field.stn"));
-};
-
-/**
- * 多文件上传演示模型
- */
-class FileMoreDTO : public oatpp::DTO
-{
-	DTO_INIT(FileMoreDTO, DTO);
-	// 文件1
-	API_DTO_FIELD_REQUIRE(oatpp::swagger::Binary, file0, ZH_WORDS_GETTER("file.field.file"), true);
-	// 文件2
-	API_DTO_FIELD_REQUIRE(oatpp::swagger::Binary, file1, ZH_WORDS_GETTER("file.field.file"), true);
-	// 文件3
-	API_DTO_FIELD_DEFAULT(oatpp::swagger::Binary, file2, ZH_WORDS_GETTER("file.field.file"));
-};
-
-/**
- * 单文件上传数据模型
- */
-class FileOnlyDTO : public oatpp::DTO
-{
-	DTO_INIT(FileOnlyDTO, DTO);
-	// 文件数据
-	API_DTO_FIELD_REQUIRE(oatpp::swagger::Binary, file, ZH_WORDS_GETTER("file.field.file"), true);
 };
 
 #include OATPP_CODEGEN_END(DTO)
