@@ -14,7 +14,7 @@
 
 - 举个例子
 
-  ![image-20230319115655234](imgs/image-20230319115655234.png)
+  ![image-example](asserts/image-example.png)
 
   
 
