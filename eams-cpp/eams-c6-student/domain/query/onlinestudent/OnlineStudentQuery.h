@@ -7,27 +7,16 @@
 
 /**
  * Excel 导出查询对象
+ * stage: 1 在线成员
  */
 class OnlineExcelQuery : public oatpp::DTO
 {
 	DTO_INIT(OnlineExcelQuery, DTO);
 
-	// 姓名
-	DTO_FIELD(String, name);
-	DTO_FIELD_INFO(name) {
-		info->description = ZH_WORDS_GETTER("onlinestudent.field.student.name");
-	}
-
-	// 性别
-	DTO_FIELD(String, sex);
-	DTO_FIELD_INFO(sex) {
-		info->description = ZH_WORDS_GETTER("onlinestudent.field.student.sex");
-	}
-
-	// 年龄
-	DTO_FIELD(UInt32, age);
-	DTO_FIELD_INFO(age) {
-		info->description = ZH_WORDS_GETTER("onlinestudent.field.student.age");
+	// 状态
+	DTO_FIELD(UInt8, stage);
+	DTO_FIELD_INFO(stage) {
+		info->description = ZH_WORDS_GETTER("onlinestudent.field.student.stage");
 	}
 };
 

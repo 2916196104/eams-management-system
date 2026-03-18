@@ -7,21 +7,25 @@
 std::shared_ptr<oatpp::web::server::api::ApiController::OutgoingResponse> IntendedStudentController::execExportExcel(
 	const IntendExcelQuery::Wrapper& query)
 {
+	// 从数据库中查询stage为0的学员
+	// ...
+
 	// 生成 Excel
 	auto buff = ExcelComponent().writeVectorToBuff("intended_student",
 		[&](ExcelComponent* ex) {
 			// 写入表头
 			ex->addHeader({
 				ZH_WORDS_GETTER("intendedstudent.field.student.id") ,
-				ZH_WORDS_GETTER("intendedstudent.field.student.name") ,
-				ZH_WORDS_GETTER("intendedstudent.field.student.age") ,
-				ZH_WORDS_GETTER("intendedstudent.field.student.sex")
-			});
-
-			// 写入数据
-			ex->setCellValue(2, 1, query->name ? query->name : "");
-			ex->setCellValue(2, 2, query->sex ? query->sex : "");
-			ex->setCellValue(2, 3, query->age ? std::to_string(query->age) : "");
+				ZH_WORDS_GETTER("intendedstudent.field.student.name"),
+				ZH_WORDS_GETTER("intendedstudent.field.student.mobile"),
+				ZH_WORDS_GETTER("intendedstudent.field.student.sex"),
+				ZH_WORDS_GETTER("intendedstudent.field.student.parent"),
+				ZH_WORDS_GETTER("intendedstudent.field.student.parent-rel"),
+				ZH_WORDS_GETTER("intendedstudent.field.student.school"),
+				ZH_WORDS_GETTER("intendedstudent.field.student.grade"),
+				ZH_WORDS_GETTER("intendedstudent.field.student.counselor"),
+				ZH_WORDS_GETTER("intendedstudent.field.student.birthday")
+				});
 		});
 		
 	// 组装下发数据
@@ -32,9 +36,11 @@ std::shared_ptr<oatpp::web::server::api::ApiController::OutgoingResponse> Intend
 	auto response = createResponse(Status::CODE_200, fstring);
 
 	// 设置响应头信息
-	std::string filename = "rp-sample-" + SimpleDateTimeFormat::format() + ".xlsx";
+	std::string filename = "rp-intended-" + SimpleDateTimeFormat::format() + ".xlsx";
 	response->putHeader("Content-Disposition", "attachment; filename=" + filename);
 	response->putHeader(Header::CONTENT_TYPE, " application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+	
+	// 响应成功结果
 	return response;
 }
 
@@ -66,7 +72,7 @@ StringJsonVO::Wrapper IntendedStudentController::execImportExcel(
 	// 5 解析与校验数据
 	std::string errmsg = "";
 	oatpp::List<IntendAddDTO::Wrapper> exceldata = oatpp::List<IntendAddDTO::Wrapper>::createShared();
-	ExcelComponent::read(file->data(), file->size(), "sample", [exceldata, &errmsg, &payload](xlnt::worksheet* sheet) {
+	ExcelComponent::read(file->data(), file->size(), "intended", [exceldata, &errmsg, &payload](xlnt::worksheet* sheet) {
 		// 逐行解析解析数据
 		int rn = 0;
 		for (auto row : sheet->rows())
@@ -75,9 +81,13 @@ StringJsonVO::Wrapper IntendedStudentController::execImportExcel(
 			if (rn++ == 0) continue;
 			// 解析数据到DTO
 			auto dto = IntendAddDTO::createShared();
-			dto->name = row[0].to_string();
-			dto->age = std::atoi(row[1].to_string().c_str());
-			dto->sex = row[2].to_string();
+			dto->name = row[0].to_string();      // 姓名
+			dto->mobile = row[1].to_string();    // 手机号
+			dto->password = row[2].to_string();  // 登录密码
+			dto->parent = row[3].to_string();    // 家长姓名
+			dto->sex = row[4].to_string();       // 性别
+			dto->birthday = row[5].to_string();  // 生日
+			dto->idCard = row[6].to_string();    // 身份证
 			// 校验数据
 			errmsg = dto->validate();
 			if (errmsg != "")
@@ -100,6 +110,9 @@ StringJsonVO::Wrapper IntendedStudentController::execImportExcel(
 		jvo->init("excel file no data or not excel file.", RS_PARAMS_INVALID);
 		return jvo;
 	}
+
+	//6 保存数据
+	// ...
 
 	jvo->success(nullptr);
 	return jvo;

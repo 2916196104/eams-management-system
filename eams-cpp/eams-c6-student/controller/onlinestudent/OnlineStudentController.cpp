@@ -7,21 +7,25 @@
 std::shared_ptr<oatpp::web::server::api::ApiController::OutgoingResponse> OnlineStudentController::execExportExcel(
 	const OnlineExcelQuery::Wrapper& query)
 {
+	// 从数据库中查询stage为1的学员
+	// ...
+
 	// 生成 Excel
 	auto buff = ExcelComponent().writeVectorToBuff("online_student",
 		[&](ExcelComponent* ex) {
 			// 写入表头
 			ex->addHeader({
 				ZH_WORDS_GETTER("onlinestudent.field.student.id") ,
-				ZH_WORDS_GETTER("onlinestudent.field.student.name") ,
-				ZH_WORDS_GETTER("onlinestudent.field.student.age") ,
-				ZH_WORDS_GETTER("onlinestudent.field.student.sex")
-				});
-
-			// 写入数据
-			ex->setCellValue(2, 1, query->name ? query->name : "");
-			ex->setCellValue(2, 2, query->sex ? query->sex : "");
-			ex->setCellValue(2, 3, query->age ? std::to_string(query->age) : "");
+				ZH_WORDS_GETTER("onlinestudent.field.student.name"),
+				ZH_WORDS_GETTER("onlinestudent.field.student.mobile"),
+				ZH_WORDS_GETTER("onlinestudent.field.student.sex"),
+				ZH_WORDS_GETTER("onlinestudent.field.student.parent"),
+				ZH_WORDS_GETTER("onlinestudent.field.student.parent-rel"),
+				ZH_WORDS_GETTER("onlinestudent.field.student.school"),
+				ZH_WORDS_GETTER("onlinestudent.field.student.grade"),
+				ZH_WORDS_GETTER("onlinestudent.field.student.counselor"),
+				ZH_WORDS_GETTER("onlinestudent.field.student.birthday")
+			});
 		});
 
 	// 组装下发数据
@@ -32,8 +36,10 @@ std::shared_ptr<oatpp::web::server::api::ApiController::OutgoingResponse> Online
 	auto response = createResponse(Status::CODE_200, fstring);
 
 	// 设置响应头信息
-	std::string filename = "rp-sample-" + SimpleDateTimeFormat::format() + ".xlsx";
+	std::string filename = "rp-online-" + SimpleDateTimeFormat::format() + ".xlsx";
 	response->putHeader("Content-Disposition", "attachment; filename=" + filename);
 	response->putHeader(Header::CONTENT_TYPE, " application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+	// 响应成功结果
 	return response;
 }

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #ifndef _INTENDEDSTUDENT_CONTROLLER_
 #define _INTENDEDSTUDENT_CONTROLLER_
 
@@ -6,29 +6,29 @@
 #include "domain/query/intendedstudent/IntendedStudentQuery.h"
 #include "domain/dto/intendedstudent/IntendedStudentDTO.h"
 
-// ¶¨ÒåAPI¿ØÖÆÆ÷Ê¹ÓÃºê
+// å®šä¹‰APIæ§åˆ¶å™¨ä½¿ç”¨å®
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
 #define API_TAG ZH_WORDS_GETTER("intendedstudent.api-tag")
 
 /**
- *	ÒâÏò³ÉÔ±¿ØÖÆÆ÷
+ *	æ„å‘æˆå‘˜æ§åˆ¶å™¨
  */
 class IntendedStudentController : public oatpp::web::server::api::ApiController
 {
-	// ¶¨Òå¿ØÖÆÆ÷·ÃÎÊÈë¿Ú
+	// å®šä¹‰æ§åˆ¶å™¨è®¿é—®å…¥å£
 	API_ACCESS_DECLARE(IntendedStudentController);
 
 public:
-	// ¶¨Òåµ¼³ö½Ó¿ÚÃèÊö
+	// å®šä¹‰å¯¼å‡ºæ¥å£æè¿°
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(
-		ZH_WORDS_GETTER("intendedstudent.interface.export"),									// ±êÌâ
-		exportExcel,                                 // º¯ÊıÃû
-		IntendExcelQuery,                                 // ²éÑ¯²ÎÊıÀàĞÍ
-		Void,                                        // Swagger ÎŞÏìÓ¦Ìå
-		ZH_WORDS_GETTER("intendedstudent.api-tag")                                      // ±êÇ©
+		ZH_WORDS_GETTER("intendedstudent.interface.export"),	    // æ ‡é¢˜
+		exportExcel,												// å‡½æ•°å
+		IntendExcelQuery,											// æŸ¥è¯¢å‚æ•°ç±»å‹
+		Void,														// Swagger æ— å“åº”ä½“
+		API_TAG														// æ ‡ç­¾
 	);
-	// ¶¨Òåµ¼³ö½Ó¿Ú´¦Àí
+	// å®šä¹‰å¯¼å‡ºæ¥å£å¤„ç†
 	API_HANDLER_ENDPOINT_OPTION_AUTH(
 		API_M_GET,
 		"/c6/student/intended/export",
@@ -38,27 +38,27 @@ public:
 		return execExportExcel(query);
 	);
 
-	// ¶¨Òåµ¼Èë½Ó¿ÚÃèÊö
+	// å®šä¹‰å¯¼å…¥æ¥å£æè¿°
 	API_DEF_ENDPOINT_INFO_FILE_AUTH(
-		ZH_WORDS_GETTER("intendedstudent.interface.import"),									   // ±êÌâ
-		importExcel,                                 // º¯ÊıÃû
-		IntendImportDTO::Wrapper,                    // ÎÄ¼ş±íµ¥DTO
-		StringJsonVO::Wrapper,                       // ÏìÓ¦JSON
-		API_TAG                                      // ±êÇ©
+		ZH_WORDS_GETTER("intendedstudent.interface.import"),		// æ ‡é¢˜
+		importExcel,												// å‡½æ•°å
+		IntendImportDTO::Wrapper,									// æ–‡ä»¶è¡¨å•DTO
+		StringJsonVO::Wrapper,										// å“åº”JSON
+		API_TAG														// æ ‡ç­¾
 	);
-	// ¶¨Òåµ¼³ö½Ó¿Ú´¦Àí
+	// å®šä¹‰å¯¼å‡ºæ¥å£å¤„ç†
 	API_HANDLER_ENDPOINT_AUTH(
-		API_M_POST,                                  // POST·½·¨
-		"/c6/student/intended/import",               // URL
-		importExcel,                                 // º¯ÊıÃû
-		REQUEST(std::shared_ptr<IncomingRequest>, request),  // ½ÓÊÕÎÄ¼ş
-		execImportExcel(request, authObject->getPayload())   // Ö´ĞĞµ¼Èë
+		API_M_POST,													// POSTæ–¹æ³•
+		"/c6/student/intended/import",								// URL
+		importExcel,												// å‡½æ•°å
+		REQUEST(std::shared_ptr<IncomingRequest>, request),			// æ¥æ”¶æ–‡ä»¶
+		execImportExcel(request, authObject->getPayload())			// æ‰§è¡Œå¯¼å…¥
 	);
 
 private:
-	// Ö´ĞĞµ¼³ö
+	// æ‰§è¡Œå¯¼å‡º
 	std::shared_ptr<OutgoingResponse> execExportExcel(const IntendExcelQuery::Wrapper& query);
-	// Ö´ĞĞµ¼Èë
+	// æ‰§è¡Œå¯¼å…¥
 	StringJsonVO::Wrapper execImportExcel(std::shared_ptr<IncomingRequest> request, const PayloadDTO& payload);
 };
 

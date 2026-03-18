@@ -47,22 +47,42 @@ common:
    refund-status: 退费状态
 
 intendedstudent:
- api-tag: 意向学员
+ api-tag: 意向学员接口
  interface:
   export: 意向学员导出
   import: 意向学员导入
  field:
+  excel: 导入报表文件
   student:
+   id: ID
    sex: 学员性别
-   age: 学员年龄
    name: 学员名字
- 
+   stage: 学员状态
+   mobile: 手机号码
+   parent: 家长姓名
+   parent-rel: 家长关系
+   school: 学校
+   grade: 年纪
+   counselor: 顾问
+   birthday: 生日
+   password: 登陆密码
+   idcard: 身份证密码
+
 onlinestudent:
- api-tag: 在线成员
+ api-tag: 在线成员接口
  interface:
   export: 在线成员导出
  field:
+  excel: 导入报表文件
   student:
+   id: ID
    sex: 学员性别
-   age: 学员年龄
    name: 学员名字
+   stage: 学员状态
+   mobile: 手机号码
+   parent: 家长姓名
+   parent-rel: 家长关系
+   school: 学校
+   grade: 年纪
+   counselor: 顾问
+   birthday: 生日
