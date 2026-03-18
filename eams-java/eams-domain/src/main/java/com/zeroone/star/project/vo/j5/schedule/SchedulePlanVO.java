@@ -2,6 +2,7 @@ package com.zeroone.star.project.vo.j5.schedule;
 
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 /*
 * 描述：排课计划返回对象，用于前端展示
 * */
+@Data
 public class SchedulePlanVO {
     @ApiModelProperty(value = "排课计划id",required = false, example = "1")
     private Long id;
