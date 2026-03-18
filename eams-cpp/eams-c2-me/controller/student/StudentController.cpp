@@ -2,7 +2,7 @@
 #include "StudentController.h"
 
 
-UserPageJsonVO::Wrapper UserController::executeQueryAll(const UserQuery::Wrapper& query)
+PointPageJsonVO::Wrapper StudentController::executeQueryPoint(const PointQuery::Wrapper & query)
 {
 	UserService us;
 	auto vo = UserPageJsonVO::createShared();

@@ -23,7 +23,7 @@ public:
 	// 定义查询所有用户信息接口描述
 	//API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("user.query-all.summary"), queryAllUser, UserQuery, UserPageJsonVO::Wrapper, API_TAG);
 	// 定义查询所有用户信息接口端点
-	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/Student/query_mypoint", queryMypoint, UserQuery, executeQueryMypoint(query));
+	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/Student/query_point", queryPoint, PointQuery, executeQueryPoint(query));
 private: // 定义接口执行函数
 };
 
