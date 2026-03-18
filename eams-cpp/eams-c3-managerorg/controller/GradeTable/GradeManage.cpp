@@ -8,7 +8,7 @@ GradeManagePageJsonVO::Wrapper GradeManage::execQueryPageScore(const GradeManage
 	return {};
 }
 
-Uint64JsonVO::Wrapper GradeManage::execSave(const GradeManageDTO::Wrapper& dto, const const PayloadDTO& payload)
+Uint64JsonVO::Wrapper GradeManage::execSave(const GradeManageDTO::Wrapper& dto, const PayloadDTO& payload)
 {
 	return {};
 }
