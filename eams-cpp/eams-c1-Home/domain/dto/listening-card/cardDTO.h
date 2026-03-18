@@ -53,6 +53,18 @@ class ListeningCardPageDTO :public PageDTO<ListeningCardDTO::Wrapper>
 {
 	DTO_INIT(ListeningCardPageDTO, PageDTO<ListeningCardDTO::Wrapper>);
 };
+
+/**
+  * 领取试听卡数据传输对象
+  */
+class receiveCardDTO :public oatpp::DTO {
+	DTO_INIT(receiveCardDTO, DTO);
+	//用户名
+	API_DTO_FIELD_REQUIRE(String, userName, ZH_WORDS_GETTER("ListeningCard.userName"), true);
+	//试听卡名称
+	API_DTO_FIELD_REQUIRE(String, cardName, ZH_WORDS_GETTER("ListeningCard.name"), true);
+};
+
 #include OATPP_CODEGEN_END(DTO)
 
 #endif // !_CARDDTO_H_
