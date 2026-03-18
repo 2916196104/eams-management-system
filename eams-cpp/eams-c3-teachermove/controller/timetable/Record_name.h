@@ -11,6 +11,7 @@
 #include "oatpp/web/server/api/ApiController.hpp"
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
+#define API_TAG ZH_WORDS_GETTER("api.tag")
 
 class Record_name: public oatpp::web::server::api::ApiController
 {
@@ -21,7 +22,7 @@ public:		//定义接口
 		ZH_WORDS_GETTER("api.get-detail-cs.title"),
 		getDetailCS,
 		GetDetailCSJsonVO::Wrapper,
-		"GetDetailCS",
+		API_TAG,
 		API_DEF_ADD_QUERY_PARAMS(UInt64, "lesson_id", ZH_WORDS_GETTER("api.get-detail-cs.param.lesson-id"), 10002, true);
 	);
 
@@ -39,7 +40,7 @@ public:		//定义接口
 		ZH_WORDS_GETTER("api.get-cs-stu-list.title"),
 		getStuList,
 		GetStuListJsonVO::Wrapper,
-		"GetCSStuList",
+		API_TAG,
 		API_DEF_ADD_QUERY_PARAMS(UInt64, "page_index", ZH_WORDS_GETTER("api.get-cs-stu-list.param.page-index"), 1, false);
 		API_DEF_ADD_QUERY_PARAMS(UInt64, "page_size", ZH_WORDS_GETTER("api.get-cs-stu-list.param.page-size"), 10, false);
 	);
@@ -60,6 +61,7 @@ private:	//定义接口执行函数
 
 };
 
+#undef API_TAG
 #include OATPP_CODEGEN_END(ApiController)
 
 #endif
