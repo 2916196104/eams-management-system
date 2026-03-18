@@ -23,9 +23,47 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
+
+ /**
+  * 试听卡数据传输对象
+  */
+class ListeningCardDTO :public oatpp::DTO
+{
+	DTO_INIT(ListeningCardDTO, DTO);
+	//试听卡对应的课程名
+	API_DTO_FIELD_REQUIRE(String, course, ZH_WORDS_GETTER("listening-card.course"), true);
+	//试听卡名称
+	API_DTO_FIELD_REQUIRE(String, name, ZH_WORDS_GETTER("listening-card.name"), true);
+	//试听卡领取的截止时间
+	API_DTO_FIELD_REQUIRE(String,deadline, ZH_WORDS_GETTER("listening-card.deadline"), true);
+	//试听卡有效日期
+	API_DTO_FIELD_REQUIRE(String, effective_date, ZH_WORDS_GETTER("listening-card.effective_date"), true);
+	//试听卡剩余量
+	API_DTO_FIELD_REQUIRE(String, surplus, ZH_WORDS_GETTER("listening-card.surplus"), true);
+	//试听卡次数
+	API_DTO_FIELD_REQUIRE(String, cnt, ZH_WORDS_GETTER("listening-card.cnt"), true);
+	//试听卡领取时间
+	API_DTO_FIELD_REQUIRE(String, receive_time, ZH_WORDS_GETTER("listening-card.receive_time"),false);
+};
+
 /**
- * 数据传输对象
- */
+  * 试听卡分页数据传输对象
+  */
+class ListeningCardPageDTO :public PageDTO<ListeningCardDTO::Wrapper>
+{
+	DTO_INIT(ListeningCardPageDTO, PageDTO<ListeningCardDTO::Wrapper>);
+};
+
+/**
+  * 领取试听卡数据传输对象
+  */
+class receiveCardDTO :public oatpp::DTO {
+	DTO_INIT(receiveCardDTO, DTO);
+	//用户名
+	API_DTO_FIELD_REQUIRE(String, userName, ZH_WORDS_GETTER("listening-card.userName"), true);
+	//试听卡名称
+	API_DTO_FIELD_REQUIRE(String, cardName, ZH_WORDS_GETTER("listening-card.name"), true);
+};
 
  /**
   * 课程体验卡DTO
