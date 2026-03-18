@@ -18,7 +18,7 @@ public class StudentQuery extends PageQuery {
     private String phone;
 
     @ApiModelProperty(value = "状态 如意向学员", example = "1")
-    private Integer status;
+    private Integer stage;
 
     @ApiModelProperty(value = "顾问ID", example = "111111")
     private Long adviserId;

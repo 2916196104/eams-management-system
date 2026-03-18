@@ -8,7 +8,10 @@ import lombok.Data;
 @Data
 public class CourseQuery extends PageQuery {
 
-    @ApiModelProperty(value = "课程名称", example = "Java课程", required = true)
+    @ApiModelProperty(value = "班级id", example = "111",required = true)
+    private Long classId;
+
+    @ApiModelProperty(value = "课程名称", example = "Java课程")
     private String name;
 
     @ApiModelProperty(value = "课程类型(1:大班 2:小班课 3:1v1)", example = "1")

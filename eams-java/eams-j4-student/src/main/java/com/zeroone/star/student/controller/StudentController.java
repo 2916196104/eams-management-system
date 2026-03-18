@@ -25,14 +25,14 @@ import java.util.List;
 public class StudentController implements StudentApis {
 
     @Override
-    @GetMapping("/queryCourseStudent")
+    @GetMapping("/studentList")
     @ApiOperation("获取开通指定课程学员列表（条件+分页）")
     public JsonVO<PageDTO<ResponseDTO>> queryCourseStudent(CourseQuery condition) {
         return null;
     }
 
     @Override
-    @GetMapping("/listAllStudent")
+    @GetMapping("/list")
     @ApiOperation("获取学员列表（条件+分页）")
     public JsonVO<PageDTO<ResponseDTO>> listAllStudent(StudentQuery condition) {
         return null;
