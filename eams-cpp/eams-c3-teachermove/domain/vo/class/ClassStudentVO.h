@@ -8,9 +8,9 @@
 /**
  * 班级学员分页响应 VO
  */
-class ClassStudentPageJsonVO : public JsonVO<ClassStudentPageDTO::Wrapper>
+class ClassStudentPageJsonVO : public JsonVO<ClassStudentListPageDTO::Wrapper>
 {
-	DTO_INIT(ClassStudentPageJsonVO, JsonVO<ClassStudentPageDTO::Wrapper>);
+	DTO_INIT(ClassStudentPageJsonVO, JsonVO<ClassStudentListPageDTO::Wrapper>);
 };
 
 #include OATPP_CODEGEN_END(DTO)
