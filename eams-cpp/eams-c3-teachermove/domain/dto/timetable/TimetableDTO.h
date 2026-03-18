@@ -6,7 +6,7 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/* 课表相关业务DTO类*/
+/* 课表相关业务DTO类 */
 class TimetableDTO: public oatpp::DTO
 {
 	DTO_INIT(TimetableDTO, DTO)
@@ -23,7 +23,7 @@ class TimetableStudentDTO : public oatpp::DTO {
 	API_DTO_FIELD(Int32, rest_hour, ZH_WORDS_GETTER("timetable.dto.TimetableStudentDTO.restHour"), false, 108)
 };
 
-//由于框架没有自带 PageJsonVO，需要自定义一个属于当前学员列表的分页 VO
+// 由于框架没有自带 PageJsonVO，需要自定义一个属于当前学员列表的分页 VO
 class TimetableStudentPageJsonVO : public JsonVO<PageDTO<TimetableStudentDTO::Wrapper>::Wrapper> {
 	DTO_INIT(TimetableStudentPageJsonVO, JsonVO<PageDTO<TimetableStudentDTO::Wrapper>::Wrapper>)
 };

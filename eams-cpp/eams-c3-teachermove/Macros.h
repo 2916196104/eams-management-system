@@ -20,79 +20,79 @@
 #ifndef _MACROS_
 #define _MACROS_
 
-/** ¶¨ÒåÊÜ±£»¤µÄ±äÁ¿£¬²¢Ìá¹©get¡¢set·½·¨ */
+/** ï¿½ï¿½ï¿½ï¿½ï¿½Ü±ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á¹©getï¿½ï¿½setï¿½ï¿½ï¿½ï¿½ */
 #define CC_SYNTHESIZE(varType, varName, funName)\
 protected: varType varName;\
 public: varType get##funName(void) const { return varName; }\
 public: void set##funName(varType var){	varName = var; }
 
-/** ¶¨ÒåÊÜ±£»¤µÄmap±äÁ¿£¬²¢Ìá¹©get¡¢set·½·¨ */
+/** ï¿½ï¿½ï¿½ï¿½ï¿½Ü±ï¿½ï¿½ï¿½ï¿½ï¿½mapï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á¹©getï¿½ï¿½setï¿½ï¿½ï¿½ï¿½ */
 #define CC_SYNTHESIZE_MAP(keyType, valType, varName, funName)\
 protected: std::map<keyType, valType> varName;\
 public: std::map<keyType, valType> get##funName(void) const { return varName; }\
 public: void set##funName(std::map<keyType,valType> var){ varName = var; }
 
-/** ¶¨ÒåÊÜ±£»¤µÄ±äÁ¿£¬²¢Ìá¹©get·½·¨ */
+/** ï¿½ï¿½ï¿½ï¿½ï¿½Ü±ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á¹©getï¿½ï¿½ï¿½ï¿½ */
 #define CC_SYNTHESIZE_GET(varType, varName, funName)\
 protected: varType varName;\
 public: varType get##funName(void) const { return varName; }
 
-/** ¶¨ÒåÊÜ±£»¤µÄmap±äÁ¿£¬²¢Ìá¹©get·½·¨ */
+/** ï¿½ï¿½ï¿½ï¿½ï¿½Ü±ï¿½ï¿½ï¿½ï¿½ï¿½mapï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á¹©getï¿½ï¿½ï¿½ï¿½ */
 #define CC_SYNTHESIZE_MAP_GET(keyType, valType, varName, funName)\
 protected: std::map<keyType, valType> varName;\
 public: std::map<keyType, valType> get##funName(void) const { return varName; }\
 
-/** ¶¨ÒåÊÜ±£»¤µÄ±äÁ¿£¬²¢Ìá¹©set·½·¨ */
+/** ï¿½ï¿½ï¿½ï¿½ï¿½Ü±ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á¹©setï¿½ï¿½ï¿½ï¿½ */
 #define CC_SYNTHESIZE_SET(varType, varName, funName)\
 protected: varType varName;\
 public: void set##funName(varType var){	varName = var; }
 
-/** ¶¨ÒåÊÜ±£»¤µÄmap±äÁ¿£¬²¢Ìá¹©set·½·¨ */
+/** ï¿½ï¿½ï¿½ï¿½ï¿½Ü±ï¿½ï¿½ï¿½ï¿½ï¿½mapï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á¹©setï¿½ï¿½ï¿½ï¿½ */
 #define CC_SYNTHESIZE_MAP_SET(keyType, valType, varName, funName)\
 protected: std::map<keyType, valType> varName;\
 public: void set##funName(std::map<keyType,valType> var){ varName = var; }
 
-/** ¶¨ÒåÊÜ±£»¤µÄ±äÁ¿£¬²¢Ìá¹©get·½·¨£¬·µ»Ø±äÁ¿ÒýÓÃ */
+/** ï¿½ï¿½ï¿½ï¿½ï¿½Ü±ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á¹©getï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 #define CC_SYNTHESIZE_CR_GET(varType, varName, funName)\
 protected: varType varName;\
 public: varType& get##funName(void) { return varName; }\
 
-/** ¶¨ÒåÊÜ±£»¤µÄmap±äÁ¿£¬²¢Ìá¹©get·½·¨£¬·µ»ØmapÒýÓÃ */
+/** ï¿½ï¿½ï¿½ï¿½ï¿½Ü±ï¿½ï¿½ï¿½ï¿½ï¿½mapï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á¹©getï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mapï¿½ï¿½ï¿½ï¿½ */
 #define CC_SYNTHESIZE_CR_MAP_GET(keyType, valType, varName, funName)\
 protected: std::map<keyType, valType> varName;\
 public: std::map<keyType, valType>& get##funName(void) { return varName; }\
 
-/** ¶¨ÒåÊÜ±£»¤µÄ±äÁ¿£¬²¢Ìá¹©Ðéget¡¢set·½·¨ */
+/** ï¿½ï¿½ï¿½ï¿½ï¿½Ü±ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á¹©ï¿½ï¿½getï¿½ï¿½setï¿½ï¿½ï¿½ï¿½ */
 #define CC_SYNTHESIZE_VIRTUAL(varType, varName, funName)\
 protected: varType varName;\
 public: virtual varType get##funName(void) const { return varName; }\
 public: virtual void set##funName(varType var){ varName = var; }
 
-/** ¶¨ÒåÊÜ±£»¤µÄ±äÁ¿£¬²¢Ìá¹©Ðéget·½·¨ */
+/** ï¿½ï¿½ï¿½ï¿½ï¿½Ü±ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á¹©ï¿½ï¿½getï¿½ï¿½ï¿½ï¿½ */
 #define CC_SYNTHESIZE_VIRTUAL_GET(varType, varName, funName)\
 protected: varType varName;\
 public: virtual varType get##funName(void) const { return varName; }
 
-/** ¶¨ÒåÊÜ±£»¤µÄ±äÁ¿£¬²¢Ìá¹©Ðéset·½·¨ */
+/** ï¿½ï¿½ï¿½ï¿½ï¿½Ü±ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á¹©ï¿½ï¿½setï¿½ï¿½ï¿½ï¿½ */
 #define CC_SYNTHESIZE_VIRTUAL_SET(varType, varName, funName)\
 protected: varType varName;\
 public: virtual void set##funName(varType var){ varName = var; }
 
-/** ¶¨ÒåÊÜ±£»¤µÄ±äÁ¿£¬²¢Ìá¹©Ðéget·½·¨£¬·µ»Ø±äÁ¿ÒýÓÃ */
+/** ï¿½ï¿½ï¿½ï¿½ï¿½Ü±ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á¹©ï¿½ï¿½getï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 #define CC_SYNTHESIZE_VIRTUAL_CR_GET(varType, varName, funName)\
 protected: varType varName;\
 public: virtual varType& get##funName(void) { return varName; }
 
 //////////////////////////////////////////////////////////////////////////
 
-/** Ë½ÓÐ»¯¸³ÖµÔËËã·û/¿½±´¹¹Ôì/ÎÞ²Î¹¹Ôì */
+/** Ë½ï¿½Ð»ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½/ï¿½Þ²Î¹ï¿½ï¿½ï¿½ */
 #define SINGLETON_HEPLER(TypeName) \
 private: \
 TypeName() { init(); } \
 TypeName(const TypeName&) = delete; \
 TypeName& operator=(const TypeName&) = delete;
 
-/** ¶¨Òåµ¥Àý¡£×¢Òâ£ºÐèÒªÔÚ×Ô¼ºµÄÀàÖÐÌá¹©Ò»¸öË½ÓÐinitº¯ÊýÓÃÓÚ³õÊ¼»¯Êý¾Ý */
+/** ï¿½ï¿½ï¿½åµ¥ï¿½ï¿½ï¿½ï¿½×¢ï¿½â£ºï¿½ï¿½Òªï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á¹©Ò»ï¿½ï¿½Ë½ï¿½ï¿½initï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú³ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 #define DECLARE_INSTANCE(TypeName) \
 SINGLETON_HEPLER(TypeName) \
 public: \
@@ -105,7 +105,7 @@ public: \
 
 #include "oatpp/parser/json/mapping/ObjectMapper.hpp"
 
-// RocketMQÒì²½·¢²¼¶ÔÏóÏûÏ¢£¬ÕâÀï»á½«¶ÔÏó×ª»»³ÉJSON×Ö·û´®
+// RocketMQï¿½ì²½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á½«ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½JSONï¿½Ö·ï¿½ï¿½ï¿½
 #define RC_PUBLISH_OBJ_MSG_ASYNC(__ROCKET_CLIENT__, __TOPIC__, __DATA_OBJ__, __CB_OBJ__) \
 [&] { \
 	auto mapper = oatpp::parser::json::mapping::ObjectMapper::createShared(); \
@@ -113,7 +113,7 @@ public: \
 	__ROCKET_CLIENT__->productMsgAsync(__TOPIC__, jobj.getValue(""), __CB_OBJ__); \
 }()
 
-// RocketMQÍ¬²½·¢²¼¶ÔÏóÏûÏ¢£¬ÕâÀï»á½«¶ÔÏó×ª»»³ÉJSON×Ö·û´®
+// RocketMQÍ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á½«ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½JSONï¿½Ö·ï¿½ï¿½ï¿½
 #define RC_PUBLISH_OBJ_MSG_SYNC(__RETURN_VAR_NAME__, __ROCKET_CLIENT__, __TOPIC__, __DATA_OBJ__) \
 rocketmq::SendStatus __RETURN_VAR_NAME__; \
 [&] { \
@@ -122,7 +122,7 @@ rocketmq::SendStatus __RETURN_VAR_NAME__; \
 	__RETURN_VAR_NAME__ = __ROCKET_CLIENT__->productMsgSync(__TOPIC__, jobj.getValue("")); \
 }()
 
-// RocketMQ½ÓÊÕÏûÏ¢£¬½«JSON×Ö·û´®×ª»»³É¶ÔÏó
+// RocketMQï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½JSONï¿½Ö·ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½É¶ï¿½ï¿½ï¿½
 #define RC_RECEIVER_MSG_CONVERT(__RETURN_VAR_NAME__, __DATA__TYPE__, __PAYLOAD__) \
 oatpp::Object<__DATA__TYPE__> __RETURN_VAR_NAME__; \
 [&] { \
@@ -134,13 +134,13 @@ oatpp::Object<__DATA__TYPE__> __RETURN_VAR_NAME__; \
 
 #include "YamlHelper.h"
 
-// ¶¨ÒåÒ»¸ö»ñÈ¡ÖÐÎÄ×Ö»ñÈ¡ºê
+// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½È¡ï¿½ï¿½
 #define ZH_WORDS_GETTER(_KEY_) \
 YamlHelper().getString(&(ServerInfo::getInstance().getZhDictNode()), _KEY_)
 
 //////////////////////////////////////////////////////////////////////////
 
-// ¶¨ÒåÁìÓòÄ£ÐÍ×ª»»¿É±ä²ÎÕ¹¿ªÏà¹Øºê
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½×ªï¿½ï¿½ï¿½É±ï¿½ï¿½Õ¹ï¿½ï¿½ï¿½ï¿½Øºï¿½
 #define ZO_STAR_EXPAND( x ) x
 #define ZO_STAR_GET_MACRO(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36, _37, _38, _39, _40, _41, _42, _43, _44, _45, _46, _47, _48, _49, _50, _51, _52, _53, _54, _55, _56, _57, _58, _59, _60, _61, _62, _63, _64, NAME, ...) NAME
 #define ZO_STAR_PASTE(...) ZO_STAR_EXPAND(ZO_STAR_GET_MACRO(__VA_ARGS__, \
@@ -240,26 +240,26 @@ YamlHelper().getString(&(ServerInfo::getInstance().getZhDictNode()), _KEY_)
 #define ZO_STAR_PASTE29(target, src, func, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, v23, v24, v25, v26, v27, v28, v29, v30, v31, v32, v33, v34, v35, v36, v37, v38, v39, v40, v41, v42, v43, v44, v45, v46, v47, v48, v49, v50, v51, v52, v53, v54, v55, v56, v57, v58) ZO_STAR_PASTE01(target, src, func, v1, v2) ZO_STAR_PASTE28(target, src, func, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, v23, v24, v25, v26, v27, v28, v29, v30, v31, v32, v33, v34, v35, v36, v37, v38, v39, v40, v41, v42, v43, v44, v45, v46, v47, v48, v49, v50, v51, v52, v53, v54, v55, v56, v57, v58)
 #define ZO_STAR_PASTE30(target, src, func, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, v23, v24, v25, v26, v27, v28, v29, v30, v31, v32, v33, v34, v35, v36, v37, v38, v39, v40, v41, v42, v43, v44, v45, v46, v47, v48, v49, v50, v51, v52, v53, v54, v55, v56, v57, v58, v59, v60) ZO_STAR_PASTE01(target, src, func, v1, v2) ZO_STAR_PASTE29(target, src, func, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, v23, v24, v25, v26, v27, v28, v29, v30, v31, v32, v33, v34, v35, v36, v37, v38, v39, v40, v41, v42, v43, v44, v45, v46, v47, v48, v49, v50, v51, v52, v53, v54, v55, v56, v57, v58, v59, v60)
 
-// DO×ª³ÉDTOÊôÐÔÉèÖÃ
+// DO×ªï¿½ï¿½DTOï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #define ZO_STAR_DOMAIN_FILED_DO_TO_DTO(target, src, f1, f2) target->f1=src.get##f2();
 #define ZO_STAR_DOMAIN_FILED_DO_TO_DTO_1(target, src, f1, f2) target->f1=src->get##f2();
 /**
- * DO×ªDTO°ïÖúºê£¬×¢Òâ¸ÃºêÖ»Ö§³Ö30¸ö×Ö¶Î×ª»»£¬³¬³ö30¸ö×Ö¶Î£¬·´¸´µ÷ÓÃ¸Ãºêµ÷ÓÃ¼´¿É
- * @param target: ÊôÐÔÖµ½ÓÊÕÄ¿±ê¶ÔÏó
- * @param src: ÊôÐÔÖµÀ´Ô´¶ÔÏó
- * @param ...: ×Ö¶Î²ÎÊý£ºÄ¿±ê¶ÔÏó×Ö¶ÎÃû,À´Ô´¶ÔÏóget·½·¨Ãû³Æ(È¥³ýgetºóÊ£Óà²¿·Ö)¡£Èç:id,Id,name,Name......
+ * DO×ªDTOï¿½ï¿½ï¿½ï¿½ï¿½ê£¬×¢ï¿½ï¿½Ãºï¿½Ö»Ö§ï¿½ï¿½30ï¿½ï¿½ï¿½Ö¶ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½30ï¿½ï¿½ï¿½Ö¶Î£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¸Ãºï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½
+ * @param target: ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½
+ * @param src: ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½
+ * @param ...: ï¿½Ö¶Î²ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½ï¿½,ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½getï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(È¥ï¿½ï¿½getï¿½ï¿½Ê£ï¿½à²¿ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½:id,Id,name,Name......
  */
 #define ZO_STAR_DOMAIN_DO_TO_DTO(target, src, ...) ZO_STAR_EXPAND(ZO_STAR_PASTE(target, src, ZO_STAR_DOMAIN_FILED_DO_TO_DTO, __VA_ARGS__))
 #define ZO_STAR_DOMAIN_DO_TO_DTO_1(target, src, ...) ZO_STAR_EXPAND(ZO_STAR_PASTE(target, src, ZO_STAR_DOMAIN_FILED_DO_TO_DTO_1, __VA_ARGS__))
 
-// DTO×ª³ÉDOÊôÐÔÉèÖÃ
+// DTO×ªï¿½ï¿½DOï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #define ZO_STAR_DOMAIN_FILED_DTO_TO_DO(target, src, f1, f2) if(src->f2) target.set##f1(src->f2.getValue({}));
 #define ZO_STAR_DOMAIN_FILED_DTO_TO_DO_1(target, src, f1, f2) if(src->f2) target->set##f1(src->f2.getValue({}));
 /**
- * DTO×ªDO°ïÖúºê
- * @param target: ÊôÐÔÖµ½ÓÊÕÄ¿±ê¶ÔÏó£¬×¢Òâ¸ÃºêÖ»Ö§³Ö30¸ö×Ö¶Î×ª»»£¬³¬³ö30¸ö×Ö¶Î£¬·´¸´µ÷ÓÃ¸Ãºêµ÷ÓÃ¼´¿É
- * @param src: ÊôÐÔÖµÀ´Ô´¶ÔÏó
- * @param ...: ×Ö¶Î²ÎÊý£ºÄ¿±ê¶ÔÏóset·½·¨Ãû³Æ(È¥³ýsetºóÊ£Óà²¿·Ö),À´Ô´¶ÔÏó×Ö¶ÎÃû¡£Èç:Id,id,Name,name......
+ * DTO×ªDOï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * @param target: ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½×¢ï¿½ï¿½Ãºï¿½Ö»Ö§ï¿½ï¿½30ï¿½ï¿½ï¿½Ö¶ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½30ï¿½ï¿½ï¿½Ö¶Î£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¸Ãºï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½
+ * @param src: ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½
+ * @param ...: ï¿½Ö¶Î²ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½setï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(È¥ï¿½ï¿½setï¿½ï¿½Ê£ï¿½à²¿ï¿½ï¿½),ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:Id,id,Name,name......
  */
 #define ZO_STAR_DOMAIN_DTO_TO_DO(target, src, ...) ZO_STAR_EXPAND(ZO_STAR_PASTE(target, src, ZO_STAR_DOMAIN_FILED_DTO_TO_DO, __VA_ARGS__))
 #define ZO_STAR_DOMAIN_DTO_TO_DO_1(target, src, ...) ZO_STAR_EXPAND(ZO_STAR_PASTE(target, src, ZO_STAR_DOMAIN_FILED_DTO_TO_DO_1, __VA_ARGS__))
@@ -267,35 +267,35 @@ YamlHelper().getString(&(ServerInfo::getInstance().getZhDictNode()), _KEY_)
 //////////////////////////////////////////////////////////////////////////
 
 #ifdef LINUX
-// ¶¨ÒåFastDFS¿Í»§¶Ë¶ÔÏó
+// ï¿½ï¿½ï¿½ï¿½FastDFSï¿½Í»ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½
 #define ZO_CREATE_DFS_CLIENT(_VAR_) \
-/** ¶¨ÒåÒ»¸öNacos¿Í»§¶Ë¶ÔÏó£¬ÓÃÓÚ»ñÈ¡ÅäÖÃ */ \
+/** ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Nacosï¿½Í»ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú»ï¿½È¡ï¿½ï¿½ï¿½ï¿½ */ \
 NacosClient _ns(ServerInfo::getInstance().getNacosAddr(), ServerInfo::getInstance().getNacosNs()); \
-/** ¶ÁÈ¡ÅäÖÃÊý¾Ý½Úµã */ \
+/** ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý½Úµï¿½ */ \
 auto _thirdServerConfig = _ns.getConfig("third-services.yaml"); \
-/** ´ÓNacosÅäÖÃÖÐÐÄ»ñÈ¡FastDFS¿Í»§¶ËÅäÖÃÊý¾Ý */ \
+/** ï¿½ï¿½Nacosï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½È¡FastDFSï¿½Í»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */ \
 std::string _config = _ns.getConfigText("client.conf"); \
-/** ¶¨Òå¿Í»§¶Ë¶ÔÏó */ \
+/** ï¿½ï¿½ï¿½ï¿½Í»ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½ */ \
 FastDfsClient _VAR_(_config, false);
 #else
-// ¶¨ÒåFastDFS¿Í»§¶Ë¶ÔÏó
+// ï¿½ï¿½ï¿½ï¿½FastDFSï¿½Í»ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½
 #define ZO_CREATE_DFS_CLIENT(_VAR_) \
-/** ¶¨ÒåÒ»¸öNacos¿Í»§¶Ë¶ÔÏó£¬ÓÃÓÚ»ñÈ¡ÅäÖÃ */ \
+/** ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Nacosï¿½Í»ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú»ï¿½È¡ï¿½ï¿½ï¿½ï¿½ */ \
 NacosClient _ns(ServerInfo::getInstance().getNacosAddr(), ServerInfo::getInstance().getNacosNs()); \
-/** ¶ÁÈ¡ÅäÖÃÊý¾Ý½Úµã */ \
+/** ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý½Úµï¿½ */ \
 auto _thirdServerConfig = _ns.getConfig("./conf/third-services.yaml"); \
-/** ´ÓÅäÖÃÖÐ»ñÈ¡FastDFS¿Í»§¶ËÅäÖÃÊý¾Ý*/ \
+/** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½È¡FastDFSï¿½Í»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/ \
 std::string _ipPort = YamlHelper().getString(&_thirdServerConfig, "fastdfs.tracker-servers"); \
 std::string _ip = _ipPort.substr(0, _ipPort.find(":")); \
 int _port = stoi(_ipPort.substr(_ipPort.find(":") + 1)); \
-/** ¶¨Òå¿Í»§¶Ë¶ÔÏó*/ \
+/** ï¿½ï¿½ï¿½ï¿½Í»ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½*/ \
 FastDfsClient _VAR_(_ip, _port);
 #endif
 
 /**
- * ¿ìËÙ¶¨ÒåFastDFS¿Í»§¶Ë¶ÔÏóºÍÎÄ¼þÏÂÔØÂ·¾¶Ç°×º
- * @param _VAR_CLIENT_: DFS¿Í»§¶Ë¶ÔÏó±äÁ¿Ãû
- * @param _VAR_URL_PREFIX_: ÏÂÔØµØÖ·Ç°×º±äÁ¿Ãû
+ * ï¿½ï¿½ï¿½Ù¶ï¿½ï¿½ï¿½FastDFSï¿½Í»ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½Ç°×º
+ * @param _VAR_CLIENT_: DFSï¿½Í»ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * @param _VAR_URL_PREFIX_: ï¿½ï¿½ï¿½Øµï¿½Ö·Ç°×ºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  */
 #define ZO_CREATE_DFS_CLIENT_URL(_VAR_CLIENT_, _VAR_URL_PREFIX_) \
 ZO_CREATE_DFS_CLIENT(_VAR_CLIENT_) \
@@ -303,64 +303,64 @@ std::string _VAR_URL_PREFIX_ = "http://" + YamlHelper().getString(&_thirdServerC
 
 #ifdef LINUX
 /**
- * ¶¨Òå¶ÁÈ¡Êý¾ÝÔ´YamlÅäÖÃ½Úµã
- * @param _VAR_NS_: nacos¿Í»§¶Ë¶ÔÏó
- * @param _VAR_NODE_: ÉùÃ÷µÄÅäÖÃ½Úµã±äÁ¿Ãû
+ * ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ô´Yamlï¿½ï¿½ï¿½Ã½Úµï¿½
+ * @param _VAR_NS_: nacosï¿½Í»ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½
+ * @param _VAR_NODE_: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  */
 #define ZO_CREATE_DS_CONFIG_NODE(_VAR_NS_,_VAR_NODE_) \
 YAML::Node _VAR_NODE_ = _VAR_NS_.getConfig("data-source.yaml")
 #else
 /**
- * ¶¨Òå¶ÁÈ¡Êý¾ÝÔ´YamlÅäÖÃ½Úµã
- * @param _VAR_NS_: nacos¿Í»§¶Ë¶ÔÏó
- * @param _VAR_NODE_: ÉùÃ÷µÄÅäÖÃ½Úµã±äÁ¿Ãû
+ * ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ô´Yamlï¿½ï¿½ï¿½Ã½Úµï¿½
+ * @param _VAR_NS_: nacosï¿½Í»ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½
+ * @param _VAR_NODE_: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  */
 #define ZO_CREATE_DS_CONFIG_NODE(_VAR_NS_,_VAR_NODE_) \
 YAML::Node _VAR_NODE_ = _VAR_NS_.getConfig("./conf/data-source.yaml")
 #endif
 
 /**
- * ¿ìËÙ¶¨ÒåRedis¿Í»§¶Ë¶ÔÏó
- * @param _VAR_CLIENT_: ¶ÔÏó±äÁ¿Ãû
+ * ï¿½ï¿½ï¿½Ù¶ï¿½ï¿½ï¿½Redisï¿½Í»ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½
+ * @param _VAR_CLIENT_: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  */
 #define ZO_CREATE_REDIS_CLIENT(_VAR_CLIENT_) \
-/** ¶¨ÒåÒ»¸öNacos¿Í»§¶Ë¶ÔÏó£¬ÓÃÓÚ»ñÈ¡ÅäÖÃ */ \
+/** ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Nacosï¿½Í»ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú»ï¿½È¡ï¿½ï¿½ï¿½ï¿½ */ \
 NacosClient _ns(ServerInfo::getInstance().getNacosAddr(), ServerInfo::getInstance().getNacosNs()); \
-/** »ñÈ¡ÅäÖÃ */ \
+/** ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ */ \
 ZO_CREATE_DS_CONFIG_NODE(_ns, _config); \
-/** »ñÈ¡redisÏà¹ØÅäÖÃ */ \
+/** ï¿½ï¿½È¡redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */ \
 YamlHelper _yaml; \
 string _host = _yaml.getString(&_config, "spring.redis.host"); \
 string _port = _yaml.getString(&_config, "spring.redis.port"); \
 string _password = _yaml.getString(&_config, "spring.redis.password"); \
-/** ´´½¨RedisClient¶ÔÏó */ \
+/** ï¿½ï¿½ï¿½ï¿½RedisClientï¿½ï¿½ï¿½ï¿½ */ \
 RedisClient _VAR_CLIENT_(_host, atoi(_port.c_str()), _password)
 
 /**
- * ¿ìËÙ¶¨ÒåMongoDB¿Í»§¶Ë¶ÔÏó
- * @param _VAR_CLIENT_: ¶ÔÏó±äÁ¿Ãû
+ * ï¿½ï¿½ï¿½Ù¶ï¿½ï¿½ï¿½MongoDBï¿½Í»ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½
+ * @param _VAR_CLIENT_: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  */
 #define ZO_CREATE_MONGO_CLIENT(_VAR_CLIENT_) \
-/** ¶¨ÒåÒ»¸öNacos¿Í»§¶Ë¶ÔÏó£¬ÓÃÓÚ»ñÈ¡ÅäÖÃ */ \
+/** ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Nacosï¿½Í»ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú»ï¿½È¡ï¿½ï¿½ï¿½ï¿½ */ \
 NacosClient _ns(ServerInfo::getInstance().getNacosAddr(), ServerInfo::getInstance().getNacosNs()); \
-/** »ñÈ¡ÅäÖÃ */ \
+/** ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ */ \
 ZO_CREATE_DS_CONFIG_NODE(_ns, _config); \
-/** »ñÈ¡MongoÏà¹ØÅäÖÃ */ \
+/** ï¿½ï¿½È¡Mongoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */ \
 YamlHelper _yaml; \
 string _uri = _yaml.getString(&_config, "spring.data.mongodb.uri"); \
-/** ´´½¨MongoClient¶ÔÏó */ \
+/** ï¿½ï¿½ï¿½ï¿½MongoClientï¿½ï¿½ï¿½ï¿½ */ \
 MongoClient _VAR_CLIENT_(_uri)
 
 /**
- * ¿ìËÙ¶¨ÒåÓÊ¼þ·¢ËÍ¶ÔÏó
- * @param _VAR_CLIENT_: ¶ÔÏó±äÁ¿Ãû
+ * ï¿½ï¿½ï¿½Ù¶ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Í¶ï¿½ï¿½ï¿½
+ * @param _VAR_CLIENT_: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  */
 #define ZO_CREATE_MAIL_SENDER(_VAR_CLIENT_) \
-/** ¶¨ÒåÒ»¸öNacos¿Í»§¶Ë¶ÔÏó£¬ÓÃÓÚ»ñÈ¡ÅäÖÃ */ \
+/** ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Nacosï¿½Í»ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú»ï¿½È¡ï¿½ï¿½ï¿½ï¿½ */ \
 NacosClient _ns(ServerInfo::getInstance().getNacosAddr(), ServerInfo::getInstance().getNacosNs()); \
-/** ¶ÁÈ¡ÅäÖÃÊý¾Ý½Úµã */ \
+/** ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý½Úµï¿½ */ \
 auto _keyConfig = _ns.getConfig("key-config.yaml"); \
-/** ¶¨Òå¿Í»§¶Ë¶ÔÏó */ \
+/** ï¿½ï¿½ï¿½ï¿½Í»ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½ */ \
 YamlHelper _yh; \
 EmailSender _VAR_CLIENT_( \
 	_yh.getString(&_keyConfig, "spring.mail.host"), \
