@@ -9,79 +9,63 @@ import com.zeroone.star.project.vo.j4.student.LessonSummaryVO;
 import com.zeroone.star.project.vo.j4.student.StudentDetailVO;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * 学员接口实现类
- * 适配 PageQuery 为 long 基本类型的规范，解决类型判断错误
- */
 @RestController
 public class StudentController implements StudentApis {
 
-    /**
-     * 保存学员信息
-     * @param dto 学员DTO（包含ID、姓名等基础信息）
-     * @return 保存结果
-     */
+    // 1. 保存学员（匹配前端真实参数+数据库字段）
     @Override
     public JsonVO<String> saveStudent(StudentDTO dto) {
-        // 安全处理：防止dto或字段为空导致NPE
-        String studentId = (dto.getStudentId() == null) ? "未知ID" : dto.getStudentId();
-        String studentName = (dto.getStudentName() == null) ? "未知姓名" : dto.getStudentName();
-        return JsonVO.success(String.format("学员保存成功：ID=%s，姓名=%s", studentId, studentName));
+        return JsonVO.success("学员保存成功：" + dto.getName());
     }
 
-    /**
-     * 查询学员课程次数
-     * @param studentId 学员ID（字符串类型）
-     * @return 学员课次详情
-     */
+    // 2. 查询学员课程次数（匹配student_course表）
     @Override
     public JsonVO<StudentDetailVO> queryCourseTimes(String studentId) {
-        // 安全处理：防止studentId为空
-        String targetStudentId = (studentId == null) ? "默认ID" : studentId;
-
-        // 构造返回VO（给所有字段赋值，避免空对象序列化报错）
         StudentDetailVO vo = new StudentDetailVO();
-        vo.setStudentId(targetStudentId);
-        vo.setStudentName("测试学员");
-        vo.setCourseTimes(20); // 课程次数（示例值）
-        vo.setRemainingTimes(5); // 剩余次数（示例值）
-
+        vo.setStudentId(studentId);
+        vo.setStudentName("sdadadsdsadd");
+        vo.setCountLessonTotal(20);
+        vo.setCountLessonComplet(12);
+        vo.setCountLessonRefund(2);
+        vo.setRemainingTimes(6);
+        vo.setStartDate(LocalDate.of(2025, 3, 1));
+        vo.setExpireDate(LocalDate.of(2026, 3, 1));
+        vo.setCourseAmount(new BigDecimal("2000.00"));
+        vo.setPaidAmount(new BigDecimal("1800.00"));
         return JsonVO.success(vo);
     }
 
-    /**
-     * 分页查询学员课时汇总
-     * @param query 查询条件（包含学员ID+分页参数）
-     * @return 分页课时汇总数据
-     */
+    // 3. 分页查询课时汇总（匹配lesson_student表+前端分页参数）
     @Override
     public JsonVO<PageDTO<LessonSummaryVO>> listHourSummary(StudentQuery query) {
-        // 1. 安全处理查询参数：PageQuery 是 long 基本类型，永远不会为 null
-        // 直接使用 query 自带的 pageIndex/pageSize（已被 @Min 约束保证 ≥1）
-        long pageIndex = query.getPageIndex();
-        long pageSize = query.getPageSize();
-        String studentId = (query.getStudentId() == null) ? "" : query.getStudentId();
+        // 构造课时汇总数据
+        LessonSummaryVO summary = new LessonSummaryVO();
+        summary.setId(1L);
+        summary.setLessonId(1001L);
+        summary.setClassId(2001);
+        summary.setStudentId(query.getStudentId());
+        summary.setName(query.getName());
+        summary.setMobile(query.getMobile());
+        summary.setDecLessonCount(1);
+        summary.setLessonCount(10);
+        summary.setSignType(1);
+        summary.setSignState(1);
 
-        // 2. 构造课时汇总VO（给核心字段赋值）
-        LessonSummaryVO summaryVO = new LessonSummaryVO();
-        summaryVO.setStudentId(studentId);
-        summaryVO.setTotalHour(15.5); // 总课时（示例值）
-        summaryVO.setUsedHour(8.0);   // 已用课时（示例值）
-        summaryVO.setRemainingHour(7.5); // 剩余课时（示例值）
-        List<LessonSummaryVO> dataList = Collections.singletonList(summaryVO);
+        List<LessonSummaryVO> rows = Collections.singletonList(summary);
 
-        // 3. 构造分页DTO（类型匹配，无需装箱）
+        // 构造分页对象
         PageDTO<LessonSummaryVO> pageDTO = new PageDTO<>();
-        pageDTO.setPageIndex(pageIndex);
-        pageDTO.setPageSize(pageSize);
-        pageDTO.setTotal(1L); // 总条数
-        pageDTO.setPages(1L); // 总页数
-        pageDTO.setRows(dataList); // 当前页数据
+        pageDTO.setPageIndex((long) query.getPageIndex());
+        pageDTO.setPageSize((long) query.getPageSize());
+        pageDTO.setTotal(1L);
+        pageDTO.setPages(1L);
+        pageDTO.setRows(rows);
 
-        // 4. 返回分页结果
         return JsonVO.success(pageDTO);
     }
 }

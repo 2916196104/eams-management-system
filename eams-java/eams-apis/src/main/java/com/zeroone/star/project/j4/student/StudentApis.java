@@ -26,15 +26,15 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "Student Course Interface")
 public interface StudentApis {
-    @ApiOperation("Save student information")
+    @ApiOperation("保存学员")
     @PostMapping("/student/save-student")
     JsonVO<String> saveStudent(@RequestBody StudentDTO dto);
 
-    @ApiOperation("Query student course times")
+    @ApiOperation("获取学员课次数据")
     @GetMapping("/student/query-course-times")
     JsonVO<StudentDetailVO> queryCourseTimes(@RequestParam String studentId);
 
-    @ApiOperation("List hour summary with condition and pagination")
+    @ApiOperation("获取课时汇总列表")
     @PostMapping("/student/list-hour-summary")
     JsonVO<PageDTO<LessonSummaryVO>> listHourSummary(@RequestBody StudentQuery query);
 }
