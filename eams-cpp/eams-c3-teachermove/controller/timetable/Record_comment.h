@@ -35,10 +35,7 @@ public:		//定义接口
 		// 定义分页查询参数描述
 		API_DEF_ADD_PAGE_PARAMS();
 		// 定义其他查询参数描述
-		API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("evaluate.field.name"), ZH_WORDS_GETTER("evaluate.field.name_eg"), false);
-		API_DEF_ADD_QUERY_PARAMS(Int8, "score", ZH_WORDS_GETTER("evaluate.field.score"), 3, false);
-		API_DEF_ADD_QUERY_PARAMS(Boolean, "isSign", ZH_WORDS_GETTER("evaluate.field.has_sign"), false, false);
-		API_DEF_ADD_QUERY_PARAMS(Boolean, "isEvaluate", ZH_WORDS_GETTER("evaluate.field.has_evaluation"), false, false);
+
 
 	}
 	ENDPOINT(API_M_GET, "/course-table/query-by-page", queryEvaluation, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
