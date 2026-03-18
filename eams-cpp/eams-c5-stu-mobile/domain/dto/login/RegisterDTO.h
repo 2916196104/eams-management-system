@@ -54,7 +54,7 @@ class RegisterDTO : public RegisterAddDTO
 };
 
 /**
- * 示例分页传输对象
+ * 注册分页传输对象
  */
 class RegisterPageDTO : public PageDTO<RegisterDTO::Wrapper>
 {
