@@ -1,0 +1,5 @@
+﻿staff:
+ tag: 员工信息接口
+ setRole: 设置角色
+ setOnJob: 设置在职
+ setInstitution: 设置机构
