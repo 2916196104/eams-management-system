@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -21,22 +21,22 @@
 #define _API_HELPER_
 
 #include <string>
-// ���Ŀ���ر�ͷ
+// 核心库相关标头
 #include "oatpp/core/Types.hpp"
 #include "oatpp/core/macro/codegen.hpp"
 #include "oatpp/core/macro/component.hpp"
 #include "oatpp/web/protocol/http/Http.hpp"
 #include "oatpp/web/server/api/ApiController.hpp"
 #include "oatpp/parser/json/mapping/ObjectMapper.hpp"
-// �ļ��ϴ����ͷ
+// 文件上传相关头
 #include "oatpp/web/mime/multipart/InMemoryDataProvider.hpp"
 #include "oatpp/web/mime/multipart/FileProvider.hpp"
 #include "oatpp/web/mime/multipart/Reader.hpp"
 #include "oatpp/web/mime/multipart/PartList.hpp"
 #include "oatpp/web/protocol/http/outgoing/BufferBody.hpp"
-// swagger���ͷ
+// swagger相关头
 #include "oatpp-swagger/Types.hpp"
-// ���η�װ����ͷ
+// 二次封装常用头
 #include "domain/vo/JsonVO.h"
 #include "domain/dto/PageDTO.h"
 #include "CustomerAuthorizeHandler.h"
@@ -45,17 +45,17 @@ using namespace std;
 using namespace oatpp::web::protocol::http;
 
 /**
- * �󶨿�����
- * @param __DOC__: doc�˵����ָ��
- * @param __ROUTER__: router����ָ��
- * @param __CLASS__: controller������
+ * 绑定控制器
+ * @param __DOC__: doc端点对象指针
+ * @param __ROUTER__: router对象指针
+ * @param __CLASS__: controller类名称
  */
 #define BIND_CONTROLLER(__DOC__, __ROUTER__, __CLASS__) \
 __DOC__->append(__ROUTER__->addController(__CLASS__::createShared())->getEndpoints())
 
 /**
- * ����������ʶ��壬���ڰ���Ȩ���������ഴ����ں���
- * @param __CLASS__: controller������
+ * 控制器类访问定义，用于绑定授权处理器和类创建入口函数
+ * @param __CLASS__: controller类名称
  */
 #define API_ACCESS_DECLARE(__CLASS__) \
 public: \
@@ -66,62 +66,62 @@ static std::shared_ptr<__CLASS__> createShared(OATPP_COMPONENT(std::shared_ptr<O
 	return std::make_shared<__CLASS__>(objectMapper); \
 }
 
-// ��ȡ��������
+// 获取数据请求
 #define API_M_GET  "GET"
-// ������������
+// 新增数据请求
 #define API_M_POST "POST"
-// �޸���������
+// 修改数据请求
 #define API_M_PUT  "PUT"
-// ɾ����������
+// 删除数据请求
 #define API_M_DEL  "DELETE"
-// Token������ͷ�ж�Ӧ������
+// Token在请求头中对应的名称
 #define API_H_TOKEN "Authorization"
-// WebSocket Token������ͷ�ж�Ӧ������
+// WebSocket Token在请求头中对应的名称
 #define API_H_WS_TOKEN "Sec-WebSocket-Protocol"
 
 //////////////////////////////////////////////////////////////////////////
 
 /**
- * API�������ӱ���
- * @param _TITLE_: �ӿڱ���
+ * API描述添加标题
+ * @param _TITLE_: 接口标题
  */
 #define API_DEF_ADD_TITLE(_TITLE_) info->summary = _TITLE_
 
-// API�������Ӱ�ȫ��֤
+// API描述添加安全验证
 #define API_DEF_ADD_AUTH() info->addSecurityRequirement("bearer_auth")
 
 /**
- * API�������ӱ�ǩ
- * @param _TAG_: ��ǩ����
+ * API描述添加标签
+ * @param _TAG_: 标签名称
  */
 #define API_DEF_ADD_TAG(_TAG_) info->addTag(_TAG_)
 
-// API���������ļ���,��������ʽ���ļ��ϴ�
+// API描述添加文件流,用于流方式单文件上传
 #define API_DEF_ADD_FILE_STREAM() info->addConsumes<oatpp::swagger::Binary>("application/octet-stream")
 
 /**
- * API���������ļ�����,���ڱ�����ʽ�ϴ����ļ������ַ�ʽ֧�ֶ��ļ��ϴ�
- * @param _TYPE_: �����������ͣ��磺xxxDTO::Wrapper
+ * API描述添加文件表单,用于表单方式上传单文件，这种方式支持多文件上传
+ * @param _TYPE_: 表单数据类型，如：xxxDTO::Wrapper
  */
 #define API_DEF_ADD_FILE_FORM(_TYPE_) info->addConsumes<_TYPE_>("multipart/form-data")
 
 /**
- * API����������Ӧ����
- * @param __RESP_TYPE__: ��Ӧ�������ͣ��磺xxxJsonVO::Wrapper
+ * API描述添加响应数据
+ * @param __RESP_TYPE__: 响应数据类型，如：xxxJsonVO::Wrapper
  */
 #define API_DEF_ADD_RSP_JSON(__RESP_TYPE__) info->addResponse<__RESP_TYPE__>(Status::CODE_200, "application/json")
 
 /**
- * API����������Ӧ���ݣ���oatpp::Object��װ����
- * @param __RESP_TYPE__: ��Ӧ�������ͣ��磺xxxJsonVO
+ * API描述添加响应数据，用oatpp::Object包装泛型
+ * @param __RESP_TYPE__: 响应数据类型，如：xxxJsonVO
  */
 #define API_DEF_ADD_RSP_JSON_WRAPPER(__RESP_TYPE__) API_DEF_ADD_RSP_JSON(oatpp::Object<__RESP_TYPE__>)
 
 /**
- * API��������ͨ�ò�������
- * @param _TITLE_: �ӿڱ���
- * @param __RESP_TYPE__: �ӿ���Ӧ�������͡��磺"UserPageJsonVO::Wrapper"��"StringJsonVO::Wrapper"
- * @param __TAG__: ��ǩ����
+ * API描述添加通用参数定义
+ * @param _TITLE_: 接口标题
+ * @param __RESP_TYPE__: 接口响应参数类型。如："UserPageJsonVO::Wrapper"、"StringJsonVO::Wrapper"
+ * @param __TAG__: 标签名称
  */
 #define API_DEF_ADD_COMMON(_TITLE_, __RESP_TYPE__, __TAG__) \
 API_DEF_ADD_TITLE(_TITLE_); \
@@ -129,24 +129,24 @@ API_DEF_ADD_TAG(__TAG__); \
 API_DEF_ADD_RSP_JSON(__RESP_TYPE__)
 
 /**
- * API��������ͨ�ò������壬�����ʱ��ᶨ����Ȩ����
- * @param _TITLE_: �ӿڱ���
- * @param __RESP_TYPE__: �ӿ���Ӧ�������͡��磺"UserPageJsonVO::Wrapper"��"StringJsonVO::Wrapper"
- * @param __TAG__: ��ǩ����
+ * API描述添加通用参数定义，定义的时候会定义授权参数
+ * @param _TITLE_: 接口标题
+ * @param __RESP_TYPE__: 接口响应参数类型。如："UserPageJsonVO::Wrapper"、"StringJsonVO::Wrapper"
+ * @param __TAG__: 标签名称
  */
 #define API_DEF_ADD_COMMON_AUTH(_TITLE_, __RESP_TYPE__, __TAG__) \
 API_DEF_ADD_AUTH(); \
 API_DEF_ADD_COMMON(_TITLE_, __RESP_TYPE__, __TAG__)
 
-// ������ƽ̨������Ϣ������������
+// 处理跨平台描述信息中文乱码问题
 #ifndef LINUX
-#define API_PAGE_INDEX_DESC u8"��ѯҳ��"
-#define API_PAGE_SIZE_DESC u8"��ѯ����"
+#define API_PAGE_INDEX_DESC u8"查询页码"
+#define API_PAGE_SIZE_DESC u8"查询条数"
 #else
 #define API_PAGE_INDEX_DESC "page index"
 #define API_PAGE_SIZE_DESC "page size"
 #endif
-// API�������ӷ�ҳ����˵��
+// API描述添加分页参数说明
 #define API_DEF_ADD_PAGE_PARAMS() \
 info->queryParams.add<UInt64>("pageIndex").description = API_PAGE_INDEX_DESC;\
 info->queryParams["pageIndex"].addExample("default", oatpp::UInt64(1)); \
@@ -154,12 +154,12 @@ info->queryParams.add<UInt64>("pageSize").description = API_PAGE_SIZE_DESC; \
 info->queryParams["pageSize"].addExample("default", oatpp::UInt64(10))
 
 /**
- * API�������Ӳ�ѯ����˵��
- * @param _TYPE_: �ֶ��������͡��磺String��UInt32��
- * @param _FIELD_NAME_: �ֶ����ơ��磺"age"��"sex"
- * @param _DESCRIPTION_: �ֶ�������
- * @param _EXAMPLE_VAL_: ʾ��ֵ���磺"li si"��123
- * @param _REQUIRE_: �Ƿ�ش�������boolֵ���磺true��false
+ * API描述添加查询参数说明
+ * @param _TYPE_: 字段数据类型。如：String、UInt32等
+ * @param _FIELD_NAME_: 字段名称。如："age"、"sex"
+ * @param _DESCRIPTION_: 字段描述。
+ * @param _EXAMPLE_VAL_: 示例值。如："li si"、123
+ * @param _REQUIRE_: 是否必传参数，bool值。如：true、false
  */
 #define API_DEF_ADD_QUERY_PARAMS(_TYPE_, _FIELD_NAME_, _DESCRIPTION_, _EXAMPLE_VAL_, _REQUIRE_) \
 info->queryParams.add<_TYPE_>(_FIELD_NAME_).description = _DESCRIPTION_; \
@@ -167,44 +167,44 @@ info->queryParams[_FIELD_NAME_].addExample("default", _TYPE_(_EXAMPLE_VAL_)); \
 info->queryParams[_FIELD_NAME_].required = _REQUIRE_
 
 /**
- * API��������·������˵��
- * @param _TYPE_: �ֶ��������͡��磺String��UInt32��
- * @param _FIELD_NAME_: �ֶ����ơ��磺"age"��"sex"
- * @param _DESCRIPTION_: �ֶ�������
- * @param _EXAMPLE_VAL_: ʾ��ֵ���磺"li si"��123
- * @param _REQUIRE_: �Ƿ�ش�������boolֵ���磺true��false
+ * API描述添加路径参数说明
+ * @param _TYPE_: 字段数据类型。如：String、UInt32等
+ * @param _FIELD_NAME_: 字段名称。如："age"、"sex"
+ * @param _DESCRIPTION_: 字段描述。
+ * @param _EXAMPLE_VAL_: 示例值。如："li si"、123
+ * @param _REQUIRE_: 是否必传参数，bool值。如：true、false
  */
 #define API_DEF_ADD_PATH_PARAMS(_TYPE_, _FIELD_NAME_, _DESCRIPTION_, _EXAMPLE_VAL_, _REQUIRE_) \
 info->pathParams.add<_TYPE_>(_FIELD_NAME_).description = _DESCRIPTION_; \
 info->pathParams[_FIELD_NAME_].addExample("default", _TYPE_(_EXAMPLE_VAL_)); \
 info->pathParams[_FIELD_NAME_].required = _REQUIRE_
 
-// ����������չ����չ����غ�
+// 描述定义扩展参数展开相关宏
 #define API_DEF_EXPAND( x ) x
-// ����ձ��
+// 定义空标记
 #define API_DEF_NOTHING
 
 /**
- * API��������
- * @param __TITLE__: Api��������
- * @param __ENDPOINT_FUN_NAME__: Api�˵㺯������
- * @param __RESP_TYPE__: ��Ӧ���������磺XxxJsonVO::Wrapper
- * @param __TAG__: Api������ǩ
- * @param ...: ��չѡ��
+ * API描述定义
+ * @param __TITLE__: Api描述标题
+ * @param __ENDPOINT_FUN_NAME__: Api端点函数名称
+ * @param __RESP_TYPE__: 响应数据类型如：XxxJsonVO::Wrapper
+ * @param __TAG__: Api描述标签
+ * @param ...: 扩展选项
  */
 #define API_DEF_ENDPOINT_INFO(__TITLE__, __ENDPOINT_FUN_NAME__, __RESP_TYPE__, __TAG__, ...) \
 ENDPOINT_INFO(__ENDPOINT_FUN_NAME__) { \
 	API_DEF_ADD_COMMON(__TITLE__, __RESP_TYPE__, __TAG__); \
 	API_DEF_EXPAND(API_DEF_NOTHING __VA_ARGS__) \
-} 
+}
 
 /**
- * API�������壬�����ʱ��������Ȩ����
- * @param __TITLE__: Api��������
- * @param __ENDPOINT_FUN_NAME__: Api�˵㺯������
- * @param __RESP_TYPE__: ��Ӧ���������磺XxxJsonVO::Wrapper
- * @param __TAG__: Api������ǩ
- * @param ...: ��չѡ��
+ * API描述定义，定义的时候添加授权定义
+ * @param __TITLE__: Api描述标题
+ * @param __ENDPOINT_FUN_NAME__: Api端点函数名称
+ * @param __RESP_TYPE__: 响应数据类型如：XxxJsonVO::Wrapper
+ * @param __TAG__: Api描述标签
+ * @param ...: 扩展选项
  */
 #define API_DEF_ENDPOINT_INFO_AUTH(__TITLE__, __ENDPOINT_FUN_NAME__, __RESP_TYPE__, __TAG__, ...) \
 ENDPOINT_INFO(__ENDPOINT_FUN_NAME__) { \
@@ -213,9 +213,9 @@ ENDPOINT_INFO(__ENDPOINT_FUN_NAME__) { \
 }
 
 /**
- * �����������͹���Api��ѯ����������Ϣ
- * @param __QUERY_TYPE__: ��ѯ���������磺XxxQuery
-*/
+ * 根据数据类型构建Api查询参数描述信息
+ * @param __QUERY_TYPE__: 查询数据类型如：XxxQuery
+ */
 #define API_DEF_QUERY_PARAM_BUILD( __QUERY_TYPE__) \
 auto tmp = __QUERY_TYPE__::createShared(); \
 for (auto one : __QUERY_TYPE__::Wrapper::getPropertiesMap()) { \
@@ -246,70 +246,70 @@ for (auto one : __QUERY_TYPE__::Wrapper::getPropertiesMap()) { \
 }
 
 /**
- * API�������壬���ڲ�ѯ�ӿ�
- * @param __TITLE__: Api��������
- * @param __ENDPOINT_FUN_NAME__: Api�˵㺯������
- * @param __QUERY_TYPE__: ��ѯ���������磺XxxQuery
- * @param __RESP_TYPE__: ��Ӧ���������磺XxxJsonVO::Wrapper
- * @param __TAG__: Api������ǩ
+ * API描述定义，用于查询接口
+ * @param __TITLE__: Api描述标题
+ * @param __ENDPOINT_FUN_NAME__: Api端点函数名称
+ * @param __QUERY_TYPE__: 查询数据类型如：XxxQuery
+ * @param __RESP_TYPE__: 响应数据类型如：XxxJsonVO::Wrapper
+ * @param __TAG__: Api描述标签
  */
 #define API_DEF_ENDPOINT_INFO_QUERY(__TITLE__, __ENDPOINT_FUN_NAME__, __QUERY_TYPE__, __RESP_TYPE__, __TAG__) \
 API_DEF_ENDPOINT_INFO(__TITLE__, __ENDPOINT_FUN_NAME__, __RESP_TYPE__, __TAG__, API_DEF_QUERY_PARAM_BUILD(__QUERY_TYPE__);)
 
 /**
- * API�������壬���ڲ�ѯ�ӿڣ������ʱ��������Ȩ����
- * @param __TITLE__: Api��������
- * @param __ENDPOINT_FUN_NAME__: Api�˵㺯������
- * @param __QUERY_TYPE__: ��ѯ���������磺XxxQuery
- * @param  __RESP_TYPE__: ��Ӧ���������磺XxxJsonVO::Wrapper
- * @param __TAG__: Api������ǩ
+ * API描述定义，用于查询接口，定义的时候添加授权定义
+ * @param __TITLE__: Api描述标题
+ * @param __ENDPOINT_FUN_NAME__: Api端点函数名称
+ * @param __QUERY_TYPE__: 查询数据类型如：XxxQuery
+ * @param __RESP_TYPE__: 响应数据类型如：XxxJsonVO::Wrapper
+ * @param __TAG__: Api描述标签
  */
 #define API_DEF_ENDPOINT_INFO_QUERY_AUTH(__TITLE__, __ENDPOINT_FUN_NAME__, __QUERY_TYPE__, __RESP_TYPE__, __TAG__) \
 API_DEF_ENDPOINT_INFO_AUTH(__TITLE__, __ENDPOINT_FUN_NAME__, __RESP_TYPE__, __TAG__, API_DEF_QUERY_PARAM_BUILD(__QUERY_TYPE__);)
 
 /**
- * API�������壬������Ҫ֧���ļ��ϴ��Ľӿ���������
- * @param __TITLE__: Api��������
- * @param __ENDPOINT_FUN_NAME__: Api�˵㺯������
- * @param __FORMDATA_TYPE__: �����ļ��������������磺XxxDTO::Wrapper
- * @param __RESP_TYPE__: ��Ӧ���������磺XxxJsonVO::Wrapper
- * @param __TAG__: Api������ǩ
- * @param ...: ��չѡ��
+ * API描述定义，用于需要支持文件上传的接口描述定义
+ * @param __TITLE__: Api描述标题
+ * @param __ENDPOINT_FUN_NAME__: Api端点函数名称
+ * @param __FORMDATA_TYPE__: 请求文件表单数据类型如：XxxDTO::Wrapper
+ * @param __RESP_TYPE__: 响应数据类型如：XxxJsonVO::Wrapper
+ * @param __TAG__: Api描述标签
+ * @param ...: 扩展选项
  */
 #define API_DEF_ENDPOINT_INFO_FILE(__TITLE__, __ENDPOINT_FUN_NAME__, __FORMDATA_TYPE__, __RESP_TYPE__, __TAG__) \
 API_DEF_ENDPOINT_INFO(__TITLE__, __ENDPOINT_FUN_NAME__, __RESP_TYPE__, __TAG__, API_DEF_ADD_FILE_FORM(__FORMDATA_TYPE__);)
 
 /**
- * API�������壬������Ҫ֧���ļ��ϴ��Ľӿ��������壬�����ʱ��������Ȩ����
- * @param __TITLE__: Api��������
- * @param __ENDPOINT_FUN_NAME__: Api�˵㺯������
- * @param __FORMDATA_TYPE__: �����ļ��������������磺XxxDTO::Wrapper
- * @param __RESP_TYPE__: ��Ӧ���������磺XxxJsonVO::Wrapper
- * @param __TAG__: Api������ǩ
- * @param ...: ��չѡ��
+ * API描述定义，用于需要支持文件上传的接口描述定义，定义的时候添加授权定义
+ * @param __TITLE__: Api描述标题
+ * @param __ENDPOINT_FUN_NAME__: Api端点函数名称
+ * @param __FORMDATA_TYPE__: 请求文件表单数据类型如：XxxDTO::Wrapper
+ * @param __RESP_TYPE__: 响应数据类型如：XxxJsonVO::Wrapper
+ * @param __TAG__: Api描述标签
+ * @param ...: 扩展选项
  */
 #define API_DEF_ENDPOINT_INFO_FILE_AUTH(__TITLE__, __ENDPOINT_FUN_NAME__, __FORMDATA_TYPE__, __RESP_TYPE__, __TAG__) \
 API_DEF_ENDPOINT_INFO_AUTH(__TITLE__, __ENDPOINT_FUN_NAME__, __RESP_TYPE__, __TAG__, API_DEF_ADD_FILE_FORM(__FORMDATA_TYPE__);)
 
 //////////////////////////////////////////////////////////////////////////
 
-// �ӿڴ�������ҳ������ȡ����
+// 接口处理器分页参数获取定义
 #define API_HANDLER_PAGE_PARAME \
 QUERY(UInt64, pageIndex), \
 QUERY(UInt64, pageSize)
 
-// �ӿڴ�������Ȩ������ȡ����
+// 接口处理器授权参数获取定义
 #define API_HANDLER_AUTH_PARAME \
 AUTHORIZATION(std::shared_ptr<CustomerAuthorizeObject>, authObject)
 
-// ��Ȩ����
+// 授权参数
 #define API_HANDLER_AUTN_HEADER HEADER(oatpp::String, token, API_H_TOKEN)
 
 /**
- * �ӿڴ�����������ѯ��������ѯ���ݶ���
- * @param __VAR__: ת����ı������ƣ���query
- * @param __TYPE__: ��ѯ���ݶ������ͣ���XxxQuery
- * @param __PARAMS__: QueryParams�ı������ƣ��磺QUERIES(QueryParams, queryParams),����queryParams
+ * 接口处理器解析查询参数到查询数据对象
+ * @param __VAR__: 转换后的变量名称，如query
+ * @param __TYPE__: 查询数据对象类型，如XxxQuery
+ * @param __PARAMS__: QueryParams的变量名称，如：QUERIES(QueryParams, queryParams),则传入queryParams
  */
 #define API_HANDLER_QUERY_PARAM(__VAR__, __TYPE__, __PARAMS__) \
 auto __VAR__ = __TYPE__::createShared(); \
@@ -335,24 +335,24 @@ for (auto& param : __PARAMS__.getAll()) { \
 }
 
 /**
- * �ӿڴ�������ӦVO����
- * @param __VO__: ��Ӧ���ݶ���
+ * 接口处理器响应VO数据
+ * @param __VO__: 响应数据对象
  */
 #define API_HANDLER_RESP_VO(__VO__) return createDtoResponse(Status::CODE_200, __VO__)
 
 /**
- * �ӿڴ�������ӦVO���ݣ���oatpp::Object��װ����
- * @param __VO__: ��Ӧ���ݶ���
+ * 接口处理器响应VO数据，用oatpp::Object包装泛型
+ * @param __VO__: 响应数据对象
  */
 #define API_HANDLER_RESP_VO_WRAPPER(__VO__) API_HANDLER_RESP_VO(oatpp::Object<__VO__>)
 
 /**
- * API�˵㶨��
- * @param _METHOD_: ����ʽ���磺API_M_GET
- * @param _PATH_: �˵���ʵ�ַ���磺/user/query-by-name
- * @param __ENDPOINT_FUN_NAME__: Api�˵㺯������
- * @param _PARAM_MACRO_: ָ��һ���������������ꡣ�磺BODY_DTO(SampleDTO::Wrapper, dto)
- * @param _EXECUTE_: �����߼�������execXXX�������磺execModifySample(dto)
+ * API端点定义
+ * @param _METHOD_: 请求方式。如：API_M_GET
+ * @param _PATH_: 端点访问地址。如：/user/query-by-name
+ * @param __ENDPOINT_FUN_NAME__: Api端点函数名称
+ * @param _PARAM_MACRO_: 指定一个参数解析操作宏。如：BODY_DTO(SampleDTO::Wrapper, dto)
+ * @param _EXECUTE_: 处理逻辑，调用execXXX函数。如：execModifySample(dto)
  */
 #define API_HANDLER_ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_, _EXECUTE_) \
 ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_) { \
@@ -360,12 +360,12 @@ ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_) { \
 }
 
 /**
- * API�˵㶨�壬�����ʱ��������Ȩ����
- * @param _METHOD_: ����ʽ���磺API_M_GET
- * @param _PATH_: �˵���ʵ�ַ���磺/user/query-by-name
- * @param __ENDPOINT_FUN_NAME__: Api�˵㺯������
- * @param _PARAM_MACRO_: ָ��һ���������������ꡣ�磺BODY_DTO(SampleDTO::Wrapper, dto)
- * @param _EXECUTE_: �����߼�������execXXX�������磺execModifySample(dto)
+ * API端点定义，定义的时候添加授权定义
+ * @param _METHOD_: 请求方式。如：API_M_GET
+ * @param _PATH_: 端点访问地址。如：/user/query-by-name
+ * @param __ENDPOINT_FUN_NAME__: Api端点函数名称
+ * @param _PARAM_MACRO_: 指定一个参数解析操作宏。如：BODY_DTO(SampleDTO::Wrapper, dto)
+ * @param _EXECUTE_: 处理逻辑，调用execXXX函数。如：execModifySample(dto)
  */
 #define API_HANDLER_ENDPOINT_AUTH(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_, _EXECUTE_) \
 ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_, API_HANDLER_AUTH_PARAME) { \
@@ -373,11 +373,11 @@ ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_, API_HANDLER_AUT
 }
 
 /**
- * API�˵㶨�壬�������������
- * @param _METHOD_: ����ʽ���磺API_M_GET
- * @param _PATH_: �˵���ʵ�ַ���磺/user/query-by-name
- * @param __ENDPOINT_FUN_NAME__: Api�˵㺯������
- * @param _EXECUTE_: �����߼�������execXXX�������磺execModifySample(dto)
+ * API端点定义，不定义参数解析
+ * @param _METHOD_: 请求方式。如：API_M_GET
+ * @param _PATH_: 端点访问地址。如：/user/query-by-name
+ * @param __ENDPOINT_FUN_NAME__: Api端点函数名称
+ * @param _EXECUTE_: 处理逻辑，调用execXXX函数。如：execModifySample(dto)
  */
 #define API_HANDLER_ENDPOINT_NOPARAM(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _EXECUTE_) \
 ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__) { \
@@ -385,11 +385,11 @@ ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__) { \
 }
 
 /**
- * API�˵㶨�壬��������������������ʱ��������Ȩ����
- * @param _METHOD_: ����ʽ���磺API_M_GET
- * @param _PATH_: �˵���ʵ�ַ���磺/user/query-by-name
- * @param __ENDPOINT_FUN_NAME__: Api�˵㺯������
- * @param _EXECUTE_: �����߼�������execXXX�������磺execModifySample(dto)
+ * API端点定义，不定义参数解析，定义的时候添加授权定义
+ * @param _METHOD_: 请求方式。如：API_M_GET
+ * @param _PATH_: 端点访问地址。如：/user/query-by-name
+ * @param __ENDPOINT_FUN_NAME__: Api端点函数名称
+ * @param _EXECUTE_: 处理逻辑，调用execXXX函数。如：execModifySample(dto)
  */
 #define API_HANDLER_ENDPOINT_NOPARAM_AUTH(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _EXECUTE_) \
 ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, API_HANDLER_AUTH_PARAME) { \
@@ -397,12 +397,12 @@ ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, API_HANDLER_AUTH_PARAME) { \
 }
 
 /**
- * API�˵㶨�壬���ڴ��������ѯ���������󣬲�ѯ����������ı�����Ϊquery
- * @param _METHOD_: ����ʽ���磺API_M_GET
- * @param _PATH_: �˵���ʵ�ַ���磺/user/query-by-name
- * @param __ENDPOINT_FUN_NAME__: Api�˵㺯������
- * @param _QUERY_TYPE_: ��ѯ�������͡��磺SampleQuery
- * @param _EXECUTE_: �����߼�������execXXX�������磺execQuerySample(query)
+ * API端点定义，用于处理传输查询参数的请求，查询参数解析后的变量名为query
+ * @param _METHOD_: 请求方式。如：API_M_GET
+ * @param _PATH_: 端点访问地址。如：/user/query-by-name
+ * @param __ENDPOINT_FUN_NAME__: Api端点函数名称
+ * @param _QUERY_TYPE_: 查询参数类型。如：SampleQuery
+ * @param _EXECUTE_: 处理逻辑，调用execXXX函数。如：execQuerySample(query)
  */
 #define API_HANDLER_ENDPOINT_QUERY(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _QUERY_TYPE_, _EXECUTE_) \
 ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, QUERIES(QueryParams, queryParams)) { \
@@ -411,12 +411,12 @@ ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, QUERIES(QueryParams, queryPara
 }
 
 /**
- * API�˵㶨�壬���ڴ��������ѯ���������󣬲�ѯ����������ı�����Ϊquery�������ʱ��������Ȩ����
- * @param _METHOD_: ����ʽ���磺API_M_GET
- * @param _PATH_: �˵���ʵ�ַ���磺/user/query-by-name
- * @param __ENDPOINT_FUN_NAME__: Api�˵㺯������
- * @param _QUERY_TYPE_: ��ѯ�������͡��磺SampleQuery
- * @param _EXECUTE_: �����߼�������execXXX�������磺execQuerySample(query, authObject->getPayload())
+ * API端点定义，用于处理传输查询参数的请求，查询参数解析后的变量名为query，定义的时候添加授权定义
+ * @param _METHOD_: 请求方式。如：API_M_GET
+ * @param _PATH_: 端点访问地址。如：/user/query-by-name
+ * @param __ENDPOINT_FUN_NAME__: Api端点函数名称
+ * @param _QUERY_TYPE_: 查询参数类型。如：SampleQuery
+ * @param _EXECUTE_: 处理逻辑，调用execXXX函数。如：execQuerySample(query, authObject->getPayload())
  */
 #define API_HANDLER_ENDPOINT_QUERY_AUTH(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _QUERY_TYPE_, _EXECUTE_) \
 ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) { \
@@ -425,12 +425,12 @@ ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, QUERIES(QueryParams, queryPara
 }
 
 /**
- * API�˵㶨��,���ƻ������߼�
- * @param _METHOD_: ����ʽ���磺API_M_GET
- * @param _PATH_: �˵���ʵ�ַ���磺/user/query-by-name
- * @param __ENDPOINT_FUN_NAME__: Api�˵㺯������
- * @param _PARAM_MACRO_: ָ��һ���������������ꡣ�磺BODY_DTO(SampleDTO::Wrapper, dto)
- * @param ...: ��չ�����߼�
+ * API端点定义,定制化处理逻辑
+ * @param _METHOD_: 请求方式。如：API_M_GET
+ * @param _PATH_: 端点访问地址。如：/user/query-by-name
+ * @param __ENDPOINT_FUN_NAME__: Api端点函数名称
+ * @param _PARAM_MACRO_: 指定一个参数解析操作宏。如：BODY_DTO(SampleDTO::Wrapper, dto)
+ * @param ...: 扩展处理逻辑
  */
 #define API_HANDLER_ENDPOINT_OPTION(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_, ...) \
 ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_) { \
@@ -438,12 +438,12 @@ ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_) { \
 }
 
 /**
- * API�˵㶨��,���ƻ������߼�,�����ʱ��������Ȩ����
- * @param _METHOD_: ����ʽ���磺API_M_GET
- * @param _PATH_: �˵���ʵ�ַ���磺/user/query-by-name
- * @param __ENDPOINT_FUN_NAME__: Api�˵㺯������
- * @param _PARAM_MACRO_: ָ��һ���������������ꡣ�磺BODY_DTO(SampleDTO::Wrapper, dto)
- * @param ...: ��չ�����߼�,��չ�߼���Ҫ�Լ���д�����߼����磺return createOkResponse(result);
+ * API端点定义,定制化处理逻辑,定义的时候添加授权定义
+ * @param _METHOD_: 请求方式。如：API_M_GET
+ * @param _PATH_: 端点访问地址。如：/user/query-by-name
+ * @param __ENDPOINT_FUN_NAME__: Api端点函数名称
+ * @param _PARAM_MACRO_: 指定一个参数解析操作宏。如：BODY_DTO(SampleDTO::Wrapper, dto)
+ * @param ...: 扩展处理逻辑,扩展逻辑需要自己编写返回逻辑，如：return createOkResponse(result);
  */
 #define API_HANDLER_ENDPOINT_OPTION_AUTH(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_, ...) \
 ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_, API_HANDLER_AUTH_PARAME) { \
@@ -453,12 +453,12 @@ ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_, API_HANDLER_AUT
 //////////////////////////////////////////////////////////////////////////
 
 /**
- * DTO�ֶζ����
- * @param _TYPE_: �ֶ����͡��磺String��Int32��List<Int32>��List<SampleQuery::Wrapper>
- * @param _NAME_: �ֶ����ơ��磺name��sex
- * @param _DESCRIPTION_: �ֶ�����
- * @param _REQUIRE_: �Ƿ�ش��������磺true��false
- * @param _DEFAULT_: �ֶ�Ĭ��ֵ��ע���������Ĭ��ֵ��������ֶ�ֵû�б����Ǿͻᱣ��ֵΪĬ��ֵ���磺"zhangsan" ��123
+ * DTO字段定义宏
+ * @param _TYPE_: 字段类型。如：String、Int32、List<Int32>、List<SampleQuery::Wrapper>
+ * @param _NAME_: 字段名称。如：name、sex
+ * @param _DESCRIPTION_: 字段描述
+ * @param _REQUIRE_: 是否必传参数。如：true、false
+ * @param _DEFAULT_: 字段默认值，注意如果设置默认值，如果此字段值没有被覆盖就会保持值为默认值。如："zhangsan" 、123
  */
 #define API_DTO_FIELD(_TYPE_, _NAME_, _DESCRIPTION_, _REQUIRE_, _DEFAULT_) \
 DTO_FIELD(_TYPE_, _NAME_) = _DEFAULT_; \
@@ -468,10 +468,10 @@ DTO_FIELD_INFO(_NAME_) { \
 }
 
 /**
- * DTO�ֶζ���꣬�󲿷����Ա���ϵͳĬ��
- * @param _TYPE_: �ֶ����͡��磺String��Int32��List<Int32>��List<SampleQuery::Wrapper>
- * @param _NAME_: �ֶ����ơ��磺name��sex
- * @param _DESCRIPTION_: �ֶ�����
+ * DTO字段定义宏，大部分属性保持系统默认
+ * @param _TYPE_: 字段类型。如：String、Int32、List<Int32>、List<SampleQuery::Wrapper>
+ * @param _NAME_: 字段名称。如：name、sex
+ * @param _DESCRIPTION_: 字段描述
  */
 #define API_DTO_FIELD_DEFAULT(_TYPE_, _NAME_, _DESCRIPTION_) \
 DTO_FIELD(_TYPE_, _NAME_); \
@@ -480,11 +480,11 @@ DTO_FIELD_INFO(_NAME_) { \
 }
 
 /**
- * DTO�ֶζ���֧꣬�������Ƿ�������
- * @param _TYPE_: �ֶ����͡��磺String��Int32��List<Int32>��List<SampleQuery::Wrapper>
- * @param _NAME_: �ֶ����ơ��磺name��sex
- * @param _DESCRIPTION_: �ֶ�����
- * @param _REQUIRE_: �Ƿ�ش��������磺true��false
+ * DTO字段定义宏，支持设置是否必填参数
+ * @param _TYPE_: 字段类型。如：String、Int32、List<Int32>、List<SampleQuery::Wrapper>
+ * @param _NAME_: 字段名称。如：name、sex
+ * @param _DESCRIPTION_: 字段描述
+ * @param _REQUIRE_: 是否必传参数。如：true、false
  */
 #define API_DTO_FIELD_REQUIRE(_TYPE_, _NAME_, _DESCRIPTION_, _REQUIRE_) \
 DTO_FIELD(_TYPE_, _NAME_); \
@@ -496,50 +496,50 @@ DTO_FIELD_INFO(_NAME_) { \
 //////////////////////////////////////////////////////////////////////////
 
 /**
- * ��ʼ��multipart���ݶ�ȡ�����Ͷ�ȡ��
- * @param _VAR_CONTAINER_: ����������
- * @param _VAR_READER_: ��ȡ��������
+ * 初始化multipart数据读取容器和读取器
+ * @param _VAR_CONTAINER_: 容器变量名
+ * @param _VAR_READER_: 读取器变量名
  */
 #define API_MULTIPART_INIT(_VAR_CONTAINER_, _VAR_READER_) \
 namespace multipart = oatpp::web::mime::multipart; \
-/* ����multipart���� */ \
+/* 创建multipart容器 */ \
 auto _VAR_CONTAINER_ = std::make_shared<multipart::PartList>(request->getHeaders()); \
-/* ����multipart��ȡ�� */ \
+/* 创建multipart读取器 */ \
 multipart::Reader _VAR_READER_(_VAR_CONTAINER_.get())
 
 /**
- * ���ö�ȡ���ֵ��ڴ���
- * @param _READER_: ��ȡ��
- * @param _FIELD_NAME_: �ֶ����ơ��磺"nickname"
- * @param _MDS_: ����ȡ���ݴ�С������-1��ʾ��ȡ���ֶ�ȫ������
+ * 配置读取部分到内存中
+ * @param _READER_: 读取器
+ * @param _FIELD_NAME_: 字段名称。如："nickname"
+ * @param _MDS_: 最大读取数据大小，传入-1表示读取该字段全部数据
  */
 #define API_MULTIPART_CONFIG_MEMO(_READER_, _FIELD_NAME_, _MDS_) \
 _READER_.setPartReader(_FIELD_NAME_, multipart::createInMemoryPartReader(_MDS_))
 
 /**
- * ���ö�ȡ���ֵ��ڴ��У�Ϊ����û�����ö�ȡ��С���ֶ����ö�ȡ��С�����Ҷ�ȡ���ڴ���
- * @param _READER_: ��ȡ��
- * @param _MDS_: ����ȡ���ݴ�С������-1��ʾ��ȡ���ֶ�ȫ������
+ * 配置读取部分到内存中，为所有没有配置读取大小的字段配置读取大小，并且读取到内存中
+ * @param _READER_: 读取器
+ * @param _MDS_: 最大读取数据大小，传入-1表示读取该字段全部数据
  */
 #define API_MULTIPART_CONFIG_MEMO_DEFAULT(_READER_, _MDS_) \
 _READER_.setDefaultPartReader(multipart::createInMemoryPartReader(_MDS_));
 
 /**
- * ���ö�ȡ���ֵ��ļ��У�һ������ֱ�ӱ����ļ�����
- * @param _READER_: ��ȡ��
- * @param _FIELD_NAME_: �ֶ����ơ��磺"file"
- * @param _PATH_: �ļ�����ȫ·�����磺"/tmp/zo/file.png"
+ * 配置读取部分到文件中，一般用于直接保存文件操作
+ * @param _READER_: 读取器
+ * @param _FIELD_NAME_: 字段名称。如："file"
+ * @param _PATH_: 文件保存全路径。如："/tmp/zo/file.png"
  */
 #define API_MULTIPART_CONFIG_FILE(_READER_, _FIELD_NAME_, _PATH_) \
 _READER_.setPartReader(_FIELD_NAME_, multipart::createFilePartReader(_PATH_))
 
 /**
- * �����������ͱ�������
- * @param _CONTAINER_: ��ȡ����
- * @param _FIELD_NAME_: �ֶ����ơ��磺"age"
- * @param _TYPE_: �������͡��磺Int32��UInt32��Float32�ȵ�
- * @param _VAR_: �洢���������ơ��磺age
- * @param _TYPE_TRANS_FUN_: ��������ת���������磺stoi��stoll��stoull��stof��stod
+ * 解析数字类型表单数据
+ * @param _CONTAINER_: 读取容器
+ * @param _FIELD_NAME_: 字段名称。如："age"
+ * @param _TYPE_: 数据类型。如：Int32、UInt32、Float32等等
+ * @param _VAR_: 存储变量的名称。如：age
+ * @param _TYPE_TRANS_FUN_: 数据类型转换函数。如：stoi、stoll、stoull、stof、stod
  */
 #define API_MULTIPART_PARSE_FORM_FIELD_NUM(_CONTAINER_, _FIELD_NAME_, _TYPE_, _VAR_, _TYPE_TRANS_FUN_) \
 oatpp::_TYPE_ _VAR_ = nullptr; \
@@ -549,10 +549,10 @@ if(part##_VAR_){ \
 }
 
 /**
- * �����ַ������ͱ�������
- * @param _CONTAINER_: ��ȡ����
- * @param _FIELD_NAME_: �ֶ����ơ��磺"nickname"
- * @param _VAR_: �洢���������ơ��磺nickname
+ * 解析字符串类型表单数据
+ * @param _CONTAINER_: 读取容器
+ * @param _FIELD_NAME_: 字段名称。如："nickname"
+ * @param _VAR_: 存储变量的名称。如：nickname
  */
 #define API_MULTIPART_PARSE_FORM_FIELD_STR(_CONTAINER_, _FIELD_NAME_, _VAR_) \
 oatpp::String _VAR_ = nullptr; \
@@ -562,10 +562,10 @@ if(part##_VAR_){ \
 }
 
 /**
- * �����������ͱ�������
- * @param _CONTAINER_: ��ȡ����
- * @param _FIELD_NAME_: �ֶ����ơ��磺"isopen"
- * @param _VAR_: �洢���������ơ��磺isopen
+ * 解析布尔类型表单数据
+ * @param _CONTAINER_: 读取容器
+ * @param _FIELD_NAME_: 字段名称。如："isopen"
+ * @param _VAR_: 存储变量的名称。如：isopen
  */
 #define API_MULTIPART_PARSE_FORM_FIELD_BOO(_CONTAINER_, _FIELD_NAME_, _VAR_) \
 oatpp::Boolean _VAR_ = nullptr; \
@@ -576,10 +576,10 @@ if(part##_VAR_){ \
 }
 
 /**
- * �����ļ����ݣ���ʱ�������ڴ��е��ļ����ݵ��洢������
- * @param _CONTAINER_: ��ȡ����
- * @param _FIELD_NAME_: �ֶ����ơ��磺"head"
- * @param _VAR_: �洢���������ơ��磺head
+ * 解析文件数据，此时将解析内存中的文件数据到存储变量中
+ * @param _CONTAINER_: 读取容器
+ * @param _FIELD_NAME_: 字段名称。如："head"
+ * @param _VAR_: 存储变量的名称。如：head
  */
 #define API_MULTIPART_PARSE_FILE_FIELD(_CONTAINER_, _FIELD_NAME_, _VAR_) \
 oatpp::String _VAR_ = nullptr; \

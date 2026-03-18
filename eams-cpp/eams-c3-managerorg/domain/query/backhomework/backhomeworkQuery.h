@@ -1,65 +1,23 @@
-#ifndef __BACKHOMEWORK_QUERY_H__
+ï»¿#ifndef __BACKHOMEWORK_QUERY_H__
 #define __BACKHOMEWORK_QUERY_H__
 
-#include "../GlobalInclude.h"
 #include "domain/GlobalInclude.h"
 #include "../../../../lib-oatpp/include/domain/query/PageQuery.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/*¿Îºó×÷Òµ²éÑ¯Àà*/
-
+/*è¯¾åä½œä¸šæŸ¥è¯¢ç±»*/
 class BackhomeworkQuery : public PageQuery
 {
 	DTO_INIT(BackhomeworkQuery, PageQuery)
 
-class BackhomeworkQuery : public
-{
-	DTO_INIT(BoardManager, )
-//----------------------É¾³ı×÷Òµ------------------------------
-	// ×÷ÒµIDÁĞ±í
-	DTO_FIELD(List<UInt64>, homeworkIds);
-	DTO_FIELD_INFO(homeworkIds) {
-		info->description = ZH_WORDS_GETTER("backhomework.field.homeworkIds");
-	}
-
-	//É¾³ıÀàĞÍ£º0-Âß¼­É¾³ı£¨Ä¬ÈÏ£© 1-ÎïÀíÉ¾³ı
-	DTO_FIELD(Int32, deleteType) = 0;
-	DTO_FIELD_INFO(deleteType) {
-		info->description = ZH_WORDS_GETTER("backhomework.field.deleteType");
-	}
-
-	//É¾³ıÄ³Ò»¿Î³ÌÏÂµÄËùÓĞ×÷Òµ
-	DTO_FIELD(UInt64, courseId);
-	DTO_FIELD_INFO(courseId) {
-		info->description = ZH_WORDS_GETTER("backhomework.field.courseId");
-	}
-
-	//É¾³ıÄ³Ò»ÀÏÊ¦µÄ×÷Òµ
-	DTO_FIELD(UInt64, teacherId);
-	DTO_FIELD_INFO(teacherId) {
-		info->description = ZH_WORDS_GETTER("backhomework.field.teacherId");
-	}
-
-//----------------------»ñÈ¡×÷ÒµÌá½»ÁĞ±í£¨Ìõ¼ş+·ÖÒ³£©------------------------------
-	// Ñ§ÉúID
-	DTO_FIELD(UInt64, studentId);
-	DTO_FIELD_INFO(studentId) {
-		info->description = ZH_WORDS_GETTER("homework.list.query.studentId");
-	}
-
-	// Ìá½»×´Ì¬£º-1-È«²¿£¨Ä¬ÈÏ£©£¬0-Î´Ìá½»£¬1-ÒÑÌá½»£¬2-ÒÑÅú¸Ä
-	// µãÆÀ×÷Òµ¹¦ÄÜÒ²¹²ÓÃ´Ë×Ö¶Î£¨1=´ıÅú¸Ä£¬2=ÒÑÅú¸Ä£©
-	DTO_FIELD(Int32, status) = -1;
+	// å­¦ç”ŸIDï¼ˆé€‰å¡«ï¼Œç”¨äºç­›é€‰ç‰¹å®šå­¦ç”Ÿï¼‰
+	API_DTO_FIELD_DEFAULT(oatpp::UInt64, studentId, ZH_WORDS_GETTER("Homework.query.studentId"))
+	// æäº¤çŠ¶æ€ï¼š-1-å…¨éƒ¨ï¼ˆé»˜è®¤ï¼‰ï¼Œ0-æœªæäº¤ï¼Œ1-å·²æäº¤ï¼Œ2-å·²æ‰¹æ”¹
+	DTO_FIELD(oatpp::Int32, status) = -1;
 	DTO_FIELD_INFO(status) {
-		info->description = ZH_WORDS_GETTER("homework.list.query.status");
+		info->description = ZH_WORDS_GETTER("Homework.query.status");
 	}
-
-//----------------------µãÆÀ×÷Òµ------------------------------
-	DTO_FIELD(UInt64, homeworkId);        // ×÷ÒµID
-	DTO_FIELD(String, studentName);       // Ñ§ÉúĞÕÃû£¨Ä£ºıËÑË÷£©
-	DTO_FIELD(Int64, startTime);          // Ìá½»¿ªÊ¼Ê±¼ä
-	DTO_FIELD(Int64, endTime);            // Ìá½»½áÊøÊ±¼ä
 };
 
 #include OATPP_CODEGEN_END(DTO)

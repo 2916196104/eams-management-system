@@ -1,7 +1,12 @@
 ﻿#include "stdafx.h"
 #include "Homework.h"
 
-StringJsonVO::Wrapper Homework::executeDelHomework(const Backhomework::Wrapper& backhomework)
+ListJsonVO<String>::Wrapper Homework::executeDelHomework(const DeleteHomework::Wrapper& dto)
 {
-	return {};
+	(void)dto; // TODO: 实现实际删除逻辑
+
+	auto rsp = ListJsonVO<String>::createShared();
+	auto emptyData = oatpp::List<String>::createShared(); // 返回空列表占位
+	rsp->success(emptyData);                               // success 需要传入列表数据参数
+	return rsp;
 }

@@ -1,9 +1,7 @@
-#pragma once
-
+ï»¿#pragma once
 
 #ifndef __SENDHOMEWORK_H__
 #define __SENDHOMEWORK_H__
-
 
 #include "domain/GlobalInclude.h"
 #include "oatpp/web/server/api/ApiController.hpp"
@@ -15,74 +13,27 @@
 #include "domain/vo/backhomework/backhomeworkVO.h"
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
+#define SENDHOMEWORK_API_TAG ZH_WORDS_GETTER("SendHomework.homeworkSend")
 
-/*×÷ÒµÌá½»¿ØÖÆÆ÷*/
-
-class SendHomework: public oatpp::web::server::api::ApiController
+/*ä½œä¸šæäº¤æ§åˆ¶å™¨*/
+class SendHomework : public oatpp::web::server::api::ApiController
 {
-	//¶¨Òå¿ØÖÆÆ÷·ÃÎÊÈë¿Ú
+	//å®šä¹‰æ§åˆ¶å™¨è®¿é—®å…¥å£
 	API_ACCESS_DECLARE(SendHomework);
-public:		//¶¨Òå½Ó¿Ú
-//----------------------»ñÈ¡×÷ÒµÌá½»ÁĞ±í£¨Ìõ¼ş+·ÖÒ³£©------------------------------
-    API_DEF_ENDPOINT_INFO_QUERY_AUTH(
-        ZH_WORDS_GETTER("GetHomeworkList.summary"),
-        GetHomeworkList,
-        BackhomeworkQuery,
-        oatpp::List<BackhomeworkVO::Wrapper>,
-        "SendHomework"
-    );
+public:		//å®šä¹‰æ¥å£
+	// è·å–ä½œä¸šæäº¤åˆ—è¡¨ï¼ˆæ¡ä»¶+åˆ†é¡µï¼‰
+	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("GetHomeworkList.summary"), GetHomeworkList, BackhomeworkQuery, oatpp::List<BackhomeworkVO::Wrapper>, SENDHOMEWORK_API_TAG);
+	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c3/org/backhomework/SendHomework/GetHomeworkList", GetHomeworkList, BackhomeworkQuery, executeGetHomeworkList(query));
+	
+	// ç‚¹è¯„ä½œä¸š
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("ReviewHomework.summary"), ReviewHomework, StringJsonVO::Wrapper, SENDHOMEWORK_API_TAG);
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c3/org/backhomework/SendHomework/ReviewHomework", ReviewHomework, BODY_DTO(ReviewHomework::Wrapper, req), executeReviewHomework(req));
 
-    API_HANDLER_ENDPOINT_QUERY_AUTH(
-        API_M_GET,
-        "/GetHomeworkList",
-        GetHomeworkList,
-        BackhomeworkQuery,
-        executeGetHomeworkList(query)
-    );
-
-//----------------------µãÆÀ×÷Òµ------------------------------
-    //»ñÈ¡×÷ÒµÏêÇé£¨ÓÃÓÚµãÆÀÇ°²é¿´£©
-    API_DEF_ENDPOINT_INFO_AUTH(
-        ZH_WORDS_GETTER("GetHomeworkDetail.summary"),
-        GetHomeworkDetail,
-        BackhomeworkVO::Wrapper,
-        "SendHomework",
-        API_DEF_ADD_QUERY_PARAMS(oatpp::UInt64, "id", ZH_WORDS_GETTER("field.id"), 1, true);
-    );
-
-    API_HANDLER_ENDPOINT_AUTH(
-        API_M_GET,
-        "/GetHomeworkDetail",
-        GetHomeworkDetail,
-        QUERY(UInt64, id),
-        executeGetHomeworkDetail(id)
-    );
-
-    //Ìá½»µãÆÀ
-    API_DEF_ENDPOINT_INFO_AUTH(
-        ZH_WORDS_GETTER("SubmitReview.summary"),
-        SubmitReview,
-        StringJsonVO::Wrapper,
-        "SendHomework"
-    );
-
-    API_HANDLER_ENDPOINT_AUTH(
-        API_M_POST,
-        "/SubmitReview",
-        SubmitReview,
-        BODY_DTO(ReviewHomeworkDTO::Wrapper, req),
-        executeSubmitReview(req)
-    );
-
-
-private:	//¶¨Òå½Ó¿ÚÖ´ĞĞº¯Êı
-    //----------------------»ñÈ¡×÷ÒµÌá½»ÁĞ±í£¨Ìõ¼ş+·ÖÒ³£©------------------------------
-    oatpp::List<BackhomeworkVO::Wrapper> executeGetHomeworkList(const BackhomeworkQuery::Wrapper& query);
-    StringJsonVO::Wrapper executeDelHomework(const BackhomeworkQuery::Wrapper& req);
-
-    //----------------------µãÆÀ×÷Òµ------------------------------
-    BackhomeworkVO::Wrapper executeGetHomeworkDetail(UInt64 id);
-    StringJsonVO::Wrapper executeSubmitReview(const ReviewHomeworkDTO::Wrapper& req);
+private:	//å®šä¹‰æ¥å£æ‰§è¡Œå‡½æ•°
+	//è·å–ä½œä¸šæäº¤åˆ—è¡¨ï¼ˆæ¡ä»¶+åˆ†é¡µï¼‰
+	oatpp::List<BackhomeworkVO::Wrapper> executeGetHomeworkList(const BackhomeworkQuery::Wrapper& query);
+	//ç‚¹è¯„ä½œä¸š
+	StringJsonVO::Wrapper executeReviewHomework(const ReviewHomework::Wrapper& req);
 };
 
 #include OATPP_CODEGEN_END(ApiController)

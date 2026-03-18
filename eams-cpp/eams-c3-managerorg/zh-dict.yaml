@@ -28,3 +28,39 @@
   item: 考核项
   name: 姓名
   sc: 成绩
+
+Homework:
+ backhomework: 课后作业
+ delHomework: 删除作业
+ delete:
+  successCount: 成功删除的作业数量
+  failIds: 删除失败的作业ID列表
+ query:
+  homeworkId: 作业ID
+  studentId: 学生ID
+  status: 作业提交状态
+ vo:
+  homeworkIds: 作业ID列表
+  deleteType: 删除类型
+  serialNo: 序号
+  submitterName: 提交人姓名
+  submitContent: 提交内容
+  submitTime: 提交时间
+  reviewerName: 点评人姓名
+  score: 评分
+  reviewComment: 点评内容
+
+
+SendHomework:
+ homeworkSend: 作业提交
+
+Common:
+ index: 序号
+
+GetHomeworkList:
+ summary: 获取作业提交列表（条件+分页）
+
+ReviewHomework:
+ summary: 点评作业
+ stuHomeworkId: 学生作业ID
+     

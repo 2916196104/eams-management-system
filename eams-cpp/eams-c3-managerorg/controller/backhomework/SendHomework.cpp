@@ -3,20 +3,15 @@
 
 oatpp::List<BackhomeworkVO::Wrapper> SendHomework::executeGetHomeworkList(const BackhomeworkQuery::Wrapper& query)
 {
-    return {};
+	(void)query; // TODO: 填充获取作业列表逻辑
+	return oatpp::List<BackhomeworkVO::Wrapper>::createShared();
 }
 
-StringJsonVO::Wrapper SendHomework::executeDelHomework(const BackhomeworkQuery::Wrapper& req)
+StringJsonVO::Wrapper SendHomework::executeReviewHomework(const ReviewHomework::Wrapper& req)
 {
-    return {};
+	(void)req; // TODO: 填充提交点评逻辑
+	auto rsp = StringJsonVO::createShared();
+	rsp->success("ok");
+	return rsp;
 }
 
-BackhomeworkVO::Wrapper SendHomework::executeGetHomeworkDetail(UInt64 id)
-{
-    return {};
-}
-
-StringJsonVO::Wrapper SendHomework::executeSubmitReview(const ReviewHomeworkDTO::Wrapper& req)
-{
-    return {};
-}
