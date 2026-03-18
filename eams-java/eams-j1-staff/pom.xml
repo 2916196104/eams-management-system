@@ -8,7 +8,7 @@
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>eams-sample</artifactId>
+    <artifactId>eams-j1-staff</artifactId>
     <dependencies>
         <!-- spring web mvc -->
         <dependency>
@@ -60,11 +60,6 @@
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-boot-starter</artifactId>
-            <version>${knife4j.version}</version> <!-- 适配 Spring Boot 2.3.x -->
         </dependency>
     </dependencies>
     <build>

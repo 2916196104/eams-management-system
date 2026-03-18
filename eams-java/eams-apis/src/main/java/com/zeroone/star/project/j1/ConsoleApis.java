@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@Api(tags = "Console")
+
 public interface ConsoleApis {
 
     JsonVO<StatisticsPanelVO> getStatisticsPanel();

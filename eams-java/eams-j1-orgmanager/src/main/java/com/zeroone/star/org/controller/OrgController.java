@@ -1,4 +1,4 @@
-package com.zeroone.star.controller;
+package com.zeroone.star.org.controller;
 
 
 import com.zeroone.star.project.dto.j1.org.OrgSaveDTO;
