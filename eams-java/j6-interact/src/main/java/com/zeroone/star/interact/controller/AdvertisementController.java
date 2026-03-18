@@ -9,7 +9,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 /**
@@ -23,14 +26,15 @@ public class AdvertisementController implements AdvertisementApis {
     @GetMapping("/list")
     @ApiOperation("获取公告列表（条件+分页）")
     @Override
-    public JsonVO<PageDTO<AdvertisementDTO>> queryPage(AdvertisementQuery condition) {
+    public JsonVO<PageDTO<AdvertisementDTO>> queryPage( @RequestParam(required = true) String title, @RequestParam(required = true)  String content ,  @RequestParam(required = true) List<String> type) {
         return null;
     }
+
 
     @GetMapping("/detail/{id}")
     @ApiOperation("获取公告详情")
     @Override
-    public JsonVO<AdvertisementDTO> getDetail(Long id) {
+    public JsonVO<AdvertisementDTO> getDetail( @RequestParam(required = true)String title, @RequestParam(required = true) String content , @RequestParam(required = true) List<String> type,@RequestParam(required = true)String imageUrl) {
         return null;
     }
 }
