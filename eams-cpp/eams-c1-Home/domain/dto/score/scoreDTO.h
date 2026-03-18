@@ -21,12 +21,38 @@
 #define _SCOREDTO_H_
 
 #include "../../GlobalInclude.h"
+#include "domain/dto/PageDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
  * 数据传输对象
  */
+// 成绩DTO
+class ScoreDTO : public oatpp::DTO
+{
+	DTO_INIT(ScoreDTO, DTO);
+	// 唯一标识
+	API_DTO_FIELD_DEFAULT(UInt64, id, ZH_WORDS_GETTER("score.id"));
+	// 考核项id
+	API_DTO_FIELD_DEFAULT(Int64, grade_id, ZH_WORDS_GETTER("score.grade_id"));
+	// 考核项名称
+	API_DTO_FIELD_DEFAULT(String, grade_title, ZH_WORDS_GETTER("score.grade_title"));
+	// 学生id
+	API_DTO_FIELD_DEFAULT(Int64, student_id, ZH_WORDS_GETTER("score.student_id"));
+	// 学生姓名
+	API_DTO_FIELD_DEFAULT(String, student_name, ZH_WORDS_GETTER("score.student_name"));
+	// 分数
+	API_DTO_FIELD_DEFAULT(Int8, score, ZH_WORDS_GETTER("score.score"));
+	// 添加时间
+	API_DTO_FIELD_DEFAULT(String, add_time, ZH_WORDS_GETTER("score.add_time"));
+};
+
+// 成绩分页DTO
+class ScorePageDTO : public PageDTO<ScoreDTO::Wrapper>
+{
+	DTO_INIT(ScorePageDTO, PageDTO<ScoreDTO::Wrapper>)
+};
 
 #include OATPP_CODEGEN_END(DTO)
 

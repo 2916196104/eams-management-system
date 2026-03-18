@@ -25,18 +25,32 @@
 #include "Macros.h"
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/query/PageQuery.h"
+#include "domain/vo/listening-card/cardVO.h"
+#include "domain/query/listening-card/cardquery.h"
+
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
-//ÊÔÌı¿¨Ä£¿é¿ØÖÆÆ÷
+#define API_TAG ZH_WORDS_GETTER("listening-card.tag")
+
+//è¯•å¬å¡æ¨¡å—æ§åˆ¶å™¨
 class cardController : public oatpp::web::server::api::ApiController
 {
-	// ¶¨Òå¿ØÖÆÆ÷·ÃÎÊÈë¿Ú
+	// å®šä¹‰æ§åˆ¶å™¨è®¿é—®å…¥å£
 	API_ACCESS_DECLARE(cardController);
-public: // ¶¨Òå½Ó¿Ú
 
+	// å®šä¹‰è·å–è¯•å¬å¡æ¥å£æè¿°
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("listening-card.get.list"), cardQuery,cardListJsonVO::Wrapper, API_TAG);
+	// å®šä¹‰è·å–è¯•å¬å¡æ¥å£ç«¯ç‚¹
+	API_HANDLER_ENDPOINT_NOPARAM_AUTH(API_M_GET, "/c1/home/card-list", cardQuery, executeCardListQuery());
 
-private: // ¶¨Òå½Ó¿ÚÖ´ĞĞº¯Êı
+	// å®šä¹‰è·å–è¯•å¬å¡è§„åˆ™æ¥å£æè¿°
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("listening-card.get.rule"), cardRuleQuery, cardRuleJsonVO::Wrapper, API_TAG);
+	// å®šä¹‰è·å–è¯•å¬å¡è§„åˆ™æ¥å£ç«¯ç‚¹
+	API_HANDLER_ENDPOINT_NOPARAM_AUTH(API_M_GET, "/c1/home/card-rule", cardRuleQuery, executeCardRuleQuery());
 
+private:
+	cardListJsonVO::Wrapper executeCardListQuery();
+	cardRuleJsonVO::Wrapper executeCardRuleQuery();
 };
 
 #include OATPP_CODEGEN_END(ApiController)

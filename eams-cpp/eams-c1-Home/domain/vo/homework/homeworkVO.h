@@ -21,14 +21,25 @@
 #define _HOMEWORKVO_H_
 
 #include "../../GlobalInclude.h"
-
+#include "../../dto/homework/homeworkDTO.h"
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
  * 定义显示对象
  */
+class HomeworkPageJsonVO : public JsonVO<HomeworkPageDTO::Wrapper>
+{
+	DTO_INIT(HomeworkPageJsonVO, JsonVO<HomeworkPageDTO::Wrapper>);
+};
 
-
+class HomeworkListJsonVO : public ListJsonVO<HomeworkDTO::Wrapper>
+{
+	DTO_INIT(HomeworkListJsonVO, ListJsonVO<HomeworkDTO::Wrapper>);
+};
+class HomeworkDetailJsonVO : public JsonVO<HomeworkDetailDTO::Wrapper>
+{
+	DTO_INIT(HomeworkDetailJsonVO, JsonVO<HomeworkDetailDTO::Wrapper>);
+};
 #include OATPP_CODEGEN_END(DTO)
 
 #endif // !_HOMEWORKVO_H_

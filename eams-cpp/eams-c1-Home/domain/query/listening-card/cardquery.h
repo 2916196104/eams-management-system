@@ -28,7 +28,17 @@
 /**
  * 定义查询类
  */
+class cardQuery : public PageQuery {
+	DTO_INIT(cardQuery, PageQuery);
+	// 定义查询参数(无)
+	;
+};
 
+class cardRuleQuery : public PageQuery {
+	DTO_INIT(cardRuleQuery, PageQuery);
+	// 定义查询参数(无)
+	;
+};
 
 #include OATPP_CODEGEN_END(DTO)
 

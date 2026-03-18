@@ -1,9 +1,39 @@
-home:
- class:
-  get_class_list: 获取班级列表
-  get_class_page: 获取班级分页列表
-  get_class_info: 获取班级信息
-  get_student_list: 获取教室列表
+#公告提醒模块
+
+
+
+
+#试听卡模块
+listening-card: 
+    tag: 试听卡
+    field:
+      # 试听卡基本信息
+      id: 主键ID
+      courseId: 课程ID
+      courseName: 课程名称
+      title: 体验卡名称
+      quantity: 发行数量
+      remainingQuantity: 剩余数量
+      lessonCount: 课时数
+      expireDays: 领取后有效天数
+      endDate: 发行结束日期
+      state: 启用状态（1：启用，0：禁用）
+      creator: 创建人
+      editor: 编辑人
+      # 试听卡使用规则
+      ruleContent: 规则内容
+      ruleDescription: 规则描述
+    get:
+      list: 获取试听卡列表
+      rule: 获取试听卡使用规则
+
+
+#班级模块
+class:
+  #get_class_list: 获取班级列表
+  get_class_page: 获取班级列表(条件+分页)
+  get_class_info: 获取班级详情
+  get_student_list: 获取班级学员列表
   tag: 班级模块
   id: 班级id
   class_name: 班级名称
@@ -22,57 +52,103 @@ home:
   student:
    id: 学生id
    name: 学生姓名
-   gender: 学生性别  
+   gender: 学生性别 
 
-exchange:
-  tag: 积分兑换
-  query-allGoods:
-    summary: 查询所有商品
-  query-rule:
-    summary: 查询兑换规则
-  query-accept:
-    summary: 查询已兑换商品
+#作业模块
+homework:
+  tag: 作业
+  get_homework_page: 获取作业列表（条件+分页）
+  get_homework_info: 获取作业详情
   field:
-    id: 主键
-    school_id: 所属学校
-    material_id: 物料分类
-    category_id: 礼品分类id
-    category_name: 分类名称
-    name: 礼品名称
-    credit: 兑换所用积分
-    state: 是否可以兑换
-    sale_num: 历史兑换数量
-    view_num: 预览次数
-    content: 详情内容
-    creator: 创建人
-    editor: 编辑人
-    add_time: 添加时间
-    edit_time: 编辑时间
-    deleted: 删除标记
-    org_id: 创建者所属组织id
-    cover: 路径
-    school_name: 学校名称
-    storage: 库存数量
-    credit_mall_id: 礼品对应的积分商城id
-    student_id: 学生id
-    user_id: 用户id
-    num: 兑换数量
-    verify_state: 审核状态
-    verify_time: 审核时间
-    verify_staff: 审核人
-    verify_remark: 审核备注
-    student_name: 学生姓名
-    mobile: 手机号
-    verify_staff_name: 审核人姓名
-  setting:
-    id: 主键
-    setting_id: 组id
-    name: 名称
-    code: 码
-    value: 值
-    value_type: 值数据类型
-    info: 说明
-    sort_num: 排序
+    id: 作业ID
+    title: 作业标题
+    courseName: 所属课程
+    startTime: 开始时间
+    endTime: 截止时间
+    teacherName: 发布教师
+
+
+
+
+
+
+#成绩模块
+score:
+  tag: 成绩
+  id: 成绩唯一标识
+  grade_id: 考核项id
+  grade_title: 考核项名称
+  student_id: 学生id
+  student_name: 学生姓名
+  score: 考试分数
+  add_time: 添加时间
+  query-score:
+    summary: 获取成绩列表（条件+分页）
+
+#报名记录
+registration-records:
+  tag: 报名记录
+  # ---RegistrationRecordQuery
+  exclude_expired: 是否排除已过期课程
+  # RegistrationRecordDTO
+  # ---1. 必须的字段
+  id: 记录唯一标识
+  student_id: 学生id
+  student_name: 学生姓名
+  course_id: 课程id
+  course_name: 课程名称
+  subject_name: 科目名称
+  add_time: 报名时间
+  expire_date: 过期时间
+  amount: 课程金额
+  paid_amount: 实付金额
+  count_lesson_total: 总课次
+  count_lesson_remaining: 剩余课次
+  type: 报名类型
+  verify_state: 审核状态
+  expired: 是否已过期
+  # ---2. 可能多出的字段：状态相关
+  # start_date: 开始日期
+  # remark: 备注
+  # priority: 扣课优先级
+  # operator_name: 经办人
+  # warning: 课时不足警告
+  # ---3. 可能多出的字段：考勤统计相关
+  # count_sign: 出勤次数
+  # count_leave: 请假次数
+  # count_absent: 缺勤次数
+  # count_late: 迟到次数
+  # ---4. 可能多出的字段：财务退款相关
+  # discount_amount: 优惠金额
+  # arrearage: 欠费金额
+  # remaining_amount: 剩余金额
+  # should_refund_amount: 应退金额
+  # refund_amount: 实际退款金额
+  # refund_lesson_count: 退款课次
+  # count_lesson_refund: 已退课次
+  # unit_price: 课时单价
+  # refund_remark: 退款备注
+  # refund_state: 退款状态
+  # school_name: 所属校区
+  # plan_receipt: 计划收款
+  # actual_receipt: 实际收款
+  # ---RegistrationRecodeController
+  query-records:
+    summary: 获取报名的课程（条件+分页）
+
+#点评记录模块
+review_records:
+  tag: 点评记录
+  # ---ReviewRecordDTO
+  id: 点评唯一标识
+  student_id: 学生id
+  creator_name: 评价人
+  content: 评价内容
+  score: 评分
+  add_time: 添加时间
+  # ReviewRecordController
+  query-reviews:
+    summary: 获取点评记录（条件+分页）
 
 # 上课记录模块
 attendance_records:
@@ -114,3 +190,54 @@ attendance_records:
   remark: 备注
   bookable: 是否可预约
   state: 上课状态
+ 
+#积分兑换模块
+exchange:
+  tag: 积分兑换
+  query-allGoods:
+    summary: 获取积分礼品列表（条件+分页）
+  query-rule:
+    summary: 获取积分礼品兑换规则
+  query-accept:
+    summary: 获取礼品兑换记录（条件+分页）
+  field:
+    id: 主键
+    school_id: 所属学校
+    material_id: 物料分类
+    category_id: 礼品分类id
+    category_name: 分类名称
+    name: 礼品名称
+    credit: 兑换所用积分
+    state: 是否可以兑换
+    sale_num: 历史兑换数量
+    view_num: 预览次数
+    content: 详情内容
+    creator: 创建人
+    editor: 编辑人
+    add_time: 添加时间
+    edit_time: 编辑时间
+    deleted: 删除标记
+    org_id: 创建者所属组织id
+    cover: 路径
+    school_name: 学校名称
+    storage: 库存数量
+    credit_mall_id: 礼品对应的积分商城id
+    student_id: 学生id
+    user_id: 用户id
+    num: 兑换数量
+    verify_state: 审核状态
+    verify_time: 审核时间
+    verify_staff: 审核人
+    verify_remark: 审核备注
+    student_name: 学生姓名
+    mobile: 手机号
+    verify_staff_name: 审核人姓名
+  setting:
+    id: 主键
+    setting_id: 组id
+    name: 名称
+    code: 码
+    value: 值
+    value_type: 值数据类型
+    info: 说明
+    sort_num: 排序

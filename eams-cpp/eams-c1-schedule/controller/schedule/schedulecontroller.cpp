@@ -19,4 +19,23 @@
 #include "stdafx.h"
 #include "schedulecontroller.h"
 //实现接口执行函数
+//家长提交预约申请逻辑
+StringJsonVO::Wrapper ScheduleController::execAddAppointment(const ScheduleAppointmentDTO::Wrapper& dto, const PayloadDTO& payload) {
 
+    // 包装并返回成功响应
+    auto jvo = StringJsonVO::createShared();
+    jvo->success("预约申请提交成功，请等待老师审核");
+
+    return jvo;
+}
+
+
+//家长提交请假申请逻辑 
+StringJsonVO::Wrapper ScheduleController::execAddLeave(const ScheduleLeaveDTO::Wrapper& dto, const PayloadDTO& payload) {
+
+    // 包装并返回成功响应
+    auto jvo = StringJsonVO::createShared();
+    jvo->success("请假申请提交成功");
+
+    return jvo;
+}
