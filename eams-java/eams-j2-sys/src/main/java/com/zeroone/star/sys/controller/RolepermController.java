@@ -1,15 +1,21 @@
 package com.zeroone.star.sys.controller;
 
 import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j2.sys.Roleperm.PermissionDTO;
 import com.zeroone.star.project.dto.j2.sys.RolepermDTO;
 import com.zeroone.star.project.dto.j2.sys.RolepermStaffDTO;
 import com.zeroone.star.project.j2.sys.RolepermApis;
 import com.zeroone.star.project.query.j2.sys.RolepermQuery;
 import com.zeroone.star.project.query.j2.sys.RolepermStaffQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.project.vo.j2.sys.Roleperm.PermissionGroupVO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author isme
@@ -45,6 +51,29 @@ public class RolepermController implements RolepermApis {
     @ApiOperation("从角色移除员工")
     @Override
     public JsonVO<String> removeRolepermStaff(String id) {
+        return null;
+    }
+
+    @Override
+    @ApiModelProperty("获取可分配的权限")
+    public JsonVO<PermissionGroupVO> queryPermission() {
+        return null;
+    }
+
+    @Override
+    @GetMapping("/query/list/select/{roleId}")
+    @ApiOperation("获取已分配的权限")
+    public JsonVO<PermissionGroupVO> querySelectedPermission(@PathVariable String roleId) {
+        return null;
+    }
+
+
+    @Override
+    @PostMapping("/modify/{roleId}")
+    @ApiOperation("保存角色权限分配")
+    public JsonVO<Long> savePermission(
+            @PathVariable @ApiParam(value = "角色ID", required = true) String roleId,
+            @RequestBody List<PermissionDTO> list) {
         return null;
     }
 }
