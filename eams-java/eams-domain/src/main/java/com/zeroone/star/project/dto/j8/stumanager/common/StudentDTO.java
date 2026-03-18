@@ -1,4 +1,4 @@
-package com.zeroone.star.project.vo;
+package com.zeroone.star.project.dto.j8.stumanager.common;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,8 +9,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
-@ApiModel(value = "StudentVO", description = "学员信息展示对象")
-public class StudentVO {
+@ApiModel(value = "StudentDTO", description = "学员数据传输对象")
+public class StudentDTO {
 
     @ApiModelProperty(value = "学员ID", example = "10001")
     private Long id;

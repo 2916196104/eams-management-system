@@ -1,7 +1,10 @@
 package com.zeroone.star.project.j8.stumanager.common;
-import com.zeroone.star.project.dto.j8.SaveStu.SaveStuDTO;
-import com.zeroone.star.project.dto.j8.SaveStu.StuSignCourseDTO;
+
+import com.zeroone.star.project.dto.j8.stumanager.common.StudentDTO;
+import com.zeroone.star.project.query.j8.stumanager.StudentQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.project.vo.j8.stumanager.StudentAvatarVo;
+import com.zeroone.star.project.vo.j8.stumanager.StudentVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -19,4 +22,11 @@ public interface StuInformationApis {
 
     @ApiOperation("学员报名课程")
     JsonVO<Void> enrollCourse();
+
+    @ApiOperation("查询学员详细信息")
+    JsonVO<StudentVO> getStudentDetail(StudentQuery query);
+
+
+    @ApiOperation("修改学员头像")
+    JsonVO<StudentAvatarVo> updateStudentAvatar(String avatarUrl);
 }
