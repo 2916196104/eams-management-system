@@ -1,5 +1,6 @@
 package com.zeroone.star.academic.controller;
 
+import com.zeroone.star.academic.service.ClassroomService;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j4.academic.ClassroomDTO;
 import com.zeroone.star.project.j4.academic.ClassroomApis;
@@ -9,6 +10,7 @@ import com.zeroone.star.project.vo.j4.academic.ClassroomVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +28,9 @@ import java.util.List;
 @RequestMapping("/j4/classroom")
 @Api(tags = "教室管理")
 public class ClassroomController implements ClassroomApis {
+    @Autowired
+    private ClassroomService classroomService;
+
     /**
      * 获取教室列表（条件+分页）
      * @param query 查询条件
@@ -36,7 +41,7 @@ public class ClassroomController implements ClassroomApis {
     @ApiOperation("获取教室列表（条件+分页）")
     public JsonVO<PageDTO<ClassroomVO>> queryClassroom(ClassroomQuery query) {
         // TODO: 调用 service 层实现
-        return null;
+        return JsonVO.success(classroomService.getClassroomlist(query));
     }
 
     /**
@@ -49,7 +54,7 @@ public class ClassroomController implements ClassroomApis {
     @ApiOperation("获取教室详情")
     public JsonVO<ClassroomVO> getClassroomById(@PathVariable Long id) {
         // TODO: 调用 service 层实现
-        return null;
+        return JsonVO.success(classroomService.getClassroomById(id));
     }
 
     /**
@@ -62,7 +67,7 @@ public class ClassroomController implements ClassroomApis {
     @ApiOperation("保存教室")
     public JsonVO<Long> saveClassroom(@RequestBody @Validated ClassroomDTO classroomDTO) {
         // TODO: 调用 service 层实现
-        return null;
+        return JsonVO.success(classroomService.saveClassroomByDTO(classroomDTO));
     }
 
     /**
@@ -76,6 +81,6 @@ public class ClassroomController implements ClassroomApis {
     @ApiImplicitParam(name = "ids", value = "教室ID列表",type = "Array",paramType = "body",required = true,example = "[\"1\", \"2\"]")
     public JsonVO<List<Long>> deleteClassroom(@RequestBody @Valid @NotEmpty(message = "删除 ID 列表不能为空") List<Long> ids) {
         // TODO: 调用 service 层实现
-        return null;
+        return JsonVO.success(classroomService.deleteClassroomByIds(ids));
     }
 }
