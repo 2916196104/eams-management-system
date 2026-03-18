@@ -1,4 +1,4 @@
-ï»¿#pragma once
+#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -22,11 +22,11 @@
 #include "AbstractComponentReg.h"
 
 /**
- * å…¶å®ƒOatppç»„ä»¶æ³¨å†Œé™„ä»¶ï¼Œåç»­å¦‚æœéœ€è¦é™„åŠ å…¶å®ƒç»„ä»¶å¯ä»¥åœ¨è¿™é‡Œè¿›è¡Œå¤–éƒ¨å®šä¹‰
+ * ÆäËüOatpp×é¼ş×¢²á¸½¼ş£¬ºóĞøÈç¹ûĞèÒª¸½¼ÓÆäËü×é¼ş¿ÉÒÔÔÚÕâÀï½øĞĞÍâ²¿¶¨Òå
  */
 class OtherComponent : public AbstractComponentReg
 {
-	// #TIP: é¡¹ç›®ä¸­éœ€è¦æ³¨å†Œå…¶ä»–ç»„ä»¶åœ¨ä¸‹é¢ä¹¦å†™ç»„ä»¶æ³¨å†Œä»£ç 
+	// #TIP: ÏîÄ¿ÖĞĞèÒª×¢²áÆäËû×é¼şÔÚÏÂÃæÊéĞ´×é¼ş×¢²á´úÂë
 	
 };
 

@@ -2,9 +2,30 @@
 #include "ClassStudentService.h"
 #include "dao/class/ClassStudentDAO.h"
 
-ClassStudentPageDTO::Wrapper ClassStudentService::listClassStudents(const ClassStudentQuery::Wrapper& query)
+namespace {
+	int calcAge(const std::string& birthday)
+	{
+		if (birthday.size() < 10) return 0;
+		int y = 0, m = 0, d = 0;
+		if (sscanf(birthday.c_str(), "%d-%d-%d", &y, &m, &d) != 3) return 0;
+		time_t t = time(nullptr);
+		tm now {};
+#ifdef _WIN32
+		localtime_s(&now, &t);
+#else
+		now = *localtime(&t);
+#endif
+		int age = (now.tm_year + 1900) - y;
+		if ((now.tm_mon + 1 < m) || ((now.tm_mon + 1 == m) && now.tm_mday < d)) {
+			age--;
+		}
+		return age < 0 ? 0 : age;
+	}
+}
+
+ClassStudentListPageDTO::Wrapper ClassStudentService::listClassStudents(const ClassStudentQuery::Wrapper& query)
 {
-	auto page = ClassStudentPageDTO::createShared();
+	auto page = ClassStudentListPageDTO::createShared();
 	page->pageIndex = query->pageIndex;
 	page->pageSize = query->pageSize;
 
@@ -19,24 +40,14 @@ ClassStudentPageDTO::Wrapper ClassStudentService::listClassStudents(const ClassS
 	auto list = dao.selectClassStudentList(query);
 	for (const auto& one : list)
 	{
-		auto dto = ClassStudentDTO::createShared();
+		auto dto = ClassStudentListDTO::createShared();
 		dto->id = one->getId();
 		dto->classId = one->getClassId();
 		dto->studentId = one->getStudentId();
-		dto->consumeCourseId = one->getConsumeCourseId();
-		dto->reason = one->getReason();
-		dto->addTime = one->getAddTime().c_str();
-		dto->classStudentRemark = one->getClassStudentRemark().c_str();
 		dto->studentName = one->getStudentName().c_str();
-		dto->familyRel = one->getFamilyRel();
-		dto->stage = one->getStage();
 		dto->gender = one->getGender();
-		dto->birthday = one->getBirthday().c_str();
 		dto->headImg = one->getHeadImg().c_str();
-		dto->userId = one->getUserId();
-		dto->parentName = one->getParentName().c_str();
-		dto->mobile = one->getMobile().c_str();
-		dto->studentRemark = one->getStudentRemark().c_str();
+		dto->consumeCourseId = one->getConsumeCourseId();
 		dto->countLessonRemaining = one->getCountLessonRemaining();
 		page->addData(dto);
 	}
@@ -55,25 +66,16 @@ ClassStudentDetailDTO::Wrapper ClassStudentService::getClassStudentDetail(uint64
 	dto->classId = one->getClassId();
 	dto->studentId = one->getStudentId();
 	dto->consumeCourseId = one->getConsumeCourseId();
-	dto->reason = one->getReason();
-	dto->addTime = one->getAddTime().c_str();
-	dto->classStudentRemark = one->getClassStudentRemark().c_str();
-	dto->className = one->getClassName().c_str();
-	dto->classCourseId = one->getClassCourseId();
-	dto->classCourseName = one->getClassCourseName().c_str();
-	dto->gradeId = one->getGradeId();
-	dto->gradeName = one->getGradeName().c_str();
 	dto->userId = one->getUserId();
-	dto->parentName = one->getParentName().c_str();
+	dto->name = one->getStudentName().c_str();
 	dto->mobile = one->getMobile().c_str();
-	dto->familyRel = one->getFamilyRel();
-	dto->studentName = one->getStudentName().c_str();
-	dto->stage = one->getStage();
 	dto->gender = one->getGender();
 	dto->birthday = one->getBirthday().c_str();
+	dto->age = calcAge(one->getBirthday());
+	dto->stage = one->getStage();
 	dto->headImg = one->getHeadImg().c_str();
-	dto->studentRemark = one->getStudentRemark().c_str();
-	dto->countLessonRemaining = one->getCountLessonRemaining();
+	dto->remark = one->getStudentRemark().c_str();
+	dto->classStudentRemark = one->getClassStudentRemark().c_str();
 	return dto;
 }
 
@@ -103,28 +105,12 @@ ClassStudentCoursePageDTO::Wrapper ClassStudentService::listClassStudentCourses(
 		dto->subjectName = one->getSubjectName().c_str();
 		dto->startDate = one->getStartDate().c_str();
 		dto->expireDate = one->getExpireDate().c_str();
-		dto->remark = one->getRemark().c_str();
 		dto->countLessonTotal = one->getCountLessonTotal();
 		dto->countLessonComplete = one->getCountLessonComplete();
 		dto->countLessonRefund = one->getCountLessonRefund();
 		dto->countLessonRemaining = one->getCountLessonRemaining();
-		dto->courseAmount = one->getCourseAmount();
-		dto->discountAmount = one->getDiscountAmount();
-		dto->amount = one->getAmount();
-		dto->paidAmount = one->getPaidAmount();
-		dto->payOff = one->getPayOff();
-		dto->operatorId = one->getOperatorId();
-		dto->creator = one->getCreator();
-		dto->addTime = one->getAddTime().c_str();
-		dto->editor = one->getEditor();
-		dto->editTime = one->getEditTime().c_str();
-		dto->verifyState = one->getVerifyState();
-		dto->warningTimes = one->getWarningTimes();
-		dto->priority = one->getPriority();
-		dto->unitPrice = one->getUnitPrice();
-		dto->fromTrial = one->getFromTrial();
-		dto->orgId = one->getOrgId();
 		dto->defaultConsumeCourse = one->getDefaultConsumeCourse();
+		dto->progress = (std::to_string(one->getCountLessonComplete()) + " / " + std::to_string(one->getCountLessonTotal())).c_str();
 		page->addData(dto);
 	}
 	return page;

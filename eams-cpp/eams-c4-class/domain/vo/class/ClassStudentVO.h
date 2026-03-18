@@ -7,9 +7,9 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-class ClassStudentJsonVO : public JsonVO<ClassStudentDTO::Wrapper>
+class ClassStudentListJsonVO : public JsonVO<ClassStudentListDTO::Wrapper>
 {
-	DTO_INIT(ClassStudentJsonVO, JsonVO<ClassStudentDTO::Wrapper>);
+	DTO_INIT(ClassStudentListJsonVO, JsonVO<ClassStudentListDTO::Wrapper>);
 };
 
 class ClassStudentDetailJsonVO : public JsonVO<ClassStudentDetailDTO::Wrapper>
@@ -17,9 +17,9 @@ class ClassStudentDetailJsonVO : public JsonVO<ClassStudentDetailDTO::Wrapper>
 	DTO_INIT(ClassStudentDetailJsonVO, JsonVO<ClassStudentDetailDTO::Wrapper>);
 };
 
-class ClassStudentPageJsonVO : public JsonVO<ClassStudentPageDTO::Wrapper>
+class ClassStudentListPageJsonVO : public JsonVO<ClassStudentListPageDTO::Wrapper>
 {
-	DTO_INIT(ClassStudentPageJsonVO, JsonVO<ClassStudentPageDTO::Wrapper>);
+	DTO_INIT(ClassStudentListPageJsonVO, JsonVO<ClassStudentListPageDTO::Wrapper>);
 };
 
 class ClassStudentCoursePageJsonVO : public JsonVO<ClassStudentCoursePageDTO::Wrapper>

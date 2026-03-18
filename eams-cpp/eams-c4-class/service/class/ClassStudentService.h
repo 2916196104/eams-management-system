@@ -8,7 +8,7 @@
 class ClassStudentService
 {
 public:
-	ClassStudentPageDTO::Wrapper listClassStudents(const ClassStudentQuery::Wrapper& query);
+	ClassStudentListPageDTO::Wrapper listClassStudents(const ClassStudentQuery::Wrapper& query);
 	ClassStudentDetailDTO::Wrapper getClassStudentDetail(uint64_t id);
 	ClassStudentCoursePageDTO::Wrapper listClassStudentCourses(const ClassStudentCourseQuery::Wrapper& query);
 };

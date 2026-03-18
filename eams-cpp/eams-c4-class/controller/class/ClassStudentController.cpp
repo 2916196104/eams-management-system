@@ -2,10 +2,10 @@
 #include "ClassStudentController.h"
 #include "service/class/ClassStudentService.h"
 
-ClassStudentPageJsonVO::Wrapper ClassStudentController::execQueryClassStudentList(const ClassStudentQuery::Wrapper& query)
+ClassStudentListPageJsonVO::Wrapper ClassStudentController::execQueryClassStudentList(const ClassStudentQuery::Wrapper& query)
 {
 	ClassStudentService service;
-	auto vo = ClassStudentPageJsonVO::createShared();
+	auto vo = ClassStudentListPageJsonVO::createShared();
 	vo->success(service.listClassStudents(query));
 	return vo;
 }
