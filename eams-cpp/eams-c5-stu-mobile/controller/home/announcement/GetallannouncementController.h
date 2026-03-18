@@ -9,7 +9,7 @@
 #include "domain/vo/home/announcement/GetannouncementVO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
-
+#define API_TAG ZH_WORDS_GETTER("Timeable.tags.t1")
 class GetallannouncementController : public oatpp::web::server::api::ApiController {
 
     //定义控制器访问入口
@@ -20,12 +20,13 @@ public://定义接口
         //支持授权
         API_DEF_ADD_AUTH();
         // 定义响应参数格式
-        API_DEF_ADD_RSP_JSON_WRAPPER(StringJsonVO);
+        API_DEF_ADD_RSP_JSON_WRAPPER(AnnouncementPageJsonVO);
+        API_DEF_ADD_TAG(API_TAG);
         // 定义请求参数格式
         API_DEF_ADD_PAGE_PARAMS();
-        //获取所有通知公告似乎不需要加筛选，先放着
-        API_DEF_ADD_QUERY_PARAMS(String, "title", ZH_WORDS_GETTER("getallannouncement.search1"), ZH_WORDS_GETTER("getallannouncement.titlename1"), false);
-        API_DEF_ADD_QUERY_PARAMS(String, "type", ZH_WORDS_GETTER("getallannouncement.search2"), ZH_WORDS_GETTER("getallannouncement.teachername1"), false);
+        ////获取所有通知公告似乎不需要加筛选，先放着
+        //API_DEF_ADD_QUERY_PARAMS(String, "title", ZH_WORDS_GETTER("getallannouncement.search1"), ZH_WORDS_GETTER("getallannouncement.titlename1"), false);
+        //API_DEF_ADD_QUERY_PARAMS(String, "type", ZH_WORDS_GETTER("getallannouncement.search2"), ZH_WORDS_GETTER("getallannouncement.teachername1"), false);
     }
     //接口等待后期更改
     ENDPOINT(API_M_GET, "/announcement/all/get", querytest, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
@@ -37,9 +38,10 @@ public://定义接口
     }
     // TODO - more endpoints here
 private://定义接口执行函数
+    //AnnouncementPageJsonVO::Wrapper executequerygetallannouncement(const PageQuery::Wrapper& query);
     StringJsonVO::Wrapper executequerygetallannouncement(const PageQuery::Wrapper& query);
 };
-
+#undef API_TAG
 #include OATPP_CODEGEN_END(ApiController)
 
 #endif // !_GETALLANNOUNCEMENTCONTROLLERMENT_H_

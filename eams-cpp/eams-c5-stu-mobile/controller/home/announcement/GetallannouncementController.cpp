@@ -9,3 +9,4 @@ StringJsonVO::Wrapper GetallannouncementController::executequerygetallannounceme
     return vo;
 
 }
+//AnnouncementPageJsonVO::Wrapper GetallannouncementController::executequerygetallannouncement(const PageQuery::Wrapper& query);

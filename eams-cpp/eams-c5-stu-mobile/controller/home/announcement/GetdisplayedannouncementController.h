@@ -9,7 +9,7 @@
 #include "domain/vo/home/announcement/GetannouncementVO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
-
+#define API_TAG ZH_WORDS_GETTER("Timeable.tags.t1")
 class GetdisplayedannouncementController : public oatpp::web::server::api::ApiController {
 
     //定义控制器访问入口
@@ -20,11 +20,14 @@ public://定义接口
         //支持授权
         API_DEF_ADD_AUTH();
         // 定义响应参数格式
-        API_DEF_ADD_RSP_JSON_WRAPPER(StringJsonVO);
+        API_DEF_ADD_RSP_JSON_WRAPPER(AnnouncementJsonVO);
+
+        API_DEF_ADD_TAG(API_TAG);
         // 定义请求参数格式
         API_DEF_ADD_PAGE_PARAMS();
         //只需要获取显示通知公告
-        API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("getdisplayedannouncement.search1"), ZH_WORDS_GETTER("getdisplayedannouncement.searchname1"), false);
+        //似乎只要筛选出最新的那个
+        API_DEF_ADD_QUERY_PARAMS(String, "add_time", ZH_WORDS_GETTER("getdisplayedannouncement.search1"), ZH_WORDS_GETTER("getdisplayedannouncement.searchname1"), false);
 
         //API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("getdisplayedannouncement.search1"), ZH_WORDS_GETTER("getdisplayedannouncement.name1"), false);
         //API_DEF_ADD_QUERY_PARAMS(String, "teacher_info", ZH_WORDS_GETTER("getdisplayedannouncement.search2"), "Roin" + ZH_WORDS_GETTER("getdisplayedannouncement.teachername1"), false);
@@ -39,9 +42,11 @@ public://定义接口
     }
     // TODO - more endpoints here
 private://定义接口执行函数
+    //AnnouncementJsonVO::Wrapper executequerygetallannouncement(const PageQuery::Wrapper& query);
     StringJsonVO::Wrapper executequerygetdisplayedannouncement(const PageQuery::Wrapper& query);
 };
 
+#undef API_TAG
 #include OATPP_CODEGEN_END(ApiController)
 
 #endif // !_GETDISPLAYEDANNOUNCEMENTCONTROLLER_H_

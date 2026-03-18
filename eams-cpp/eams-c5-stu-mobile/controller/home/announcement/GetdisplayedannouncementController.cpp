@@ -8,3 +8,4 @@ StringJsonVO::Wrapper GetdisplayedannouncementController::executequerygetdisplay
     return vo;
 
 }
+//AnnouncementJsonVO::Wrapper GetdisplayedannouncementController::executequerygetallannouncement(const PageQuery::Wrapper& query);
