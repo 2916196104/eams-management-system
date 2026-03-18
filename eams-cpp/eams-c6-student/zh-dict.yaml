@@ -6,6 +6,8 @@ common:
   modify-student-picture: 修改学员头像
   query-student-registration-record: 获取报名记录（条件+分页）
   download-student-picture: 下载学员头像 
+  pay-fees: 缴欠费
+  handler: 收费经手人
  field:
   file:
    id: 文件ID

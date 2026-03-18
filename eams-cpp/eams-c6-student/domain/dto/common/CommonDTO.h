@@ -57,5 +57,10 @@ class FileOnlyDTO :public oatpp::DTO {
 	DTO_INIT(FileOnlyDTO, DTO);
     API_DTO_FIELD_DEFAULT(oatpp::swagger::Binary, file, ZH_WORDS_GETTER("common.field.file.file"),true);
 };
+class PayFeesDTO :public oatpp::DTO {
+	DTO_INIT(PayFeesDTO, DTO);
+	API_DTO_FIELD_DEFAULT(UInt64, mount, ZH_WORDS_GETTER("common.interface.pay-fees"), true);
+	API_DTO_FIELD_DEFAULT(String, name, ZH_WORDS_GETTER("common.interface.handler"), false);
+};
 #include OATPP_CODEGEN_END(DTO)
 #endif
