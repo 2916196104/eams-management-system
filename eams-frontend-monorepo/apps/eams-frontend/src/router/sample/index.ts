@@ -94,6 +94,11 @@ const routes = [
 				name: 'pagination',
 				path: '/sample/pagination',
 				component: () => import('@/views/sample/pagination/Index.vue')
+			},
+			{
+				name: 'smyselector',
+				path: '/sample/myselector',
+				component: () => import('@/views/sample/myselector/Index.vue')
 			}
 		]
 	}
