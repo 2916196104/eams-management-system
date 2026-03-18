@@ -50,7 +50,6 @@ class CourseListQuery : public oatpp::DTO
 
 	DTO_FIELD(Int32, page, "page"); // 当前页码
 	DTO_FIELD(Int32, size, "size"); // 每页大小
-	DTO_FIELD(String, studentId, "studentId"); // 学员ID
 };
 
 #include OATPP_CODEGEN_END(DTO)

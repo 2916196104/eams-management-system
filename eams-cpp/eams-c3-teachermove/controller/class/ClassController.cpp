@@ -2,14 +2,20 @@
 #include "ClassController.h"
 
 
-// Ö´ĞĞ»ñÈ¡°à¼¶Ñ§Ô±ÏêÇé
-oatpp::Object<StudentDetailDTO> ClassController::execGetStudentDetail(const oatpp::String& studentId) {
-	// ´´½¨²¢·µ»Ø¿ÕµÄÑ§Ô±ÏêÇéDTO
-	return StudentDetailDTO::createShared();
+// æ‰§è¡Œè·å–ç­çº§å­¦å‘˜è¯¦æƒ…
+oatpp::Object<StudentDetailDTO> ClassController::execGetStudentDetail(const oatpp::String& name, const oatpp::String& phone) {
+	// è¿™é‡Œå¯ä»¥æ ¹æ® name æˆ– phone æŸ¥è¯¢å­¦å‘˜è¯¦æƒ…
+	auto dto = StudentDetailDTO::createShared();
+	return dto;
 }
 
-// Ö´ĞĞ»ñÈ¡°à¼¶Ñ§Ô±¿Î³ÌÁĞ±í
-oatpp::Object<CourseListResponseDTO> ClassController::execGetStudentCourseList(const oatpp::Object<CourseListQuery>& query, const PayloadDTO& payload) {
-	// ´´½¨²¢·µ»Ø¿ÕµÄ¿Î³ÌÁĞ±íÏìÓ¦DTO
-	return CourseListResponseDTO::createShared();
+// æ‰§è¡Œè·å–ç­çº§å­¦å‘˜è¯¾ç¨‹åˆ—è¡¨
+CoursePageJsonVO::Wrapper ClassController::execGetStudentCourseList(const oatpp::String& pageIndex, const oatpp::String& pageSize, const PayloadDTO& payload) {
+	// åˆ›å»ºå¹¶è¿”å›è¯¾ç¨‹åˆ†é¡µJSON VO
+	auto response = CoursePageJsonVO::createShared();
+	response->data = CoursePageDTO::createShared();
+	response->code = 0;
+	response->message = "success";
+	
+	return response;
 }

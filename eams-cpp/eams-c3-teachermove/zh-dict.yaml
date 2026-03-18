@@ -10,11 +10,12 @@ class:
       summary: 根据学生ID获取班级学员的详细信息，包括基本信息和个人资料
       params:
         studentId: 学生ID
+        studentName: 学生姓名
+        phonenumber: 电话号码
     getStudentCourseList:
       title: 获取班级学员课程列表（分页）
-      summary: 根据学生ID获取班级学员的课程列表，支持分页查询，返回课程基本信息和学习进度
+      summary: 获取班级学员的课程列表，支持分页查询，返回课程基本信息和学习进度
       params:
-        studentId: 学生ID
         page: 当前页码
         size: 每页大小
   dto:

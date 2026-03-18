@@ -19,6 +19,10 @@ class ClassPageJsonVO : public JsonVO<ClassPageDTO::Wrapper> {
 	DTO_INIT(ClassPageJsonVO, JsonVO<ClassPageDTO::Wrapper>);
 };
 
+class CoursePageJsonVO : public JsonVO<CoursePageDTO::Wrapper> {
+	DTO_INIT(CoursePageJsonVO, JsonVO<CoursePageDTO::Wrapper>);
+};
+
 #include OATPP_CODEGEN_END(DTO)
 
 #endif

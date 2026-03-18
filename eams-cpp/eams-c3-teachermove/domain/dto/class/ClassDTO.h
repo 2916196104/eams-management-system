@@ -7,76 +7,62 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/**
- * 班级 DTO（与 class 表字段对应）
- */
-class ClassDTO : public oatpp::DTO
-{
-	DTO_INIT(ClassDTO, DTO)
 
-	DTO_FIELD(UInt64, id);
-	DTO_FIELD(String, name);
-	DTO_FIELD(Int64, courseId);
-	DTO_FIELD(Int64, classroomId);
-	DTO_FIELD(Int64, creator);
-	DTO_FIELD(Int64, editor);
-	DTO_FIELD(String, addTime);
-	DTO_FIELD(String, editTime);
-	DTO_FIELD(Boolean, deleted);
-	DTO_FIELD(Int64, teacherId);
-	DTO_FIELD(String, remark);
-	DTO_FIELD(Boolean, beOver);
-	DTO_FIELD(String, overTime);
-	DTO_FIELD(Int64, overOperator);
-	DTO_FIELD(String, startDate);
-	DTO_FIELD(String, endDate);
-	DTO_FIELD(Int32, plannedStudentCount);
-	DTO_FIELD(Int32, plannedLessonCount);
-	DTO_FIELD(Int64, schoolId);
-	DTO_FIELD(Int64, orgId);
-	DTO_FIELD(Int32, gradeId);
-};
-/**
- * 班级分页 DTO
- */
-class ClassPageDTO : public PageDTO<ClassDTO::Wrapper>
-{
-	DTO_INIT(ClassPageDTO, PageDTO<ClassDTO::Wrapper>);
-};
-
-// 学生详情DTO
-class StudentDetailDTO : public oatpp::DTO
-{
-	DTO_INIT(StudentDetailDTO, DTO);
-	// 姓名
-	API_DTO_FIELD_DEFAULT(String, name, ZH_WORDS_GETTER("class.dto.StudentDetailDTO.name"));
-	// 电话号码
-	API_DTO_FIELD_DEFAULT(String, phone, ZH_WORDS_GETTER("class.dto.StudentDetailDTO.phone"));
-	// 性别
-	API_DTO_FIELD_DEFAULT(String, gender, ZH_WORDS_GETTER("class.dto.StudentDetailDTO.gender"));
-	// 年龄
-	API_DTO_FIELD_DEFAULT(Int32, age, ZH_WORDS_GETTER("class.dto.StudentDetailDTO.age"));
-	// 出生日期
-	API_DTO_FIELD_DEFAULT(String, birthday, ZH_WORDS_GETTER("class.dto.StudentDetailDTO.birthday"));
-	// 学生类型
-	API_DTO_FIELD_DEFAULT(String, studentType, ZH_WORDS_GETTER("class.dto.StudentDetailDTO.studentType"));
-	// 备注
-	API_DTO_FIELD_DEFAULT(String, remark, ZH_WORDS_GETTER("class.dto.StudentDetailDTO.remark"));
-};
 
 // 课程信息DTO
-class CourseInfoDTO : public oatpp::DTO
-{
+class CourseInfoDTO : public oatpp::DTO {
 	DTO_INIT(CourseInfoDTO, DTO);
 	// 课程名称
 	API_DTO_FIELD_DEFAULT(String, courseName, ZH_WORDS_GETTER("class.dto.CourseInfoDTO.courseName"));
 	// 学习进度
 	API_DTO_FIELD_DEFAULT(String, progress, ZH_WORDS_GETTER("class.dto.CourseInfoDTO.progress"));
-	// 有效期
+	// 有效期限
 	API_DTO_FIELD_DEFAULT(String, validityPeriod, ZH_WORDS_GETTER("class.dto.CourseInfoDTO.validityPeriod"));
 	// 剩余次数
 	API_DTO_FIELD_DEFAULT(Int32, remainingCount, ZH_WORDS_GETTER("class.dto.CourseInfoDTO.remainingCount"));
 };
+
+// 学员详情DTO
+class StudentDetailDTO : public oatpp::DTO {
+	DTO_INIT(StudentDetailDTO, DTO);
+	// 姓名
+	API_DTO_FIELD_DEFAULT(String, name, ZH_WORDS_GETTER("class.dto.StudentDetailDTO.name"));
+	// 手机号码
+	API_DTO_FIELD_DEFAULT(String, phone, ZH_WORDS_GETTER("class.dto.StudentDetailDTO.phone"));
+	// 性别
+	API_DTO_FIELD_DEFAULT(String, gender, ZH_WORDS_GETTER("class.dto.StudentDetailDTO.gender"));
+	// 年龄
+	API_DTO_FIELD_DEFAULT(Int32, age, ZH_WORDS_GETTER("class.dto.StudentDetailDTO.age"));
+	// 生日
+	API_DTO_FIELD_DEFAULT(String, birthday, ZH_WORDS_GETTER("class.dto.StudentDetailDTO.birthday"));
+	// 学员类型
+	API_DTO_FIELD_DEFAULT(String, studentType, ZH_WORDS_GETTER("class.dto.StudentDetailDTO.studentType"));
+	// 备注
+	API_DTO_FIELD_DEFAULT(String, remark, ZH_WORDS_GETTER("class.dto.StudentDetailDTO.remark"));
+};
+
+// 班级DTO
+class ClassDTO : public oatpp::DTO {
+	DTO_INIT(ClassDTO, DTO);
+	API_DTO_FIELD_DEFAULT(String, teacher_id, ZH_WORDS_GETTER("class.teacher"));
+	API_DTO_FIELD_DEFAULT(String, name, ZH_WORDS_GETTER("class.name"));
+	API_DTO_FIELD_DEFAULT(String, course_id, ZH_WORDS_GETTER("class.course"));
+	API_DTO_FIELD_DEFAULT(String, school_id, ZH_WORDS_GETTER("class.school"));
+	API_DTO_FIELD_DEFAULT(String, org_id, ZH_WORDS_GETTER("class.org"));
+	API_DTO_FIELD_DEFAULT(String, be_over, ZH_WORDS_GETTER("class.beOver"));
+};
+
+// 班级分页DTO
+class ClassPageDTO : public PageDTO<oatpp::Object<ClassDTO>> {
+	DTO_INIT(ClassPageDTO, PageDTO<oatpp::Object<ClassDTO>>);
+};
+
+// 课程分页DTO
+class CoursePageDTO : public PageDTO<oatpp::Object<CourseInfoDTO>> {
+	DTO_INIT(CoursePageDTO, PageDTO<oatpp::Object<CourseInfoDTO>>);
+};
+
+// 课程列表查询DTO已在ClassQuery.h中定义
 
 // 课程列表响应DTO
 class CourseListResponseDTO : public oatpp::DTO {
@@ -90,7 +76,6 @@ class CourseListResponseDTO : public oatpp::DTO {
 	// 每页大小
 	API_DTO_FIELD_DEFAULT(Int32, size, ZH_WORDS_GETTER("class.dto.CourseListResponseDTO.size"));
 };
-
 
 #include OATPP_CODEGEN_END(DTO)
 
