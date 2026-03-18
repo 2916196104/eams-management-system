@@ -9,9 +9,9 @@ namespace
 		const char* endTime,
 		v_uint64 teacherId,
 		v_uint64 classroomId,
-		v_bool isSigned,
-		v_bool isLeave,
-		v_bool isReserved)
+		bool isSigned,
+		bool isLeave,
+		bool isReserved)
 	{
 		auto lesson = CommonDatetimeLessonDTO::createShared();
 		lesson->lesson_count = lessonCount;

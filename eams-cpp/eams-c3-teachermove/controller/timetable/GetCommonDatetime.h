@@ -17,11 +17,11 @@ class GetCommonDatetime : public oatpp::web::server::api::ApiController
 	API_ACCESS_DECLARE(GetCommonDatetime);
 public:		//定义接口
 	API_DEF_ENDPOINT_INFO_AUTH(
-		"Get timetable by date",
+		ZH_WORDS_GETTER("api.get-common-datetime.title"),
 		getCommonDatetime,
 		CommonDatetimeJsonVO::Wrapper,
 		"GetCommonDatetime",
-		API_DEF_ADD_QUERY_PARAMS(String, "date", "Lesson date", "2026-03-15", true);
+		API_DEF_ADD_QUERY_PARAMS(String, "date", ZH_WORDS_GETTER("api.get-common-datetime.param.date"), "2026-03-15", true);
 	);
 
 	API_HANDLER_ENDPOINT_OPTION_AUTH(

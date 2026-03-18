@@ -18,11 +18,11 @@ class Record_name: public oatpp::web::server::api::ApiController
 	API_ACCESS_DECLARE(Record_name);
 public:		//定义接口
 	API_DEF_ENDPOINT_INFO_AUTH(
-		"Get lesson detail",
+		ZH_WORDS_GETTER("api.get-detail-cs.title"),
 		getDetailCS,
 		GetDetailCSJsonVO::Wrapper,
 		"GetDetailCS",
-		API_DEF_ADD_QUERY_PARAMS(UInt64, "lesson_id", "Lesson ID", 10002, true);
+		API_DEF_ADD_QUERY_PARAMS(UInt64, "lesson_id", ZH_WORDS_GETTER("api.get-detail-cs.param.lesson-id"), 10002, true);
 	);
 
 	API_HANDLER_ENDPOINT_OPTION_AUTH(
@@ -36,12 +36,12 @@ public:		//定义接口
 	);
 
 	API_DEF_ENDPOINT_INFO_AUTH(
-		"Get student list with filters and pagination",
+		ZH_WORDS_GETTER("api.get-cs-stu-list.title"),
 		getStuList,
 		GetStuListJsonVO::Wrapper,
 		"GetCSStuList",
-		API_DEF_ADD_QUERY_PARAMS(UInt64, "page_index", "Page index", 1, false);
-		API_DEF_ADD_QUERY_PARAMS(UInt64, "page_size", "Page size", 10, false);
+		API_DEF_ADD_QUERY_PARAMS(UInt64, "page_index", ZH_WORDS_GETTER("api.get-cs-stu-list.param.page-index"), 1, false);
+		API_DEF_ADD_QUERY_PARAMS(UInt64, "page_size", ZH_WORDS_GETTER("api.get-cs-stu-list.param.page-size"), 10, false);
 	);
 
 	API_HANDLER_ENDPOINT_OPTION_AUTH(
