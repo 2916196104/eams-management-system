@@ -44,6 +44,24 @@ class cardRuleJsonVO : public JsonVO<cardRuleDTO::Wrapper> {
 class cardListJsonVO : public ListJsonVO<cardDTO::Wrapper> {
 	DTO_INIT(cardListJsonVO, ListJsonVO<cardDTO::Wrapper>);
 };
+/**
+ * 定义显示对象
+ * 试听卡分页显示对象
+ */
+
+
+class ListeningCardPageJsonVO :public JsonVO< ListeningCardPageDTO::Wrapper>
+{
+	DTO_INIT(ListeningCardPageJsonVO, JsonVO< ListeningCardPageDTO::Wrapper>);
+};
+
+/**
+ * 试听卡列表显示对象
+ */
+class ListeningCardListJsonVO :public ListJsonVO< ListeningCardDTO::Wrapper>
+{
+	DTO_INIT(ListeningCardListJsonVO, ListJsonVO< ListeningCardDTO::Wrapper>);
+};
 #include OATPP_CODEGEN_END(DTO)
 
 #endif // !_CARDVO_H_

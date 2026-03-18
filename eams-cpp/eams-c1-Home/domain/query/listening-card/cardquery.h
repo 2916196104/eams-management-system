@@ -40,6 +40,20 @@ class cardRuleQuery : public PageQuery {
 	;
 };
 
+/**
+ * 定义查询类
+ * 试听卡查询类
+ */
+
+
+
+class ListeningCardQuery :public PageQuery
+{
+	DTO_INIT(ListeningCardQuery, PageQuery);
+
+
+
+};
 #include OATPP_CODEGEN_END(DTO)
 
 #endif // !_CARDQUERY_H_

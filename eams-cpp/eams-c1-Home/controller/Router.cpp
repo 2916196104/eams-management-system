@@ -21,7 +21,8 @@
 #include "Router.h"
 #include "ApiHelper.h"
 #include "controller/registration-records/registrationcontroller.h"
-#include "score/scorecontroller.h"		// 查询成绩接口控制器
+#include"listening-card/cardcontroller.h"
+#include "score/scorecontroller.h"		
 #include "points-exchange/exchangecontroller.h"
 #include "controller/review-records/reviewcontroller.h"
 #include "class/classcontroller.h"
@@ -54,4 +55,5 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(ScoreController);
 	ROUTER_SIMPLE_BIND(cardController);
 	ROUTER_SIMPLE_BIND(HomeworkController);
+	ROUTER_SIMPLE_BIND(cardController);
 }

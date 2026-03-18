@@ -32,3 +32,13 @@ cardListJsonVO::Wrapper cardController::executeCardListQuery() {
 cardRuleJsonVO::Wrapper cardController::executeCardRuleQuery() {
 	return {};
 }
+
+ListeningCardListJsonVO::Wrapper cardController::execQueryCardList(const oatpp::String& userName)
+{
+	return {};
+}
+
+StringJsonVO::Wrapper cardController::execModifyCard(const receiveCardDTO::Wrapper& dto, const PayloadDTO& payload)
+{
+	return{};
+}
