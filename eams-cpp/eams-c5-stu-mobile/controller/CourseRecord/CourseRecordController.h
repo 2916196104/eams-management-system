@@ -16,7 +16,7 @@ class CourseRecordController : public oatpp::web::server::api::ApiController {
 	// 定义控制器访问入口
 	API_ACCESS_DECLARE(CourseRecordController);
 public:// 定义接口
-	ENDPOINT(API_M_GET, "/schedule", queryTest, QUERIES(QueryParams,params) ){
+	ENDPOINT(API_M_GET, "/CourseRecord", queryTest, QUERIES(QueryParams,params) ){
 		// 解析查询参数
 		API_HANDLER_QUERY_PARAM(query, PageQuery, params);
 		// 响应结果

@@ -4,6 +4,6 @@
 StringJsonVO::Wrapper CourseRecordController::ExecuteCourseTest(const PageQuery::Wrapper& query) {
 	// 创建一个响应结果
 	auto vo = StringJsonVO::createShared();
-	vo->success("success");
+	vo->success("courseRecord success");
 	return vo;
 }
