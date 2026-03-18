@@ -1,4 +1,4 @@
-package com.zeroone.star.project.query.j8;
+package com.zeroone.star.project.query.j8.stumanager.common;
 
 import com.zeroone.star.project.query.PageQuery;
 import io.swagger.annotations.ApiModel;
@@ -8,13 +8,13 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(description = "课程学员查询(含课次)")
+@ApiModel(description = "学员课程数据查询(含课次)")
 public class StudentCourseQuery extends PageQuery {
 
-    @ApiModelProperty(value = "课程ID")
+    @ApiModelProperty(value = "课程ID",example = "1")
     private Long courseId;
 
-    @ApiModelProperty(value = "学员姓名")
+    @ApiModelProperty(value = "学员姓名",example = "张三")
     private String keyword;
 
 }
