@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * 年级管理
+ * 年级表
  */
 @Data
 public class ClassGradeDto {

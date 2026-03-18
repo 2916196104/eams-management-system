@@ -3,6 +3,7 @@ package com.zeroone.star.eas.controller;
 
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j6.eas.ClassGradeDto;
+import com.zeroone.star.project.dto.j6.eas.GradeNameDto;
 import com.zeroone.star.project.j6.eas.GradeManagerApis;
 import com.zeroone.star.project.query.j6.eas.GradeManagerQuery;
 import com.zeroone.star.project.vo.JsonVO;
@@ -27,7 +28,7 @@ public class GradeManagerController implements GradeManagerApis {
      * @param query
      * @return
      */
-    @GetMapping
+    @GetMapping("/list")
     @ApiOperation("获取年级列表（条件+分页）")
     @Override
     public JsonVO<PageDTO<ClassGradeDto>> queryPage(GradeManagerQuery query) {
@@ -52,19 +53,19 @@ public class GradeManagerController implements GradeManagerApis {
     @GetMapping("/name")
     @ApiOperation("获取年级名称列表")
     @Override
-    public JsonVO<List<ClassGradeDto>> QueryGradeNameList(@RequestParam("name") String name) {
+    public JsonVO<List<GradeNameDto>> QueryGradeNameList() {
         return null;
     }
 
     /**
      *
-     * @param gradeManagerDto  年级信息
+     * @param classGradeDto  年级信息
      * @return 返回结果
      */
     @PostMapping("/save")
     @ApiOperation("保存年级")
     @Override
-    public JsonVO<Long> saveClassGrade(@RequestBody ClassGradeDto gradeManagerDto) {
+    public JsonVO<Long> saveClassGrade(@RequestBody ClassGradeDto classGradeDto) {
         return null;
     }
 
@@ -78,7 +79,7 @@ public class GradeManagerController implements GradeManagerApis {
     @Override
     @ApiImplicitParam
     public JsonVO<List<Long>> deleteClassGrade(
-            @ApiParam(value = "编号列表", required = true, example = "[\"1\",\"2\"]")
+            @ApiParam(value = "年级id列表", required = true, example = "[\"1\",\"2\"]")
             @RequestBody List<Long> ids) {
         return null;
     }
@@ -92,7 +93,7 @@ public class GradeManagerController implements GradeManagerApis {
     @ApiOperation("升级年级（支持批量）")
     @Override
     public JsonVO<List<Long>> upgradeClassGrade(
-            @ApiParam(value = "编号列表", required = true, example = "[\"1\",\"2\"]")
+            @ApiParam(value = "年级id列表", required = true, example = "[\"1\",\"2\"]")
             @RequestBody List<Long> ids) {
         return null;
     }

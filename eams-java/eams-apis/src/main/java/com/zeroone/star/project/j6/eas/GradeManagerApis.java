@@ -2,6 +2,7 @@ package com.zeroone.star.project.j6.eas;
 
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j6.eas.ClassGradeDto;
+import com.zeroone.star.project.dto.j6.eas.GradeNameDto;
 import com.zeroone.star.project.query.j6.eas.GradeManagerQuery;
 import com.zeroone.star.project.vo.JsonVO;
 
@@ -27,7 +28,7 @@ public interface GradeManagerApis {
     /**
      * 获取年级名称列表
      */
-    JsonVO<List<ClassGradeDto>> QueryGradeNameList(String name);
+    JsonVO<List<GradeNameDto>> QueryGradeNameList();
 
     /**
      * 保存年级信息
