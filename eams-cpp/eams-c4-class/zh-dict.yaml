@@ -1,0 +1,67 @@
+class:
+  tag: 班级
+  query-class-student-list.summary: 获取班级学员列表（分页）
+  query-class-student-detail.summary: 获取班级学员详情
+  query-class-student-course-list.summary: 获取班级学员课程列表（分页）
+  field:
+    classId: 班级ID
+    classStudentId: 班级学员关系ID
+    studentId: 学员ID
+    keyword: 关键字
+  student:
+    field:
+      id: 班级学员关系ID
+      classId: 班级ID
+      studentId: 学员ID
+      consumeCourseId: 默认消费课程ID
+      reason: 加入原因
+      addTime: 加入时间
+      classStudentRemark: 班级学员备注
+      studentName: 学员姓名
+      familyRel: 家庭关系
+      stage: 阶段状态
+      gender: 性别
+      birthday: 生日
+      headImg: 头像
+      userId: 家长用户ID
+      parentName: 家长姓名
+      mobile: 手机号
+      studentRemark: 学员备注
+      countLessonRemaining: 剩余课次
+      className: 班级名称
+      classCourseId: 班级所属课程ID
+      classCourseName: 班级所属课程名称
+      gradeId: 年级ID
+      gradeName: 年级名称
+    course:
+      field:
+        id: 报名签约ID
+        studentId: 学员ID
+        courseId: 课程ID
+        courseName: 课程名称
+        subjectId: 科目ID
+        subjectName: 科目名称
+        startDate: 开始时间
+        expireDate: 过期日期
+        remark: 备注
+        countLessonTotal: 购买总课次
+        countLessonComplete: 已上课次
+        countLessonRefund: 退款次数
+        countLessonRemaining: 剩余课次
+        courseAmount: 套餐金额
+        discountAmount: 优惠金额
+        amount: 成交金额
+        paidAmount: 实付金额
+        payOff: 是否付清
+        operatorId: 经手人
+        creator: 创建人
+        addTime: 录入时间
+        editor: 编辑人
+        editTime: 编辑时间
+        verifyState: 审核状态
+        warningTimes: 已提醒次数
+        priority: 消课优先级
+        unitPrice: 单价
+        fromTrial: 是否来自体验试用
+        orgId: 组织ID
+        defaultConsumeCourse: 是否默认消费课程

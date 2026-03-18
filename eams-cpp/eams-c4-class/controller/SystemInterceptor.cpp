@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
@@ -29,7 +29,7 @@
 using namespace oatpp::web::protocol::http;
 using namespace oatpp::web::protocol::http::outgoing;
 
-// ¿çÓòÊôÐÔÉèÖÃ
+// è·¨åŸŸå±žæ€§è®¾ç½®
 #define CROS_FIELD_SETTING(__RES__) \
 __RES__->putHeaderIfNotExists("Access-Control-Allow-Origin", "*"); \
 __RES__->putHeaderIfNotExists("Access-Control-Allow-Methods", "*"); \
@@ -78,16 +78,25 @@ std::shared_ptr<oatpp::web::server::interceptor::RequestInterceptor::OutgoingRes
 	auto method = request->getStartingLine().method.toString().getValue("");
 	auto protocol = request->getStartingLine().protocol.toString().getValue("");
 	OATPP_LOGD("Interceptor", "%s:%s->%s", protocol.c_str(), method.c_str(), path.c_str());
-	// SwaggerÎÄµµÓë¹Ø±Õ·þÎñÆ÷ÇëÇó²»À¹½Ø
-	if (path.find("/swagger/") == 0 || 
-		path.find("/api-docs/") == 0 || 
-		path.find("/system-kill/") == 0)
+	// Swaggeræ–‡æ¡£ä¸Žå…³é—­æœåŠ¡å™¨è¯·æ±‚ä¸æ‹¦æˆª
+	if (path.find("/swagger/") == 0 ||
+		path.find("/api-docs/") == 0 ||
+		path.find("/system-kill/") == 0 ||
+		path.find("/file/") == 0
+		)
 	{
 		return nullptr;
 	}
-	// »ñÈ¡ÇëÇóÆ¾Ö¤
+	// èŽ·å–è¯·æ±‚å‡­è¯
 	oatpp::String token = request->getHeader(API_H_TOKEN);
 	if (!token || token->empty()) {
+		// å¤„ç†WebSocketå‡­è¯èŽ·å–
+		token = request->getHeader(API_H_WS_TOKEN);
+		if (token)
+		{
+			request->putHeader(API_H_TOKEN, "Bearer " + token);
+			return nullptr;
+		}
 		return createErrorRespone("empty token", m_objectMapper);
 	}
 	return nullptr;
