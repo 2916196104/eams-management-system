@@ -9,7 +9,7 @@
 #include "domain/vo/home/announcement/GetannouncementVO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
-#define API_TAG ZH_WORDS_GETTER("Timeable.tags.t1")
+#define API_TAG ZH_WORDS_GETTER("Announcement.tag.t1")
 class GetallannouncementController : public oatpp::web::server::api::ApiController {
 
     //定义控制器访问入口
