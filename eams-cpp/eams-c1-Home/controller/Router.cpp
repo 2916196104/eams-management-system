@@ -29,6 +29,7 @@
 #include "listening-card/cardcontroller.h"
 #include "homework/homeworkcontroller.h"
 #include "attendance-records/attendancecontroller.h"
+#include "bulletin/bulletincontroller.h"
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
 // 简化绑定控制器宏定义
@@ -58,4 +59,5 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(HomeworkController);
 	ROUTER_SIMPLE_BIND(attendanceController);
 	ROUTER_SIMPLE_BIND(cardController);
+	ROUTER_SIMPLE_BIND(bulletinController);
 }
