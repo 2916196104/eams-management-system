@@ -27,7 +27,7 @@
 #include "domain/query/PageQuery.h"
 #include "domain/vo/attendance-records/attendanceVO.h"
 #include "domain/query/attendance-records/attendanceQuery.h"
-#define API_TAG ZH_WORDS_GETTER("home.attendance.tag")
+#define API_TAG ZH_WORDS_GETTER("attendance_records.tag")
 #include OATPP_CODEGEN_BEGIN(ApiController)
 //上课记录模块控制器
 class attendanceController : public oatpp::web::server::api::ApiController
@@ -37,7 +37,7 @@ class attendanceController : public oatpp::web::server::api::ApiController
 public: // 定义接口
 	//1.1 定义获取上课记录分页控制器
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(
-		ZH_WORDS_GETTER("home.attendance_records.get_attendance_records_page"), queryAttendanceRecordsPage, attendance_recordsQuery, attendance_recordsPageJsonVO::Wrapper, API_TAG
+		ZH_WORDS_GETTER("attendance_records.get_attendance_records_page"), queryAttendanceRecordsPage, attendance_recordsQuery, attendance_recordsPageJsonVO::Wrapper, API_TAG
 	);
 	//1.2 定义获取上课记录分页接口处理
 	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/home/attendance_records/page/query-by-student_id", queryAttendanceRecordsPage, QUERIES(QueryParams, queryParams),
@@ -45,8 +45,8 @@ public: // 定义接口
 
 	//2.1 定义评价课次控制器
 	API_DEF_ENDPOINT_INFO_AUTH(
-		ZH_WORDS_GETTER("home.attendance_records.evaluate_attendance_records"), evaluateAttendanceRecords, attendance_recordsEvaluateJsonVO::Wrapper, API_TAG,
-		API_DEF_ADD_QUERY_PARAMS(UInt32, "student_id", ZH_WORDS_GETTER("home.attendance_records.student_id"), 1, true);
+		ZH_WORDS_GETTER("attendance_records.evaluate_attendance_records"), evaluateAttendanceRecords, attendance_recordsEvaluateJsonVO::Wrapper, API_TAG,
+		API_DEF_ADD_QUERY_PARAMS(UInt32, "student_id", ZH_WORDS_GETTER("attendance_records.student_id"), 1, true);
 	);
 	// 2.2 定义评价课次接口处理
 	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/home/attendance_records/evaluate", evaluateAttendanceRecords, QUERY(UInt32, student_id), execEvaluateAttendanceRecords(student_id));

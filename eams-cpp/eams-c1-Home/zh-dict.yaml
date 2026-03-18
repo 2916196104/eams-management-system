@@ -73,3 +73,44 @@ exchange:
     value_type: 值数据类型
     info: 说明
     sort_num: 排序
+
+# 上课记录模块
+attendance_records:
+  tag: 上课记录
+  get_attendance_records_page: 获取上课记录(条件+分页)
+  evaluate_attendance_records: 评价课次
+  id: 主键ID
+  date: 上课日期
+  start_time: 上课开始时间
+  end_time: 上课结束时间
+  sign_state: 补签状态
+  sign_type: 签到类型
+  sign_time: 签到时间
+  lesson_id: 课次ID
+  lesson_title: 课次标题
+  title: 课次标题
+  lesson_type: 课程类型
+  dec_lesson_count: 扣课时数
+  dec_count: 扣课时数
+  course_name: 课程名称
+  can_evaluate: 是否可以评价
+  class_id: 班级ID
+  class_name: 班级名称
+  room_id: 教室ID
+  classroom: 教室
+  teacher_names: 教师姓名
+  teacher_ids: 教师ID
+  teacher_can_evaluate: 教师是否可以评价
+  assistant_names: 助教姓名
+  assistant_ids: 助教ID
+  teach_type: 授课方式
+  student_sign_state: 学生签到状态
+  student_dec_lesson_count: 学生扣课时数
+  student_sign_num: 学生签到人数
+  student_num: 学生总人数
+  student_can_leave: 学生是否可以请假
+  student_can_sign: 学生是否可以签到
+  sign_counts_count_total: 总人数
+  remark: 备注
+  bookable: 是否可预约
+  state: 上课状态
