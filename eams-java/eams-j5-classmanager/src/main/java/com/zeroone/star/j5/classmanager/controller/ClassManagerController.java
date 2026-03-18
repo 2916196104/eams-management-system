@@ -4,6 +4,8 @@ import com.zeroone.star.project.dto.j5.classmanager.ClassStudentDTO;
 import com.zeroone.star.project.j5.classmanager.ClassStudentApis;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,15 +27,23 @@ public class ClassManagerController implements ClassStudentApis {
 
     @PostMapping
     @ApiOperation("添加班级学员，支持批量添加")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "studentIds", value = "待添加学员ID列表", required = true, example = "1,2,3", dataType = "List<Integer>"),
+            @ApiImplicitParam(name = "classId", value = "班级ID", required = true, example = "1", dataType = "int")
+    })
     @Override
-    public JsonVO<Integer> addClassStudent(List<ClassStudentDTO> classStudentDTOs) {
+    public JsonVO<Integer> addClassStudent(List<Integer> studentIds, int classId) {
         return null;
     }
 
     @DeleteMapping
     @ApiOperation("删除班级学员，支持批量删除")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "studentIds", value = "待删除学员ID列表", required = true, example = "1,2,3", dataType = "List<Integer>"),
+            @ApiImplicitParam(name = "classId", value = "班级ID", required = true, example = "1", dataType = "int")
+    })
     @Override
-    public JsonVO<Integer> removeClassStudent(List<Integer> studentIds) {
+    public JsonVO<Integer> removeClassStudent(List<Integer> studentIds, int classId) {
         return null;
     }
 

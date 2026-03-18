@@ -6,9 +6,9 @@ import com.zeroone.star.project.vo.JsonVO;
 import java.util.List;
 
 public interface ClassStudentApis {
-    JsonVO<Integer> addClassStudent(List<ClassStudentDTO> classStudentDTOs);
+    JsonVO<Integer> addClassStudent(List<Integer> studentIds, int classId);
 
-    JsonVO<Integer> removeClassStudent(List<Integer> studentIds);
+    JsonVO<Integer> removeClassStudent(List<Integer> studentIds, int classId);
 
     JsonVO<Integer> transferClassBatch(List<ClassStudentDTO> classStudentDTOs, int targetClassId);
 }

@@ -15,7 +15,7 @@ public class ClassStudentDTO {
     @ApiModelProperty(value = "加入的班级id", required = true, example = "1")
     private int classId;
 
-    @ApiModelProperty(value = "添加的所有学生的id", required = true, example = "1,2,3")
-    private List<Integer> studentIds;
+    @ApiModelProperty(value = "添加的学生的id", required = true, example = "1")
+    private List<Integer> studentId;
 
 }
