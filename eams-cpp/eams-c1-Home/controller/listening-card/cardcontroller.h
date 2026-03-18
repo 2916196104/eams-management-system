@@ -53,6 +53,8 @@ private:
 	cardRuleJsonVO::Wrapper executeCardRuleQuery();
 };
 
+
+#undef API_TAG
 #include OATPP_CODEGEN_END(ApiController)
 
 #endif // !_CARDCONTROLLER_H_
