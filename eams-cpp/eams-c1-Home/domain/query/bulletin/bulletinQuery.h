@@ -1,8 +1,9 @@
+﻿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/08 21:19:14
+ @Date: 2026/03/14 19:23:55
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,7 +17,23 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#include "stdafx.h"
-#include "notificationcontroller.h"
-//实现接口执行函数
+#ifndef _BULLETINQUERY_H_
+#define _BULLETINQUERY_H_
 
+#include "../../GlobalInclude.h"
+#include "domain/query/PageQuery.h"
+
+#include OATPP_CODEGEN_BEGIN(DTO)
+
+/**
+ * 定义查询类
+ */
+class listQuery : public PageQuery
+{
+	DTO_INIT(listQuery, PageQuery);
+};
+
+
+#include OATPP_CODEGEN_END(DTO)
+
+#endif // !_BULLETINQUERY_H_

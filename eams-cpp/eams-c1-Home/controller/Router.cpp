@@ -1,4 +1,4 @@
-
+ï»¿
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -29,13 +29,14 @@
 #include "listening-card/cardcontroller.h"
 #include "homework/homeworkcontroller.h"
 #include "attendance-records/attendancecontroller.h"
-// Èç¹û¶¨ÒåÁË¹Ø±ÕSwaggerÎÄµµºê
+#include "bulletin/bulletincontroller.h"
+// å¦‚æœå®šä¹‰äº†å…³é—­Swaggeræ–‡æ¡£å®
 #ifdef CLOSE_SWAGGER_DOC
-// ¼ò»¯°ó¶¨¿ØÖÆÆ÷ºê¶¨Òå
+// ç®€åŒ–ç»‘å®šæ§åˆ¶å™¨å®å®šä¹‰
 #define ROUTER_SIMPLE_BIND(__CLASS__) \
 router->addController(__CLASS__::createShared())
 #else
-// ¼ò»¯°ó¶¨¿ØÖÆÆ÷ºê¶¨Òå
+// ç®€åŒ–ç»‘å®šæ§åˆ¶å™¨å®å®šä¹‰
 #define ROUTER_SIMPLE_BIND(__CLASS__) \
 BIND_CONTROLLER(docEndpoints, router, __CLASS__)
 #endif
@@ -48,7 +49,7 @@ Router::Router(Endpoints* docEndpoints, HttpRouter* router)
 
 void Router::initRouter()
 {
-	//#TIP :ÏµÍ³À©Õ¹Â·ÓÉ¶¨Òå£¬Ğ´ÔÚÕâ¸öºóÃæ
+	//#TIP :ç³»ç»Ÿæ‰©å±•è·¯ç”±å®šä¹‰ï¼Œå†™åœ¨è¿™ä¸ªåé¢
 	ROUTER_SIMPLE_BIND(ReviewRecordController);
 	ROUTER_SIMPLE_BIND(exchangeController);
 	ROUTER_SIMPLE_BIND(classController);
@@ -58,4 +59,5 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(HomeworkController);
 	ROUTER_SIMPLE_BIND(attendanceController);
 	ROUTER_SIMPLE_BIND(cardController);
+	ROUTER_SIMPLE_BIND(bulletinController);
 }

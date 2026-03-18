@@ -1,7 +1,28 @@
 ﻿#公告提醒模块
-
-
-
+bulletin:
+ tag: 公告提醒
+ query-title: 
+   summary: 获取显示通知公告
+ query-list:
+   summary: 获取所有公告（分页）
+ query-red:
+   summary: 获取小红点提醒
+ field:
+    add_time: 添加时间
+    edit_time: 编辑时间
+    creator: 创建者
+    editor: 编辑者
+    deleted: 逻辑删除标识
+    id: 主键ID
+    title: 标题
+    cover: 封面图
+    content: 内容
+    type: 公告类型
+    state: 状态
+    sort_num: 排序号
+    grade_count: 成绩未读数
+    evaluate_count: 点评记录未读数
+    homework_count: 作业未读数
 
 #试听卡模块
 listening-card: 

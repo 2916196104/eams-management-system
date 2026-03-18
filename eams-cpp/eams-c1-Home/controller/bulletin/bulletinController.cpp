@@ -1,9 +1,8 @@
-#pragma once
-/*
+﻿/*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/14 19:15:19
+ @Date: 2026/03/08 21:19:14
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,17 +16,23 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#ifndef _NOTIFICATIONDTO_H_
-#define _NOTIFICATIONDTO_H_
+#include "stdafx.h"
+#include "bulletinController.h"
+//实现接口执行函数
 
-#include "../../GlobalInclude.h"
 
-#include OATPP_CODEGEN_BEGIN(DTO)
+titleJsonVO::Wrapper bulletinController::executeQueryTitle()
+{
+	return {};
+}
 
-/**
- * 数据传输对象
- */
 
-#include OATPP_CODEGEN_END(DTO)
+listPageJsonVO::Wrapper bulletinController::executeQueryList(const PageQuery::Wrapper& query)
+{
+	return {};
+}
 
-#endif // !_NOTIFICATIONDTO_H_
+redJsonVO::Wrapper bulletinController::executeQueryRed()
+{
+	return {};
+}
