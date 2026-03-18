@@ -15,7 +15,7 @@ login:
     msg: 结果分析
     error1: 验证码错误，请输入正确的验证码
     error2: 密码更新错误，请检查手机号或邮箱是否正确
-    error3:: 手机号码或邮箱格式不正确
+    error3: 手机号码或邮箱格式不正确
     lastSuccess: 密码修改成功
   modify-password:
     summary: 修改密码
@@ -33,4 +33,11 @@ login:
     expire-seconds: 过期时间
     verify-code: 验证码
     new-password: 新密码
+    password: 密码
     success: 是否成功
+  send-register-code:
+    summary: 发送注册验证码
+  register:
+    summary: 注册
+    success: 注册结果
+    msg: 结果分析

@@ -70,13 +70,48 @@ public: // 定义接口
 		BODY_DTO(UpdatePasswordDTO::Wrapper, dto),
 		executeModifyPassword(dto)
 	);
-
+	
+	// 定义发送注册验证码接口信息
+	API_DEF_ENDPOINT_INFO_AUTH(
+		ZH_WORDS_GETTER("login.send-register-code.summary"),
+		sendRegisterCode,
+		SendRegisterCodeJsonVO::Wrapper,
+		API_TAG
+	);
+	// 发送注册验证码接口
+	API_HANDLER_ENDPOINT_AUTH(
+		API_M_POST,
+		"/c1/login/send-register-code",
+		sendRegisterCode,
+		BODY_DTO(SendResetCodeDTO::Wrapper, dto),
+		executeSendRegisterCode(dto)
+	);
+	// 定义注册接口信息
+	API_DEF_ENDPOINT_INFO_AUTH(
+		ZH_WORDS_GETTER("login.register.summary"),
+		registerAccount,
+		RegisterJsonVO::Wrapper,
+		API_TAG
+	);
+	// 注册接口
+	API_HANDLER_ENDPOINT_AUTH(
+		API_M_POST,
+		"/c1/login/register",
+		registerAccount,
+		BODY_DTO(RegisterDTO::Wrapper, dto),
+		executeRegister(dto)
+	);
+	
 
 private: // 定义接口执行函数
 	// 发送验证码
 	SendResetCodeJsonVO::Wrapper executeSendResetCode(const SendResetCodeDTO::Wrapper& dto);
 	// 修改密码
 	UpdatePasswordJsonVO::Wrapper executeModifyPassword(const UpdatePasswordDTO::Wrapper& dto);
+	// 发送注册短信验证
+	SendRegisterCodeJsonVO::Wrapper executeSendRegisterCode(const SendResetCodeDTO::Wrapper& dto);
+	// 注册账号
+	RegisterJsonVO::Wrapper executeRegister(const RegisterDTO::Wrapper& dto);
 };
 
 #include OATPP_CODEGEN_END(ApiController)

@@ -40,3 +40,23 @@ UpdatePasswordJsonVO::Wrapper loginController::executeModifyPassword(const Updat
 	//return vo;
 	return {};
 }
+
+//发送注册短信验证
+SendRegisterCodeJsonVO::Wrapper loginController::executeSendRegisterCode(const SendResetCodeDTO::Wrapper& dto)
+{
+	/*loginService ls;
+	auto vo = SendRegisterCodeJsonVO::createShared();
+	vo->data = (ls.sendRegisterCode(dto));
+	return vo;*/
+	return {};
+}
+
+//注册账号
+RegisterJsonVO::Wrapper loginController::executeRegister(const RegisterDTO::Wrapper& dto)
+{
+	/*loginService ls;
+	auto vo = RegisterJsonVO::createShared();
+	vo->data = (ls.registerAccount(dto));
+	return vo;*/
+	return {};
+}

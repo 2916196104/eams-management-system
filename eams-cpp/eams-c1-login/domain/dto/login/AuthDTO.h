@@ -65,6 +65,26 @@ class UpdatePasswordRespDTO : public oatpp::DTO
     API_DTO_FIELD_DEFAULT(String, msg, ZH_WORDS_GETTER("login.update.msg")); // 300秒
 };
 
+// 注册账号传输对象
+class RegisterDTO : public oatpp::DTO
+{
+    DTO_INIT(RegisterDTO, oatpp::DTO);
+
+    API_DTO_FIELD_REQUIRE(String, mobile, ZH_WORDS_GETTER("login.field.mobile"), true);
+    API_DTO_FIELD_REQUIRE(String, email, ZH_WORDS_GETTER("login.field.email"), true);
+    API_DTO_FIELD_REQUIRE(String, verifyCode, ZH_WORDS_GETTER("login.field.verify-code"), true);
+    API_DTO_FIELD_REQUIRE(String, password, ZH_WORDS_GETTER("login.field.password"), true);
+};
+// 注册账号结果传输对象
+class RegisterRespDTO : public oatpp::DTO
+{
+    DTO_INIT(RegisterRespDTO, oatpp::DTO);
+    API_DTO_FIELD_DEFAULT(Boolean, registerResult, ZH_WORDS_GETTER("login.register.success"));
+    API_DTO_FIELD_DEFAULT(String, msg, ZH_WORDS_GETTER("login.register.msg")); // 300秒
+};
+// Note: Vtypes are defined in the VO headers (e.g. loginVO.h).O wrapper
+// Duplicate SendResetCodeJsonVO removed to avoid redefinition.
+
 
 #include OATPP_CODEGEN_END(DTO)
 
