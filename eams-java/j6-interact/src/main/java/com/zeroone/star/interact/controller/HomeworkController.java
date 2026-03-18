@@ -1,10 +1,12 @@
 package com.zeroone.star.interact.controller;
 
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.dto.j6.interact.HomeworkRecordDTO;
+import com.zeroone.star.project.dto.j6.interact.HomeworkDetailDto;
+import com.zeroone.star.project.dto.j6.interact.HomeworkListDto;
 import com.zeroone.star.project.j6.interact.HomeworkApis;
-import com.zeroone.star.project.query.j6.interact.HomeworkRecordQuery;
+import com.zeroone.star.project.query.j6.interact.HomeworkQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.project.vo.j6.interact.HomeworkSubmissionListVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -26,25 +28,75 @@ import java.util.List;
 public class HomeworkController implements HomeworkApis {
 
 
-
     /**
-     * 删除作业(支持批量删除)
+     * 获取作业列表（条件+分页）
      *
-     * @param ids 作业ID列表
-     * @return 删除结果
+     * @param homeworkQuery
      */
+    @GetMapping("/list")
+    @ApiOperation("获取作业列表（条件+分页）")
     @Override
-    @ApiOperation("删除作业(支持批量删除)")
-    @DeleteMapping
-    public JsonVO<List<Long>> deleteHomework(@RequestBody List<Long> ids) {
-
+    public JsonVO<PageDTO<HomeworkListDto>> queryHomeworkList(HomeworkQuery homeworkQuery) {
         return null;
     }
 
-    @GetMapping
-    @ApiOperation("分页查询作业提交列表")
+    /**
+     * 获取作业详情
+     *
+     * @param id
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("获取作业详情")
     @Override
-    public JsonVO<PageDTO<HomeworkRecordDTO>> queryPage(HomeworkRecordQuery condition) {
+    public JsonVO<HomeworkDetailDto> homeworkDetails(@PathVariable("id")Long id) {
+        return null;
+    }
+
+    /**
+     * 保存作业,新增和编辑作业是调用这个接口
+     *
+     * @param homeworkDetailDto 作业
+     */
+    @PostMapping
+    @ApiOperation(" 保存作业")
+    @Override
+    public JsonVO<HomeworkDetailDto> saveHomework(@RequestBody HomeworkDetailDto homeworkDetailDto) {
+        return null;
+    }
+
+    /**
+     * 删除作业
+     *
+     * @param ids
+     */
+    @DeleteMapping("/delete")
+    @ApiOperation("删除作业")
+    @Override
+    public JsonVO<List<Long>> deleteHomeworks(@RequestBody List<Long> ids) {
+        return null;
+    }
+
+    /**
+     * 获取作业提交列表（条件+分页）
+     *
+     * @param homeworkId
+     */
+    @GetMapping("/submit/{id}")
+    @ApiOperation("获取作业提交列表（条件+分页）")
+    @Override
+    public JsonVO<PageDTO<HomeworkSubmissionListVo>> queryHomeworkSubmissionList(@PathVariable("id") Long homeworkId) {
+        return null;
+    }
+
+    /**
+     * 点评作业
+     *
+     * @param id
+     */
+    @PutMapping("/{id}")
+    @ApiOperation("点评作业")
+    @Override
+    public JsonVO<Long> scoreHomework(@PathVariable("id") Long id) {
         return null;
     }
 }

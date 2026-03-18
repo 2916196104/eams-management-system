@@ -1,0 +1,31 @@
+package com.zeroone.star.project.vo.j6.interact;
+
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import java.util.Date;
+
+/**
+ * 作业提交列表
+ */
+@Data
+public class HomeworkSubmissionListVo {
+
+    @ApiModelProperty(value = "提交人",example = "张小明")
+    private String name;
+
+    @ApiModelProperty(value = "提交内容",example = "我干了Xxxxx")
+    private String content;
+
+    @ApiModelProperty(value = "提交时间",example = "2022.1.1")
+    private Date submit_time;
+
+    @ApiModelProperty(value = "点评人",example = "1")
+    private Long reviewer;
+
+    @ApiModelProperty(value = "点评得分",example = "1")
+    private Integer score;
+
+    @ApiModelProperty(value = "点评内容",example = "xxxxx")
+    private String comment_content;
+}

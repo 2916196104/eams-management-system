@@ -1,9 +1,13 @@
 package com.zeroone.star.project.j6.interact;
 
 import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j6.interact.HomeworkDetailDto;
+import com.zeroone.star.project.dto.j6.interact.HomeworkListDto;
 import com.zeroone.star.project.dto.j6.interact.HomeworkRecordDTO;
+import com.zeroone.star.project.query.j6.interact.HomeworkQuery;
 import com.zeroone.star.project.query.j6.interact.HomeworkRecordQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.project.vo.j6.interact.HomeworkSubmissionListVo;
 
 import java.util.List;
 
@@ -11,19 +15,33 @@ import java.util.List;
  * 课后作业apis
  */
 public interface HomeworkApis {
+    /**
+     * 获取作业列表（条件+分页）
+     */
+   JsonVO<PageDTO<HomeworkListDto>> queryHomeworkList(HomeworkQuery homeworkQuery);
+
+    /**
+     * 获取作业详情
+     */
+    JsonVO<HomeworkDetailDto> homeworkDetails(Long id);
+
+    /**
+     * 保存作业,新增和编辑作业是调用这个接口
+     */
+    JsonVO<HomeworkDetailDto>saveHomework(HomeworkDetailDto homeworkDetailDto);
 
     /**
      * 删除作业
-     * @param ids 作业ID
-     * @return 删除结果
      */
-    JsonVO<List<Long>> deleteHomework(List<Long>ids);
+    JsonVO<List<Long>>deleteHomeworks(List<Long> ids);
 
     /**
-     * 分页查询作业提交列表
-     *
-     * @param condition 查询条件
-     * @return 作业列表
+     * 获取作业提交列表（条件+分页）
      */
-    JsonVO<PageDTO<HomeworkRecordDTO>> queryPage(HomeworkRecordQuery condition);
+    JsonVO<PageDTO<HomeworkSubmissionListVo>>queryHomeworkSubmissionList(Long homeworkId);
+    /**
+     * 点评作业
+     * TODO 请求参数和响应参数可能都不对
+     */
+    JsonVO<Long> scoreHomework(Long id);
 }
