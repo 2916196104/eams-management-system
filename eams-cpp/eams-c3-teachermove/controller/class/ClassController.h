@@ -10,6 +10,7 @@
 #include "domain/vo/class/ClassStudentVO.h"
 #include "domain/query/class/ClassQuery.h"
 #include "domain/query/class/ClassStudentQuery.h"
+
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
 
@@ -21,7 +22,7 @@ public:
 	ENDPOINT_INFO(queryClassList) {
 		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("class.list"));
 		API_DEF_ADD_AUTH();
-		API_DEF_ADD_RSP_JSON_WRAPPER(ClassPageJsonVO);
+		API_DEF_ADD_RSP_JSON_WRAPPER(ClassDetailPageJsonVO);
 		// 
 		API_DEF_ADD_PAGE_PARAMS();
 		// 
@@ -43,7 +44,7 @@ public:
 	ENDPOINT_INFO(queryClassDetail) {
 		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("class.detail"));
 		API_DEF_ADD_AUTH();
-		API_DEF_ADD_RSP_JSON_WRAPPER(ClassVO);
+		API_DEF_ADD_RSP_JSON_WRAPPER(ClassDetailJsonVO);
 		//// 
 		//API_DEF_ADD_PAGE_PARAMS();
 		// 
@@ -77,11 +78,11 @@ public:
 	}
 
 private:	
-	ClassPageJsonVO::Wrapper execQueryClassList(const ClassQuery::Wrapper& query) {
-		return ClassPageJsonVO::createShared();
+	ClassDetailPageJsonVO::Wrapper execQueryClassList(const ClassQuery::Wrapper& query) {
+		return ClassDetailPageJsonVO::createShared();
 	}
-	ClassVO::Wrapper execQueryClassDetail(const ClassDTO::Wrapper& query) {
-		return ClassVO::createShared();
+	ClassDetailJsonVO::Wrapper execQueryClassDetail(const ClassDTO::Wrapper& query) {
+		return ClassDetailJsonVO::createShared();
 	}
 	ClassStudentPageJsonVO::Wrapper execQueryClassStudentList(const ClassStudentQuery::Wrapper& query) {
 		return ClassStudentPageJsonVO::createShared();

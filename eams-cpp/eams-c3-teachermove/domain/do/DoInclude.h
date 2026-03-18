@@ -25,6 +25,9 @@
 #include "domain/do/class/ClassDO.h"
 #include "domain/do/student/StudentDO.h"
 #include "domain/do/class_student/ClassStudentDO.h"
+#include "domain/do/course/CourseDO.h"
+#include "domain/do/classroom/ClassroomDO.h"
+#include "domain/do/staff/StaffDO.h"
 #include <string>
 #include <list>
 #include <memory>

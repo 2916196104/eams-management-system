@@ -16,7 +16,7 @@ class ClassQuery : public PageQuery
 	DTO_FIELD_INFO(teacher_id) {
 		info->description = ZH_WORDS_GETTER("class.teacher");
 	}
-	// 班级名（模糊）
+
 	DTO_FIELD(String, name);
 	DTO_FIELD_INFO(name) {
 		info->description = ZH_WORDS_GETTER("class.name");
@@ -36,7 +36,7 @@ class ClassQuery : public PageQuery
 	DTO_FIELD_INFO(org_id) {
 		info->description = ZH_WORDS_GETTER("class.org");
 	}
-	// 是否完结：0 未完结，1 已完结
+
 	DTO_FIELD(String, be_over);
 	DTO_FIELD_INFO(be_over) {
 		info->description = ZH_WORDS_GETTER("class.beOver");
