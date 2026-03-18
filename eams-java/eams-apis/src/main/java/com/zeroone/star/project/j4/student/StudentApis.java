@@ -1,17 +1,8 @@
 package com.zeroone.star.project.j4.student;
 
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.dto.j4.student.ClassDTO;
-import com.zeroone.star.project.dto.j4.student.ClassStudentDTO;
-import com.zeroone.star.project.dto.j4.student.FollowUpDTO;
-import com.zeroone.star.project.query.j4.student.ClassQuery;
-import com.zeroone.star.project.dto.j4.student.StudentDTO;
-import com.zeroone.star.project.query.j4.student.FollowUpQuery;
-import com.zeroone.star.project.dto.j4.student.CreditLogDTO;
-import com.zeroone.star.project.dto.j4.student.LessonCountDTO;
-import com.zeroone.star.project.query.j4.student.ChangeCreditQuery;
-import com.zeroone.star.project.query.j4.student.CreditSelectQuery;
-import com.zeroone.star.project.query.j4.student.StudentQuery;
+import com.zeroone.star.project.dto.j4.student.*;
+import com.zeroone.star.project.query.j4.student.*;
 import com.zeroone.star.project.dto.j4.student.StudentDTO;
 import com.zeroone.star.project.query.j4.student.StudentQuery;
 import com.zeroone.star.project.vo.JsonVO;
@@ -38,7 +29,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
+
 @Api(tags = "Student Course Interface")
+
+
 public interface StudentApis {
     /**
      * 获取跟进记录列表（条件+分页）
@@ -134,4 +128,9 @@ public interface StudentApis {
     @ApiOperation("List hour summary with condition and pagination")
     @PostMapping("/student/list-hour-summary")
     JsonVO<PageDTO<LessonSummaryVO>> listHourSummary(@RequestBody StudentQuery query);
+
+    JsonVO<PageDTO<ResponseDTO>> queryCourseStudent(CourseQuery condition);
+
+    JsonVO<PageDTO<ResponseDTO>> listAllStudent(StudentQuery condition);
+
 }

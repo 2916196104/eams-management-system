@@ -4,12 +4,8 @@ import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j4.student.*;
 import com.zeroone.star.project.dto.j4.student.StudentDTO;
 import com.zeroone.star.project.j4.student.StudentApis;
+import com.zeroone.star.project.query.j4.student.*;
 import com.zeroone.star.student.service.IStudentService;
-import com.zeroone.star.project.query.j4.student.ChangeCreditQuery;
-import com.zeroone.star.project.query.j4.student.ClassQuery;
-import com.zeroone.star.project.query.j4.student.CreditSelectQuery;
-import com.zeroone.star.project.query.j4.student.FollowUpQuery;
-import com.zeroone.star.project.query.j4.student.StudentQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -211,5 +207,18 @@ public class StudentController implements StudentApis {
 
         // 4. 返回分页结果
         return JsonVO.success(pageDTO);
+    }
+    @Override
+    @GetMapping("/studentList")
+    @ApiOperation("获取开通指定课程学员列表（条件+分页）")
+    public JsonVO<PageDTO<ResponseDTO>> queryCourseStudent(CourseQuery condition) {
+        return null;
+    }
+
+    @Override
+    @GetMapping("/list")
+    @ApiOperation("获取学员列表（条件+分页）")
+    public JsonVO<PageDTO<ResponseDTO>> listAllStudent(StudentQuery condition) {
+        return null;
     }
 }
