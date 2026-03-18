@@ -24,11 +24,11 @@ using namespace oatpp::web::protocol::http;
 #define API_TAG ZH_WORDS_GETTER("class.tags.t1")
 
 /**
- * �༶������������ṩ�༶ѧԱ��ؽӿ�
+ * 班级管理控制器，提供班级学员相关接口
  */
 class ClassController : public oatpp::web::server::api::ApiController
 {
-	// ����������������
+	// 定义控制器访问入口
 	API_ACCESS_DECLARE(ClassController);
 public:		
 	ENDPOINT_INFO(queryClassList) {
@@ -39,6 +39,7 @@ public:
 		API_DEF_ADD_PAGE_PARAMS();
 		// 
 		API_DEF_ADD_QUERY_PARAMS(String, "teacher_id", ZH_WORDS_GETTER("class.teacher"), "", true);   // 
+		API_DEF_ADD_TAG(API_TAG);
 	}
 
 
@@ -56,7 +57,7 @@ public:
 		//API_DEF_ADD_PAGE_PARAMS();
 		// 
 		API_DEF_ADD_QUERY_PARAMS(String, "teacher_id", ZH_WORDS_GETTER("class.teacher"), "", true);   // ID
- 
+		API_DEF_ADD_TAG(API_TAG);
 	}
 
 	ENDPOINT(API_M_GET, "/class/classDetail", queryClassDetail, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
@@ -73,19 +74,18 @@ public:
 		API_DEF_ADD_PAGE_PARAMS();
 		API_DEF_ADD_QUERY_PARAMS(String, "class_id", ZH_WORDS_GETTER("classStudent.classId"), "", true);
 		// API_DEF_ADD_QUERY_PARAMS(String, "student_name", ZH_WORDS_GETTER("classStudent.studentName"), "", false);
+		API_DEF_ADD_TAG(API_TAG);
 	}
- // ����ӿ�
-	// 3.1 �����ȡ�༶ѧԱ����ӿ�����
+ // 定义接口
+	// 3.1 定义获取班级学员详情接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(
 		ZH_WORDS_GETTER("class.endpoints.getStudentDetail.title"), getStudentDetail, oatpp::Object<StudentDetailDTO>, API_TAG,
-		API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("class.endpoints.getStudentDetail.params.studentName"), "name", false);
-		API_DEF_ADD_QUERY_PARAMS(String, "phone", ZH_WORDS_GETTER("class.endpoints.getStudentDetail.params.phonenumber"), "phone", false);
+		API_DEF_ADD_QUERY_PARAMS(String, "studentId", ZH_WORDS_GETTER("class.endpoints.getStudentDetail.params.studentId"), "studentId", true);
 	);
-	// 3.2 �����ȡ�༶ѧԱ����ӿڴ���
+	// 3.2 定义获取班级学员详情接口处理
 	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET,"/class/student/detail", getStudentDetail, QUERIES(QueryParams, queryParams),
-		auto name = queryParams.get("name");
-		auto phone = queryParams.get("phone");
-		API_HANDLER_RESP_VO(execGetStudentDetail(name, phone));
+		auto studentId = queryParams.get("studentId");
+		API_HANDLER_RESP_VO(execGetStudentDetail(studentId));
 	);
 
 	ENDPOINT(API_M_GET, "/class/classStudentList", queryClassStudentList, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
@@ -95,12 +95,14 @@ public:
 	// 3.1 定义获取班级学员课程列表接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("class.endpoints.getStudentCourseList.title"), getStudentCourseList, CoursePageJsonVO::Wrapper, API_TAG,
 		API_DEF_ADD_PAGE_PARAMS();
+		API_DEF_ADD_QUERY_PARAMS(String, "studentId", ZH_WORDS_GETTER("class.endpoints.getStudentCourseList.params.studentId"), "studentId", true);
 	);
 	// 3.2 定义获取班级学员课程列表接口处理
 	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/class/student/course/list", getStudentCourseList, QUERIES(QueryParams, queryParams),
+		auto studentId = queryParams.get("studentId");
 		auto pageIndex = queryParams.get("pageIndex");
 		auto pageSize = queryParams.get("pageSize");
-		API_HANDLER_RESP_VO(execGetStudentCourseList(pageIndex, pageSize, authObject->getPayload()));
+		API_HANDLER_RESP_VO(execGetStudentCourseList(studentId, pageIndex, pageSize, authObject->getPayload()));
 	);
 private: 
 	// 定义接口执行函数
@@ -115,9 +117,9 @@ private:
 		return ClassStudentPageJsonVO::createShared();
 	}
 	// 3.3 执行获取班级学员详情
-	oatpp::Object<StudentDetailDTO> execGetStudentDetail(const String& name, const String& phone);
+	oatpp::Object<StudentDetailDTO> execGetStudentDetail(const String& studentId);
 	// 3.3 执行获取班级学员课程列表
-	CoursePageJsonVO::Wrapper execGetStudentCourseList(const oatpp::String& pageIndex, const oatpp::String& pageSize, const PayloadDTO& payload);
+	CoursePageJsonVO::Wrapper execGetStudentCourseList(const oatpp::String& studentId, const oatpp::String& pageIndex, const oatpp::String& pageSize, const PayloadDTO& payload);
 };
 
 #undef API_TAG
