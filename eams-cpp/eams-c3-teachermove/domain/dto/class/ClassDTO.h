@@ -7,7 +7,7 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * 班级 DTO（与 class 表字段对应）
+ * 班级 DTO 
  */
 class ClassDTO : public oatpp::DTO
 {
