@@ -1,5 +1,5 @@
 ﻿#include "stdafx.h"
-#include "GradeListService.h"
+#include "GradeTableService.h"
 
 RecordListDTO::Wrapper RecordListService::QueryRecordList(
     const RecordListQuery::Wrapper& query,
