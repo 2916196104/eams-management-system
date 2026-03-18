@@ -1,13 +1,32 @@
-# `zero-one-xxx`
+# `zero-one-eams`
 
-xxx相关概念参考：
+教务管理相关概念参考：
 
-- 
-- 
+- https://baike.baidu.com/item/%E6%95%99%E5%8A%A1
+- https://baike.baidu.com/item/%E6%95%99%E5%8A%A1%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F
 
 ## 项目简介
 
+零壹教务管理系统是一套支持私有化部署的教培行业教务管理系统，专为教培行业提供云化管理解决方案，是一套微服务项目。
 
+系统在功能上注重教务管理，具有灵活的排课、消课等核心业务功能；系统采用稳定的微服务架构开发，运行流畅，易于部署扩展，支持私有化部署。应用端包括PC管理端、老师手机端、家长手机端。
+
+ 核心功能
+
+-  学生管理、跟进
+-  课程管理、班级、科目等教务管理
+-  报名管理、预约管理、体验卡
+-  排课、课表
+-  家长互动：学评教、教评学、作业、成绩发布
+-  消课：课堂点名、随到随学、消课次数自定义，支持二维码签到
+-  在线购课
+-  支持预约模式
+-  物料管理
+-  财务管理：报名审核，课酬统计等
+-  促学模块：积分商城、老师点评送积分、积分换礼品
+-  组织人员管理、职位管理、角色管理、权限管理、数据权限管理
+-  系统数据统计
+-  `Uniapp`的家长端和老师端
 
 ## 系统架构图
 
@@ -16,7 +35,7 @@ xxx相关概念参考：
 ![architecture](./documents/00、preview-pic/architecture.jpg)
 
 ## 项目结构说明
-> `zero-one-xxx`  
+> `zero-one-eams`  
 >
 > > `.gitignore` -- 忽略提交配置
 > >
@@ -24,11 +43,15 @@ xxx相关概念参考：
 > >
 > > `documents` -- 环境搭建、编码规范、项目需求等等文档资源
 > >
-> > `xxx-java` -- `Java`项目主体
+> > `eams-java` -- `Java`项目主体
 > >
-> > `xxx-cpp` -- `C++`项目主体
+> > `eams-cpp` -- `C++`项目主体
 > >
-> > `xxx-frontend` -- 前端项目主体
+> > `eams-frontend` -- 管理端前端项目主体
+> >
+> > `eams-frontstu` -- 家长端前端项目主体
+> >
+> > `eams-fronttea` -- 教师端前端项目主体
 
 ## 软件架构
 
@@ -99,16 +122,17 @@ https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#requirem
 
 #### 扩展技术栈
 
-| 技术                 | 说明          | 版本   | 备注                                                         |
-| -------------------- | ------------- | ------ | ------------------------------------------------------------ |
-| `ECharts`            | 图表框架      | latest | [`Apache ECharts`](https://echarts.apache.org/handbook/zh/get-started/) |
-| `AJ-Captcha`         | 验证码插件    | 1.3.0  | https://ajcaptcha.beliefteam.cn/captcha-doc/                 |
-| `SheetJS`            | 电子表格插件  | 0.20.2 | https://docs.sheetjs.com/docs/<br>https://docs.sheetjs.com/docs/demos/frontend/vue |
-| `vue-plugin-hiprint` | 打印插件      | 0.0.56 | https://gitee.com/CcSimple/vue-plugin-hiprint                |
-| `wangEditor`         | 富文本编辑器  | v5     | https://www.wangeditor.com/v5/                               |
-| `pdfobject`          | `pdf`预览插件 | 2.3.0  | https://github.com/pipwerks/PDFObject                        |
-| `Vitest`             | 测试框架      | 1.6.0  | https://cn.vitest.dev/<br>https://cn.vuejs.org/guide/scaling-up/testing.html |
-| `pinyin-pro`         | 汉字转拼音库  | latest | https://pinyin-pro.cn/                                       |
+| 技术                                                   | 说明                                                         | 版本                                                         | 备注                                                         |
+| ------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| `ECharts`                                              | 图表框架                                                     | latest                                                       | [`Apache ECharts`](https://echarts.apache.org/handbook/zh/get-started/) |
+| `AJ-Captcha`                                           | 验证码插件                                                   | 1.3.0                                                        | https://ajcaptcha.beliefteam.cn/captcha-doc/                 |
+| `SheetJS`                                              | 电子表格插件                                                 | 0.20.2                                                       | https://docs.sheetjs.com/docs/<br>https://docs.sheetjs.com/docs/demos/frontend/vue |
+| `vue-plugin-hiprint`                                   | 打印插件                                                     | 0.0.56                                                       | https://gitee.com/CcSimple/vue-plugin-hiprint                |
+| `wangEditor`                                           | 富文本编辑器                                                 | v5                                                           | https://www.wangeditor.com/v5/                               |
+| `pdfobject`                                            | `pdf`预览插件                                                | 2.3.0                                                        | https://github.com/pipwerks/PDFObject                        |
+| `Vitest`                                               | 测试框架                                                     | 1.6.0                                                        | https://cn.vitest.dev/<br>https://cn.vuejs.org/guide/scaling-up/testing.html |
+| `pinyin-pro`                                           | 汉字转拼音库                                                 | latest                                                       | https://pinyin-pro.cn/                                       |
+| [`wot-starter`](https://github.com/wot-ui/wot-starter) | 基于[`vitesse-uni-app`](https://github.com/uni-helper/vitesse-uni-app)的深度整合 [`wot-ui`](https://github.com/Moonofweisheng/wot-design-uni) 组件库，现代化的 [`uni-app`](https://www.dcloud.io/) 快速起手项目 | [`v1.3.2`](https://github.com/wot-ui/wot-starter/releases/tag/v1.3.2) | https://starter.wot-ui.cn/<br>https://uni-helper.cn/         |
 
 ### `CPP`技术栈
 
@@ -189,7 +213,7 @@ https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#requirem
 
 ## 特别鸣谢
 
-`zero-one-xxx`的诞生离不开开源软件和社区的支持，感谢以下开源项目及项目维护者：
+`zero-one-eams`的诞生离不开开源软件和社区的支持，感谢以下开源项目及项目维护者：
 
 - `spring`：https://github.com/spring-projects
 - `alibaba`：https://github.com/alibaba
