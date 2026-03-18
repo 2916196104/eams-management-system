@@ -1,9 +1,29 @@
-class:
-    summary: 获取班级学员列表
-    resp: 操作成功
-    id: 班级
-    studentId: 学号
-homework:
-    summary: 获取作业列表
-    resp: 操作成功
-    id: 班级
+ClassStudent:
+  tag: 班级学员
+  query-all:
+    summary: 分页查询班级学员
+  field:
+    id: 主键ID
+    class_id: 班级id
+    student_id: 学生id
+    add_time: 添加时间
+    creator: 创建人
+    reason: 加入原因
+    deleted: 删除标记
+    remark: 备注信息
+    consume_course_id: 默认消费课程ID
+Homework:
+  tag: 作业
+  query-all:
+    summary: 分页查询作业
+  field:
+    id: 主键ID
+    class_id: 班级id
+    title: 标题
+    content: 内容
+    creator: 创建人
+    editor: 编辑人
+    add_time: 添加时间
+    edit_time: 编辑时间
+    deleted: 删除标记
+    org_id: 创建者所属组织ID
