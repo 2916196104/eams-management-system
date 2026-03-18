@@ -9,6 +9,9 @@ import com.zeroone.star.project.query.j2.sys.RolepermStaffQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j2.sys.Roleperm.PermissionGroupVO;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
@@ -20,6 +23,14 @@ import java.util.List;
  * @date 2026/3/16
  */
 public interface RolepermApis {
+    // 角色名称列表
+    JsonVO<List<RolepermDTO>> getNameList(RolepermQuery query);
+
+    // 角色分页列表
+    JsonVO<List<RolepermDTO>> getPage(RolepermQuery query);
+
+    // 保存角色
+    JsonVO<RolepermDTO> saveRole(@RequestBody RolepermDTO dto);
     /**
      * 角色权限删除
      * @param query 角色权限查询对象
