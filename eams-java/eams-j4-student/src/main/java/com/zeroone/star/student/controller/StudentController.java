@@ -102,9 +102,9 @@ public class StudentController implements StudentApis {
     public JsonVO<String> modifyConsultant(@RequestBody StudentDTO studentDTO) {
         Boolean result = studentService.modifyConsultant(studentDTO);
         if(result) {
-            return JsonVO.success(studentDTO.getId());
+            return JsonVO.success("学员顾问修改成功");
         }
-        return JsonVO.fail(null);
+        return JsonVO.fail("学员顾问修改失败");
     }
 
     @PostMapping("/importOnlineStudents")
