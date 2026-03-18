@@ -27,11 +27,6 @@ public:
 		API_DEF_ADD_PAGE_PARAMS();
 		// 
 		API_DEF_ADD_QUERY_PARAMS(String, "teacher_id", ZH_WORDS_GETTER("class.teacher"), "", true);   // 
-/*	API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("class.name"), "", false);            
-		API_DEF_ADD_QUERY_PARAMS(String, "course_id", ZH_WORDS_GETTER("class.course"), "", false);     
-		API_DEF_ADD_QUERY_PARAMS(String, "school_id", ZH_WORDS_GETTER("class.school"), "", false);     
-		API_DEF_ADD_QUERY_PARAMS(String, "org_id", ZH_WORDS_GETTER("class.org"), "", false);           
-		API_DEF_ADD_QUERY_PARAMS(String, "be_over", ZH_WORDS_GETTER("class.beOver"), "", false);  */    
 	}
 
 
@@ -49,11 +44,7 @@ public:
 		//API_DEF_ADD_PAGE_PARAMS();
 		// 
 		API_DEF_ADD_QUERY_PARAMS(String, "teacher_id", ZH_WORDS_GETTER("class.teacher"), "", true);   // ID
-/*	API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("class.name"), "", false);            
-		API_DEF_ADD_QUERY_PARAMS(String, "course_id", ZH_WORDS_GETTER("class.course"), "", false);     
-		API_DEF_ADD_QUERY_PARAMS(String, "school_id", ZH_WORDS_GETTER("class.school"), "", false);     
-		API_DEF_ADD_QUERY_PARAMS(String, "org_id", ZH_WORDS_GETTER("class.org"), "", false);           
-		API_DEF_ADD_QUERY_PARAMS(String, "be_over", ZH_WORDS_GETTER("class.beOver"), "", false);   */   
+ 
 	}
 
 	ENDPOINT(API_M_GET, "/class/classDetail", queryClassDetail, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
