@@ -12,6 +12,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -26,6 +28,7 @@ import java.util.List;
 @Api(tags = "数据字典管理")
 @Validated
 public class DatadictController implements DatadictApis {
+
 
     @ApiOperation(value = "根据ID获取数据字典", notes = "根据ID获取数据字典")
     @GetMapping("/{id}")
@@ -59,6 +62,15 @@ public class DatadictController implements DatadictApis {
     @ApiOperation(value = "删除数据字典", notes = "删除数据字典")
     @Override
     public JsonVO<String> deleteDatadict(@RequestBody List<Integer> ids) {
+        return null;
+    }
+
+    @GetMapping("/list-by-dict-id")
+    @ApiOperation(value = "获取字典名称列表")
+    @Override
+    public JsonVO<PageDTO<DatadictVO>> listDatadictByDictIdPage(
+            @NotNull(message = "字典类型ID不能为空") @RequestParam("dictId") Long dictId,
+            @Valid @RequestBody PageQuery query) {
         return null;
     }
 }
