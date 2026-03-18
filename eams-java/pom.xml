@@ -40,7 +40,6 @@
         <module>j6-eas</module>
         <module>j6-interact</module>
         <module>j6-finance</module>
-        <module>j6-homework</module>
     </modules>
     <properties>
         <!-- 项目版本号 -->
