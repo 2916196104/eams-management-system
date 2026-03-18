@@ -29,6 +29,7 @@ public class StudentController implements StudentApis {
     @Override
     public JsonVO<PageDTO<FollowUpDTO>> queryFollowUpPage(FollowUpQuery condition) {
         // TODO: 调用 Service 层实现业务逻辑
+        // 模拟返回，实际需替换为 service.queryFollowUpPage(condition)
         return null;
     }
 
@@ -37,15 +38,14 @@ public class StudentController implements StudentApis {
     @Override
     public JsonVO<Long> saveFollowUp(@RequestBody FollowUpDTO followUpDTO) {
         // TODO: 调用 Service 层实现业务逻辑
-        // 如果 DTO 中有 ID 则更新，无 ID 则新增
+        // 如果 followUpDTO.getId() != null 则更新，否则新增
         return null;
     }
 
-    @DeleteMapping("/follow-up")
-    @ApiOperation("删除跟进记录（支持批量删除）")
-    @ApiImplicitParam(name = "ids", value = "跟进记录ID列表", type = "Array", paramType = "body", required = true, example = "[\"1\",\"2\"]")
+    @DeleteMapping("/follow-up/{id}")
+    @ApiOperation("删除跟进记录（单个删除）")
     @Override
-    public JsonVO<List<Long>> deleteFollowUp(@RequestBody List<Long> ids) {
+    public JsonVO<Long> deleteFollowUp(@PathVariable Long id) {
         // TODO: 调用 Service 层实现业务逻辑
         return null;
     }
@@ -57,32 +57,32 @@ public class StudentController implements StudentApis {
         // TODO: 调用 Service 层实现业务逻辑
         return null;
     }
-    @GetMapping("/page")
-    @ApiOperation("获取班级列表（条件+分页）")
+
+
     @Override
+    @GetMapping("/page")
+    @ApiOperation("获取班级列表（条件 + 分页）")
     public JsonVO<PageDTO<ClassDTO>> queryClassPage(ClassQuery condition) {
         // TODO: 调用 Service 层实现业务逻辑
-        // 示例返回结构，实际需替换为 Service 调用
         return null;
     }
 
-    @PostMapping("/student/join")
-    @ApiOperation("加入班级")
     @Override
+    @PostMapping("/join")
+    @ApiOperation("加入班级")
     public JsonVO<Long> joinClass(@RequestBody ClassStudentDTO dto) {
         // TODO: 调用 Service 层实现业务逻辑
-        // 检查是否已存在，不存在则插入 class_student 表
         return null;
     }
 
-    @DeleteMapping("/student/quit")
-    @ApiOperation("退出班级")
     @Override
+    @DeleteMapping("/quit")
+    @ApiOperation("退出班级")
     public JsonVO<List<Long>> quitClass(
             @ApiParam(value = "班级ID", required = true, example = "2008418408985583620") @RequestParam Long classId,
             @ApiParam(value = "学生ID", required = true, example = "2008418408985583617") @RequestParam Long studentId) {
-        // TODO: 调用 Service 层实现业务逻辑
-        // 根据 classId 和 studentId 逻辑删除或物理删除 class_student 表记录
+        // TODO: 调用 Service 层
+        // 模拟返回删除成功的记录 ID
         return null;
     }
 }

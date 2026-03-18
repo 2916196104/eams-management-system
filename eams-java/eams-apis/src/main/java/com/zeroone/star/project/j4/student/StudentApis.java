@@ -13,51 +13,46 @@ import java.util.List;
 public interface StudentApis {
     /**
      * 获取跟进记录列表（条件+分页）
-     * @param condition 查询条件
-     * @return 分页结果
+     * GET /j4/student/follow-up/page
      */
     JsonVO<PageDTO<FollowUpDTO>> queryFollowUpPage(FollowUpQuery condition);
 
     /**
-     * 添加/修改跟进记录
-     * @param followUpDTO 跟进记录信息
-     * @return 保存后的ID
+     * 添加跟进记录
+     * POST /j4/student/follow-up
+     * 如果 DTO 中有 ID 则更新，无 ID 则新增
      */
     JsonVO<Long> saveFollowUp(FollowUpDTO followUpDTO);
 
     /**
-     * 删除跟进记录（支持批量删除）
-     * @param ids 跟进记录ID列表
-     * @return 删除成功的ID列表
+     * 删除跟进记录
+     * DELETE /j4/student/follow-up/{id}
+     * @param id 跟进记录ID
+     * @return 删除成功的ID
      */
-    JsonVO<List<Long>> deleteFollowUp(List<Long> ids);
+    JsonVO<Long> deleteFollowUp(Long id);
 
     /**
-     * 获取单个跟进记录详情 (复用DTO，用于编辑前回填或查看详情)
-     * @param id 跟进记录ID
-     * @return 跟进记录详情
+     * 获取跟进记录详情 (用于编辑前回填)
+     * GET /j4/student/follow-up/{id}
      */
     JsonVO<FollowUpDTO> getFollowUpDetail(Long id);
 
     /**
      * 获取班级列表（条件+分页）
-     * @param condition 查询条件
-     * @return 分页结果
+     * 对应原型图：所在班级列表
      */
     JsonVO<PageDTO<ClassDTO>> queryClassPage(ClassQuery condition);
 
     /**
      * 加入班级
-     * @param dto 班级学员关系信息
-     * @return 操作成功后的关联记录ID
+     * 对应原型图：给班级添加学员 -> 提交
      */
     JsonVO<Long> joinClass(ClassStudentDTO dto);
 
     /**
      * 退出班级
-     * @param classId 班级ID
-     * @param studentId 学生ID
-     * @return 删除成功的记录ID列表 (通常为一个)
+     * 对应原型图：所在班级列表 -> 操作列 -> 退出班级
      */
     JsonVO<List<Long>> quitClass(Long classId, Long studentId);
 }
