@@ -1,15 +1,16 @@
+﻿// stdafx.cpp: 与预编译标头对应的源文件
 /*
  Copyright Zero One Star. All rights reserved.
-
+ 
  @Author: awei
- @Date: 2026/03/08 21:19:14
-
+ @Date: 2022/10/24 23:01:07
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
-
-	  https://www.apache.org/licenses/LICENSE-2.0
-
+ 
+      https://www.apache.org/licenses/LICENSE-2.0
+ 
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,12 +18,5 @@
  limitations under the License.
 */
 #include "stdafx.h"
-#include "homeworkcontroller.h"
-//实现接口执行函数
 
-HomeworkJsonVO::Wrapper homeworkController::execHomeworkSubmit(const oatpp::Object<HomeworkSubmitDTO>& request) {
-	return {};
-}
-HomeworkJsonVO::Wrapper homeworkController::execHomeworkDelete(const oatpp::Object<HomeworkDeleteDTO>& request) {
-	return {};
-}
+// 当使用预编译的头时，需要使用此源文件，编译才能成功。

@@ -1,8 +1,9 @@
+#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/08 21:19:14
+ @Date: 2025/07/31 16:40:59
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,13 +17,18 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#include "stdafx.h"
-#include "homeworkcontroller.h"
-//瀹炵幇鎺ュ彛鎵ц鍑芥暟
+#ifndef _MENUSERVICE_H_
+#define _MENUSERVICE_H_
+#include "domain/dto/user/MenuDTO.h"
 
-HomeworkJsonVO::Wrapper homeworkController::execHomeworkSubmit(const oatpp::Object<HomeworkSubmitDTO>& request) {
-	return {};
-}
-HomeworkJsonVO::Wrapper homeworkController::execHomeworkDelete(const oatpp::Object<HomeworkDeleteDTO>& request) {
-	return {};
-}
+/**
+ * 示例菜单业务逻辑
+ */
+class MenuService
+{
+public:
+	// 获取菜单列表
+	oatpp::List<MenuDTO::Wrapper> listMenu();
+};
+
+#endif // !_MENUSERVICE_H_

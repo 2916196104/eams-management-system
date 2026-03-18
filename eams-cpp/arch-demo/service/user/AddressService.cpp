@@ -2,7 +2,7 @@
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/08 21:19:14
+ @Date: 2025/07/31 16:15:19
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,12 +17,32 @@
  limitations under the License.
 */
 #include "stdafx.h"
-#include "homeworkcontroller.h"
-//瀹炵幇鎺ュ彛鎵ц鍑芥暟
+#include "AddressService.h"
+#include "id/UuidFacade.h"
+#include "dao/user/AddressDAO.h"
 
-HomeworkJsonVO::Wrapper homeworkController::execHomeworkSubmit(const oatpp::Object<HomeworkSubmitDTO>& request) {
-	return {};
-}
-HomeworkJsonVO::Wrapper homeworkController::execHomeworkDelete(const oatpp::Object<HomeworkDeleteDTO>& request) {
-	return {};
+string AddressService::saveAddress(const AddressAddDTO::Wrapper& dto)
+{
+	// 生成唯一ID
+	UuidFacade uf;
+	std::string id = uf.genUuid();
+
+	// 构建插入数据对象
+	AddressDO data;
+	data.setId(id);
+	ZO_STAR_DOMAIN_DTO_TO_DO(data, dto,
+		UserId, userId,
+		Contact, contact,
+		Phone, phone,
+		Province, province,
+		City, city,
+		Country, country,
+		Address, address,
+		Remark, remark
+	);
+
+	// 插入数据
+	auto res = AddressDAO().insert(data);
+	if (res == 1) return id;
+	return  "";
 }

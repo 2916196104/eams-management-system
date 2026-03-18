@@ -1,8 +1,9 @@
+#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/08 21:19:14
+ @Date: 2025/07/31 14:45:11
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,13 +17,19 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#include "stdafx.h"
-#include "homeworkcontroller.h"
-//瀹炵幇鎺ュ彛鎵ц鍑芥暟
+#ifndef _ADDRESSDAO_H_
+#define _ADDRESSDAO_H_
+#include "BaseDAO.h"
+#include "domain/do/user/AddressDO.h"
 
-HomeworkJsonVO::Wrapper homeworkController::execHomeworkSubmit(const oatpp::Object<HomeworkSubmitDTO>& request) {
-	return {};
-}
-HomeworkJsonVO::Wrapper homeworkController::execHomeworkDelete(const oatpp::Object<HomeworkDeleteDTO>& request) {
-	return {};
-}
+/**
+ * 收货地址操作
+ */
+class AddressDAO : public BaseDAO
+{
+public:
+	// 获取指定用户的收货地址
+	list<PtrAddressDO> selectByUserId(string userId);
+};
+
+#endif // !_ADDRESSDAO_H_

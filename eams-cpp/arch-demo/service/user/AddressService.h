@@ -1,8 +1,9 @@
+#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/08 21:19:14
+ @Date: 2025/07/31 16:14:42
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,13 +17,17 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#include "stdafx.h"
-#include "homeworkcontroller.h"
-//瀹炵幇鎺ュ彛鎵ц鍑芥暟
+#ifndef _ADDRESSSERVICE_H_
+#define _ADDRESSSERVICE_H_
+#include "domain/dto/user/AddressDTO.h"
+/**
+ * 收货地址业务逻辑处理类
+ */
+class AddressService
+{
+public:
+	// 保存收货地址
+	string saveAddress(const AddressAddDTO::Wrapper& dto);
+};
 
-HomeworkJsonVO::Wrapper homeworkController::execHomeworkSubmit(const oatpp::Object<HomeworkSubmitDTO>& request) {
-	return {};
-}
-HomeworkJsonVO::Wrapper homeworkController::execHomeworkDelete(const oatpp::Object<HomeworkDeleteDTO>& request) {
-	return {};
-}
+#endif // !_ADDRESSSERVICE_H_

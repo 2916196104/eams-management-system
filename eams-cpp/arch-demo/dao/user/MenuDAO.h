@@ -1,8 +1,9 @@
+#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/08 21:19:14
+ @Date: 2025/07/31 17:32:13
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,13 +17,19 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#include "stdafx.h"
-#include "homeworkcontroller.h"
-//瀹炵幇鎺ュ彛鎵ц鍑芥暟
+#ifndef _MENUDAO_H_
+#define _MENUDAO_H_
+#include "BaseDAO.h"
+#include "domain/do/user/MenuDO.h"
 
-HomeworkJsonVO::Wrapper homeworkController::execHomeworkSubmit(const oatpp::Object<HomeworkSubmitDTO>& request) {
-	return {};
-}
-HomeworkJsonVO::Wrapper homeworkController::execHomeworkDelete(const oatpp::Object<HomeworkDeleteDTO>& request) {
-	return {};
-}
+/**
+ * 示例菜单数据访问对象
+ */
+class MenuDAO : public BaseDAO
+{
+public:
+	// 获取所有菜单
+	std::list<PtrMenuDO> selectAll();
+};
+
+#endif // !_MENUDAO_H_

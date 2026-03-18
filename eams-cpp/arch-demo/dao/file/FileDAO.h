@@ -1,8 +1,9 @@
+#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/08 21:19:14
+ @Date: 2025/07/12 21:01:07
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,13 +17,19 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#include "stdafx.h"
-#include "homeworkcontroller.h"
-//瀹炵幇鎺ュ彛鎵ц鍑芥暟
+#ifndef _FILEDAO_H_
+#define _FILEDAO_H_
+#include "BaseDAO.h"
+#include "domain/do/file/FileDO.h"
+#include "domain/dto/file/FileDTO.h"
+/**
+ * 文件数据操作类
+ */
+class FileDAO : public BaseDAO
+{
+public:
+	// 通过id查询数据
+	PtrFileViewDO selectById(const string& id);
+};
 
-HomeworkJsonVO::Wrapper homeworkController::execHomeworkSubmit(const oatpp::Object<HomeworkSubmitDTO>& request) {
-	return {};
-}
-HomeworkJsonVO::Wrapper homeworkController::execHomeworkDelete(const oatpp::Object<HomeworkDeleteDTO>& request) {
-	return {};
-}
+#endif // !_FILEDAO_H_

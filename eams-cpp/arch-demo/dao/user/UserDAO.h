@@ -1,8 +1,9 @@
+#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/08 21:19:14
+ @Date: 2025/07/19 14:38:25
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,13 +17,25 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#include "stdafx.h"
-#include "homeworkcontroller.h"
-//瀹炵幇鎺ュ彛鎵ц鍑芥暟
+#ifndef _USERDAO_H_
+#define _USERDAO_H_
+#include "BaseDAO.h"
+#include "domain/do/user/UserDO.h"
+#include "domain/dto/user/UserDTO.h"
+#include "domain/query/user/UserQuery.h"
 
-HomeworkJsonVO::Wrapper homeworkController::execHomeworkSubmit(const oatpp::Object<HomeworkSubmitDTO>& request) {
-	return {};
-}
-HomeworkJsonVO::Wrapper homeworkController::execHomeworkDelete(const oatpp::Object<HomeworkDeleteDTO>& request) {
-	return {};
-}
+/**
+ * 用户数据操作类
+ */
+class UserDAO : public BaseDAO
+{
+public:
+	// 获取数据条数
+	uint64_t count(const UserQuery::Wrapper& query);
+	// 获取用户列表
+	std::list<PtrUserDO> selectAll(const UserQuery::Wrapper& query);
+	// 通过编号获取指定用户
+	PtrUserDO selectById(const string& id);
+};
+
+#endif // !_USERDAO_H_

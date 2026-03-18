@@ -1,8 +1,9 @@
+#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/08 21:19:14
+ @Date: 2025/07/31 19:50:33
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,13 +17,24 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#include "stdafx.h"
-#include "homeworkcontroller.h"
-//实现接口执行函数
+#ifndef _MENUMAPPER_H_
+#define _MENUMAPPER_H_
+#include "Mapper.h"
+#include "domain/do/user/MenuDO.h"
 
-HomeworkJsonVO::Wrapper homeworkController::execHomeworkSubmit(const oatpp::Object<HomeworkSubmitDTO>& request) {
-	return {};
-}
-HomeworkJsonVO::Wrapper homeworkController::execHomeworkDelete(const oatpp::Object<HomeworkDeleteDTO>& request) {
-	return {};
-}
+class MenuMapper : public Mapper<PtrMenuDO>
+{
+public:
+	PtrMenuDO mapper(ResultSet* resultSet) const override
+	{
+		auto md = std::make_shared<MenuDO>();
+		md->setId(resultSet->getString("id"));
+		md->setText(resultSet->getString("text"));
+		md->setIcon(resultSet->getString("icon"));
+		md->setHref(resultSet->getString("href"));
+		md->setParentId(resultSet->getString("parent_id"));
+		return md;
+	}
+};
+
+#endif // !_MENUMAPPER_H_

@@ -1,28 +1,33 @@
 home:
- class:
-  get_class_list: 获取班级列表
-  get_class_page: 获取班级分页列表
-  get_class_info: 获取班级信息
-  get_student_list: 获取教室列表
-  tag: 班级模块
-  id: 班级id
-  class_name: 班级名称
-  teacher_id: 教师id
-  teacher_name: 教师名称
-  course_id: 课程id
-  course_name: 课程名称   
-  start_date: 上课日期
-  end_date: 结业日期   
-  student_count: 学生人数 
-  class_list: 班级列表
-  classroom_id: 教室id
-  classroom_name: 教室名称
-  remark: 排课备注
-  student_list: 学生列表
+  class:
+    get_class_list: 获取班级列表
+    get_class_page: 获取班级分页列表
+    get_class_info: 获取班级信息
+    get_student_list: 获取教室列表
+    tag: 班级模块
+    id: 班级id
+    class_name: 班级名称
+    teacher_id: 教师id
+    teacher_name: 教师名称
+    course_id: 课程id
+    course_name: 课程名称   
+    start_date: 上课日期
+    end_date: 结业日期   
+    student_count: 学生人数 
+    class_list: 班级列表
+    classroom_id: 教室id
+    classroom_name: 教室名称
+    remark: 排课备注
+    student_list: 学生列表
   student:
    id: 学生id
    name: 学生姓名
    gender: 学生性别  
+  homework:
+    submit: 作业提交
+    delete: 作业删除
+    success: 提交成功
+    whichId: 作业ID
 
 exchange:
   tag: 积分兑换

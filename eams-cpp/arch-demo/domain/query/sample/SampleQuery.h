@@ -3,7 +3,7 @@
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/14 19:27:22
+ @Date: 2022/10/25 11:36:29
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,29 +17,36 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#ifndef _HOMEWORKVO_H_
-#define _HOMEWORKVO_H_
+#ifndef _SAMPLE_QUERY_
+#define _SAMPLE_QUERY_
 
 #include "../../GlobalInclude.h"
-#include "domain/dto/homework/homeworkDTO.h"
+#include "domain/query/PageQuery.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * ä½œä¸šä¿¡æ¯VOï¼ˆè¿”å›žç»™å‰ç«¯çš„æ•°æ®ï¼‰
+ * Ê¾Àý·ÖÒ³²éÑ¯¶ÔÏó
  */
-class HomeworkJsonVO : public oatpp::DTO
+class SampleQuery : public PageQuery
 {
-    DTO_INIT(HomeworkJsonVO, DTO);
-
-    DTO_FIELD(UInt64, recordId);        // è®°å½•ID
-    DTO_FIELD(UInt64, homeworkId);       // ä½œä¸šID
-    DTO_FIELD(UInt64, studentId);        // å­¦ç”ŸID
-    DTO_FIELD(String, content);           // æäº¤å†…å®¹
-    DTO_FIELD(String, images);            // å›¾ç‰‡
-    DTO_FIELD(String, addTime);           // æäº¤æ—¶é—´
+	DTO_INIT(SampleQuery, PageQuery);
+	// ÐÕÃû
+	DTO_FIELD(String, name);
+	DTO_FIELD_INFO(name) {
+		info->description = ZH_WORDS_GETTER("sample.field.name");
+	}
+	// ÐÔ±ð
+	DTO_FIELD(String, sex);
+	DTO_FIELD_INFO(sex) {
+		info->description = ZH_WORDS_GETTER("sample.field.sex");
+	}
+	// ÄêÁä
+	DTO_FIELD(UInt32, age);
+	DTO_FIELD_INFO(age) {
+		info->description = ZH_WORDS_GETTER("sample.field.age");
+	}
 };
 
 #include OATPP_CODEGEN_END(DTO)
-
-#endif // !_HOMEWORKVO_H_
+#endif // !_SAMPLE_QUERY_

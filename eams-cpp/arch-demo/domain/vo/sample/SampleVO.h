@@ -3,7 +3,7 @@
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/14 19:27:22
+ @Date: 2022/10/25 11:34:14
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,29 +17,28 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#ifndef _HOMEWORKVO_H_
-#define _HOMEWORKVO_H_
+#ifndef _SAMPLE_VO_
+#define _SAMPLE_VO_
 
 #include "../../GlobalInclude.h"
-#include "domain/dto/homework/homeworkDTO.h"
+#include "../../dto/sample/SampleDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * 浣滀笟淇℃伅VO锛堣繑鍥炵粰鍓嶇鐨勬暟鎹級
+ * 示例显示JsonVO，用于响应给客户端的Json对象
  */
-class HomeworkJsonVO : public oatpp::DTO
-{
-    DTO_INIT(HomeworkJsonVO, DTO);
+class SampleJsonVO : public JsonVO<SampleDTO::Wrapper> {
+	DTO_INIT(SampleJsonVO, JsonVO<SampleDTO::Wrapper>);
+};
 
-    DTO_FIELD(UInt64, recordId);        // 璁板綍ID
-    DTO_FIELD(UInt64, homeworkId);       // 浣滀笟ID
-    DTO_FIELD(UInt64, studentId);        // 瀛︾敓ID
-    DTO_FIELD(String, content);           // 鎻愪氦鍐呭
-    DTO_FIELD(String, images);            // 鍥剧墖
-    DTO_FIELD(String, addTime);           // 鎻愪氦鏃堕棿
+/**
+ * 示例分页显示JsonVO，用于响应给客户端的Json对象
+ */
+class SamplePageJsonVO : public JsonVO<SamplePageDTO::Wrapper> {
+	DTO_INIT(SamplePageJsonVO, JsonVO<SamplePageDTO::Wrapper>);
 };
 
 #include OATPP_CODEGEN_END(DTO)
 
-#endif // !_HOMEWORKVO_H_
+#endif // !_SAMPLE_VO_

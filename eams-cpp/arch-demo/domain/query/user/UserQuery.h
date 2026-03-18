@@ -3,7 +3,7 @@
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/14 19:27:22
+ @Date: 2022/12/03 11:01:02
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,29 +17,24 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#ifndef _HOMEWORKVO_H_
-#define _HOMEWORKVO_H_
+#ifndef _USERQUERY_H_
+#define _USERQUERY_H_
 
 #include "../../GlobalInclude.h"
-#include "domain/dto/homework/homeworkDTO.h"
+#include "domain/query/PageQuery.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * 浣滀笟淇℃伅VO锛堣繑鍥炵粰鍓嶇鐨勬暟鎹級
+ * 定义一个查询用户信息的数据传输模型
  */
-class HomeworkJsonVO : public oatpp::DTO
+class UserQuery : public PageQuery
 {
-    DTO_INIT(HomeworkJsonVO, DTO);
-
-    DTO_FIELD(UInt64, recordId);        // 璁板綍ID
-    DTO_FIELD(UInt64, homeworkId);       // 浣滀笟ID
-    DTO_FIELD(UInt64, studentId);        // 瀛︾敓ID
-    DTO_FIELD(String, content);           // 鎻愪氦鍐呭
-    DTO_FIELD(String, images);            // 鍥剧墖
-    DTO_FIELD(String, addTime);           // 鎻愪氦鏃堕棿
+	// 定义初始化
+	DTO_INIT(UserQuery, PageQuery);
+	// 昵称
+	API_DTO_FIELD_DEFAULT(String, nickname, ZH_WORDS_GETTER("user.field.nickname"));
 };
 
 #include OATPP_CODEGEN_END(DTO)
-
-#endif // !_HOMEWORKVO_H_
+#endif // !_USERQUERY_H_

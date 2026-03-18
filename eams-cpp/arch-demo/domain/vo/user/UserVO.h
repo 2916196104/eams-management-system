@@ -3,7 +3,7 @@
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/14 19:27:22
+ @Date: 2022/10/26 23:47:08
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,29 +17,37 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#ifndef _HOMEWORKVO_H_
-#define _HOMEWORKVO_H_
+#ifndef _USERVO_H_
+#define _USERVO_H_
 
 #include "../../GlobalInclude.h"
-#include "domain/dto/homework/homeworkDTO.h"
+#include "../../dto/user/UserDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * 浣滀笟淇℃伅VO锛堣繑鍥炵粰鍓嶇鐨勬暟鎹級
+ * 定义一个用户信息显示JsonVO对象，用于响应给客户端
  */
-class HomeworkJsonVO : public oatpp::DTO
+class UserJsonVO : public JsonVO<UserDTO::Wrapper>
 {
-    DTO_INIT(HomeworkJsonVO, DTO);
+	DTO_INIT(UserJsonVO, JsonVO<UserDTO::Wrapper>);
+};
 
-    DTO_FIELD(UInt64, recordId);        // 璁板綍ID
-    DTO_FIELD(UInt64, homeworkId);       // 浣滀笟ID
-    DTO_FIELD(UInt64, studentId);        // 瀛︾敓ID
-    DTO_FIELD(String, content);           // 鎻愪氦鍐呭
-    DTO_FIELD(String, images);            // 鍥剧墖
-    DTO_FIELD(String, addTime);           // 鎻愪氦鏃堕棿
+/**
+ * 响应给客户端的用户详细信息JsonVO对象
+ */
+class UserDetailJsonVO : public JsonVO<UserDetailDTO::Wrapper>
+{
+	DTO_INIT(UserDetailJsonVO, JsonVO<UserDetailDTO::Wrapper>);
+};
+
+/**
+ * 定义一个用户信息分页显示JsonVO对象，用于响应给客户端
+ */
+class UserPageJsonVO : public JsonVO<UserPageDTO::Wrapper>
+{
+	DTO_INIT(UserPageJsonVO, JsonVO<UserPageDTO::Wrapper>);
 };
 
 #include OATPP_CODEGEN_END(DTO)
-
-#endif // !_HOMEWORKVO_H_
+#endif // _USERVO_H_

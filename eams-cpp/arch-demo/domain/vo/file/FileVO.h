@@ -3,7 +3,7 @@
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/14 19:27:22
+ @Date: 2023/09/18 14:46:10
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,29 +17,30 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#ifndef _HOMEWORKVO_H_
-#define _HOMEWORKVO_H_
+#ifndef _FILEVO_H_
+#define _FILEVO_H_
 
 #include "../../GlobalInclude.h"
-#include "domain/dto/homework/homeworkDTO.h"
+#include "../../dto/file/FileDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * 浣滀笟淇℃伅VO锛堣繑鍥炵粰鍓嶇鐨勬暟鎹級
+ * editor响应图片上传结果数据
  */
-class HomeworkJsonVO : public oatpp::DTO
+class EditorImageVO : public JsonVO<EditorImageDTO::Wrapper>
 {
-    DTO_INIT(HomeworkJsonVO, DTO);
+	DTO_INIT(EditorImageVO, JsonVO<EditorImageDTO::Wrapper>);
+};
 
-    DTO_FIELD(UInt64, recordId);        // 璁板綍ID
-    DTO_FIELD(UInt64, homeworkId);       // 浣滀笟ID
-    DTO_FIELD(UInt64, studentId);        // 瀛︾敓ID
-    DTO_FIELD(String, content);           // 鎻愪氦鍐呭
-    DTO_FIELD(String, images);            // 鍥剧墖
-    DTO_FIELD(String, addTime);           // 鎻愪氦鏃堕棿
+/**
+ * 文件信息响应数据
+ */
+class FileJsonVO : public JsonVO<FileDTO::Wrapper>
+{
+	DTO_INIT(FileJsonVO, JsonVO<FileDTO::Wrapper>);
 };
 
 #include OATPP_CODEGEN_END(DTO)
 
-#endif // !_HOMEWORKVO_H_
+#endif // !_FILEVO_H_

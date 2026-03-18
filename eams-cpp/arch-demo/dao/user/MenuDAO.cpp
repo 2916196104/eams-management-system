@@ -2,7 +2,7 @@
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/08 21:19:14
+ @Date: 2025/07/31 17:32:33
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,12 +17,11 @@
  limitations under the License.
 */
 #include "stdafx.h"
-#include "homeworkcontroller.h"
-//实现接口执行函数
+#include "MenuDAO.h"
+#include "MenuMapper.h"
 
-HomeworkJsonVO::Wrapper homeworkController::execHomeworkSubmit(const oatpp::Object<HomeworkSubmitDTO>& request) {
-	return {};
-}
-HomeworkJsonVO::Wrapper homeworkController::execHomeworkDelete(const oatpp::Object<HomeworkDeleteDTO>& request) {
-	return {};
+std::list<PtrMenuDO> MenuDAO::selectAll()
+{
+	string sql = "select id,text,icon,href,parent_id from sample_menu";
+	return sqlSession->executeQuery<PtrMenuDO>(sql, MenuMapper());
 }

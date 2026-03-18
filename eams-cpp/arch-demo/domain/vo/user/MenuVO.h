@@ -3,7 +3,7 @@
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2026/03/14 19:27:22
+ @Date: 2023/02/16 17:02:58
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,29 +17,26 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#ifndef _HOMEWORKVO_H_
-#define _HOMEWORKVO_H_
-
+#ifndef _MENUVO_H_
+#define _MENUVO_H_
 #include "../../GlobalInclude.h"
-#include "domain/dto/homework/homeworkDTO.h"
+#include "../../dto/user/MenuDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * 浣滀笟淇℃伅VO锛堣繑鍥炵粰鍓嶇鐨勬暟鎹級
+ * 定义一个示例菜单显示JsonVO对象，用于响应给前端
  */
-class HomeworkJsonVO : public oatpp::DTO
+class MenuJsonVO : public JsonVO<List<MenuDTO::Wrapper>>
 {
-    DTO_INIT(HomeworkJsonVO, DTO);
-
-    DTO_FIELD(UInt64, recordId);        // 璁板綍ID
-    DTO_FIELD(UInt64, homeworkId);       // 浣滀笟ID
-    DTO_FIELD(UInt64, studentId);        // 瀛︾敓ID
-    DTO_FIELD(String, content);           // 鎻愪氦鍐呭
-    DTO_FIELD(String, images);            // 鍥剧墖
-    DTO_FIELD(String, addTime);           // 鎻愪氦鏃堕棿
+	DTO_INIT(MenuJsonVO, JsonVO<List<MenuDTO::Wrapper>>);
+public:
+	// 在构造函数中实例化data列表
+	MenuJsonVO() {
+		this->data = {};
+	}
 };
 
 #include OATPP_CODEGEN_END(DTO)
 
-#endif // !_HOMEWORKVO_H_
+#endif // !_MENUVO_H_
