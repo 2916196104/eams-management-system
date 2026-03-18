@@ -1,9 +1,12 @@
+#课表模块
 schedule:
-  tag: 课表模块示例接口
+  tag: 课表模块
+#预约接口
   appointment:
     scheduleId: 预约课次ID
     studentId: 预约学生ID
     summary: 家长提交课程预约申请
+#请假接口
   leave: 
     scheduleId: 请假课次ID
     studentId: 请假学生ID
