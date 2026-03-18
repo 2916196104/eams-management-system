@@ -6,25 +6,25 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/* 课表查询参数 */
-class TimetableQuery : public oatpp::DTO 
+/* Timetable query parameters */
+class TimetableQuery : public oatpp::DTO
 {
 	DTO_INIT(TimetableQuery, DTO)
 };
 
-// --- 1. 获取学员列表的 Query 参数 ---
-// 继承自底层的 PageQuery，自带 pageIndex 和 pageSize
+// --- 1. Query parameters for getting student list ---
+// Inherits from base PageQuery, which provides pageIndex and pageSize fields.
 class StuListQuery : public PageQuery {
 	DTO_INIT(StuListQuery, PageQuery)
-	
-	API_DTO_FIELD(String, keyword, ZH_WORDS_GETTER("timetable.query.keyword"), false, "")
+
+		API_DTO_FIELD(String, keyword, ZH_WORDS_GETTER("timetable.query.keyword"), false, "")
 };
 
-// --- 2. 获取学员课程列表 - 请求参数 Query ---
+// --- 2. Query parameters for getting student class list ---
 class StuClassQuery : public oatpp::DTO {
 	DTO_INIT(StuClassQuery, DTO)
 
-	API_DTO_FIELD(String, id, ZH_WORDS_GETTER("timetable.dto.TimetableStudentDTO.studentID"), true, "10001")
+		API_DTO_FIELD(String, id, ZH_WORDS_GETTER("timetable.dto.TimetableStudentDTO.studentID"), true, "10001")
 };
 
 #include OATPP_CODEGEN_END(DTO)

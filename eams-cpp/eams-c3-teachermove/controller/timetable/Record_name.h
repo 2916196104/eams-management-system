@@ -11,12 +11,12 @@
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
 
-class Record_name : public oatpp::web::server::api::ApiController 
+class Record_name : public oatpp::web::server::api::ApiController
 {
-	//定义控制器访问入口
+	// Define controller access entry
 	API_ACCESS_DECLARE(Record_name)
-public:		//定义接口
-	// 接口 1: 获取学员列表(条件+分页) - GetStuList
+public:		// Define endpoints
+	// Endpoint 1: Get student list (with conditions + pagination) - GetStuList
 
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(
 		ZH_WORDS_GETTER("timetable.endpoints.getStudentList.title"),
@@ -31,7 +31,7 @@ public:		//定义接口
 			execGetStuList(query, authObject->getPayload())
 		)
 
-		// 接口 2: 添加学员到课次 - InsertStuToCS
+		// Endpoint 2: Add student to lesson - InsertStuToCS
 
 		API_DEF_ENDPOINT_INFO_AUTH(
 			ZH_WORDS_GETTER("timetable.endpoints.insertStuToCS.title"),
@@ -47,7 +47,7 @@ public:		//定义接口
 			execInsertStuToCS(dto, authObject->getPayload())
 		)
 
-		// 接口 3: 获取学员课程列表 - GetStuClassList
+		// Endpoint 3: Get student course list - GetStuClassList
 
 		API_DEF_ENDPOINT_INFO_QUERY_AUTH(
 			ZH_WORDS_GETTER("timetable.endpoints.getStudentCourseList.title"),
@@ -63,7 +63,7 @@ public:		//定义接口
 		)
 
 public:
-	// 声明执行函数
+	// Declare execution functions
 
 	TimetableStudentPageJsonVO::Wrapper execGetStuList(const StuListQuery::Wrapper& query, const PayloadDTO& payload);
 
