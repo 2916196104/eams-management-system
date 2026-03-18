@@ -1,10 +1,10 @@
 package com.zeroone.star.project.j8.sysmanager;
 
+import cn.hutool.db.PageResult;
 import com.zeroone.star.project.dto.j8.sysmanager.NoticeDTO;
 import com.zeroone.star.project.query.j8.sysmanager.NoticeQuery;
+import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j8.sysmanager.NoticeVO;
-import com.zeroone.star.project.result.PageResult;
-import com.zeroone.star.project.result.Result;
 
 // Swagger 注解
 import io.swagger.annotations.Api;
@@ -25,21 +25,13 @@ public interface InternalNoticeApis {
 
     @ApiOperation("1. 获取公告列表（条件 + 分页）")
     @PostMapping("/list")
-    PageResult<NoticeVO> getNoticeList(@RequestBody NoticeQuery query);
+    JsonVO<PageResult<NoticeVO>> getNoticeList(@RequestBody NoticeQuery query);
 
     @ApiOperation("2. 获取公告详情（用于编辑/查看）")
     @GetMapping("/detail/{id}")
-    NoticeVO getNoticeDetail(@PathVariable("id") Long id);
+    JsonVO<NoticeVO> getNoticeDetail(@PathVariable("id") Long id);
 
     @ApiOperation("3. 保存公告（新增/修改）")
     @PostMapping("/save")
-    Boolean saveNotice(@RequestBody @Validated NoticeDTO dto);
-
-    /*@ApiOperation("4. 删除公告（支持批量）")
-    @PostMapping("/delete")
-    Boolean deleteNotice(@RequestBody List<Long> ids);
-*/
-  /*  @ApiOperation("5. 启/停用公告")
-    @PostMapping("/toggleStatus")
-    Boolean toggleStatus(@RequestParam Long id, @RequestParam Integer status);*/
+    JsonVO<Boolean> saveNotice(@RequestBody @Validated NoticeDTO dto);
 }
