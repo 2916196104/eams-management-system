@@ -15,7 +15,7 @@
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
-#define API_TAG ZH_WORDS_GETTER("set_status.flag")
+#define API_TAG ZH_WORDS_GETTER("api.tag")
 
 class Record_name: public oatpp::web::server::api::ApiController
 {
@@ -23,16 +23,16 @@ class Record_name: public oatpp::web::server::api::ApiController
 	API_ACCESS_DECLARE(Record_name);
 public:		//定义接口
 	API_DEF_ENDPOINT_INFO_AUTH(
-		"Get lesson detail",
+		ZH_WORDS_GETTER("api.get-detail-cs.title"),
 		getDetailCS,
 		GetDetailCSJsonVO::Wrapper,
-		"",
-		API_DEF_ADD_QUERY_PARAMS(UInt64, "lesson_id", "Lesson ID", 10002, true);
+		API_TAG,
+		API_DEF_ADD_QUERY_PARAMS(UInt64, "lesson_id", ZH_WORDS_GETTER("api.get-detail-cs.param.lesson-id"), 10002, true);
 	);
 
 	API_HANDLER_ENDPOINT_OPTION_AUTH(
 		API_M_GET,
-		"/timetable/record-name/get-detail-cs",
+		"/timetable/get-detail-cs",
 		getDetailCS,
 		QUERIES(QueryParams, queryParams),
 		API_HANDLER_QUERY_PARAM(query, GetDetailCSQuery, queryParams);
@@ -41,19 +41,17 @@ public:		//定义接口
 	);
 
 	API_DEF_ENDPOINT_INFO_AUTH(
-		"Get student list with filters and pagination",
+		ZH_WORDS_GETTER("api.get-cs-stu-list.title"),
 		getStuList,
 		GetStuListJsonVO::Wrapper,
-		"",
-		API_DEF_ADD_QUERY_PARAMS(UInt64, "lesson_id", "Lesson ID", 10002, true);
-		API_DEF_ADD_QUERY_PARAMS(String, "keyword", "Student keyword", "", false);
-		API_DEF_ADD_QUERY_PARAMS(UInt64, "page_index", "Page index", 1, false);
-		API_DEF_ADD_QUERY_PARAMS(UInt64, "page_size", "Page size", 10, false);
+		API_TAG,
+		API_DEF_ADD_QUERY_PARAMS(UInt64, "page_index", ZH_WORDS_GETTER("api.get-cs-stu-list.param.page-index"), 1, false);
+		API_DEF_ADD_QUERY_PARAMS(UInt64, "page_size", ZH_WORDS_GETTER("api.get-cs-stu-list.param.page-size"), 10, false);
 	);
 
 	API_HANDLER_ENDPOINT_OPTION_AUTH(
 		API_M_GET,
-		"/timetable/record-name/get-stu-list",
+		"/timetable/get-stu-list",
 		getStuList,
 		QUERIES(QueryParams, queryParams),
 		API_HANDLER_QUERY_PARAM(query, GetStuListQuery, queryParams);
@@ -72,7 +70,6 @@ private:	//定义接口执行函数
 };
 
 #undef API_TAG
-
 #include OATPP_CODEGEN_END(ApiController)
 
 #endif

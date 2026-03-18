@@ -11,6 +11,7 @@
 #include "oatpp/web/server/api/ApiController.hpp"
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
+#define API_TAG ZH_WORDS_GETTER("api.tag")
 
 class GetCommonDatetime : public oatpp::web::server::api::ApiController
 {
@@ -18,12 +19,11 @@ class GetCommonDatetime : public oatpp::web::server::api::ApiController
 	API_ACCESS_DECLARE(GetCommonDatetime);
 public:		//定义接口
 	API_DEF_ENDPOINT_INFO_AUTH(
-		"Get timetable by date",
+		ZH_WORDS_GETTER("api.get-common-datetime.title"),
 		getCommonDatetime,
 		CommonDatetimeJsonVO::Wrapper,
-		"getCommonDatetime",
-		API_DEF_ADD_QUERY_PARAMS(String, "date", "Lesson date", "2026-03-15", true);
-		API_DEF_ADD_QUERY_PARAMS(UInt64, "teacher_id", "Teacher ID", 1001, false);
+		API_TAG,
+		API_DEF_ADD_QUERY_PARAMS(String, "date", ZH_WORDS_GETTER("api.get-common-datetime.param.date"), "2026-03-15", true);
 	);
 
 	API_HANDLER_ENDPOINT_OPTION_AUTH(
@@ -41,6 +41,7 @@ private:	//定义接口执行函数
 
 };
 
+#undef API_TAG
 #include OATPP_CODEGEN_END(ApiController)
 
 #endif

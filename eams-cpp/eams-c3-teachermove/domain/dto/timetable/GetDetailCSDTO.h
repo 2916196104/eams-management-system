@@ -14,7 +14,6 @@ class GetDetailCSDTO : public oatpp::DTO
 	API_DTO_FIELD(String, start_time, "Start time", true, "15:12");
 	API_DTO_FIELD(String, end_time, "End time", true, "16:12");
 	API_DTO_FIELD(UInt32, period_count, "Period count", true, static_cast<v_uint32>(1));
-	API_DTO_FIELD(String, period_label, "Period label", true, "1 period");
 	API_DTO_FIELD(String, course_title, "Course title", true, "Piano Beginner");
 	API_DTO_FIELD(String, teacher_name, "Teacher name", true, "Zhang San");
 	API_DTO_FIELD(UInt32, normal_count, "Normal attendance count", true, static_cast<v_uint32>(0));

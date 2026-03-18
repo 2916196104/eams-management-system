@@ -79,3 +79,18 @@ evaluate:
   response:
     code: 错误码
     message: 错误信息
+api:
+ tag: 课表
+ get-common-datetime:
+  title: 获取指定日期的课表
+  param:
+   date: 课表日期
+ get-detail-cs:
+  title: 获取课次详情
+  param:
+   lesson-id: 课次ID
+ get-cs-stu-list:
+  title: 获取课次学生列表(条件+分页)
+  param:
+   page-index: 页码
+   page-size: 每页条数
