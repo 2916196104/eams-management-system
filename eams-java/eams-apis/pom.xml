@@ -21,9 +21,5 @@
             <artifactId>spring-web</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.zeroone.star</groupId>
-            <artifactId>eams-domain</artifactId>
-        </dependency>
     </dependencies>
 </project>

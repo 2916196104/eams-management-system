@@ -64,11 +64,6 @@
                 <artifactId>eams-domain</artifactId>
                 <version>${revision}</version>
             </dependency>
-            <dependency>
-                <groupId>com.zeroone.star</groupId>
-                <artifactId>eams-j1-console</artifactId>
-                <version>${revision}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>
