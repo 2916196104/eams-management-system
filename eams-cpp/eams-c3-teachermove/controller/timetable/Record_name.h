@@ -19,11 +19,11 @@ public:		//定义接口
 	// 接口 1: 获取学员列表(条件+分页) - GetStuList
 
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(
-		"获取学员列表",
+		ZH_WORDS_GETTER("timetable.endpoints.getStudentList.title"),
 		GetStuList,
 		StuListQuery,
 		TimetableStudentPageJsonVO::Wrapper,
-		"学员管理模块"
+		ZH_WORDS_GETTER("timetable.tags.studentManage")
 	)
 
 		API_HANDLER_ENDPOINT_QUERY_AUTH(
@@ -34,10 +34,10 @@ public:		//定义接口
 		// 接口 2: 添加学员到课次 - InsertStuToCS
 
 		API_DEF_ENDPOINT_INFO_AUTH(
-			"添加学员到课次",
+			ZH_WORDS_GETTER("timetable.endpoints.insertStuToCS.title"),
 			InsertStuToCS,
 			StringJsonVO::Wrapper,
-			"学员管理模块",
+			ZH_WORDS_GETTER("timetable.tags.studentManage"),
 			API_DEF_NOTHING
 		)
 
@@ -50,11 +50,11 @@ public:		//定义接口
 		// 接口 3: 获取学员课程列表 - GetStuClassList
 
 		API_DEF_ENDPOINT_INFO_QUERY_AUTH(
-			"获取学员课程列表",
+			ZH_WORDS_GETTER("timetable.endpoints.getStudentCourseList.title"),
 			GetStuClassList,
 			StuClassQuery,
 			ListJsonVO<TimetableStudentCourseDTO::Wrapper>::Wrapper,
-			"学员管理模块"
+			ZH_WORDS_GETTER("timetable.tags.studentManage")
 		)
 
 		API_HANDLER_ENDPOINT_QUERY_AUTH(

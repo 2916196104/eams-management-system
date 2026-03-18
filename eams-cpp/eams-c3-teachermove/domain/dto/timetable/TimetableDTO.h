@@ -16,10 +16,11 @@ class TimetableDTO: public oatpp::DTO
 class TimetableStudentDTO : public oatpp::DTO {
 	DTO_INIT(TimetableStudentDTO, DTO)
 
-	API_DTO_FIELD(String, id, "学员ID", true, "10001")
-	API_DTO_FIELD(String, name, "学员姓名", true, "张三")
-	API_DTO_FIELD(String, head_img, "头像地址", false, "https://example.com/head.png")
-	API_DTO_FIELD(String, gender, "性别1男2女", false, "1")
+	API_DTO_FIELD(String, id, ZH_WORDS_GETTER("timetable.dto.TimetableStudentDTO.studentID"),true, "10001")
+	API_DTO_FIELD(String, name, ZH_WORDS_GETTER("timetable.dto.TimetableStudentDTO.studentName"), true, "张三")
+	API_DTO_FIELD(String, phone, ZH_WORDS_GETTER("timetable.dto.TimetableStudentDTO.phone"), false, "15865842975")
+	API_DTO_FIELD(String, gender, ZH_WORDS_GETTER("timetable.dto.TimetableStudentDTO.gender"), false, "1")
+	API_DTO_FIELD(Int32, rest_hour, ZH_WORDS_GETTER("timetable.dto.TimetableStudentDTO.restHour"), false, 108)
 };
 
 //由于框架没有自带 PageJsonVO，需要自定义一个属于当前学员列表的分页 VO
@@ -31,18 +32,19 @@ class TimetableStudentPageJsonVO : public JsonVO<PageDTO<TimetableStudentDTO::Wr
 class AddStudentToLessonDTO : public oatpp::DTO {
 	DTO_INIT(AddStudentToLessonDTO, DTO)
 
-	API_DTO_FIELD(String, course_id, "课程ID", true, "c_001")
-	API_DTO_FIELD_REQUIRE(List<String>, studentIds, "要添加的学员ID列表", true)
+	API_DTO_FIELD(String, course_id, ZH_WORDS_GETTER("timetable.dto.AddStudentToLessonDTO.courseId"), true, "c_001")
+	API_DTO_FIELD_REQUIRE(List<String>, studentIds, ZH_WORDS_GETTER("timetable.dto.AddStudentToLessonDTO.studentIds"), true)
 };
 
 // --- 3. 获取学员课程列表 - 响应的列表项 DTO ---
 class TimetableStudentCourseDTO : public oatpp::DTO {
 	DTO_INIT(TimetableStudentCourseDTO, DTO)
 
-	API_DTO_FIELD(String, course_id, "课程ID", true, "c_001")
-	API_DTO_FIELD(String, title, "课程标题", true, "大学物理")
-	API_DTO_FIELD(String, teacher_id, "主讲人", false, "王老师")
-	API_DTO_FIELD(String, sn, "课节数", false, "2")
+	API_DTO_FIELD(String, course_id, ZH_WORDS_GETTER("timetable.dto.AddStudentToLessonDTO.courseId"), true, "c_001")
+	API_DTO_FIELD(Int32, rest_hour, ZH_WORDS_GETTER("timetable.dto.TimetableStudentDTO.restHour"), true, 0)
+	API_DTO_FIELD(String, title, ZH_WORDS_GETTER("timetable.dto.TimetableStudentCourseDTO.courseTitle"), true, "大学物理")
+	API_DTO_FIELD(String, teacher_id, ZH_WORDS_GETTER("timetable.dto.TimetableStudentCourseDTO.teacherId"), false, "王老师")
+	API_DTO_FIELD(String, sn, ZH_WORDS_GETTER("timetable.dto.TimetableStudentCourseDTO.sn"), false, "2")
 };
 
 #include OATPP_CODEGEN_END(DTO)

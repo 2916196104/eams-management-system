@@ -1,0 +1,29 @@
+timetable:
+  tags:
+    studentManage: 学员管理模块
+  endpoints:
+    getStudentList:
+      title: 获取学员列表
+    insertStuToCS:
+      title: 添加学员到课次
+    getStudentCourseList:
+      title: 获取学员课程列表
+  query:
+    keyword: 搜索关键字(姓名/手机号)
+  dto:
+    TimetableStudentDTO:
+      studentId: 学员ID
+      studentName: 学员姓名
+      gender: 性别1男2女
+      phone: 手机号
+      restHour: 剩余课时
+    AddStudentToLessonDTO:
+      courseId: 课程ID
+      studentIds: 要添加的学员ID列表
+    TimetableStudentCourseDTO:
+      courseTitle: 课程标题
+      teacherId: 主讲人
+      sn: 课节数
+  message:
+    paramIncomplete: 参数不完整：课程ID或学员列表不能为空
+    studentIdEmpty: 学员ID不能为空
