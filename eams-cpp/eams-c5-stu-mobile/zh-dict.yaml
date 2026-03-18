@@ -1,0 +1,27 @@
+c5:
+ home:
+  credit:
+   exchange:
+    tag: 
+     t1: 积分兑换
+    query-all:
+     summary: 分页查询积分兑换记录
+    field:
+     id: 主键id
+     credit-mall-id: 礼品id
+     credit-mall-name: 礼品名称
+     num: 兑换数量
+     school-id: 学校id
+     creator: 创建人
+     editor: 编辑人
+     add-time: 添加时间
+     edit-time: 编辑时间
+     deleted: 删除标记
+     student-id: 学生id
+     student-name:
+     user-id: 学生账号id
+     credit: 花费积分
+     verify-state: 审核状态
+     verify-staff: 审核人
+     verify-time: 审核时间
+     verify-remark: 审核备注
