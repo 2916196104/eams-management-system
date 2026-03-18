@@ -167,4 +167,4 @@ endif()
 add_subdirectory("eams-c3-teachermove")
 add_subdirectory("eams-c3-managerorg")
 
-#add_subdirectory("c3-GradeManage")
+add_subdirectory("c3-GradeManage")

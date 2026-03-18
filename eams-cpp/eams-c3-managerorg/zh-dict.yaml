@@ -1,6 +1,6 @@
 ﻿Grade:
  tags:
-  t1: 基础示例接口
+  t1: 成绩管理
   t2: 声明式服务示例接口
  get:
   summary: 分页查询示例数据
@@ -25,6 +25,14 @@
  query-all:
   summary: 使用声明式服务查询多条数据
  field:
+  id: 文档里有这项，但是目前不知道干什么的，先做个保留，可能会删
+  operation: 操作
   item: 考核项
   name: 姓名
   sc: 成绩
+
+Page:
+    page: 页号
+    pageSize: 单页数据条数
+    sortBy: 排序方式
+    sortType: 排序类别（这个和By没区分清楚，先打个备注）
