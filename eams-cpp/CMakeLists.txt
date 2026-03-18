@@ -167,5 +167,4 @@ endif()
 add_subdirectory ("eams-c1-Home")
 add_subdirectory ("eams-c1-login")
 add_subdirectory ("eams-c1-schedule")
-add_subdirectory("eams-c1-schedule-Kzafter")
 
