@@ -2,11 +2,11 @@
 #ifndef _GETALLANNOUNCEMENTCONTROLLERMENT_H_
 #define _GETALLANNOUNCEMENTCONTROLLERMENT_H_
 
-#include "ApiHelper.h"
-#include "ServerInfo.h"
-#include "Macros.h"
-#include"domain/vo/BaseJsonVo.h"
-#include"domain/query/PageQuery.h"
+#include "domain/vo/BaseJsonVO.h"
+#include "domain/query/PageQuery.h"
+#include "domain/query/home/announcement/GetallannouncementQuery.h"
+#include "domain/dto/home/announcement/GetannouncementDTO.h"
+#include "domain/vo/home/announcement/GetannouncementVO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
 

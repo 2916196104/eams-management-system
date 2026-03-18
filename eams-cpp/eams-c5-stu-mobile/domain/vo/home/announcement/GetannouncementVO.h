@@ -5,7 +5,7 @@
 
 #include "../../../GlobalInclude.h"
 // 引入适配homework表的DTO头文件（路径需根据实际项目调整）
-#include "../../../dto/home/announcement/GetallannouncementDTO.h"
+#include "../../../dto/home/announcement/GetannouncementDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
