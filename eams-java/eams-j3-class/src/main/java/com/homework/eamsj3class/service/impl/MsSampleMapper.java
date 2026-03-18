@@ -17,10 +17,4 @@ public interface MsSampleMapper {
     CourseExportDTO courseToCEDTO(Course course);
 
     List<CourseExportDTO> coursesToCEDTOs(List<Course> courses);
-
-    Course dtoToCourse(CourseExportDTO courseExportDTO);
-
-    CourseStatusDTO courseToCSDTO(Course course);
-
-    Course dtoToCourse(CourseStatusDTO courseStatusDTO);
 }
