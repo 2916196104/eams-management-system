@@ -2,11 +2,11 @@ package com.zeroone.star.sys.controller;
 
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j2.sys.Roleperm.PermissionDTO;
-import com.zeroone.star.project.dto.j2.sys.RolepermDTO;
-import com.zeroone.star.project.dto.j2.sys.RolepermStaffDTO;
+import com.zeroone.star.project.dto.j2.sys.Roleperm.RolepermDTO;
+import com.zeroone.star.project.dto.j2.sys.Roleperm.RolepermStaffDTO;
 import com.zeroone.star.project.j2.sys.RolepermApis;
-import com.zeroone.star.project.query.j2.sys.RolepermQuery;
-import com.zeroone.star.project.query.j2.sys.RolepermStaffQuery;
+import com.zeroone.star.project.query.j2.sys.Roleperm.RolepermQuery;
+import com.zeroone.star.project.query.j2.sys.Roleperm.RolepermStaffQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j2.sys.Roleperm.PermissionGroupVO;
 import io.swagger.annotations.Api;

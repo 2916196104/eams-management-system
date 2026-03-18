@@ -1,4 +1,4 @@
-package com.zeroone.star.project.query.j2.sys;
+package com.zeroone.star.project.query.j2.sys.Roleperm;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
