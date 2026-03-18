@@ -2,21 +2,12 @@ package com.zeroone.star.doc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-/**
- * <p>
- * 描述：程序启动入口
- * </p>
- * <p>版权：&copy;01星球</p>
- * <p>地址：01星球总部</p>
- * @author 阿伟学长
- * @version 1.0.0
- */
-@SpringBootApplication
+// 核心：排除数据源自动配置，让服务跳过数据库配置直接启动
+@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class DocApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(DocApplication.class, args);
     }
-
 }
