@@ -1,12 +1,13 @@
 ﻿grade_table:
   tag: 成绩单
-  grade_list:
-    max_data_count: 每页数据条数
-    student_id: 学生学号
-    creator: 创建人
-    org_id: 机构编号
-    group_by_student_id: 按学生分组
-    group_by_grade_id: 按考核项分组
-    grade_by_creator: 按创建人分组
-    grade_by_org_id: 按创建人所属组织分组
-    get_grade_list_title: 获取成绩单列表
+  record_list:
+    grade_id: 考核项id
+    grade_title: 考核项名称
+    student_name: 学生姓名
+    score: 成绩
+    page: 页码
+    page_count: 总页数
+    page_size: 每页记录数
+    records: 成绩记录列表
+    total: 成绩记录总数
+    get_record_list_title: 获取成绩列表

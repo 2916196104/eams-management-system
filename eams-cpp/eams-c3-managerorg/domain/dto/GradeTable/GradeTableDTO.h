@@ -1,7 +1,7 @@
-#ifndef __GRADE_TABLE_DTO_H__
+﻿#ifndef __GRADE_TABLE_DTO_H__
 #define __GRADE_TABLE_DTO_H__
 
-#include "../GlobalInclude.h"
+#include "domain/GlobalInclude.h"
 #include "domain/dto/PageDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
@@ -9,34 +9,85 @@
 /*�ɼ���DTO��*/
 
 
-class GradeTable: public oatpp::DTO
+class GradeTableDTO : public oatpp::DTO
 {
-	DTO_INIT(GradeTable, DTO)
+	DTO_INIT(GradeTableDTO, DTO);
 };
 
-class GradeListDTO : public oatpp::DTO
+class RecordDTO : public oatpp::DTO
+{
+	DTO_INIT(RecordDTO, DTO);
+
+	DTO_FIELD(Int64, gradeId);
+	DTO_FIELD_INFO(gradeId)
+	{
+		info->description = ZH_WORDS_GETTER("grade_table.record_list.grade_id");
+	}
+
+	DTO_FIELD(String, gradeTitle);
+	DTO_FIELD_INFO(gradeTitle)
+	{
+		info->description = ZH_WORDS_GETTER("grade_table.record_list.grade_title");
+	}
+
+	DTO_FIELD(String, studentName);
+	DTO_FIELD_INFO(studentName)
+	{
+		info->description = ZH_WORDS_GETTER("grade_table.record_list.student_name");
+	}
+
+	DTO_FIELD(Int8, score);
+	DTO_FIELD_INFO(score)
+	{
+		info->description = ZH_WORDS_GETTER("grade_table.record_list.score");
+	}
+
+	//DTO_FIELD(Int64, grade_id, "grade_id");
+	//DTO_FIELD(String, grade_title, "grade_title");
+	//DTO_FIELD(String, student_name, "student_name");
+	//DTO_FIELD(Int8, score, "score");
+};
+
+class RecordListDTO : public oatpp::DTO
 {
 	/* GradeDTO extends from DTO */
-	DTO_INIT(GradeListDTO, DTO);
+	DTO_INIT(RecordListDTO, DTO);
 
-	/* grade fields */
-	DTO_FIELD(Int64, id, "primary key");
-	DTO_FIELD(String, title, "grade project title");
-	DTO_FIELD(String, info, "grade project information");
-	DTO_FIELD(Int64, creator, "creator id");
-	DTO_FIELD(Boolean, deleted, "logic delete");
-	DTO_FIELD(Int64, editor, "editor id");
-	DTO_FIELD(Int64, org_id, "organization id");
+	DTO_FIELD(Int64, page);
+	DTO_FIELD_INFO(page)
+	{
+		info->description = ZH_WORDS_GETTER("grade_table.record_list.page");
+	}
 
-	/* grade record fields */
-	DTO_FIELD(Int64, grade_id, "grade id");
-	DTO_FIELD(Int64, student_id, "student id");
-	DTO_FIELD(Int8, score, "grade score");
-};
+	DTO_FIELD(Int64, pageCount);
+	DTO_FIELD_INFO(pageCount)
+	{
+		info->description = ZH_WORDS_GETTER("grade_table.record_list.page_count");
+	}
 
-class GradeListPageDTO : public PageDTO<GradeListDTO::Wrapper>
-{
-	DTO_INIT(GradeListPageDTO, PageDTO<GradeListDTO::Wrapper>);
+	DTO_FIELD(Int64, pageSize);
+	DTO_FIELD_INFO(pageSize)
+	{
+		info->description = ZH_WORDS_GETTER("grade_table.record_list.page_size");
+	}
+
+	DTO_FIELD(Vector<RecordDTO::Wrapper>, records);
+	DTO_FIELD_INFO(records)
+	{
+		info->description = ZH_WORDS_GETTER("grade_table.record_list.records");
+	}
+
+	DTO_FIELD(Int64, total);
+	DTO_FIELD_INFO(total)
+	{
+		info->description = ZH_WORDS_GETTER("grade_table.record_list.total");
+	}
+
+	//DTO_FIELD(Int64, page, "page");
+	//DTO_FIELD(Int64, pageCount, "page_count");
+	//DTO_FIELD(Int64, pageSize, "page_size");
+	//DTO_FIELD(Vector<RecordDTO::Wrapper>, records, "records");
+	//DTO_FIELD(Int64, total, "total");
 };
 
 #include OATPP_CODEGEN_END(DTO)

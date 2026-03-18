@@ -1,4 +1,4 @@
-/*
+﻿/*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
@@ -24,7 +24,6 @@
 #include "TeaJudgeStu/TeaJudgeStu.h"
 #include "StuJudgeTea/StuJudgeTea.h"
 #include "GradeTable/GradeTable.h"
-#include "GradeTable/GradeListController.h"
 #include "GradeTable/GradeManage.h"
 #include "BoardManager/BoardManager.h"
 
@@ -54,7 +53,7 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(SendHomework);
 	ROUTER_SIMPLE_BIND(TeaJudgeStu);
 	ROUTER_SIMPLE_BIND(StuJudgeTea);
-	ROUTER_SIMPLE_BIND(GradeListController);
+	ROUTER_SIMPLE_BIND(RecordListController);
 	ROUTER_SIMPLE_BIND(GradeManage);
 	ROUTER_SIMPLE_BIND(GradeTable);
 	ROUTER_SIMPLE_BIND(BoardManager);

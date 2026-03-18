@@ -1,8 +1,8 @@
 ﻿#include "stdafx.h"
 #include "GradeListService.h"
 
-GradeListPageDTO::Wrapper GradeListService::QueryGradeList(
-    const GradeListQuery::Wrapper& query,
+RecordListDTO::Wrapper RecordListService::QueryRecordList(
+    const RecordListQuery::Wrapper& query,
     const PayloadDTO& payload)
 {
     /* TODO: finisn implementation */

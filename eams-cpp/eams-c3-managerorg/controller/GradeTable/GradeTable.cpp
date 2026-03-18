@@ -1,8 +1,8 @@
 ﻿#include "stdafx.h"
 #include "GradeTable.h"
 
-GradeListPageJsonVO::Wrapper GradeListController::ExecGradeListQuery(
-    const GradeListQuery::Wrapper& query,
+RecordListJsonVO::Wrapper RecordListController::ExecRecordListQuery(
+    const RecordListQuery::Wrapper& query,
     const PayloadDTO& payload)
 {
     /* TODO: finish implementation */
