@@ -1,12 +1,17 @@
 package com.zeroone.star.project.j2.sys;
 
 import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j2.sys.Roleperm.PermissionDTO;
 import com.zeroone.star.project.dto.j2.sys.RolepermDTO;
 import com.zeroone.star.project.dto.j2.sys.RolepermStaffDTO;
 import com.zeroone.star.project.query.j2.sys.RolepermQuery;
 import com.zeroone.star.project.query.j2.sys.RolepermStaffQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.project.vo.j2.sys.Roleperm.PermissionGroupVO;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 /**
  * @author isme
@@ -39,4 +44,23 @@ public interface RolepermApis {
      * @return 删除结果
      */
     JsonVO<String> removeRolepermStaff(String id);
+
+    @ApiModelProperty("获取可分配的权限")
+    JsonVO<PermissionGroupVO> queryPermission();
+    /**
+     * 根据角色id查询对应的权限
+     * @param roleId 用户id
+     * @return 已分配的权限vo
+     */
+    @ApiModelProperty("获取已分配的权限")
+    JsonVO<PermissionGroupVO> querySelectedPermission(String roleId);
+    /**
+     * 根据角色id，先删除对应的权限，再插入已选择的权限(保存角色分配的权限)，调用deletePermission和updataPermission
+     * @param roleId 用户id
+     * @param list  勾选的权限
+     * @return 是否勾选
+     */
+    @ApiModelProperty("保存角色权限分配")
+    JsonVO<Long> savePermission(String roleId, List<PermissionDTO> list);
+
 }
