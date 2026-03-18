@@ -8,5 +8,6 @@ spring:
     time-format: HH:mm
     serialization:
       write-dates-as-timestamps: false
+
 mybatis:
   mapper-locations: classpath:/mapper/*.xml

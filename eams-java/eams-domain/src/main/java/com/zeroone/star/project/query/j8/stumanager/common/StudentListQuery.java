@@ -1,4 +1,4 @@
-package com.zeroone.star.project.query.j8;
+package com.zeroone.star.project.query.j8.stumanager.common;
 
 
 import com.zeroone.star.project.eums.StudentStageEnum;
@@ -8,8 +8,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel(description = "学员查询参数")
-public class StudentQuery extends PageQuery {
+@ApiModel(description = "学员列表查询参数")
+public class StudentListQuery extends PageQuery {
 
     @ApiModelProperty(value = "学员状态")
     private StudentStageEnum stage;
