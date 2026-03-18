@@ -1,4 +1,4 @@
-package com.zeroone.star.sys.controller;
+package com.zeroone.star.sys.controller.datadict;
 
 import cn.hutool.db.Page;
 import com.zeroone.star.project.dto.PageDTO;
