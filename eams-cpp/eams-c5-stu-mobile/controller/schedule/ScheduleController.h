@@ -1,4 +1,5 @@
 #pragma once
+#include <oatpp-swagger/Controller.hpp>
 #ifndef _SCHEDULECONTROLLER_H_
 #define _SCHEDULECONTROLLER_H_
 
@@ -12,7 +13,7 @@
 class ScheduleController : public oatpp::web::server::api::ApiController
 {
 	//定义控制器访问入口
-	API_ACCESS_DECLARE(ScheduleController);
+
 public:		//定义接口
 
 private:	//定义接口执行函数

@@ -1,4 +1,5 @@
 #pragma once
+#include <oatpp-swagger/Controller.hpp>
 #ifndef _CLASSCONTROLLER_H_
 #define _CLASSCONTROLLER_H_
 
@@ -12,7 +13,7 @@
 class ClassController : public oatpp::web::server::api::ApiController
 {
 	//定义控制器访问入口
-	API_ACCESS_DECLARE(ClassController);
+
 public:		//定义接口
 
 private:	//定义接口执行函数
