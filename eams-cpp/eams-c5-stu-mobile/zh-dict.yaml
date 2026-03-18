@@ -19,6 +19,7 @@ Homework:
   field:
     id: 主键ID
     class_id: 班级id
+    student_id: 学生id
     title: 标题
     content: 内容
     creator: 创建人
