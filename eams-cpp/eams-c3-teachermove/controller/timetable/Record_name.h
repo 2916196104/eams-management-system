@@ -23,7 +23,7 @@ public:		//定义接口
 
 	// 1. 设置上课状态 接口的定义
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("set_status.title"), modifyStatus, SetStudyStatusRspJsonVO::Wrapper, API_TAG);
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/course-table/set-status", modifyStatus, BODY_DTO(SetStudyStatusDTO::Wrapper, dto), updateModifyStatus(dto, authObject->getPayload()));
+	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "/course-table/set-status", modifyStatus, BODY_DTO(SetStudyStatusDTO::Wrapper, dto), updateModifyStatus(dto, authObject->getPayload()));
 
 
 
