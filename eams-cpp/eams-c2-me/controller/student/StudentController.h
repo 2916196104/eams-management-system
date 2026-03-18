@@ -20,7 +20,10 @@ class StudentController : public oatpp::web::server::api::ApiController // 1 继
   API_ACCESS_DECLARE(StudentController);
   // 3 定义接口
 public:
-
+	// 定义查询所有用户信息接口描述
+	//API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("user.query-all.summary"), queryAllUser, UserQuery, UserPageJsonVO::Wrapper, API_TAG);
+	// 定义查询所有用户信息接口端点
+	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/Student/query_mypoint", queryMypoint, UserQuery, executeQueryMypoint(query));
 private: // 定义接口执行函数
 };
 

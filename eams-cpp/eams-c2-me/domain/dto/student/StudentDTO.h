@@ -12,6 +12,7 @@
  */
 class StudentDTO : public oatpp::DTO {
   DTO_INIT(StudentDTO, DTO);
+
 };
 
 #include OATPP_CODEGEN_END(DTO)
