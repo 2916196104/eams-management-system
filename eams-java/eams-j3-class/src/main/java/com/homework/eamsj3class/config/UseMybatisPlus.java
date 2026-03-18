@@ -18,7 +18,7 @@ public class UseMybatisPlus {
             @Override
             public void insertFill(MetaObject metaObject) {
 
-                this.strictInsertFill(metaObject,"creattime", LocalDateTime.class,LocalDateTime.now());
+                this.strictInsertFill(metaObject,"createtime", LocalDateTime.class,LocalDateTime.now());
             }
 
             @Override
