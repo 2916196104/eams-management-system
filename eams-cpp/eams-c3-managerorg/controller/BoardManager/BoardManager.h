@@ -16,6 +16,7 @@
 //公告管理控制器
 
 
+
 class BoardManager: public oatpp::web::server::api::ApiController
 {
 	//定义控制器访问入口
@@ -46,6 +47,9 @@ private:	//定义接口执行函数
 	ListJsonVO<String>::Wrapper execRemoveBoard(const List<String>& ids);
 	ListJsonVO<String>::Wrapper execStartBoard(const List<String>& ids);
 	ListJsonVO<String>::Wrapper execEndBoard(const List<String>& ids);
+
+
+
 };
 
 #undef API_TAG

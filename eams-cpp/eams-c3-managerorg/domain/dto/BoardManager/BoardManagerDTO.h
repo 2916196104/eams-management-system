@@ -5,31 +5,30 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/*¹«¹²¹ÜÀíDTOÀà*/
+//å…¬å…±ç®¡ç†DTOç±»
 
 
 class BoardManagerDTO : public oatpp::DTO
 {
-	DTO_INIT(BoardManagerDTO, DTO)
+	DTO_INIT(BoardManagerDTO, DTO);
 };
 
-/**
- * ¶¨ÒåÒ»¸öÌí¼ÓÓÃ»§ĞÅÏ¢µÄÊı¾İ´«ÊäÄ£ĞÍ
- */
+
+//å®šä¹‰ä¸€ä¸ªæ·»åŠ ç”¨æˆ·ä¿¡æ¯çš„æ•°æ®ä¼ è¾“æ¨¡å‹
 class BoardAddDTO : public oatpp::DTO
 {
 	DTO_INIT(BoardAddDTO, DTO);
-	// ¹«¸æ±êÌâ
+	// å…¬å‘Šæ ‡é¢˜
 	API_DTO_FIELD_REQUIRE(String, boardTitle, ZH_WORDS_GETTER("board.field.boardTitle"),true);
-	// ¹«¸æÀàĞÍ
+	// å…¬å‘Šç±»å‹
 	API_DTO_FIELD_REQUIRE(Int8, boardType, ZH_WORDS_GETTER("board.field.boardType"),true);
-	// ÎÄÕÂ±àÂë£¨¹«¸æÎ¨Ò»id£©
+	// æ–‡ç« ç¼–ç ï¼ˆå…¬å‘Šå”¯ä¸€idï¼‰
 	API_DTO_FIELD_REQUIRE(String, boardAddId, ZH_WORDS_GETTER("board.field.boardAddId"),false);
-	// Í¼Æ¬
+	// å›¾ç‰‡
 	//API_DTO_FIELD_REQUIRE(oatpp::swagger::Binary, picture, ZH_WORDS_GETTER("board.field.idCard"), false);
-	// ¹«¸æÎÄ×ÖÄÚÈİ
+	// å…¬å‘Šæ–‡å­—å†…å®¹
 	API_DTO_FIELD_REQUIRE(String, boardText, ZH_WORDS_GETTER("board.field.boardText"),true);
-	// ¹«¸æÎÄ¼ş
+	// å…¬å‘Šæ–‡ä»¶
 	//API_DTO_FIELD_REQUIRE(oatpp::swagger::Binary, boardFile, ZH_WORDS_GETTER("board.field.avatar"),false);
 };
 
