@@ -2,7 +2,7 @@ package com.homework.eamsj3class.controller;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateTime;
-import com.alibaba.excel.EasyExcel;
+import com.homework.eamsj3class.service.impl.CourseServiceImpl;
 import com.zeroone.star.project.components.easyexcel.EasyExcelComponent;
 import com.zeroone.star.project.dto.j3.course.CourseExportDTO;
 import com.zeroone.star.project.dto.j3.course.CourseStatusDTO;
@@ -21,11 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +34,10 @@ import java.util.List;
 @RequestMapping("j3/css")
 @Api(tags = "课程管理")
 public class ChangeSubjectStateController implements CourseApi {
+
+    @Resource
+    private CourseServiceImpl courseService;
+
     @Override
     @PutMapping
     @ApiOperation(value = "启/禁用课程")
@@ -52,14 +52,14 @@ public class ChangeSubjectStateController implements CourseApi {
         if (status == null || (status != 0 && status != 1)) {
             return JsonVO.fail("非法状态值");
         }
-        // 2.TODO 这里的逻辑交给 Service 处理
-//         boolean success = courseService.updateCourseStatus(stateDTO.getIds(), stateDTO.getStatus());
+        // 2.这里的逻辑交给 Service 处理
+         boolean success = courseService.updateCourseStatus(stateDTO.getIds(), stateDTO.getStatus());
 
-        // 3. 返回操作结果
-//         if (success) {
+//         3. 返回操作结果
+         if (success) {
         return JsonVO.success(null);
-//         }
-//         return JsonVO.fail("更新状态失败");
+         }
+         return JsonVO.fail("更新状态失败");
     }
 
     private List<CourseExportDTO> list;
@@ -70,6 +70,7 @@ public class ChangeSubjectStateController implements CourseApi {
     public void initExcelData(){
         list = new ArrayList<>();
         //TODO 从数据库获取数据
+        list = courseService.exportAllCourse();
     }
 
     @SneakyThrows
