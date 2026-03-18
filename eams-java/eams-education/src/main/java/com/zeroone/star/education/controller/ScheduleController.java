@@ -13,6 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public class ScheduleController implements SchedulePlanApis {
     @PostMapping
     @ApiOperation("保存计划")
     @Override
-    public JsonVO<Long> saveSchedule(ScheduleSaveDTO scheduleSaveDTO) {
+    public JsonVO<Long> saveSchedule(@Validated ScheduleSaveDTO scheduleSaveDTO) {
         return null;
     }
 

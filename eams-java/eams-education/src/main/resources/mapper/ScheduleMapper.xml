@@ -58,7 +58,13 @@
                     from lesson
                     where lesson.schedule_id = ls.id and lesson.deleted = 0
                 ),1) as decCount,
-                ifnull(ls.exclude_holiday,0) as excludeHoliday
+                ifnull(ls.exclude_holiday,0) as excludeHoliday,
+                (
+                    SELECT GROUP_CONCAT(classroom.name SEPARATOR ', ')
+                    FROM lesson_schedule_setting lss
+                    LEFT JOIN classroom ON lss.room_id = classroom.id AND classroom.deleted = 0
+                    WHERE lss.schedule_id = ls.id
+                ) as classRoomName
             from lesson_schedule ls
             <where>
                 ls.deleted = 0

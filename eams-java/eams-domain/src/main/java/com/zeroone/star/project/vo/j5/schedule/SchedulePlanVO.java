@@ -54,4 +54,7 @@ public class SchedulePlanVO {
     @ApiModelProperty(value = "是否排除节假日 默认值为0",example = "0 不排除 1 排除")
     private Integer excludeHoliday;
 
+    @ApiModelProperty(value = "教室名称，用于修改排课计划时的页面回显",example = "教室1")
+    private String classRoomName;
+
 }
