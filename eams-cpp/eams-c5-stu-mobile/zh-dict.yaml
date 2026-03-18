@@ -6,4 +6,7 @@
 course:
  name1: 线性代数
  teachername1: 老师
+schedule:
+ tags:
+  t1: 课表接口
       
