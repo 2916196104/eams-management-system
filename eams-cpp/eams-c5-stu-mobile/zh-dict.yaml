@@ -1,12 +1,14 @@
 EnrollCourse:
-  tag: 报名的课程
+  tag: 报名记录
   query-all:
     summary: 分页查询报名的课程
   field:
     id: 主键ID
     student_id: 学生id
     course_id: 课程id
+    course_name: 课程名称
     subject_id: 科目id
+    subject_name: 科目名称
     start_date: 开始时间
     expire_date: 过期日期
     remark: 备注
@@ -18,7 +20,7 @@ EnrollCourse:
     amount: 成交/合约金额
     paid_amount: 实付金额
     pay_off: 是否付清 0 否1是
-    operator: 经手人
+    operater: 经手人
     creator: 创建人
     add_time: 录入时间
     editor: 编辑人

@@ -19,7 +19,7 @@
 #include "stdafx.h"
 #include "Router.h"
 #include "ApiHelper.h"
-#include "EnrollCourse/EnrollCourseController.h"
+#include "home/EnrollCourse/EnrollCourseController.h"
 
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC

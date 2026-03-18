@@ -1,8 +1,7 @@
 #include "stdafx.h"
 #include "EnrollCourseService.h"
-#include "../../dao/EnrollCourse/EnrollCourseDAO.h"
-#include "id/UuidFacade.h"
-#include "SimpleDateTimeFormat.h"
+#include "../../../dao/home/EnrollCourse/EnrollCourseDAO.h"
+
 
 
 EnrollCoursePageDTO::Wrapper EnrollCourseService::listAll(const EnrollCourseQuery::Wrapper& query)
@@ -51,7 +50,9 @@ EnrollCoursePageDTO::Wrapper EnrollCourseService::listAll(const EnrollCourseQuer
                 add_time, AddTime,
                 editor, Editor,
                 edit_time, EditTime,
-                org_id, OrgId
+                org_id, OrgId,
+                course_name, CourseName,
+                subject_name, SubjectName
             );
 		pages->addData(dto);
 	}

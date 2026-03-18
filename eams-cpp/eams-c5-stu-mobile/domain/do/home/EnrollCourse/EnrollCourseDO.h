@@ -3,7 +3,7 @@
 
 #ifndef _ENROLLCOURSE_DO_
 #define _ENROLLCOURSE_DO_
-#include "../DoInclude.h"
+#include "../../DoInclude.h"
 
 class EnrollCourseDO : public BaseDO
 {
@@ -47,13 +47,13 @@ class EnrollCourseDO : public BaseDO
     MYSQL_SYNTHESIZE(float, unitPrice, UnitPrice);
     MYSQL_SYNTHESIZE(int, fromTrial, FromTrial);
 
-   
-      
-    
-
-
+  
     
     MYSQL_SYNTHESIZE(uint64_t, orgId, OrgId);
+
+
+    MYSQL_SYNTHESIZE(string, coursename, CourseName);
+    MYSQL_SYNTHESIZE(string, subjectname, SubjectName);
 
 
 public:
@@ -95,6 +95,9 @@ public:
         MYSQL_ADD_FIELD("editor", "i", editor);
         MYSQL_ADD_FIELD("edit_time", "s", editTime);
         MYSQL_ADD_FIELD("org_id", "i", orgId);
+
+        MYSQL_ADD_FIELD("course_name", "s", coursename);
+        MYSQL_ADD_FIELD("subject_name", "s", subjectname);
     }
 
 

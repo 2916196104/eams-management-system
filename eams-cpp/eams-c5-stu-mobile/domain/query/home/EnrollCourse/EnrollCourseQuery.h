@@ -5,7 +5,7 @@
 
 #ifndef _ENROLLCOURSES_QUERY
 #define _ENROLLCOURSES_QUERY
-#include "../../GlobalInclude.h"
+#include "../../../GlobalInclude.h"
 #include "domain/query/PageQuery.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)

@@ -2,7 +2,7 @@
 
 #include "stdafx.h"
 #include "EnrollCourseController.h"
-#include "../../service/EnrollCourse/EnrollCourseService.h"
+#include "../../../service/home/EnrollCourse/EnrollCourseService.h"
 
 EnrollCoursePageJsonVO::Wrapper EnrollCourseController::executeQueryEnrollCourse(const EnrollCourseQuery::Wrapper & query)
 {

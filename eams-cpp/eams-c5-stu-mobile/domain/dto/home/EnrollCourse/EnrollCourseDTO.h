@@ -5,7 +5,7 @@
 
 #ifndef _ENROLLCOURSES_DTO_
 #define _ENROLLCOURSES_DTO_
-#include "../../GlobalInclude.h"
+#include "../../../GlobalInclude.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
@@ -23,14 +23,26 @@ class EnrollCourseDTO : public oatpp::DTO
 		info->description = ZH_WORDS_GETTER("EnrollCourse.field.student_id");
 	}
 
+
 	DTO_FIELD(Int32, course_id);
 	DTO_FIELD_INFO(course_id) {
 		info->description = ZH_WORDS_GETTER("EnrollCourse.field.course_id");
 	}
 
+	//来自别的表的数据
+	DTO_FIELD(String, course_name);
+	DTO_FIELD_INFO(course_name) {
+		info->description = ZH_WORDS_GETTER("EnrollCourse.field.course_name");
+	}
+
 	DTO_FIELD(Int32, subject_id);
 	DTO_FIELD_INFO(subject_id) {
 		info->description = ZH_WORDS_GETTER("EnrollCourse.field.subject_id");
+	}
+
+	DTO_FIELD(String, subject_name);
+	DTO_FIELD_INFO(subject_name) {
+		info->description = ZH_WORDS_GETTER("EnrollCourse.field.subject_name");
 	}
 
 	DTO_FIELD(String, start_date);
@@ -147,6 +159,10 @@ class EnrollCourseDTO : public oatpp::DTO
 	DTO_FIELD_INFO(org_id) {
 		info->description = ZH_WORDS_GETTER("EnrollCourse.field.org_id");
 	}
+
+
+
+	
 	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
 };
 

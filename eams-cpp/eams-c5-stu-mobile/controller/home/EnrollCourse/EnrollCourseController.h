@@ -8,9 +8,9 @@
 
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/query/PageQuery.h"
-#include "domain/query/EnrollCourse/EnrollCourseQuery.h"
-#include "domain/dto/EnrollCourse/EnrollCourseDTO.h"
-#include "domain/vo/EnrollCourse/EnrollCourseVO.h"
+#include "domain/query/home/EnrollCourse/EnrollCourseQuery.h"
+#include "domain/dto/home/EnrollCourse/EnrollCourseDTO.h"
+#include "domain/vo/home/EnrollCourse/EnrollCourseVO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
@@ -24,12 +24,13 @@ public:
 		API_DEF_ADD_RSP_JSON(EnrollCoursePageJsonVO::Wrapper);
 		API_DEF_ADD_RSP_JSON_WRAPPER(EnrollCoursePageJsonVO);
 		API_DEF_ADD_PAGE_PARAMS();
+		API_DEF_ADD_TAG(ZH_WORDS_GETTER("EnrollCourse.tag"));
 		info->queryParams.add<Int32>("student_id").description = ZH_WORDS_GETTER("EnrollCourse.field.student_id");
 		info->queryParams["student_id"].addExample("default", oatpp::Int32(1));
 
 
 	}
-	ENDPOINT(API_M_GET, "/app/sCenter/class/list", EnrollCourse, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_GET, "/get/enroll/course", EnrollCourse, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
 		API_HANDLER_QUERY_PARAM(query, EnrollCourseQuery, params);
 		API_HANDLER_RESP_VO(executeQueryEnrollCourse(query));
 	}

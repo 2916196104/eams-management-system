@@ -7,8 +7,8 @@
 #ifndef _ENROLLCOURES_DAO_
 #define _ENROLLCOURES_DAO_
 #include "BaseDAO.h"
-#include "../../domain/do/EnrollCourse/EnrollCourseDO.h"
-#include "../../domain/query/EnrollCourse/EnrollCourseQuery.h"
+#include "../../../domain/do/home/EnrollCourse/EnrollCourseDO.h"
+#include "../../../domain/query/home/EnrollCourse/EnrollCourseQuery.h"
 
 
 class EnrollCourseDAO : public BaseDAO

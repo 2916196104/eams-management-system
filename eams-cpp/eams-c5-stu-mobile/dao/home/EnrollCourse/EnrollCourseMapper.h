@@ -3,7 +3,7 @@
 #ifndef _SAMPLE_MAPPER_
 #define _SAMPLE_MAPPER_
 #include "Mapper.h"
-#include "../../domain/do/EnrollCourse/EnrollCourseDO.h"
+#include "../../../domain/do/home/EnrollCourse/EnrollCourseDO.h"
 
 class EnrollCourseMapper : public Mapper<EnrollCourseDO>
 {
@@ -48,6 +48,8 @@ public:
         
         data.setOrgId(resultSet->getUInt64(27));
 
+        data.setCourseName(resultSet->getString(28));
+        data.setSubjectName(resultSet->getString(29));
 		return data;
 	}
 };

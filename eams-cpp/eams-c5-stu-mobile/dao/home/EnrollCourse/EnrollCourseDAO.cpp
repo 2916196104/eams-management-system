@@ -31,11 +31,11 @@ uint64_t EnrollCourseDAO::count(const EnrollCourseQuery::Wrapper& query)
 std::list<EnrollCourseDO> EnrollCourseDAO::selectWithPage(const EnrollCourseQuery::Wrapper& query)
 {
 	SqlParams params;
-	string sql = "SELECT * FROM student_course ";
+	string sql = "SELECT sc.*, c.name AS course_name, s.name AS subject_name FROM student_course sc LEFT JOIN course c ON sc.course_id = c.id LEFT JOIN subject s ON sc.subject_id = s.id ";
 	// 构建查询条件
 	sql += queryConditionBuilder(query, params);
 	// 构建排序语句
-	sql += " ORDER BY IFNULL(`edit_time`, `add_time`) DESC, `id` DESC ";
+	sql += " ORDER BY IFNULL(sc.edit_time, sc.add_time) DESC, sc.id DESC ";
 	// 构建分页条件
 	sql += " LIMIT " + std::to_string(((query->pageIndex - 1) * query->pageSize)) + "," + std::to_string(query->pageSize);
 

@@ -4,8 +4,8 @@
 #ifndef _EnrollCourses_VO_
 #define _EnrollCourses_VO_
 
-#include "../../GlobalInclude.h"
-#include "../../dto/EnrollCourse/EnrollCourseDTO.h"
+#include "../../../GlobalInclude.h"
+#include "../../../dto/home/EnrollCourse/EnrollCourseDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
