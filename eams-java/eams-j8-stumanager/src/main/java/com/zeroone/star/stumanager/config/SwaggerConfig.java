@@ -18,9 +18,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 @Configuration
 @EnableSwagger2WebMvc
 public class SwaggerConfig {
-    @Bean
+
     Docket stumanagerApi() {
         return SwaggerCore.defaultDocketBuilder("学员模块", "com.zeroone.star.stumanager.controller", "stumanager");
+
     }
+
 }
 

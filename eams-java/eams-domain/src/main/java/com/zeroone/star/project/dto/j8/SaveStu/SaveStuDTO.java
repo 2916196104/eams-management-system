@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.time.Year;
 
 @ApiModel("学员信息保存DTO")
 @Data
@@ -55,7 +56,7 @@ public class SaveStuDTO {
     private LocalDate joinDate;
 
     @ApiModelProperty(value = "年级")
-    private String grade;
+    private Year grade;
 
     @ApiModelProperty(value = "来源")
     private Integer joinWay;
