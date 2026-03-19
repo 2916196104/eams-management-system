@@ -21,10 +21,9 @@ class IntendedStudentController : public oatpp::web::server::api::ApiController
 
 public:
 	// 定义导出接口描述
-	API_DEF_ENDPOINT_INFO_QUERY_AUTH(
+	API_DEF_ENDPOINT_INFO_AUTH(
 		ZH_WORDS_GETTER("intendedstudent.interface.export"),	    // 标题
 		exportExcel,												// 函数名
-		IntendExcelQuery,											// 查询参数类型
 		Void,														// Swagger 无响应体
 		API_TAG														// 标签
 	);
@@ -33,9 +32,9 @@ public:
 		API_M_GET,
 		"/c6/student/intended/export",
 		exportExcel,
-		QUERIES(QueryParams, queryParams),
-		API_HANDLER_QUERY_PARAM(query, IntendExcelQuery, queryParams);
-		return execExportExcel(query);
+		BODY_DTO(List<String>, ids),
+		auto response = execExportExcel(ids);
+		return response;  // 直接返回 Response，不经过 createDtoResponse
 	);
 
 	// 定义导入接口描述
@@ -57,7 +56,7 @@ public:
 
 private:
 	// 执行导出
-	std::shared_ptr<OutgoingResponse> execExportExcel(const IntendExcelQuery::Wrapper& query);
+	std::shared_ptr<OutgoingResponse> execExportExcel(const List<String>& ids);
 	// 执行导入
 	StringJsonVO::Wrapper execImportExcel(std::shared_ptr<IncomingRequest> request, const PayloadDTO& payload);
 };

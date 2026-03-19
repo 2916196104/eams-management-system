@@ -20,26 +20,26 @@ class OnlineStudentController : public oatpp::web::server::api::ApiController
 
 public:
 	// 定义导出接口描述
-	API_DEF_ENDPOINT_INFO_QUERY_AUTH(
+	API_DEF_ENDPOINT_INFO_AUTH(
 		ZH_WORDS_GETTER("onlinestudent.interface.export"),		// 标题
 		exportExcel,											// 函数名
-		OnlineExcelQuery,										// 查询参数类型
 		Void,													// Swagger 无响应体
 		API_TAG													// 标签
 	);
+	// 定义导出接口处理
 	// 定义导出接口处理
 	API_HANDLER_ENDPOINT_OPTION_AUTH(
 		API_M_GET,
 		"/c6/student/online/export",
 		exportExcel,
-		QUERIES(QueryParams, queryParams),
-		API_HANDLER_QUERY_PARAM(query, OnlineExcelQuery, queryParams);
-		return execExportExcel(query);
+		BODY_DTO(List<String>, ids),
+		auto response = execExportExcel(ids);
+		return response;  // 直接返回 Response，不经过 createDtoResponse
 	);
 
 private:
 	// 执行导出
-	std::shared_ptr<OutgoingResponse> execExportExcel(const OnlineExcelQuery::Wrapper& query);
+	std::shared_ptr<OutgoingResponse> execExportExcel(const List<String>& ids);
 };
 
 #undef API_TAG

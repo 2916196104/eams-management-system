@@ -5,9 +5,9 @@
 
 // 执行导出
 std::shared_ptr<oatpp::web::server::api::ApiController::OutgoingResponse> IntendedStudentController::execExportExcel(
-	const IntendExcelQuery::Wrapper& query)
+	const List<String>& ids)
 {
-	// 从数据库中查询stage为0的学员
+	// 从数据库中查询id学员
 	// ...
 
 	// 生成 Excel

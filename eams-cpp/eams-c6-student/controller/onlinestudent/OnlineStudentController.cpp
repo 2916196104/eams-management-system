@@ -5,7 +5,7 @@
 
 // 执行导出
 std::shared_ptr<oatpp::web::server::api::ApiController::OutgoingResponse> OnlineStudentController::execExportExcel(
-	const OnlineExcelQuery::Wrapper& query)
+	const List<String>& ids)
 {
 	// 从数据库中查询stage为1的学员
 	// ...
