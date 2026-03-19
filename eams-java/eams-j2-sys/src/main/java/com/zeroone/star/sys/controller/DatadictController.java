@@ -1,8 +1,8 @@
-package com.zeroone.star.sys.controller.datadict;
+package com.zeroone.star.sys.controller;
 
-import cn.hutool.db.Page;
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.dto.j2.sys.DatadictDTO;
+import com.zeroone.star.project.dto.j2.sys.*;
+import com.zeroone.star.project.dto.query.j2.sys.DictItemQuery;
 import com.zeroone.star.project.j2.sys.DatadictApis;
 import com.zeroone.star.project.query.PageQuery;
 import com.zeroone.star.project.vo.JsonVO;
@@ -15,20 +15,41 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-
-/**
- * <p>
- * 描述：数据字典控制器类
- * </p>
- * @author softmaple
- * @version 1.0.0
- */
 @RestController
-@RequestMapping("/sys/datadict")
-@Api(tags = "数据字典管理")
-@Validated
+@Api(tags= "数据字典")
+@RequestMapping("j2-sys/dict")
 public class DatadictController implements DatadictApis {
+    @GetMapping
+    @ApiOperation("获取字典类型名称列表")
+    @Override
+    public JsonVO<List<DictDTO>> query() {
+        return null;
+    }
+    @GetMapping("/type")
+    @ApiOperation("获取字典类型列表(条件+分页)")
+    public JsonVO<PageDTO<DictItemDTO>> queryPage(DictItemQuery condition) {
+        return null;
+    }
 
+
+    @PostMapping("/save-dict-type")
+    @ApiOperation("保存字典类型")
+    @Override
+    public JsonVO<Boolean> saveDictType(@RequestBody DictTypeSaveDTO saveDTO){ return null;}
+
+    @DeleteMapping("/remove-dict-type")
+    @ApiOperation("删除字典类型")
+    @Override
+    public JsonVO<Boolean> removeDictType(@RequestBody DictTypeRemoveDTO removeDTO){ return null;}
+
+    @GetMapping("/list-by-dict-id")
+    @ApiOperation(value = "获取字典名称列表")
+    @Override
+    public JsonVO<PageDTO<DatadictVO>> listDatadictByDictIdPage(
+            @NotNull(message = "字典类型ID不能为空") @RequestParam("dictId") Long dictId,
+            @Valid @RequestBody PageQuery query) {
+        return null;
+    }
 
     @ApiOperation(value = "根据ID获取数据字典", notes = "根据ID获取数据字典")
     @GetMapping("/{id}")
@@ -45,32 +66,24 @@ public class DatadictController implements DatadictApis {
     }
 
     @PostMapping
-    @ApiOperation(value = "保存数据字典", notes = "保存数据字典")
+    @ApiOperation(value = "保存字典", notes = "保存字典")
     @Override
     public JsonVO<String> addDatadict(@Validated @RequestBody DatadictDTO dto) {
         return null;
     }
 
     @PutMapping
-    @ApiOperation(value = "修改数据字典", notes = "修改数据字典")
+    @ApiOperation(value = "修改字典", notes = "修改字典")
     @Override
     public JsonVO<String> updateDatadict(@Validated @RequestBody DatadictDTO dto) {
         return null;
     }
 
     @DeleteMapping
-    @ApiOperation(value = "删除数据字典", notes = "删除数据字典")
+    @ApiOperation(value = "删除字典（支持批量）", notes = "删除字典（支持批量）")
     @Override
     public JsonVO<String> deleteDatadict(@RequestBody List<Integer> ids) {
         return null;
     }
 
-    @GetMapping("/list-by-dict-id")
-    @ApiOperation(value = "获取字典名称列表")
-    @Override
-    public JsonVO<PageDTO<DatadictVO>> listDatadictByDictIdPage(
-            @NotNull(message = "字典类型ID不能为空") @RequestParam("dictId") Long dictId,
-            @Valid @RequestBody PageQuery query) {
-        return null;
-    }
 }
