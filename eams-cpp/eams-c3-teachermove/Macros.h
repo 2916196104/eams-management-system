@@ -9,7 +9,7 @@
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
 
-	  https://www.apache.org/licenses/LICENSE-2.0
+      https://www.apache.org/licenses/LICENSE-2.0
 
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -252,7 +252,7 @@ YamlHelper().getString(&(ServerInfo::getInstance().getZhDictNode()), _KEY_)
 #define ZO_STAR_DOMAIN_DO_TO_DTO(target, src, ...) ZO_STAR_EXPAND(ZO_STAR_PASTE(target, src, ZO_STAR_DOMAIN_FILED_DO_TO_DTO, __VA_ARGS__))
 #define ZO_STAR_DOMAIN_DO_TO_DTO_1(target, src, ...) ZO_STAR_EXPAND(ZO_STAR_PASTE(target, src, ZO_STAR_DOMAIN_FILED_DO_TO_DTO_1, __VA_ARGS__))
 
-// DTO转成DO属性设置
+ // DTO转成DO属性设置
 #define ZO_STAR_DOMAIN_FILED_DTO_TO_DO(target, src, f1, f2) if(src->f2) target.set##f1(src->f2.getValue({}));
 #define ZO_STAR_DOMAIN_FILED_DTO_TO_DO_1(target, src, f1, f2) if(src->f2) target->set##f1(src->f2.getValue({}));
 /**
@@ -264,7 +264,7 @@ YamlHelper().getString(&(ServerInfo::getInstance().getZhDictNode()), _KEY_)
 #define ZO_STAR_DOMAIN_DTO_TO_DO(target, src, ...) ZO_STAR_EXPAND(ZO_STAR_PASTE(target, src, ZO_STAR_DOMAIN_FILED_DTO_TO_DO, __VA_ARGS__))
 #define ZO_STAR_DOMAIN_DTO_TO_DO_1(target, src, ...) ZO_STAR_EXPAND(ZO_STAR_PASTE(target, src, ZO_STAR_DOMAIN_FILED_DTO_TO_DO_1, __VA_ARGS__))
 
-//////////////////////////////////////////////////////////////////////////
+ //////////////////////////////////////////////////////////////////////////
 
 #ifdef LINUX
 // 定义FastDFS客户端对象
@@ -302,27 +302,27 @@ ZO_CREATE_DFS_CLIENT(_VAR_CLIENT_) \
 std::string _VAR_URL_PREFIX_ = "http://" + YamlHelper().getString(&_thirdServerConfig, "fastdfs.nginx-servers") + "/"
 
 #ifdef LINUX
-/**
- * 定义读取数据源Yaml配置节点
- * @param _VAR_NS_: nacos客户端对象
- * @param _VAR_NODE_: 声明的配置节点变量名
- */
+ /**
+  * 定义读取数据源Yaml配置节点
+  * @param _VAR_NS_: nacos客户端对象
+  * @param _VAR_NODE_: 声明的配置节点变量名
+  */
 #define ZO_CREATE_DS_CONFIG_NODE(_VAR_NS_,_VAR_NODE_) \
 YAML::Node _VAR_NODE_ = _VAR_NS_.getConfig("data-source.yaml")
 #else
-/**
- * 定义读取数据源Yaml配置节点
- * @param _VAR_NS_: nacos客户端对象
- * @param _VAR_NODE_: 声明的配置节点变量名
- */
+ /**
+  * 定义读取数据源Yaml配置节点
+  * @param _VAR_NS_: nacos客户端对象
+  * @param _VAR_NODE_: 声明的配置节点变量名
+  */
 #define ZO_CREATE_DS_CONFIG_NODE(_VAR_NS_,_VAR_NODE_) \
 YAML::Node _VAR_NODE_ = _VAR_NS_.getConfig("./conf/data-source.yaml")
 #endif
 
-/**
- * 快速定义Redis客户端对象
- * @param _VAR_CLIENT_: 对象变量名
- */
+  /**
+   * 快速定义Redis客户端对象
+   * @param _VAR_CLIENT_: 对象变量名
+   */
 #define ZO_CREATE_REDIS_CLIENT(_VAR_CLIENT_) \
 /** 定义一个Nacos客户端对象，用于获取配置 */ \
 NacosClient _ns(ServerInfo::getInstance().getNacosAddr(), ServerInfo::getInstance().getNacosNs()); \
@@ -336,10 +336,10 @@ string _password = _yaml.getString(&_config, "spring.redis.password"); \
 /** 创建RedisClient对象 */ \
 RedisClient _VAR_CLIENT_(_host, atoi(_port.c_str()), _password)
 
-/**
- * 快速定义MongoDB客户端对象
- * @param _VAR_CLIENT_: 对象变量名
- */
+   /**
+    * 快速定义MongoDB客户端对象
+    * @param _VAR_CLIENT_: 对象变量名
+    */
 #define ZO_CREATE_MONGO_CLIENT(_VAR_CLIENT_) \
 /** 定义一个Nacos客户端对象，用于获取配置 */ \
 NacosClient _ns(ServerInfo::getInstance().getNacosAddr(), ServerInfo::getInstance().getNacosNs()); \
@@ -351,10 +351,10 @@ string _uri = _yaml.getString(&_config, "spring.data.mongodb.uri"); \
 /** 创建MongoClient对象 */ \
 MongoClient _VAR_CLIENT_(_uri)
 
-/**
- * 快速定义邮件发送对象
- * @param _VAR_CLIENT_: 对象变量名
- */
+    /**
+     * 快速定义邮件发送对象
+     * @param _VAR_CLIENT_: 对象变量名
+     */
 #define ZO_CREATE_MAIL_SENDER(_VAR_CLIENT_) \
 /** 定义一个Nacos客户端对象，用于获取配置 */ \
 NacosClient _ns(ServerInfo::getInstance().getNacosAddr(), ServerInfo::getInstance().getNacosNs()); \

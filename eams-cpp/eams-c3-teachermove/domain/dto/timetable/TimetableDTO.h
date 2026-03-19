@@ -1,19 +1,54 @@
 #ifndef __TIMETABLE_DTO_H__
 #define __TIMETABLE_DTO_H__
 
+#include "domain/vo/BaseJsonVO.h"
 #include "../../GlobalInclude.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/*¿Îºó×÷ÒµDTOÀà*/
-
-
-class TimetableDTO: public oatpp::DTO
+// Timetable-related business DTO classes
+class TimetableDTO : public oatpp::DTO
 {
 	DTO_INIT(TimetableDTO, DTO)
 };
 
-/* ÉèÖÃÉèÖÃÉÏ¿Î×´Ì¬µÄ´«ÈëÖµ */
+
+// --- 1. Student list (with conditions + pagination) - response list item DTO ---
+class TimetableStudentDTO : public oatpp::DTO {
+	DTO_INIT(TimetableStudentDTO, DTO)
+
+		API_DTO_FIELD(String, id, ZH_WORDS_GETTER("timetable.dto.TimetableStudentDTO.studentID"), true, "10001")
+		API_DTO_FIELD(String, name, ZH_WORDS_GETTER("timetable.dto.TimetableStudentDTO.studentName"), true, "111")
+		API_DTO_FIELD(String, phone, ZH_WORDS_GETTER("timetable.dto.TimetableStudentDTO.phone"), false, "15865842975")
+		API_DTO_FIELD(String, gender, ZH_WORDS_GETTER("timetable.dto.TimetableStudentDTO.gender"), false, "1")
+		API_DTO_FIELD(Int32, rest_hour, ZH_WORDS_GETTER("timetable.dto.TimetableStudentDTO.restHour"), false, 108)
+};
+
+// Since the framework does not have a built-in PageJsonVO, we need to define a custom pagination VO for the current student list.
+class TimetableStudentPageJsonVO : public JsonVO<PageDTO<TimetableStudentDTO::Wrapper>::Wrapper> {
+	DTO_INIT(TimetableStudentPageJsonVO, JsonVO<PageDTO<TimetableStudentDTO::Wrapper>::Wrapper>)
+};
+
+// --- 2. Add student to lesson - request parameter DTO ---
+class AddStudentToLessonDTO : public oatpp::DTO {
+	DTO_INIT(AddStudentToLessonDTO, DTO)
+
+		API_DTO_FIELD(String, course_id, ZH_WORDS_GETTER("timetable.dto.AddStudentToLessonDTO.courseId"), true, "c_001")
+		API_DTO_FIELD_REQUIRE(List<String>, studentIds, ZH_WORDS_GETTER("timetable.dto.AddStudentToLessonDTO.studentIds"), true)
+};
+
+// --- 3. Get student course list - response list item DTO ---
+class TimetableStudentCourseDTO : public oatpp::DTO {
+	DTO_INIT(TimetableStudentCourseDTO, DTO)
+
+		API_DTO_FIELD(String, course_id, ZH_WORDS_GETTER("timetable.dto.AddStudentToLessonDTO.courseId"), true, "c_001")
+		API_DTO_FIELD(Int32, rest_hour, ZH_WORDS_GETTER("timetable.dto.TimetableStudentDTO.restHour"), true, 0)
+		API_DTO_FIELD(String, title, ZH_WORDS_GETTER("timetable.dto.TimetableStudentCourseDTO.courseTitle"), true, "CollegePhysics")
+		API_DTO_FIELD(String, teacher_id, ZH_WORDS_GETTER("timetable.dto.TimetableStudentCourseDTO.teacherId"), false, "TeacherWang")
+		API_DTO_FIELD(String, sn, ZH_WORDS_GETTER("timetable.dto.TimetableStudentCourseDTO.sn"), false, "2")
+};
+
+/* è®¾ç½®è®¾ç½®ä¸Šè¯¾çŠ¶æ€çš„ä¼ å…¥å€¼ */
 class SetStudyStatusDTO : public oatpp::DTO {
 	DTO_INIT(SetStudyStatusDTO, DTO);
 
@@ -36,7 +71,7 @@ class SetStudyStatusDTO : public oatpp::DTO {
 	}
 };
 
-/* ÉèÖÃÉèÖÃÉÏ¿Î×´Ì¬µÄ·µ»ØÖµ */
+/* è®¾ç½®è®¾ç½®ä¸Šè¯¾çŠ¶æ€çš„è¿”å›å€¼ */
 class SetStudyStatusRspDTO : public oatpp::DTO {
 	DTO_INIT(SetStudyStatusRspDTO, DTO);
 
@@ -57,41 +92,41 @@ class SetStudyStatusRspDTO : public oatpp::DTO {
 };
 
 
-/* ¿Î´Î×´Ì¬µÄ·µ»ØÖµ */
+/* è¯¾æ¬¡çŠ¶æ€çš„è¿”å›å€¼ */
 class EvaluateDTO : public oatpp::DTO
 {
 	DTO_INIT(EvaluateDTO, oatpp::DTO);
-	// ±àºÅ
+	// ç¼–å·
 	DTO_FIELD(String, id);
 	DTO_FIELD_INFO(id) {
 		info->description = ZH_WORDS_GETTER("evaluate.field.id");
 	}
-	// ĞÕÃû
+	// å§“å
 	DTO_FIELD(String, name);
 	DTO_FIELD_INFO(name) {
 		info->description = ZH_WORDS_GETTER("evaluate.field.name");
 	}
-	// ·ÖÊı
+	// åˆ†æ•°
 	DTO_FIELD(Int8, score);
 	DTO_FIELD_INFO(score) {
 		info->description = ZH_WORDS_GETTER("evaluate.field.score");
 	}
-	// ÊÇ·ñÇ©µ½
+	// æ˜¯å¦ç­¾åˆ°
 	DTO_FIELD(Boolean, isSign);
 	DTO_FIELD_INFO(isSign) {
 		info->description = ZH_WORDS_GETTER("evaluate.field.has_sign");
 	}
-	// µãÆÀ
+	// ç‚¹è¯„
 	DTO_FIELD(String, evaluation);
 	DTO_FIELD_INFO(evaluation) {
 		info->description = ZH_WORDS_GETTER("evaluate.field.evaluation");
 	}
-	// µãÆÀÈË
+	// ç‚¹è¯„äºº
 	DTO_FIELD(String, Operator);
 	DTO_FIELD_INFO(Operator) {
 		info->description = ZH_WORDS_GETTER("evaluate.field.operator");
 	}
-	// ²Ù×÷Ê±¼ä
+	// æ“ä½œæ—¶é—´
 	DTO_FIELD(String, operationTime);
 	DTO_FIELD_INFO(operationTime) {
 		info->description = ZH_WORDS_GETTER("evaluate.field.operation_time");
@@ -99,7 +134,7 @@ class EvaluateDTO : public oatpp::DTO
 };
 
 
-/* ÉèÖÃ¿Î´Î×´Ì¬µÄ·ÖÒ³·µ»ØÖµ */
+/* è®¾ç½®è¯¾æ¬¡çŠ¶æ€çš„åˆ†é¡µè¿”å›å€¼ */
 class EvaluatePageDTO : public PageDTO<EvaluateDTO::Wrapper>
 {
 	DTO_INIT(EvaluatePageDTO, PageDTO<EvaluateDTO::Wrapper>);
@@ -107,23 +142,23 @@ class EvaluatePageDTO : public PageDTO<EvaluateDTO::Wrapper>
 
 
 
-/* ÉèÖÃ Ìí¼ÓÆÀÓïµÄDTO */
+/* è®¾ç½® æ·»åŠ è¯„è¯­çš„DTO */
 class EvaluationDTO : public oatpp::DTO {
 	DTO_INIT(EvaluationDTO, oatpp::DTO);
 
-	// ĞÅÏ¢µÄid
+	// ä¿¡æ¯çš„id
 	DTO_FIELD(String, id);
 	DTO_FIELD_INFO(id) {
 		info->description = ZH_WORDS_GETTER("evaluate.field.id");
 	}
 
-	// ÆÀ·Ö
+	// è¯„åˆ†
 	DTO_FIELD(Int8, score);
 	DTO_FIELD_INFO(score) {
 		info->description = ZH_WORDS_GETTER("evaluate.field.score");
 	}
 
-	// ÆÀÓï
+	// è¯„è¯­
 	DTO_FIELD(String, evaluation);
 	DTO_FIELD_INFO(evaluation) {
 		info->description = ZH_WORDS_GETTER("evaluate.field.evalution");
@@ -131,24 +166,24 @@ class EvaluationDTO : public oatpp::DTO {
 };
 
 
-/* ÉèÖÃµãÆÀÄ³ÈËµÄ·µ»ØÖµ */
+/* è®¾ç½®ç‚¹è¯„æŸäººçš„è¿”å›å€¼ */
 class EvaluateRspDTO : public oatpp::DTO {
 	DTO_INIT(EvaluateRspDTO, oatpp::DTO);
 
 
-	// ¶¨ÒåĞÅÏ¢µÄÎ¨Ò»idºÅ
+	// å®šä¹‰ä¿¡æ¯çš„å”¯ä¸€idå·
 	DTO_FIELD(String, id);
 	DTO_FIELD_INFO(id) {
 		info->description = ZH_WORDS_GETTER("evaluate.field.id");
 	}
 
-	// ¶¨Òå´íÎóÂë
+	// å®šä¹‰é”™è¯¯ç 
 	DTO_FIELD(Int8, code);
 	DTO_FIELD_INFO(code) {
 		info->description = ZH_WORDS_GETTER("evaluate.response.code");
 	}
 
-	// ¶¨Òå´íÎóĞÅÏ¢
+	// å®šä¹‰é”™è¯¯ä¿¡æ¯
 	DTO_FIELD(String, message);
 	DTO_FIELD_INFO(message) {
 		info->description = ZH_WORDS_GETTER("evaluate.response.message");

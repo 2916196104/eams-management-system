@@ -8,6 +8,8 @@
 #include "domain/query/timetable/GetStuListQuery.h"
 #include "domain/vo/timetable/GetDetailCSVO.h"
 #include "domain/vo/timetable/GetStuListVO.h"
+#include "domain/query/timetable/TimetableQuery.h"
+#include "domain/dto//timetable/TimetableDTO.h"
 #include "oatpp/web/server/api/ApiController.hpp"
 
 #include "./domain/dto/timetable/TimetableDTO.h"
@@ -17,11 +19,12 @@
 
 #define API_TAG ZH_WORDS_GETTER("api.tag")
 
-class Record_name: public oatpp::web::server::api::ApiController
+
+class Record_name : public oatpp::web::server::api::ApiController
 {
-	//¶¨Òå¿ØÖÆÆ÷·ÃÎÊÈë¿Ú
+	//å®šä¹‰æŽ§åˆ¶å™¨è®¿é—®å…¥å£
 	API_ACCESS_DECLARE(Record_name);
-public:		//¶¨Òå½Ó¿Ú
+public:		//å®šä¹‰æŽ¥å£
 	API_DEF_ENDPOINT_INFO_AUTH(
 		ZH_WORDS_GETTER("api.get-detail-cs.title"),
 		getDetailCS,
@@ -58,7 +61,7 @@ public:		//¶¨Òå½Ó¿Ú
 		auto vo = execGetStuList(query);
 		API_HANDLER_RESP_VO(vo);
 	);
-	// 1. ÉèÖÃÉÏ¿Î×´Ì¬ ½Ó¿ÚµÄ¶¨Òå
+	// 1. è®¾ç½®ä¸Šè¯¾çŠ¶æ€ æŽ¥å£çš„å®šä¹‰
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("set_status.title"), modifyStatus, SetStudyStatusRspJsonVO::Wrapper, API_TAG);
 	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "/course-table/set-status", modifyStatus, BODY_DTO(SetStudyStatusDTO::Wrapper, dto), updateModifyStatus(dto, authObject->getPayload()));
 
@@ -67,15 +70,68 @@ public:		//¶¨Òå½Ó¿Ú
 
 	
 
-private:	//¶¨Òå½Ó¿ÚÖ´ÐÐº¯Êý
+
+    // Define endpoints
+	// Endpoint 1: Get student list (with conditions + pagination) - GetStuList
+
+	API_DEF_ENDPOINT_INFO_QUERY_AUTH(
+		ZH_WORDS_GETTER("timetable.endpoints.getStudentList.title"),
+		GetStuList,
+		StuListQuery,
+		TimetableStudentPageJsonVO::Wrapper,
+		ZH_WORDS_GETTER("timetable.tags.studentManage")
+	)
+
+		API_HANDLER_ENDPOINT_QUERY_AUTH(
+			API_M_GET, "/timetable/student/list", GetStuList, StuListQuery,
+			execGetStuList(query, authObject->getPayload())
+		)
+
+		// Endpoint 2: Add student to lesson - InsertStuToCS
+
+		API_DEF_ENDPOINT_INFO_AUTH(
+			ZH_WORDS_GETTER("timetable.endpoints.insertStuToCS.title"),
+			InsertStuToCS,
+			StringJsonVO::Wrapper,
+			ZH_WORDS_GETTER("timetable.tags.studentManage"),
+			API_DEF_NOTHING
+		)
+
+		API_HANDLER_ENDPOINT_AUTH(
+			API_M_POST, "/timetable/student/add-to-cs", InsertStuToCS,
+			BODY_DTO(AddStudentToLessonDTO::Wrapper, dto),
+			execInsertStuToCS(dto, authObject->getPayload())
+		)
+
+		// Endpoint 3: Get student course list - GetStuClassList
+
+		API_DEF_ENDPOINT_INFO_QUERY_AUTH(
+			ZH_WORDS_GETTER("timetable.endpoints.getStudentCourseList.title"),
+			GetStuClassList,
+			StuClassQuery,
+			ListJsonVO<TimetableStudentCourseDTO::Wrapper>::Wrapper,
+			ZH_WORDS_GETTER("timetable.tags.studentManage")
+		)
+
+		API_HANDLER_ENDPOINT_QUERY_AUTH(
+			API_M_GET, "/timetable/student/course-list", GetStuClassList, StuClassQuery,
+			execGetStuClassList(query, authObject->getPayload())
+		)
+
+private:
 	GetDetailCSJsonVO::Wrapper execGetDetailCS(const GetDetailCSQuery::Wrapper& query);
 	GetStuListJsonVO::Wrapper execGetStuList(const GetStuListQuery::Wrapper& query);
-
 	SetStudyStatusRspJsonVO::Wrapper updateModifyStatus(const SetStudyStatusDTO::Wrapper& dto, const PayloadDTO& payload);
-	
+	// Declare execution functions
+
+	TimetableStudentPageJsonVO::Wrapper execGetStuList(const StuListQuery::Wrapper& query, const PayloadDTO& payload);
+
+	StringJsonVO::Wrapper execInsertStuToCS(const AddStudentToLessonDTO::Wrapper& dto, const PayloadDTO& payload);
+
+	ListJsonVO<TimetableStudentCourseDTO::Wrapper>::Wrapper execGetStuClassList(const StuClassQuery::Wrapper& query, const PayloadDTO& payload);
+
 };
 
 #undef API_TAG
 #include OATPP_CODEGEN_END(ApiController)
-
 #endif
