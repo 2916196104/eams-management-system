@@ -19,11 +19,9 @@
 #include "stdafx.h"
 #include "Router.h"
 #include "ApiHelper.h"
-#include "institution/InstitutionController.h"
-#include "postion/PositionController.h"
-#include "postion/PositionDataController.h"
-#include "staff/LessonController.h"
-#include "staff/StaffController.h"
+#include "manual/ManualController.h"
+#include "parent/ParentController.h"
+#include "student/StudentController.h"
 
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
@@ -45,9 +43,7 @@ Router::Router(Endpoints* docEndpoints, HttpRouter* router)
 void Router::initRouter()
 {
 	//#TIP :系统扩展路由定义，写在这个后面
-	ROUTER_SIMPLE_BIND(InstitutionController);
-	ROUTER_SIMPLE_BIND(PositionController);
-	ROUTER_SIMPLE_BIND(PositionDataController);
-	ROUTER_SIMPLE_BIND(LessonController);
-	ROUTER_SIMPLE_BIND(StaffController);
+	ROUTER_SIMPLE_BIND(ManualController);
+	ROUTER_SIMPLE_BIND(ParentController);
+	ROUTER_SIMPLE_BIND(StudentController);
 }
