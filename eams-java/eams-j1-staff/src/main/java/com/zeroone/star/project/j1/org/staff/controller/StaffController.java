@@ -72,42 +72,42 @@ public class StaffController implements StaffMangerApis {
         return null;
     }
     @PostMapping("/transferOrg")
-    @ApiOperation("批量转出员工机构")
+    @ApiOperation("转出机构（支持批量）")
     @Override
     public JsonVO<List<Long>> transferStaffOrg(@RequestBody List<Long> staffIds, @RequestParam Long orgId) {
         return null;
     }
 
     @PostMapping("/resetPassword")
-    @ApiOperation("重置员工密码")
+    @ApiOperation("修改密码")
     @Override
     public JsonVO<Boolean> resetStaffPassword(@RequestBody ResetPasswordDTO dto) {
         return null;
     }
 
     @GetMapping("/export")
-    @ApiOperation("导出员工列表（Excel）")
+    @ApiOperation("导出数据")
     @Override
     public JsonVO<Void> exportStaffList(StaffQuery condition) {
         return null;
     }
 
     @PostMapping("/updateAvatar")
-    @ApiOperation("修改员工头像")
+    @ApiOperation("修改头像")
     @Override
     public JsonVO<String> updateStaffAvatar(@RequestParam Long staffId, @RequestParam MultipartFile file) {
         return null;
     }
 
     @GetMapping("/getTeachRecord")
-    @ApiOperation("获取员工授课记录（条件+分页）")
+    @ApiOperation("获取授课记录（条件+分页）")
     @Override
     public JsonVO<PageDTO<TeachRecordVO>> getTeachRecord(TeachRecordQuery query) {
         return null;
     }
 
     @GetMapping("/getClassRecord")
-    @ApiOperation("获取员工带班记录（条件+分页）")
+    @ApiOperation("获取带班记录（条件+分页）")
     @Override
     public JsonVO<PageDTO<ClassRecordVO>> getClassRecord(ClassRecordQuery query) {
         return null;
