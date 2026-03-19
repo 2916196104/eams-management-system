@@ -25,6 +25,7 @@
 #include "controller_zhong\Student_Class_Hour Records\ClassHourRecordsController.h"
 #include "controller_zhong\Student_Course_Progress\StudentCourseProgressController.h"
 #include "controller_zhong\Student_Enrollment_Records\StudentEnrollmentRecordsController.h"
+#include"makabaka-controller/SchedulingController.h"
 
  @Author: awei
  @Date: 2022/12/03 14:58:34
@@ -90,4 +91,6 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(ClassHourRecordsController);
 	ROUTER_SIMPLE_BIND(CourseProgressController);
 	ROUTER_SIMPLE_BIND(EnrollmentRecordsController);
+
+	ROUTER_SIMPLE_BIND(SchedulingController);
 }
