@@ -30,7 +30,7 @@
 
 #define API_TAG ZH_WORDS_GETTER("class.tag")
 
-//获取班级列表
+//获取班级的controller
 class GetClassController : public oatpp::web::server::api::ApiController
 {
 	// 添加访问定义
