@@ -2,7 +2,10 @@ package com.zeroone.star.project.j1.org;
 
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j1.org.PositionDataPermissionDTO;
+import com.zeroone.star.project.dto.j1.orgmanager.PositionDTO;
+import com.zeroone.star.project.dto.j1.orgmanager.PositionSetDTO;
 import com.zeroone.star.project.query.j1.org.PositionDataPermissionQuery;
+import com.zeroone.star.project.query.j1.orgmanager.PositionQueryCondition;
 import com.zeroone.star.project.vo.JsonVO;
 
 import java.util.List;
@@ -12,6 +15,40 @@ import java.util.List;
  * 职位数据权限相关接口
  */
 public interface PositionDataPermissionApis {
+
+    /**
+     * 职位列表
+     *
+     * @param condition 查询条件
+     * @return 职位分页列表
+     */
+    JsonVO<PageDTO<PositionDTO>> list(PositionQueryCondition condition);
+
+    /**
+     * 创建和修改职位
+     *
+     * @param dto 职位数据对象
+     * @return 操作结果
+     */
+    JsonVO<String> save(PositionDTO dto);
+
+    /**
+     * 删除职位
+     *
+     * @param ids 职位ID列表
+     * @return 操作结果
+     */
+    JsonVO<String> delete(List<Long> ids);
+
+    /**
+     * 设置员工职位
+     *
+     * @param dto 设置员工职位对象
+     * @return 操作结果
+     */
+    JsonVO<String> setStaffPosition(PositionSetDTO dto);
+
+
 
     /**
      * 分页查询数据权限信息
