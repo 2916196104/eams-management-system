@@ -30,6 +30,7 @@ public:
 		API_DEF_ADD_QUERY_PARAMS(String, "id", ZH_WORDS_GETTER("register.field.id"), "", true);
 		API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("register.field.name.info"), "", true);
 		API_DEF_ADD_QUERY_PARAMS(String, "telephoneNumber", ZH_WORDS_GETTER("register.field.telephoneNumber.info"), "", true);
+		API_DEF_ADD_QUERY_PARAMS(String, "verificationCode", ZH_WORDS_GETTER("register.field.verificationCode.info"), "", true);
 		API_DEF_ADD_QUERY_PARAMS(String, "password", ZH_WORDS_GETTER("register.field.password.info"), "", true);
     }
 
