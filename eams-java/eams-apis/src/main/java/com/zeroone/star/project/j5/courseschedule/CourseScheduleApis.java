@@ -5,6 +5,8 @@ import com.zeroone.star.project.dto.j5.coursrschedule.LessonDTO;
 import com.zeroone.star.project.dto.j5.coursrschedule.LessonListDTO;
 import com.zeroone.star.project.query.j5.courseschedule.LessonQuery;
 import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.query.j5.couserUAndD.UpdateCourseQuery;
+import com.zeroone.star.project.query.j5.couserUAndD.UpdateCoursesQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j5.courseschedule.CourseScheduleVO;
 
@@ -25,4 +27,12 @@ public interface CourseScheduleApis {
 
     //开关预约课程
     JsonVO<String> switchSchedule(CourseStatusDTO couseStatusDto);
+
+    //修改课次
+    JsonVO<String> updateCourse(UpdateCourseQuery updateCourseQuery);
+
+    //批量修改课次
+    JsonVO<String> updateCourses(List<UpdateCoursesQuery> updateCoursesQueries);
+    //删除课次
+    JsonVO<String> deleteCourses(List<Long> ids);
 }
