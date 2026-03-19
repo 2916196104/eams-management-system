@@ -19,34 +19,9 @@
 #include "stdafx.h"
 #include "Router.h"
 #include "ApiHelper.h"
+
 #include "controller-huitailang/addintendedstudentcontroller.h"
-/*
- Copyright Zero One Star. All rights reserved.
-#include "controller_zhong\Student_Class_Hour Records\ClassHourRecordsController.h"
-#include "controller_zhong\Student_Course_Progress\StudentCourseProgressController.h"
-#include "controller_zhong\Student_Enrollment_Records\StudentEnrollmentRecordsController.h"
-#include"makabaka-controller/SchedulingController.h"
-#include "hh-controller/CustomerController.h"
-#include "hh-controller/ClassroomController.h"
 
- @Author: awei
- @Date: 2022/12/03 14:58:34
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
-	  https://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-*/
-#include "stdafx.h"
-#include "Router.h"
-#include "ApiHelper.h"
 #include "enrollment/EnrollmentController.h"
 #include "enrollment/EnrolledRecordController.h"
 
@@ -61,6 +36,10 @@
 #include "controller_zhong\Student_Enrollment_Records\StudentEnrollmentRecordsController.h"
 
 #include"makabaka-controller/SchedulingController.h"
+
+#include "hh-controller/CustomerController.h"
+#include "hh-controller/ClassroomController.h"
+
 
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC

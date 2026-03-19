@@ -100,7 +100,8 @@ workbench:
     tag: 排课模块
 test:
   repeat: 重复排课创建成功  
-  free: 自由排课创建成功customer:
+  free: 自由排课创建成功
+customer:
  tags: 
   t1: 我的客户
  get:
