@@ -8,9 +8,9 @@ import com.zeroone.star.project.vo.JsonVO;
 
 import java.util.List;
 
-public interface LessonApis {
+public interface CourseScheduleApis {
     JsonVO<List<LessonDTO>> queryList(LessonQuery condition);
 
     JsonVO<PageDTO<LessonListDTO>> queryPage(LessonQuery condition);
-    JsonVO<List<LessonListDTO>> queryNameList(String name);
+    JsonVO<List<LessonListDTO>> queryNameList(Long id);
 }

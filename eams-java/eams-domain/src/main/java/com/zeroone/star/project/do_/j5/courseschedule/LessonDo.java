@@ -1,4 +1,4 @@
-package com.zeroone.star.courseschedule.dto.j5.org.DO;
+package com.zeroone.star.project.do_.j5.courseschedule;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

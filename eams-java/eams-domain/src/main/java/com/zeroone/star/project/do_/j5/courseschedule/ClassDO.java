@@ -1,4 +1,4 @@
-package com.zeroone.star.courseschedule.dto.j5.org.DO;
+package com.zeroone.star.project.do_.j5.courseschedule;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -6,9 +6,10 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-@TableName("classroom")
-public class ClassroomDO {
+@TableName("class")
+public class ClassDO {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String name;
+    private String name;            // 班级名称
+
 }
