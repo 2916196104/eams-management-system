@@ -588,4 +588,4 @@ if(part##_VAR_){ \
 	_VAR_ = part##_VAR_->getPayload()->getInMemoryData(); \
 }
 
-#endif // !_API_HELPER_
+#endif // !_API_HELPER_ 

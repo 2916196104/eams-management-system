@@ -1,0 +1,11 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build/cmake_install.cmake",
+		"C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build/lib-oatpp/cmake_install.cmake",
+		"C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build/lib-mysql/cmake_install.cmake",
+		"C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build/lib-common/cmake_install.cmake",
+		"C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build/eams-c2-org/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

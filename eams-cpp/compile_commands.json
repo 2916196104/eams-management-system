@@ -1,0 +1,236 @@
+[
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-oatpp/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-oatpp/include -g -std=gnu++17 -o lib-oatpp\\CMakeFiles\\lib-oatpp.dir\\src\\CustomerAuthorizeHandler.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-oatpp\\src\\CustomerAuthorizeHandler.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-oatpp\\src\\CustomerAuthorizeHandler.cpp",
+  "output": "lib-oatpp\\CMakeFiles\\lib-oatpp.dir\\src\\CustomerAuthorizeHandler.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-oatpp/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-oatpp/include -g -std=gnu++17 -o lib-oatpp\\CMakeFiles\\lib-oatpp.dir\\src\\ErrorHandler.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-oatpp\\src\\ErrorHandler.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-oatpp\\src\\ErrorHandler.cpp",
+  "output": "lib-oatpp\\CMakeFiles\\lib-oatpp.dir\\src\\ErrorHandler.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-oatpp/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-oatpp/include -g -std=gnu++17 -o lib-oatpp\\CMakeFiles\\lib-oatpp.dir\\src\\HttpServer.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-oatpp\\src\\HttpServer.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-oatpp\\src\\HttpServer.cpp",
+  "output": "lib-oatpp\\CMakeFiles\\lib-oatpp.dir\\src\\HttpServer.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-oatpp/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-oatpp/include -g -std=gnu++17 -o lib-oatpp\\CMakeFiles\\lib-oatpp.dir\\src\\IpUtil.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-oatpp\\src\\IpUtil.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-oatpp\\src\\IpUtil.cpp",
+  "output": "lib-oatpp\\CMakeFiles\\lib-oatpp.dir\\src\\IpUtil.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-oatpp/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-oatpp/include -g -std=gnu++17 -o lib-oatpp\\CMakeFiles\\lib-oatpp.dir\\src\\JWTUtil.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-oatpp\\src\\JWTUtil.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-oatpp\\src\\JWTUtil.cpp",
+  "output": "lib-oatpp\\CMakeFiles\\lib-oatpp.dir\\src\\JWTUtil.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-oatpp/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-oatpp/include -g -std=gnu++17 -o lib-oatpp\\CMakeFiles\\lib-oatpp.dir\\src\\ResultStatus.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-oatpp\\src\\ResultStatus.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-oatpp\\src\\ResultStatus.cpp",
+  "output": "lib-oatpp\\CMakeFiles\\lib-oatpp.dir\\src\\ResultStatus.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-oatpp/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-oatpp/include -g -std=gnu++17 -o lib-oatpp\\CMakeFiles\\lib-oatpp.dir\\src\\URIUtil.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-oatpp\\src\\URIUtil.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-oatpp\\src\\URIUtil.cpp",
+  "output": "lib-oatpp\\CMakeFiles\\lib-oatpp.dir\\src\\URIUtil.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-mysql/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-mysql/include -g -std=gnu++17 -o lib-mysql\\CMakeFiles\\lib-mysql.dir\\src\\BaseDAO.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-mysql\\src\\BaseDAO.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-mysql\\src\\BaseDAO.cpp",
+  "output": "lib-mysql\\CMakeFiles\\lib-mysql.dir\\src\\BaseDAO.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-mysql/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-mysql/include -g -std=gnu++17 -o lib-mysql\\CMakeFiles\\lib-mysql.dir\\src\\BaseDO.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-mysql\\src\\BaseDO.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-mysql\\src\\BaseDO.cpp",
+  "output": "lib-mysql\\CMakeFiles\\lib-mysql.dir\\src\\BaseDO.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-mysql/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-mysql/include -g -std=gnu++17 -o lib-mysql\\CMakeFiles\\lib-mysql.dir\\src\\ConnectionPool.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-mysql\\src\\ConnectionPool.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-mysql\\src\\ConnectionPool.cpp",
+  "output": "lib-mysql\\CMakeFiles\\lib-mysql.dir\\src\\ConnectionPool.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-mysql/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-mysql/include -g -std=gnu++17 -o lib-mysql\\CMakeFiles\\lib-mysql.dir\\src\\DbInit.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-mysql\\src\\DbInit.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-mysql\\src\\DbInit.cpp",
+  "output": "lib-mysql\\CMakeFiles\\lib-mysql.dir\\src\\DbInit.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-mysql/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-mysql/include -g -std=gnu++17 -o lib-mysql\\CMakeFiles\\lib-mysql.dir\\src\\SqlSession.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-mysql\\src\\SqlSession.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-mysql\\src\\SqlSession.cpp",
+  "output": "lib-mysql\\CMakeFiles\\lib-mysql.dir\\src\\SqlSession.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/include -g -std=gnu++17 -o lib-common\\CMakeFiles\\lib-common.dir\\src\\CharsetConvertHepler.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\CharsetConvertHepler.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\CharsetConvertHepler.cpp",
+  "output": "lib-common\\CMakeFiles\\lib-common.dir\\src\\CharsetConvertHepler.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/include -g -std=gnu++17 -o lib-common\\CMakeFiles\\lib-common.dir\\src\\EmailSender.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\EmailSender.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\EmailSender.cpp",
+  "output": "lib-common\\CMakeFiles\\lib-common.dir\\src\\EmailSender.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/include -g -std=gnu++17 -o lib-common\\CMakeFiles\\lib-common.dir\\src\\ExcelComponent.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\ExcelComponent.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\ExcelComponent.cpp",
+  "output": "lib-common\\CMakeFiles\\lib-common.dir\\src\\ExcelComponent.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/include -g -std=gnu++17 -o lib-common\\CMakeFiles\\lib-common.dir\\src\\FastDfsClient.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\FastDfsClient.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\FastDfsClient.cpp",
+  "output": "lib-common\\CMakeFiles\\lib-common.dir\\src\\FastDfsClient.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/include -g -std=gnu++17 -o lib-common\\CMakeFiles\\lib-common.dir\\src\\MongoClient.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\MongoClient.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\MongoClient.cpp",
+  "output": "lib-common\\CMakeFiles\\lib-common.dir\\src\\MongoClient.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/include -g -std=gnu++17 -o lib-common\\CMakeFiles\\lib-common.dir\\src\\NacosClient.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\NacosClient.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\NacosClient.cpp",
+  "output": "lib-common\\CMakeFiles\\lib-common.dir\\src\\NacosClient.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/include -g -std=gnu++17 -o lib-common\\CMakeFiles\\lib-common.dir\\src\\PdfComponent.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\PdfComponent.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\PdfComponent.cpp",
+  "output": "lib-common\\CMakeFiles\\lib-common.dir\\src\\PdfComponent.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/include -g -std=gnu++17 -o lib-common\\CMakeFiles\\lib-common.dir\\src\\RedisClient.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\RedisClient.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\RedisClient.cpp",
+  "output": "lib-common\\CMakeFiles\\lib-common.dir\\src\\RedisClient.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/include -g -std=gnu++17 -o lib-common\\CMakeFiles\\lib-common.dir\\src\\RocketClient.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\RocketClient.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\RocketClient.cpp",
+  "output": "lib-common\\CMakeFiles\\lib-common.dir\\src\\RocketClient.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/include -g -std=gnu++17 -o lib-common\\CMakeFiles\\lib-common.dir\\src\\SimpleDateTimeFormat.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\SimpleDateTimeFormat.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\SimpleDateTimeFormat.cpp",
+  "output": "lib-common\\CMakeFiles\\lib-common.dir\\src\\SimpleDateTimeFormat.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/include -g -std=gnu++17 -o lib-common\\CMakeFiles\\lib-common.dir\\src\\StringUtil.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\StringUtil.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\StringUtil.cpp",
+  "output": "lib-common\\CMakeFiles\\lib-common.dir\\src\\StringUtil.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/include -g -std=gnu++17 -o lib-common\\CMakeFiles\\lib-common.dir\\src\\YamlHelper.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\YamlHelper.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\YamlHelper.cpp",
+  "output": "lib-common\\CMakeFiles\\lib-common.dir\\src\\YamlHelper.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/include -g -std=gnu++17 -o lib-common\\CMakeFiles\\lib-common.dir\\src\\bcrypt\\bcrypt.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\bcrypt\\bcrypt.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\bcrypt\\bcrypt.cpp",
+  "output": "lib-common\\CMakeFiles\\lib-common.dir\\src\\bcrypt\\bcrypt.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/include -g -std=gnu++17 -o lib-common\\CMakeFiles\\lib-common.dir\\src\\bcrypt\\blowfish.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\bcrypt\\blowfish.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\bcrypt\\blowfish.cpp",
+  "output": "lib-common\\CMakeFiles\\lib-common.dir\\src\\bcrypt\\blowfish.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/include -g -std=gnu++17 -o lib-common\\CMakeFiles\\lib-common.dir\\src\\id\\SnowFlake.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\id\\SnowFlake.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\id\\SnowFlake.cpp",
+  "output": "lib-common\\CMakeFiles\\lib-common.dir\\src\\id\\SnowFlake.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/include -g -std=gnu++17 -o lib-common\\CMakeFiles\\lib-common.dir\\src\\id\\UuidFacade.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\id\\UuidFacade.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\id\\UuidFacade.cpp",
+  "output": "lib-common\\CMakeFiles\\lib-common.dir\\src\\id\\UuidFacade.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/lib-common/include -g -std=gnu++17 -o lib-common\\CMakeFiles\\lib-common.dir\\src\\sms\\aliyun\\AliSmsSender.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\sms\\aliyun\\AliSmsSender.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\lib-common\\src\\sms\\aliyun\\AliSmsSender.cpp",
+  "output": "lib-common\\CMakeFiles\\lib-common.dir\\src\\sms\\aliyun\\AliSmsSender.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-oatpp/include -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-mysql/include -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-common/include -g -std=gnu++17 -o eams-c2-org\\CMakeFiles\\eams-c2-org.dir\\controller\\Router.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\eams-c2-org\\controller\\Router.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\eams-c2-org\\controller\\Router.cpp",
+  "output": "eams-c2-org\\CMakeFiles\\eams-c2-org.dir\\controller\\Router.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-oatpp/include -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-mysql/include -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-common/include -g -std=gnu++17 -o eams-c2-org\\CMakeFiles\\eams-c2-org.dir\\controller\\SystemInterceptor.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\eams-c2-org\\controller\\SystemInterceptor.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\eams-c2-org\\controller\\SystemInterceptor.cpp",
+  "output": "eams-c2-org\\CMakeFiles\\eams-c2-org.dir\\controller\\SystemInterceptor.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-oatpp/include -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-mysql/include -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-common/include -g -std=gnu++17 -o eams-c2-org\\CMakeFiles\\eams-c2-org.dir\\controller\\institution\\InstitutionController.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\eams-c2-org\\controller\\institution\\InstitutionController.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\eams-c2-org\\controller\\institution\\InstitutionController.cpp",
+  "output": "eams-c2-org\\CMakeFiles\\eams-c2-org.dir\\controller\\institution\\InstitutionController.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-oatpp/include -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-mysql/include -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-common/include -g -std=gnu++17 -o eams-c2-org\\CMakeFiles\\eams-c2-org.dir\\controller\\parent\\ParentController.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\eams-c2-org\\controller\\parent\\ParentController.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\eams-c2-org\\controller\\parent\\ParentController.cpp",
+  "output": "eams-c2-org\\CMakeFiles\\eams-c2-org.dir\\controller\\parent\\ParentController.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-oatpp/include -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-mysql/include -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-common/include -g -std=gnu++17 -o eams-c2-org\\CMakeFiles\\eams-c2-org.dir\\controller\\postion\\PositionController.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\eams-c2-org\\controller\\postion\\PositionController.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\eams-c2-org\\controller\\postion\\PositionController.cpp",
+  "output": "eams-c2-org\\CMakeFiles\\eams-c2-org.dir\\controller\\postion\\PositionController.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-oatpp/include -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-mysql/include -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-common/include -g -std=gnu++17 -o eams-c2-org\\CMakeFiles\\eams-c2-org.dir\\controller\\postion\\PositionDataController.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\eams-c2-org\\controller\\postion\\PositionDataController.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\eams-c2-org\\controller\\postion\\PositionDataController.cpp",
+  "output": "eams-c2-org\\CMakeFiles\\eams-c2-org.dir\\controller\\postion\\PositionDataController.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-oatpp/include -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-mysql/include -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-common/include -g -std=gnu++17 -o eams-c2-org\\CMakeFiles\\eams-c2-org.dir\\controller\\staff\\LessonController.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\eams-c2-org\\controller\\staff\\LessonController.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\eams-c2-org\\controller\\staff\\LessonController.cpp",
+  "output": "eams-c2-org\\CMakeFiles\\eams-c2-org.dir\\controller\\staff\\LessonController.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-oatpp/include -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-mysql/include -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-common/include -g -std=gnu++17 -o eams-c2-org\\CMakeFiles\\eams-c2-org.dir\\controller\\staff\\StaffController.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\eams-c2-org\\controller\\staff\\StaffController.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\eams-c2-org\\controller\\staff\\StaffController.cpp",
+  "output": "eams-c2-org\\CMakeFiles\\eams-c2-org.dir\\controller\\staff\\StaffController.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-oatpp/include -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-mysql/include -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-common/include -g -std=gnu++17 -o eams-c2-org\\CMakeFiles\\eams-c2-org.dir\\controller\\student\\StudentController.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\eams-c2-org\\controller\\student\\StudentController.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\eams-c2-org\\controller\\student\\StudentController.cpp",
+  "output": "eams-c2-org\\CMakeFiles\\eams-c2-org.dir\\controller\\student\\StudentController.cpp.obj"
+},
+{
+  "directory": "C:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/build",
+  "command": "C:\\mingw\\w64devkit\\bin\\c++.exe -DOATPP_SWAGGER_RES_PATH=\\\"res\\\" -DOATPP_SWAGGER_SERVICE_NAME=\"\\\"zero-one-eams for windows\\\"\" -DUSE_DFS -DUSE_MONGO -DUSE_PDF -DUSE_REDIS -DUSE_ROCKETMQ -DUSE_XLNT -DUSE_YML -DUUID_SYSTEM_GENERATOR -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/. -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-oatpp/include -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-mysql/include -IC:/Users/huang/Desktop/work_/eams/zero-one-eams2603/eams-cpp/eams-c2-org/../lib-common/include -g -std=gnu++17 -o eams-c2-org\\CMakeFiles\\eams-c2-org.dir\\main.cpp.obj -c C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\eams-c2-org\\main.cpp",
+  "file": "C:\\Users\\huang\\Desktop\\work_\\eams\\zero-one-eams2603\\eams-cpp\\eams-c2-org\\main.cpp",
+  "output": "eams-c2-org\\CMakeFiles\\eams-c2-org.dir\\main.cpp.obj"
+}
+]
