@@ -3,3 +3,19 @@ enrollment:
     summary2: 获取报名记录详情
     summary3: 保存报名
     resp: 保存成功
+teacher:
+ field:
+  id: 教师id
+  name: 教师姓名
+  position: 教师职务
+ query:
+  summary: 获取教师列表
+ tag: 教师列表查询接口
+class:
+ field:
+  id: 班级id
+  name: 班级名
+  grade: 年级
+ tag: 班级列表查询接口
+ query:
+  summary: 获取班级列表   

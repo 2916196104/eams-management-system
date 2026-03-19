@@ -21,6 +21,9 @@
 #include "ApiHelper.h"
 #include "enrollment/EnrollmentController.h"
 #include "enrollment/EnrolledRecordController.h"
+#include "makabaka-controller/TeacherListController/TeacherListController.h"
+#include "makabaka-controller/classListController/ClassListController.h"
+
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
 // 简化绑定控制器宏定义
@@ -44,4 +47,6 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(EnrollmentController);
 	ROUTER_SIMPLE_BIND(EnrolledRecordController);
 
+	ROUTER_SIMPLE_BIND(TeacherListController);
+	ROUTER_SIMPLE_BIND(ClassListController);
 }

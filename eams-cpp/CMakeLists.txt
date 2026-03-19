@@ -164,5 +164,6 @@ if(UNIX)
 	add_subdirectory ("nacos-register")
 endif()
 # 在后面添加你的模块
-	add_subdirectory ("eams-c4-class")
-	add_subdirectory ("eams-c4-workbench")
+add_subdirectory ("eams-c4-class")
+add_subdirectory ("eams-c4-workbench")
+
