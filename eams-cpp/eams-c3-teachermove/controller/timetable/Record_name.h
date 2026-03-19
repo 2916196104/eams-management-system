@@ -35,7 +35,7 @@ public:		//定义接口
 
 	API_HANDLER_ENDPOINT_OPTION_AUTH(
 		API_M_GET,
-		"/timetable/get-detail-cs",
+		"course/record-name/get-detail-cs",
 		getDetailCS,
 		QUERIES(QueryParams, queryParams),
 		API_HANDLER_QUERY_PARAM(query, GetDetailCSQuery, queryParams);
@@ -54,7 +54,7 @@ public:		//定义接口
 
 	API_HANDLER_ENDPOINT_OPTION_AUTH(
 		API_M_GET,
-		"/timetable/get-stu-list",
+		"course/record-name/get-cs-stu-list",
 		getStuList,
 		QUERIES(QueryParams, queryParams),
 		API_HANDLER_QUERY_PARAM(query, GetStuListQuery, queryParams);
@@ -63,13 +63,7 @@ public:		//定义接口
 	);
 	// 1. 设置上课状态 接口的定义
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("set_status.title"), modifyStatus, SetStudyStatusRspJsonVO::Wrapper, API_TAG);
-	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "/course-table/set-status", modifyStatus, BODY_DTO(SetStudyStatusDTO::Wrapper, dto), updateModifyStatus(dto, authObject->getPayload()));
-
-
-
-
-	
-
+	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "course/record-name/set-status", modifyStatus, BODY_DTO(SetStudyStatusDTO::Wrapper, dto), updateModifyStatus(dto, authObject->getPayload()));
 
     // Define endpoints
 	// Endpoint 1: Get student list (with conditions + pagination) - GetStuList
@@ -79,11 +73,11 @@ public:		//定义接口
 		GetStuList,
 		StuListQuery,
 		TimetableStudentPageJsonVO::Wrapper,
-		ZH_WORDS_GETTER("timetable.tags.studentManage")
+		API_TAG
 	)
 
 		API_HANDLER_ENDPOINT_QUERY_AUTH(
-			API_M_GET, "/timetable/student/list", GetStuList, StuListQuery,
+			API_M_GET, "course/record-name/stu-list", GetStuList, StuListQuery,
 			execGetStuList(query, authObject->getPayload())
 		)
 
@@ -93,12 +87,12 @@ public:		//定义接口
 			ZH_WORDS_GETTER("timetable.endpoints.insertStuToCS.title"),
 			InsertStuToCS,
 			StringJsonVO::Wrapper,
-			ZH_WORDS_GETTER("timetable.tags.studentManage"),
+			API_TAG,
 			API_DEF_NOTHING
 		)
 
 		API_HANDLER_ENDPOINT_AUTH(
-			API_M_POST, "/timetable/student/add-to-cs", InsertStuToCS,
+			API_M_POST, "course/record-name/stu-add-to-cs", InsertStuToCS,
 			BODY_DTO(AddStudentToLessonDTO::Wrapper, dto),
 			execInsertStuToCS(dto, authObject->getPayload())
 		)
@@ -110,11 +104,11 @@ public:		//定义接口
 			GetStuClassList,
 			StuClassQuery,
 			ListJsonVO<TimetableStudentCourseDTO::Wrapper>::Wrapper,
-			ZH_WORDS_GETTER("timetable.tags.studentManage")
+			API_TAG
 		)
 
 		API_HANDLER_ENDPOINT_QUERY_AUTH(
-			API_M_GET, "/timetable/student/course-list", GetStuClassList, StuClassQuery,
+			API_M_GET, "course/record-name/stu-course-list", GetStuClassList, StuClassQuery,
 			execGetStuClassList(query, authObject->getPayload())
 		)
 

@@ -43,7 +43,7 @@ public:
 	}
 
 
-	ENDPOINT(API_M_GET, "/class/classList", queryClassList, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_GET, "class/class-list", queryClassList, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
 		// Query
 		API_HANDLER_QUERY_PARAM(userQuery, ClassQuery, queryParams);
 		API_HANDLER_RESP_VO(execQueryClassList(userQuery));
@@ -60,7 +60,7 @@ public:
 		API_DEF_ADD_TAG(API_TAG);
 	}
 
-	ENDPOINT(API_M_GET, "/class/classDetail", queryClassDetail, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_GET, "class/class-detail", queryClassDetail, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
 		// Qu
 		API_HANDLER_QUERY_PARAM(userQuery, ClassDTO, queryParams);
 		//
@@ -83,12 +83,12 @@ public:
 		API_DEF_ADD_QUERY_PARAMS(String, "studentId", ZH_WORDS_GETTER("class.endpoints.getStudentDetail.params.studentId"), "studentId", true);
 	);
 	// 3.2 定义获取班级学员详情接口处理
-	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET,"/class/student/detail", getStudentDetail, QUERIES(QueryParams, queryParams),
+	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET,"class/stu-detail", getStudentDetail, QUERIES(QueryParams, queryParams),
 		auto studentId = queryParams.get("studentId");
 		API_HANDLER_RESP_VO(execGetStudentDetail(studentId));
 	);
 
-	ENDPOINT(API_M_GET, "/class/classStudentList", queryClassStudentList, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_GET, "class/class-student-list", queryClassStudentList, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
 		API_HANDLER_QUERY_PARAM(userQuery, ClassStudentQuery, queryParams);
 		API_HANDLER_RESP_VO(execQueryClassStudentList(userQuery));
 	}
@@ -98,7 +98,7 @@ public:
 		API_DEF_ADD_QUERY_PARAMS(String, "studentId", ZH_WORDS_GETTER("class.endpoints.getStudentCourseList.params.studentId"), "studentId", true);
 	);
 	// 3.2 定义获取班级学员课程列表接口处理
-	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/class/student/course/list", getStudentCourseList, QUERIES(QueryParams, queryParams),
+	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "class/stu-cs-list", getStudentCourseList, QUERIES(QueryParams, queryParams),
 		auto studentId = queryParams.get("studentId");
 		auto pageIndex = queryParams.get("pageIndex");
 		auto pageSize = queryParams.get("pageSize");

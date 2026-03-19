@@ -11,13 +11,13 @@
 #include "oatpp/web/server/api/ApiController.hpp"
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
-#define API_TAG ZH_WORDS_GETTER("api.tag")
+#define API_TAG ZH_WORDS_GETTER("api.tag1")
 
 class GetCommonDatetime : public oatpp::web::server::api::ApiController
 {
-	//¶¨Òå¿ØÖÆÆ÷·ÃÎÊÈë¿Ú
+	//å®šä¹‰æ§åˆ¶å™¨è®¿é—®å…¥å£
 	API_ACCESS_DECLARE(GetCommonDatetime);
-public:		//¶¨Òå½Ó¿Ú
+public:		//å®šä¹‰æ¥å£
 	API_DEF_ENDPOINT_INFO_AUTH(
 		ZH_WORDS_GETTER("api.get-common-datetime.title"),
 		getCommonDatetime,
@@ -28,7 +28,7 @@ public:		//¶¨Òå½Ó¿Ú
 
 	API_HANDLER_ENDPOINT_OPTION_AUTH(
 		API_M_GET,
-		"/timetable/get-common-datetime",
+		"course/get-common-datetime",
 		getCommonDatetime,
 		QUERIES(QueryParams, queryParams),
 		API_HANDLER_QUERY_PARAM(query, GetCommonDatetimeQuery, queryParams);
@@ -36,7 +36,7 @@ public:		//¶¨Òå½Ó¿Ú
 		API_HANDLER_RESP_VO(vo);
 	);
 
-private:	//¶¨Òå½Ó¿ÚÖ´ĞĞº¯Êı
+private:	//å®šä¹‰æ¥å£æ‰§è¡Œå‡½æ•°
 	CommonDatetimeJsonVO::Wrapper execGetCommonDatetime(const GetCommonDatetimeQuery::Wrapper& query);
 
 };

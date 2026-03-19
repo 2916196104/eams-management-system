@@ -63,7 +63,7 @@ set_status:
     code: 错误码
     message: 错误信息
 evaluate: 
-  flag: 课表
+  flag: 课表点评
   title1: 获取课次点评列表（条件+分页）
   title2: 点评指定学员
   field:
@@ -80,7 +80,8 @@ evaluate:
     code: 错误码
     message: 错误信息
 api:
- tag: 课表
+ tag: 课表点名
+ tag1: 获取课表
  get-common-datetime:
   title: 获取指定日期的课表
   param:

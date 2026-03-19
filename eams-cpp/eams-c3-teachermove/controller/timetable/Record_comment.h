@@ -15,45 +15,45 @@
 
 class Record_comment : public oatpp::web::server::api::ApiController
 {
-	//¶¨Òå¿ØÖÆÆ÷·ÃÎÊÈë¿Ú
+	//å®šä¹‰æ§åˆ¶å™¨è®¿é—®å…¥å£
 	API_ACCESS_DECLARE(Record_comment);
-public:		//¶¨Òå½Ó¿Ú
+public:		//å®šä¹‰æ¥å£
 
 
 
-	// 2. ¶¨Òå »ñÈ¡¿Î´ÎµãÆÀÁĞ±í£¨Ìõ¼ş+·ÖÒ³£©
+	// 2. å®šä¹‰ è·å–è¯¾æ¬¡ç‚¹è¯„åˆ—è¡¨ï¼ˆæ¡ä»¶+åˆ†é¡µï¼‰
 	ENDPOINT_INFO(queryEvaluation) {
-		// ¶¨Òå½Ó¿Ú±êÌâ
+		// å®šä¹‰æ¥å£æ ‡é¢˜
 		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("evaluate.title1"));
-		// ¶¨ÒåÄ¬ÈÏÊÚÈ¨²ÎÊı£¨¿ÉÑ¡¶¨Òå£¬Èç¹û¶¨ÒåÁË£¬ÏÂÃæENDPOINTÀïÃæĞèÒª¼ÓÈëAPI_HANDLER_AUTH_PARAME£©
+		// å®šä¹‰é»˜è®¤æˆæƒå‚æ•°ï¼ˆå¯é€‰å®šä¹‰ï¼Œå¦‚æœå®šä¹‰äº†ï¼Œä¸‹é¢ENDPOINTé‡Œé¢éœ€è¦åŠ å…¥API_HANDLER_AUTH_PARAMEï¼‰
 		API_DEF_ADD_AUTH();
-		// ¶¨ÒåÏìÓ¦²ÎÊı¸ñÊ½
+		// å®šä¹‰å“åº”å‚æ•°æ ¼å¼
 		API_DEF_ADD_RSP_JSON_WRAPPER(EvaluatePageJsonVO);
-		// ¶¨Òå±êÇ©
+		// å®šä¹‰æ ‡ç­¾
 		API_DEF_ADD_TAG(API_TAG);
-		// ¶¨Òå·ÖÒ³²éÑ¯²ÎÊıÃèÊö
+		// å®šä¹‰åˆ†é¡µæŸ¥è¯¢å‚æ•°æè¿°
 		API_DEF_ADD_PAGE_PARAMS();
-		// ¶¨ÒåÆäËû²éÑ¯²ÎÊıÃèÊö
+		// å®šä¹‰å…¶ä»–æŸ¥è¯¢å‚æ•°æè¿°
 
 
 	}
-	ENDPOINT(API_M_GET, "/course-table/query-by-page", queryEvaluation, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
-		// ½âÎö²éÑ¯²ÎÊıÎªQueryÁìÓòÄ£ĞÍ
+	ENDPOINT(API_M_GET, "course/record-comment/cs-comment-list", queryEvaluation, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
+		// è§£ææŸ¥è¯¢å‚æ•°ä¸ºQueryé¢†åŸŸæ¨¡å‹
 		API_HANDLER_QUERY_PARAM(userQuery, EvaluationQuery, queryParams);
-		// ºô½ĞÖ´ĞĞº¯ÊıÏìÓ¦½á¹û
+		// å‘¼å«æ‰§è¡Œå‡½æ•°å“åº”ç»“æœ
 		API_HANDLER_RESP_VO(execQueryEvaluation(userQuery));
 	}
 
 
-	// 3. ¶¨Òå µãÆÀÖ¸¶¨Ñ§Ô±
+	// 3. å®šä¹‰ ç‚¹è¯„æŒ‡å®šå­¦å‘˜
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("evaluate.title2"), modifyEvaluation, EvaluateRspJsonVO::Wrapper, API_TAG);
-	// 3.2 ¶¨ÒåĞŞ¸Ä½Ó¿Ú´¦Àí
-	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "/course-table/modify-evaluation", modifyEvaluation, BODY_DTO(EvaluationDTO::Wrapper, dto), execModifyEvaluate(dto, authObject->getPayload()));
+	// 3.2 å®šä¹‰ä¿®æ”¹æ¥å£å¤„ç†
+	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "course/record-comment/comment-stu", modifyEvaluation, BODY_DTO(EvaluationDTO::Wrapper, dto), execModifyEvaluate(dto, authObject->getPayload()));
 
 
 
 
-private:	//¶¨Òå½Ó¿ÚÖ´ĞĞº¯Êı
+private:	//å®šä¹‰æ¥å£æ‰§è¡Œå‡½æ•°
 	EvaluatePageJsonVO::Wrapper execQueryEvaluation(const EvaluationQuery::Wrapper& query);
 
 	EvaluateRspJsonVO::Wrapper execModifyEvaluate(const EvaluationDTO::Wrapper& dto, const PayloadDTO& payload);
