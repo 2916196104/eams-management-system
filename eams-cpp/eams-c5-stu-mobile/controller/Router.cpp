@@ -20,6 +20,7 @@
 #include "Router.h"
 #include "ApiHelper.h"
 #include "login/RegisterController.h"
+#include "controller/home/trialCard/GetTrialCardListController.h"
 
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
@@ -42,4 +43,5 @@ void Router::initRouter()
 {
 	//#TIP :系统扩展路由定义，写在这个后面
 	ROUTER_SIMPLE_BIND(RegisterController);
+	ROUTER_SIMPLE_BIND(GetTrialCardListController);
 }
