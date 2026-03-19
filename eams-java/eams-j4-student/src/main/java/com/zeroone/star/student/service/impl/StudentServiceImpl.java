@@ -6,12 +6,16 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zeroone.star.project.components.easyexcel.EasyExcelComponent;
 import com.zeroone.star.project.components.user.UserHolder;
+import com.zeroone.star.project.dto.j4.student.StudentDTO;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.student.config.RequestMetaUtil;
 import com.zeroone.star.student.domain.po.Student;
+import com.zeroone.star.student.domain.po.SysLog;
 import com.zeroone.star.student.domain.po.User;
 import com.zeroone.star.student.domain.vo.StudentExportExcelVO;
 import com.zeroone.star.student.domain.vo.StudentImportExcelVO;
 import com.zeroone.star.student.mapper.StudentMapper;
+import com.zeroone.star.student.mapper.SysLogMapper;
 import com.zeroone.star.student.service.IStudentService;
 import com.zeroone.star.student.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +24,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +49,12 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     @Resource
     private IUserService userService;
 
+    @Resource
+    private SysLogMapper sysLogMapper;
+
+    @Resource
+    private HttpServletRequest httpRequest;
+
     // 注入框架自带的当前用户获取组件
     @Resource
     private UserHolder userHolder;
@@ -51,6 +63,21 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     private static final Pattern PHONE_PATTERN = Pattern.compile("^1[3-9]\\d{9}$");
     // 日期格式化
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    /**
+     * 获取当前登录用户ID
+     */
+    private Long getCurrentUserIdSafely() {
+        try {
+            if (userHolder.getCurrentUser() == null || StringUtils.isBlank(userHolder.getCurrentUser().getId())) {
+                return null;
+            }
+            return Long.valueOf(userHolder.getCurrentUser().getId());
+        } catch (Exception e) {
+            log.error("获取当前登录用户ID失败", e);
+            return null;
+        }
+    }
 
     @Override
     public void exportIntentionStudent(HttpServletResponse response) throws Exception {
@@ -207,5 +234,94 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
             String jsonResult = mapper.writeValueAsString(JsonVO.success("导入成功，共添加 " + studentsToSave.size() + " 名意向学员"));
             response.getWriter().write(jsonResult);
         }
+    }
+
+    /**
+     * 修改学员顾问
+     * @param studentDTO
+     * @return 修改是否成功
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class) // 开启事务，保证 student 和 sys_log 表的强一致性
+    public Boolean modifyConsultant(StudentDTO studentDTO) {
+        if(studentDTO == null || studentDTO.getId() == null || studentDTO.getCounselor() == null) {
+            return false;
+        }
+
+        Long currentUserId = getCurrentUserIdSafely();
+        if (currentUserId == null) {
+            log.warn("无法获取当前登录用户ID，修改学员顾问操作被拒绝");
+            return false;
+        }
+
+        // 更新student表中的counselor字段
+        Student student = new Student();
+        student.setId(studentDTO.getId());
+        student.setCounselor(studentDTO.getCounselor());
+        student.setEditor(currentUserId);
+        student.setEditTime(LocalDateTime.now());
+
+        // 更新数据
+        boolean updated = this.updateById(student);
+        if(updated) {
+            log.info("学员 {} 的顾问修改成功，新的顾问ID: {}", studentDTO.getId(), studentDTO.getCounselor());
+        } else {
+            log.warn("学员 {} 的顾问修改失败", studentDTO.getId());
+            return false;
+        }
+
+        // 写入sys_log
+        SysLog logEntity = new SysLog();
+        logEntity.setOperator(currentUserId);
+        logEntity.setStudentId(studentDTO.getId());
+        logEntity.setType("UPDATE");
+        logEntity.setInfo("修改学员顾问，新的顾问ID: " + student.getCounselor());
+        logEntity.setPath("/j4/student/modifyConsultant");
+        logEntity.setMethod("POST");
+        logEntity.setAddTime(LocalDateTime.now());
+
+        // 利用 RequestMetaUtil 补充 IP、浏览器、系统信息
+        try {
+            String userAgent = httpRequest.getHeader("User-Agent");
+            RequestMetaUtil.UaInfo uaInfo = RequestMetaUtil.parseUa(userAgent);
+
+            logEntity.setIp(RequestMetaUtil.getClientIp(httpRequest));
+            logEntity.setBrowserName(uaInfo.getBrowserName());
+            logEntity.setBrowserVer(uaInfo.getBrowserVer());
+            logEntity.setOsName(uaInfo.getOsName());
+            logEntity.setUrl(httpRequest.getRequestURL().toString());
+            logEntity.setParam(new ObjectMapper().writeValueAsString(studentDTO));
+            logEntity.setOrgId(currentUserId);
+        } catch (Exception e) {
+            log.warn("获取请求元数据失败", e);
+        }
+
+        // 更新数据
+        int inserted = sysLogMapper.insert(logEntity);
+        if (inserted <= 0) {
+            log.error("写入操作日志失败，学员ID: {}", studentDTO.getId());
+            throw new RuntimeException("写入操作日志失败");
+        }
+
+        return true;
+    }
+
+    /**
+     * 导入在线学员
+     * @param file
+     * @return
+     */
+    @Override
+    public Boolean importOnlineStudents(MultipartFile file) {
+        return null;
+    }
+
+    /**
+     * 导出在线学员
+     * @return
+     */
+    @Override
+    public byte[] exportOnlineStudent() {
+        return new byte[0];
     }
 }

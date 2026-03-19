@@ -29,7 +29,7 @@ public class StudentDTO {
     private Long schoolId;
 
     @ApiModelProperty(value = "家长姓名")
-    private String uerName;
+    private String userName;
 
     @ApiModelProperty(value = "亲属关系")
     private Integer familyRel;
