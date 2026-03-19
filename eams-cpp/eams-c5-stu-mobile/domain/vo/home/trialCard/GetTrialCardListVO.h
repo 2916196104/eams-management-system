@@ -3,7 +3,7 @@
 #define _GETTRIALCARDLISTDTO_
 
 #include "../../../GlobalInclude.h"
-#include "domain/dto/schedule/trialCard/GetTrialCardListDTO.h"
+#include "domain/dto/home/trialCard/GetTrialCardListDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
