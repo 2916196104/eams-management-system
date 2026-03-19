@@ -70,6 +70,17 @@ public:
 		API_HANDLER_QUERY_PARAM(query, RegistrationPageQuery, queryParams);//获取参数
 		API_HANDLER_RESP_VO(executeQueryRegistrationRecordByPage(query));
 	}
+	// 学员缴欠费
+	ENDPOINT_INFO(payFees) {
+		API_DEF_ADD_AUTH();//添加权限认证
+		API_DEF_ADD_TAG(API_TAG);//将接口添加到分组
+		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("common.interface.pay-fees"));
+		API_DEF_ADD_RSP_JSON_WRAPPER(PayFeesJsonVO);
+	}
+	ENDPOINT(API_M_POST, "/c6/common/student/pay-fees", payFees,BODY_DTO(PayFeesDTO::Wrapper, dto),API_HANDLER_AUTH_PARAME) {
+
+		API_HANDLER_RESP_VO(exePayFees(dto));
+	}
 private:
 	StudentJsonVO::Wrapper executeGetStudentById(const String& id){
 		return StudentJsonVO::createShared();
@@ -82,6 +93,10 @@ private:
 	}
 	std::shared_ptr<OutgoingResponse> executeLoadStudentPicturebyPicturePath(const String& picturePath){
 		return nullptr;
+	}
+	PayFeesJsonVO::Wrapper exePayFees(const PayFeesDTO::Wrapper& dto) {
+		
+		return {};
 	}
 };
 #undef API_TAG

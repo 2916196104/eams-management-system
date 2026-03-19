@@ -20,5 +20,8 @@ class FileJsonVO:public JsonVO<FileOnlyDTO::Wrapper>
 public:
     DTO_INIT(FileJsonVO, JsonVO<FileOnlyDTO::Wrapper>)
 };
+class PayFeesJsonVO :public JsonVO<PayFeesDTO::Wrapper> {
+    DTO_INIT(PayFeesJsonVO,JsonVO<PayFeesDTO::Wrapper>)
+};
 #include OATPP_CODEGEN_END(DTO)
 #endif
