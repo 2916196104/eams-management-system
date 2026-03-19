@@ -17,7 +17,7 @@ class RegisterController : public oatpp::web::server::api::ApiController
 public:
     ENDPOINT_INFO(Register) { // 端点名称改为Register
 		// 定义接口标题
-		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("register.summary"));
+		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("c5.register.summary"));
 		// 定义默认授权参数（可选定义，如果定义了，下面ENDPOINT里面需要加入API_HANDLER_AUTH_PARAME）
 		API_DEF_ADD_AUTH();
 		// 定义响应参数格式
@@ -27,14 +27,14 @@ public:
 		//// 定义分页查询参数描述
 		//API_DEF_ADD_PAGE_PARAMS();
 		// 定义其他查询参数描述
-		API_DEF_ADD_QUERY_PARAMS(String, "id", ZH_WORDS_GETTER("register.field.id"), "", true);
-		API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("register.field.name.info"), "", true);
-		API_DEF_ADD_QUERY_PARAMS(String, "telephoneNumber", ZH_WORDS_GETTER("register.field.telephoneNumber.info"), "", true);
-		API_DEF_ADD_QUERY_PARAMS(String, "verificationCode", ZH_WORDS_GETTER("register.field.verificationCode.info"), "", true);
-		API_DEF_ADD_QUERY_PARAMS(String, "password", ZH_WORDS_GETTER("register.field.password.info"), "", true);
+		API_DEF_ADD_QUERY_PARAMS(String, "id", ZH_WORDS_GETTER("c5.register.field.id"), "", true);
+		API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("c5.register.field.name.info"), "", true);
+		API_DEF_ADD_QUERY_PARAMS(String, "telephoneNumber", ZH_WORDS_GETTER("c5.register.field.telephoneNumber.info"), "", true);
+		API_DEF_ADD_QUERY_PARAMS(String, "verificationCode", ZH_WORDS_GETTER("c5.register.field.verificationCode.info"), "", true);
+		API_DEF_ADD_QUERY_PARAMS(String, "password", ZH_WORDS_GETTER("c5.register.field.password.info"), "", true);
     }
 
-    ENDPOINT("POST", "/app/sCenter/login/register", Register, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
+    ENDPOINT("POST", "/c5/login/register", Register, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
         API_HANDLER_QUERY_PARAM(query, RegisterQuery, params);
         API_HANDLER_RESP_VO(executeRegister(query));
     }
