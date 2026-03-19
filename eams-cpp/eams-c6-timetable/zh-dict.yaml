@@ -1,0 +1,13 @@
+#课表接口
+timetable:
+ api-tag: "课表"
+ interface:
+   reserve: "预约"
+   leave: "请假"
+ filed:
+  leave:
+   lesson-id: "课程Id"
+   reason: "请假原因"
+   student-id: "学员Id"
+  reserve:  
+   lesson-id: "课程Id"
