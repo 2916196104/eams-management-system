@@ -99,6 +99,11 @@ const routes = [
 				name: 'smyselector',
 				path: '/sample/myselector',
 				component: () => import('@/views/sample/myselector/Index.vue')
+			},
+			{
+				name: 'smynav',
+				path: '/sample/mynav',
+				component: () => import('@/views/sample/mynav/Index.vue')
 			}
 		]
 	}

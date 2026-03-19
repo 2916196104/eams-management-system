@@ -263,5 +263,11 @@ const menus = reactive([
     path: '/sample/myselector',
     text: '人员选择器'
 	}
+	,
+	{
+		id: 16,
+		path: '/sample/mynav',
+		text: '导航组件示例'
+	}
 ])
 </script>
