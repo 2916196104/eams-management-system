@@ -1,8 +1,8 @@
-package com.zeroone.star.project.j5.courseschedule;
+package com.zeroone.star.project.j5.courseplan;
 
-import com.zeroone.star.project.dto.j5.courseschedule.BatchGenerateLessonDTO;
-import com.zeroone.star.project.dto.j5.courseschedule.ConflictCheckDTO;
-import com.zeroone.star.project.dto.j5.courseschedule.DeleteLessonDTO;
+import com.zeroone.star.project.dto.j5.courseplan.BatchGenerateLessonDTO;
+import com.zeroone.star.project.dto.j5.courseplan.ConflictCheckDTO;
+import com.zeroone.star.project.dto.j5.courseplan.DeleteLessonDTO;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j5.courseschedule.BatchGenerateLessonVO;
 import com.zeroone.star.project.vo.j5.courseschedule.ConflictCheckVO;
@@ -25,7 +25,7 @@ import javax.validation.Valid;
  */
 @Api(tags = "排课计划管理", description = "排课计划的批量生成课表、冲突检查、删除课表等操作接口")
 @RequestMapping("/api/lesson-schedule")
-public interface LessonScheduleApi {
+public interface CoursePlanApi {
 
     /**
      * 批量生成课表

@@ -47,7 +47,7 @@ public class ClassManagerController implements ClassStudentApis {
 
 
 
-    @PostMapping("classStudent")
+    @PostMapping("class-student")
     @ApiOperation("添加班级学员，支持批量添加")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "studentIds", value = "待添加学员ID列表", required = true, example = "1,2,3", dataType = "List<Integer>"),
@@ -58,7 +58,7 @@ public class ClassManagerController implements ClassStudentApis {
         return null;
     }
 
-    @DeleteMapping("classStudent")
+    @DeleteMapping("class-student")
     @ApiOperation("删除班级学员，支持批量删除")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "studentIds", value = "待删除学员ID列表", required = true, example = "1,2,3", dataType = "List<Integer>"),
@@ -69,7 +69,7 @@ public class ClassManagerController implements ClassStudentApis {
         return null;
     }
 
-    @PutMapping("/classStudent")
+    @PutMapping("/class-student")
     @Override
     @ApiOperation("批量调班，将多个学员从一个班级调到另一个班级")
     public JsonVO<Integer> transferClassBatch(List<ClassStudentDTO> classStudentDTOs, int targetClassId) {

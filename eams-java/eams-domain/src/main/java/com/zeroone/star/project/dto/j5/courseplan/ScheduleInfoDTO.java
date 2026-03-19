@@ -1,4 +1,4 @@
-package com.zeroone.star.project.dto.j5.courseschedule;
+package com.zeroone.star.project.dto.j5.courseplan;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -6,7 +6,6 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 /**

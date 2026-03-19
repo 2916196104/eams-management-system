@@ -1,4 +1,4 @@
-package com.zeroone.star.project.dto.j5.courseschedule;
+package com.zeroone.star.project.dto.j5.courseplan;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

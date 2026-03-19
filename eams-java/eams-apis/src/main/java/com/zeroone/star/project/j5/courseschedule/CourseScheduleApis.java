@@ -1,4 +1,4 @@
-package com.zeroone.star.project.j5.org;
+package com.zeroone.star.project.j5.courseschedule;
 
 import com.zeroone.star.project.dto.j5.coursrschedule.LessonDTO;
 import com.zeroone.star.project.dto.j5.coursrschedule.LessonListDTO;

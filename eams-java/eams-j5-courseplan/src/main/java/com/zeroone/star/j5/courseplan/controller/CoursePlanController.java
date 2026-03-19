@@ -1,11 +1,11 @@
-package com.zeroone.star.j5.courseschedule.controller;
+package com.zeroone.star.j5.courseplan.controller;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
-import com.zeroone.star.project.dto.j5.courseschedule.BatchGenerateLessonDTO;
-import com.zeroone.star.project.dto.j5.courseschedule.ConflictCheckDTO;
-import com.zeroone.star.project.dto.j5.courseschedule.DeleteLessonDTO;
-import com.zeroone.star.project.j5.courseschedule.LessonScheduleApi;
+import com.zeroone.star.project.dto.j5.courseplan.BatchGenerateLessonDTO;
+import com.zeroone.star.project.dto.j5.courseplan.ConflictCheckDTO;
+import com.zeroone.star.project.dto.j5.courseplan.DeleteLessonDTO;
+import com.zeroone.star.project.j5.courseplan.CoursePlanApi;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j5.courseschedule.BatchGenerateLessonVO;
 import com.zeroone.star.project.vo.j5.courseschedule.ConflictCheckVO;
@@ -25,11 +25,11 @@ import javax.validation.Valid;
  * @since 2026-03-17
  */
 @RestController
-@RequestMapping("/api/lesson-schedule")
+@RequestMapping("/j5/courseplan")
 @Api(tags = "排课计划管理", description = "排课计划的批量生成课表、冲突检查、删除课表等操作接口")
 @ApiSupport(author = "j5-courseschedule", order = 1)
 @Validated
-public class LessonScheduleController implements LessonScheduleApi {
+public class CoursePlanController implements CoursePlanApi {
 
     /**
      * 批量生成课表
