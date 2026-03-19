@@ -12,6 +12,13 @@
  */
 class ParentDTO : public oatpp::DTO {
   DTO_INIT(ParentDTO, DTO);
+
+  // 姓名(必传)
+  API_DTO_FIELD_REQUIRE(String, name, ZH_WORDS_GETTER("parent.field.name"), true);
+  // 手机号(必传)
+  API_DTO_FIELD_REQUIRE(UInt64, phone, ZH_WORDS_GETTER("parent.field.phone"), true);
+  // 注册时间(必传)
+  API_DTO_FIELD_REQUIRE(String, regDate, ZH_WORDS_GETTER("parent.field.regDate"), true);
 };
 
 #include OATPP_CODEGEN_END(DTO)
