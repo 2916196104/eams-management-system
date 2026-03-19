@@ -1,35 +1,4 @@
-﻿Grade:
- tags:
-  t1: 基础示例接口
-  t2: 声明式服务示例接口
- get:
-  summary: 分页查询示例数据
- save:
-  summary: 保存成绩
- post:
-  summary: 新增一条示例数据
- put:
-  summary: 修改一条示例数据
- delete:
-  summary: 删除成绩
- query-by-item:
-  summary: 获取成绩列表（条件+分页）
- export:
-  summary: 导出示例数据(响应Excel文件)
- export-pdf:
-  summary: 导出示例数据(响应PdfBase64字符串)
- import:
-  summary: 导入成绩
- query-one:
-  summary: 使用声明式服务查询一条数据
- query-all:
-  summary: 使用声明式服务查询多条数据
- field:
-  item: 考核项
-  name: 姓名
-  sc: 成绩
-
-Homework:
+﻿Homework:
  backhomework: 课后作业
  delHomework: 删除作业
  delete:
@@ -43,13 +12,15 @@ Homework:
   homeworkIds: 作业ID列表
   deleteType: 删除类型
   serialNo: 序号
-  submitterName: 提交人姓名
+  submitterName: 提交人
   submitContent: 提交内容
   submitTime: 提交时间
-  reviewerName: 点评人姓名
-  score: 评分
+  reviewerName: 点评人
+  score: 点评得分
   reviewComment: 点评内容
-
+  total: 总记录数
+  pageIndex: 当前页码
+  pageSize: 每页大小
 
 SendHomework:
  homeworkSend: 作业提交

@@ -68,10 +68,29 @@ public:
 		info->description = ZH_WORDS_GETTER("Homework.vo.reviewComment");
 	}
 
-	DTO_FIELD(List<BackhomeworkVO::Wrapper>, list);
-	DTO_FIELD(Int64, total);
-	DTO_FIELD(UInt64, pageIndex) = 1;
-	DTO_FIELD(UInt64, pageSize) = 10;
+	// 作业列表数据
+	DTO_FIELD(oatpp::List<BackhomeworkVO::Wrapper>, list);
+	DTO_FIELD_INFO(list) {
+		info->description = ZH_WORDS_GETTER("Homework.vo.list");
+	}
+
+	// 总记录数
+	DTO_FIELD(oatpp::Int64, total);
+	DTO_FIELD_INFO(total) {
+		info->description = ZH_WORDS_GETTER("Homework.vo.total");
+	}
+
+	// 当前页码（默认第1页）
+	DTO_FIELD(oatpp::UInt64, pageIndex) = 1;
+	DTO_FIELD_INFO(pageIndex) {
+		info->description = ZH_WORDS_GETTER("Homework.vo.pageIndex");
+	}
+
+	// 每页大小（默认10条）
+	DTO_FIELD(oatpp::UInt64, pageSize) = 10;
+	DTO_FIELD_INFO(pageSize) {
+		info->description = ZH_WORDS_GETTER("Homework.vo.pageSize");
+	}
 };
 
 #include OATPP_CODEGEN_END(DTO)

@@ -1,58 +1,23 @@
-#pragma once
+ï»¿#pragma once
 
 
 #ifndef __GRADEMANAGE_H__
 #define __GRADEMANAGE_H__
-#include "domain/vo/BaseJsonVO.h"
-
 #include "domain/GlobalInclude.h"
 #include "oatpp/web/server/api/ApiController.hpp"
-#include "../../domain/vo/GradeTable/GradeManageVO.h"
-#include "../../domain/query/GradeTable/GradeManageQuery.h"
-#include "../../domain/dto/GradeTable/GradeManageDTO.h"
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
-#define API_TAG ZH_WORDS_GETTER("Grade.tags.t1")
-/*³É¼¨¹ÜÀí¿ØÖÆÆ÷*/
+/*æˆç»©ç®¡ç†æ§åˆ¶å™¨*/
 
-//namespace web = oatpp::web;
+
 class GradeManage : public oatpp::web::server::api::ApiController
 {
-	//¶¨Òå¿ØÖÆÆ÷·ÃÎÊÈë¿Ú
+	//å®šä¹‰æ§åˆ¶å™¨è®¿é—®å…¥å£
 	API_ACCESS_DECLARE(GradeManage);
-public:		//¶¨Òå½Ó¿Ú
+public:		//å®šä¹‰æ¥å£
 
-	// 3.1 ¶¨Òå»ñÈ¡³É¼¨ÁĞ±í½Ó¿ÚÃèÊö
-	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("Grade.query-by-item.summary"), queryPageScore, GradeManageQuery, GradeManagePageJsonVO::Wrapper, API_TAG);
-	// 3.2 ¶¨Òå»ñÈ¡³É¼¨ÁĞ±í½Ó¿Ú´¦Àí
-	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c3/org/Grade/by-item", queryPageScore, QUERIES(QueryParams, queryParams),
-		API_HANDLER_QUERY_PARAM(query, GradeManageQuery, queryParams);
-	API_HANDLER_RESP_VO(execQueryPageScore(query)););
-
-	// 3.1 ¶¨Òå±£´æ³É¼¨½Ó¿ÚÃèÊö
-	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("Grade.save.summary"), saveScore, Uint64JsonVO::Wrapper, API_TAG);
-	// 3.2 ¶¨Òå±£´æ³É¼¨½Ó¿Ú´¦Àí
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c3/org/Grade/save", saveScore, BODY_DTO(GradeManageDTO::Wrapper, dto), execSave(dto, authObject->getPayload()));
-
-	// 3.1 ¶¨ÒåÉ¾³ı³É¼¨½Ó¿ÚÃèÊö
-	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("Grade.delete.summary"), removeScore, ListJsonVO<String>::Wrapper, API_TAG);
-	// 3.2 ¶¨ÒåÉ¾³ı³É¼¨½Ó¿Ú´¦Àí
-	API_HANDLER_ENDPOINT_AUTH(API_M_DEL, "/c3/org/Grade", removeScore, BODY_DTO(List<String>, ids), execRemove(ids));
-
-	// 3.1 ¶¨Òåµ¼Èë³É¼¨½Ó¿ÚÃèÊö
-	API_DEF_ENDPOINT_INFO_FILE_AUTH(ZH_WORDS_GETTER("Grade.import.summary"), importScore, GradeManageDTO::Wrapper, StringJsonVO::Wrapper, API_TAG);
-	// 3.2 ¶¨Òåµ¼Èë³É¼¨½Ó¿Ú´¦Àí
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c3/org/Grade/import", importScore, REQUEST(std::shared_ptr<IncomingRequest>, request), execImportScore(request, authObject->getPayload()));
-
-private:	//¶¨Òå½Ó¿ÚÖ´ĞĞº¯Êı
-	//3.3 ¶¨Òå»ñÈ¡³É¼¨ÁĞ±íÖ´ĞĞº¯Êı
-	GradeManagePageJsonVO::Wrapper execQueryPageScore(const GradeManageQuery::Wrapper& query);
-	//3.3 ¶¨Òå±£´æ³É¼¨Ö´ĞĞº¯Êı
-	Uint64JsonVO::Wrapper execSave(const GradeManageDTO::Wrapper& dto, const PayloadDTO& payload);
-	//3.3 ¶¨ÒåÉ¾³ı³É¼¨Ö´ĞĞº¯Êı
-	ListJsonVO<String>::Wrapper execRemove(const List<String>& ids);
-	//3.3 ¶¨Òåµ¼Èë³É¼¨Ö´ĞĞº¯Êı
-	StringJsonVO::Wrapper execImportScore(const std::shared_ptr<IncomingRequest>& request, const PayloadDTO& payload);
+private:	//å®šä¹‰æ¥å£æ‰§è¡Œå‡½æ•°
+	
 };
 
 #include OATPP_CODEGEN_END(ApiController)
