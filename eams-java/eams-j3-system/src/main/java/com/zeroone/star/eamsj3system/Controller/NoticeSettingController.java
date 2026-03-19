@@ -22,7 +22,7 @@ public class NoticeSettingController implements NoticeApis{
     @GetMapping("/query-settinglist")
     @ApiOperation("获取通知设置")
     @Override
-    public JsonVO<PageDTO<NoticeSettingDTO>> queryNoticeSettingList(NoticeSettingQuery noticeSettingQuery) {
+    public JsonVO<NoticeSettingDTO> queryNoticeSettingList(NoticeSettingQuery noticeSettingQuery) {
         return null;
     }
 

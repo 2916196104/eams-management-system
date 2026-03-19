@@ -19,7 +19,7 @@ import java.util.List;
  */
 public interface NoticeApis {
     //  获取通知设置列表（条件 + 分页）
-    JsonVO<PageDTO<NoticeSettingDTO>> queryNoticeSettingList(NoticeSettingQuery noticeSettingQuery);
+    JsonVO<NoticeSettingDTO> queryNoticeSettingList(NoticeSettingQuery noticeSettingQuery);
 
 
 

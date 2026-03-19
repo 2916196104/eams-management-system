@@ -6,6 +6,10 @@ import lombok.Data;
 @Data
 public class NoticeSettingDTO {
 
+
+    @ApiModelProperty(value = "唯一标识", example = "1")
+    private Long id;
+
     @ApiModelProperty(value = "邮件通知开关",example = "1",required = true)
     private boolean emailon;
 
