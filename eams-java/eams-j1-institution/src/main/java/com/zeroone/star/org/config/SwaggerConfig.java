@@ -11,6 +11,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 public class SwaggerConfig {
     @Bean
     Docket orgManagerApi() {
-        return SwaggerCore.defaultDocketBuilder("组织管理模块", "com.zeroone.star.org.controller", "orgmanager");
+        return SwaggerCore.defaultDocketBuilder("组织管理模块", "com.zeroone.star.org.controller", "institution");
     }
 }
