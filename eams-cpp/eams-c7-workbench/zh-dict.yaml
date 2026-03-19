@@ -23,5 +23,7 @@
   hireDate: 入职时间
   fireDate: 离职时间
   isInner: 是否在职
+  head_img: 头像地址
+  file: 要上传的文件
 
 

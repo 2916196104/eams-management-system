@@ -39,7 +39,7 @@ if(WIN32)
 endif()
 
 # 编译可执行文件
-add_executable (${appName} ${SC_FILES})
+add_executable (${appName} ${SC_FILES} "controller/UserRelated/ChangePictureController.cpp" "controller/UserRelated/ChangePictureController.h" "controller/UserRelated/UserInformationController.cpp" "controller/UserRelated/UserInformationController.h" "controller/UserRelated/UserProfileController.cpp" "controller/UserRelated/UserProfileController.h" "domain/dto/UserRelated/UserRelatedDTO.h" "domain/vo/UserRelated/UserRelated/UserRelatedDTO.h" "domain/vo/UserRelated/ChangePictureVO.h" "domain/vo/UserRelated/UserProfileVO.h" "domain/vo/UserRelated/UserRelatedVO.h")
 
 # 发布Swagger文档包宏定义
 if(DEFINED _RELEASE_DOC_)
