@@ -19,6 +19,7 @@
 #include "stdafx.h"
 #include "Router.h"
 #include "ApiHelper.h"
+
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -47,6 +48,8 @@
 #include "makabaka-controller/classListController/ClassListController.h"
 
 #include "huitailang-controller/commentrecordcontroller.h"
+#include "huitailang-controller/getrollcallrecord.h"
+
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
 // 简化绑定控制器宏定义
@@ -74,4 +77,5 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(ClassListController);
 
 	ROUTER_SIMPLE_BIND(getcommentrecord);
+	ROUTER_SIMPLE_BIND(getrollrecllrecord);
 }
