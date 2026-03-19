@@ -2,8 +2,8 @@
 #ifndef TIMETABLE_CONTROLLER_H
 #define TIMETABLE_CONTROLLER_H
 #include "domain/vo/BaseJsonVO.h"
-#include "../../domain/vo/timetable/TimetableVO.h"
-#include "../../domain/dto/timetable/TimetableDTO.h"
+#include "../../domain/vo/timetable/leave/LeaveVO.h"
+#include "../../domain/vo/timetable/reserve/ReserveVO.h"
 
 
 #include OATPP_CODEGEN_BEGIN(ApiController) 
@@ -18,9 +18,9 @@ public:
 	
 	// 1. 预约接口描述文档
 	API_DEF_ENDPOINT_INFO_AUTH(
-		ZH_WORDS_GETTER("interface.reserve"),
+		ZH_WORDS_GETTER("timetable.interface.reserve"),
 		TimeReserve,
-	  TimetablePageDTO::Wrapper,
+	      ReserveVO::Wrapper,
 		API_TAG,
 	);
 	
@@ -29,14 +29,14 @@ public:
 		API_M_POST,
 		"/c6/timetable/reserve",
 		TimeReserve,
-		BODY_DTO(TimetableDTO::Wrapper, dto),
+		BODY_DTO(ReserveDTO::Wrapper, dto),
 		executeReserve(dto)
 	);
 	// 1. 请假接口描述文档
 	API_DEF_ENDPOINT_INFO_AUTH(
-		ZH_WORDS_GETTER("interface.leave"),
+		ZH_WORDS_GETTER("timetable.interface.leave"),
 		TimeLeave,
-		TimetablePageDTO::Wrapper,
+		LeaveVO::Wrapper,
 		API_TAG,
 		);
 
@@ -45,14 +45,15 @@ public:
 		API_M_POST,
 		"/c6/timetable/leave",
 		TimeLeave,
-		BODY_DTO(TimetableDTO::Wrapper, dto),
-		executeLeave(dto)
+		BODY_DTO(LeaveDTO::Wrapper, dto),
+		executeLeave(dto),
+		
 	);
 private:
 	// 执行预约业务
-	StringJsonVO::Wrapper TimetableController::executeReserve(const TimetableDTO::Wrapper& dto);
+	StringJsonVO::Wrapper TimetableController::executeReserve(const ReserveDTO::Wrapper& dto);
 	//执行请假业务
-	StringJsonVO::Wrapper TimetableController::executeLeave(const TimetableDTO::Wrapper& dto);
+	StringJsonVO::Wrapper TimetableController::executeLeave(const LeaveDTO::Wrapper& dto);
 	
 };
 #include OATPP_CODEGEN_END(ApiController) 

@@ -1,17 +1,13 @@
 #课表接口
 timetable:
-  api-tag: "课表接口"
-  interface:
-  reserve: "课程预约"
-  leave: "课程请假"
-  filed:
-  timetable:
-  classname: "班级名称"
-  coursename: "课程名称"
-  teachername: "教师名称"
-  starttime: "开始时间"
-  endtime: "结束时间"
-  status: "课程状态"
-  can-reserve: "是否可预约"
-  can-leave: "是否可请假"
-  querydate: "查询日期"
+ api-tag: "课表"
+ interface:
+   reserve: "预约"
+   leave: "请假"
+ filed:
+  leave:
+   lesson-id: "课程Id"
+   reason: "请假原因"
+   student-id: "学员Id"
+  reserve:  
+   lesson-id: "课程Id"
