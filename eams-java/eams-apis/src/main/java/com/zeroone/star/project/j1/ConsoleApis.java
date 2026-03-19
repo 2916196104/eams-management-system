@@ -1,4 +1,4 @@
-package com.zeroone.star.project.login.j1;
+package com.zeroone.star.project.j1;
 
 import com.zeroone.star.project.query.j1.console.*;
 import com.zeroone.star.project.vo.j1.console.*;
