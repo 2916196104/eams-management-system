@@ -10,7 +10,7 @@
 #include "domain/vo/home/credit/CreditexchangelistVO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
-#define API_TAG ZH_WORDS_GETTER("c5.home.credit.exchange.tag.t1")
+#define API_TAG ZH_WORDS_GETTER("c5.home.credit.tag")
 
 class GetcreditexchangelistController : public oatpp::web::server::api::ApiController
 {

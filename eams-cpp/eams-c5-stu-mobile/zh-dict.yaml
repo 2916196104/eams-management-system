@@ -31,9 +31,8 @@ c5:
         deleted: 删除标记
         org_id: 创建者所属组织ID
     credit:
+      tag: 积分
       exchange:
-        tag:
-          t1: 积分兑换
         query-all:
           summary: 分页查询积分兑换记录
         field:
@@ -55,3 +54,25 @@ c5:
           verify_staff: 审核人
           verify_time: 审核时间
           verify_remark: 审核备注
+      mall:
+        query-all:
+          summary: 分页查询礼品
+        field:
+          id: 主键ID
+          school_id: 所属学校
+          material_id: 物料分类
+          category_id: 礼品分类ID
+          category_name: 分类名称
+          name: 礼品名称
+          credit: 兑换积分
+          state: 是否可以兑换
+          sale_num: 历史兑换数量
+          view_num: 预览次数
+          cover: 封面
+          content: 详情内容
+          creator: 创建人
+          editor: 编辑人
+          add_time: 添加时间
+          edit_time: 编辑时间
+          deleted: 删除标记
+          org_id: 创建者所属组织ID
