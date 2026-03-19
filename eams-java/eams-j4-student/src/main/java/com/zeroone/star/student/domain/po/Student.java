@@ -22,9 +22,9 @@ import lombok.experimental.Accessors;
  * @author zrt
  * @since 2026-03-16
  */
-@Data
+
+@Accessors(chain = true)@Data
 @EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 @TableName("student")
 @ApiModel(value="Student对象", description="学生表")
 public class Student implements Serializable {
