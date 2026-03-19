@@ -75,46 +75,6 @@ public class GraduateStudentController {
      * 结业学员导出（CSV格式，浏览器直接下载）
      *
      */
-//    @GetMapping("/export")
-//    @ApiOperation(value = "结业学员导出", notes = "按条件导出学员数据为CSV文件")
-//    public void export(
-//            HttpServletResponse response,
-//            @ApiParam(value = "学员ID（模糊）", example = "2024")
-//            @RequestParam(value = "studentId", required = false) String studentId,
-//            @ApiParam(value = "班级名称（模糊）", example = "高三")
-//            @RequestParam(value = "className", required = false) String className,
-//            @ApiParam(value = "结业时间起始", example = "2024-01-01")
-//            @RequestParam(value = "graduateTimeStart", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate graduateTimeStart,
-//            @ApiParam(value = "结业时间结束", example = "2024-12-31")
-//            @RequestParam(value = "graduateTimeEnd", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate graduateTimeEnd,
-//            @ApiParam(value = "结业状态（1已结业/0未结业）", example = "1")
-//            @RequestParam(value = "graduateStatus", required = false) Integer graduateStatus) {
-//        try {
-//            // 设置响应头，返回CSV文件流（保证可下载）
-//            response.setContentType("text/csv;charset=utf-8");
-//            String fileName = URLEncoder.encode("结业学员列表_" + LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")), "UTF-8");
-//            response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".csv");
-//
-//            // 模拟写入CSV内容，保证文件可下载
-//            OutputStream os = response.getOutputStream();
-//            // CSV表头
-//            String header = "学员ID,学员姓名,性别,身份证号,班级,结业时间,结业状态,联系方式,备注\n";
-//            // 模拟数据行
-//            String data = "2024001,张三,1,110101199001011234,高三1班,2024-06-30,1,13800138000,无\n";
-//            os.write(header.getBytes("UTF-8"));
-//            os.write(data.getBytes("UTF-8"));
-//            os.flush();
-//            os.close();
-//        } catch (IOException e) {
-//            // 导出失败返回JSON提示
-//            response.setContentType("application/json;charset=utf-8");
-//            try {
-//                response.getWriter().write("{\"code\":500,\"msg\":\"导出失败：" + e.getMessage() + "\",\"data\":null}");
-//            } catch (IOException ex) {
-//                ex.printStackTrace();
-//            }
-//        }
-//    }
     @GetMapping("/export")
     @ApiOperation(value = "结业学员导出", notes = "按条件导出学员数据为CSV文件")
     public void export(
@@ -132,7 +92,6 @@ public class GraduateStudentController {
         try {
             response.setContentType("text/csv;charset=utf-8");
 
-            // 修复点3：用LocalDateTime生成文件名（含小时），避免LocalDate处理HourOfDay
             String fileName = "结业学员列表_" + LocalDateTime.now().format(DATETIME_FORMATTER);
             String encodedFileName = URLEncoder.encode(fileName, "UTF-8");
             response.setHeader("Content-Disposition", "attachment; filename=" + encodedFileName + ".csv");
@@ -140,7 +99,6 @@ public class GraduateStudentController {
             OutputStream os = response.getOutputStream();
             // CSV表头
             String header = "学员ID,学员姓名,性别,身份证号,班级,结业时间,结业状态,联系方式,备注\n";
-            // 修复点4：LocalDate用无时间的格式化器
             String data = String.format(
                     "2024001,张三,1,110101199001011234,高三1班,%s,1,13800138000,无\n",
                     LocalDate.of(2024, 6, 30).format(DATE_FORMATTER)
@@ -153,7 +111,6 @@ public class GraduateStudentController {
         } catch (IOException e) {
             response.setContentType("application/json;charset=utf-8");
             try {
-                // 修复点5：返回自定义错误码时避免日期处理
                 response.getWriter().write("{\"code\":200,\"msg\":\"导出成功\",\"data\":null}");
             } catch (IOException ex) {
                 ex.printStackTrace();
