@@ -40,4 +40,36 @@ intendedstudent:
  birthday: 出生年月
  cardid: 身份证号
  text: 备注信息
- text2: 添加意向学员
+ text2: 添加意向学员workbench:
+ tag: 学生档案
+ progress:
+  summary: 获取学员课程进度（分页）
+ hour:
+  summary: 获取学员课时记录（分页）
+ enrollment:
+  summary: 获取学员报名记录（分页）
+ field:
+  name: 课程名称
+  id: 学生ID
+  status-class: 上课状态
+  status-enrollment: 报名状态
+  remaining-hour: 剩余课时
+  status-review: 审核状态
+  total-course: 课程总数
+  completed-course: 已完成课程数
+  remaining-course: 剩余课程数
+  time-enrollment: 报名时间
+  course-enrollment: 报名课程数
+  fee: 课程费用
+ query-by-id:
+  summary: 通过ID获取单条数据
+ export:
+  summary: 导出示例数据(响应Excel文件)
+ export-pdf:
+  summary: 导出示例数据(响应PdfBase64字符串)
+ import:
+  summary: 导入示例数据
+ query-one:
+  summary: 使用声明式服务查询一条数据
+ query-all:
+  summary: 使用声明式服务查询多条数据

@@ -22,6 +22,9 @@
 #include "controller-huitailang/addintendedstudentcontroller.h"
 /*
  Copyright Zero One Star. All rights reserved.
+#include "controller_zhong\Student_Class_Hour Records\ClassHourRecordsController.h"
+#include "controller_zhong\Student_Course_Progress\StudentCourseProgressController.h"
+#include "controller_zhong\Student_Enrollment_Records\StudentEnrollmentRecordsController.h"
 
  @Author: awei
  @Date: 2022/12/03 14:58:34
@@ -79,4 +82,8 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(getcommentrecord);
 	ROUTER_SIMPLE_BIND(getrollrecllrecord);
 	ROUTER_SIMPLE_BIND(addintendedstudent);
+
+	ROUTER_SIMPLE_BIND(ClassHourRecordsController);
+	ROUTER_SIMPLE_BIND(CourseProgressController);
+	ROUTER_SIMPLE_BIND(EnrollmentRecordsController);
 }
