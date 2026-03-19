@@ -8,14 +8,13 @@ import com.zeroone.star.project.dto.j2.sys.Attach.AttachmentUpdateDTO;
 import com.zeroone.star.project.j2.sys.AttachmentApis;
 import com.zeroone.star.project.query.j2.sys.AttachmentQuery;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.vo.j2.attachment.AttachmentUpdateVO;
+import com.zeroone.star.project.vo.j2.sys.Attach.AttachmentUpdateVO;
 import com.zeroone.star.project.vo.j2.sys.AttachmentUploadVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * <p>

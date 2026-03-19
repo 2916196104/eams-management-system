@@ -1,5 +1,5 @@
 // src/main/java/com/zeroone/star/project/vo/j2/sys/AttachmentDeleteVO.java
-package com.zeroone.star.project.vo.j2.attachment;
+package com.zeroone.star.project.vo.j2.sys.Attach;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

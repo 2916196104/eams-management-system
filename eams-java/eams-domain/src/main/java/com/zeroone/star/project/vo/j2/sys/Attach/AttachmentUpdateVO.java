@@ -1,6 +1,7 @@
 // src/main/java/com/zeroone/star/project/vo/j2/sys/AttachmentUpdateVO.java
-package com.zeroone.star.project.vo.j2.attachment;
+package com.zeroone.star.project.vo.j2.sys.Attach;
 
+import com.zeroone.star.project.dto.j2.sys.Attach.AttachmentDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
