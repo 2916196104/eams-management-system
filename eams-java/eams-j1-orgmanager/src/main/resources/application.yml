@@ -1,5 +1,0 @@
-server:
-  port: ${sp.org:20008}
-spring:
-  application:
-    name: ${sn.org:eams-orgmanager}
