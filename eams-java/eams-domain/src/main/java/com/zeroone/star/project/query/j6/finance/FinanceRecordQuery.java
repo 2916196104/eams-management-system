@@ -15,13 +15,10 @@ public class FinanceRecordQuery extends PageQuery {
     @ApiModelProperty(value = "经办人姓名",example = "张三")
     private String handlerName;
 
-    @ApiModelProperty(value = "学生姓名",example = "李四")
-    private String studentName;
+    @ApiModelProperty(value = "付款人",example = "李四")
+    private String payerName;
 
-    @ApiModelProperty(value = "学生电话",example = "12345678910")
-    private String studentPhone;
-
-    @ApiModelProperty(value = "审核确认状态,0：审核中 1：已审核 2：已拒绝",example = "0")
+    @ApiModelProperty(value = "认款状态,0：审核中 1：已审核 2：已拒绝",example = "0")
     private Integer verifyState;
 
     @ApiModelProperty(value = "收入项类型",example = "0")

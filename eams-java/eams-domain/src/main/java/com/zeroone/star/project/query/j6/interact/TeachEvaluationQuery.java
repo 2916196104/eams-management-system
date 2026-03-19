@@ -3,7 +3,7 @@ package com.zeroone.star.project.query.j6.interact;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -23,9 +23,9 @@ public class TeachEvaluationQuery{
     private Long lessonId;
 
     @ApiModelProperty(value = "开始日期", example = "2024-06-01")
-    private Date startTime;
+    private LocalDateTime startTime;
 
     @ApiModelProperty(value = "结束日期", example = "2024-06-30")
-    private Date endTime;
+    private LocalDateTime endTime;
 
 }

@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 
 /**
@@ -36,5 +35,5 @@ public class StudentEvaluationDTO implements Serializable {
     private String evaluateTeacherName;
 
     @ApiModelProperty(value = "点评时间", example = "2024-06-01 12:00")
-    private Date  evaluateTime;
+    private LocalDateTime evaluateTime;
 }
