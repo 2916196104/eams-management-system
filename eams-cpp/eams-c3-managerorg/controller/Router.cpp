@@ -53,6 +53,8 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(SendHomework);
 	ROUTER_SIMPLE_BIND(TeaJudgeStu);
 	ROUTER_SIMPLE_BIND(StuJudgeTea);
+	ROUTER_SIMPLE_BIND(SaveListController);
+	ROUTER_SIMPLE_BIND(DeleteListController);
 	ROUTER_SIMPLE_BIND(RecordListController);
 	ROUTER_SIMPLE_BIND(GradeManage);
 	ROUTER_SIMPLE_BIND(GradeTable);

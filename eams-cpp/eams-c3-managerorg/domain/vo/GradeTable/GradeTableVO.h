@@ -4,6 +4,7 @@
 #include "domain/GlobalInclude.h"
 #include "domain/dto/GradeTable/GradeTableDTO.h"
 #include "domain/vo/JsonVO.h"
+#include "oatpp/core/Types.hpp"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
@@ -15,9 +16,16 @@ class GradeTableVO : public JsonVO<GradeTableDTO::Wrapper>
     DTO_INIT(GradeTableVO, JsonVO<GradeTableDTO::Wrapper>);
 };
 
-class RecordListJsonVO : public JsonVO<RecordListDTO::Wrapper>
+/* Delete List */
+class DeleteListJsonVO : public JsonVO<Vector<Int64>>
 {
-    DTO_INIT(RecordListJsonVO, JsonVO<RecordListDTO::Wrapper>);
+    DTO_INIT(DeleteListJsonVO, JsonVO<Vector<Int64>>);
+};
+
+/* Save List */
+class SaveListJsonVO : public JsonVO<Vector<Int64>>
+{
+    DTO_INIT(SaveListJsonVO, JsonVO<Vector<Int64>>);
 };
 
 #include OATPP_CODEGEN_END(DTO)

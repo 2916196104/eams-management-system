@@ -14,6 +14,7 @@ class GradeTableDTO : public oatpp::DTO
 	DTO_INIT(GradeTableDTO, DTO);
 };
 
+/* Record List */
 class RecordDTO : public oatpp::DTO
 {
 	DTO_INIT(RecordDTO, DTO);
@@ -41,16 +42,10 @@ class RecordDTO : public oatpp::DTO
 	{
 		info->description = ZH_WORDS_GETTER("grade_table.record_list.score");
 	}
-
-	//DTO_FIELD(Int64, grade_id, "grade_id");
-	//DTO_FIELD(String, grade_title, "grade_title");
-	//DTO_FIELD(String, student_name, "student_name");
-	//DTO_FIELD(Int8, score, "score");
 };
 
 class RecordListDTO : public oatpp::DTO
 {
-	/* GradeDTO extends from DTO */
 	DTO_INIT(RecordListDTO, DTO);
 
 	DTO_FIELD(Int64, page);
@@ -82,12 +77,6 @@ class RecordListDTO : public oatpp::DTO
 	{
 		info->description = ZH_WORDS_GETTER("grade_table.record_list.total");
 	}
-
-	//DTO_FIELD(Int64, page, "page");
-	//DTO_FIELD(Int64, pageCount, "page_count");
-	//DTO_FIELD(Int64, pageSize, "page_size");
-	//DTO_FIELD(Vector<RecordDTO::Wrapper>, records, "records");
-	//DTO_FIELD(Int64, total, "total");
 };
 
 #include OATPP_CODEGEN_END(DTO)

@@ -3,11 +3,23 @@
 #include "domain/GlobalInclude.h"
 #include "domain/dto/GradeTable/GradeTableDTO.h"
 #include "domain/query/GradeTable/GradeTableQuery.h"
+#include "oatpp/core/Types.hpp"
 
+/* Delete List */
+class DeleteListService
+{
+public:
+    oatpp::Vector<oatpp::Int64> DeleteListQuery(
+        const DeleteListQuery::Wrapper& query,
+        const PayloadDTO& payload
+    );
+};
+
+/* Record List */
 class RecordListService
 {
 public:
-    RecordListDTO::Wrapper QueryRecordList(
+    RecordListDTO::Wrapper RecordListQuery(
         const RecordListQuery::Wrapper& query,
         const PayloadDTO& payload
     );

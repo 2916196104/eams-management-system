@@ -1,5 +1,14 @@
 ﻿grade_table:
   tag: 成绩单
+  delete:
+    delete_list_title: 删除成绩单
+    ids: 所有删除表id
+    data: 数据
+    err_code: 错误码
+    msg: 错误信息
+  save:
+    save_list_title: 保存成绩单
+    id: 成绩单id
   record_list:
     grade_id: 考核项id
     grade_title: 考核项名称

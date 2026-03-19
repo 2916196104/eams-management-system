@@ -14,10 +14,33 @@ class GradeTableQuery : public PageQuery
     DTO_INIT(GradeTableQuery, PageQuery);
 };
 
-/* query data transfer for grade list */
+/* Delete List */
+class DeleteListQuery : public PageQuery
+{
+	DTO_INIT(DeleteListQuery, PageQuery);
+
+	DTO_FIELD(Vector<Int64>, ids);
+	DTO_FIELD_INFO(ids)
+	{
+		info->description = ZH_WORDS_GETTER("grade_table.delete.ids");
+	}
+};
+
+/* Save List */
+class SaveListQuery : public PageQuery
+{
+	DTO_INIT(SaveListQuery, PageQuery);
+
+	DTO_FIELD(Int64, id);
+	DTO_FIELD_INFO(id)
+	{
+		info->description = ZH_WORDS_GETTER("grade_table.save.id");
+	}
+};
+
+/* Record List */
 class RecordListQuery : public PageQuery
 {
-	/* initialization */
 	DTO_INIT(RecordListQuery, PageQuery);
 
 	DTO_FIELD(Int64, gradeId);
