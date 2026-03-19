@@ -1,0 +1,5 @@
+enrollment:
+    summary1: 获取报名记录
+    summary2: 获取报名记录详情
+    summary3: 保存报名
+    resp: 保存成功
