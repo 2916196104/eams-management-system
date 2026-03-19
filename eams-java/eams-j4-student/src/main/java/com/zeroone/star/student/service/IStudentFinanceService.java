@@ -10,6 +10,7 @@ import com.zeroone.star.project.query.j4.student.FinanceQuery;
  * </p>
  */
 public interface IStudentFinanceService {
+
     PageDTO<FinanceDTO> queryFinancePage(FinanceQuery query);
 
     FinanceDTO payDebt(FinanceDTO financeDTO);
