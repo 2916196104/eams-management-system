@@ -257,6 +257,12 @@ const menus = reactive([
 		id: 14,
 		path: '/sample/pagination',
 		text: '分页'
+	},
+	{
+		id: 15,
+		path: '/sample/attendanceManagement',
+		text: '弹窗点名管理'
 	}
+	
 ])
 </script>
