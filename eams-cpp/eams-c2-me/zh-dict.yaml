@@ -1,89 +1,91 @@
 address:
-  tag: ÊÕ»õµØÖ·Ê¾Àı½Ó¿Ú
-  add-address: 
-   summary: Ìí¼ÓÊÕ»õµØÖ·
+  tag: æ”¶è´§åœ°å€ç¤ºä¾‹æ¥å£
+  add-address:
+    summary: æ·»åŠ æ”¶è´§åœ°å€
   field:
-   id: ÊÕ»õµØÖ·±àºÅ
-   contact: ÁªÏµÈËĞÕÃû
-   phone: ÊÖ»úºÅÂë
-   province: Ê¡·İ
-   city: ³ÇÊĞ
-   country: ÇøÏØ
-   address: ÏêÏ¸µØÖ·
-   remark: ±¸×¢ĞÅÏ¢
-user:
- tag: ÓÃ»§Ê¾Àı½Ó¿Ú
- query-all: 
-  summary: ²éÑ¯ËùÓĞÓÃ»§
- query-one:
-  summary: ²éÑ¯ÓÃ»§ÏêÇé
- add-user:
-  summary: ĞÂÔöÓÃ»§
- query-menu:
-  summary: ²éÑ¯ËùÓĞ²Ëµ¥
- field:
-  id: ÓÃ»§±àºÅ
-  age: ÄêÁä
-  nickname: êÇ³Æ
-  idCard: Éí·İÖ¤ºÅÂë
-  avatar: Í·Ïñ±àºÅ
-  avatarUrl: Í·ÏñµØÖ·
-  addresses: ÊÕ»õµØÖ·
-  menuname: ²Ëµ¥Ãû³Æ
-  menuicon: Í¼±êÃû³Æ
-  menuhref: Â·ÓÉµØÖ·
-  menusub: ×Ó²Ëµ¥
-sample:
- tags:
-  t1: »ù´¡Ê¾Àı½Ó¿Ú
-  t2: ÉùÃ÷Ê½·şÎñÊ¾Àı½Ó¿Ú
- get:
-  summary: ·ÖÒ³²éÑ¯Ê¾ÀıÊı¾İ
- post:
-  summary: ĞÂÔöÒ»ÌõÊ¾ÀıÊı¾İ
- put:
-  summary: ĞŞ¸ÄÒ»ÌõÊ¾ÀıÊı¾İ
- delete:
-  summary: É¾³ıÊı¾İÖ§³ÖÅúÁ¿
- query-by-id:
-  summary: Í¨¹ıID»ñÈ¡µ¥ÌõÊı¾İ
- export:
-  summary: µ¼³öÊ¾ÀıÊı¾İ(ÏìÓ¦ExcelÎÄ¼ş)
- export-pdf:
-  summary: µ¼³öÊ¾ÀıÊı¾İ(ÏìÓ¦PdfBase64×Ö·û´®)
- import:
-  summary: µ¼ÈëÊ¾ÀıÊı¾İ
- query-one:
-  summary: Ê¹ÓÃÉùÃ÷Ê½·şÎñ²éÑ¯Ò»ÌõÊı¾İ
- query-all:
-  summary: Ê¹ÓÃÉùÃ÷Ê½·şÎñ²éÑ¯¶àÌõÊı¾İ
- field:
-  id: ±àºÅ
-  age: ÄêÁä
-  name: ĞÕÃû
-  sex: ĞÔ±ğ
-  excel: µ¼Èë±¨±íÎÄ¼ş
-file:
- tag: ÎÄ¼şÊ¾Àı½Ó¿Ú
- upload: 
-  summary: µ¥ÎÄ¼şÉÏ´«
- upload-more:
-  summary: ¶àÎÄ¼şÉÏ´«
- upload-stream:
-  summary: Á÷ÉÏ´«ÎÄ¼ş
- editor-upload-image:
-  summary: editorÉÏ´«Í¼Æ¬Ê¾Àı½Ó¿Ú
- info:
-  summary: »ñÈ¡ÎÄ¼şĞÅÏ¢
- download:
-  summary: ÏÂÔØÎÄ¼ş
- html:
-  summary: HTML¾²Ì¬Ò³Ãæ·ÃÎÊ
+    id: æ”¶è´§åœ°å€ç¼–å·
+    contact: è”ç³»äººå§“å
+    phone: æ‰‹æœºå·ç 
+    province: çœä»½
+    city: åŸå¸‚
+    district: åŒºå¿
+    address: è¯¦ç»†åœ°å€
+    remark: å¤‡æ³¨ä¿¡æ¯
 
+user:
+  tag: ç”¨æˆ·ç¤ºä¾‹æ¥å£
+  query-all:
+    summary: æŸ¥è¯¢æ‰€æœ‰ç”¨æˆ·
+  query-one:
+    summary: æŸ¥è¯¢ç”¨æˆ·è¯¦æƒ…
+  add-user:
+    summary: æ–°å¢ç”¨æˆ·
+  query-menu:
+    summary: æŸ¥è¯¢æ‰€æœ‰èœå•
+  field:
+    id: ç”¨æˆ·ç¼–å·
+    age: å¹´é¾„
+    nickname: æ˜µç§°
+    idCard: èº«ä»½è¯å·ç 
+    avatar: å¤´åƒç¼–å·
+    avatarUrl: å¤´åƒåœ°å€
+    addresses: æ”¶è´§åœ°å€
+    menuname: èœå•åç§°
+    menuicon: å›¾æ ‡åç§°
+    menuhref: è·¯ç”±åœ°å€
+    menusub: å­èœå•
+
+sample:
+  tags:
+    t1: åŸºç¡€ç¤ºä¾‹æ¥å£
+    t2: å£°æ˜å¼æœåŠ¡ç¤ºä¾‹æ¥å£
+  get:
+    summary: åˆ†é¡µæŸ¥è¯¢ç¤ºä¾‹æ•°æ®
+  post:
+    summary: æ–°å¢ä¸€æ¡ç¤ºä¾‹æ•°æ®
+  put:
+    summary: ä¿®æ”¹ä¸€æ¡ç¤ºä¾‹æ•°æ®
+  delete:
+    summary: åˆ é™¤æ•°æ®æ”¯æŒæ‰¹é‡
+  query-by-id:
+    summary: é€šè¿‡IDè·å–å•æ¡æ•°æ®
+  export:
+    summary: å¯¼å‡ºç¤ºä¾‹æ•°æ®(å“åº”Excelæ–‡ä»¶)
+  export-pdf:
+    summary: å¯¼å‡ºç¤ºä¾‹æ•°æ®(å“åº”PdfBase64å­—ç¬¦ä¸²)
+  import:
+    summary: å¯¼å…¥ç¤ºä¾‹æ•°æ®
+  query-one:
+    summary: ä½¿ç”¨å£°æ˜å¼æœåŠ¡æŸ¥è¯¢ä¸€æ¡æ•°æ®
+  query-all:
+    summary: ä½¿ç”¨å£°æ˜å¼æœåŠ¡æŸ¥è¯¢å¤šæ¡æ•°æ®
+  field:
+    id: ç¼–å·
+    age: å¹´é¾„
+    name: å§“å
+    sex: æ€§åˆ«
+    excel: å¯¼å…¥æŠ¥è¡¨æ–‡ä»¶
+
+file:
+  tag: æ–‡ä»¶ç¤ºä¾‹æ¥å£
+  upload:
+    summary: å•æ–‡ä»¶ä¸Šä¼ 
+  upload-more:
+    summary: å¤šæ–‡ä»¶ä¸Šä¼ 
+  upload-stream:
+    summary: æµä¸Šä¼ æ–‡ä»¶
+  editor-upload-image:
+    summary: editorä¸Šä¼ å›¾ç‰‡ç¤ºä¾‹æ¥å£
+  info:
+    summary: è·å–æ–‡ä»¶ä¿¡æ¯
+  download:
+    summary: ä¸‹è½½æ–‡ä»¶
+  html:
+    summary: HTMLé™æ€é¡µé¢è®¿é—®
 
 Student:
- id: Ñ§Éúid
- changed_credit: ±ä¶¯»ı·Ö
- current_credit: µ±Ç°»ı·Ö
- add_time: »ı·Ö±äµÃÊ±¼ä
- remark: ±¸×¢ĞÅÏ¢
+  id: å­¦ç”Ÿid
+  changed_credit: å˜åŠ¨ç§¯åˆ†
+  current_credit: å½“å‰ç§¯åˆ†
+  add_time: ç§¯åˆ†å˜åŠ¨æ—¶é—´
+  remark: å¤‡æ³¨ä¿¡æ¯
