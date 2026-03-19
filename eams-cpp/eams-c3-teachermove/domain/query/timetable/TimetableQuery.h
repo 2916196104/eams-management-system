@@ -27,7 +27,7 @@ class StuClassQuery : public oatpp::DTO {
 		API_DTO_FIELD(String, id, ZH_WORDS_GETTER("timetable.dto.TimetableStudentDTO.studentID"), true, "10001")
 };
 
-
+// 111
 #include OATPP_CODEGEN_END(DTO)
 
 #endif
