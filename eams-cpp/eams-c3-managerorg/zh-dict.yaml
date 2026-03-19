@@ -15,6 +15,8 @@ Homework:
  delHomework: 删除作业
  delete:
   summary: 删除成绩
+  successCount: 成功删除的作业数量
+  failIds: 删除失败的作业ID列表
  query-by-item:
   summary: 获取成绩列表（条件+分页）
  export:
@@ -33,31 +35,6 @@ Homework:
   item: 考核项
   name: 姓名
   sc: 成绩
-board:
- tag: 公告管理
- save:
-  summary: 保存公告
- delete:
-  summary: 删除公告（支持批量删除）
- start:
-  summary: 启用公告
- end:
-  summary: 停用公告
- field:
-  id: 编号
-  boardTitle: 公告标题
-  boardType: 公告类型
-  boardAddId: 文章编码(如果是新增不需要上传唯一ID,如果是修改就需要上传唯一ID)
-  boardText: 公告文字内容
-  sc: 成绩
-
-Page:
-    page: 页号
-    pageSize: 单页数据条数
-    sortBy: 排序方式
-    sortType: 排序类别（这个和By没区分清楚，先打个备注）
-  successCount: 成功删除的作业数量
-  failIds: 删除失败的作业ID列表
  query:
   homeworkId: 作业ID
   studentId: 学生ID
@@ -88,4 +65,29 @@ GetHomeworkList:
 ReviewHomework:
  summary: 点评作业
  stuHomeworkId: 学生作业ID
+
+board:
+ tag: 公告管理
+ save:
+  summary: 保存公告
+ delete:
+  summary: 删除公告（支持批量删除）
+ start:
+  summary: 启用公告
+ end:
+  summary: 停用公告
+ field:
+  id: 编号
+  boardTitle: 公告标题
+  boardType: 公告类型
+  boardAddId: 文章编码(如果是新增不需要上传唯一ID,如果是修改就需要上传唯一ID)
+  boardText: 公告文字内容
+  sc: 成绩
+
+Page:
+    page: 页号
+    pageSize: 单页数据条数
+    sortBy: 排序方式
+    sortType: 排序类别（这个和By没区分清楚，先打个备注）
+
      

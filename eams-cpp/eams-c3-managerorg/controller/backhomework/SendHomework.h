@@ -15,7 +15,7 @@
 
 #define SENDHOMEWORK_API_TAG ZH_WORDS_GETTER("SendHomework.homeworkSend")
 
-/*作业提交控制器*/
+//作业提交控制器
 class SendHomework : public oatpp::web::server::api::ApiController
 {
 	//定义控制器访问入口

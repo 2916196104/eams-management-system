@@ -13,7 +13,7 @@
 
 #define API_TAG ZH_WORDS_GETTER("Homework.backhomework")
 
-/*作业控制器（处理老师布置的作业主数据操作）*/
+//作业控制器（处理老师布置的作业主数据操作
 class Homework : public oatpp::web::server::api::ApiController
 {
     // 定义控制器访问入口
@@ -30,4 +30,4 @@ private:    // 定义接口执行函数
 
 #include OATPP_CODEGEN_END(ApiController)
 
-#endif /*__HOMEWORK_H__*/
+#endif //__HOMEWORK_H__
