@@ -1,0 +1,67 @@
+﻿# 公共接口
+common:
+ api-tag: 公共接口
+ interface:
+  get-student-by-id: 获取学员详情
+  modify-student-picture: 修改学员头像
+  query-student-registration-record: 获取报名记录（条件+分页）
+  download-student-picture: 下载学员头像 
+  modify-student-points: 调整学员积分
+  add-follow-up-record: 添加跟进记录
+  query-follow-up-records: 获取跟进记录
+ field:
+  file:
+   id: 文件ID
+  student:
+   id: 学员ID
+   name: 学员姓名
+   phone: 手机号码
+   picture-path: 学员头像文件路径
+   left-course-count: 剩余课次
+   left-points: 剩余积分
+   stage: 学员阶段
+   sex: 学员性别
+   age: 学员年龄
+   birthday: 出生年月
+   identification-number: 身份证号
+   parent-name: 家长姓名
+   relation-type: 亲属关系
+   grade: 年级
+   enter-time: 入学时间
+   accurate-enter-time: 精确入学时间
+   note: 备注
+   course-progress: 课次进度
+   follow-up-stage: 跟进阶段
+   follow-up-person: 跟进人
+   startdate: 开始日期
+   enddate: 结束日期
+   follow-up-time: 跟进时间
+   customer: 客户
+   follow-up-way: 跟进方式
+   next-follow-up-time: 下次跟进时间
+   record-time: 记录时间
+   follow-up-content: 跟进内容
+   lost-stage: 丢失阶段
+   contact-channel: 联系途径
+   contact-time: 联系时间
+   next-contact-time: 下次联系时间
+   contact-way: 联系方式
+   modify-points: 调整积分数
+   modify-reason: 调整原因
+  registration-record:
+   id: 报名记录ID
+   add-time: 添加时间
+   course: 课程
+   subject: 科目
+   buy-count: 购买课次
+   unit-price: 单价
+   course-price: 课程价格
+   sale-price: 优惠价格
+   reality-price: 实际价格
+   arrearage: 欠费金额
+   begin-time: 开始时间
+   end-time: 结束时间
+   refund-price: 退费金额
+   drop-class-count: 退课数量
+   refund-describe: 退费说明
+   refund-status: 退费状态
