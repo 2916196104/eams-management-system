@@ -1,27 +1,57 @@
 c5:
- home:
-  credit:
-   exchange:
-    tag: 
-     t1: 积分兑换
-    query-all:
-     summary: 分页查询积分兑换记录
-    field:
-     id: 主键id
-     credit-mall-id: 礼品id
-     credit-mall-name: 礼品名称
-     num: 兑换数量
-     school-id: 学校id
-     creator: 创建人
-     editor: 编辑人
-     add-time: 添加时间
-     edit-time: 编辑时间
-     deleted: 删除标记
-     student-id: 学生id
-     student-name:
-     user-id: 学生账号id
-     credit: 花费积分
-     verify-state: 审核状态
-     verify-staff: 审核人
-     verify-time: 审核时间
-     verify-remark: 审核备注
+  home:
+    classstudent:
+      tag: 班级学员
+      query-all:
+        summary: 分页查询班级学员
+      field:
+        id: 主键ID
+        class_id: 班级id
+        student_id: 学生id
+        add_time: 添加时间
+        creator: 创建人
+        reason: 加入原因
+        deleted: 删除标记
+        remark: 备注信息
+        consume_course_id: 默认消费课程ID
+    homework:
+      tag: 作业
+      query-all:
+        summary: 分页查询作业
+      field:
+        id: 主键ID
+        class_id: 班级id
+        student_id: 学生id
+        title: 标题
+        content: 内容
+        creator: 创建人
+        editor: 编辑人
+        add_time: 添加时间
+        edit_time: 编辑时间
+        deleted: 删除标记
+        org_id: 创建者所属组织ID
+    credit:
+      exchange:
+        tag:
+          t1: 积分兑换
+        query-all:
+          summary: 分页查询积分兑换记录
+        field:
+          id: 主键id
+          credit_mall_id: 礼品id
+          credit_mall_name: 礼品名称
+          num: 兑换数量
+          school_id: 学校id
+          creator: 创建人
+          editor: 编辑人
+          add_time: 添加时间
+          edit_time: 编辑时间
+          deleted: 删除标记
+          student_id: 学生id
+          student_name:
+          user_id: 学生账号id
+          credit: 花费积分
+          verify_state: 审核状态
+          verify_staff: 审核人
+          verify_time: 审核时间
+          verify_remark: 审核备注

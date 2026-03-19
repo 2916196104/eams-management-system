@@ -16,12 +16,12 @@ class CreditexchangelistDTO : public oatpp::DTO
 
 	DTO_FIELD(Int32, credit_mall_id);
 	DTO_FIELD_INFO(credit_mall_id) {
-		info->description = ZH_WORDS_GETTER("c5.home.credit.exchange.field.credit-mall-id");
+		info->description = ZH_WORDS_GETTER("c5.home.credit.exchange.field.credit_mall_id");
 	}
 
 	DTO_FIELD(String, credit_mall_name);
 	DTO_FIELD_INFO(credit_mall_name) {
-		info->description = ZH_WORDS_GETTER("c5.home.credit.exchange.field.credit-mall-name");
+		info->description = ZH_WORDS_GETTER("c5.home.credit.exchange.field.credit_mall_name");
 	}
 
 	DTO_FIELD(Int32, num);
@@ -31,7 +31,7 @@ class CreditexchangelistDTO : public oatpp::DTO
 
 	DTO_FIELD(Int32, school_id);
 	DTO_FIELD_INFO(school_id) {
-		info->description = ZH_WORDS_GETTER("c5.home.credit.exchange.field.school-id");
+		info->description = ZH_WORDS_GETTER("c5.home.credit.exchange.field.school_id");
 	}
 
 	DTO_FIELD(Int32, creator);
@@ -46,12 +46,12 @@ class CreditexchangelistDTO : public oatpp::DTO
 
 	DTO_FIELD(String, add_time);
 	DTO_FIELD_INFO(add_time) {
-		info->description = ZH_WORDS_GETTER("c5.home.credit.exchange.field.add-time");
+		info->description = ZH_WORDS_GETTER("c5.home.credit.exchange.field.add_time");
 	}
 
 	DTO_FIELD(String, edit_time);
 	DTO_FIELD_INFO(edit_time) {
-		info->description = ZH_WORDS_GETTER("c5.home.credit.exchange.field.edit-time");
+		info->description = ZH_WORDS_GETTER("c5.home.credit.exchange.field.edit_time");
 	}
 
 	DTO_FIELD(Int32, deleted);
@@ -61,12 +61,12 @@ class CreditexchangelistDTO : public oatpp::DTO
 
 	DTO_FIELD(Int32, student_id);
 	DTO_FIELD_INFO(student_id) {
-		info->description = ZH_WORDS_GETTER("c5.home.credit.exchange.field.student-id");
+		info->description = ZH_WORDS_GETTER("c5.home.credit.exchange.field.student_id");
 	}
 
 	DTO_FIELD(Int32, user_id);
 	DTO_FIELD_INFO(user_id) {
-		info->description = ZH_WORDS_GETTER("c5.home.credit.exchange.field.user-id");
+		info->description = ZH_WORDS_GETTER("c5.home.credit.exchange.field.user_id");
 	}
 
 	DTO_FIELD(String, credit);
@@ -76,22 +76,22 @@ class CreditexchangelistDTO : public oatpp::DTO
 
 	DTO_FIELD(Int32, verify_state);
 	DTO_FIELD_INFO(verify_state) {
-		info->description = ZH_WORDS_GETTER("c5.home.credit.exchange.field.verify-state");
+		info->description = ZH_WORDS_GETTER("c5.home.credit.exchange.field.verify_state");
 	}
 
 	DTO_FIELD(Int32, verify_staff);
 	DTO_FIELD_INFO(verify_staff) {
-		info->description = ZH_WORDS_GETTER("c5.home.credit.exchange.field.verify-staff");
+		info->description = ZH_WORDS_GETTER("c5.home.credit.exchange.field.verify_staff");
 	}
 
 	DTO_FIELD(String, verify_time);
 	DTO_FIELD_INFO(verify_time) {
-		info->description = ZH_WORDS_GETTER("c5.home.credit.exchange.field.verify-time");
+		info->description = ZH_WORDS_GETTER("c5.home.credit.exchange.field.verify_time");
 	}
 
 	DTO_FIELD(String, verify_remark);
 	DTO_FIELD_INFO(verify_remark) {
-		info->description = ZH_WORDS_GETTER("c5.home.credit.exchange.field.verify-remark");
+		info->description = ZH_WORDS_GETTER("c5.home.credit.exchange.field.verify_remark");
 	}
 };
 

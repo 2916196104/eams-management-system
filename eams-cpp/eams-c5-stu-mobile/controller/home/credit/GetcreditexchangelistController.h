@@ -24,7 +24,7 @@ public:
 		API_DEF_ADD_PAGE_PARAMS();
 		//info->queryParams.add<Int32>("student_id").description = ZH_WORDS_GETTER("c5.home.credit.exchange.field.student_id");
 		//info->queryParams["student_id"].addExample("default", oatpp::Int32(1));
-		API_DEF_ADD_QUERY_PARAMS(Int32, "student_id", ZH_WORDS_GETTER("c5.home.credit.exchange.field.student-id"), 1, true);
+		API_DEF_ADD_QUERY_PARAMS(Int32, "student_id", ZH_WORDS_GETTER("c5.home.credit.exchange.field.student_id"), 1, true);
 
 	}
 	ENDPOINT(API_M_GET, "/c5/home/credit/creditexchangelist", Getcreditexchangelist, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
