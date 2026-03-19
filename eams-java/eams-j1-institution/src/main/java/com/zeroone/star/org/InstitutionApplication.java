@@ -7,8 +7,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class OrgManagerApplication {
+public class InstitutionApplication {
     public static void main(String[] args) {
-        SpringApplication.run(OrgManagerApplication.class, args);
+        SpringApplication.run(InstitutionApplication.class, args);
     }
 }
