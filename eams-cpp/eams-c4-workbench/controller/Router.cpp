@@ -19,7 +19,7 @@
 #include "stdafx.h"
 #include "Router.h"
 #include "ApiHelper.h"
-
+#include "controller-huitailang/addintendedstudentcontroller.h"
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -78,4 +78,5 @@ void Router::initRouter()
 
 	ROUTER_SIMPLE_BIND(getcommentrecord);
 	ROUTER_SIMPLE_BIND(getrollrecllrecord);
+	ROUTER_SIMPLE_BIND(addintendedstudent);
 }

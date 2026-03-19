@@ -30,3 +30,12 @@ class:
   stuname: 学生姓名
   checkindate: 签到时间
   getrollrecord: 获取点名记录
+intendedstudent:
+ stuname: 学生姓名
+ phonenumber: 手机号
+ stutype: 学生类型
+ sex: 性别
+ birthday: 出生年月
+ cardid: 身份证号
+ text: 备注信息
+ text2: 添加意向学员
