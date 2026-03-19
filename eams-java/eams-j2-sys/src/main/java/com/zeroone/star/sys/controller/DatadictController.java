@@ -22,7 +22,7 @@ public class DatadictController implements DatadictApis {
     /**
      * 负责人：开果结苡
      */
-    @GetMapping
+    @GetMapping("/type-name-list")
     @ApiOperation("获取字典类型名称列表")
     @Override
     public JsonVO<List<DictDTO>> query() {
@@ -65,28 +65,28 @@ public class DatadictController implements DatadictApis {
         return null;
     }
 
-    @GetMapping
+    @GetMapping("/page")
     @ApiOperation(value = "分页查询数据字典列表", notes = "分页查询数据字典列表")
     @Override
     public JsonVO<PageDTO<DatadictVO>> listDatadict(@Validated @RequestBody PageQuery query) {
         return null;
     }
 
-    @PostMapping
+    @PostMapping("/save-dict")
     @ApiOperation(value = "保存字典", notes = "保存字典")
     @Override
     public JsonVO<String> addDatadict(@Validated @RequestBody DatadictDTO dto) {
         return null;
     }
 
-    @PutMapping
+    @PutMapping("/update-dict")
     @ApiOperation(value = "修改字典", notes = "修改字典")
     @Override
     public JsonVO<String> updateDatadict(@Validated @RequestBody DatadictDTO dto) {
         return null;
     }
 
-    @DeleteMapping
+    @DeleteMapping("/delete-dict")
     @ApiOperation(value = "删除字典（支持批量）", notes = "删除字典（支持批量）")
     @Override
     public JsonVO<String> deleteDatadict(@RequestBody List<Integer> ids) {

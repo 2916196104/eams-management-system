@@ -34,7 +34,7 @@ public class AttachmentController implements AttachmentApis{
     /**
      * 负责人：Belief
      */
-    @GetMapping
+    @GetMapping("/list")
     @ApiOperation("获取附件列表（条件+分页）")
     @Override
     public JsonVO<PageDTO<AttachmentDTO>> queryAttachmentList(AttachmentQuery query) {
@@ -48,7 +48,7 @@ public class AttachmentController implements AttachmentApis{
         return null;
     }
 
-    @PostMapping
+    @PostMapping("/upload")
     @ApiOperation("上传附件")
     @Override
     public JsonVO<AttachmentUploadVO> uploadAttachment(AttachmentAddDTO addDto) {

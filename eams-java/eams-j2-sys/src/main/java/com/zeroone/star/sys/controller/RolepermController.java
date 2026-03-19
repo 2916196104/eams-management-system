@@ -55,7 +55,7 @@ public class RolepermController implements RolepermApis {
      * 负责人：isme
      */
     @Override
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/role/{id}")
     @ApiOperation("删除角色")
     public JsonVO<PageDTO<RolepermDTO>> removeRoleperm(RolepermQuery query) {
         return null;
@@ -65,6 +65,7 @@ public class RolepermController implements RolepermApis {
      * 负责人：Yaco
      */
     @Override
+    @GetMapping("/query/list/permission")
     @ApiModelProperty("获取可分配的权限")
     public JsonVO<PermissionGroupVO> queryPermission() {
         return null;
@@ -90,21 +91,21 @@ public class RolepermController implements RolepermApis {
      * 负责人：isme
      */
     @Override
-    @GetMapping
+    @GetMapping("/list/staff")
     @ApiOperation("获取角色员工列表（条件+分页）")
     public JsonVO<PageDTO<RolepermStaffDTO>> queryListRolepermStaff(RolepermStaffQuery query) {
         return null;
     }
 
     @Override
-    @PostMapping
+    @PostMapping("/save/staff")
     @ApiOperation("给角色添加员工")
     public JsonVO<String> addRolepermStaff(RolepermStaffDTO rolepermStaffDTO) {
         return null;
     }
 
     @Override
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/staff/{id}")
     @ApiOperation("从角色移除员工")
     public JsonVO<String> removeRolepermStaff(String id) {
         return null;

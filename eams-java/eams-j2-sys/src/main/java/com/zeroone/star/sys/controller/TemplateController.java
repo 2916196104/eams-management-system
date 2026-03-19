@@ -36,7 +36,7 @@ public class TemplateController implements TemplateApis {
         return null;
     }
 
-    @GetMapping
+    @GetMapping(value = "/list")
     @ApiOperation(value = "获取模板列表（条件+分页）")
     @ResponseBody
     @Override
