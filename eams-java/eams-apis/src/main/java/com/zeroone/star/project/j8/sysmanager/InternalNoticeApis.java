@@ -1,5 +1,10 @@
 package com.zeroone.star.project.j8.sysmanager;
 
+import com.zeroone.star.project.dto.notice.delInternalNoticeDTO;
+import com.zeroone.star.project.vo.JsonVO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 内部公告
  */
@@ -7,6 +12,6 @@ package com.zeroone.star.project.j8.sysmanager;
 
 public interface InternalNoticeApis {
     @ApiOperation("删除内部公告")
-    JsonVO<PageDTO<noticeListDTO>> deleteSysNotice();
+    JsonVO<Void> deleteNotice(delInternalNoticeDTO delInternalNoticeDTO);
 }
 

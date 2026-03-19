@@ -1,26 +1,12 @@
-package com.zeroone.star.sysmanager.entity;
+package com.zeroone.star.project.dto.notice;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
-/**
- * <p>
- * 系统设置表
- * </p>
- *
- * @author dabidai
- * @since 2026-03-14
- */
 @Data
-@TableName("setting_notice")
-public class SettingNotice implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@ApiModel("通知设置")
+public class noticeSettingDTO {
 
     /**
      * 主键
