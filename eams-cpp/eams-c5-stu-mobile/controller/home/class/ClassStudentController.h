@@ -11,7 +11,7 @@
 #include "domain/vo/home/class/ClassStudentVO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
-#define API_TAG ZH_WORDS_GETTER("c5.home.classstudent.tag")
+#define API_TAG ZH_WORDS_GETTER("c5.home.class.tag")
 
 
 // 控制器类名改为ClassStudentController，继承关系不变
@@ -20,7 +20,7 @@ class ClassStudentController : public oatpp::web::server::api::ApiController
     API_ACCESS_DECLARE(ClassStudentController); // 适配控制器类名
 public:
     ENDPOINT_INFO(ClassStudent) { // 端点名称改为ClassStudent
-        info->summary = ZH_WORDS_GETTER("c5.home.classstudent.query-all.summary"); // 国际化key适配
+        info->summary = ZH_WORDS_GETTER("c5.home.class.classstudent.query-all.summary"); // 国际化key适配
         API_DEF_ADD_AUTH();
         API_DEF_ADD_TAG(API_TAG);
         // 替换为ClassStudent分页VO
@@ -28,7 +28,7 @@ public:
         API_DEF_ADD_RSP_JSON_WRAPPER(ClassStudentPageJsonVO);
         API_DEF_ADD_PAGE_PARAMS();
         // 查询参数适配class_student表的student_id，国际化key替换
-        info->queryParams.add<Int32>("class_id").description = ZH_WORDS_GETTER("c5.home.classstudent.field.class_id");
+        info->queryParams.add<Int32>("class_id").description = ZH_WORDS_GETTER("c5.home.class.classstudent.field.class_id");
         info->queryParams["class_id"].addExample("default", oatpp::Int32(1));
     }
     // 端点路径保留（业务路径不变），端点名称改为ClassStudent，参数/鉴权不变
