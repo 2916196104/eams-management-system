@@ -83,11 +83,9 @@ workbench:
     classroomId: 教室ID
     schedulingId: 排课ID
     hintMessage: 提示信息
-
     Date: 上课日期
     startDate: 开始日期
     endDate: 结束日期
-
     weekDays: 每周上课日
     startTime: 上课时间
     endTime: 下课时间
