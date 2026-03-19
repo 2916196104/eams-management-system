@@ -37,3 +37,19 @@ SettingJsonVO::Wrapper exchangeController::executeQueryRule(const UInt64& id)
 {
 	return {};
 }
+
+/*
+查询积分兑换记录详情
+*/
+GoodsDetailJsonVO::Wrapper exchangeController::executeGetGoodsDetail(const Int64& id)
+{
+	return {};
+}
+
+/*
+兑换礼品功能的业务处理
+*/
+ExchangeResultJsonVO::Wrapper exchangeController::executeSubmitExchange(const ExchangeSubmitDTO::Wrapper& request)
+{
+	return {};
+}
