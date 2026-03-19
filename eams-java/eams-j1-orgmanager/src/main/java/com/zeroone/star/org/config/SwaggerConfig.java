@@ -6,13 +6,23 @@ import org.springframework.context.annotation.Configuration;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
-
+/**
+ * <p>
+ * 描述：职位管理接口文档配置
+ * </p>
+ *
+ * @author gzx && hygge
+ * @version 1.0.0
+ */
 @Configuration
 @EnableSwagger2WebMvc
 public class SwaggerConfig {
     @Bean
-    Docket orgApi() {
-        return SwaggerCore.defaultDocketBuilder("职位数据权限管理模块", "com.zeroone.star.org.controller", "org");
+    public Docket orgManagerApi() {
+        return SwaggerCore.defaultDocketBuilder(
+                "职位管理模块",
+                "com.zeroone.star.org.controller",
+                "j1-orgmanager"
+        );
     }
 }
-
