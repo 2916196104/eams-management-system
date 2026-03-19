@@ -257,6 +257,11 @@ const menus = reactive([
 		id: 14,
 		path: '/sample/pagination',
 		text: '分页'
+	},
+	{
+		id: 15,
+    path: '/sample/myselector',
+    text: '人员选择器'
 	}
 ])
 </script>
