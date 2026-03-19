@@ -3,8 +3,10 @@ package com.zeroone.star.academic.controller;
 import com.zeroone.star.academic.service.IAcademicFinanceService;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j4.student.FinanceDTO;
+import com.zeroone.star.project.dto.j4.student.StudentDTO;
 import com.zeroone.star.project.j4.academic.AcademicApis;
 import com.zeroone.star.project.query.j4.student.FinanceQuery;
+import com.zeroone.star.project.query.j4.student.StudentQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -63,5 +66,35 @@ public class AcademicController implements AcademicApis {
     @Override
     public JsonVO<FinanceDTO> completeRefund(@RequestBody FinanceDTO financeDTO) {
         return JsonVO.success(academicFinanceService.completeRefund(financeDTO));
+    }
+
+    @Override
+    public JsonVO<PageDTO<StudentDTO>> queryPage(StudentQuery condition) {
+        return null;
+    }
+
+    @Override
+    public JsonVO<Long> saveStudents(StudentDTO studentDTO) {
+        return null;
+    }
+
+    @Override
+    public JsonVO<Long> deleteStudents(Long id) {
+        return null;
+    }
+
+    @Override
+    public JsonVO<Long> updateStudents(StudentDTO studentDTO) {
+        return null;
+    }
+
+    @Override
+    public JsonVO<StudentDTO> queryStudents(Long id) {
+        return null;
+    }
+
+    @Override
+    public JsonVO<List<StudentDTO>> queryStudents() {
+        return null;
     }
 }
