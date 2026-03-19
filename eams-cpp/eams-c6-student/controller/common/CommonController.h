@@ -1,16 +1,13 @@
 #pragma once
 #ifndef COMMON_CONTROLLER_H
 #define COMMON_CONTROLLER_H
-#include "ApiHelper.h"
-#include "../../Macros.h"
-#include "ServerInfo.h"
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/vo/common/CommonVO.h"
 #include "domain/query/common/CommonQuery.h"
-#include "service/common/CommonService.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
 #define API_TAG ZH_WORDS_GETTER("common.api-tag")
+
 class CommonController : public oatpp::web::server::api::ApiController {
 	API_ACCESS_DECLARE(CommonController);
 public: 
@@ -84,6 +81,8 @@ private:
 		return nullptr;
 	}
 };
+
 #undef API_TAG
 #include OATPP_CODEGEN_END(ApiController) 
+
 #endif

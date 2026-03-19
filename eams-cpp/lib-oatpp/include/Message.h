@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -23,7 +23,7 @@
 #include "ResultStatus.h"
 
 /**
- * ¶¨Òå×´Ì¬ÌáÊ¾ÐÅÏ¢
+ * ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½Ê¾ï¿½ï¿½Ï¢
  */
 #ifdef LINUX
 #define RS_UNAUTHORIZED ResultStatus("no login or token expired", 401)
@@ -36,15 +36,15 @@
 #define RS_FAIL ResultStatus("the operation failure", 9999)
 #define RS_SUCCESS ResultStatus("operation is successful")
 #else
-#define RS_UNAUTHORIZED ResultStatus(u8"ÔÝÎ´µÇÂ¼»òTOKENÒÑ¾­¹ýÆÚ", 401)
-#define RS_FORBIDDEN ResultStatus(u8"Ã»ÓÐÏà¹ØÈ¨ÏÞ", 403)
-#define RS_SERVER_ERROR ResultStatus(u8"·þÎñÆ÷´íÎó", 9994)
-#define RS_PARAMS_INVALID ResultStatus(u8"ÉÏ´«²ÎÊýÒì³£", 9995)
-#define RS_CONTENT_TYPE_ERR ResultStatus(u8"ContentType´íÎó", 9996)
-#define RS_API_UN_IMPL ResultStatus(u8"½Ó¿ÚÔÝÎ´ÊµÏÖ", 9997)
-#define RS_SERVER_BUSY ResultStatus(u8"·þÎñÆ÷·±Ã¦", 9998)
-#define RS_FAIL ResultStatus(u8"²Ù×÷Ê§°Ü", 9999)
-#define RS_SUCCESS ResultStatus(u8"²Ù×÷³É¹¦")
+#define RS_UNAUTHORIZED ResultStatus(u8"ï¿½ï¿½Î´ï¿½ï¿½Â¼ï¿½ï¿½TOKENï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½", 401)
+#define RS_FORBIDDEN ResultStatus(u8"Ã»ï¿½ï¿½ï¿½ï¿½ï¿½È¨ï¿½ï¿½", 403)
+#define RS_SERVER_ERROR ResultStatus(u8"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", 9994)
+#define RS_PARAMS_INVALID ResultStatus(u8"ï¿½Ï´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì³£", 9995)
+#define RS_CONTENT_TYPE_ERR ResultStatus(u8"ContentTypeï¿½ï¿½ï¿½ï¿½", 9996)
+#define RS_API_UN_IMPL ResultStatus(u8"ï¿½Ó¿ï¿½ï¿½ï¿½Î´Êµï¿½ï¿½", 9997)
+#define RS_SERVER_BUSY ResultStatus(u8"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¦", 9998)
+#define RS_FAIL ResultStatus(u8"ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½", 9999)
+#define RS_SUCCESS ResultStatus(u8"ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½")
 #endif
 
 #endif // !_MESSAGE_

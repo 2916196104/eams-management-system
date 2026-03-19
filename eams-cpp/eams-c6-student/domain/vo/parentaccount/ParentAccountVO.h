@@ -1,1 +1,22 @@
 #pragma once
+#ifndef _PARENT_ACCOUNT_VO_H_
+#define _PARENT_ACCOUNT_VO_H_
+
+#include "domain/GlobalInclude.h"
+#include "domain/vo/JsonVO.h"
+#include "domain/dto/PageDTO.h"
+#include "domain/dto/parentaccount/ParentAccountDTO.h"
+
+#include OATPP_CODEGEN_BEGIN(DTO)
+
+/**
+ * 家长账号分页列表响应对象
+ */
+class ParentAccountPageJsonVO : public JsonVO<PageDTO<ParentAccountDTO::Wrapper>::Wrapper>
+{
+	DTO_INIT(ParentAccountPageJsonVO, JsonVO<PageDTO<ParentAccountDTO::Wrapper>::Wrapper>);
+};
+
+#include OATPP_CODEGEN_END(DTO)
+
+#endif // !_PARENT_ACCOUNT_VO_H_
