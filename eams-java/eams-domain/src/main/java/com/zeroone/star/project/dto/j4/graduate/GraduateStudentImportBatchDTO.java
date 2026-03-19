@@ -20,7 +20,11 @@ import java.util.List;
 @ApiModel(description = "结业学员批量导入DTO")
 public class GraduateStudentImportBatchDTO {
 
-    @ApiModelProperty(value = "结业学员列表（必填，默认值包含1条示例数据）", required = true)
+    @ApiModelProperty(
+            value = "结业学员列表（必填，默认包含1条示例数据）",
+            required = true,
+            example = "[{\"studentId\":\"2024001\",\"studentName\":\"张三\",\"gender\":1,\"idCard\":\"110101199001011234\",\"className\":\"高三1班\",\"graduateTime\":\"2024-06-30\",\"graduateStatus\":1,\"phone\":\"13800138000\",\"remark\":\"无\"}]"
+    )
     @Valid
     @NotEmpty(message = "导入学员列表不能为空")
     private List<GraduateStudentImportDTO> studentList = new ArrayList<>(Arrays.asList(

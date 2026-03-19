@@ -16,12 +16,12 @@ import java.util.List;
 @ApiModel(description = "结业学员导入结果VO")
 public class GraduateStudentImportResultVO {
 
-    @ApiModelProperty(value = "成功导入数量（默认值：1）", example = "1")
-    private Integer successCount = 1;
-
-    @ApiModelProperty(value = "失败导入数量（默认值：0）", example = "0")
-    private Integer failCount = 0;
-
-    @ApiModelProperty(value = "失败详情（默认值：空列表）", example = "[]")
-    private List<String> failMsgList = new ArrayList<>();
+    @ApiModelProperty(value = "成功条数", example = "1")
+    private Integer successCount;
+    @ApiModelProperty(value = "失败条数", example = "0")
+    private Integer failCount;
+    @ApiModelProperty(value = "失败详情", example = "[]")
+    private List<String> failDetails;
+    @ApiModelProperty(value = "批次号", example = "B2024063001")
+    private String batchNo;
 }
