@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-public class AdvertisementListQuery extends PageQuery {
+public class AnnouncementListQuery extends PageQuery {
     @ApiModelProperty(value = "公告标题")
     private String title;
 

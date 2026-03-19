@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Data
 @ApiModel("公告信息数据传输对象")
-public class AdvertisementDTO {
+public class AnnouncementDTO {
 
 
     @ApiModelProperty(value = "图片", example = "广告图片URL", required = true)
