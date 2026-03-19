@@ -11,7 +11,7 @@ course:
  searchname2:
 Timeable:
  tags:
-  t1: 课表接口
+  t1: 课表
  field:
   id: 主键ID
   course_id: 所属课程ID
