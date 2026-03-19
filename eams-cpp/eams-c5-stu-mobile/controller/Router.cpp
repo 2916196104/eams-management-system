@@ -19,6 +19,8 @@
 #include "stdafx.h"
 #include "Router.h"
 #include "ApiHelper.h"
+#include "login/RegisterController.h"
+#include "controller/home/trialCard/GetTrialCardListController.h"
 #include "controller/schedule/AppointmentController.h"
 
 // 如果定义了关闭Swagger文档宏
@@ -41,5 +43,7 @@ Router::Router(Endpoints* docEndpoints, HttpRouter* router)
 void Router::initRouter()
 {
 	//#TIP :系统扩展路由定义，写在这个后面
+	ROUTER_SIMPLE_BIND(RegisterController);
+	ROUTER_SIMPLE_BIND(GetTrialCardListController);
 	ROUTER_SIMPLE_BIND(AppointmentController);
 }
