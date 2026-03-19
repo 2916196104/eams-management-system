@@ -100,4 +100,35 @@ workbench:
     tag: 排课模块
 test:
   repeat: 重复排课创建成功  
-  free: 自由排课创建成功
+  free: 自由排课创建成功customer:
+ tags: 
+  t1: 我的客户
+ get:
+  summary: 分页查询数据
+ detail:
+  summary: 客户详情查询
+ lesson:
+  summary: 客户课程查询
+ field:
+  id: 客户ID
+  name: 姓名
+  phone: 手机号码
+  sex: 性别
+  age: 年龄
+  birth: 生日
+  type: 类型
+  note: 备注
+  lessonName: 课程名
+  progress: 学习进度
+  deadline: 有效期
+  resttimes: 剩余次数
+  list: 课程列表
+classroom:
+ tag: 排课
+ get:
+  summary: 教室列表分页查询
+ field:
+  id: 教室ID
+  name: 教室名称
+  position: 地点
+  
