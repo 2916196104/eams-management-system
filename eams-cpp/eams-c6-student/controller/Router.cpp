@@ -22,13 +22,13 @@
 #include "common/CommonController.h"
 #include "parentaccount/ParentAccountController.h"
 #include "finishstudent/FinishStudentController.h"
-// ��������˹ر�Swagger�ĵ���
+// ???????????Swagger?????
 #ifdef CLOSE_SWAGGER_DOC
-// �򻯰󶨿������궨��
+// ??????????????
 #define ROUTER_SIMPLE_BIND(__CLASS__) \
 router->addController(__CLASS__::createShared())
 #else
-// �򻯰󶨿������궨��
+// ??????????????
 #define ROUTER_SIMPLE_BIND(__CLASS__) \
 BIND_CONTROLLER(docEndpoints, router, __CLASS__)
 #endif
@@ -41,7 +41,7 @@ Router::Router(Endpoints* docEndpoints, HttpRouter* router)
 
 void Router::initRouter()
 {
-	//#TIP :ϵͳ��չ·�ɶ��壬д���������
+	//#TIP :?????��????�ɧ�?????????
 	ROUTER_SIMPLE_BIND(CommonController);
 	ROUTER_SIMPLE_BIND(ParentAccountController);
 	ROUTER_SIMPLE_BIND(FinishStudentController);

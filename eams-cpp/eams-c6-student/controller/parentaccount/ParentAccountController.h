@@ -25,7 +25,7 @@ public:
 	// 分页查询接口描述
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("parentaccount.interface.query-parent-account"), queryParentAccount, ParentAccountQuery, ParentAccountPageJsonVO::Wrapper, API_TAG);
 	// 分页查询接口处理
-	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/parent-account/query", queryParentAccount, ParentAccountQuery, execQueryParentAccount(query));
+	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c6/parent-account/query", queryParentAccount, ParentAccountQuery, execQueryParentAccount(query));
 
 private:
 	ParentAccountPageJsonVO::Wrapper execQueryParentAccount(const ParentAccountQuery::Wrapper& query);
