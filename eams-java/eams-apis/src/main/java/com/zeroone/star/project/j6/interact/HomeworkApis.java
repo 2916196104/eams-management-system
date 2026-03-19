@@ -3,9 +3,7 @@ package com.zeroone.star.project.j6.interact;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j6.interact.HomeworkDetailDto;
 import com.zeroone.star.project.dto.j6.interact.HomeworkListDto;
-import com.zeroone.star.project.dto.j6.interact.HomeworkRecordDTO;
 import com.zeroone.star.project.query.j6.interact.HomeworkQuery;
-import com.zeroone.star.project.query.j6.interact.HomeworkRecordQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j6.interact.HomeworkSubmissionListVo;
 

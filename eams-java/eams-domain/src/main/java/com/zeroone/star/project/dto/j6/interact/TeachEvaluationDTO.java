@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <p>
@@ -44,8 +45,9 @@ public class TeachEvaluationDTO implements Serializable {
     private String content;
 
     @ApiModelProperty(value = "评价时间", example = "2024-06-01 12:00")
-    private LocalDateTime addTime;
+    private Date addTime;
 
+    //todo 可能需要删除这个字段？
     @ApiModelProperty(value = "是否匿名，默认为否", example = "0")
     private Integer anonymity=0;
 

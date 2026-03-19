@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <p>
@@ -17,7 +18,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GradeDTO implements Serializable {
+public class GradeFormDTO implements Serializable {
 
     @ApiModelProperty(value = "考核项",example = "数据结构")
     private String title;
@@ -29,5 +30,5 @@ public class GradeDTO implements Serializable {
     private String creator;
 
     @ApiModelProperty(value = "发布时间",example = "2026-03-10 21:17")
-    private LocalDateTime addTime;
+    private Date addTime;
 }

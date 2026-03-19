@@ -54,8 +54,8 @@ public class HomeworkController implements HomeworkApis {
 
     /**
      * 保存作业,新增和编辑作业是调用这个接口
-     *
      * @param homeworkDetailDto 作业
+     * TODO 请求参数和响应参数可能都不对，需要后面深入分析后再写
      */
     @PostMapping
     @ApiOperation(" 保存作业")
@@ -92,6 +92,7 @@ public class HomeworkController implements HomeworkApis {
      * 点评作业
      *
      * @param id
+     * TODO 请求参数和响应参数可能都不对
      */
     @PutMapping("/{id}")
     @ApiOperation("点评作业")

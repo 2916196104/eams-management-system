@@ -1,9 +1,9 @@
 package com.zeroone.star.interact.controller;
 
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.dto.j6.interact.GradeDTO;
+import com.zeroone.star.project.dto.j6.interact.GradeFormDTO;
 import com.zeroone.star.project.j6.interact.GradeApis;
-import com.zeroone.star.project.query.j6.interact.GradeQuery;
+import com.zeroone.star.project.query.j6.interact.GradeFormQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,7 +19,7 @@ public class GradeController implements GradeApis {
     @Override
     @GetMapping
     @ApiOperation("获取成绩单列表（条件+分页）")
-    public JsonVO<PageDTO<GradeDTO>> queryPage(GradeQuery condition) {
+    public JsonVO<PageDTO<GradeFormDTO>> queryPage(GradeFormQuery condition) {
         return null;
     }
 

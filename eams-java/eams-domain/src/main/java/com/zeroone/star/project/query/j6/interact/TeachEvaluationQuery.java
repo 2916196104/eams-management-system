@@ -3,6 +3,8 @@ package com.zeroone.star.project.query.j6.interact;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * <p>
  * 描述：学评教查询对象
@@ -21,14 +23,9 @@ public class TeachEvaluationQuery{
     private Long lessonId;
 
     @ApiModelProperty(value = "开始日期", example = "2024-06-01")
-    private String startTime;
+    private Date startTime;
 
     @ApiModelProperty(value = "结束日期", example = "2024-06-30")
-    private String endTime;
+    private Date endTime;
 
-    @ApiModelProperty(value = "当前页数，默认为1",example = "1")
-    private Long pageIndex=1L;
-
-    @ApiModelProperty(value = "每页条数，默认为30",example = "30")
-    private Long pageSize=30L;
 }

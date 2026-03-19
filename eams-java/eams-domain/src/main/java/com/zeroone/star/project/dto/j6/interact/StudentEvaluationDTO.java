@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 
 /**
@@ -19,10 +20,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class StudentEvaluationDTO implements Serializable {
 
-    @ApiModelProperty(value = "学生姓名", example = "张三")
+    @ApiModelProperty(value = "学员", example = "张三")
     private String studentName;
 
-    @ApiModelProperty(value = "课程名称", example = "数据结构")
+    @ApiModelProperty(value = "课次标题", example = "数据结构")
     private String lessonName;
 
     @ApiModelProperty(value = "点评得分", example = "5")
@@ -35,5 +36,5 @@ public class StudentEvaluationDTO implements Serializable {
     private String evaluateTeacherName;
 
     @ApiModelProperty(value = "点评时间", example = "2024-06-01 12:00")
-    private LocalDateTime evaluateTime;
+    private Date  evaluateTime;
 }

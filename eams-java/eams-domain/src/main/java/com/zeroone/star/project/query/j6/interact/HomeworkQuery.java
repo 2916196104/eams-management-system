@@ -15,6 +15,6 @@ public class HomeworkQuery {
     @ApiModelProperty(value = "班级",example = "1")
     private Long class_id;
 
-    @ApiModelProperty(value = "创建人",example = "1（管理员）")
+    @ApiModelProperty(value = "创建人",example = "1")
     private Long creator;
 }
