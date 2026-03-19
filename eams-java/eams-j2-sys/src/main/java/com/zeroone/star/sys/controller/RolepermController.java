@@ -25,12 +25,14 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/sys/roleperm")
-@Api(tags = "角色与权限")
+@Api(tags = "角色权限")
 public class RolepermController implements RolepermApis {
 
-
+    /**
+     * 负责人：小白
+     */
     @Override
-    @ApiOperation("获取角色名称列表")
+    @ApiOperation("获取角色名称列表（条件）")
     @GetMapping("/nameList")
     public JsonVO<List<RolepermDTO>> getNameList(RolepermQuery query) {
         return null;
@@ -38,7 +40,7 @@ public class RolepermController implements RolepermApis {
 
     @Override
     @GetMapping("/page")
-    @ApiOperation("获取角色分页列表")
+    @ApiOperation("获取角色列表（条件+分页）")
     public JsonVO<List<RolepermDTO>> getPage(RolepermQuery query) {
         return null;
     }
@@ -49,7 +51,9 @@ public class RolepermController implements RolepermApis {
     public JsonVO<RolepermDTO> saveRole(RolepermDTO dto) {
         return null;
     }
-
+    /**
+     * 负责人：isme
+     */
     @Override
     @DeleteMapping("/{id}")
     @ApiOperation("删除角色")
@@ -57,7 +61,9 @@ public class RolepermController implements RolepermApis {
         return null;
     }
 
-
+     /**
+     * 负责人：Yaco
+     */
     @Override
     @ApiModelProperty("获取可分配的权限")
     public JsonVO<PermissionGroupVO> queryPermission() {
@@ -80,6 +86,9 @@ public class RolepermController implements RolepermApis {
             @RequestBody List<PermissionDTO> list) {
         return null;
     }
+    /**
+     * 负责人：isme
+     */
     @Override
     @GetMapping
     @ApiOperation("获取角色员工列表（条件+分页）")

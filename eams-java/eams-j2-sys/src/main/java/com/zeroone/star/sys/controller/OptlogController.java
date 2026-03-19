@@ -25,7 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/sys/optlog")
 @Api(tags = "操作日志")
 public class OptlogController implements OptlogApis {
-
+    /**
+     * 负责人：isme
+     */
     @GetMapping
     @ApiOperation("获取操作日志(条件+分页）")
     @Override

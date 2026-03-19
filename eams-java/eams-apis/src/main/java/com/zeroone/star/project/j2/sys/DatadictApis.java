@@ -37,29 +37,38 @@ public interface DatadictApis {
      */
     JsonVO<Boolean> removeDictType(DictTypeRemoveDTO dictTypeRemoveDTO);
 
-    JsonVO<DatadictVO> getDatadictById(Integer id);
-    /**
-     * 获取数据字典列表
-     */
-    JsonVO<PageDTO<DatadictVO>> listDatadict(PageQuery query);
-    /**
-     * 增加数据字典
-     */
-    JsonVO<String> addDatadict(DatadictDTO dto);
-    /**
-     * 修改数据字典
-     */
-    JsonVO<String> updateDatadict(DatadictDTO dto);
-    /**
-     * 删除数据字典
-     */
-    JsonVO<String> deleteDatadict(List<Integer> ids);
-
     /**
      * 获取字典名称列表
      * @param dictId 字典类型ID（对应dict表的id）
      * @return 该类型下的所有字典列表
      */
     JsonVO<PageDTO<DatadictVO>> listDatadictByDictIdPage(Long dictId, PageQuery query);
+    /**
+     * 根据ID获取数据字典
+     */
+
+    JsonVO<DatadictVO> getDatadictById(Integer id);
+    /**
+     * 分页查询数据字典列表
+     */
+
+    JsonVO<PageDTO<DatadictVO>> listDatadict(PageQuery query);
+    /**
+     * 添加字典
+     */
+
+    JsonVO<String> addDatadict(DatadictDTO dto);
+    /**
+     * 修改字典
+     */
+
+    JsonVO<String> updateDatadict(DatadictDTO dto);
+    /**
+     * 删除字典
+     */
+
+    JsonVO<String> deleteDatadict(List<Integer> ids);
+
+
 
 }

@@ -21,7 +21,21 @@ import java.util.List;
  * @version 1.0.0
  */
 public interface AttachmentApis {
-    
+    /**
+     * 获取附件列表（条件+分页）
+     * @param query 查询条件
+     * @return 分页附件列表
+     */
+    JsonVO<PageDTO<AttachmentDTO>> queryAttachmentList(AttachmentQuery query);
+
+    /**
+     * 根据ID获取附件详情
+     * @param id 附件ID
+     * @return 附件详情
+     */
+    JsonVO<AttachmentDTO> queryAttachmentById(String id);
+
+
     /**
      * 上传附件
      * @param addDto 附件上传参数
@@ -29,19 +43,7 @@ public interface AttachmentApis {
      */
     JsonVO<AttachmentUploadVO> uploadAttachment(AttachmentAddDTO addDto);
     
-    /**
-     * 获取附件列表（条件+分页）
-     * @param query 查询条件
-     * @return 分页附件列表
-     */
-    JsonVO<PageDTO<AttachmentDTO>> queryAttachmentList(AttachmentQuery query);
-    
-    /**
-     * 根据ID获取附件详情
-     * @param id 附件ID
-     * @return 附件详情
-     */
-    JsonVO<AttachmentDTO> queryAttachmentById(String id);
+
     
     /**
      * 删除附件（逻辑删除）

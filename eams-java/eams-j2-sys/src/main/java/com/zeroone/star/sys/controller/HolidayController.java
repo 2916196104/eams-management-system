@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/sys/holiday")
 @Api(tags = "节日管理")
 public class HolidayController implements HolidayApis {
+    /**
+     * 负责人：Wind
+     */
     @GetMapping
     @ApiOperation("获取已设置的节日（条件+分页）")
     @Override

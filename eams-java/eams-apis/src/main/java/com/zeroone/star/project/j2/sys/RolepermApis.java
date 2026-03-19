@@ -20,13 +20,25 @@ import java.util.List;
  * @date 2026/3/16
  */
 public interface RolepermApis {
-    // 角色名称列表
+    /**
+     * 角色名称列表查询
+     * @param query 角色查询对象
+     * @return 角色名称列表
+     */
     JsonVO<List<RolepermDTO>> getNameList(RolepermQuery query);
 
-    // 角色分页列表
+    /**
+     * 角色分页查询
+     * @param query 角色查询对象
+     * @return 角色分页列表
+     */
     JsonVO<List<RolepermDTO>> getPage(RolepermQuery query);
 
-    // 保存角色
+    /**
+     * 保存角色
+     * @param dto 角色数据
+     * @return 保存结果
+     */
     JsonVO<RolepermDTO> saveRole(@RequestBody RolepermDTO dto);
     /**
      * 角色权限删除

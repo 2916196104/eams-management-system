@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("j2-sys/sysparam")
+@RequestMapping("/sys/sysparam")
 @Api(tags = "系统参数")
 public class SysparamController implements SysparamApis {
-
+    /**
+     * 负责人：stfaly
+     */
     @GetMapping()
     @ApiOperation("获取设置列表")
     @Override

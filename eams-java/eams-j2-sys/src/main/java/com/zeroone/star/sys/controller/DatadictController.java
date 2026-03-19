@@ -17,8 +17,11 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 @RestController
 @Api(tags= "数据字典")
-@RequestMapping("j2-sys/dict")
+@RequestMapping("/sys/dict")
 public class DatadictController implements DatadictApis {
+    /**
+     * 负责人：开果结苡
+     */
     @GetMapping
     @ApiOperation("获取字典类型名称列表")
     @Override
@@ -31,7 +34,9 @@ public class DatadictController implements DatadictApis {
         return null;
     }
 
-
+    /**
+     * 负责人：糯擎宰2cc
+     */
     @PostMapping("/save-dict-type")
     @ApiOperation("保存字典类型")
     @Override
@@ -50,7 +55,9 @@ public class DatadictController implements DatadictApis {
             @Valid @RequestBody PageQuery query) {
         return null;
     }
-
+    /**
+     * 负责人：倾枫
+     */
     @ApiOperation(value = "根据ID获取数据字典", notes = "根据ID获取数据字典")
     @GetMapping("/{id}")
     @Override
