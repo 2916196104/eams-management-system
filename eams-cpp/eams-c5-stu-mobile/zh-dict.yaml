@@ -1,0 +1,16 @@
+CheckIn:
+  tag: 签到
+  summary: 签到
+  field:
+    courseType: 班级类型
+    courseName: 课程名称
+    teacher: 老师
+    classRoom: 教室
+    timeRange: 时间区间
+    status: 活动状态
+    userSignStatus: 个人签到状态
+    studentId: 学生id
+    courseId: 课程id
+    signTime: 签到时间
+  resp: 签到成功
+  
