@@ -133,4 +133,13 @@ public interface StudentApis {
 
     JsonVO<PageDTO<ResponseDTO>> listAllStudent(StudentQuery condition);
 
+
+    @ApiOperation("修改学员头像")
+    JsonVO<String> updateStudentAvatar(StudentDTO studentDTO);
+
+    @ApiOperation("分页查询报名记录")
+    JsonVO<PageDTO<EnrollmentDTO>> queryEnrollRecords(EnrollQuery query);
+
+    @ApiOperation("获取报名记录详情")
+    JsonVO<EnrollmentDTO> getEnrollRecord(Long id);
 }
