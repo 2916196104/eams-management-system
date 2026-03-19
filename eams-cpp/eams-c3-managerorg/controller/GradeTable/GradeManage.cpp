@@ -1,2 +1,2 @@
-﻿#include "GradeManage.h"
+#include "GradeManage.h"
 #include "stdafx.h"
