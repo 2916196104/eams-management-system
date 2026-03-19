@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class StudentDTO {
 
-    @ApiModelProperty(value = "学员ID", example = "1001")
+    @ApiModelProperty(value = "学员ID", example = "1001", required = true)
     private String studentId;
 
     @ApiModelProperty(value = "学员姓名", example = "张三")
@@ -70,11 +70,6 @@ public class StudentDTO {
     @ApiModelProperty(value = "学员阶段状态")
     private Integer stage;
 
-    @ApiModelProperty(value = "学员ID", example = "1001", required = true)
-    private Long id; // 对应 student.id
-
-    @ApiModelProperty(value = "学员姓名", example = "张三")
-    private String name; // 对应 student.name
 
     @ApiModelProperty(value = "头像地址", example = "group1/M00/00/01/a.png")
     private String headImg; // 对应 student.head_img
