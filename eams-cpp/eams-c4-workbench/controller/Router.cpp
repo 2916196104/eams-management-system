@@ -53,6 +53,10 @@
 #include "huitailang-controller/commentrecordcontroller.h"
 #include "huitailang-controller/getrollcallrecord.h"
 
+#include "controller_zhong\Student_Class_Hour Records\ClassHourRecordsController.h"
+#include "controller_zhong\Student_Course_Progress\StudentCourseProgressController.h"
+#include "controller_zhong\Student_Enrollment_Records\StudentEnrollmentRecordsController.h"
+
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
 // 简化绑定控制器宏定义

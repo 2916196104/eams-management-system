@@ -40,7 +40,8 @@ intendedstudent:
  birthday: 出生年月
  cardid: 身份证号
  text: 备注信息
- text2: 添加意向学员workbench:
+ text2: 添加意向学员
+workbench:
  tag: 学生档案
  progress:
   summary: 获取学员课程进度（分页）
