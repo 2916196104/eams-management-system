@@ -20,9 +20,6 @@
 #include "Router.h"
 #include "ApiHelper.h"
 #include"class/GetClassController.h"
-#include"class/GetClassStudentCourseListController.h"
-#include"class/GetClassStudentDetailsController.h"
-#include"class/GetClassStudentListController.h"
 
 
 // 如果定义了关闭Swagger文档宏
@@ -46,8 +43,6 @@ void Router::initRouter()
 {
 	//#TIP :系统扩展路由定义，写在这个后面
 	ROUTER_SIMPLE_BIND(GetClassController);
-	ROUTER_SIMPLE_BIND(GetClassStudentCourseListController);
-	ROUTER_SIMPLE_BIND(GetClassStudentDetailsController);
-	ROUTER_SIMPLE_BIND(GetClassStudentListController);
+	
 
 }
