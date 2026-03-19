@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.zeroone.star.education.entity.LessonSchedule;
 import com.zeroone.star.project.dto.j5.schedule.ScheduleSaveDTO;
 import com.zeroone.star.project.query.j5.schedule.SchedulePlanQuery;
+import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.project.vo.j5.schedule.LessonScheduleVO;
 import com.zeroone.star.project.vo.j5.schedule.SchedulePlanVO;
 
 /*
@@ -16,8 +18,7 @@ public interface ScheduleService extends IService<LessonSchedule> {
     * */
     Page<SchedulePlanVO> listAll(SchedulePlanQuery query);
 
-    /*
-    * 根据id查询排课计划详情
-    * */
-    ScheduleSaveDTO getById(Long id);
+    JsonVO<Long> saveOrUpdateSchedule(ScheduleSaveDTO scheduleSaveDTO);
+
+    LessonScheduleVO getScheduleById(Long id);
 }

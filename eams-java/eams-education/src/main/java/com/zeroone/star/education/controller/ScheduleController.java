@@ -8,6 +8,7 @@ import com.zeroone.star.project.dto.j5.schedule.ScheduleSaveDTO;
 import com.zeroone.star.project.j5.schedule.SchedulePlanApis;
 import com.zeroone.star.project.query.j5.schedule.SchedulePlanQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.project.vo.j5.schedule.LessonScheduleVO;
 import com.zeroone.star.project.vo.j5.schedule.SchedulePlanVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,11 +41,15 @@ public class ScheduleController implements SchedulePlanApis {
         return JsonVO.success(page);
     }
 
+    /*
+     * 保存或更新排课计划信息
+     * */
     @PostMapping
     @ApiOperation("保存计划")
     @Override
-    public JsonVO<Long> saveSchedule(@Validated ScheduleSaveDTO scheduleSaveDTO) {
-        return null;
+    public JsonVO<Long> saveSchedule(@RequestBody @Validated ScheduleSaveDTO scheduleSaveDTO) {
+        System.out.println(">>>>>>>>>> 我收到请求了！ <<<<<<<<<<");
+        return scheduleService.saveOrUpdateSchedule(scheduleSaveDTO);
     }
 
     @DeleteMapping
@@ -54,10 +59,13 @@ public class ScheduleController implements SchedulePlanApis {
         return null;
     }
 
+    /*
+    * 根据排课计划id查询排课计划详情
+    * */
     @GetMapping("/{id}")
     @ApiOperation("获取计划详情")
     @Override
-    public JsonVO<ScheduleSaveDTO> getScheduleById(@PathVariable Long id) {
-        return null;
+    public JsonVO<LessonScheduleVO> getScheduleById(@PathVariable Long id) {
+        return JsonVO.success(scheduleService.getScheduleById(id));
     }
 }

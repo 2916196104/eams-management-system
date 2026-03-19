@@ -43,3 +43,19 @@ management:
   endpoint:
     health:
       show-details: always
+
+# MyBatis-Plus 配置
+mybatis-plus:
+  configuration:
+    jdbc-type-for-null: 'null'
+    # 开启驼峰命名转换
+    map-underscore-to-camel-case: true
+    # 日志配置 (开发环境可以开启)
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: deleted
+      # 逻辑删除值
+      logic-delete-value: 1
+      # 未逻辑删除值
+      logic-not-delete-value: 0

@@ -23,6 +23,6 @@ public class ClassServiceImpl extends ServiceImpl<ClassMapper, Class> implements
         Page<ClassOptionVO> page = new Page<>(query.getPageIndex(), query.getPageSize());
 
         // 2、因为是多表联查，所以需要用xml获取数据
-        return classMapper.getByClassName(page,query);
+        return classMapper.getListByClassName(page,query);
     }
 }

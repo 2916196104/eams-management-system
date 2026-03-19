@@ -21,7 +21,7 @@ import java.util.stream.StreamSupport;
 /*
 * 全局异常捕获器
 * */
-@RestControllerAdvice
+//@RestControllerAdvice
 public class GlobalExceptionHandler {
     /**
      * 系统通用异常处理

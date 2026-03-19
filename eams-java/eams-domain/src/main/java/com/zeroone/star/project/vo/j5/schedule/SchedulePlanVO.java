@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /*
-* 描述：排课计划返回对象，用于前端展示
+* 描述：分页查询展示对象
 * */
 @Data
 public class SchedulePlanVO {

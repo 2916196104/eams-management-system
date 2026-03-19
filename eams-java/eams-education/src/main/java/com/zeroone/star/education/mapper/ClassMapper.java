@@ -7,5 +7,5 @@ import com.zeroone.star.project.vo.j5.schedule.ClassOptionVO;
 import org.apache.ibatis.annotations.Param;
 
 public interface ClassMapper extends BaseMapper<Class> {
-    Page<ClassOptionVO> getByClassName(Page<ClassOptionVO> page,@Param("query")ClassByNameQuery query);
+    Page<ClassOptionVO> getListByClassName(Page<ClassOptionVO> page,@Param("query")ClassByNameQuery query);
 }

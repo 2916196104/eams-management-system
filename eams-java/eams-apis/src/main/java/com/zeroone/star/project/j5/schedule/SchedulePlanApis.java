@@ -4,6 +4,7 @@ import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j5.schedule.ScheduleSaveDTO;
 import com.zeroone.star.project.query.j5.schedule.SchedulePlanQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.project.vo.j5.schedule.LessonScheduleVO;
 import com.zeroone.star.project.vo.j5.schedule.SchedulePlanVO;
 
 import java.util.List;
@@ -31,5 +32,5 @@ public interface SchedulePlanApis {
     /*
     * 描述：根据id查询排课计划
     * */
-    JsonVO<ScheduleSaveDTO> getScheduleById(Long id);
+    JsonVO<LessonScheduleVO> getScheduleById(Long id);
 }
