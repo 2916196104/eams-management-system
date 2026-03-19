@@ -41,7 +41,7 @@ public class ClassroomController implements ClassroomApis {
     @ApiOperation("获取教室列表（条件+分页）")
     public JsonVO<PageDTO<ClassroomVO>> queryClassroom(ClassroomQuery query) {
         // TODO: 调用 service 层实现
-        return JsonVO.success(classroomService.getClassroomlist(query));
+        return JsonVO.success(classroomService.getList(query));
     }
 
     /**
@@ -67,7 +67,7 @@ public class ClassroomController implements ClassroomApis {
     @ApiOperation("保存教室")
     public JsonVO<Long> saveClassroom(@RequestBody @Validated ClassroomDTO classroomDTO) {
         // TODO: 调用 service 层实现
-        return JsonVO.success(classroomService.saveClassroomByDTO(classroomDTO));
+        return JsonVO.success(classroomService.save(classroomDTO));
     }
 
     /**
@@ -81,6 +81,6 @@ public class ClassroomController implements ClassroomApis {
     @ApiImplicitParam(name = "ids", value = "教室ID列表",type = "Array",paramType = "body",required = true,example = "[\"1\", \"2\"]")
     public JsonVO<List<Long>> deleteClassroom(@RequestBody @Valid @NotEmpty(message = "删除 ID 列表不能为空") List<Long> ids) {
         // TODO: 调用 service 层实现
-        return JsonVO.success(classroomService.deleteClassroomByIds(ids));
+        return JsonVO.success(classroomService.delete(ids));
     }
 }
