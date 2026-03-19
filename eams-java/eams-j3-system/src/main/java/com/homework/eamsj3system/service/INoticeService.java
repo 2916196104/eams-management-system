@@ -1,0 +1,47 @@
+package com.homework.eamsj3system.service;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.homework.eamsj3system.dto.NoticeDTO;
+import com.homework.eamsj3system.entity.Notice;
+import com.homework.eamsj3system.query.NoticeQuery;
+import com.homework.eamsj3system.vo.NoticeVO;
+
+import java.util.List;
+
+/**
+ * <p>
+ * 内部公告 服务接口
+ * </p>
+ * @author 阿伟
+ */
+public interface INoticeService extends IService<Notice> {
+
+    /**
+     * 分页查询公告列表
+     * @param query 查询条件
+     * @return 返回分页数据
+     */
+    Page<NoticeVO> pageList(NoticeQuery query);
+
+    /**
+     * 根据 ID 获取公告详情
+     * @param id 公告 ID
+     * @return 返回公告详情
+     */
+    NoticeVO getById(Long id);
+
+    /**
+     * 保存公告
+     * @param noticeDTO 公告数据传输对象
+     * @return 是否成功
+     */
+    boolean saveNotice(NoticeDTO noticeDTO);
+
+    /**
+     * 删除公告（支持批量删除）
+     * @param ids 公告 ID 列表
+     * @return 是否成功
+     */
+    boolean deleteByIds(List<Long> ids);
+}
