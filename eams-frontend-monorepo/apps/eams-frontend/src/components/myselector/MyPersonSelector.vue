@@ -112,7 +112,7 @@ const props = withDefaults(defineProps<MyPersonSelectorProps>(), {
   placeholder: '请选择人员',
   searchPlaceholder: '请输入姓名关键字搜索',
   panelWidth: '580px',
-  tableHeight: '437px',
+  tableHeight: '438px',
   pageSizes: () => [10, 20, 50, 100],
   defaultPageSize: 10
 })
