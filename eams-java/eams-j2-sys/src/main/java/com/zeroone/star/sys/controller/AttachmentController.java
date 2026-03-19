@@ -3,17 +3,18 @@ package com.zeroone.star.sys.controller;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j2.sys.Attach.AttachmentAddDTO;
 import com.zeroone.star.project.dto.j2.sys.Attach.AttachmentDTO;
+import com.zeroone.star.project.dto.j2.sys.Attach.AttachmentDeleteDTO;
+import com.zeroone.star.project.dto.j2.sys.Attach.AttachmentUpdateDTO;
 import com.zeroone.star.project.j2.sys.AttachmentApis;
 import com.zeroone.star.project.query.j2.sys.AttachmentQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.project.vo.j2.attachment.AttachmentUpdateVO;
 import com.zeroone.star.project.vo.j2.sys.AttachmentUploadVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -54,18 +55,51 @@ public class AttachmentController implements AttachmentApis{
     public JsonVO<AttachmentUploadVO> uploadAttachment(AttachmentAddDTO addDto) {
         return null;
     }
+    /**
+     * 负责人：大鹏
+     */
 
-    @PostMapping("/remove")
-    @ApiOperation("删除附件（逻辑删除）")
+    /**
+     * 单个删除附件
+     * @param attachmentId 附件ID
+     * @return 删除是否成功
+     */
     @Override
-    public JsonVO<Boolean> removeAttachment(String id) {
+    @PostMapping("/delete-attachment")
+    @ApiOperation("删除单个附件")
+    public JsonVO<Boolean> deleteAttachment(@RequestParam String attachmentId) {
+        // TODO 实现单个删除逻辑
+        // 1. 参数校验：attachmentId 不能为空
+        // 2. 调用Service层执行删除
+        // 3. 返回删除结果
         return null;
     }
 
-    @PostMapping("/remove/batch")
-    @ApiOperation("批量删除附件")
+    /**
+     * 更新附件信息
+     * @param updateDTO 更新参数
+     * @return 更新后的附件信息
+     */
     @Override
-    public JsonVO<Boolean> removeAttachmentsBatch(List<String> ids) {
+    @ApiOperation("修改附件")
+    @PostMapping("/update-attachment")
+    public JsonVO<AttachmentUpdateVO> updateAttachment(@RequestBody @Valid AttachmentUpdateDTO updateDTO) {
+        // TODO 实现更新逻辑
+        // 1. 参数校验（@Valid 会自动校验）
+        // 2. 调用Service层执行更新
+        // 3. 返回更新后的数据
+        return null;
+    }
+
+    /**
+     * 批量删除附件
+     * @param deleteDTO 批量删除参数（包含ID列表和删除原因）
+     * @return 实际删除的数量
+     */
+    @Override
+    @ApiOperation("批量删除附件附件")
+    @PostMapping("/batch-delete-attachment")
+    public JsonVO<Integer> batchDeleteAttachment(@RequestBody @Valid AttachmentDeleteDTO deleteDTO) {
         return null;
     }
 }

@@ -1,4 +1,4 @@
-package com.zeroone.star.project.dto.query.j2.sys;
+package com.zeroone.star.project.query.j2.sys.Datadict;
 
 import com.zeroone.star.project.query.PageQuery;
 import io.swagger.annotations.ApiModelProperty;
