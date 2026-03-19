@@ -39,6 +39,11 @@
             <artifactId>eams-apis</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.zeroone.star</groupId>
+            <artifactId>eams-domain</artifactId>
+        </dependency>
+
         <!-- alibaba nacos config -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
