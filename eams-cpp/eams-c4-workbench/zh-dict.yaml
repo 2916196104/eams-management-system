@@ -73,7 +73,8 @@ workbench:
  query-one:
   summary: 使用声明式服务查询一条数据
  query-all:
-  summary: 使用声明式服务查询多条数据schedule:
+  summary: 使用声明式服务查询多条数据
+ schedule:
   field:
     classId: 班级ID
     courseId: 课程ID
@@ -88,18 +89,13 @@ workbench:
     endDate: 结束日期
 
     weekDays: 每周上课日
-
     startTime: 上课时间
     endTime: 下课时间
-
     limitNum: 限制人数
-
     skipHolidays: 跳过节假日
     enableReservation: 开启预约
     conflict: 是否冲突
-
     date: 上课日期
-
   api:
     createRepeat: 创建重复排课
     createFree: 创建自由排课
