@@ -9,5 +9,3 @@ c5:
    startTime: "开始时间"
    endTime: "结束时间"
    team: "班级"
- student:
-  id: "学生ID"
