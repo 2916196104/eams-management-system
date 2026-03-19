@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * 描述：成绩列表
+ * 成绩列表数据对象
  */
 @Data
 public class GradeListDTO {
@@ -27,11 +27,8 @@ public class GradeListDTO {
     @ApiModelProperty(value = "考核项",example = "语文")
     private String title;
 
-    /**
-     * 学生姓名
-     */
-    @ApiModelProperty(value = "学生姓名",example = "张三")
-    private String student_name;
+    @ApiModelProperty(value = "学生ID", example = "20230001", required = true)
+    private Long student_id;
 
     /**
      * 成绩

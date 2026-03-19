@@ -2,10 +2,12 @@ package com.zeroone.star.project.j6.interact;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.zeroone.star.project.dto.j6.interact.GradeListDTO;
 import com.zeroone.star.project.dto.j6.interact.GradeFormDTO;
+import com.zeroone.star.project.dto.j6.interact.GradeRecordAddDTO;
 import com.zeroone.star.project.query.j6.interact.GradeFormQuery;
 import com.zeroone.star.project.vo.JsonVO;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 描述：成绩管理相关接口
@@ -40,4 +42,27 @@ public interface GradeApis {
 	 * @return 返回结果
 	 */
 	JsonVO<List<Long> > deleteGrade(List<Long> ids);
+
+	/**
+	 * 保存成绩
+	 * @param gradeListDTO 成绩数据对象
+	 * todo 可能需要新建完整的成绩数据对象
+	 * @return
+	 */
+	//修改保存
+	JsonVO<String> modifyGradeRecord(GradeListDTO gradeListDTO);
+
+	/**
+	 * 删除成绩,支持批量删除
+	 * @return
+	 */
+	JsonVO<List<Long>> deleteGradeRecord(List<Long> ids);
+
+	/**
+	 * 导入成绩
+	 * @param grade_id
+	 * @param gradeRecords
+	 * @return
+	 */
+	JsonVO<Map<Long, Object>> addGrades(Long grade_id, List<GradeRecordAddDTO> gradeRecords);
 }

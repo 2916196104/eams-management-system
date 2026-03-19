@@ -3,6 +3,7 @@ package com.zeroone.star.interact.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.zeroone.star.project.dto.j6.interact.GradeListDTO;
 import com.zeroone.star.project.dto.j6.interact.GradeFormDTO;
+import com.zeroone.star.project.dto.j6.interact.GradeRecordAddDTO;
 import com.zeroone.star.project.j6.interact.GradeApis;
 import com.zeroone.star.project.query.j6.interact.GradeFormQuery;
 import com.zeroone.star.project.vo.JsonVO;
@@ -11,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("j6/grade")
@@ -49,7 +51,7 @@ public class GradeController implements GradeApis {
      * @param gradeFormDTO 成绩单信息
      * @return 保存结果
      */
-    @PostMapping("/save")
+    @PostMapping("/form")
     @ApiOperation("保存成绩单")
     @Override
     public JsonVO<Long> saveGrade(@RequestBody GradeFormDTO gradeFormDTO) {
@@ -62,10 +64,51 @@ public class GradeController implements GradeApis {
      * @param ids 成绩单id列表
      * @return 返回结果
      */
-    @DeleteMapping
+    @DeleteMapping("/form")
     @ApiOperation("删除成绩单")
     @Override
     public JsonVO<List<Long>> deleteGrade(List<Long> ids) {
+        return null;
+    }
+
+    /**
+     * 保存成绩
+     *
+     * @param gradeListDTO 成绩数据对象
+     *  todo 可能需要新建完整的成绩数据对象
+     * @return
+     */
+    @PostMapping("/record")
+    @ApiOperation("保存成绩")
+    @Override
+    public JsonVO<String> modifyGradeRecord(GradeListDTO gradeListDTO) {
+        return null;
+    }
+
+    /**
+     * 删除成绩,支持批量删除
+     *
+     * @param ids
+     * @return
+     */
+    @DeleteMapping("/record")
+    @ApiOperation("删除成绩")
+    @Override
+    public JsonVO<List<Long>> deleteGradeRecord(List<Long> ids) {
+        return null;
+    }
+
+    /**
+     * 导入成绩
+     *
+     * @param grade_id
+     * @param gradeRecords
+     * @return
+     */
+    @PostMapping("/file")
+    @ApiOperation("导入成绩")
+    @Override
+    public JsonVO<Map<Long, Object>> addGrades(Long grade_id, List<GradeRecordAddDTO> gradeRecords) {
         return null;
     }
 
