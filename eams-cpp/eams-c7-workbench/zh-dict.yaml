@@ -26,4 +26,23 @@
   head_img: 头像地址
   file: 要上传的文件
 
+course:
+    detail:
+        summary: 课程详情
+    list:
+        summary: 课程列表
+    saveReg:
+        summary: 保存报名
+    field:
+        reportType: 报名类型
+        stuName: 学生姓名
+        courseName: 课程名称
+        startTime: 开始时间
+        endTime: 结束时间
+        courseNum: 课程数
+        coursePrice: 课程价格
+        actualPayment: 实际支付
+        discountPrice: 优惠金额
+        tip: 备注
+
 
