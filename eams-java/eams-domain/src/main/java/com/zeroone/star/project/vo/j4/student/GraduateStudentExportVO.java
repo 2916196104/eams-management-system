@@ -1,4 +1,4 @@
-package com.zeroone.star.project.vo.j4.graduate;
+package com.zeroone.star.project.vo.j4.student;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
