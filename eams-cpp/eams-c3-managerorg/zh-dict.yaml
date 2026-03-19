@@ -10,6 +10,9 @@ Grade:
   summary: 新增一条示例数据
  put:
   summary: 修改一条示例数据
+Homework:
+ backhomework: 课后作业
+ delHomework: 删除作业
  delete:
   summary: 删除成绩
  query-by-item:
@@ -53,3 +56,36 @@ Page:
     pageSize: 单页数据条数
     sortBy: 排序方式
     sortType: 排序类别（这个和By没区分清楚，先打个备注）
+  successCount: 成功删除的作业数量
+  failIds: 删除失败的作业ID列表
+ query:
+  homeworkId: 作业ID
+  studentId: 学生ID
+  status: 作业提交状态
+ vo:
+  homeworkIds: 作业ID列表
+  deleteType: 删除类型
+  serialNo: 序号
+  submitterName: 提交人
+  submitContent: 提交内容
+  submitTime: 提交时间
+  reviewerName: 点评人
+  score: 点评得分
+  reviewComment: 点评内容
+  total: 总记录数
+  pageIndex: 当前页码
+  pageSize: 每页大小
+
+SendHomework:
+ homeworkSend: 作业提交
+
+Common:
+ index: 序号
+
+GetHomeworkList:
+ summary: 获取作业提交列表（条件+分页）
+
+ReviewHomework:
+ summary: 点评作业
+ stuHomeworkId: 学生作业ID
+     
