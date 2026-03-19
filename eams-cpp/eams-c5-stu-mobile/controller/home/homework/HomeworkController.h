@@ -11,7 +11,7 @@
 #include "domain/vo/home/homework/HomeworkVO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
-#define API_TAG ZH_WORDS_GETTER("Homework.tag")
+#define API_TAG ZH_WORDS_GETTER("c5.home.homework.tag")
 
 
 // 控制器类名改为HomeworkController，继承ApiController不变
@@ -35,7 +35,7 @@ public:
     }
 
     // 端点路径适配作业业务，参数/鉴权逻辑保留
-    ENDPOINT(API_M_GET, "/app/sCenter/homework/list", Homework, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
+    ENDPOINT(API_M_GET, "/c5/home/homework/list", Homework, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
         // 查询参数绑定为HomeworkQuery（适配作业表查询条件）
         API_HANDLER_QUERY_PARAM(query, HomeworkQuery, params);
         // 响应VO替换为HomeworkPageJsonVO
