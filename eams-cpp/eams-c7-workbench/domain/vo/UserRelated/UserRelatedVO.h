@@ -3,7 +3,7 @@
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2022/12/01 17:39:36
+ @Date: 2022/10/25 11:34:14
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,22 +17,27 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#ifndef _GETCLASSDETAILSCONTROLLER_
-#define _GETCLASSDETAILSCONTROLLER_
+#ifndef _UserRelatedVO_H_
+#define _UserRelatedVO_H_
 
-#include "domain/vo/BaseJsonVO.h"
-#include "ApiHelper.h"
-#include OATPP_CODEGEN_BEGIN(ApiController) //<- Begin Codegen
+#include "../../GlobalInclude.h"
+#include "../../dto/UserRelated/UserRelatedDTO.h"
 
-class GetClassDetailsController : public oatpp::web::server::api::ApiController
+#include OATPP_CODEGEN_BEGIN(DTO)
+
+/*
+* 用户相关显示对象
+*/
+class UserRelatedVO : public JsonVO<UserRelatedDTO::Wrapper>
 {
-	//定义控制器访问入口
-	API_ACCESS_DECLARE(GetClassDetailsController);
-public:			 //定义接口
-private:		 //定义执行函数
-
+	DTO_INIT(UserRelatedVO, JsonVO<UserRelatedDTO::Wrapper>);
 };
 
-#include OATPP_CODEGEN_END(ApiController) //<- End Codegen
 
-#endif // _USERCONTROLLER_H_
+
+
+
+
+#include OATPP_CODEGEN_END(DTO)
+
+#endif // !_SAMPLE_VO_

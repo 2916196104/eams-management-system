@@ -35,4 +35,4 @@ private:		 //定义执行函数
 
 #include OATPP_CODEGEN_END(ApiController) //<- End Codegen
 
-#endif // _USERCONTROLLER_H_
+#endif // _GETCLASSSTUDENTCOURSELISTCONTROLLER_

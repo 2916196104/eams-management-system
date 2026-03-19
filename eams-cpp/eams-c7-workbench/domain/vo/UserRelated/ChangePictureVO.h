@@ -17,24 +17,24 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#ifndef _Class_VO_
-#define _Class_VO_
+#ifndef _CHANGEPICTUREVO_H_
+#define _CHANGEPICTUREVO_H_
 
-#include "../GlobalInclude.h"
-#include"../dto/ClassDTO.h"
+#include "../../GlobalInclude.h"
+#include "../../dto/UserRelated/UserRelatedDTO.h"
+
 #include OATPP_CODEGEN_BEGIN(DTO)
-/**
- * 班级分页显示对象
- */
-class ClassPageJsonVO : public JsonVO<ClassPageAddDTO::Wrapper> 
+
+/*
+* 用户资料显示对象
+*/
+class ChangePictureVO : public JsonVO<ChangePictureDTO::Wrapper>
 {
-	DTO_INIT(ClassPageJsonVO, JsonVO<ClassPageAddDTO::Wrapper>);
+	DTO_INIT(ChangePictureVO, JsonVO<ChangePictureDTO::Wrapper>);
 };
 
-class ClassListJsonVO : public ListJsonVO<ClassAddDTO::Wrapper>
-{
-	DTO_INIT(ClassListJsonVO, ListJsonVO<ClassAddDTO::Wrapper>);
-};
+
+
 #include OATPP_CODEGEN_END(DTO)
 
-#endif // !_Class_VO_
+#endif // !_SAMPLE_VO_

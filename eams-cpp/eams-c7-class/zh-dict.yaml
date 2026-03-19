@@ -1,0 +1,21 @@
+﻿
+class:
+  tag: 获取班级信息
+  query-classdetails: 
+    summary: 获取班级详细信息
+  query-classlist:
+    summary: 获取班级列表
+    
+  field:
+    id: 班级ID
+    className: 班级名称
+    homeroom-teacher: 班主任
+    course: 课程
+    num-of-people: 人数
+    classroom: 教室
+    course-progress: 课程进度
+    enrollment-progress: 招生进度
+    remarks: 备注
+    createtime: 创建时间
+    endtime: 结束时间
+    status: 状态
