@@ -25,41 +25,41 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * ǰ������ݶԽ����ݶ���
+ * 前后端数据对接数据对象
  */
 template<class T>
 class JsonVO : public NoDataJsonVO
 {
-	// ��ʼ������
+	// 初始化定义
 	DTO_INIT(JsonVO, NoDataJsonVO);
 
-	// ���ݶ���
+	// 数据对象
 	DTO_FIELD(T, data, "data");
 	DTO_FIELD_INFO(data) {
 #ifndef LINUX
-		info->description = u8"���ݶ���";
+		info->description = u8"数据对象";
 #else
 		info->description = "data object";
 #endif
 	}
 
 public:
-	// ����״̬
+	// 设置状态
 	void setStatus(ResultStatus resultStatus) {
 		this->message = resultStatus.getMessage();
 		this->code = resultStatus.getCode();
 	}
-	// ��ʼ��
+	// 初始化
 	void init(T data, ResultStatus resultStatus) {
 		this->data = data;
 		this->setStatus(resultStatus);
 	}
-	// �����ɹ���Ϣ
+	// 构建成功消息
 	void success(T data) {
 		this->setStatus(RS_SUCCESS);
 		this->data = data;
 	}
-	// ����ʧ����Ϣ 
+	// 构建失败消息
 	void fail(T data) {
 		this->setStatus(RS_FAIL);
 		this->data = data;
