@@ -32,6 +32,10 @@ import java.util.List;
 @RequestMapping("/j4/student")
 @Api(tags = "学员管理")
 public class StudentController implements StudentApis {
+
+    @Resource
+    private IStudentService studentService;
+
     @GetMapping("/follow-up/page")
     @ApiOperation("获取跟进记录列表（条件+分页）")
     @Override
@@ -95,19 +99,41 @@ public class StudentController implements StudentApis {
         return null;
     }
 
+    @PostMapping("/modifyConsultant")
+    @ApiOperation("修改学员顾问")
     @Override
-    public JsonVO<String> modifyConsultant(StudentDTO studentDTO) {
-        return null;
+    public JsonVO<String> modifyConsultant(@RequestBody StudentDTO studentDTO) {
+        Boolean result = studentService.modifyConsultant(studentDTO);
+        if(result) {
+            return JsonVO.success("学员顾问修改成功");
+        }
+        return JsonVO.fail("学员顾问修改失败");
     }
 
+    @PostMapping("/importOnlineStudents")
+    @ApiOperation("导入在学学员")
     @Override
-    public JsonVO<String> importOnlineStudents(MultipartFile file) {
-        return null;
+    public JsonVO<String> importOnlineStudents(@RequestPart("file") MultipartFile file) {
+        Boolean result = studentService.importOnlineStudents(file);
+        if(result) {
+            return JsonVO.success("在线学员导入成功");
+        }
+        return JsonVO.fail("在线学员导入失败");
     }
 
+    @GetMapping("/exportOnlineStudents")
+    @ApiOperation("导出在学学员")
     @Override
     public ResponseEntity<byte[]> exportOnlineStudents() {
-        return null;
+        byte[] data = studentService.exportOnlineStudent();
+        if(data != null && data.length > 0) {
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .header("Content-Disposition", "attachment; filename=\"online_students.xlsx\"")
+                    .body(data);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
     }
 
     @Override
@@ -128,8 +154,6 @@ public class StudentController implements StudentApis {
         // 模拟返回删除成功的记录 ID
         return null;
     }
-    @Resource
-    private IStudentService studentService;
 
     @ApiOperation(value = "意向学员-导出全部")
     @GetMapping(value = "/export-intention", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
