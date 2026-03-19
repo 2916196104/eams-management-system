@@ -56,6 +56,9 @@ intendedstudent:
   student:
    id: ID
    sex: 学员性别
+   male: 男
+   fmale: 女
+   unknown: 未知
    name: 学员名字
    stage: 学员状态
    mobile: 手机号码

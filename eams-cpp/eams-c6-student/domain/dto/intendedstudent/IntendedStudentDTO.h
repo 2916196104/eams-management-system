@@ -74,7 +74,11 @@ public:
 
         // 性别有效值校验
         if (sex && !sex->empty()) {
-            if (*sex != "男" && *sex != "女" && *sex != "未知")
+            if (
+                *sex != ZH_WORDS_GETTER("intendedstudent.field.student.male") 
+                && *sex != ZH_WORDS_GETTER("intendedstudent.field.student.fmale")
+                && *sex != ZH_WORDS_GETTER("intendedstudent.field.student.unknown")
+                )
                 return "sex invalidate.";
         }
 
