@@ -11,7 +11,7 @@
 #include "domain/vo/home/class/ClassStudentVO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
-#define API_TAG ZH_WORDS_GETTER("ClassStudent.tag")
+#define API_TAG ZH_WORDS_GETTER("c5.home.classstudent.tag")
 
 
 // 控制器类名改为ClassStudentController，继承关系不变
@@ -32,7 +32,7 @@ public:
         info->queryParams["class_id"].addExample("default", oatpp::Int32(1));
     }
     // 端点路径保留（业务路径不变），端点名称改为ClassStudent，参数/鉴权不变
-    ENDPOINT(API_M_GET, "/app/sCenter/class/list", ClassStudent, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
+    ENDPOINT(API_M_GET, "/c5/home/class-student/list", ClassStudent, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
         // 查询参数绑定为ClassStudentQuery
         API_HANDLER_QUERY_PARAM(query, ClassStudentQuery, params);
         // 响应VO替换为ClassStudentPageJsonVO
