@@ -1,17 +1,17 @@
-home:
- trialCard:
-  name: "试用卡名称"
-  courseName: "试用卡课程名称"
-  lessonCount: "试用卡课时"
-  remainingQuantity: "试用卡剩余数量"
-  endData: "试用卡截止时间"
-  getTrialCardList:
-   info: "获取试用卡列表"
-student:
- id: "学生ID"
- name: "学生姓名"
- phone: "学生手机号"
- email: "学生邮箱"
- getStudentInfo:
- info: "获取学生信息"
+c5:
+ home:
+  trialCard:
+   name: "试用卡名称"
+   courseName: "试用卡课程名称"
+   lessonCount: "试用卡课时"
+   remainingQuantity: "试用卡剩余数量"
+   endData: "试用卡截止时间"
+   getTrialCardList:
+    info: "获取试用卡列表"
+ student:
+  id: "学生ID"
+  name: "学生姓名"
+  phone: "学生手机号"
+  email: "学生邮箱"
+  getStudentInfo: "获取学生信息" 
   

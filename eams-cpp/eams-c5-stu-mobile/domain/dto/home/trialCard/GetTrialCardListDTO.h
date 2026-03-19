@@ -12,31 +12,31 @@ class GetTrialCardListAddDTO : public oatpp::DTO
 	DTO_FIELD(String, name); // 试用卡名称
 	DTO_FIELD_INFO(name)
 	{
-		info->description = ZH_WORDS_GETTER("home.trialCard.name");
+		info->description = ZH_WORDS_GETTER("c5.home.trialCard.name");
 	}
 		
 	DTO_FIELD(String, courseName); // 试用卡课程名称
 	DTO_FIELD_INFO(courseName)
 	{
-		info->description = ZH_WORDS_GETTER("home.trialCard.courseName");
+		info->description = ZH_WORDS_GETTER("c5.home.trialCard.courseName");
 	}
 
 	DTO_FIELD(Int32, lessonCount); // 试用卡课时
 	DTO_FIELD_INFO(lessonCount)
 	{
-		info->description = ZH_WORDS_GETTER("home.trialCard.lessonCount");
+		info->description = ZH_WORDS_GETTER("c5.home.trialCard.lessonCount");
 	}
 
 	DTO_FIELD(Int32, remainingQuantity); // 试用卡剩余数量
 	DTO_FIELD_INFO(remainingQuantity)
 	{
-		info->description = ZH_WORDS_GETTER("home.trialCard.remainingQuantity");
+		info->description = ZH_WORDS_GETTER("c5.home.trialCard.remainingQuantity");
 	}
 
 	DTO_FIELD(String, endData); // 试用卡截止时间
 	DTO_FIELD_INFO(endData)
 	{
-		info->description = ZH_WORDS_GETTER("home.trialCard.endData");
+		info->description = ZH_WORDS_GETTER("c5.home.trialCard.endData");
 	}
 };
 
@@ -47,7 +47,7 @@ class GetTrialCardListDTO : public GetTrialCardListAddDTO
 	DTO_FIELD(String, id); // 试用卡id
 	DTO_FIELD_INFO(id)
 	{
-		info->description = ZH_WORDS_GETTER("student.id");
+		info->description = ZH_WORDS_GETTER("c5.student.id");
 	}
 };
 
