@@ -1,5 +1,6 @@
 package com.zeroone.star.academic.config;
 
+import com.zeroone.star.project.config.swagger.SwaggerCore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -22,17 +23,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 @EnableSwagger2WebMvc
 public class SwaggerConfig {
     @Bean
-    public Docket createRestApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(new ApiInfoBuilder()
-                        .title("结业学员导入导出接口文档")
-                        .description("结业学员导入导出接口（可直接调试）")
-                        .version("1.0")
-                        .build())
-                .select()
-                // 扫描Controller所在包
-                .apis(RequestHandlerSelectors.basePackage("com.zeroone.star.academic.controller"))
-                .paths(PathSelectors.any())
-                .build();
+    Docket sampleApi() {
+        return SwaggerCore.defaultDocketBuilder("学员模块", "com.zeroone.star.student.controller", "student");
     }
 }

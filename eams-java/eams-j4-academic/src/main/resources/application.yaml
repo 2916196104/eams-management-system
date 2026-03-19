@@ -1,5 +1,0 @@
-server:
-  port: ${sp.academic}
-spring:
-  application:
-    name: ${sn.academic}

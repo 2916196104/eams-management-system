@@ -1,4 +1,4 @@
-package com.zeroone.star.academic.controller;
+package com.zeroone.star.student.controller;
 
 import com.zeroone.star.project.vo.j4.graduate.CommonResponseVO;
 import com.zeroone.star.project.dto.j4.graduate.GraduateStudentExportDTO;
