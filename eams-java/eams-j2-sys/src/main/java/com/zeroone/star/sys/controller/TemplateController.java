@@ -10,15 +10,14 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
  * 模板文件控制器
  * </p>
- * @author 斗气化码
  * @since 2026-03-18
  */
 @Controller
@@ -42,5 +41,28 @@ public class TemplateController implements TemplateApis {
     @Override
     public JsonVO<PageDTO<TemplateDTO>> queryAll(@Validated TemplateQuery condition) {
         return JsonVO.success(null);
+    }
+    /**
+     * 负责人：Emanon
+     */
+    @PostMapping("/add")
+    @ApiOperation(value = "新增模版")
+    @Override
+    public JsonVO<String> addTemplate(@RequestBody TemplateDTO dto) {
+        return null;
+    }
+
+    @PostMapping("/update")
+    @ApiOperation(value = "修改模版")
+    @Override
+    public JsonVO<String> modifyTemplate(@RequestBody TemplateDTO dto) {
+        return null;
+    }
+
+    @DeleteMapping("/delete")
+    @ApiOperation(value = "删除模版")
+    @Override
+    public JsonVO<String> removeTemplate(List<String> ids) {
+        return null;
     }
 }
