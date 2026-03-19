@@ -15,12 +15,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!--        &lt;!&ndash; knife4j aggregation &ndash;&gt;-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.github.xiaoymin</groupId>-->
-        <!--            <artifactId>knife4j-aggregation-spring-boot-starter</artifactId>-->
-        <!--        </dependency>-->
-        <!-- common -->
+
+        <!-- knife4j -->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.zeroone.star</groupId>
             <artifactId>eams-common</artifactId>
