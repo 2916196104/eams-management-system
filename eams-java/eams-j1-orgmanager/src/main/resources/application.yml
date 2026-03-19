@@ -1,7 +1,0 @@
-server:
-  port: 8001
-spring:
-  application:
-    name: eams-j1-orgmanager
-knife4j:
-  enable: true

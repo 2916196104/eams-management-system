@@ -21,6 +21,7 @@
             <groupId>com.zeroone.star</groupId>
             <artifactId>eams-apis</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.zeroone.star</groupId>
             <artifactId>eams-domain</artifactId>
@@ -28,6 +29,19 @@
         <dependency>
             <groupId>com.zeroone.star</groupId>
             <artifactId>eams-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- alibaba nacos config -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zeroone.star</groupId>
+            <artifactId>eams-apis</artifactId>
         </dependency>
     </dependencies>
 
