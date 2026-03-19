@@ -22,168 +22,55 @@
 #include "../GlobalInclude.h"
 #include "domain/dto/PageDTO.h"
 #include "domain/vo/JsonVO.h"
+#include"ApiHelper.h"
 #include OATPP_CODEGEN_BEGIN(DTO)
 /**
- * 班级数据传输对象（用于新增）
+ * 班级数据传输对象
  */
 class ClassAddDTO : public oatpp::DTO
 {
     DTO_INIT(ClassAddDTO, DTO);
 
     // 班级名称
-    DTO_FIELD(String, className);
-    DTO_FIELD_INFO(className) {
-        info->required = true;
-#ifndef LINUX
-        info->description = u8"班级名称";
-#else
-        info->description = "class name";
-#endif
-    }
+    API_DTO_FIELD_REQUIRE(String, classname, ZH_WORDS_GETTER("class.field.classname"), true);
 
-    // 年级
-    DTO_FIELD(String, grade);
-    DTO_FIELD_INFO(grade) {
-        info->required = true;
-#ifndef LINUX
-        info->description = u8"年级";
-#else
-        info->description = "grade";
-#endif
-    }
+    // 班级id
+    API_DTO_FIELD_REQUIRE(Int64, class_id, ZH_WORDS_GETTER("class.field.id"), true);
 
-    // 班级编号
-    DTO_FIELD(String, classCode);
-    DTO_FIELD_INFO(classCode) {
-        info->required = true;
-#ifndef LINUX
-        info->description = u8"班级编号";
-#else
-        info->description = "class code";
-#endif
-    }
+    // 班主任
+    API_DTO_FIELD_REQUIRE(String, homeroom_teacher, ZH_WORDS_GETTER("class.field.homeroom-teacher"), true);
 
-    // 班主任ID
-    DTO_FIELD(UInt64, teacherId);
-    DTO_FIELD_INFO(teacherId) {
-#ifndef LINUX
-        info->description = u8"班主任ID";
-#else
-        info->description = "teacher id";
-#endif
-    }
+    //课程
+    API_DTO_FIELD_REQUIRE(String, course_name, ZH_WORDS_GETTER("class.field.course"), true);
 
-    // 班级描述
-    DTO_FIELD(String, description);
-    DTO_FIELD_INFO(description) {
-#ifndef LINUX
-        info->description = u8"班级描述";
-#else
-        info->description = "description";
-#endif
-    }
+    //人数
+    API_DTO_FIELD_REQUIRE(Int64, num_of_people, ZH_WORDS_GETTER("class.field.num-of-people"), true);
 
-    // 最大学生人数
-    DTO_FIELD(UInt32, maxStudents);
-    DTO_FIELD_INFO(maxStudents) {
-#ifndef LINUX
-        info->description = u8"最大学生人数";
-#else
-        info->description = "maximum students";
-#endif
-    }
+    // 班级名称
+    API_DTO_FIELD_DEFAULT(String, className, ZH_WORDS_GETTER("class.field.classname"));
 
-public:
-    // 数据校验
-    std::string validate()
-    {
-        if (!className || className->empty())
-            return "class name cannot be empty.";
-        if (!grade || grade->empty())
-            return "grade cannot be empty.";
-        if (!classCode || classCode->empty())
-            return "class code cannot be empty.";
-        if (maxStudents && maxStudents > 100)
-            return "maximum students cannot exceed 100.";
-        return "";
-    }
+    // 班级状态（0:停用, 1:启用）
+    API_DTO_FIELD_DEFAULT(Int32, status, ZH_WORDS_GETTER("class.field.status"));
+
+    // 开始创建时间
+    API_DTO_FIELD_DEFAULT(String, CreateTime, ZH_WORDS_GETTER("class.field.createtime"));
+
+    //教室
+    API_DTO_FIELD_DEFAULT(String, classroom, ZH_WORDS_GETTER("class.field.classroom"));
+
+    //招生进度
+    API_DTO_FIELD_DEFAULT(String, enrollment_progress, ZH_WORDS_GETTER("class.field.enrollment-progress"));
+
+    //课程进度
+    API_DTO_FIELD_DEFAULT(String, course_progress, ZH_WORDS_GETTER("class.field.course-progress"));
+
+    //备注
+    API_DTO_FIELD_DEFAULT(String, remarks, ZH_WORDS_GETTER("class.field.remarks"));
 };
 
-/**
- * 班级数据传输对象（用于更新和详情）
- */
-class ClassDTO : public ClassAddDTO
+class ClassPageAddDTO : public PageDTO<ClassAddDTO::Wrapper>
 {
-    DTO_INIT(ClassDTO, ClassAddDTO);
-
-    // 班级ID
-    DTO_FIELD(UInt64, classId);
-    DTO_FIELD_INFO(classId) {
-        info->required = true;
-#ifndef LINUX
-        info->description = u8"班级ID";
-#else
-        info->description = "class id";
-#endif
-    }
-
-    // 状态 (0:停用, 1:启用)
-    DTO_FIELD(UInt32, status);
-    DTO_FIELD_INFO(status) {
-#ifndef LINUX
-        info->description = u8"状态";
-#else
-        info->description = "status";
-#endif
-    }
-
-    // 创建时间
-    DTO_FIELD(String, createTime);
-    DTO_FIELD_INFO(createTime) {
-#ifndef LINUX
-        info->description = u8"创建时间";
-#else
-        info->description = "create time";
-#endif
-    }
-
-    // 更新时间
-    DTO_FIELD(String, updateTime);
-    DTO_FIELD_INFO(updateTime) {
-#ifndef LINUX
-        info->description = u8"更新时间";
-#else
-        info->description = "update time";
-#endif
-    }
-
-    // 创建人
-    DTO_FIELD(String, createBy);
-    DTO_FIELD_INFO(createBy) {
-#ifndef LINUX
-        info->description = u8"创建人";
-#else
-        info->description = "creator";
-#endif
-    }
-
-    // 更新人
-    DTO_FIELD(String, updateBy);
-    DTO_FIELD_INFO(updateBy) {
-#ifndef LINUX
-        info->description = u8"更新人";
-#else
-        info->description = "updater";
-#endif
-    }
-};
-
-/**
- * 班级分页数据传输对象
- */
-class ClassPageDTO : public PageDTO<ClassDTO::Wrapper>
-{
-    DTO_INIT(ClassPageDTO, PageDTO<ClassDTO::Wrapper>);
+    DTO_INIT(ClassAddDTO, PageDTO<ClassAddDTO::Wrapper>);
 };
 #include OATPP_CODEGEN_END(DTO)
 #endif // !_CLASS_DTO_

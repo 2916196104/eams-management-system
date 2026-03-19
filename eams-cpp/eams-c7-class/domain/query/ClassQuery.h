@@ -26,31 +26,41 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * 班级查询对象
+ * 班级列表查询类
  */
-class ClassQuery : public PageQuery {
+class ClassQuery : public PageQuery 
+{
     DTO_INIT(ClassQuery, PageQuery);
 
     // 班级名称（模糊查询）
-    API_DTO_FIELD_DEFAULT(String, className, u8"班级名称");
+    API_DTO_FIELD_DEFAULT(String, className, ZH_WORDS_GETTER("class.field.classname"));
 
-    // 年级
-    API_DTO_FIELD_DEFAULT(UInt32, grade, u8"年级");
+    // 课程
+    API_DTO_FIELD_DEFAULT(String, course, ZH_WORDS_GETTER("class.field.course"));
 
-    // 专业ID
-    API_DTO_FIELD_DEFAULT(UInt64, majorId, u8"专业ID");
+    // 班主任
+    API_DTO_FIELD_DEFAULT(String, homeroom_teacher, ZH_WORDS_GETTER("class.field.homeroom-teacher"));
 
-    // 班主任ID
-    API_DTO_FIELD_DEFAULT(UInt64, headTeacherId, u8"班主任ID");
-
-    // 状态（0:停用, 1:启用）
-    API_DTO_FIELD_DEFAULT(Int32, status, u8"状态");
+    // 班级状态（0:停用, 1:启用）
+    API_DTO_FIELD_DEFAULT(Int32, status, ZH_WORDS_GETTER("class.field.status"));
 
     // 开始创建时间
-    API_DTO_FIELD_DEFAULT(String, startCreateTime, u8"开始创建时间");
+    API_DTO_FIELD_DEFAULT(String, startTime, ZH_WORDS_GETTER("class.field.createtime"));
 
     // 结束创建时间
-    API_DTO_FIELD_DEFAULT(String, endCreateTime, u8"结束创建时间");
+    API_DTO_FIELD_DEFAULT(String, endTime, ZH_WORDS_GETTER("class.field.endtime"));
+
+    //教室
+    API_DTO_FIELD_DEFAULT(String, classroom, ZH_WORDS_GETTER("class.field.classroom"));
+
+    //招生进度
+    API_DTO_FIELD_DEFAULT(String, enrollment_progress, ZH_WORDS_GETTER("class.field.enrollment-progress"));
+
+    //课程进度
+    API_DTO_FIELD_DEFAULT(String, course_progress, ZH_WORDS_GETTER("class.field.course-progress"));
+
+    //备注
+    API_DTO_FIELD_DEFAULT(String, remarks, ZH_WORDS_GETTER("class.field.remarks"));
 };
 
 #include OATPP_CODEGEN_END(DTO)

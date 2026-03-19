@@ -24,17 +24,16 @@
 #include"../dto/ClassDTO.h"
 #include OATPP_CODEGEN_BEGIN(DTO)
 /**
- * 班级显示JsonVO，用于响应给客户端的Json对象（单个班级详情）
+ * 班级分页显示对象
  */
-class ClassJsonVO : public JsonVO<ClassDTO::Wrapper> {
-	DTO_INIT(ClassJsonVO, JsonVO<ClassDTO::Wrapper>);
+class ClassPageJsonVO : public JsonVO<ClassPageAddDTO::Wrapper> 
+{
+	DTO_INIT(ClassPageJsonVO, JsonVO<ClassPageAddDTO::Wrapper>);
 };
 
-/**
- * 班级分页显示JsonVO，用于响应给客户端的Json对象（班级列表分页）
- */
-class ClassPageJsonVO : public JsonVO<ClassPageDTO::Wrapper> {
-	DTO_INIT(ClassPageJsonVO, JsonVO<ClassPageDTO::Wrapper>);
+class ClassListJsonVO : public ListJsonVO<ClassAddDTO::Wrapper>
+{
+	DTO_INIT(ClassListJsonVO, ListJsonVO<ClassAddDTO::Wrapper>);
 };
 #include OATPP_CODEGEN_END(DTO)
 

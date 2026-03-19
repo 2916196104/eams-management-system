@@ -1,22 +1,21 @@
-
+ï»¿
 class:
-  tag: °à¼¶¹ÜÀí
-  
-  get-list:
-    summary: »ñÈ¡°à¼¶ÁĞ±í
-    
-  get-details:
-    summary: »ñÈ¡°à¼¶ÏêÇé
+  tag: è·å–ç­çº§ä¿¡æ¯
+  query-classdetails: 
+    summary: è·å–ç­çº§è¯¦ç»†ä¿¡æ¯
+  query-classlist:
+    summary: è·å–ç­çº§åˆ—è¡¨
     
   field:
-    id: °à¼¶ID
-    className: °à¼¶Ãû³Æ
-    classCode: °à¼¶±àºÅ
-    grade: Äê¼¶
-    majorId: ×¨ÒµID
-    counselorId: ¸¨µ¼Ô±ID
-    studentCount: °à¼¶ÈËÊı
-    description: °à¼¶ÃèÊö
-    createTime: ´´½¨Ê±¼ä
-    updateTime: ¸üĞÂÊ±¼ä
-    status: ×´Ì¬
+    id: ç­çº§ID
+    className: ç­çº§åç§°
+    homeroom-teacher: ç­ä¸»ä»»
+    course: è¯¾ç¨‹
+    num-of-people: äººæ•°
+    classroom: æ•™å®¤
+    course-progress: è¯¾ç¨‹è¿›åº¦
+    enrollment-progress: æ‹›ç”Ÿè¿›åº¦
+    remarks: å¤‡æ³¨
+    createtime: åˆ›å»ºæ—¶é—´
+    endtime: ç»“æŸæ—¶é—´
+    status: çŠ¶æ€
