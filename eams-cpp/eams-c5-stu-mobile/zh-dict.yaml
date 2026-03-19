@@ -31,7 +31,7 @@ c5:
         deleted: 删除标记
         org_id: 创建者所属组织ID
     credit:
-      tag: 积分
+      tag: 积分兑换
       exchange:
         query-all:
           summary: 分页查询积分兑换记录
