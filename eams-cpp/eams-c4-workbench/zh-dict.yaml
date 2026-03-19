@@ -18,4 +18,10 @@ class:
   grade: 年级
  tag: 班级列表查询接口
  query:
-  summary: 获取班级列表   
+  summary: 获取班级列表   comment:
+  teacherid: 教师id
+  stuname: 学生姓名
+  data: 评论时间
+  text: 评论内容
+  score: 综合评价
+  getcomment: 获取评论记录
