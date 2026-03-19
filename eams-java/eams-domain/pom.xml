@@ -32,6 +32,8 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-extension</artifactId>
         </dependency>
+
+
         <!-- 实体校验 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
