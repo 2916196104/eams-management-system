@@ -1,21 +1,43 @@
 package com.zeroone.star.project.j6.interact;
-
-import com.zeroone.star.project.dto.PageDTO;
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
+import com.zeroone.star.project.dto.j6.interact.GradeListDTO;
 import com.zeroone.star.project.dto.j6.interact.GradeFormDTO;
 import com.zeroone.star.project.query.j6.interact.GradeFormQuery;
 import com.zeroone.star.project.vo.JsonVO;
 
+import java.util.List;
+
 /**
- * <p>
- * 描述：成绩单接口声明
- * </p>
+ * 描述：成绩管理相关接口
  */
 public interface GradeApis {
-    /**
-     * 获得成绩单列表（条件+分页）
-     * @param condition 查询条件
-     * @return 成绩单列表
-     */
-    JsonVO<PageDTO<GradeFormDTO>> queryPage(GradeFormQuery condition);
+	/**
+	 * 获得成绩单列表（条件+分页）
+	 * @param condition 查询条件
+	 * @return 成绩单列表
+	 */
+	JsonVO<PageDTO<GradeFormDTO>> queryForm(GradeFormQuery condition);
 
+	/**
+	 * 分页查询成绩列表信息
+	 * @param id 成绩单id
+	 * @return 返回结果
+	 */
+	JsonVO<PageDTO<GradeListDTO>> queryGrade(Long id);
+
+
+	/**
+	 * 保存成绩单信息
+	 * @param gradeFormDTO  成绩单信息
+	 * todo 可能需要新建一个类来作为传入参数
+	 * @return 保存结果
+	 */
+	JsonVO<Long> saveGrade(GradeFormDTO gradeFormDTO);
+
+	/**
+	 * 删除成绩单
+	 * @param ids 成绩单id列表
+	 * @return 返回结果
+	 */
+	JsonVO<List<Long> > deleteGrade(List<Long> ids);
 }
