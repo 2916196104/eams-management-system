@@ -1,0 +1,7 @@
+﻿CourseRecord:
+ summary: 课程记录
+ resp: 操作成功
+
+CourseEvaluate:
+ summary: 评价课次
+ resp: 操作成功

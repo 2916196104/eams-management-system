@@ -1,7 +1,7 @@
 #pragma once
 #include <oatpp-swagger/model.hpp>
-#ifndef COURSERECORDCONTROLLER_H
-#define COURSERECORDCONTROLLER_H
+#ifndef COURSEEVALUATECONTROLLER_H
+#define COURSEEVALUATECONTROLLER_H
 
 #include "ApiHelper.h"
 #include "ServerInfo.h"
@@ -14,12 +14,12 @@
 /*
 	上课记录控制器
 */
-class CourseRecordController : public oatpp::web::server::api::ApiController {
+class CourseEvaluateController : public oatpp::web::server::api::ApiController {
 	// 定义控制器访问入口
-	API_ACCESS_DECLARE(CourseRecordController);
+	API_ACCESS_DECLARE(CourseEvaluateController);
 public:// 定义接口
 	ENDPOINT_INFO(CourseRecord) {
-		info->summary = ZH_WORDS_GETTER("CourseRecord.summary");
+		info->summary = ZH_WORDS_GETTER("CourseEvaluate.summary");
 		//支持授权
 		API_DEF_ADD_AUTH();
 
@@ -27,7 +27,7 @@ public:// 定义接口
 		API_DEF_ADD_PAGE_PARAMS();
 	}
 
-	ENDPOINT(API_M_GET, "/CourseRecord", CourseRecord, QUERIES(QueryParams,params), API_HANDLER_AUTH_PARAME){
+	ENDPOINT(API_M_GET, "/CourseEvaluate", CourseRecord, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
 		// 解析查询参数
 		API_HANDLER_QUERY_PARAM(query, PageQuery, params);
 		// 响应结果
