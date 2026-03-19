@@ -19,18 +19,18 @@ import javax.annotation.Resource;
 
 /**
  * <p>
- * 描述：教务缴欠费与退费控制器
+ * 描述：学员模块缴欠费与退费控制器
  * </p>
  */
 @Validated
 @RestController
-@RequestMapping("/academic")
-@Api(tags = "教务缴欠费与退费接口")
+@RequestMapping("/j4/academic")
+@Api(tags = "学员模块财务接口")
 public class AcademicController implements AcademicApis {
     @Resource
     private IAcademicFinanceService academicFinanceService;
 
-    @ApiOperation(value = "分页查询缴欠费与线下退费记录")
+    @ApiOperation(value = "分页查询缴欠费与退费记录")
     @GetMapping("/finance/page")
     @Override
     public JsonVO<PageDTO<FinanceDTO>> queryFinancePage(FinanceQuery query) {

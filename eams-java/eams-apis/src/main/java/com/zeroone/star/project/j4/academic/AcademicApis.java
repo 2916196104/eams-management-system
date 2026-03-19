@@ -7,7 +7,7 @@ import com.zeroone.star.project.vo.JsonVO;
 
 /**
  * <p>
- * 描述：教务缴欠费与退费接口
+ * 描述：学员模块缴欠费与退费接口
  * </p>
  */
 public interface AcademicApis {
