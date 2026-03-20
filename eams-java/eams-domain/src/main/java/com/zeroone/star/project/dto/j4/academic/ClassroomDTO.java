@@ -6,6 +6,8 @@ import lombok.Data;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
+
 /**
  * <p>
  * 教室数据传输对象
@@ -43,6 +45,16 @@ public class ClassroomDTO {
      */
     @ApiModelProperty(value = "备注说明",example = "测试测试")
     private String remark;
+    /**
+     * 创建者 ID
+     */
+    @ApiModelProperty(value = "创建者 ID")
+    private Long creator;
+    /**
+     * 创建时间
+     */
+    @ApiModelProperty(value = "创建时间")
+    private LocalDateTime addTime;
     /**
      * 学校ID
      */

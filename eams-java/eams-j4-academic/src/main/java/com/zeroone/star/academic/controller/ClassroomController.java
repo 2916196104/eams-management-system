@@ -1,5 +1,6 @@
 package com.zeroone.star.academic.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zeroone.star.academic.service.ClassroomService;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j4.academic.ClassroomDTO;
@@ -33,15 +34,31 @@ public class ClassroomController implements ClassroomApis {
 
     /**
      * 获取教室列表（条件+分页）
-     * @param query 查询条件
+     * @param pageIndex    分页参数，第几页，默认第一页
+     * @param pageSize 分页参数，每页数量，默认30条
+     * @param name    查询参数，教室名称，默认空值
+     * @return 教室列表分页结果对象
      * @return 教室列表
      */
     @Override
     @GetMapping("/list")
     @ApiOperation("获取教室列表（条件+分页）")
-    public JsonVO<PageDTO<ClassroomVO>> queryClassroom(ClassroomQuery query) {
-        // TODO: 调用 service 层实现
-        return JsonVO.success(classroomService.getList(query));
+    public JsonVO<PageDTO<ClassroomVO>> queryClassroom(@RequestParam(value = "pageIndex", defaultValue = "1") Long pageIndex,
+                                                       @RequestParam(value = "pageSize", defaultValue = "30") Long pageSize,
+                                                       @RequestParam(value = "name", defaultValue = "") String name) {
+        ClassroomQuery query = new ClassroomQuery();
+        query.setPageIndex(pageIndex);
+        query.setPageSize(pageSize);
+        query.setName(name);
+
+        IPage<ClassroomVO> list = classroomService.getList(query);
+        PageDTO<ClassroomVO> result = new PageDTO<>();
+        result.setPageIndex(list.getCurrent());
+        result.setPageSize(list.getSize());
+        result.setTotal(list.getTotal());
+        result.setPages(list.getPages());
+        result.setRows(list.getRecords());
+        return JsonVO.success(result);
     }
 
     /**
@@ -53,8 +70,8 @@ public class ClassroomController implements ClassroomApis {
     @GetMapping("/{id}")
     @ApiOperation("获取教室详情")
     public JsonVO<ClassroomVO> getClassroomById(@PathVariable Long id) {
-        // TODO: 调用 service 层实现
-        return JsonVO.success(classroomService.getClassroomById(id));
+        ClassroomVO classroomVO = classroomService.getClassroomById(id);
+        return JsonVO.success(classroomVO);
     }
 
     /**
@@ -65,8 +82,7 @@ public class ClassroomController implements ClassroomApis {
     @Override
     @PostMapping("/save")
     @ApiOperation("保存教室")
-    public JsonVO<Long> saveClassroom(@RequestBody @Validated ClassroomDTO classroomDTO) {
-        // TODO: 调用 service 层实现
+    public JsonVO saveClassroom(@RequestBody @Validated ClassroomDTO classroomDTO) {
         return JsonVO.success(classroomService.save(classroomDTO));
     }
 
@@ -79,8 +95,11 @@ public class ClassroomController implements ClassroomApis {
     @DeleteMapping("/delete")
     @ApiOperation("删除教室（批量）")
     @ApiImplicitParam(name = "ids", value = "教室ID列表",type = "Array",paramType = "body",required = true,example = "[\"1\", \"2\"]")
-    public JsonVO<List<Long>> deleteClassroom(@RequestBody @Valid @NotEmpty(message = "删除 ID 列表不能为空") List<Long> ids) {
-        // TODO: 调用 service 层实现
-        return JsonVO.success(classroomService.delete(ids));
+    public JsonVO deleteClassroom(@RequestBody @Valid @NotEmpty(message = "删除 ID 列表不能为空") List<Long> ids) {
+        if (classroomService.removeByIds(ids)) {
+            return JsonVO.success(ids);
+        } else {
+            return JsonVO.fail(ids);
+        }
     }
 }

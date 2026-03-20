@@ -1,6 +1,6 @@
 package com.zeroone.star.project.vo.j4.academic;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @ApiModel(value = "ClassroomVO", description = "教室视图对象")
+@TableName("classroom")
 public class ClassroomVO {
     /**
      * 教室ID
@@ -52,4 +53,9 @@ public class ClassroomVO {
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime addTime;
 
+    /**
+     * 学校ID
+     */
+    @ApiModelProperty(value = "学校ID",example = "1")
+    private Long schoolId;
 }
