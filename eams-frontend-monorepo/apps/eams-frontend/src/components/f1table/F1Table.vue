@@ -22,7 +22,6 @@
                 key 使用 prop 或 type + index 的组合，确保唯一性
             -->
 			<template v-for="(item, index) in config.tableList" :key="item.prop ?? item.type + index">
-
 				<!-- 序号列：显示行号 -->
 				<template v-if="item.type === 'index'">
 					<el-table-column align="center" v-bind="item" />
@@ -59,32 +58,17 @@
 							<!-- 操作按钮容器 -->
 							<div class="handler-btns">
 								<!-- 查看按钮 -->
-								<el-button
-									v-if="config.handler?.view"
-									type="primary"
-									link
-									@click="handleView(scope.row)"
-								>
+								<el-button v-if="config.handler?.view" type="primary" link @click="handleView(scope.row)">
 									{{ config.handler?.viewText || "查看" }}
 								</el-button>
 
 								<!-- 编辑按钮 -->
-								<el-button
-									v-if="config.handler?.edit"
-									type="primary"
-									link
-									@click="handleEdit(scope.row)"
-								>
+								<el-button v-if="config.handler?.edit" type="primary" link @click="handleEdit(scope.row)">
 									{{ config.handler?.editText || "编辑" }}
 								</el-button>
 
 								<!-- 删除按钮 -->
-								<el-button
-									v-if="config.handler?.delete"
-									type="danger"
-									link
-									@click="handleDelete(scope.row)"
-								>
+								<el-button v-if="config.handler?.delete" type="danger" link @click="handleDelete(scope.row)">
 									{{ config.handler?.deleteText || "删除" }}
 								</el-button>
 

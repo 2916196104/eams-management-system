@@ -7,11 +7,11 @@
  */
 export interface DictItem {
 	/** 唯一标识 */
-	id: string
+	id: string;
 	/** 显示文字 */
-	label: string
+	label: string;
 	/** 字典编码 */
-	code?: string
+	code?: string;
 }
 
 /**
@@ -19,11 +19,11 @@ export interface DictItem {
  */
 export interface Dict {
 	/** 唯一标识 */
-	id: string
+	id: string;
 	/** 字典名称 */
-	name: string
+	name: string;
 	/** 类型编码 */
-	code: string
+	code: string;
 	/** 字典项 */
-	items: Array<DictItem>
+	items: Array<DictItem>;
 }

@@ -1,29 +1,29 @@
-import type { PageQuery } from '../type'
+import type { PageQuery } from "../type";
 
 /**
  * 示例表单数据模型
  */
 export interface SampleFormData extends Record<string, any> {
 	/** 数据唯一标识 */
-	id?: number
+	id?: number;
 	/** 姓名 */
-	name?: string
+	name?: string;
 	/** 国家 */
-	country?: string
+	country?: string;
 	/** 省份 */
-	state?: string
+	state?: string;
 	/** 城市 */
-	city?: string
+	city?: string;
 	/** 地址 */
-	address?: string
+	address?: string;
 	/** 邮编 */
-	zip?: number
+	zip?: number;
 	/** 生日 */
-	date?: string
+	date?: string;
 	/** 标签 */
-	tags?: string
+	tags?: string;
 	/** 头像 */
-	avatar?: string
+	avatar?: string;
 }
 
 /**
@@ -31,5 +31,5 @@ export interface SampleFormData extends Record<string, any> {
  */
 export interface SampleFormQuery extends PageQuery {
 	/** 姓名 */
-	name?: string
+	name?: string;
 }

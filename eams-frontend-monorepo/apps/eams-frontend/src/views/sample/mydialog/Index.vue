@@ -61,8 +61,8 @@
 		<!-- 定义底部栏 -->
 		<template #footer>
 			<el-text class="cus-dialog-footer" type="success" tag="i">
-				Self element set width 100px Squeezed by parent element The -webkit-line-clamp CSS property
-				allows limiting of the contents of a block to the specified number of lines.
+				Self element set width 100px Squeezed by parent element The -webkit-line-clamp CSS property allows limiting of
+				the contents of a block to the specified number of lines.
 			</el-text>
 		</template>
 	</my-dialog>
@@ -82,24 +82,24 @@
 </template>
 <script setup lang="ts">
 // #region 公用导入
-import { reactive, ref } from 'vue'
-import type { SampleFormData } from '@/apis/sample/type'
+import { reactive, ref } from "vue";
+import type { SampleFormData } from "@/apis/sample/type";
 // #endregion
 
 // #region 表单对话框
 // 导入组件和类型
-import MyFormDialog from '@/components/mydialog/MyFormDialog.vue'
-import type { MyFormDialogProps } from '@/components/mydialog/type'
+import MyFormDialog from "@/components/mydialog/MyFormDialog.vue";
+import type { MyFormDialogProps } from "@/components/mydialog/type";
 import type {
 	MyFormItemAttr,
 	MyFormInputProps,
 	MyFormSelectProps,
 	MyFormInputNumberProps,
-	MyFormDatePickerProps
-} from '@/components/myform/type'
-import type { UploadProps } from 'element-plus'
+	MyFormDatePickerProps,
+} from "@/components/myform/type";
+import type { UploadProps } from "element-plus";
 // 定义对话框引用
-const formDialog = ref()
+const formDialog = ref();
 // 定义对话框属性
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const formDialogProps = reactive<MyFormDialogProps<SampleFormData>>({
@@ -108,189 +108,189 @@ const formDialogProps = reactive<MyFormDialogProps<SampleFormData>>({
 	// 表单域数据
 	formitemdata: reactive<MyFormItemAttr[]>([
 		{
-			type: 'input',
-			prop: 'name',
-			label: '姓名',
-			rules: [{ required: true, message: '请输入姓名', trigger: 'change' }],
+			type: "input",
+			prop: "name",
+			label: "姓名",
+			rules: [{ required: true, message: "请输入姓名", trigger: "change" }],
 			fprops: {
-				placeholder: '请输入姓名',
-				clearable: true
-			} as MyFormInputProps
+				placeholder: "请输入姓名",
+				clearable: true,
+			} as MyFormInputProps,
 		},
 		{
-			type: 'select',
-			prop: 'country',
-			label: '国家',
-			rules: [{ required: true, message: '请选择国家', trigger: 'change' }],
+			type: "select",
+			prop: "country",
+			label: "国家",
+			rules: [{ required: true, message: "请选择国家", trigger: "change" }],
 			fprops: {
-				placeholder: '请选择国家',
+				placeholder: "请选择国家",
 				options: [
 					{
-						label: '中国',
-						value: 'CN'
+						label: "中国",
+						value: "CN",
 					},
 					{
-						label: '美国',
-						value: 'US'
+						label: "美国",
+						value: "US",
 					},
 					{
-						label: '日本',
-						value: 'JP',
-						disabled: true
-					}
-				]
-			} as MyFormSelectProps
+						label: "日本",
+						value: "JP",
+						disabled: true,
+					},
+				],
+			} as MyFormSelectProps,
 		},
 		{
-			type: 'input',
-			prop: 'state',
-			label: '省份',
+			type: "input",
+			prop: "state",
+			label: "省份",
 			required: true,
 			fprops: {
-				placeholder: '请输入省份'
-			}
+				placeholder: "请输入省份",
+			},
 		},
 		{
-			type: 'input',
-			prop: 'city',
-			label: '城市',
+			type: "input",
+			prop: "city",
+			label: "城市",
 			fprops: {
-				placeholder: '请输入城市'
-			}
+				placeholder: "请输入城市",
+			},
 		},
 		{
-			type: 'number',
-			prop: 'zip',
-			label: '邮编',
+			type: "number",
+			prop: "zip",
+			label: "邮编",
 			fprops: {
-				width: '100%',
-				placeholder: '请输入邮编',
+				width: "100%",
+				placeholder: "请输入邮编",
 				max: 999999,
 				min: 100000,
-				step: 100
-			} as MyFormInputNumberProps
+				step: 100,
+			} as MyFormInputNumberProps,
 		},
 		{
-			type: 'date',
-			prop: 'date',
-			label: '生日',
+			type: "date",
+			prop: "date",
+			label: "生日",
 			fprops: {
-				width: '100%',
-				placeholder: '请选择生日',
-				type: 'date',
-				'value-format': 'YYYY-MM-DD'
-			} as MyFormDatePickerProps
+				width: "100%",
+				placeholder: "请选择生日",
+				type: "date",
+				"value-format": "YYYY-MM-DD",
+			} as MyFormDatePickerProps,
 		},
 		{
-			type: 'file',
-			prop: 'avatar',
-			label: '头像'
-		}
+			type: "file",
+			prop: "avatar",
+			label: "头像",
+		},
 	]),
 	// 表单属性
 	formattr: {
 		// 当这个值为true时表单元素全部禁止修改,对话框也不在显示提交和重置按钮
 		disabled: false,
-		'label-width': '80px'
+		"label-width": "80px",
 	},
-	title: '新增数据',
-	width: '35vw',
-	reset: true
-})
+	title: "新增数据",
+	width: "35vw",
+	reset: true,
+});
 /**
  * 提交修改
  * @param data 表单数据
  */
 function onSubmit(data: SampleFormData) {
 	// 提交数据
-	console.log(data)
+	console.log(data);
 	// 关闭对话框
-	formDialog.value.closeDialog()
+	formDialog.value.closeDialog();
 }
 // 图片地址
-const imageUrl = ref('')
+const imageUrl = ref("");
 /**
  * 上传成功逻辑
  * @param response 响应数据
  * @param uploadFile 上传的文件
  */
-const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
-	imageUrl.value = URL.createObjectURL(uploadFile.raw!)
-	console.log(response)
-}
+const handleAvatarSuccess: UploadProps["onSuccess"] = (response, uploadFile) => {
+	imageUrl.value = URL.createObjectURL(uploadFile.raw!);
+	console.log(response);
+};
 
 /**
  * 上传前执行逻辑
  * @param rawFile 选择的文件
  */
-const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
-	if (rawFile.type !== 'image/jpeg') {
-		ElMessage.error('Avatar picture must be JPG format!')
-		return false
+const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
+	if (rawFile.type !== "image/jpeg") {
+		ElMessage.error("Avatar picture must be JPG format!");
+		return false;
 	} else if (rawFile.size / 1024 / 1024 > 2) {
-		ElMessage.error('Avatar picture size can not exceed 2MB!')
-		return false
+		ElMessage.error("Avatar picture size can not exceed 2MB!");
+		return false;
 	}
-	return true
-}
+	return true;
+};
 // #endregion
 
 // #region 自定义对话框
 // 导入组件和类型
-import MyDialog from '@/components/mydialog/MyDialog.vue'
-import type { MyDialogProps } from '@/components/mydialog/type'
+import MyDialog from "@/components/mydialog/MyDialog.vue";
+import type { MyDialogProps } from "@/components/mydialog/type";
 // 定义对话框引用
-const cusdialog = ref()
+const cusdialog = ref();
 // 定义对话框属性
 const cusprops = reactive<MyDialogProps<string>>({
-	data: '',
-	title: '自定义对话框',
-	draggable: true
-})
+	data: "",
+	title: "自定义对话框",
+	draggable: true,
+});
 // 定义测试表格数据
 const gridData = [
 	{
-		name: 'John Smith',
-		date: '2016-05-02',
-		address: 'No.1518,  Jinshajiang Road, Putuo District'
+		name: "John Smith",
+		date: "2016-05-02",
+		address: "No.1518,  Jinshajiang Road, Putuo District",
 	},
 	{
-		name: 'John Smith',
-		date: '2016-05-04',
-		address: 'No.1518,  Jinshajiang Road, Putuo District'
+		name: "John Smith",
+		date: "2016-05-04",
+		address: "No.1518,  Jinshajiang Road, Putuo District",
 	},
 	{
-		name: 'John Smith',
-		date: '2016-05-01',
-		address: 'No.1518,  Jinshajiang Road, Putuo District'
+		name: "John Smith",
+		date: "2016-05-01",
+		address: "No.1518,  Jinshajiang Road, Putuo District",
 	},
 	{
-		name: 'John Smith',
-		date: '2016-05-03',
-		address: 'No.1518,  Jinshajiang Road, Putuo District'
-	}
-]
+		name: "John Smith",
+		date: "2016-05-03",
+		address: "No.1518,  Jinshajiang Road, Putuo District",
+	},
+];
 // #endregion
 
 // #region 自定义对话框事件支持
-import { ElMessage } from 'element-plus'
+import { ElMessage } from "element-plus";
 // 定义对话框引用
-const dialog = ref()
+const dialog = ref();
 // 定义对话框属性
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = reactive<MyDialogProps<string>>({
-	data: '',
-	title: '对话框事件支持演示',
-	'show-close': true
-})
+	data: "",
+	title: "对话框事件支持演示",
+	"show-close": true,
+});
 /**
  * 模拟操作失败阻止关闭
  */
-let i = 0
+let i = 0;
 function handleClose(done: () => void) {
-	i++
-	if (i % 2 === 0) done()
-	else ElMessage.warning('操作失败，请重试')
+	i++;
+	if (i % 2 === 0) done();
+	else ElMessage.warning("操作失败，请重试");
 }
 // #endregion
 </script>

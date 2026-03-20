@@ -34,12 +34,7 @@
 						<el-form label-width="96px" class="panel-form">
 							<el-form-item label="选择菜单">
 								<el-select v-model="renameTargetId" placeholder="请选择需要修改的菜单">
-									<el-option
-										v-for="option in menuOptions"
-										:key="option.id"
-										:label="option.label"
-										:value="option.id"
-									/>
+									<el-option v-for="option in menuOptions" :key="option.id" :label="option.label" :value="option.id" />
 								</el-select>
 							</el-form-item>
 							<el-form-item label="新名称">
@@ -95,181 +90,175 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import EamsNav from '@/components/mynav/EamsNav.vue'
-import type { EamsNavMenuItem } from '@/components/mynav/type'
+import { computed, ref } from "vue";
+import EamsNav from "@/components/mynav/EamsNav.vue";
+import type { EamsNavMenuItem } from "@/components/mynav/type";
 
 type MenuOption = {
-	id: string
-	label: string
-}
+	id: string;
+	label: string;
+};
 
 const createMenus = (): EamsNavMenuItem[] => [
 	{
-		id: 'dashboard',
-		text: '工作台',
-		path: 'dashboard',
-		icon: 'IconHomeFilled'
+		id: "dashboard",
+		text: "工作台",
+		path: "dashboard",
+		icon: "IconHomeFilled",
 	},
 	{
-		id: 'student',
-		text: '学籍管理',
-		icon: 'IconUser',
+		id: "student",
+		text: "学籍管理",
+		icon: "IconUser",
 		children: [
 			{
-				id: 'student-status',
-				text: '学籍信息',
-				path: 'student-status',
-				icon: 'IconTickets'
+				id: "student-status",
+				text: "学籍信息",
+				path: "student-status",
+				icon: "IconTickets",
 			},
 			{
-				id: 'student-change',
-				text: '异动管理',
-				path: 'student-change',
-				icon: 'IconTickets'
-			}
-		]
+				id: "student-change",
+				text: "异动管理",
+				path: "student-change",
+				icon: "IconTickets",
+			},
+		],
 	},
 	{
-		id: 'course',
-		text: '教学管理',
-		icon: 'IconSetting',
+		id: "course",
+		text: "教学管理",
+		icon: "IconSetting",
 		children: [
 			{
-				id: 'course-plan',
-				text: '培养方案',
-				path: 'course-plan',
-				icon: 'IconMenu'
+				id: "course-plan",
+				text: "培养方案",
+				path: "course-plan",
+				icon: "IconMenu",
 			},
 			{
-				id: 'course-table',
-				text: '课表安排',
-				path: 'course-table',
-				icon: 'IconMenu'
-			}
-		]
-	}
-]
+				id: "course-table",
+				text: "课表安排",
+				path: "course-table",
+				icon: "IconMenu",
+			},
+		],
+	},
+];
 
-const menus = ref<EamsNavMenuItem[]>(createMenus())
-const collapse = ref(false)
-const activeIndex = ref('dashboard')
+const menus = ref<EamsNavMenuItem[]>(createMenus());
+const collapse = ref(false);
+const activeIndex = ref("dashboard");
 
-const renameTargetId = ref('student-status')
-const renameText = ref('学生档案')
-const newChildParentId = ref('course')
-const newChildText = ref('成绩查询')
-const newChildPath = ref('score-query')
+const renameTargetId = ref("student-status");
+const renameText = ref("学生档案");
+const newChildParentId = ref("course");
+const newChildText = ref("成绩查询");
+const newChildPath = ref("score-query");
 
 const currentTitle = computed(() => {
-	const current = findMenuByIndex(menus.value, activeIndex.value)
-	return current?.text ?? '请选择菜单'
-})
+	const current = findMenuByIndex(menus.value, activeIndex.value);
+	return current?.text ?? "请选择菜单";
+});
 
-const childMenuCount = computed(() =>
-	menus.value.reduce((count, item) => count + (item.children?.length ?? 0), 0)
-)
+const childMenuCount = computed(() => menus.value.reduce((count, item) => count + (item.children?.length ?? 0), 0));
 
 const menuOptions = computed<MenuOption[]>(() => {
-	const options: MenuOption[] = []
-	appendMenuOptions(menus.value, options)
-	return options
-})
+	const options: MenuOption[] = [];
+	appendMenuOptions(menus.value, options);
+	return options;
+});
 
 const topLevelOptions = computed<MenuOption[]>(() =>
 	menus.value.map((item) => ({
 		id: String(item.id),
-		label: item.text
-	}))
-)
+		label: item.text,
+	})),
+);
 
-const menusJson = computed(() => JSON.stringify(menus.value, null, 2))
+const menusJson = computed(() => JSON.stringify(menus.value, null, 2));
 
 function handleSelect(item?: EamsNavMenuItem) {
-	if (!item) return
-	activeIndex.value = item.path || item.href || String(item.id)
+	if (!item) return;
+	activeIndex.value = item.path || item.href || String(item.id);
 }
 
 function renameMenu() {
-	const targetId = renameTargetId.value.trim()
-	const targetText = renameText.value.trim()
-	if (!targetId || !targetText) return
+	const targetId = renameTargetId.value.trim();
+	const targetText = renameText.value.trim();
+	if (!targetId || !targetText) return;
 	updateMenuById(menus.value, targetId, (item) => {
-		item.text = targetText
-	})
+		item.text = targetText;
+	});
 }
 
 function addChildMenu() {
-	const parentId = newChildParentId.value.trim()
-	const text = newChildText.value.trim()
-	const path = newChildPath.value.trim()
-	if (!parentId || !text || !path) return
+	const parentId = newChildParentId.value.trim();
+	const text = newChildText.value.trim();
+	const path = newChildPath.value.trim();
+	if (!parentId || !text || !path) return;
 
 	updateMenuById(menus.value, parentId, (item) => {
-		if (!item.children) item.children = []
+		if (!item.children) item.children = [];
 		item.children.push({
 			id: `${parentId}-${Date.now()}`,
 			text,
 			path,
-			icon: 'IconMenu'
-		})
-	})
+			icon: "IconMenu",
+		});
+	});
 
-	activeIndex.value = path
-	newChildText.value = ''
-	newChildPath.value = ''
+	activeIndex.value = path;
+	newChildText.value = "";
+	newChildPath.value = "";
 }
 
 function resetMenus() {
-	menus.value = createMenus()
-	activeIndex.value = 'dashboard'
-	renameTargetId.value = 'student-status'
-	renameText.value = '学生档案'
-	newChildParentId.value = 'course'
-	newChildText.value = '成绩查询'
-	newChildPath.value = 'score-query'
+	menus.value = createMenus();
+	activeIndex.value = "dashboard";
+	renameTargetId.value = "student-status";
+	renameText.value = "学生档案";
+	newChildParentId.value = "course";
+	newChildText.value = "成绩查询";
+	newChildPath.value = "score-query";
 }
 
-function appendMenuOptions(items: EamsNavMenuItem[], options: MenuOption[], prefix = '') {
+function appendMenuOptions(items: EamsNavMenuItem[], options: MenuOption[], prefix = "") {
 	for (const item of items) {
-		const label = prefix ? `${prefix} / ${item.text}` : item.text
+		const label = prefix ? `${prefix} / ${item.text}` : item.text;
 		options.push({
 			id: String(item.id),
-			label
-		})
+			label,
+		});
 		if (item.children?.length) {
-			appendMenuOptions(item.children, options, item.text)
+			appendMenuOptions(item.children, options, item.text);
 		}
 	}
 }
 
-function updateMenuById(
-	items: EamsNavMenuItem[],
-	targetId: string,
-	updater: (item: EamsNavMenuItem) => void
-): boolean {
+function updateMenuById(items: EamsNavMenuItem[], targetId: string, updater: (item: EamsNavMenuItem) => void): boolean {
 	for (const item of items) {
 		if (String(item.id) === targetId) {
-			updater(item)
-			return true
+			updater(item);
+			return true;
 		}
 		if (item.children?.length && updateMenuById(item.children, targetId, updater)) {
-			return true
+			return true;
 		}
 	}
-	return false
+	return false;
 }
 
 function findMenuByIndex(items: EamsNavMenuItem[], index: string): EamsNavMenuItem | undefined {
 	for (const item of items) {
-		const itemIndex = item.path || item.href || String(item.id)
-		if (itemIndex === index) return item
+		const itemIndex = item.path || item.href || String(item.id);
+		if (itemIndex === index) return item;
 		if (item.children?.length) {
-			const child = findMenuByIndex(item.children, index)
-			if (child) return child
+			const child = findMenuByIndex(item.children, index);
+			if (child) return child;
 		}
 	}
-	return undefined
+	return undefined;
 }
 </script>
 

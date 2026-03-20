@@ -43,7 +43,7 @@
 					:class="{
 						'is-other-month': !cell.isCurrentMonth,
 						'is-today': cell.isToday,
-						'is-selected': cell.isSelected
+						'is-selected': cell.isSelected,
 					}"
 					@click="handleCellClick(cell)"
 				>
@@ -70,7 +70,7 @@
 			</section>
 			<section class="week-grid">
 				<template v-for="hour in timeSlots" :key="hour">
-					<div class="week-time-label">{{ String(hour).padStart(2, '0') }}:00</div>
+					<div class="week-time-label">{{ String(hour).padStart(2, "0") }}:00</div>
 					<div
 						v-for="(day, dIdx) in weekViewDays"
 						:key="`${hour}-${dIdx}`"
@@ -89,7 +89,7 @@
 			</section>
 			<section class="day-grid">
 				<div v-for="hour in dayViewHours" :key="hour" class="day-row">
-					<div class="day-time-label">{{ String(hour).padStart(2, '0') }}:00</div>
+					<div class="day-time-label">{{ String(hour).padStart(2, "0") }}:00</div>
 					<div class="day-cell" @click="handleDayCellClick(hour)">
 						<slot name="day-cell" :date="dayViewDate" :hour="hour"></slot>
 					</div>
@@ -100,162 +100,157 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
-import type { CalendarViewMode, CalendarCell } from './type'
+import { ref, computed, watch } from "vue";
+import type { CalendarViewMode, CalendarCell } from "./type";
 
-const WEEKDAYS = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+const WEEKDAYS = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
 
 const props = withDefaults(
 	defineProps<{
-		title?: string
-		year?: number
-		month?: number
-		selectedDate?: Date | null
-		viewMode?: CalendarViewMode
+		title?: string;
+		year?: number;
+		month?: number;
+		selectedDate?: Date | null;
+		viewMode?: CalendarViewMode;
 	}>(),
 	{
-		title: '',
-		viewMode: 'month'
-	}
-)
+		title: "",
+		viewMode: "month",
+	},
+);
 
 const emit = defineEmits<{
-	(e: 'update:selectedDate', value: Date | null): void
-	(e: 'date-select', value: Date): void
-	(e: 'update:year', value: number): void
-	(e: 'update:month', value: number): void
-	(e: 'update:viewMode', value: CalendarViewMode): void
-	(e: 'week-cell-click', dateTime: Date): void
-	(e: 'day-cell-click', dateTime: Date): void
-}>()
+	(e: "update:selectedDate", value: Date | null): void;
+	(e: "date-select", value: Date): void;
+	(e: "update:year", value: number): void;
+	(e: "update:month", value: number): void;
+	(e: "update:viewMode", value: CalendarViewMode): void;
+	(e: "week-cell-click", dateTime: Date): void;
+	(e: "day-cell-click", dateTime: Date): void;
+}>();
 
-const now = new Date()
-const currentYear = ref(props.year ?? now.getFullYear())
-const currentMonth = ref(props.month ?? now.getMonth())
-const viewMode = ref<CalendarViewMode>(props.viewMode)
-const selectedDate = ref<Date | null>(props.selectedDate ?? null)
+const now = new Date();
+const currentYear = ref(props.year ?? now.getFullYear());
+const currentMonth = ref(props.month ?? now.getMonth());
+const viewMode = ref<CalendarViewMode>(props.viewMode);
+const selectedDate = ref<Date | null>(props.selectedDate ?? null);
 
 watch(
 	() => [props.year, props.month],
 	([y, m]) => {
-		if (y != null) currentYear.value = y
-		if (m != null) currentMonth.value = m
-	}
-)
-watch(selectedDate, (v) => emit('update:selectedDate', v))
-watch(viewMode, (v) => emit('update:viewMode', v))
-watch(currentYear, (v) => emit('update:year', v))
-watch(currentMonth, (v) => emit('update:month', v))
+		if (y != null) currentYear.value = y;
+		if (m != null) currentMonth.value = m;
+	},
+);
+watch(selectedDate, (v) => emit("update:selectedDate", v));
+watch(viewMode, (v) => emit("update:viewMode", v));
+watch(currentYear, (v) => emit("update:year", v));
+watch(currentMonth, (v) => emit("update:month", v));
 
 watch(viewMode, (mode) => {
-	if (mode === 'week') viewCursor.value = getMonday(selectedDate.value || new Date())
-	else if (mode === 'day')
-		viewCursor.value = selectedDate.value ? new Date(selectedDate.value) : new Date()
-})
+	if (mode === "week") viewCursor.value = getMonday(selectedDate.value || new Date());
+	else if (mode === "day") viewCursor.value = selectedDate.value ? new Date(selectedDate.value) : new Date();
+});
 
-const currentDate = computed(() => new Date(currentYear.value, currentMonth.value, 1))
-const weekdays = WEEKDAYS
+const currentDate = computed(() => new Date(currentYear.value, currentMonth.value, 1));
+const weekdays = WEEKDAYS;
 
 function getInitialViewCursor(): Date {
-	const d = props.selectedDate ? new Date(props.selectedDate) : new Date()
-	d.setHours(0, 0, 0, 0)
-	return d
+	const d = props.selectedDate ? new Date(props.selectedDate) : new Date();
+	d.setHours(0, 0, 0, 0);
+	return d;
 }
 
 /** 周视图/日视图的锚点日期：周视图表示该周周一，日视图表示当前查看的日期 */
-const viewCursor = ref<Date>(getInitialViewCursor())
+const viewCursor = ref<Date>(getInitialViewCursor());
 
 /** 获取某日期所在周的周一 */
 function getMonday(d: Date): Date {
-	const date = new Date(d)
-	date.setHours(0, 0, 0, 0)
-	const day = date.getDay()
-	const diff = (day + 6) % 7
-	date.setDate(date.getDate() - diff)
-	return date
+	const date = new Date(d);
+	date.setHours(0, 0, 0, 0);
+	const day = date.getDay();
+	const diff = (day + 6) % 7;
+	date.setDate(date.getDate() - diff);
+	return date;
 }
 
 /** 工具栏中间标题：月=年月，周=周范围，日=单日 */
 const displayTitle = computed(() => {
-	if (viewMode.value === 'month') {
-		return `${currentYear.value}年${currentMonth.value + 1}月`
+	if (viewMode.value === "month") {
+		return `${currentYear.value}年${currentMonth.value + 1}月`;
 	}
-	if (viewMode.value === 'week') {
-		const mon = getMonday(viewCursor.value)
-		const sun = new Date(mon)
-		sun.setDate(sun.getDate() + 6)
-		return `${mon.getFullYear()}年${mon.getMonth() + 1}月${mon.getDate()}日 - ${sun.getMonth() + 1}月${sun.getDate()}日`
+	if (viewMode.value === "week") {
+		const mon = getMonday(viewCursor.value);
+		const sun = new Date(mon);
+		sun.setDate(sun.getDate() + 6);
+		return `${mon.getFullYear()}年${mon.getMonth() + 1}月${mon.getDate()}日 - ${sun.getMonth() + 1}月${sun.getDate()}日`;
 	}
-	return formatDay(viewCursor.value)
-})
+	return formatDay(viewCursor.value);
+});
 
-const displayYearMonth = computed(() => `${currentYear.value}年${currentMonth.value + 1}月`)
+const displayYearMonth = computed(() => `${currentYear.value}年${currentMonth.value + 1}月`);
 
 function isSameDay(a: Date, b: Date | null) {
-	if (!b) return false
-	return (
-		a.getFullYear() === b.getFullYear() &&
-		a.getMonth() === b.getMonth() &&
-		a.getDate() === b.getDate()
-	)
+	if (!b) return false;
+	return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
 }
 
 function isToday(d: Date) {
-	const t = new Date()
-	return isSameDay(d, t)
+	const t = new Date();
+	return isSameDay(d, t);
 }
 
 /** 周视图：当前周 7 天 [周一..周日] */
 const weekViewDays = computed<Date[]>(() => {
-	const mon = getMonday(viewCursor.value)
-	const days: Date[] = []
+	const mon = getMonday(viewCursor.value);
+	const days: Date[] = [];
 	for (let i = 0; i < 7; i++) {
-		const d = new Date(mon)
-		d.setDate(mon.getDate() + i)
-		days.push(d)
+		const d = new Date(mon);
+		d.setDate(mon.getDate() + i);
+		days.push(d);
 	}
-	return days
-})
+	return days;
+});
 
 /** 周视图时间段（小时），默认 8–22 */
 const timeSlots = computed(() => {
-	const list: number[] = []
-	for (let h = 8; h <= 22; h++) list.push(h)
-	return list
-})
+	const list: number[] = [];
+	for (let h = 8; h <= 22; h++) list.push(h);
+	return list;
+});
 
 /** 日视图时间段（小时），0–23 */
 const dayViewHours = computed(() => {
-	const list: number[] = []
-	for (let h = 0; h <= 23; h++) list.push(h)
-	return list
-})
+	const list: number[] = [];
+	for (let h = 0; h <= 23; h++) list.push(h);
+	return list;
+});
 
 /** 日视图当前显示的日期 */
 const dayViewDate = computed(() => {
-	const d = new Date(viewCursor.value)
-	d.setHours(0, 0, 0, 0)
-	return d
-})
+	const d = new Date(viewCursor.value);
+	d.setHours(0, 0, 0, 0);
+	return d;
+});
 
 function formatWeekDay(d: Date) {
-	return `${d.getMonth() + 1}/${d.getDate()}`
+	return `${d.getMonth() + 1}/${d.getDate()}`;
 }
 
 function formatDay(d: Date) {
-	return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`
+	return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
 }
 
 function selectDate(d: Date) {
-	selectedDate.value = new Date(d.getFullYear(), d.getMonth(), d.getDate())
-	emit('date-select', selectedDate.value!)
+	selectedDate.value = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+	emit("date-select", selectedDate.value!);
 }
 
 function handleWeekCellClick(day: Date, hour: number) {
-	const d = new Date(day.getFullYear(), day.getMonth(), day.getDate(), hour, 0, 0, 0)
-	selectedDate.value = new Date(day.getFullYear(), day.getMonth(), day.getDate())
-	emit('date-select', selectedDate.value)
-	emit('week-cell-click', d)
+	const d = new Date(day.getFullYear(), day.getMonth(), day.getDate(), hour, 0, 0, 0);
+	selectedDate.value = new Date(day.getFullYear(), day.getMonth(), day.getDate());
+	emit("date-select", selectedDate.value);
+	emit("week-cell-click", d);
 }
 
 function handleDayCellClick(hour: number) {
@@ -266,103 +261,101 @@ function handleDayCellClick(hour: number) {
 		hour,
 		0,
 		0,
-		0
-	)
+		0,
+	);
 	selectedDate.value = new Date(
 		viewCursor.value.getFullYear(),
 		viewCursor.value.getMonth(),
-		viewCursor.value.getDate()
-	)
-	emit('date-select', selectedDate.value)
-	emit('day-cell-click', d)
+		viewCursor.value.getDate(),
+	);
+	emit("date-select", selectedDate.value);
+	emit("day-cell-click", d);
 }
 
 const monthCells = computed<CalendarCell[]>(() => {
-	const year = currentYear.value
-	const month = currentMonth.value
-	const first = new Date(year, month, 1)
-	const firstWeekday = (first.getDay() + 6) % 7
-	const totalDays = new Date(year, month + 1, 0).getDate()
-	const startOffset = 1 - firstWeekday
-	const cells: CalendarCell[] = []
-	const today = new Date()
-	today.setHours(0, 0, 0, 0)
+	const year = currentYear.value;
+	const month = currentMonth.value;
+	const first = new Date(year, month, 1);
+	const firstWeekday = (first.getDay() + 6) % 7;
+	const totalDays = new Date(year, month + 1, 0).getDate();
+	const startOffset = 1 - firstWeekday;
+	const cells: CalendarCell[] = [];
+	const today = new Date();
+	today.setHours(0, 0, 0, 0);
 
 	for (let i = 0; i < 42; i++) {
-		const d = new Date(year, month, startOffset + i)
-		d.setHours(0, 0, 0, 0)
-		const isCurrentMonth = d.getMonth() === month
+		const d = new Date(year, month, startOffset + i);
+		d.setHours(0, 0, 0, 0);
+		const isCurrentMonth = d.getMonth() === month;
 		const isToday =
-			d.getFullYear() === today.getFullYear() &&
-			d.getMonth() === today.getMonth() &&
-			d.getDate() === today.getDate()
-		const isSelected = isSameDay(d, selectedDate.value)
+			d.getFullYear() === today.getFullYear() && d.getMonth() === today.getMonth() && d.getDate() === today.getDate();
+		const isSelected = isSameDay(d, selectedDate.value);
 		cells.push({
 			date: d,
 			isCurrentMonth,
 			day: d.getDate(),
 			isToday,
-			isSelected
-		})
+			isSelected,
+		});
 	}
-	return cells
-})
+	return cells;
+});
 
 const viewModeOptions = [
-	{ label: '月视图', value: 'month' as CalendarViewMode },
-	{ label: '周视图', value: 'week' as CalendarViewMode },
-	{ label: '日视图', value: 'day' as CalendarViewMode }
-]
+	{ label: "月视图", value: "month" as CalendarViewMode },
+	{ label: "周视图", value: "week" as CalendarViewMode },
+	{ label: "日视图", value: "day" as CalendarViewMode },
+];
 
 function addDays(d: Date, delta: number): Date {
-	const r = new Date(d)
-	r.setDate(r.getDate() + delta)
-	return r
+	const r = new Date(d);
+	r.setDate(r.getDate() + delta);
+	return r;
 }
 
 function prev() {
-	if (viewMode.value === 'month') {
+	if (viewMode.value === "month") {
 		if (currentMonth.value === 0) {
-			currentYear.value--
-			currentMonth.value = 11
+			currentYear.value--;
+			currentMonth.value = 11;
 		} else {
-			currentMonth.value--
+			currentMonth.value--;
 		}
-	} else if (viewMode.value === 'week') {
-		viewCursor.value = addDays(viewCursor.value, -7)
+	} else if (viewMode.value === "week") {
+		viewCursor.value = addDays(viewCursor.value, -7);
 	} else {
-		viewCursor.value = addDays(viewCursor.value, -1)
+		viewCursor.value = addDays(viewCursor.value, -1);
 	}
 }
 
 function next() {
-	if (viewMode.value === 'month') {
+	if (viewMode.value === "month") {
 		if (currentMonth.value === 11) {
-			currentYear.value++
-			currentMonth.value = 0
+			currentYear.value++;
+			currentMonth.value = 0;
 		} else {
-			currentMonth.value++
+			currentMonth.value++;
 		}
-	} else if (viewMode.value === 'week') {
-		viewCursor.value = addDays(viewCursor.value, 7)
+	} else if (viewMode.value === "week") {
+		viewCursor.value = addDays(viewCursor.value, 7);
 	} else {
-		viewCursor.value = addDays(viewCursor.value, 1)
+		viewCursor.value = addDays(viewCursor.value, 1);
 	}
 }
 
 function goToday() {
-	const t = new Date()
-	t.setHours(0, 0, 0, 0)
-	currentYear.value = t.getFullYear()
-	currentMonth.value = t.getMonth()
-	viewCursor.value = new Date(t)
-	selectedDate.value = new Date(t.getFullYear(), t.getMonth(), t.getDate())
-	emit('date-select', selectedDate.value)
+	const t = new Date();
+	t.setHours(0, 0, 0, 0);
+	currentYear.value = t.getFullYear();
+	currentMonth.value = t.getMonth();
+	viewCursor.value = new Date(t);
+	selectedDate.value = new Date(t.getFullYear(), t.getMonth(), t.getDate());
+	emit("date-select", selectedDate.value);
 }
 
 function handleCellClick(cell: CalendarCell) {
-	selectedDate.value = new Date(cell.date.getFullYear(), cell.date.getMonth(), cell.date.getDate())
-	emit('date-select', selectedDate.value)
+	selectedDate.value = new Date(cell.date.getFullYear(), cell.date.getMonth(), cell.date.getDate());
+	emit("date-select", selectedDate.value);
 }
 </script>
 

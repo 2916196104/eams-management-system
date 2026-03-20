@@ -1,5 +1,5 @@
-import type { TreeNode } from 'element-plus'
-import type { VNode } from 'vue'
+import type { TreeNode } from "element-plus";
+import type { VNode } from "vue";
 
 /**
  * 自定义表格属性模型
@@ -7,31 +7,31 @@ import type { VNode } from 'vue'
  */
 export interface MyTableAttr {
 	/** 分页组件大小, 默认default */
-	psize?: 'large' | 'default' | 'small'
+	psize?: "large" | "default" | "small";
 	/** 表格高度，不指定自动适配表格高度 */
-	height?: number
+	height?: number;
 	/** 表格最大高度 */
-	'max-height'?: number
+	"max-height"?: number;
 	/** 是否显示斑马纹, 默认显示 */
-	stripe?: boolean
+	stripe?: boolean;
 	/** 是否显示纵向边框, 默认不显示 */
-	border?: boolean
+	border?: boolean;
 	/** 是否高亮当前选择行, 默认高亮 */
-	'highlight-current-row'?: boolean
+	"highlight-current-row"?: boolean;
 	/** 是否在表尾显示合计行, 默认不显示 */
-	'show-summary'?: boolean
+	"show-summary"?: boolean;
 	/** 自定义的合计计算方法 */
-	'summary-method'?: (data: { columns: any[]; data: any[] }) => (VNode | string)[]
+	"summary-method"?: (data: { columns: any[]; data: any[] }) => (VNode | string)[];
 	/** 行数据的Key，用来优化Table的渲染,在使用reserve-selection功能与显示树形数据时，该属性是必填的*/
-	'row-key'?: string | ((row: any) => string)
+	"row-key"?: string | ((row: any) => string);
 	/** 是否默认展开所有行，当Table包含展开行存在或者为树形表格时有效 */
-	'default-expand-all'?: boolean
+	"default-expand-all"?: boolean;
 	/** 是否懒加载子节点数据 */
-	lazy?: boolean
+	lazy?: boolean;
 	/** 懒加载时用于加载子节点数据的方法 */
-	load?: (row: any, treeNode: TreeNode, resolve: (data: any[]) => void) => void
+	load?: (row: any, treeNode: TreeNode, resolve: (data: any[]) => void) => void;
 	/** 渲染嵌套数据的配置选项 */
-	'tree-props'?: { hasChildren?: string; children?: string; checkStrictly?: boolean }
+	"tree-props"?: { hasChildren?: string; children?: string; checkStrictly?: boolean };
 }
 
 /**
@@ -40,25 +40,25 @@ export interface MyTableAttr {
  */
 export interface MyTableColumn {
 	/** 列标题 */
-	label: string
+	label: string;
 	/** 列字段名 */
-	prop: string
+	prop: string;
 	/** 列宽度，不指定自适应宽度 */
-	width?: string
+	width?: string;
 	/** 最小列宽度 */
-	'min-width'?: number
+	"min-width"?: number;
 	/** 是否固定列 */
-	fixed?: 'left' | 'right'
+	fixed?: "left" | "right";
 	/** 当内容过长被隐藏时显示tooltip */
-	'show-overflow-tooltip'?: boolean
+	"show-overflow-tooltip"?: boolean;
 	/** 列对齐方式 */
-	align?: 'left' | 'center' | 'right'
+	align?: "left" | "center" | "right";
 }
 
 /** 自定义表格操作列数据模型 */
 export interface MyTableOperationsColumn extends MyTableColumn {
 	/** 按钮尺寸 */
-	size?: 'large' | 'default' | 'small'
+	size?: "large" | "default" | "small";
 }
 
 /**
@@ -66,17 +66,15 @@ export interface MyTableOperationsColumn extends MyTableColumn {
  * @param init 初始化数据
  * @returns 自定义表格操作列实例
  */
-export function createMyTableOperationsColumn(
-	init?: Partial<MyTableOperationsColumn>
-): MyTableOperationsColumn {
+export function createMyTableOperationsColumn(init?: Partial<MyTableOperationsColumn>): MyTableOperationsColumn {
 	return {
-		label: '操作栏', // 默认值
-		prop: 'operate', // 默认值
-		fixed: 'right', // 默认值
-		'min-width': 120, // 默认值
-		size: 'small', // 默认值
-		...init // 覆盖用户传入值
-	}
+		label: "操作栏", // 默认值
+		prop: "operate", // 默认值
+		fixed: "right", // 默认值
+		"min-width": 120, // 默认值
+		size: "small", // 默认值
+		...init, // 覆盖用户传入值
+	};
 }
 
 /**
@@ -85,21 +83,21 @@ export function createMyTableOperationsColumn(
  */
 export interface MyTableOperationsBtnAttr {
 	/** 按钮类型 */
-	type: 'primary' | 'success' | 'info' | 'warning' | 'danger' | ''
+	type: "primary" | "success" | "info" | "warning" | "danger" | "";
 	/** 按钮尺寸 */
-	size?: 'large' | 'default' | 'small'
+	size?: "large" | "default" | "small";
 	/** 图标名称 ，图标需要在el-icon插件中加载，如：icon-edit */
-	icon?: string
+	icon?: string;
 	/** 是否为朴素按钮 */
-	plain?: boolean
+	plain?: boolean;
 	/** 是否为圆角按钮 */
-	round?: boolean
+	round?: boolean;
 	/** 是否为圆形按钮 */
-	circle?: boolean
+	circle?: boolean;
 	/** 是否为链接按钮 */
-	link?: boolean
+	link?: boolean;
 	/** 是否禁用 */
-	disabled?: boolean
+	disabled?: boolean;
 }
 
 /**
@@ -108,11 +106,11 @@ export interface MyTableOperationsBtnAttr {
  */
 export interface MyTableOperationsBtn {
 	/** 点击事件标识名称，如：info | edit | delete */
-	evtname: string
+	evtname: string;
 	/** 按钮提示文本 */
-	text?: string
+	text?: string;
 	/** 按钮属性 */
-	attr?: MyTableOperationsBtnAttr
+	attr?: MyTableOperationsBtnAttr;
 }
 
 /**
@@ -120,15 +118,15 @@ export interface MyTableOperationsBtn {
  */
 export interface PageDTO<T> {
 	/** 页码 */
-	pageIndex: number
+	pageIndex: number;
 	/** 每页数据条数 */
-	pageSize: number
+	pageSize: number;
 	/** 数据总条数 */
-	total: number
+	total: number;
 	/** 数据总页数 */
-	pages?: number
+	pages?: number;
 	/** 当前页数据 */
-	rows?: Array<T>
+	rows?: Array<T>;
 }
 
 /**
@@ -144,6 +142,6 @@ export function createPageDTO<T>(init?: Partial<PageDTO<T>>): PageDTO<T> {
 		rows: [], // 默认值
 		...init, // 覆盖用户传入值
 		// 自动计算总页数（可选）
-		pages: init?.pages ?? Math.ceil((init?.total ?? 0) / (init?.pageSize ?? 10))
-	}
+		pages: init?.pages ?? Math.ceil((init?.total ?? 0) / (init?.pageSize ?? 10)),
+	};
 }

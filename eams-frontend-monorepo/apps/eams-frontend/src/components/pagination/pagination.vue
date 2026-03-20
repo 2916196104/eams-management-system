@@ -11,6 +11,6 @@
 	/>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue'
-const pageSize = ref(20)
+import { ref } from "vue";
+const pageSize = ref(20);
 </script>

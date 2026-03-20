@@ -25,33 +25,33 @@
 </template>
 
 <script setup lang="ts" generic="T extends Record<string, any> = Record<string, any>">
-import { ref } from 'vue'
-import type { MyDetailDialogColumn, MyDetailDialogProps } from './type'
+import { ref } from "vue";
+import type { MyDetailDialogColumn, MyDetailDialogProps } from "./type";
 
 const props = withDefaults(defineProps<MyDetailDialogProps<T>>(), {
-	title: '详情',
-	width: '1180px'
-})
+	title: "详情",
+	width: "1180px",
+});
 
-const dialogVisible = ref(false)
+const dialogVisible = ref(false);
 
-const title = props.title
-const width = props.width
-const data = props.data
-const columns = props.columns as MyDetailDialogColumn[]
+const title = props.title;
+const width = props.width;
+const data = props.data;
+const columns = props.columns as MyDetailDialogColumn[];
 
 function openDialog() {
-	dialogVisible.value = true
+	dialogVisible.value = true;
 }
 
 function closeDialog() {
-	dialogVisible.value = false
+	dialogVisible.value = false;
 }
 
 defineExpose({
 	openDialog,
-	closeDialog
-})
+	closeDialog,
+});
 </script>
 
 <style scoped>

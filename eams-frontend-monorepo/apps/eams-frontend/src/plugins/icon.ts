@@ -1,10 +1,10 @@
 // 这里导入你要使用的图标
 // 写成多行避免解决冲突麻烦
-import { Menu, Expand, Fold, HomeFilled } from '@element-plus/icons-vue'
-import { Setting, Operation } from '@element-plus/icons-vue'
-import { User } from '@element-plus/icons-vue'
-import { Tickets } from '@element-plus/icons-vue'
-import { UploadFilled, Download } from '@element-plus/icons-vue'
+import { Menu, Expand, Fold, HomeFilled } from "@element-plus/icons-vue";
+import { Setting, Operation } from "@element-plus/icons-vue";
+import { User } from "@element-plus/icons-vue";
+import { Tickets } from "@element-plus/icons-vue";
+import { UploadFilled, Download } from "@element-plus/icons-vue";
 // 表格中常用图标
 import {
 	Message,
@@ -23,9 +23,9 @@ import {
 	Minus,
 	ArrowUpBold,
 	ArrowDownBold,
-	RefreshRight
-} from '@element-plus/icons-vue'
-import type { App } from 'vue'
+	RefreshRight,
+} from "@element-plus/icons-vue";
+import type { App } from "vue";
 
 export default {
 	/**
@@ -33,35 +33,35 @@ export default {
 	 * @param app 应用实例
 	 */
 	install: (app: App) => {
-		app.component('IconMenu', Menu)
-		app.component('IconExpand', Expand)
-		app.component('IconFold', Fold)
-		app.component('IconHomeFilled', HomeFilled)
-		app.component('IconSetting', Setting)
-		app.component('IconOperation', Operation)
-		app.component('IconUser', User)
-		app.component('IconTickets', Tickets)
-		app.component('IconUpload', UploadFilled)
-		app.component('IconDownload', Download)
+		app.component("IconMenu", Menu);
+		app.component("IconExpand", Expand);
+		app.component("IconFold", Fold);
+		app.component("IconHomeFilled", HomeFilled);
+		app.component("IconSetting", Setting);
+		app.component("IconOperation", Operation);
+		app.component("IconUser", User);
+		app.component("IconTickets", Tickets);
+		app.component("IconUpload", UploadFilled);
+		app.component("IconDownload", Download);
 		// 表格中常用图标
-		app.component('IconMessage', Message)
-		app.component('IconPlus', Plus)
-		app.component('IconEdit', Edit)
-		app.component('IconDelete', Delete)
-		app.component('IconSearch', Search)
-		app.component('IconCheck', Check)
-		app.component('IconMore', More)
-		app.component('IconMoreFilled', MoreFilled)
-		app.component('IconFinished', Finished)
-		app.component('IconBack', Back)
-		app.component('IconClose', Close)
-		app.component('IconCloseBlod', CloseBold)
-		app.component('IconFullScreen', FullScreen)
-		app.component('IconMinus', Minus)
-		app.component('IconArrowUpBold', ArrowUpBold)
-		app.component('IconArrowDownBold', ArrowDownBold)
-		app.component('IconReset', RefreshRight)
+		app.component("IconMessage", Message);
+		app.component("IconPlus", Plus);
+		app.component("IconEdit", Edit);
+		app.component("IconDelete", Delete);
+		app.component("IconSearch", Search);
+		app.component("IconCheck", Check);
+		app.component("IconMore", More);
+		app.component("IconMoreFilled", MoreFilled);
+		app.component("IconFinished", Finished);
+		app.component("IconBack", Back);
+		app.component("IconClose", Close);
+		app.component("IconCloseBlod", CloseBold);
+		app.component("IconFullScreen", FullScreen);
+		app.component("IconMinus", Minus);
+		app.component("IconArrowUpBold", ArrowUpBold);
+		app.component("IconArrowDownBold", ArrowDownBold);
+		app.component("IconReset", RefreshRight);
 
-		console.log('El icon is installed.')
-	}
-}
+		console.log("El icon is installed.");
+	},
+};

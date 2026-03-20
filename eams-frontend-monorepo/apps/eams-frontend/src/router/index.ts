@@ -1,125 +1,120 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import { ElMessage } from 'element-plus'
-import { useUserStore } from '../stores/user'
-import { useTabStore } from '@/stores/tab'
-import type { RouteRecordRawArray } from '@/types/Route'
+import { createRouter, createWebHistory } from "vue-router";
+import { ElMessage } from "element-plus";
+import { useUserStore } from "../stores/user";
+import { useTabStore } from "@/stores/tab";
+import type { RouteRecordRawArray } from "@/types/Route";
 
-const routes = []
+const routes = [];
 routes.push(
 	{
-		path: '/:pathMatch(.*)*',
-		name: 'NotFound',
-		component: () => import('../views/status/404.vue')
+		path: "/:pathMatch(.*)*",
+		name: "NotFound",
+		component: () => import("../views/status/404.vue"),
 	},
 	{
-		path: '/forbidden',
-		name: 'Forbidden',
-		component: () => import('../views/status/403.vue')
+		path: "/forbidden",
+		name: "Forbidden",
+		component: () => import("../views/status/403.vue"),
 	},
 	{
-		path: '/error',
-		name: 'Error',
-		component: () => import('../views/status/500.vue')
-	}
-)
+		path: "/error",
+		name: "Error",
+		component: () => import("../views/status/500.vue"),
+	},
+);
 
 // 读取login模块路由
-const loginRouter = import.meta.glob<RouteRecordRawArray>('./login/index.ts', { eager: true })
+const loginRouter = import.meta.glob<RouteRecordRawArray>("./login/index.ts", { eager: true });
 for (const path in loginRouter) {
-	routes.push(...loginRouter[path].default)
+	routes.push(...loginRouter[path].default);
 }
 
 // 读取main模块路由
-const mainRouter = import.meta.glob<RouteRecordRawArray>('./main/index.ts', { eager: true })
+const mainRouter = import.meta.glob<RouteRecordRawArray>("./main/index.ts", { eager: true });
 for (const path in mainRouter) {
-	routes.push(...mainRouter[path].default)
+	routes.push(...mainRouter[path].default);
 }
 
 // 读取示例演示模块路由
 if (import.meta.env.DEV) {
-	const sampleRouter = import.meta.glob<RouteRecordRawArray>('./sample/index.ts', { eager: true })
+	const sampleRouter = import.meta.glob<RouteRecordRawArray>("./sample/index.ts", { eager: true });
 	for (const path in sampleRouter) {
-		routes.push(...sampleRouter[path].default)
+		routes.push(...sampleRouter[path].default);
 	}
 }
 
 // 定义一个路由对象
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
-	routes
-})
+	routes,
+});
 
 // 添加一个路由的全局前置守卫
 router.beforeEach(async function (to, from, next) {
 	// 判断是否是白名单页面
-	if (
-		to.name === 'Login' ||
-		to.name === 'NotFound' ||
-		to.name === 'Forbidden' ||
-		to.name === 'Error'
-	) {
-		next()
-		return
+	if (to.name === "Login" || to.name === "NotFound" || to.name === "Forbidden" || to.name === "Error") {
+		next();
+		return;
 	}
 
 	// 放行示例模块访问
 	if (import.meta.env.DEV) {
-		if (to.path.indexOf('sample') !== -1) {
-			next()
-			return
+		if (to.path.indexOf("sample") !== -1) {
+			next();
+			return;
 		}
 	}
 
 	// 判断本地是否记录token值
-	const store = useUserStore()
-	const token = store.getToken
+	const store = useUserStore();
+	const token = store.getToken;
 	// 如果有token
 	if (token) {
 		// 判断是否已经加载数据
-		const isLoaded = store.isLoaded
+		const isLoaded = store.isLoaded;
 		// 如果没有加载
 		if (!isLoaded) {
 			// 加载用户信息
-			await store.loadUser()
+			await store.loadUser();
 			// 加载菜单资源
-			await store.loadMenus()
+			await store.loadMenus();
 			// 设置加载完毕
-			store.setLoaded(true)
+			store.setLoaded(true);
 		}
 
 		// #region 处理标签页数据
-		const tabstore = useTabStore()
+		const tabstore = useTabStore();
 		// 首页处理
 		if (to.path == tabstore.indexPath) {
-			tabstore.setActiveIndex(to.path)
+			tabstore.setActiveIndex(to.path);
 		}
 		// 设置了标签数据的路由
 		else if (to.meta.label) {
-			const idx = tabstore.getTabIndex(to.path)
+			const idx = tabstore.getTabIndex(to.path);
 			// 如果标签页已经打开了
 			if (idx !== -1) {
 				// 设置当前标签页
-				tabstore.setActiveIndex(to.path)
+				tabstore.setActiveIndex(to.path);
 			} else {
 				// 添加标签页
 				tabstore.addTab({
 					label: to.meta.label,
-					path: to.path
-				})
+					path: to.path,
+				});
 				// 设置当前标签页
-				tabstore.setActiveIndex(to.path)
+				tabstore.setActiveIndex(to.path);
 			}
 		}
 		// #endregion
 
 		// 允许跳转
-		next()
+		next();
 	}
 	// 如果没有token值，直接进入登录
 	else {
-		next({ name: 'Login' })
-		ElMessage.warning('在未登录时，禁止访问其他页面！')
+		next({ name: "Login" });
+		ElMessage.warning("在未登录时，禁止访问其他页面！");
 	}
-})
+});
 
-export default router
+export default router;

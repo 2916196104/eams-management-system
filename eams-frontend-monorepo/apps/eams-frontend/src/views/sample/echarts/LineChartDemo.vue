@@ -54,69 +54,69 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import LineChart from '@/components/mychart/LineChart.vue'
-import BarChart from '@/components/mychart/BarChart.vue'
-import PieChart from '@/components/mychart/PieChart.vue'
+import { ref } from "vue";
+import LineChart from "@/components/mychart/LineChart.vue";
+import BarChart from "@/components/mychart/BarChart.vue";
+import PieChart from "@/components/mychart/PieChart.vue";
 
 // 1. 报名趋势图数据
 const registrationData = ref([
 	{
-		name: '报名人数',
+		name: "报名人数",
 		data: [1200000, 880000, 1296957.12, 950000, 325439],
-		color: '#5470c6'
-	}
-])
+		color: "#5470c6",
+	},
+]);
 
 const singleSeries = ref([
 	{
-		name: '新增用户',
+		name: "新增用户",
 		data: [120, 200, 150, 80, 70, 110],
-		color: '#5470c6'
-	}
-])
+		color: "#5470c6",
+	},
+]);
 
 // 多条折线对比数据 ref定义对象数据
 const multiSeries = ref([
 	{
-		name: '产品A',
+		name: "产品A",
 		data: [820, 932, 901, 934, 1290, 1330],
-		color: '#5470c6'
+		color: "#5470c6",
 	},
 	{
-		name: '产品B',
+		name: "产品B",
 		data: [620, 732, 701, 734, 1090, 1130],
-		color: '#91cc75'
+		color: "#91cc75",
 	},
 	{
-		name: '产品C',
+		name: "产品C",
 		data: [420, 532, 501, 534, 890, 930],
-		color: '#fac858'
-	}
-])
+		color: "#fac858",
+	},
+]);
 
 const barData = ref([
 	{
-		name: '第一季度',
+		name: "第一季度",
 		data: [320, 280, 350, 240],
-		color: '#5470c6'
+		color: "#5470c6",
 	},
 	{
-		name: '第二季度',
+		name: "第二季度",
 		data: [380, 320, 400, 290],
-		color: '#91cc75'
-	}
-])
+		color: "#91cc75",
+	},
+]);
 
 const pieData = ref([
-	{ name: '小米', value: 1041, color: '#5470c6' },
-	{ name: '华为', value: 735, color: '#fac858' },
-	{ name: 'OPPO', value: 500, color: '#ee6666' },
-	{ name: '魅族', value: 300, color: '#73c0de' }
-])
+	{ name: "小米", value: 1041, color: "#5470c6" },
+	{ name: "华为", value: 735, color: "#fac858" },
+	{ name: "OPPO", value: 500, color: "#ee6666" },
+	{ name: "魅族", value: 300, color: "#73c0de" },
+]);
 
 function handleChartClick(params: any) {
-	console.log('图表点击事件:', params)
+	console.log("图表点击事件:", params);
 }
 </script>
 

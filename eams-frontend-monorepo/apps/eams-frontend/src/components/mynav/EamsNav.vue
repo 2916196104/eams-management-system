@@ -41,10 +41,7 @@
 				</el-menu-item>
 
 				<template v-for="item in normalizedMenus" :key="item.id">
-					<el-sub-menu
-						v-if="item.children && item.children.length > 0"
-						:index="getSubMenuIndex(item)"
-					>
+					<el-sub-menu v-if="item.children && item.children.length > 0" :index="getSubMenuIndex(item)">
 						<template #title>
 							<el-icon>
 								<component :is="item.icon" />
@@ -82,131 +79,129 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
-import type { EamsNavMenuItem, EamsNavProps } from './type'
+import { computed, ref, watch } from "vue";
+import { useRoute } from "vue-router";
+import type { EamsNavMenuItem, EamsNavProps } from "./type";
 
 defineOptions({
-	name: 'EamsNav'
-})
+	name: "EamsNav",
+});
 
 interface NormalizedMenuItem extends EamsNavMenuItem {
-	icon: string
-	index: string
-	children?: Array<NormalizedMenuItem>
+	icon: string;
+	index: string;
+	children?: Array<NormalizedMenuItem>;
 }
 
 const props = withDefaults(defineProps<EamsNavProps>(), {
-	appName: '教务系统',
-	logoSrc: '',
-	userText: '',
+	appName: "教务系统",
+	logoSrc: "",
+	userText: "",
 	collapse: false,
-	defaultActive: '',
-	menuWidth: '220px',
-	headerHeight: '60px',
+	defaultActive: "",
+	menuWidth: "220px",
+	headerHeight: "60px",
 	showHome: false,
-	homeText: '首页',
-	homePath: '/',
-	homeIcon: 'IconHomeFilled',
-	defaultIcon: 'IconMenu',
-	backgroundColor: '#545c64',
-	textColor: '#ffffff',
-	activeTextColor: '#409eff',
+	homeText: "首页",
+	homePath: "/",
+	homeIcon: "IconHomeFilled",
+	defaultIcon: "IconMenu",
+	backgroundColor: "#545c64",
+	textColor: "#ffffff",
+	activeTextColor: "#409eff",
 	uniqueOpened: true,
 	router: true,
-	collapseTransition: false
-})
+	collapseTransition: false,
+});
 
 const emit = defineEmits<{
-	(e: 'update:collapse', value: boolean): void
-	(e: 'select', item: EamsNavMenuItem | undefined): void
-}>()
+	(e: "update:collapse", value: boolean): void;
+	(e: "select", item: EamsNavMenuItem | undefined): void;
+}>();
 
-const route = useRoute()
-const isCollapse = ref(props.collapse)
-const activeIndex = ref('')
+const route = useRoute();
+const isCollapse = ref(props.collapse);
+const activeIndex = ref("");
 
-const normalizedMenus = computed<NormalizedMenuItem[]>(() =>
-	props.menus.map((item) => normalizeMenuItem(item))
-)
+const normalizedMenus = computed<NormalizedMenuItem[]>(() => props.menus.map((item) => normalizeMenuItem(item)));
 
 const flatMenuMap = computed(() => {
-	const menuMap = new Map<string, EamsNavMenuItem>()
+	const menuMap = new Map<string, EamsNavMenuItem>();
 
 	const walk = (menus: NormalizedMenuItem[]) => {
 		for (const item of menus) {
-			menuMap.set(item.index, item)
+			menuMap.set(item.index, item);
 			if (item.children?.length) {
-				walk(item.children)
+				walk(item.children);
 			}
 		}
-	}
+	};
 
-	walk(normalizedMenus.value)
-	return menuMap
-})
+	walk(normalizedMenus.value);
+	return menuMap;
+});
 
 const styleVars = computed(() => ({
-	'--eams-nav-header-height': props.headerHeight,
-	'--eams-nav-menu-width': props.menuWidth
-}))
+	"--eams-nav-header-height": props.headerHeight,
+	"--eams-nav-menu-width": props.menuWidth,
+}));
 
 watch(
 	() => props.collapse,
 	(value) => {
-		isCollapse.value = value
-	}
-)
+		isCollapse.value = value;
+	},
+);
 
 watch(
 	[() => props.defaultActive, () => route.path, normalizedMenus],
 	() => {
 		if (props.defaultActive) {
-			activeIndex.value = props.defaultActive
-			return
+			activeIndex.value = props.defaultActive;
+			return;
 		}
 
 		if (props.router && flatMenuMap.value.has(route.path)) {
-			activeIndex.value = route.path
-			return
+			activeIndex.value = route.path;
+			return;
 		}
 
 		if (props.showHome && route.path === props.homePath) {
-			activeIndex.value = props.homePath
-			return
+			activeIndex.value = props.homePath;
+			return;
 		}
 
-		const firstMenu = normalizedMenus.value[0]
-		activeIndex.value = firstMenu?.children?.[0]?.index ?? firstMenu?.index ?? props.homePath
+		const firstMenu = normalizedMenus.value[0];
+		activeIndex.value = firstMenu?.children?.[0]?.index ?? firstMenu?.index ?? props.homePath;
 	},
-	{ immediate: true, deep: true }
-)
+	{ immediate: true, deep: true },
+);
 
 function normalizeMenuItem(item: EamsNavMenuItem): NormalizedMenuItem {
 	return {
 		...item,
 		icon: item.icon || props.defaultIcon,
 		index: getMenuIndex(item),
-		children: item.children?.map((child) => normalizeMenuItem(child))
-	}
+		children: item.children?.map((child) => normalizeMenuItem(child)),
+	};
 }
 
 function getMenuIndex(item: EamsNavMenuItem): string {
-	return item.path || item.href || String(item.id)
+	return item.path || item.href || String(item.id);
 }
 
 function getSubMenuIndex(item: NormalizedMenuItem): string {
-	return `submenu-${item.id}`
+	return `submenu-${item.id}`;
 }
 
 function toggleCollapse() {
-	isCollapse.value = !isCollapse.value
-	emit('update:collapse', isCollapse.value)
+	isCollapse.value = !isCollapse.value;
+	emit("update:collapse", isCollapse.value);
 }
 
 function handleSelect(index: string) {
-	emit('select', flatMenuMap.value.get(index))
-	activeIndex.value = index
+	emit("select", flatMenuMap.value.get(index));
+	activeIndex.value = index;
 }
 </script>
 
