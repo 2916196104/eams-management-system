@@ -17,14 +17,14 @@ class GetTrialcardController : public oatpp::web::server::api::ApiController
 public://定义接口
 	//接口描述
 	ENDPOINT_INFO(GetTrialcard) {
-		info->summary = ZH_WORDS_GETTER("c5.home.trial.query-all.summary");
+		info->summary = ZH_WORDS_GETTER("c5.home.trial.get-trial.summary");
 		//支持授权
 		API_DEF_ADD_AUTH();
 		API_DEF_ADD_TAG(API_TAG);
 		//定义响应参数格式
 		API_DEF_ADD_RSP_JSON(GetTrialcardJsonVO::Wrapper);
 		//定义请求参数格式
-		API_DEF_ADD_QUERY_PARAMS(Int32, "course_id", ZH_WORDS_GETTER("c5.home.trial.field.course_id"), 1, true);
+		API_DEF_ADD_QUERY_PARAMS(Int32, "course_id", ZH_WORDS_GETTER("c5.home.trial.get-field.course_id"), 1, true);
 	}
 	//接口端点,端点名称改为GetTrialcard
 	ENDPOINT(API_M_GET, "/c5/home/trial/GetTrialcard", GetTrialcard, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {

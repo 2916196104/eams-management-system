@@ -1,18 +1,17 @@
 #pragma once
-#ifndef _GETTRIALCARD_DTO_
-#define _GETTRIALCARD_DTO_
+#ifndef _USETrialCARD_DTO_
+#define _USETrialCARD_DTO_
 
 #include "../../../GlobalInclude.h"
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * 获取课程体验卡DTO
- * 对应数据库表 course_trial_record（体验卡领取/使用记录）
+ * 使用课程体验卡DTO
+ * 对应数据库表 course_trial
  */
-class GetTrialcardDTO : public oatpp::DTO
+class UseTrialcardDTO : public oatpp::DTO
 {
-    DTO_INIT(GetTrialcardDTO, DTO);
-
+    DTO_INIT(UseTrialcardDTO, DTO);
     // 体验卡ID
     DTO_FIELD(Int64, trial_id);
     DTO_FIELD_INFO(trial_id) {
@@ -37,7 +36,7 @@ class GetTrialcardDTO : public oatpp::DTO
         info->description = ZH_WORDS_GETTER("c5.home.get-trial.field.student_course_id");
     }
 
-    // 领取时间
+    // 领取时间（使用时需关联）
     DTO_FIELD(String, add_time);
     DTO_FIELD_INFO(add_time) {
         info->description = ZH_WORDS_GETTER("c5.home.get-trial.field.add_time");
@@ -49,7 +48,7 @@ class GetTrialcardDTO : public oatpp::DTO
         info->description = ZH_WORDS_GETTER("c5.home.get-trial.field.expired_date");
     }
 
-    // 领取到数量预约后减少
+    // 剩余可使用课时数（使用后扣减）
     DTO_FIELD(Int32, lesson_count);
     DTO_FIELD_INFO(lesson_count) {
         info->description = ZH_WORDS_GETTER("c5.home.get-trial.field.lesson_count");
@@ -67,7 +66,6 @@ class GetTrialcardDTO : public oatpp::DTO
         info->description = ZH_WORDS_GETTER("c5.home.get-trial.field.counselor");
     }
 
-    // 以下为 course_trial 表关联字段（使用体验卡时可能需要的基础信息）
     // 课程ID
     DTO_FIELD(Int64, course_id);
     DTO_FIELD_INFO(course_id) {
@@ -92,8 +90,26 @@ class GetTrialcardDTO : public oatpp::DTO
         info->description = ZH_WORDS_GETTER("c5.home.use-field.state");
     }
 
+    // 发行数量
+    DTO_FIELD(Int32, quantity);
+    DTO_FIELD_INFO(quantity) {
+        info->description = ZH_WORDS_GETTER("c5.home.use-field.quantity");
+    }
+
+    // 剩余数量
+    DTO_FIELD(Int32, remaining_quantity);
+    DTO_FIELD_INFO(remaining_quantity) {
+        info->description = ZH_WORDS_GETTER("c5.home.use-field.remaining_quantity");
+    }
+
+    // 发行结束日期
+    DTO_FIELD(String, end_date);
+    DTO_FIELD_INFO(end_date) {
+        info->description = ZH_WORDS_GETTER("c5.home.use-field.end_date");
+    }
+
 };
 
 #include OATPP_CODEGEN_END(DTO)
 
-#endif // 
+#endif 

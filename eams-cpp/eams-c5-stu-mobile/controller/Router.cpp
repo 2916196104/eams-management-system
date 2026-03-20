@@ -22,7 +22,8 @@
 #include "home/credit/GetcreditexchangelistController.h"
 #include"home/homework/HomeworkController.h"
 #include"home/class/ClassStudentController.h"
-#include"home/trialcard/GetTrialcardController.h"
+#include"home/trialcard/GetTrialcard/GetTrialcardController.h"
+#include"home/trialcard/UseTrialcard/UseTrialcardController.h"
 
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
@@ -48,6 +49,8 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(HomeworkController);
 	ROUTER_SIMPLE_BIND(ClassStudentController);
 	ROUTER_SIMPLE_BIND(GetTrialcardController);
+	ROUTER_SIMPLE_BIND(UseTrialcardController);
+
 
 	
 }
