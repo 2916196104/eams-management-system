@@ -7,7 +7,9 @@ common:
   query-student-registration-record: 获取报名记录（条件+分页）
   download-student-picture: 下载学员头像 
   get-student-course-count: 获取学员课次数据
-  save-student: 保存学员  
+  save-student: 保存学员
+  enrollstudentCourse: 学员报名课程
+  studentstage: 获取学员阶段
  field:
   file:
    id: 文件ID
@@ -51,6 +53,7 @@ common:
    drop-class-count: 退课数量
    refund-describe: 退费说明
    refund-status: 退费状态
+   price-people: 收款经手人
 
 intendedstudent:
  api-tag: 意向学员接口
