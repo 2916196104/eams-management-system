@@ -82,8 +82,14 @@ onlinestudent:
  interface:
   export: 在线成员导出
   import: 在线成员导入
+  modify-counselor: 修改顾问
+  query-counselor-list: 查询顾问列表
  field:
   excel: 导入报表文件
+  counselor:
+   id: 顾问 ID
+   name: 顾问姓名
+   position: 职位
   student:
    id: ID
    sex: 学员性别

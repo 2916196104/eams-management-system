@@ -118,5 +118,51 @@ class OnlineImportDTO : public oatpp::DTO
 	API_DTO_FIELD_REQUIRE(oatpp::swagger::Binary, excel, ZH_WORDS_GETTER("onlinestudent.field.excel"), true);
 };
 
+/**
+ * 顾问数据对象（用于顾问列表查询）
+ */
+class CounselorDTO : public oatpp::DTO
+{
+	DTO_INIT(CounselorDTO, DTO);
+	// 顾问 ID
+	DTO_FIELD(Int32, id);
+	DTO_FIELD_INFO(id) {
+		info->description = ZH_WORDS_GETTER("onlinestudent.field.counselor.id");
+	}
+
+	// 顾问姓名
+	DTO_FIELD(String, name);
+	DTO_FIELD_INFO(name) {
+		info->description = ZH_WORDS_GETTER("onlinestudent.field.counselor.name");
+	}
+
+	// 顾问职位
+	DTO_FIELD(String, position);
+	DTO_FIELD_INFO(position) {
+		info->description = ZH_WORDS_GETTER("onlinestudent.field.counselor.position");
+	}
+};
+
+/**
+ * 修改顾问请求参数
+ */
+class ModifyCounselorDTO : public oatpp::DTO
+{
+	DTO_INIT(ModifyCounselorDTO, DTO);
+	// 学员 ID 列表（必填）
+	DTO_FIELD(List<String>, studentIds);
+	DTO_FIELD_INFO(studentIds) {
+		info->description = "学员 ID 列表";
+		info->required = true;
+	}
+
+	// 顾问姓名（必填）
+	DTO_FIELD(String, counselorName);
+	DTO_FIELD_INFO(counselorName) {
+		info->description = ZH_WORDS_GETTER("onlinestudent.field.counselor.name");
+		info->required = true;
+	}
+};
+
 #include OATPP_CODEGEN_END(DTO)
 #endif
