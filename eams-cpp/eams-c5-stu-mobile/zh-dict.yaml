@@ -206,3 +206,27 @@ EnrollCourse:
     unit_price: 单价
     from_trial: 是否来自于体验试用
     org_id: 报名老师所属组织ID  
+LessonComment:
+  tag: 点评记录
+  query-all:
+    summary: 查询所有点评
+  field:
+    id: 主键ID
+    lesson_id: 课程id
+    class_id: 班级id,为空表示调课生
+    student_id: 学员id
+    dec_lesson_count: 实扣课次
+    lesson_count: 应扣课次
+    teacher_id: 点名的老师
+    sign_time: 签到时间
+    sign_type: 签到方式
+    sign_state: 签到结果
+    score: 老师评分
+    evaluation: 老师评语
+    evaluate_time: 评语时间
+    evaluate_teacher: 评语老师
+    consume_course_id: 实际消费课程
+    consume_student_course_id: 消费课程与学生关联表ID
+    counselor: 学生的顾问
+    add_time: 加入时间
+    org_id: 上课老师所属组织ID  
