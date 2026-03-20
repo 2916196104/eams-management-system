@@ -1,11 +1,13 @@
 package com.zeroone.star.project.j5.courseschedule;
 
-import com.zeroone.star.project.dto.j5.courseschedule.CourseStatusDTO;
 import com.zeroone.star.project.dto.j5.courseschedule.LessonDTO;
 import com.zeroone.star.project.dto.j5.courseschedule.LessonListDTO;
+import com.zeroone.star.project.dto.j5.courseschedule.CourseStatusDTO;
 import com.zeroone.star.project.query.PageQuery;
 import com.zeroone.star.project.query.j5.courseschedule.CourseQuery;
 import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.query.j5.courseschedule.UpdateCourseQuery;
+import com.zeroone.star.project.query.j5.courseschedule.UpdateCoursesQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j5.courseschedule.CourseScheduleVO;
 
@@ -26,48 +28,22 @@ public interface CourseScheduleApis {
     JsonVO<String> freeSchedule(CourseScheduleVO lessonScheduleVo);
 
     //开关预约课程
-    JsonVO<String> switchSchedule(CourseStatusDTO couseStatusDto);
+    JsonVO<String> switchSchedule(CourseStatusDTO courseStatusDto);
 
-    /**
-     * 分页查询学员课程状态列表
-     * @param keyword 关键词
-     * @param status 课程状态
-     * @param query 分页参数
-     * @return 分页结果
-     * @author 冷月葬花魂
-     */
+
     JsonVO<PageDTO<Map<String, Object>>> list(String keyword, String status, PageQuery query);
-
-    /**
-     * 批量设置课程状态
-     * @param lessonStudentIds 课次学员记录ID列表
-     * @param status 目标状态
-     * @return 影响行数
-     * @author 冷月葬花魂
-     */
-    JsonVO<Integer> batchSetStatus(List<Long> lessonStudentIds, String status);
-
-
-    /**
-     * 批量还原课程进度
-     * @param lessonStudentIds 课次学员记录ID列表
-     * @return 影响行数
-     * @author 冷月葬花魂
-     */
-    JsonVO<Integer> batchRestore(List<Long> lessonStudentIds);
-
-    /**
-     * 停课
-     * @param lessonIds 课次ID列表
-     * @return 影响行数
-     */
-    JsonVO<Integer> stopLesson(List<Long> lessonIds);
-
-    /**
-     * 复课
-     * @param lessonIds 课次ID列表
-     * @return 影响行数
-     */
+    JsonVO<Integer> batchSetStatus( List<Long> lessonStudentIds, String status);
+    JsonVO<Integer> batchRestore( List<Long> lessonStudentIds);
+    JsonVO<Integer> stopLesson( List<Long> lessonIds);
     JsonVO<Integer> resumeLesson(List<Long> lessonIds);
+
+
+    //修改课次
+    JsonVO<String> updateCourse(UpdateCourseQuery updateCourseQuery);
+
+    //批量修改课次
+    JsonVO<String> updateCourses(List<UpdateCoursesQuery> updateCoursesQueries);
+    //删除课次
+    JsonVO<String> deleteCourses(List<Long> ids);
 
 }

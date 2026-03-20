@@ -7,6 +7,8 @@ import com.zeroone.star.project.query.PageQuery;
 import com.zeroone.star.project.query.j5.courseschedule.CourseQuery;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.j5.courseschedule.CourseScheduleApis;
+import com.zeroone.star.project.query.j5.courseschedule.UpdateCourseQuery;
+import com.zeroone.star.project.query.j5.courseschedule.UpdateCoursesQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j5.courseschedule.CourseScheduleVO;
 import io.swagger.annotations.Api;
@@ -57,6 +59,29 @@ public class CourseScheduleController implements CourseScheduleApis {
     public JsonVO<String> freeSchedule(CourseScheduleVO courseScheduleVO) {
         return null;
     }
+
+
+    @PostMapping("/UpdateCourse")
+    @ApiOperation("修改课次")
+    @Override
+    public JsonVO<String> updateCourse(UpdateCourseQuery updateCourseQuery) {
+        return null;
+    }
+
+    @PostMapping("/updateCourses")
+    @ApiOperation("批量修改课次")
+    @Override
+    public JsonVO<String> updateCourses(List<UpdateCoursesQuery> updateCoursesQueries) {
+        return null;
+    }
+
+    @PostMapping("/deleteCourses")
+    @ApiOperation("删除课次")
+    @Override
+    public JsonVO<String> deleteCourses(List<Long> ids) {
+        return null;
+    }
+
 
     @PostMapping("/switch-schedule")
     @ApiOperation("预约课程开关")
