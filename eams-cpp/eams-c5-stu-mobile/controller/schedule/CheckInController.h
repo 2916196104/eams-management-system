@@ -21,7 +21,7 @@ public:
 		API_DEF_ADD_QUERY_PARAMS(Int32, "courseId", ZH_WORDS_GETTER("CheckIn.field.courseId"), 1, true);
 		API_DEF_ADD_QUERY_PARAMS(String, "signTime", ZH_WORDS_GETTER("CheckIn.field.signTime"), "2025-11-23:15:35:20", true);
 	}
-	ENDPOINT(API_M_POST, "/schedule", CheckIn, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_POST, "/c5/schedule/checkIn", CheckIn, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
 		API_HANDLER_QUERY_PARAM(query, PageQuery, params);
 		API_HANDLER_RESP_VO(executeCheckIn(query));
 	}

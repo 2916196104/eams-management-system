@@ -33,6 +33,7 @@
 #include "../controller/home/LessonComment/LessonCommentController.h"
 #include "home/credit/redeemcredit/RedeemCreditController.h"
 #include"schedule/CheckInController.h"
+#include"home/ListenCard/ListenCardRulesController.h"
 
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
@@ -68,4 +69,5 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(LessonCommentController);
 	ROUTER_SIMPLE_BIND(RedeemCreditController);
 	ROUTER_SIMPLE_BIND(CheckInController);
+	ROUTER_SIMPLE_BIND(ListenCardRulesController);
 }
