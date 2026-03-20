@@ -5,7 +5,7 @@ const routes = [
 		meta: {
 			label: "首页",
 		},
-		component: () => import("@/views/status/404.vue"),
+		component: () => import("@/views/console/index/Index.vue"),
 	},
 	{
 		path: "/curriculum",
@@ -13,7 +13,7 @@ const routes = [
 		meta: {
 			label: "我的课表",
 		},
-		component: () => import("@/views/status/403.vue"),
+		component: () => import("@/views/console/curriculum/Curriculum.vue"),
 	},
 	{
 		path: "/client",
@@ -21,7 +21,7 @@ const routes = [
 		meta: {
 			label: "我的客户",
 		},
-		component: () => import("@/views/status/500.vue"),
+		component: () => import("@/views/console/client/Client.vue"),
 	},
 	{
 		path: "/signup",
@@ -29,7 +29,7 @@ const routes = [
 		meta: {
 			label: "我的报名",
 		},
-		component: () => import("@/views/status/403.vue"),
+		component: () => import("@/views/console/signup/Signup.vue"),
 	},
 	{
 		path: "/payment",
@@ -37,7 +37,7 @@ const routes = [
 		meta: {
 			label: "我的请款",
 		},
-		component: () => import("@/views/status/404.vue"),
+		component: () => import("@/views/console/payment/Payment.vue"),
 	},
 	{
 		path: "/follow",
@@ -45,7 +45,7 @@ const routes = [
 		meta: {
 			label: "我的跟进",
 		},
-		component: () => import("@/views/status/500.vue"),
+		component: () => import("@/views/console/follow/Follow.vue"),
 	},
 ];
 
