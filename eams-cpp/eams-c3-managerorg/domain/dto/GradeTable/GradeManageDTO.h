@@ -5,7 +5,7 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/*³É¼¨DTOÀà*/
+//æˆç»©DTOç±»
 
 
 
@@ -13,20 +13,20 @@ class GradeManageDTO : public oatpp::DTO
 {
 	DTO_INIT(GradeManageDTO, DTO);
 
-	// id (·Ç±ØĞë, Í¨³£ĞÂÔöÊ±²»´«£¬¸üĞÂÊ±´«)£¬µ«ÊÇÄ¿Ç°¶øÑÔ£¬Õâ¸öidÊÇÊ²Ã´£¬ÎÒ²»ÖªµÀ
+	// id (éå¿…é¡», é€šå¸¸æ–°å¢æ—¶ä¸ä¼ ï¼Œæ›´æ–°æ—¶ä¼ )ï¼Œä½†æ˜¯ç›®å‰è€Œè¨€ï¼Œè¿™ä¸ªidæ˜¯ä»€ä¹ˆï¼Œæˆ‘ä¸çŸ¥é“
 	API_DTO_FIELD_DEFAULT(Int64, id, ZH_WORDS_GETTER("Grade.field.id"));
-	//¿¼ºËÏî£¨±ØĞë£©
+	//è€ƒæ ¸é¡¹ï¼ˆå¿…é¡»ï¼‰
 	API_DTO_FIELD_REQUIRE(String, item, ZH_WORDS_GETTER("Grade.field.item"), true);
-	//Ñ§ÉúĞÕÃû
+	//å­¦ç”Ÿå§“å
 	API_DTO_FIELD_DEFAULT(String, name, ZH_WORDS_GETTER("Grade.field.name"));
-	//³É¼¨
+	//æˆç»©
 	API_DTO_FIELD_DEFAULT(Float32, score, ZH_WORDS_GETTER("Grade.field.sc"));
-	//²Ù×÷
+	//æ“ä½œ
 	API_DTO_FIELD_DEFAULT(String, operation, ZH_WORDS_GETTER("Grade.field.operation"));
 };
 
 
-//³É¼¨·ÖÒ³Àà
+//æˆç»©åˆ†é¡µç±»
 class GradeManagePageDTO : public PageDTO<GradeManageDTO::Wrapper>
 {
 	DTO_INIT(GradeManagePageDTO, PageDTO<GradeManageDTO::Wrapper>);

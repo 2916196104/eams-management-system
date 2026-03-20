@@ -63,7 +63,6 @@ Homework:
   pageSize: 每页大小
 
 
-
 SendHomework:
  homeworkSend: 作业提交
 
@@ -76,6 +75,63 @@ GetHomeworkList:
 ReviewHomework:
  summary: 点评作业
  stuHomeworkId: 学生作业ID
+
+
+  # 学评教dto
+StuJudgeTeaDTO:
+  # 主键相关
+  id: 学评教记录ID
+  # 学员信息
+  studentId: 学员ID
+  studentName: 学员姓名（匿名显示）
+  # 授课老师信息
+  teacherId: 授课老师ID
+  teacherName: 授课老师姓名
+  # 课次信息
+  lessonId: 课次ID
+  lessonTitle: 课次标题
+  # 评分项
+  comprehensiveScore: 综合评分（1-5星）
+  classAtmosphere: 课堂气氛评分（1-5星）
+  teachingAttitude: 授课态度评分（1-5星）
+  teachingEffect: 教学效果评分（1-5星）
+  # 评价内容
+  evaluateContent: 学员文字评价内容
+  # 评价时间
+  evaluateTime: 评价提交时间
+
+  # 教评学
+TeaJudgeStuDTO:
+  id: 教评学记录ID
+  studentId: 学员ID
+  studentName: 学员姓名（脱敏显示）
+  lessonId: 课次ID
+  lessonTitle: 课次标题
+  evaluateScore: 点评得分
+  evaluateContent: 点评内容
+  lessonImage: 上课图片
+  teacherId: 点评老师ID
+  teacherName: 点评老师姓名
+  evaluateTime: 点评时间
+  # 成绩单
+GradeTableDTO:
+  id: 成绩单记录ID
+  itemName: 考核项
+  itemDesc: 考核说明
+  publisherId: 发布者ID
+  publisherName: 发布者姓名
+  publishTime: 发布时间
+
+TeaJudgeStu:
+  query: 获取教评学列表(条件+分页)
+  tags: 教评学
+StuJudgeTea:
+  query: 获取学评教列表(条件+分页)
+  tags: 学评教
+GradeTable:
+  query: 获取成绩单列表(条件+分页)
+  tags: 成绩单列表查询
+
 
 board:
  tag: 公告管理

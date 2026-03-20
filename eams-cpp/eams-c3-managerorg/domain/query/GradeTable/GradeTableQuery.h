@@ -1,18 +1,25 @@
+#pragma once
 #ifndef __GRADE_TABLE_QUERY_H__
 #define __GRADE_TABLE_QUERY_H__
 
-#include "domain/GlobalInclude.h"
-
+#include "domain/GlobalInclude.h" 
+#include "domain/query/PageQuery.h"
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/*�ɼ�����ѯ��*/
-
-
-class GradeTableQuery : public
+//成绩单查询类：接收前端筛选+分页参数（所有字段非必传）
+class GradeTableQuery : public PageQuery
 {
-	DTO_INIT(GradeTableQuery, )
+    DTO_INIT(GradeTableQuery, PageQuery);
+
+    // 1. 考核项（模糊查询，非必传）
+    API_DTO_FIELD_DEFAULT(String, itemName, ZH_WORDS_GETTER("GradeTableDTO.itemName"));
+    // 2. 发布者ID（精准查询，非必传）
+    API_DTO_FIELD_DEFAULT(UInt64, publisherId, ZH_WORDS_GETTER("GradeTableDTO.publisherId"));
+    // 3. 发布时间范围（非必传）
+    API_DTO_FIELD_DEFAULT(String, startPublishTime, ZH_WORDS_GETTER("GradeTableDTO.startPublishTime"));
+    API_DTO_FIELD_DEFAULT(String, endPublishTime, ZH_WORDS_GETTER("GradeTableDTO.endPublishTime"));
 };
 
 #include OATPP_CODEGEN_END(DTO)
 
-#endif
+#endif 

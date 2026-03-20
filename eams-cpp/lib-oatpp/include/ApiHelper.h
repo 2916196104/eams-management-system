@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -588,4 +588,4 @@ if(part##_VAR_){ \
 	_VAR_ = part##_VAR_->getPayload()->getInMemoryData(); \
 }
 
-#endif // !_API_HELPER_
+#endif // !_API_HELPER_这些接口如何用
