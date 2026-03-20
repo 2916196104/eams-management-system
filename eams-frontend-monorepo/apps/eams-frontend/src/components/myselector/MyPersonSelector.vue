@@ -172,7 +172,7 @@ watch(
 watch(
 	() => props.modelValue,
 	(newValue) => {
-		selectedPerson.value = newValue;
+		selectedPerson.value = newValue ?? null;
 	},
 );
 
