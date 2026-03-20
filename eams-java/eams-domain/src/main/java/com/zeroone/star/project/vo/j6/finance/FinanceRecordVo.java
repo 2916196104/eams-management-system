@@ -1,5 +1,6 @@
 package com.zeroone.star.project.vo.j6.finance;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
  * 财务记录表
  */
 @Data
+@ApiModel("财务记录数据对象")
 public class FinanceRecordVo {
     @ApiModelProperty(value = "财务记录id",example = "123456789")
     private Long id;

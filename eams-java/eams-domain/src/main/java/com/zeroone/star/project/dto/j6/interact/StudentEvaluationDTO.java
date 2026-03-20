@@ -1,5 +1,6 @@
 package com.zeroone.star.project.dto.j6.interact;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ApiModel("教评学数据传输对象")
 public class StudentEvaluationDTO implements Serializable {
 
     @ApiModelProperty(value = "学员", example = "张三")

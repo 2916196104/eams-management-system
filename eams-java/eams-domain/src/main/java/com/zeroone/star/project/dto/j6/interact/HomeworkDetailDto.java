@@ -1,5 +1,6 @@
 package com.zeroone.star.project.dto.j6.interact;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -7,6 +8,7 @@ import lombok.Data;
  * 作业详情Dto
  */
 @Data
+@ApiModel("作业详情")
 public class HomeworkDetailDto {
 
     @ApiModelProperty(value = "作业id",example = "1")

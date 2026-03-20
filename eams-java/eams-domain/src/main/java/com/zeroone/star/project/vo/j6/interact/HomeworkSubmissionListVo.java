@@ -1,5 +1,6 @@
 package com.zeroone.star.project.vo.j6.interact;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
  * 作业提交列表
  */
 @Data
+@ApiModel("作业提交数据对象")
 public class HomeworkSubmissionListVo {
 
     @ApiModelProperty(value="序号",example = "1")

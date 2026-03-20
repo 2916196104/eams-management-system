@@ -1,6 +1,7 @@
 package com.zeroone.star.project.query.j6.finance;
 
 import com.zeroone.star.project.query.PageQuery;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
  * 消课课酬查询条件
  */
 @Data
+@ApiModel("消课课酬查询条件")
 public class ClassConsumptionFeeQuery extends PageQuery {
 
     /*

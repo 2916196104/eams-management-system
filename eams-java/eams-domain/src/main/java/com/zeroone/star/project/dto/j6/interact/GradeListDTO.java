@@ -1,5 +1,6 @@
 package com.zeroone.star.project.dto.j6.interact;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -7,6 +8,7 @@ import lombok.Data;
  * 成绩列表数据对象
  */
 @Data
+@ApiModel("成绩列表数据对象")
 public class GradeListDTO {
 
     /**

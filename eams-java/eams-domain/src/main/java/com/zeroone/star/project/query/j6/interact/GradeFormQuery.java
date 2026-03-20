@@ -9,6 +9,7 @@ import lombok.Data;
  * </p>
  */
 @Data
+
 public class GradeFormQuery {
     @ApiModelProperty(value = "标题",example = "数据结构")
     private String title;

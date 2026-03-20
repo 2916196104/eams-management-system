@@ -1,5 +1,6 @@
 package com.zeroone.star.project.dto.j6.eas;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -7,6 +8,7 @@ import lombok.Data;
  * 年级名称dto
  */
 @Data
+@ApiModel("年级名称")
 public class GradeNameDto {
     /**
      * 年级id
