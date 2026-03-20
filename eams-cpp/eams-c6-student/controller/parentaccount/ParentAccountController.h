@@ -20,7 +20,7 @@ class ParentAccountController : public oatpp::web::server::api::ApiController
 {
 	API_ACCESS_DECLARE(ParentAccountController);
 private:
-	//ParentAccountService m_parentAccountService;
+	ParentAccountService m_parentAccountService;
 public:
 	// 分页查询接口描述
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("parentaccount.interface.query-parent-account"), queryParentAccount, ParentAccountQuery, ParentAccountPageJsonVO::Wrapper, API_TAG);

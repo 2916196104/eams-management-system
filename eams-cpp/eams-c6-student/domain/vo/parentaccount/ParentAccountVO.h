@@ -12,9 +12,10 @@
 /**
  * 家长账号分页列表响应对象
  */
-class ParentAccountPageJsonVO : public JsonVO<PageDTO<ParentAccountDTO::Wrapper>::Wrapper>
+using ParentAccountPageDTO = PageDTO<ParentAccountDTO::Wrapper>::Wrapper ;
+class ParentAccountPageJsonVO : public JsonVO<ParentAccountPageDTO>
 {
-	DTO_INIT(ParentAccountPageJsonVO, JsonVO<PageDTO<ParentAccountDTO::Wrapper>::Wrapper>);
+	DTO_INIT(ParentAccountPageJsonVO, JsonVO<ParentAccountPageDTO>);
 };
 
 #include OATPP_CODEGEN_END(DTO)

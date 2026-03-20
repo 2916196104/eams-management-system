@@ -13,7 +13,18 @@ class ParentAccountMapper : public Mapper<ParentAccountDTO::Wrapper>
 public:
 	ParentAccountDTO::Wrapper mapper(ResultSet* rs) const override
 	{
-		return ParentAccountDTO::createShared();
+		auto dto = ParentAccountDTO::createShared();
+		dto->userId = rs->getInt64("user_id");
+		dto->mobile = rs->getString("mobile").c_str();
+		dto->name = rs->getString("name").c_str();
+		dto->studentName = rs->getString("student_name").c_str();
+		dto->wxName = rs->getString("wx_name").c_str();
+		dto->loginTimes = rs->getInt("login_times");
+		dto->latestLoginTime = rs->getString("latest_login_time").c_str();
+		dto->latestLoginIp = rs->getString("latest_login_ip").c_str();
+		dto->addTime = rs->getString("add_time").c_str();
+		dto->state = rs->getInt("state");
+		return dto;
 	}
 };
 
