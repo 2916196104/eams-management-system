@@ -15,11 +15,11 @@ class PointDTO : public oatpp::DTO {
     DTO_INIT(PointDTO, DTO);
 
     
-    API_DTO_FIELD(Int32, student_id, ZH_WORDS_GETTER("Student.id"), true, 0);
-    API_DTO_FIELD(Int32, credit, ZH_WORDS_GETTER("Student.changed_credit"), true, 0);
-    API_DTO_FIELD(Int32, current_credit, ZH_WORDS_GETTER("Student.current_credit"), true, 0);
-    API_DTO_FIELD(String, add_time, ZH_WORDS_GETTER("Student.add_time"), true, "");
-    API_DTO_FIELD(String, remark, ZH_WORDS_GETTER("Student.remark"), true, "");
+    API_DTO_FIELD(Int32, student_id, ZH_WORDS_GETTER("student.id"), true, 0);
+    API_DTO_FIELD(Int32, credit, ZH_WORDS_GETTER("student.changed_credit"), true, 0);
+    API_DTO_FIELD(Int32, current_credit, ZH_WORDS_GETTER("student.current_credit"), true, 0);
+    API_DTO_FIELD(String, add_time, ZH_WORDS_GETTER("student.add_time"), true, "");
+    API_DTO_FIELD(String, remark, ZH_WORDS_GETTER("student.remark"), true, "");
 };
 
 
