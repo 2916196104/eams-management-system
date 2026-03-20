@@ -21,7 +21,7 @@ class Homework : public oatpp::web::server::api::ApiController
 public:     // 定义接口：
     // 删除作业
     API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("Homework.delHomework"), DeleteHomework,ListJsonVO<String>::Wrapper,API_TAG);
-    API_HANDLER_ENDPOINT_AUTH(API_M_DEL,"org/backhomework/delete-homework", DeleteHomework,BODY_DTO(DeleteHomework::Wrapper, dto), executeDelHomework(dto));
+    API_HANDLER_ENDPOINT_AUTH(API_M_DEL,"/c3/org/backhomework/Homework", DeleteHomework,BODY_DTO(DeleteHomework::Wrapper, dto), executeDelHomework(dto));
 
 private:    // 定义接口执行函数
     // 删除作业
