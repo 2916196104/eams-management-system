@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 结业学员
  */
 @Api(tags = "结业学员")
-@RequestMapping("/graduated-stu")
+@RequestMapping("/stu/graduated-stu")
 @RestController
 public class GraduatedStuController {
 }

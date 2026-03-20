@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 课时汇总
  */
 @Api(tags = "课时汇总")
-@RequestMapping("/class-hour-summary")
+@RequestMapping("/stu/class-hour-summary")
 @RestController
 public class ClassHourSummaryController {
 }

@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
  * 在线学员
  */
 @RestController
-@RequestMapping("/online-stu")
+@RequestMapping("/atu/online-stu")
 @Api(tags = "在线学员")
 public class OnlineStuController implements OnlineStuApis {
     @ApiOperation(value = "修改学员顾问", notes = "根据学员ID修改对应学员的顾问信息")
