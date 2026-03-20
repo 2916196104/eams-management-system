@@ -248,6 +248,8 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
             return false;
         }
 
+        long startNs = System.nanoTime(); // 方法开始计时
+
         Long currentUserId = getCurrentUserIdSafely();
         if (currentUserId == null) {
             log.warn("无法获取当前登录用户ID，修改学员顾问操作被拒绝");
@@ -292,6 +294,8 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
             logEntity.setUrl(httpRequest.getRequestURL().toString());
             logEntity.setParam(new ObjectMapper().writeValueAsString(studentDTO));
             logEntity.setOrgId(currentUserId);
+            int costMs = (int) (int) ((System.nanoTime() - startNs) / 1_000_000);
+            logEntity.setTimeCost(costMs);
         } catch (Exception e) {
             log.warn("获取请求元数据失败", e);
         }
