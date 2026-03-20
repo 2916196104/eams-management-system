@@ -1,0 +1,6 @@
+student:
+ grade: 年级
+ query:
+  grade: 查询可选年级  
+ tag: 查询可选年级接口
+     
