@@ -36,6 +36,9 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class)
     public JsonVO<String> exceptionHandler(Exception e) {
+        if (e instanceof IllegalArgumentException) {
+            return JsonVO.create(e.getMessage(), ResultStatus.PARAMS_INVALID);
+        }
         if (e instanceof HttpMediaTypeException) {
             return JsonVO.create(e.getMessage(), ResultStatus.CONTENT_TYPE_ERR);
         }
