@@ -202,6 +202,7 @@
 - `packages/vue-element-cui-nuxt` 文档站 MDC 图标丢失事故（2026-03）：prettier 格式化 `.md` 文件时，在 `::card` 和 `---` 之间插入空行，导致 YAML frontmatter 解析失败，`icon`/`title`/`to` 等 props 变成纯文本。处理原则：在 `.prettierignore` 中排除 `packages/vue-element-cui-nuxt/content/**/*.md`；`prettier.config.mjs` 的 `overrides` 中添加 `requirePragma: true` 双重保险。排查时先看 HTML 源码有无 icon 元素，而不是先查图标库配置。
 - `packages/vue-element-cui-nuxt` Nuxt SSR `registerMessageResolver is not a function` 事故（2026-03）：`@intlify/core-base` 多版本共存（9.1.9 与 11.x）+ `shamefully-hoist=false` 导致 Vite SSR 命中旧版。处理原则：先用 `pnpm why` 确认多版本，再在 `pnpm-workspace.yaml` 的 `overrides` 中强制单一版本（`@intlify/core-base`、`@intlify/shared`、`sass`）；不要第一反应改 nuxt.config.ts 的 Vite 层配置。
 - Cursor IDE 内置终端 `pnpm install` 失败事故（EPERM，2026-03）：Cursor tsserver 持有 `@oxc-parser` 等原生 `.node` 文件锁，pnpm 无法删除文件，安装回滚。处理原则：涉及原生 addon 的依赖更新（`@oxc-parser`、`esbuild`、`@swc/*`），必须在 Cursor 外的外部终端运行 `pnpm install`。
+- 仓库根 `.gitattributes` 已设 `eol=lf` 时，若索引中仍是历史 CRLF（如 `eams-frontend-monorepo/README.md`），会在多分支上反复出现「幽灵」修改、阻塞合并。处理原则：用 `git add --renormalize <path>` 提交以统一对象库；`eams-frontend-monorepo/.editorconfig` 补 `end_of_line = lf`；合并子分支进 `f1` 时合并说明须符合 commitlint（例如 `chore: merge <branch> into f1`）。详见 `.claude/skills/fix-bug/record-bug-fix-memory/SKILL.md` 对应条目。
 - `.claude/skills/fix-bug/record-bug-fix-memory/SKILL.md` 是本项目专用的错误经验沉淀技能。后续处理 bug、warning、启动事故或 hydration 问题时，可以先把这个技能作为历史经验参考；一旦确认问题已经修复，应主动把新增的根因、关键误导点、有效修复、验证方式和后续约束补充回这个技能，并在需要时同步回根级 AI 记忆文档与 Memorix。不要把这个技能写成具体修复步骤清单。
 
 # Memorix — Automatic Memory Rules

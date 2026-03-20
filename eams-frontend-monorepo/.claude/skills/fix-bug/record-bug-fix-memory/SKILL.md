@@ -151,6 +151,15 @@ description: 当用户要求在 bug 已经定位并修复后，记录排错经�
 - 验证方式：外部终端 `pnpm install` 结束后无 EPERM 错误，`pnpm-lock.yaml` 正确更新。
 - 后续约束：在该 monorepo 中更新任何涉及原生 Node.js addon 的依赖（如 `@oxc-parser`、`esbuild`、`@swc/*`）时，必须在 Cursor 外的终端运行 `pnpm install`；Cursor 内置终端只用于读取日志，不用于执行 install。
 
+### 仓库根 `.gitattributes` 与 `eol=lf` 导致的 CRLF/LF「幽灵」差异（2026-03）
+
+- 问题现象：例如 `eams-frontend-monorepo/README.md` 在多个 `f1-*` 子分支上**永远显示已修改（M）**，切换分支也不消失，阻塞合并；`git diff` 往往只显示整文件「换行符变化」而无实质内容差异。
+- 实际根因：根目录 `.gitattributes` 已规定文本文件 `eol=lf`，Git 检出时把工作区写成 LF，但**各分支索引里该文件的历史 blob 仍是 CRLF**；索引与工作区行尾策略不一致，形成持续脏状态。
+- 关键误导点：误当成「单个分支未保存」或「IDE 捣乱」；只在一条分支上改文件不够，**每个仍含 CRLF 索引的分支都要 `git add --renormalize` 后提交**，否则切回即复现。
+- 有效修复：对路径执行 `git add --renormalize <path>`（或按需全库 `git add --renormalize .`）并提交，使对象库与 `.gitattributes` 一致；在 monorepo `eams-frontend-monorepo/.editorconfig` 的 `[*]` 下增加 `end_of_line = lf`，减少 Windows 下新文件默认 CRLF。将各子分支改动收拢到 `f1` 时，合并提交说明须过 commitlint，使用 **`chore: merge <branch> into f1`** 等形式，避免使用非法 type（如 `merge:`）导致合并不完成。
+- 验证方式：在多条 `f1-*` 分支上 `git checkout` 后 `git status` 无该文件；`git diff` 对该路径为空。
+- 后续约束：引入或收紧 `eol=lf` 后出现「永远 M 的文本文件」，优先核对 **`git diff` 是否仅为 CRLF↔LF** 与 **`git add --renormalize`**，不要先大范围改业务代码；批量合并子分支进主干前确认提交信息符合本仓库 Conventional Commits 规则。
+
 ### `packages/vue-element-cui-nuxt` 的 dev warning 清理经验
 
 - 历史现象：即使页面可打开，`nuxt dev` 里仍可能残留 i18n、OG Image、Icon、Sass 等 warning。
