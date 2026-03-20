@@ -35,7 +35,7 @@
 			>
 				<el-menu-item v-if="showHome" :index="homePath">
 					<el-icon>
-						<component :is="homeIcon" />
+						<component :is="homeIconComponent" />
 					</el-icon>
 					<span>{{ homeText }}</span>
 				</el-menu-item>
@@ -83,7 +83,9 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import type { Component } from 'vue'
 import { useRoute } from 'vue-router'
+import { useRenderIcon } from '@/components/ReIcon'
 import type { EamsNavMenuItem, EamsNavProps } from './type'
 
 defineOptions({
@@ -91,7 +93,7 @@ defineOptions({
 })
 
 interface NormalizedMenuItem extends EamsNavMenuItem {
-	icon: string
+	icon: Component
 	index: string
 	children?: Array<NormalizedMenuItem>
 }
@@ -125,6 +127,7 @@ const emit = defineEmits<{
 const route = useRoute()
 const isCollapse = ref(props.collapse)
 const activeIndex = ref('')
+const homeIconComponent = computed(() => useRenderIcon(props.homeIcon))
 
 const normalizedMenus = computed<NormalizedMenuItem[]>(() =>
 	props.menus.map((item) => normalizeMenuItem(item))
@@ -185,7 +188,7 @@ watch(
 function normalizeMenuItem(item: EamsNavMenuItem): NormalizedMenuItem {
 	return {
 		...item,
-		icon: item.icon || props.defaultIcon,
+		icon: useRenderIcon(item.icon || props.defaultIcon),
 		index: getMenuIndex(item),
 		children: item.children?.map((child) => normalizeMenuItem(child))
 	}

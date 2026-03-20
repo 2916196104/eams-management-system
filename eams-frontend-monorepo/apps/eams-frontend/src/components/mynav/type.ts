@@ -1,7 +1,9 @@
+import type { Component } from 'vue'
+
 export interface EamsNavMenuItem {
 	id: string | number
 	text: string
-	icon?: string
+	icon?: string | Component
 	path?: string
 	href?: string
 	disabled?: boolean
@@ -20,8 +22,8 @@ export interface EamsNavProps {
 	showHome?: boolean
 	homeText?: string
 	homePath?: string
-	homeIcon?: string
-	defaultIcon?: string
+	homeIcon?: string | Component
+	defaultIcon?: string | Component
 	backgroundColor?: string
 	textColor?: string
 	activeTextColor?: string
