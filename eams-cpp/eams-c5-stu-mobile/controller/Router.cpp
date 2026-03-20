@@ -26,6 +26,9 @@
 #include"home/announcement/GetallannouncementController.h"
 #include"home/announcement/GetdisplayedannouncementController.h"
 #include "schedule/GettimeableController.h"
+#include "login/RegisterController.h"
+#include "controller/home/trialCard/GetTrialCardListController.h"
+#include "controller/schedule/AppointmentController.h"
 
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
@@ -54,4 +57,7 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(GetallannouncementController);
 	ROUTER_SIMPLE_BIND(GetdisplayedannouncementController);
 	ROUTER_SIMPLE_BIND(GettimeableController);
+	ROUTER_SIMPLE_BIND(RegisterController);
+	ROUTER_SIMPLE_BIND(GetTrialCardListController);
+	ROUTER_SIMPLE_BIND(AppointmentController);
 }

@@ -1,4 +1,4 @@
-﻿c5:
+c5:
   home:
     class:
       tag: 班级
@@ -104,6 +104,15 @@
       getdisplayedannouncement:
         summary: 获取显示通知公告
         search1: 添加时间    
+    trialCard:
+      tag: 试听卡
+      name: "试用卡名称"
+      courseName: "试用卡课程名称"
+      lessonCount: "试用卡课时"
+      remainingQuantity: "试用卡剩余数量"
+      endData: "试用卡截止时间"
+      getTrialCardList:
+        info: "获取试用卡列表"
   schedule:
     tag: 课表
     Timeable:
@@ -130,7 +139,36 @@
         teachername1: 老师
         searchname1: 
         searchname2:
-     
-
-    
-      
+    appointment:
+      info: "预约"
+      id: "预约ID"
+      name: "课程名称"
+      teacher: "教师"
+      classroom: "教室"
+      startTime: "开始时间"
+      endTime: "结束时间"
+      team: "班级"
+  login:
+    tag: 登录
+    register:
+      summary: "注册接口"
+      field:
+        id: "编号ID"          
+        telephoneNumber:      
+          info: "手机号"
+          errMsg: "手机号格式有误"
+        verificationCode:    
+          info: "验证码"
+          errMsg: "验证码有误"
+        name:                
+          info: "姓名"
+          errMsg: "姓名为空"
+        password:
+          info: "密码"
+          errMsg: "密码必须是包含数字和字符且不少于10位"
+  student:
+    id: "学生ID"
+    name: "学生姓名"
+    phone: "学生手机号"
+    email: "学生邮箱"
+    getStudentInfo: "获取学生信息"
