@@ -230,3 +230,11 @@ LessonComment:
     counselor: 学生的顾问
     add_time: 加入时间
     org_id: 上课老师所属组织ID  
+redeemcredit:
+  tag: 积分兑换
+  summary: 兑换礼品
+  request-success: 兑换成功
+  field:
+    credit_id: 要兑换的礼品的id
+    student_id: 学生id
+    school_id: 学校id
