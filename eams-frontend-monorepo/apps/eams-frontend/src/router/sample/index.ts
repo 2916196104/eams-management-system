@@ -96,6 +96,11 @@ const routes = [
 				component: () => import("@/views/sample/pagination/Index.vue"),
 			},
 			{
+				name: "attendanceManagement",
+				path: "/sample/attendanceManagement",
+				component: () => import("@/views/sample/attendanceManagement/index.vue"),
+			},
+			{
 				name: "smyselector",
 				path: "/sample/myselector",
 				component: () => import("@/views/sample/myselector/Index.vue"),
