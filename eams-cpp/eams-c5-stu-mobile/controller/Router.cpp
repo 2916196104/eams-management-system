@@ -35,6 +35,9 @@
 #include"schedule/CheckInController.h"
 #include"home/ListenCard/ListenCardRulesController.h"
 #include"home/AnnoucementReminder/GetRedDotNotificationsController.h"
+#include"home/trialcard/GetTrialcard/GetTrialcardController.h"
+#include"home/trialcard/UseTrialcard/UseTrialcardController.h"
+
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
 // 简化绑定控制器宏定义
@@ -71,4 +74,9 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(CheckInController);
 	ROUTER_SIMPLE_BIND(ListenCardRulesController);
 	ROUTER_SIMPLE_BIND(NotificationsController);
+	ROUTER_SIMPLE_BIND(GetTrialcardController);
+	ROUTER_SIMPLE_BIND(UseTrialcardController);
+
+
+	
 }

@@ -1,5 +1,40 @@
 c5:
   home:
+    trial:
+        tag: 课程体验卡
+        get-trial:
+          summary: 获取已领取的课程体验卡
+        use-trial:
+          summary: 使用未领取的试听卡
+        use-field:
+        # course_trial 表字段
+          id: 主键ID
+          course_id: 课程ID
+          title: 体验卡名称
+          quantity: 发行数量
+          remaining_quantity: 剩余数量
+          lesson_count: 课时数
+          expire_days: 领取后有效天数
+          end_date: 发行结束日期
+          state: 启用状态
+          creator: 创建人
+          editor: 编辑人
+          add_time: 添加时间
+          edit_time: 编辑时间
+          deleted: 删除标记
+          org_id: 创建者所属组织ID
+
+        # course_trial_record 表字段（完整）
+        get-field: 
+          trial_id: 体验卡ID
+          student_id: 学生ID
+          user_id: 学生账号ID
+          student_course_id: 生成的学生课程关联ID
+          add_time: 领取时间
+          expired_date: 到期时间
+          lesson_count: 领取到数量预约后减少
+          school_id: 学生所属学校ID
+          counselor: 学生的顾问
     class:
       tag: 班级
       classstudent:
@@ -276,3 +311,4 @@ Notifications:
   tag: 公告提醒
   summary: 获取小红点提醒
   resp: 获取成功  
+
