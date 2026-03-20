@@ -56,7 +56,14 @@ target_link_libraries (${appName} "lib-common" "lib-oatpp" "lib-mysql")
 
 # 链接其他库依赖库，如：你要链接libpthread直接写成pthread
 if (UNIX)
-	target_link_libraries (${appName} jsoncpp pthread stdc++fs OpenSSL::SSL CURL::libcurl uuid)
+	target_link_libraries (${appName}
+		/usr/lib/x86_64-linux-gnu/libssl.so.1.1
+        /usr/lib/x86_64-linux-gnu/libcrypto.so.1.1   # 这里因为我用的ubuntu系统，写OpenSSL::系统会默认指向OpenSSL3.0，这和mysql动态库里面的依赖的库版本不一致，会报错
+		jsoncpp 
+		pthread 
+		stdc++fs 
+		CURL::libcurl 
+		uuid)
 else()
 	target_link_libraries (${appName} libcrypto libssl ws2_32)
 endif()

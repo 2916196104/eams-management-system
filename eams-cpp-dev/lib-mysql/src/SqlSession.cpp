@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
  
  @Author: awei
@@ -39,20 +39,20 @@ int SqlSession::update(const string& sql, const char* fmt, va_list args)
 	try
 	{
 		NULL_PTR_CHECK(conn, "connection is null");
-		//1 »ñÈ¡prepareStatement¶ÔÏó
+		//1 è·å–prepareStatementå¯¹è±¡
 		pstmt = conn->prepareStatement(sql);
-		//2 ´¦Àí²ÎÊı
+		//2 å¤„ç†å‚æ•°
 		std::string curr(fmt);
 		SQL_ARG_EXEC_1(pstmt, curr, args);
-		//3 Ö´ĞĞÊı¾İ²Ù×÷
+		//3 æ‰§è¡Œæ•°æ®æ“ä½œ
 		int row = pstmt->executeUpdate();
-		//4 ÊÍ·ÅState
+		//4 é‡Šæ”¾State
 		releasePreparedStatement();
 		return row;
 	}
 	catch (const std::exception& e)
 	{
-		//4 ÊÍ·ÅState
+		//4 é‡Šæ”¾State
 		releasePreparedStatement();
 		cerr << "ExecuteUpdate Exception. " << e.what() << endl;
 	}
@@ -65,13 +65,13 @@ SqlSession::SqlSession()
 	this->pstmt = NULL;
 	this->stmt = NULL;
 	this->res = NULL;
-	//ÉèÖÃ±àÂë
+	//è®¾ç½®ç¼–ç 
 	this->setCharset("utf8");
 }
 
 SqlSession::~SqlSession()
 {
-	//Îö¹¹ÊÍ·ÅÁ¬½Ó¶ÔÏó
+	//ææ„é‡Šæ”¾è¿æ¥å¯¹è±¡
 	DbInit::getConnPool()->ReleaseConnection(conn);
 }
 
@@ -113,20 +113,20 @@ int SqlSession::executeUpdate(const string& sql, const SqlParams& params)
 	try
 	{
 		NULL_PTR_CHECK(conn, "connection is null");
-		//1 »ñÈ¡prepareStatement¶ÔÏó
+		//1 è·å–prepareStatementå¯¹è±¡
 		pstmt = conn->prepareStatement(sql);
-		//2 ´¦Àí²ÎÊı
+		//2 å¤„ç†å‚æ•°
 		SQL_ARG_EXEC_3(params, pstmt);
-		//3 Ö´ĞĞÊı¾İ²Ù×÷
+		//3 æ‰§è¡Œæ•°æ®æ“ä½œ
 		int row = pstmt->executeUpdate();
-		//4 ÊÍ·ÅState
+		//4 é‡Šæ”¾State
 		releasePreparedStatement();
 		return row;
 	}
 	catch (const std::exception& e)
 	{
 		cerr << "ExecuteUpdate Exception. " << e.what() << endl;
-		//4 ÊÍ·ÅState
+		//4 é‡Šæ”¾State
 		releasePreparedStatement();
 	}
 	return 0;
@@ -134,13 +134,13 @@ int SqlSession::executeUpdate(const string& sql, const SqlParams& params)
 
 uint64_t SqlSession::executeInsert(const string& sql, const char* fmt, ...)
 {
-	//Ö´ĞĞÊı¾İ²åÈë
+	//æ‰§è¡Œæ•°æ®æ’å…¥
 	va_list args;
 	va_start(args, fmt);
 	int row = update(sql, fmt, args);
 	va_end(args);
 
-	//»ñÈ¡Ö÷¼üID
+	//è·å–ä¸»é”®ID
 	uint64_t id = 0;
 	if (row == 1)
 	{
@@ -173,10 +173,10 @@ uint64_t SqlSession::executeInsert(const string& sql)
 
 uint64_t SqlSession::executeInsert(const string& sql, const SqlParams& params)
 {
-	//Ö´ĞĞÊı¾İ²åÈë
+	//æ‰§è¡Œæ•°æ®æ’å…¥
 	int row = executeUpdate(sql, params);
 
-	//»ñÈ¡Ö÷¼üID
+	//è·å–ä¸»é”®ID
 	uint64_t id = 0;
 	if (row == 1)
 	{
@@ -208,23 +208,23 @@ uint64_t SqlSession::executeQueryNumerical(const string& sql, const char* fmt, .
 	try
 	{
 		NULL_PTR_CHECK(conn, "connection is null");
-		//1 »ñÈ¡prepareStatement¶ÔÏó
+		//1 è·å–prepareStatementå¯¹è±¡
 		pstmt = conn->prepareStatement(sql);
-		//2 ´¦Àí²ÎÊı
+		//2 å¤„ç†å‚æ•°
 		SQL_ARG_EXEC_2(pstmt, fmt);
-		//3 Ö´ĞĞ²éÑ¯
+		//3 æ‰§è¡ŒæŸ¥è¯¢
 		res = pstmt->executeQuery();
-		//4 ´¦Àí²éÑ¯½á¹û
+		//4 å¤„ç†æŸ¥è¯¢ç»“æœ
 		if (res->next()) {
 			result = res->getUInt64(1);
 		}
-		//5 ÊÍ·Å×ÊÔ´
+		//5 é‡Šæ”¾èµ„æº
 		releaseResultSet();
 		releasePreparedStatement();
 	}
 	catch (const std::exception& e)
 	{
-		//5 ÊÍ·Å×ÊÔ´
+		//5 é‡Šæ”¾èµ„æº
 		releaseResultSet();
 		releasePreparedStatement();
 		cerr << "ExecuteQuery Exception. " << e.what() << endl;
@@ -243,13 +243,13 @@ uint64_t SqlSession::executeQueryNumerical(const string& sql, const SqlParams& p
 	TryFinally(
 		[&] {
 			NULL_PTR_CHECK(conn, "connection is null");
-			//1 »ñÈ¡prepareStatement¶ÔÏó
+			//1 è·å–prepareStatementå¯¹è±¡
 			pstmt = conn->prepareStatement(sql);
-			//2 ´¦Àí²ÎÊı
+			//2 å¤„ç†å‚æ•°
 			SQL_ARG_EXEC_3(params, pstmt);
-			//3 Ö´ĞĞ²éÑ¯
+			//3 æ‰§è¡ŒæŸ¥è¯¢
 			res = pstmt->executeQuery();
-			//4 ´¦Àí²éÑ¯½á¹û
+			//4 å¤„ç†æŸ¥è¯¢ç»“æœ
 			if (res->next()) {
 				result = res->getUInt64(1);
 			}
@@ -258,7 +258,7 @@ uint64_t SqlSession::executeQueryNumerical(const string& sql, const SqlParams& p
 			cerr << "ExecuteQuery Exception. " << e.what() << endl;
 		},
 		[=] {
-			//4 ÊÍ·Å×ÊÔ´
+			//4 é‡Šæ”¾èµ„æº
 			releaseResultSet();
 			releasePreparedStatement();
 		}
