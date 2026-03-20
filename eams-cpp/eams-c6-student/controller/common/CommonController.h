@@ -93,6 +93,31 @@ public:
 	ENDPOINT(API_M_GET, "/c3/common/interface/save-student", SaveStudent, PATH(String, id), BODY_DTO(SaveStudentDTO::Wrapper, dto), API_HANDLER_AUTH_PARAME) {
 		API_HANDLER_RESP_VO(executeSaveStudent(id));
 	}
+
+
+	// 3.1 学员报名课程申请描述 
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("common.interface.enrollstudentCourse"), EnrollStudentCourselist, StringJsonVO::Wrapper, API_TAG);
+	// 3.2 学员报名课程申请处理
+	API_HANDLER_ENDPOINT_AUTH(
+		API_M_POST,
+		"/c3/common/enrollment/student/apply",
+		EnrollStudentCourselist,
+		BODY_DTO(RegistrationApplyDTO::Wrapper, dto),
+		executeEnrollStudentCourse(dto, authObject->getPayload())
+	);
+
+	// 3.1 学员阶段设置描述 
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("common.interface.studentstage"), StudentStage, StringJsonVO::Wrapper, API_TAG);
+	// 3.2 学员阶段设置处理
+	API_HANDLER_ENDPOINT_AUTH(
+		API_M_PUT,
+		"/c3/common/enrollment/student/stage",
+		StudentStage,
+		BODY_DTO(StudentStageUpdateDTO::Wrapper, dto),
+		executeModifyStudentStage(dto, authObject->getPayload())
+	);
+
+
 private:
 	
 
@@ -117,6 +142,20 @@ private:
 	StringJsonVO::Wrapper executeSaveStudent(const String& id) {
 		return StringJsonVO::createShared();
 	}
+
+	// 3.3 增数据
+	StringJsonVO::Wrapper executeEnrollStudentCourse(const RegistrationApplyDTO::Wrapper& dto, const PayloadDTO& payload) {
+		return StringJsonVO::createShared();
+	}
+	// 3.3 修改数据
+	StringJsonVO::Wrapper executeModifyStudentStage(const StudentStageUpdateDTO::Wrapper& dto, const PayloadDTO& payload) {
+
+		return StringJsonVO::createShared();
+	}
+
+
+
+
 };
 #undef API_TAG
 #include OATPP_CODEGEN_END(ApiController) 

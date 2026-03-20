@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef CommonDTO_h
 #define CommonDTO_h
 #include"../../GlobalInclude.h"
@@ -55,7 +55,7 @@ class RegistrationPageDTO : public PageDTO<RegistrationDTO::Wrapper> {
 };
 class FileOnlyDTO :public oatpp::DTO {
 	DTO_INIT(FileOnlyDTO, DTO);
-    //API_DTO_FIELD_DEFAULT(oatpp::swagger::Binary, file, ZH_WORDS_GETTER("common.field.file.file"),true);������ĸ��������±������
+    //API_DTO_FIELD_DEFAULT(oatpp::swagger::Binary, file, ZH_WORDS_GETTER("common.field.file.file"),true);多出第四个参数导致编译错误
 	API_DTO_FIELD_REQUIRE(oatpp::swagger::Binary, file, ZH_WORDS_GETTER("common.field.file.file"), true);
 };
 class CourseCountDTO :public oatpp::DTO {
@@ -82,5 +82,56 @@ class SaveDTO :public SaveStudentDTO {
 	DTO_INIT(SaveDTO, SaveStudentDTO);
 	API_DTO_FIELD_DEFAULT(Int32, id, ZH_WORDS_GETTER("common.field.student.id"));
 };
+
+
+
+class RegistrationApplyDTO : public oatpp::DTO {
+
+	DTO_INIT(RegistrationApplyDTO, DTO);
+
+	// 学生姓名
+	API_DTO_FIELD_DEFAULT(String, studentName, ZH_WORDS_GETTER("common.field.student.name"));
+	// 选择课程
+	API_DTO_FIELD_DEFAULT(String, course, ZH_WORDS_GETTER("common.field.registration.course"));
+	// 报名类型
+	API_DTO_FIELD_DEFAULT(String, subject, ZH_WORDS_GETTER("common.field.registration.subject"));
+	// 开始日期
+	API_DTO_FIELD_DEFAULT(String, beginTime, ZH_WORDS_GETTER("common.field.registration.begin-time"));
+	// 有效期至
+	API_DTO_FIELD_DEFAULT(String, endTime, ZH_WORDS_GETTER("common.field.registration.end-time"));
+	// 购买课时数
+	API_DTO_FIELD_DEFAULT(Int32, buyCount, ZH_WORDS_GETTER("common.field.registration.by-count"));
+	//课程金额
+	API_DTO_FIELD_DEFAULT(Int32, coursePrice, ZH_WORDS_GETTER("common.field.registration.course-price"));
+	// 实收金额 (用于校验余额)
+	API_DTO_FIELD_DEFAULT(Int32, realityPrice, ZH_WORDS_GETTER("common.field.registration.reality-price"));
+	//优惠金额
+	API_DTO_FIELD_DEFAULT(Int32, salePrice, ZH_WORDS_GETTER("common.field.registration.sale-price"));
+	// 收款经手人
+	API_DTO_FIELD_DEFAULT(String, handler, "common.field.registration.price-people");
+	// 备注
+	API_DTO_FIELD_DEFAULT(String, note, ZH_WORDS_GETTER("common.field.student.note"));
+
+};
+
+
+class StudentStageUpdateDTO : public oatpp::DTO {
+	DTO_INIT(StudentStageUpdateDTO, DTO);
+
+	// 学员ID列表 (多选项)
+	API_DTO_FIELD_DEFAULT(List<String>, ids, ZH_WORDS_GETTER("common.field.student.id"));
+
+	// 目标阶段：1-意向
+	API_DTO_FIELD_DEFAULT(Int32, stage1, ZH_WORDS_GETTER("common.field.student.stage"));
+
+};
+
+
+
+
+
+
+
+
 #include OATPP_CODEGEN_END(DTO)
 #endif
