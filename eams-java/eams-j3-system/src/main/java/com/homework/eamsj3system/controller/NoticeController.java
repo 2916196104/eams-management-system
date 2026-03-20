@@ -3,8 +3,8 @@ package com.homework.eamsj3system.controller;
 import com.homework.eamsj3system.dto.NoticeDTO;
 import com.homework.eamsj3system.query.NoticeQuery;
 import com.homework.eamsj3system.service.INoticeService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +18,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/notice")
-@Tag(name = "内部公告管理", description = "内部公告相关接口")
+@Api(tags = "内部公告")
 public class NoticeController {
 
     @Autowired
@@ -30,7 +30,7 @@ public class NoticeController {
      * @return 返回分页数据
      */
     @GetMapping("/page-list")
-    @Operation(summary = "分页查询公告列表", description = "支持条件查询和分页")
+    @ApiOperation(value = "分页查询公告列表", notes = "支持条件查询和分页")
     public Object pageList(NoticeQuery query) {
         // TODO: 待实现
         return null;
@@ -42,7 +42,7 @@ public class NoticeController {
      * @return 返回公告详情
      */
     @GetMapping("/get-by-id/{id}")
-    @Operation(summary = "获取公告详情", description = "根据 ID 获取公告详细信息")
+    @ApiOperation(value = "获取公告详情")
     public Object getById(@PathVariable Long id) {
         // TODO: 待实现
         return null;
@@ -54,7 +54,7 @@ public class NoticeController {
      * @return 操作结果
      */
     @PostMapping("/save")
-    @Operation(summary = "保存公告", description = "新增或修改公告信息")
+    @ApiOperation(value = "保存公告")
     public Object save(@RequestBody NoticeDTO noticeDTO) {
         // TODO: 待实现
         return null;
@@ -66,7 +66,7 @@ public class NoticeController {
      * @return 操作结果
      */
     @DeleteMapping("/delete")
-    @Operation(summary = "删除公告", description = "支持单个或批量删除")
+    @ApiOperation(value = "删除公告")
     public Object delete(@RequestParam("ids") List<Long> ids) {
         // TODO: 待实现
         return null;
