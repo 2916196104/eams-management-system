@@ -1,6 +1,7 @@
 package com.zeroone.star.project.j1;
 
 import com.zeroone.star.project.query.j1.console.*;
+import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j1.console.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +27,7 @@ public interface ConsoleApis {
      */
     @ApiOperation(value = "我的报名", notes = "分页查询报名签约列表")
     @PostMapping("/console/course-enrollment")
-    CourseEnrollmentVO getCourseEnrollment(@RequestBody CourseEnrollmentQuery query);
+    JsonVO<CourseEnrollmentVO> getCourseEnrollment(@RequestBody CourseEnrollmentQuery query);
 
     /**
      * 控制台-公告数据（分页查询）
@@ -36,7 +37,7 @@ public interface ConsoleApis {
      */
     @ApiOperation(value = "公告数据", notes = "分页查询控制台公告列表")
     @PostMapping("/console/notice")
-    NoticeConsoleVO getNoticeList(@RequestBody NoticeQuery query);
+    JsonVO<NoticeConsoleVO> getNoticeList(@RequestBody NoticeQuery query);
 
     /**
      * 我的跟进（分页查询）
@@ -46,7 +47,7 @@ public interface ConsoleApis {
      */
     @ApiOperation(value = "我的跟进", notes = "分页查询跟进记录列表")
     @PostMapping("/console/customer")
-    CustomerVO getCustomers(@RequestBody CustomerQuery query);
+    JsonVO<CustomerVO> getCustomers(@RequestBody CustomerQuery query);
 
     /**
      * 我的请款（分页查询）
@@ -56,7 +57,7 @@ public interface ConsoleApis {
      */
     @ApiOperation(value = "我的请款", notes = "分页查询请款记录列表")
     @PostMapping("/console/cashout")
-    CashoutVO getCashoutList(@RequestBody CashoutQuery query);
+    JsonVO<CashoutVO> getCashoutList(@RequestBody CashoutQuery query);
 
     /**
      * 控制台-课表日历
@@ -66,5 +67,5 @@ public interface ConsoleApis {
      */
     @ApiOperation(value = "课表日历", notes = "查询指定周期的课表日历数据")
     @PostMapping("/console/schedule")
-    ScheduleVO getSchedule(@RequestBody ScheduleQuery query);
+    JsonVO<ScheduleVO> getSchedule(@RequestBody ScheduleQuery query);
 }

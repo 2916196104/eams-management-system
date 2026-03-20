@@ -24,48 +24,25 @@ public class CustomerVO {
         @ApiModelProperty(value = "主键ID")
         private Long id;
 
-        @ApiModelProperty(value = "学生id")
-        private Long studentId;
-
-        @ApiModelProperty(value = "跟进记录")
-        private String info;
-
-        @ApiModelProperty(value = "联系时间")
+        @ApiModelProperty(value = "跟进时间")
         private LocalDateTime contactTime;
 
-        @ApiModelProperty(value = "下次联系时间")
-        private LocalDateTime contactNextTime;
-
-        @ApiModelProperty(value = "联系方式")
-        private Integer contactType;
-
-        @ApiModelProperty(value = "联系电话")
-        private String contactPhone;
-
-        @ApiModelProperty(value = "创建者")
-        private Long creator;
-
-        @ApiModelProperty(value = "时间")
-        private LocalDateTime addTime;
-
-        @ApiModelProperty(value = "进展阶段")
-        private Integer stage;
-
-        @ApiModelProperty(value = "删除标记")
-        private Boolean deleted;
-
-        @ApiModelProperty(value = "所属组织ID")
-        private Long orgId;
-
-        // --- 关联查询字段（非表字段） ---
-
-        @ApiModelProperty(value = "客户名称（关联student表）")
+        @ApiModelProperty(value = "客户")
         private String studentName;
 
-        @ApiModelProperty(value = "阶段名称（字典转换）")
+        @ApiModelProperty(value = "阶段")
         private String stageName;
 
-        @ApiModelProperty(value = "跟进方式名称（字典转换）")
+        @ApiModelProperty(value = "跟进方式")
         private String contactTypeName;
+
+        @ApiModelProperty(value = "下次跟进")
+        private LocalDateTime contactNextTime;
+
+        @ApiModelProperty(value = "记录时间")
+        private LocalDateTime addTime;
+
+        @ApiModelProperty(value = "跟进内容")
+        private String info;
     }
 }
