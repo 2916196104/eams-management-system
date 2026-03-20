@@ -1,5 +1,6 @@
 // 把node_modules里面的vite文件夹里面的client客户端类型声明文件导入到这个文件里
 /// <reference types="vite/client" />
+/// <reference types="unplugin-icons/types/vue" />
 
 // .env 环境变量声明
 interface ImportMetaEnv {

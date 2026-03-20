@@ -2,7 +2,9 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import svgLoader from 'vite-svg-loader'
 import AutoImport from 'unplugin-auto-import/vite'
+import Icons from 'unplugin-icons/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
@@ -46,7 +48,12 @@ export default defineConfig({
 	plugins: [
 		//mkcert(),
 		vue(),
+		svgLoader(),
 		vueDevTools(),
+		Icons({
+			compiler: 'vue3',
+			scale: 1
+		}),
 		AutoImport({
 			resolvers: [ElementPlusResolver()]
 		}),
