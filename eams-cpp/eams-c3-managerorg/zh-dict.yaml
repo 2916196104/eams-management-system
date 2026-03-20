@@ -9,14 +9,3 @@
   save:
     save_list_title: 保存成绩单
     id: 成绩单id
-  record_list:
-    grade_id: 考核项id
-    grade_title: 考核项名称
-    student_name: 学生姓名
-    score: 成绩
-    page: 页码
-    page_count: 总页数
-    page_size: 每页记录数
-    records: 成绩记录列表
-    total: 成绩记录总数
-    get_record_list_title: 获取成绩列表

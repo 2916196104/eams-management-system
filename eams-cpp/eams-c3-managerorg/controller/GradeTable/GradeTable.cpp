@@ -18,12 +18,3 @@ Vector<Int64> SaveListController::ExecSaveListQuery(
     /* TODO: finish implementation */
     return {};
 }
-
-/* Record List */
-RecordListDTO::Wrapper RecordListController::ExecRecordListQuery(
-    const RecordListQuery::Wrapper& query,
-    const PayloadDTO& payload)
-{
-    /* TODO: finish implementation */
-    return nullptr;
-}

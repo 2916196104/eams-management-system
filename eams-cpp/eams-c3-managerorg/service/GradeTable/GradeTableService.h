@@ -14,13 +14,3 @@ public:
         const PayloadDTO& payload
     );
 };
-
-/* Record List */
-class RecordListService
-{
-public:
-    RecordListDTO::Wrapper RecordListQuery(
-        const RecordListQuery::Wrapper& query,
-        const PayloadDTO& payload
-    );
-};
