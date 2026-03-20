@@ -132,4 +132,42 @@ classroom:
   id: 教室ID
   name: 教室名称
   position: 地点
-  
+  StudentFile:
+  get:
+   summary: 获取学员档案列表  
+   details: 获取学员档案详情
+   stclass: 获取学员课表
+   file: 学生档案
+
+  dossier:
+   mobile: 电话
+   name: 姓名
+   reclass: 剩余课时
+   sex: 性别
+
+  class schedule:
+   time: 时间
+   course: 课程
+   state: 状态
+   signin: 签到
+
+  dossier2:
+   id: 编号
+   mobile: 电话
+   name: 姓名
+
+   reclass: 剩余课时
+   points: 我的积分
+   card: 试听卡
+
+   study: 学习阶段
+   name2: 家长姓名
+   relationship: 亲属关系
+   grade: 年级
+   sex: 性别
+   old: 年龄
+   birthday: 生日
+   number: 身份证号码
+   time1: 入学时间
+   time2: 加入时间
+   
