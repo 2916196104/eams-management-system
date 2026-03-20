@@ -38,6 +38,9 @@
         <module>eams-login</module>
         <module>eams-doc</module>
         <module>eams-sample</module>
+        <module>eams-j5-evaluation</module>
+        <module>eams-j5-courseStudent</module>
+
     </modules>
     <properties>
         <!-- 项目版本号 -->

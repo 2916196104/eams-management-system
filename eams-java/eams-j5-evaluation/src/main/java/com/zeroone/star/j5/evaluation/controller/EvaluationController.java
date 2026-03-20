@@ -1,4 +1,4 @@
-package com.zeroone.star.sample.controller;
+package com.zeroone.star.j5.evaluation.controller;
 
 import com.zeroone.star.j5.edu.EvaluationApis;
 import com.zeroone.star.project.dto.PageDTO;

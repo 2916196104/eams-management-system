@@ -1,4 +1,4 @@
-package com.zeroone.star.sample.controller;
+package com.zeroone.star.j5.courseStudent.controller;
 
 import com.zeroone.star.j5.edu.CourseStudentApis;
 import com.zeroone.star.project.dto.j5.edu.CourseStudentDTO;
