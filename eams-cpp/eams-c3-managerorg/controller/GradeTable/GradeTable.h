@@ -5,13 +5,11 @@
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/GlobalInclude.h"
 #include "domain/query/GradeTable/GradeTableQuery.h"
-#include "domain/vo/BaseJsonVO.h"
 #include "domain/vo/GradeTable/GradeTableVO.h"
 #include "oatpp/web/server/api/ApiController.hpp"
 
 // 引入成绩单相关VO、查询参数、数据传输对象
-#include "../../domain/vo/GradeTable/GradeTableVO.h"
-#include "../../domain/query/GradeTable/GradeTableQuery.h"
+
 #include "../../domain/dto/GradeTable/GradeTableDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
@@ -45,7 +43,7 @@ public:
      */
     API_HANDLER_ENDPOINT_OPTION_AUTH(
         API_M_GET,
-        "/c3/org/GradeTable/by-item",
+        "org/gradetable/get-gradetable-list",
         queryPageGradeTable,
         QUERIES(QueryParams, queryParams),
         API_HANDLER_QUERY_PARAM(query, GradeTableQuery, queryParams);
@@ -72,12 +70,12 @@ public:
         DeleteList,
         DeleteListQuery,
         DeleteListJsonVO::Wrapper,
-        ZH_WORDS_GETTER("grade_table.tag")
+        ZH_WORDS_GETTER("GradeTable.tags")
     );
 
     API_HANDLER_ENDPOINT_QUERY_AUTH(
         API_M_DEL,
-        "/app/common/grade/delete",
+        "org/gradetable/gradetable-delete",
         DeleteList,
         DeleteListQuery,
         ExecDeleteListQuery(query, authObject->getPayload())
@@ -101,12 +99,12 @@ public:
         SaveList,
         SaveListQuery,
         SaveListJsonVO::Wrapper,
-        ZH_WORDS_GETTER("grade_table.tag")
+        ZH_WORDS_GETTER("GradeTable.tags")
     );
 
     API_HANDLER_ENDPOINT_QUERY_AUTH(
         API_M_GET,
-        "/app/common/grade/save",
+        "org/gradetable/save-gradetable",
         SaveList,
         SaveListQuery,
         ExecSaveListQuery(query, authObject->getPayload())

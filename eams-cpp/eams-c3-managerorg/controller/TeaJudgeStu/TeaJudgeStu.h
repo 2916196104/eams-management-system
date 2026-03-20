@@ -31,7 +31,7 @@ public:
 
     API_HANDLER_ENDPOINT_OPTION_AUTH(
         API_M_GET,                                     
-        "/c3/org/TeaJudgeStu/by-item",                       
+        "org/TeaJudgeStu/get-teacher-review-list",                       
         queryPageTeaJudgeStu, 
         QUERIES(QueryParams, queryParams), 
         API_HANDLER_QUERY_PARAM(query, TeaJudgeStuQuery, queryParams);

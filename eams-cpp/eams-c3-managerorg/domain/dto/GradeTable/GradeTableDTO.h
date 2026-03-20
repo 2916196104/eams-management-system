@@ -32,11 +32,6 @@ class GradeTablePageDTO : public PageDTO<GradeTableDTO::Wrapper>
 {
 	DTO_INIT(GradeTablePageDTO, PageDTO<GradeTableDTO::Wrapper>);
 };
-class GradeTableDTO : public oatpp::DTO
-{
-	DTO_INIT(GradeTableDTO, DTO);
-};
-
 #include OATPP_CODEGEN_END(DTO)
 
 #endif // !__GRADE_TABLE_DTO_H__
