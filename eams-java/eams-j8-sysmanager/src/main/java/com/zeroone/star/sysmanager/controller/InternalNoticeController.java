@@ -1,25 +1,24 @@
 package com.zeroone.star.sysmanager.controller;
 
+import com.zeroone.star.project.dto.notice.delInternalNoticeDTO;
 import cn.hutool.db.PageResult;
-import com.zeroone.star.project.dto.j8.sysmanager.NoticeDTO;
 import com.zeroone.star.project.j8.sysmanager.InternalNoticeApis;
-import com.zeroone.star.project.query.j8.sysmanager.NoticeQuery;
-import com.zeroone.star.project.vo.j8.sysmanager.NoticeVO;
+import com.zeroone.star.project.dto.j8.sysmanager.NoticeDTO;
 import com.zeroone.star.project.vo.JsonVO;
-
-import com.zeroone.star.sysmanager.service.InternalNoticeService;
-
+import com.zeroone.star.project.query.j8.sysmanager.NoticeQuery;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
-
-import io.swagger.annotations.Api;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import javax.annotation.Resource;
+import com.zeroone.star.project.vo.j8.sysmanager.NoticeVO;
 
+import com.zeroone.star.sysmanager.service.InternalNoticeService;
+
+import org.springframework.web.bind.annotation.*;
 /**
  * 内部公告 Controller
  * 实现 InternalNoticeApis 接口，统一规范
@@ -29,9 +28,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class InternalNoticeController implements InternalNoticeApis {
 
-
     @Resource
     private InternalNoticeService internalNoticeService;
+
+    @PostMapping("/del")
+    @ApiOperation("删除选定的公告")
+    @Override
+    public JsonVO<Void> deleteNotice(@Validated @RequestBody delInternalNoticeDTO dto) {
+        boolean result = internalNoticeService.removeByIds(dto.getIds());
+        if (result)
+            return JsonVO.success(null);
+        return JsonVO.fail(null);
+    }
 
     @Override
     @ApiOperation("1. 获取公告列表（条件 + 分页）")

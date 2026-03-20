@@ -18,7 +18,7 @@ import java.time.LocalDate;
 /**
  * 班级与课表
  */
-@RequestMapping("/common")
+@RequestMapping("/stu/common/class-schedule")
 @RestController
 @Api(tags = "共用接口-班级与课表")
 public class ClassScheduleController implements ClassScheduleApis {

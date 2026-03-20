@@ -32,7 +32,7 @@ import java.util.Objects;
  */
 @RestController
 @Validated
-@RequestMapping("/common/lesson-count-records")
+@RequestMapping("/stu/common/lesson-count-records")
 @Api(tags = "共用接口-消课记录")
 public class LessonCountRecordsController implements LessonCountRecordsApis {
     @Resource

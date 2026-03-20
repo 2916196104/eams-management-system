@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 家长账号
  */
 @Api(tags = "家长账号")
-@RequestMapping("/parent-account")
+@RequestMapping("/stu/parent-account")
 @RestController
 public class ParentAccountController {
 }

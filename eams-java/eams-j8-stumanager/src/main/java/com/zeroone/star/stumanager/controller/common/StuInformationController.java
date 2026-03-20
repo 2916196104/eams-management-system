@@ -25,9 +25,9 @@ import javax.annotation.Resource;
  * 学员信息
  */
 @Api(tags = "共用接口-学员信息")
-@RequestMapping("/common/student")
+@RequestMapping("/stu/common/stuInformation")
 @RestController
-public class StuInfomationController implements StuInformationApis {
+public class StuInformationController implements StuInformationApis {
 
     @Resource
     IStudentService iStudentService;
