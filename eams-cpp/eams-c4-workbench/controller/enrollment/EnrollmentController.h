@@ -8,7 +8,7 @@
 #include"../../domain/dto/EnrollmentDTO/EnrollmentDTO.h"
 #include OATPP_CODEGEN_BEGIN(ApiController) //<- Begin Code-Gen Section
 
-#define API_TAG2 "Enrollmemt"
+#define API_TAG2 ZH_WORDS_GETTER("StudentFile.get.tag1")	
 /*
 *保存报名控制器接口
 */

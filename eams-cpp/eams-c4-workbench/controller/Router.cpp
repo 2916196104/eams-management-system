@@ -44,6 +44,8 @@
 
 #include "gw-controller/HomeworkController.h"
 
+#include "workbench/CurrentUserController.h"
+
 
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
@@ -87,4 +89,6 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(StudentFileController);
 
 	ROUTER_SIMPLE_BIND(HomeworkController);
+
+	ROUTER_SIMPLE_BIND(CurrentUserController);
 }

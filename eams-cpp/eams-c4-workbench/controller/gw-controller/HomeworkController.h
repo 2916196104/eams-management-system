@@ -132,36 +132,8 @@ public:
             oatpp::String(R"({"code":0,"msg":"success","data":{"homework_id":"hw002","title":"新作业"}})"));
     }
 
-    // -------------------------- 接口4：获取可管理班级列表 --------------------------
-    /**
-     * @api {get} /c4-workbench/class/list 获取可管理班级列表
-     * @apiGroup HomeworkApiGroup
-     * @apiVersion 1.0.0
-     * @apiName getClassList
-     * @apiDescription 查询管理员有权限管理的班级列表
-     * @apiParam {String} admin_id 管理员ID（必填）
-     * @apiSuccess (200) {Int32} code 响应码
-     * @apiSuccess (200) {String} msg 提示信息
-     * @apiSuccess (200) {Object[]} data 班级列表
-     * @apiSuccessExample {json} 成功响应示例:
-     * {
-     *   "code": 0,
-     *   "msg": "success",
-     *   "data": [
-     *     {
-     *       "class_id": "class001",
-     *       "class_name": "5班"
-     *     }
-     *   ]
-     * }
-     */
-    ENDPOINT("GET", "/c4-workbench/class/list", getClassList,
-        QUERY(String, admin_id)) {
-        return createDtoResponse(Status::CODE_200,
-            oatpp::String(R"({"code":0,"msg":"success","data":[{"class_id":"class001","class_name":"5班"}]})"));
-    }
 
-    // -------------------------- 接口5：提交作业点评 --------------------------
+    // -------------------------- 接口4：提交作业点评 --------------------------
     /**
      * @api {post} /c4-workbench/homework/comment 提交作业点评
      * @apiGroup HomeworkApiGroup

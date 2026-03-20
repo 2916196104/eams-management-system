@@ -10,23 +10,23 @@ teacher:
   position: 教师职务
  query:
   summary: 获取教师列表
- tag: 教师列表查询接口
+ tag: 排课
 class:
  field:
   id: 班级id
   name: 班级名
   grade: 年级
- tag: 班级列表查询接口
+ tag: 排课
  query:
   summary: 获取班级列表   
- comment:
+comment:
   teacherid: 教师id
   stuname: 学生姓名
   data: 评论时间
   text: 评论内容
   score: 综合评价
-  getcomment: 获取评论记录
- rollcall:
+  getcomment: 获取点评记录
+rollcall:
   teacherid: 教师id
   courseid: 课程id
   stuname: 学生姓名
@@ -40,7 +40,7 @@ intendedstudent:
  birthday: 出生年月
  cardid: 身份证号
  text: 备注信息
- text2: 添加意向学员
+ text2: 添加学员
 workbench:
  tag: 学生档案
  progress:
@@ -97,7 +97,7 @@ schedule:
   api:
     createRepeat: 创建重复排课
     createFree: 创建自由排课
-    tag: 排课模块
+    tag: 排课
 test:
   repeat: 重复排课创建成功  
   free: 自由排课创建成功
@@ -139,6 +139,9 @@ StudentFile:
    details: 获取学员档案详情
    stclass: 获取学员课表
    file: 学生档案
+   tag1: 报名
+   tag2: 报名记录
+   tag3: 作业
 
   dossier:
    mobile: 电话
@@ -172,3 +175,11 @@ StudentFile:
    time1: 入学时间
    time2: 加入时间
    
+workbench-he:
+  tag: 用户相关
+  query-current-user-info.summary: 获取当前用户信息
+  current-user:
+    field:
+      id: 当前用户唯一标识
+      username: 当前用户名
+      authorities: 当前用户管理权限

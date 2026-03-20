@@ -10,7 +10,7 @@
 #include"../../domain/query/EnrollmentQuery/EnrolledRecordQuery.h"
 #include OATPP_CODEGEN_BEGIN(ApiController) //<- Begin Code-Gen Section
 
-#define API_TAG1 "EnrollRecord"
+#define API_TAG1 ZH_WORDS_GETTER("StudentFile.get.tag2")	
 /*
 * 报名记录控制器接口
 */
