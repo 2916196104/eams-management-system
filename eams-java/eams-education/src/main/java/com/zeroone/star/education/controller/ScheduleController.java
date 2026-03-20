@@ -56,7 +56,7 @@ public class ScheduleController implements SchedulePlanApis {
     @ApiOperation("删除计划（支持批量删除）")
     @Override
     public JsonVO<List<Long>> deleteSchedule(@RequestBody List<Long> ids) {
-        return null;
+        return JsonVO.success(scheduleService.deleteSchedule(ids));
     }
 
     /*

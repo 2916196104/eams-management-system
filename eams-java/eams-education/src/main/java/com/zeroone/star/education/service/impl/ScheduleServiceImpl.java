@@ -195,4 +195,39 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, LessonSched
         lessonScheduleVO.setSettingList(settingDTOs);
         return lessonScheduleVO;
     }
+
+    /*
+    * 根据id删除排课计划(支持批量删除)
+    * */
+    @Transactional
+    @Override
+    public List<Long> deleteSchedule(List<Long> ids) {
+        // 1、根据传入的id查询表中数据
+        List<LessonSchedule> lessonSchedules = scheduleService.listByIds(ids);
+        // 如果没有找到任何记录，直接返回空列表，无需执行删除
+        if (lessonSchedules.isEmpty()){
+            return new ArrayList<>();
+        }
+
+        // 2. 从查询结果中提取出真实的 ID (这些就是即将被删除的 ID)
+        List<Long> realIds = lessonSchedules.stream()
+                .map(LessonSchedule::getId)
+                .collect(Collectors.toList());
+
+        // 3、执行批量删除
+        boolean delete = scheduleService.removeByIds(realIds);
+
+        // 4、同样执行批量删除关联表lesson_schedule_setting的数据
+        LambdaQueryWrapper<LessonScheduleSetting> queryWrapper = new LambdaQueryWrapper<LessonScheduleSetting>()
+                .in(LessonScheduleSetting::getScheduleId, realIds);
+        lessonScheduleSettingService.remove(queryWrapper);
+
+        if (delete){
+            // 4、如果删除成功，则返回被删除的 ID
+            return realIds;
+        }
+        else{
+            throw new RuntimeException("删除失败");
+        }
+    }
 }
