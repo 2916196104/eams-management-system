@@ -34,7 +34,7 @@
 #include "home/credit/redeemcredit/RedeemCreditController.h"
 #include"schedule/CheckInController.h"
 #include"home/ListenCard/ListenCardRulesController.h"
-
+#include"home/AnnoucementReminder/GetRedDotNotificationsController.h"
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
 // 简化绑定控制器宏定义
@@ -70,4 +70,5 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(RedeemCreditController);
 	ROUTER_SIMPLE_BIND(CheckInController);
 	ROUTER_SIMPLE_BIND(ListenCardRulesController);
+	ROUTER_SIMPLE_BIND(NotificationsController);
 }

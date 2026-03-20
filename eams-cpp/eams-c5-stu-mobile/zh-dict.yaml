@@ -272,3 +272,7 @@ ListenCardRules:
     edit_time: 编辑时间
     deleted: 删除标记
     org_id: 创建者所属组织ID  
+Notifications: 
+  tag: 公告提醒
+  summary: 获取小红点提醒
+  resp: 获取成功  
