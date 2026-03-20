@@ -1,0 +1,5 @@
+server:
+  port: ${evaluation.server}
+spring:
+  application:
+    name: ${evaluation.name}
