@@ -16,12 +16,7 @@
 					<h2 class="welcome-title">欢迎登录</h2>
 					<el-form :model="formData" class="login-form">
 						<el-form-item>
-							<el-input
-								v-model="formData.username"
-								placeholder="请输入账号"
-								size="large"
-								:prefix-icon="User"
-							/>
+							<el-input v-model="formData.username" placeholder="请输入账号" size="large" :prefix-icon="User" />
 						</el-form-item>
 						<el-form-item>
 							<el-input
@@ -34,24 +29,15 @@
 							/>
 						</el-form-item>
 						<el-form-item>
-							<el-button type="primary" size="large" class="login-btn" @click="submitForm">
-								欢迎登录
-							</el-button>
+							<el-button type="primary" size="large" class="login-btn" @click="submitForm">欢迎登录</el-button>
 						</el-form-item>
 						<el-form-item>
-							<el-button
-								type="default"
-								size="large"
-								class="qrcode-btn"
-								@click="dialogVisible = true"
-							>
+							<el-button type="default" size="large" class="qrcode-btn" @click="dialogVisible = true">
 								手机端二维码
 							</el-button>
 						</el-form-item>
 					</el-form>
-					<router-link to="/sample" v-if="showTestLink" class="test-link">
-						进入示例演示页面
-					</router-link>
+					<router-link to="/sample" v-if="showTestLink" class="test-link">进入示例演示页面</router-link>
 				</div>
 			</div>
 		</div>
@@ -84,32 +70,32 @@
 </template>
 
 <script setup lang="ts">
-import Verify from '@/components/verifition/Verify.vue'
-import { ref, reactive } from 'vue'
-import { login } from '@/apis/login/index'
-import { ElMessage } from 'element-plus'
-import { useRouter } from 'vue-router'
-import { useTabStore } from '@/stores/tab'
-import { User } from '@element-plus/icons-vue'
-import { Lock } from '@element-plus/icons-vue'
+import Verify from "@/components/verifition/Verify.vue";
+import { ref, reactive } from "vue";
+import { login } from "@/apis/login/index";
+import { ElMessage } from "element-plus";
+import { useRouter } from "vue-router";
+import { useTabStore } from "@/stores/tab";
+import { User } from "@element-plus/icons-vue";
+import { Lock } from "@element-plus/icons-vue";
 
 // 是否显示示例演示界面连接
-const showTestLink = ref(import.meta.env.DEV)
+const showTestLink = ref(import.meta.env.DEV);
 
 // 是否启用验证码
-const enableVerify = ref(!import.meta.env.DEV)
+const enableVerify = ref(!import.meta.env.DEV);
 
 // 获取router对象
-const $router = useRouter()
+const $router = useRouter();
 
 // 二维码弹窗状态
-const dialogVisible = ref(false)
+const dialogVisible = ref(false);
 
 // 定义登录数据对象
 const formData = reactive({
-	username: '',
-	password: ''
-})
+	username: "admin",
+	password: "123456",
+});
 
 /**
  * 执行登录
@@ -120,61 +106,61 @@ function doLogin(code: string) {
 	login(
 		{
 			...formData,
-			code: code
+			code: code,
 		},
 		() => {
 			// 重置标签页数据
-			useTabStore().reset()
+			useTabStore().reset();
 			// 跳转到首页
-			$router.push('/home')
+			$router.push("/home");
 			// 登录成功提示
-			ElMessage.success('登录成功，前往首页')
+			ElMessage.success("登录成功，前往首页");
 		},
 		() => {
-			ElMessage.error('账号或密码错误')
-		}
-	)
+			ElMessage.error("账号或密码错误");
+		},
+	);
 }
 
 // 定义登录提交函数
 function submitForm() {
 	if (!formData.username || !formData.password) {
-		ElMessage.warning('请输入账号和密码')
-		return
+		ElMessage.warning("请输入账号和密码");
+		return;
 	}
 	//账号格式校验
 	if (!/^[a-zA-Z0-9_]{4,16}$/.test(formData.username)) {
-		ElMessage.warning('账号格式错误，4-16位字母、数字或下划线')
-		return
+		ElMessage.warning("账号格式错误，4-16位字母、数字或下划线");
+		return;
 	}
 
 	// 添加密码长度校验
 	if (formData.password.length < 6) {
-		ElMessage.warning('密码长度不能少于 6 位')
-		return
+		ElMessage.warning("密码长度不能少于 6 位");
+		return;
 	}
 
 	if (!enableVerify.value) {
-		doLogin('')
-		return
+		doLogin("");
+		return;
 	}
 	// 弹出验证码框
-	useVerify('clickWord')
+	useVerify("clickWord");
 }
 
 // 验证码组件引用
-const verify = ref<InstanceType<typeof Verify> | null>(null)
+const verify = ref<InstanceType<typeof Verify> | null>(null);
 
 // 验证码类型
-const captchaType = ref('')
+const captchaType = ref("");
 
 /**
  * 弹出验证码框
  * @param type 验证码类型 blockPuzzle滑块验证 clickWord点击文字验证
  */
 function useVerify(type: string) {
-	captchaType.value = type
-	if (verify.value) verify.value.show()
+	captchaType.value = type;
+	if (verify.value) verify.value.show();
 }
 
 /**
@@ -182,7 +168,7 @@ function useVerify(type: string) {
  * @param res 验证通过信息
  */
 function handleSuccess(res: { captchaVerification: string }) {
-	doLogin(res.captchaVerification)
+	doLogin(res.captchaVerification);
 }
 </script>
 

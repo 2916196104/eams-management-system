@@ -19,12 +19,21 @@ describe("http", () => {
 	});
 	// 测试get请求
 	it("getSync", async () => {
-		const data = await http.get<PageDTO<Article>>("/article", {
-			pageIndex: 1,
-			pageSize: 2,
-		});
-		expect(data.code).toBe(10000);
-		console.log(data.data?.rows);
+		http
+			.get<PageDTO<Article>>("/article", {
+				pageIndex: 1,
+				pageSize: 2,
+			})
+			.then((data) => {
+				expect(data.code).toBe(10000);
+				console.log(data.data?.rows);
+			})
+			.catch((error) => {
+				expect(1).toBe(0);
+				console.error(error);
+			});
+		//[x] [TEST_CODE]保证异步请求执行完成前测试案例不会结束
+		await new Promise((resolve) => setTimeout(resolve, 1500));
 	});
 	// 测试get请求
 	it("getAsync", async () => {

@@ -19,8 +19,8 @@
 ```html
 <script setup lang="ts">
 	// 导入组件和类型
-	import MySearch from '@/components/mysearch/MySearch.vue'
-	import type { MyFormItemAttr } from '@/components/myform/type'
+	import MySearch from "@/components/mysearch/MySearch.vue";
+	import type { MyFormItemAttr } from "@/components/myform/type";
 </script>
 ```
 
@@ -50,19 +50,19 @@ export interface MySearchProps<T extends Record<string, any>> {
 
 ```html
 <script setup lang="ts">
-	import { reactive } from 'vue'
+	import { reactive } from "vue";
 
 	// 业务数据模型，表单数据的模型根据业务自定义数据模型
-	import type { SampleFormData } from '@/views/sample/type'
+	import type { SampleFormData } from "@/views/sample/type";
 
 	// 导入组件和类型
-	import MySearch from '@/components/mysearch/MySearch.vue'
-	import type { MyFormItemAttr } from '@/components/myform/type'
+	import MySearch from "@/components/mysearch/MySearch.vue";
+	import type { MyFormItemAttr } from "@/components/myform/type";
 
 	// 定义表单数据，定义数据的时候根据实际情况给默认值即可，也可以不给
 	const formdata = reactive<SampleFormData>({
-		zip: 610000
-	})
+		zip: 610000,
+	});
 </script>
 ```
 
@@ -115,93 +115,93 @@ export interface MyFormItemAttr {
 
 ```html
 <script setup lang="ts">
-	import { reactive } from 'vue'
+	import { reactive } from "vue";
 	// 导入组件和类型
-	import MySearch from '@/components/mysearch/MySearch.vue'
+	import MySearch from "@/components/mysearch/MySearch.vue";
 	import type {
 		MyFormItemAttr,
 		MyFormInputProps,
 		MyFormSelectProps,
 		MyFormInputNumberProps,
-		MyFormDatePickerProps
-	} from '@/components/myform/type'
+		MyFormDatePickerProps,
+	} from "@/components/myform/type";
 
 	// 定义表单域数据
 	const formitemdata = reactive<MyFormItemAttr[]>([
 		{
-			type: 'input',
-			prop: 'name',
-			label: '姓名',
-			rules: [{ required: true, message: '请输入姓名', trigger: 'change' }],
+			type: "input",
+			prop: "name",
+			label: "姓名",
+			rules: [{ required: true, message: "请输入姓名", trigger: "change" }],
 			fprops: {
-				placeholder: '请输入姓名',
-				clearable: true
-			} as MyFormInputProps
+				placeholder: "请输入姓名",
+				clearable: true,
+			} as MyFormInputProps,
 		},
 		{
-			type: 'select',
-			prop: 'country',
-			label: '国家',
-			rules: [{ required: true, message: '请选择国家', trigger: 'change' }],
+			type: "select",
+			prop: "country",
+			label: "国家",
+			rules: [{ required: true, message: "请选择国家", trigger: "change" }],
 			fprops: {
-				placeholder: '请选择国家',
+				placeholder: "请选择国家",
 				options: [
 					{
-						label: '中国',
-						value: 'CN'
+						label: "中国",
+						value: "CN",
 					},
 					{
-						label: '美国',
-						value: 'US'
+						label: "美国",
+						value: "US",
 					},
 					{
-						label: '日本',
-						value: 'JP',
-						disabled: true
-					}
-				]
-			} as MyFormSelectProps
+						label: "日本",
+						value: "JP",
+						disabled: true,
+					},
+				],
+			} as MyFormSelectProps,
 		},
 		{
-			type: 'input',
-			prop: 'state',
-			label: '省份',
+			type: "input",
+			prop: "state",
+			label: "省份",
 			required: true,
 			fprops: {
-				placeholder: '请输入省份'
-			}
+				placeholder: "请输入省份",
+			},
 		},
 		{
-			type: 'input',
-			prop: 'city',
-			label: '城市',
+			type: "input",
+			prop: "city",
+			label: "城市",
 			fprops: {
-				placeholder: '请输入城市'
-			}
+				placeholder: "请输入城市",
+			},
 		},
 		{
-			type: 'number',
-			prop: 'zip',
-			label: '邮编',
+			type: "number",
+			prop: "zip",
+			label: "邮编",
 			fprops: {
 				readonly: true,
-				placeholder: '请输入邮编',
+				placeholder: "请输入邮编",
 				max: 999999,
 				min: 100000,
-				step: 100
-			} as MyFormInputNumberProps
+				step: 100,
+			} as MyFormInputNumberProps,
 		},
 		{
-			type: 'date',
-			prop: 'date',
-			label: '生日',
+			type: "date",
+			prop: "date",
+			label: "生日",
 			fprops: {
-				placeholder: '请选择生日',
-				type: 'date',
-				'value-format': 'YYYY-MM-DD'
-			} as MyFormDatePickerProps
-		}
-	])
+				placeholder: "请选择生日",
+				type: "date",
+				"value-format": "YYYY-MM-DD",
+			} as MyFormDatePickerProps,
+		},
+	]);
 </script>
 ```
 
@@ -222,7 +222,7 @@ export interface MyFormItemAttr {
 ```html
 <script setup lang="ts">
 	// 引入示例后端接口
-	import { listall } from '@/apis/sample/index'
+	import { listall } from "@/apis/sample/index";
 
 	// 这里省略属性数据定义的代码
 
@@ -232,7 +232,7 @@ export interface MyFormItemAttr {
 	 * @param val 字段值
 	 */
 	function modelChange(prop: string, val: any) {
-		formdata[prop] = val
+		formdata[prop] = val;
 		// 其他特殊处理
 	}
 
@@ -244,15 +244,15 @@ export interface MyFormItemAttr {
 			{
 				pageIndex: 1,
 				pageSize: 10,
-				...formdata
+				...formdata,
 			},
 			(data) => {
 				// 这里将数据更新到你的显示组件数据模型上面
 			},
 			(error: any) => {
-				console.log(error)
-			}
-		)
+				console.log(error);
+			},
+		);
 	}
 </script>
 ```
@@ -268,12 +268,7 @@ export interface MyFormItemAttr {
 
 ```html
 <template>
-	<my-search
-		:model="formdata"
-		:items="formitemdata"
-		@model-change="modelChange"
-		@do-search="doSearch"
-	/>
+	<my-search :model="formdata" :items="formitemdata" @model-change="modelChange" @do-search="doSearch" />
 </template>
 ```
 
@@ -311,12 +306,12 @@ export interface MyFormAttr {
 
 ```html
 <script setup lang="ts">
-	import type { MyFormAttr } from '@/components/myform/type'
+	import type { MyFormAttr } from "@/components/myform/type";
 	// 定义表单属性数据
 	const formattr: MyFormAttr = {
-		'label-suffix': ':',
-		'show-count': 2
-	}
+		"label-suffix": ":",
+		"show-count": 2,
+	};
 </script>
 ```
 

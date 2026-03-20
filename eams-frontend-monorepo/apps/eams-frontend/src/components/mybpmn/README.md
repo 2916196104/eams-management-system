@@ -42,12 +42,12 @@ export interface MyBpmnExport {
 
 ```html
 <script setup lang="ts">
-	import { ref } from 'vue'
-	import MyBpmnEditor from '@/components/mybpmn/MyBpmnEditor.vue'
-	import type { MyBpmnExport } from '@/components/mybpmn/type'
+	import { ref } from "vue";
+	import MyBpmnEditor from "@/components/mybpmn/MyBpmnEditor.vue";
+	import type { MyBpmnExport } from "@/components/mybpmn/type";
 
 	// myBpmnEditor实例引用
-	const myBpmnEditorRef = ref<MyBpmnExport>()
+	const myBpmnEditorRef = ref<MyBpmnExport>();
 </script>
 ```
 
@@ -77,12 +77,12 @@ export interface MyBpmnExport {
 </template>
 
 <script setup lang="ts">
-	import { ref } from 'vue'
-	import MyBpmnEditor from '@/components/mybpmn/MyBpmnEditor.vue'
-	import { ProcessEngineType, type MyBpmnExport } from '@/components/mybpmn/type'
+	import { ref } from "vue";
+	import MyBpmnEditor from "@/components/mybpmn/MyBpmnEditor.vue";
+	import { ProcessEngineType, type MyBpmnExport } from "@/components/mybpmn/type";
 
 	// myBpmnEditor实例引用
-	const myBpmnEditorRef = ref<MyBpmnExport>()
+	const myBpmnEditorRef = ref<MyBpmnExport>();
 </script>
 ```
 

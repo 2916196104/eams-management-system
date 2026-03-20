@@ -17,14 +17,14 @@
 	</el-dialog>
 </template>
 <script setup lang="ts" generic="T extends Object">
-import { ref } from 'vue'
-import type { MyDialogProps } from './type'
+import { ref } from "vue";
+import type { MyDialogProps } from "./type";
 
 // 定义组件属性
-const props = defineProps<MyDialogProps<T>>()
+const props = defineProps<MyDialogProps<T>>();
 
 // 是否显示对话框
-const dialogVisible = ref(false)
+const dialogVisible = ref(false);
 
 // 暴露方法
 defineExpose({
@@ -32,13 +32,13 @@ defineExpose({
 	 * 打开对话框
 	 */
 	openDialog() {
-		dialogVisible.value = true
+		dialogVisible.value = true;
 	},
 	/**
 	 * 关闭对话框
 	 */
 	closeDialog() {
-		dialogVisible.value = false
-	}
-})
+		dialogVisible.value = false;
+	},
+});
 </script>

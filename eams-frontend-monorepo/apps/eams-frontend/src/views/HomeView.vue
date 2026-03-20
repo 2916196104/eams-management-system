@@ -2,7 +2,22 @@
 	<div class="header-row">
 		<!-- 应用信息栏 -->
 		<div class="header-title">
-			<img class="app-icon" src="/logo.jpg" :title="appName" />
+			<img v-show="!isCollapse" class="app-icon" src="/logo.jpg" :title="appName" />
+			<el-text v-show="!isCollapse" class="app-name">{{ appName }}</el-text>
+			<el-button
+				v-show="isCollapse"
+				link
+				class="collapse-btn"
+				icon="IconExpand"
+				@click="isCollapse = !isCollapse"
+			></el-button>
+			<el-button
+				v-show="!isCollapse"
+				link
+				class="collapse-btn"
+				icon="IconFold"
+				@click="isCollapse = !isCollapse"
+			></el-button>
 		</div>
 		<!-- 导航栏 -->
 		<div class="header-nav">
@@ -11,7 +26,40 @@
 		</div>
 	</div>
 	<div class="content-row">
-		<EamsNav :items="navItems" @select="handleNavSelect" />
+		<!-- 侧边菜单栏 -->
+		<el-menu
+			:collapse="isCollapse"
+			:default-active="activeIndex"
+			active-text-color="#409EFF"
+			text-color="#fff"
+			background-color="#545c64"
+			unique-opened
+			:collapse-transition="false"
+			router
+		>
+			<el-menu-item :index="indexPath">
+				<el-icon>
+					<IconHomeFilled />
+				</el-icon>
+				<span>首页</span>
+			</el-menu-item>
+			<el-sub-menu v-for="item in menus" :key="item.id" :index="item.id + 'submenu'">
+				<template #title>
+					<el-icon>
+						<component :is="item.icon" />
+					</el-icon>
+					<span>{{ item.text }}</span>
+				</template>
+				<el-menu-item-group>
+					<el-menu-item v-for="i in item.children" :key="i.id" :index="i.href">
+						<el-icon>
+							<component :is="i.icon" />
+						</el-icon>
+						{{ i.text }}
+					</el-menu-item>
+				</el-menu-item-group>
+			</el-sub-menu>
+		</el-menu>
 		<!-- 主内容区 -->
 		<div class="main">
 			<!-- 标签栏 -->
@@ -87,8 +135,6 @@ import { storeToRefs } from "pinia";
 import { useUserStore } from "@/stores/user";
 import { useTabStore } from "@/stores/tab";
 import type { TabPaneName, TabsPaneContext } from "element-plus";
-import EamsNav from "@/components/mynav/EamsNav.vue";
-import { eamsNavItems } from "@/components/mynav/nav-data";
 // 应用名称
 const appName = import.meta.env.VITE_APP_TITLE;
 // 当前用户信息
@@ -96,17 +142,15 @@ const ustore = useUserStore();
 // 用户信息提示
 const { user } = storeToRefs(ustore);
 const userInfo = ref("欢迎用户：" + (user.value === null ? "游客" : user.value.username));
+// 菜单数据
+const menus = ustore.getMenus;
+// 菜单是是否折叠
+const isCollapse = ref(false);
 // 路由数据
 const router = useRouter();
 // 标签页数据
 const tabstore = useTabStore();
 const { tabs, activeIndex, indexPath } = storeToRefs(tabstore);
-
-const navItems = eamsNavItems;
-
-function handleNavSelect(payload: { path: string }) {
-	if (payload.path) router.push(payload.path);
-}
 /** 标签页点击事件 */
 const tabClick = (pane: TabsPaneContext) => {
 	// 如果点击的是操作标签页
@@ -163,7 +207,7 @@ function handleClose(type: number) {
 <style>
 :root {
 	--home-header-height: 60px;
-	--home-menu-width: 96px;
+	--home-menu-width: 220px;
 }
 .main .el-tabs {
 	.el-tabs__header {
@@ -193,7 +237,7 @@ function handleClose(type: number) {
 		padding-left: 15px;
 		display: flex;
 		align-items: center;
-		gap: 10px;
+		justify-content: space-between;
 		.app-icon {
 			width: 30px;
 			border-radius: 5px;
@@ -201,6 +245,11 @@ function handleClose(type: number) {
 		.app-name {
 			color: white;
 			font-size: 16px;
+		}
+
+		.collapse-btn {
+			color: white;
+			font-size: 24px;
 		}
 	}
 
@@ -218,6 +267,17 @@ function handleClose(type: number) {
 	height: calc(100vh - var(--home-header-height));
 	display: flex;
 	flex-direction: row;
+
+	.el-menu {
+		border: 0;
+		width: var(--home-menu-width);
+		height: 100%;
+		overflow: auto;
+	}
+
+	.el-menu--collapse {
+		width: calc(var(--el-menu-icon-width) + var(--el-menu-base-level-padding) * 2);
+	}
 
 	.main {
 		flex: 1;

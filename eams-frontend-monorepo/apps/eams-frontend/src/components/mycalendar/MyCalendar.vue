@@ -188,6 +188,8 @@ const displayTitle = computed(() => {
 	return formatDay(viewCursor.value);
 });
 
+const displayYearMonth = computed(() => `${currentYear.value}年${currentMonth.value + 1}月`);
+
 function isSameDay(a: Date, b: Date | null) {
 	if (!b) return false;
 	return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
@@ -275,6 +277,7 @@ const monthCells = computed<CalendarCell[]>(() => {
 	const month = currentMonth.value;
 	const first = new Date(year, month, 1);
 	const firstWeekday = (first.getDay() + 6) % 7;
+	const totalDays = new Date(year, month + 1, 0).getDate();
 	const startOffset = 1 - firstWeekday;
 	const cells: CalendarCell[] = [];
 	const today = new Date();

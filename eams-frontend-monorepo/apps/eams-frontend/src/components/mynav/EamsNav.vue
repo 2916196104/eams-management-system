@@ -1,254 +1,288 @@
 <template>
-	<nav class="eams-nav" role="navigation" aria-label="教务系统导航">
-		<div v-if="showLogo" class="eams-nav__brand">
-			<img class="eams-nav__brand-logo" :src="logoSrcResolved" :alt="appNameResolved" :title="appNameResolved" />
-		</div>
-		<div class="eams-nav__list">
-			<div v-for="item in items" :key="item.key" class="eams-nav__group">
-				<button
-					class="eams-nav__group-btn"
-					type="button"
-					:aria-expanded="openGroupKey === item.key"
-					@click="toggleGroup(item)"
-				>
-					<span class="eams-nav__icon-wrap" :class="{ 'is-active': activeGroupKeyResolved === item.key }">
-						<el-icon :size="22">
-							<component :is="resolveIcon(item.icon)" />
-						</el-icon>
-					</span>
-					<span class="eams-nav__group-label">{{ item.label }}</span>
-				</button>
-
-				<div
-					v-if="(item.children?.length ?? 0) > 0"
-					class="eams-nav__sub"
-					:class="{ 'is-open': openGroupKey === item.key }"
-				>
-					<button
-						v-for="child in item.children"
-						:key="child.key"
-						class="eams-nav__sub-btn"
-						type="button"
-						:class="{ 'is-active': activeGroupKeyResolved === item.key && activeSubKeyResolved === child.key }"
-						@click="selectSub(item, child)"
-					>
-						{{ child.label }}
-					</button>
-				</div>
+	<div class="eams-nav" :style="styleVars">
+		<div class="eams-nav__header">
+			<div class="eams-nav__brand">
+				<img v-if="logoSrc" class="eams-nav__logo" :src="logoSrc" :alt="appName" />
+				<el-text v-show="!isCollapse" class="eams-nav__title">
+					{{ appName }}
+				</el-text>
+				<el-button
+					link
+					class="eams-nav__collapse-btn"
+					:icon="isCollapse ? 'IconExpand' : 'IconFold'"
+					@click="toggleCollapse"
+				/>
+			</div>
+			<div class="eams-nav__header-extra">
+				<slot name="header-extra">
+					{{ userText }}
+				</slot>
 			</div>
 		</div>
-	</nav>
+
+		<div class="eams-nav__body">
+			<el-menu
+				:collapse="isCollapse"
+				:default-active="activeIndex"
+				:router="router"
+				:unique-opened="uniqueOpened"
+				:collapse-transition="collapseTransition"
+				:background-color="backgroundColor"
+				:text-color="textColor"
+				:active-text-color="activeTextColor"
+				class="eams-nav__menu"
+				@select="handleSelect"
+			>
+				<el-menu-item v-if="showHome" :index="homePath">
+					<el-icon>
+						<component :is="homeIconComponent" />
+					</el-icon>
+					<span>{{ homeText }}</span>
+				</el-menu-item>
+
+				<template v-for="item in normalizedMenus" :key="item.id">
+					<el-sub-menu v-if="item.children && item.children.length > 0" :index="getSubMenuIndex(item)">
+						<template #title>
+							<el-icon>
+								<component :is="item.icon" />
+							</el-icon>
+							<span>{{ item.text }}</span>
+						</template>
+
+						<el-menu-item
+							v-for="child in item.children"
+							:key="child.id"
+							:index="child.index"
+							:disabled="child.disabled"
+						>
+							<el-icon>
+								<component :is="child.icon" />
+							</el-icon>
+							<span>{{ child.text }}</span>
+						</el-menu-item>
+					</el-sub-menu>
+
+					<el-menu-item v-else :index="item.index" :disabled="item.disabled">
+						<el-icon>
+							<component :is="item.icon" />
+						</el-icon>
+						<span>{{ item.text }}</span>
+					</el-menu-item>
+				</template>
+			</el-menu>
+
+			<div class="eams-nav__content">
+				<slot />
+			</div>
+		</div>
+	</div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, resolveComponent, watch } from 'vue'
-import type { Component } from 'vue'
-import { useRoute } from 'vue-router'
-import type { EamsNavItem, EamsNavSubItem } from './types'
+import { computed, ref, watch } from "vue";
+import type { Component } from "vue";
+import { useRoute } from "vue-router";
+import { useRenderIcon } from "@/components/ReIcon";
+import type { EamsNavMenuItem, EamsNavProps } from "./type";
 
-const props = withDefaults(
-	defineProps<{
-		items: EamsNavItem[]
-		activeGroupKey?: string | null
-		activeSubKey?: string | null
-		showLogo?: boolean
-		logoSrc?: string
-		appName?: string
-	}>(),
-	{
-		showLogo: true,
-		logoSrc: '/logo.jpg'
-	}
-)
+defineOptions({
+	name: "EamsNav",
+});
+
+interface NormalizedMenuItem extends EamsNavMenuItem {
+	icon: Component;
+	index: string;
+	children?: Array<NormalizedMenuItem>;
+}
+
+const props = withDefaults(defineProps<EamsNavProps>(), {
+	appName: "教务系统",
+	logoSrc: "",
+	userText: "",
+	collapse: false,
+	defaultActive: "",
+	menuWidth: "220px",
+	headerHeight: "60px",
+	showHome: false,
+	homeText: "首页",
+	homePath: "/",
+	homeIcon: "IconHomeFilled",
+	defaultIcon: "IconMenu",
+	backgroundColor: "#545c64",
+	textColor: "#ffffff",
+	activeTextColor: "#409eff",
+	uniqueOpened: true,
+	router: true,
+	collapseTransition: false,
+});
 
 const emit = defineEmits<{
-	(e: 'update:activeGroupKey', v: string | null): void
-	(e: 'update:activeSubKey', v: string | null): void
-	(e: 'select', payload: { group: EamsNavItem; sub?: EamsNavSubItem; path: string }): void
-}>()
+	(e: "update:collapse", value: boolean): void;
+	(e: "select", item: EamsNavMenuItem | undefined): void;
+}>();
 
-const route = useRoute()
+const route = useRoute();
+const isCollapse = ref(props.collapse);
+const activeIndex = ref("");
+const homeIconComponent = computed(() => useRenderIcon(props.homeIcon));
 
-const logoSrcResolved = computed(() => props.logoSrc)
-const appNameResolved = computed(() => props.appName ?? import.meta.env.VITE_APP_TITLE ?? '')
-const showLogo = computed(() => props.showLogo)
+const normalizedMenus = computed<NormalizedMenuItem[]>(() => props.menus.map((item) => normalizeMenuItem(item)));
 
-function resolveIcon(icon?: string | Component) {
-	if (!icon) return resolveComponent('IconMenu')
-	if (typeof icon !== 'string') return icon
-	const resolved = resolveComponent(icon)
-	if (typeof resolved === 'string') return resolveComponent('IconMenu')
-	return resolved as Component
-}
+const flatMenuMap = computed(() => {
+	const menuMap = new Map<string, EamsNavMenuItem>();
 
-const openGroupKey = ref<string | null>(props.activeGroupKey ?? null)
-const activeGroupKeyInner = ref<string | null>(props.activeGroupKey ?? null)
-const activeSubKeyInner = ref<string | null>(props.activeSubKey ?? null)
-
-const activeGroupKeyResolved = computed(() => props.activeGroupKey ?? activeGroupKeyInner.value)
-const activeSubKeyResolved = computed(() => props.activeSubKey ?? activeSubKeyInner.value)
-
-function syncActiveByRoute(path: string) {
-	for (const group of props.items) {
-		if (group.path && group.path === path) {
-			activeGroupKeyInner.value = group.key
-			activeSubKeyInner.value = group.key
-			openGroupKey.value = null
-			return
+	const walk = (menus: NormalizedMenuItem[]) => {
+		for (const item of menus) {
+			menuMap.set(item.index, item);
+			if (item.children?.length) {
+				walk(item.children);
+			}
 		}
-		const hit = group.children?.find((c) => c.path === path)
-		if (!hit) continue
-		activeGroupKeyInner.value = group.key
-		activeSubKeyInner.value = hit.key
-		openGroupKey.value = group.key
-		return
-	}
-}
+	};
+
+	walk(normalizedMenus.value);
+	return menuMap;
+});
+
+const styleVars = computed(() => ({
+	"--eams-nav-header-height": props.headerHeight,
+	"--eams-nav-menu-width": props.menuWidth,
+}));
 
 watch(
-	() => route.path,
-	(p) => syncActiveByRoute(p),
-	{ immediate: true }
-)
+	() => props.collapse,
+	(value) => {
+		isCollapse.value = value;
+	},
+);
 
-function toggleGroup(item: EamsNavItem) {
-	const hasChildren = (item.children?.length ?? 0) > 0
-	if (!hasChildren) {
-		activeGroupKeyInner.value = item.key
-		activeSubKeyInner.value = item.key
-		openGroupKey.value = null
-		emit('update:activeGroupKey', item.key)
-		emit('update:activeSubKey', item.key)
-		emit('select', { group: item, path: item.path ?? '' })
-		return
-	}
+watch(
+	[() => props.defaultActive, () => route.path, normalizedMenus],
+	() => {
+		if (props.defaultActive) {
+			activeIndex.value = props.defaultActive;
+			return;
+		}
 
-	openGroupKey.value = openGroupKey.value === item.key ? null : item.key
-	activeGroupKeyInner.value = item.key
-	emit('update:activeGroupKey', item.key)
+		if (props.router && flatMenuMap.value.has(route.path)) {
+			activeIndex.value = route.path;
+			return;
+		}
 
-	const child = item.children?.[0]
-	if (!child) return
-	activeSubKeyInner.value = child.key
-	emit('update:activeSubKey', child.key)
-	emit('select', { group: item, sub: child, path: child.path })
+		if (props.showHome && route.path === props.homePath) {
+			activeIndex.value = props.homePath;
+			return;
+		}
+
+		const firstMenu = normalizedMenus.value[0];
+		activeIndex.value = firstMenu?.children?.[0]?.index ?? firstMenu?.index ?? props.homePath;
+	},
+	{ immediate: true, deep: true },
+);
+
+function normalizeMenuItem(item: EamsNavMenuItem): NormalizedMenuItem {
+	return {
+		...item,
+		icon: useRenderIcon(item.icon || props.defaultIcon),
+		index: getMenuIndex(item),
+		children: item.children?.map((child) => normalizeMenuItem(child)),
+	};
 }
 
-function selectSub(group: EamsNavItem, sub: EamsNavSubItem) {
-	openGroupKey.value = group.key
-	activeGroupKeyInner.value = group.key
-	activeSubKeyInner.value = sub.key
-	emit('update:activeGroupKey', group.key)
-	emit('update:activeSubKey', sub.key)
-	emit('select', { group, sub, path: sub.path })
+function getMenuIndex(item: EamsNavMenuItem): string {
+	return item.path || item.href || String(item.id);
+}
+
+function getSubMenuIndex(item: NormalizedMenuItem): string {
+	return `submenu-${item.id}`;
+}
+
+function toggleCollapse() {
+	isCollapse.value = !isCollapse.value;
+	emit("update:collapse", isCollapse.value);
+}
+
+function handleSelect(index: string) {
+	emit("select", flatMenuMap.value.get(index));
+	activeIndex.value = index;
 }
 </script>
 
 <style scoped>
 .eams-nav {
-	width: 96px;
-	height: 100%;
-	background: #0b1e2d;
-	color: rgba(255, 255, 255, 0.92);
-	overflow: auto;
+	min-height: 100vh;
+	background: #edf1f5;
+}
+
+.eams-nav__header {
+	height: var(--eams-nav-header-height);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background: #6c777f;
+	color: #ffffff;
 }
 
 .eams-nav__brand {
-	padding: 12px 8px 6px;
+	width: var(--eams-nav-menu-width);
+	padding: 0 16px;
 	display: flex;
-	justify-content: center;
-}
-
-.eams-nav__brand-logo {
-	width: 34px;
-	height: 34px;
-	border-radius: 8px;
-	object-fit: cover;
-}
-
-.eams-nav__list {
-	padding: 10px 8px;
-	display: flex;
-	flex-direction: column;
+	align-items: center;
 	gap: 10px;
+	box-sizing: border-box;
 }
 
-.eams-nav__group {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+.eams-nav__logo {
+	width: 30px;
+	height: 30px;
+	border-radius: 6px;
+	object-fit: cover;
+	flex-shrink: 0;
 }
 
-.eams-nav__group-btn {
-	appearance: none;
-	border: 0;
-	padding: 6px 0;
-	width: 100%;
-	background: transparent;
-	color: inherit;
-	cursor: pointer;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 6px;
-}
-
-.eams-nav__icon-wrap {
-	width: 46px;
-	height: 46px;
-	border-radius: 50%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background: transparent;
-	transition: background-color 0.18s ease;
-}
-
-.eams-nav__icon-wrap.is-active {
-	background: #2a7bff;
-}
-
-.eams-nav__group-label {
-	font-size: 12px;
-	line-height: 16px;
-	user-select: none;
-}
-
-.eams-nav__sub {
-	width: 100%;
-	max-height: 0;
-	opacity: 0;
-	overflow: hidden;
-	transition: max-height 0.2s ease, opacity 0.2s ease;
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-}
-
-.eams-nav__sub.is-open {
-	max-height: 360px;
-	opacity: 1;
-	margin-top: 6px;
-}
-
-.eams-nav__sub-btn {
-	appearance: none;
-	border: 0;
-	padding: 8px 6px;
-	width: 100%;
-	background: rgba(255, 255, 255, 0.06);
-	border-radius: 8px;
-	color: rgba(255, 255, 255, 0.9);
-	font-size: 12px;
-	line-height: 16px;
-	cursor: pointer;
-	text-align: center;
-	white-space: normal;
-}
-
-.eams-nav__sub-btn.is-active {
-	background: rgba(42, 123, 255, 0.28);
+.eams-nav__title {
+	flex: 1;
 	color: #ffffff;
+	font-size: 16px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.eams-nav__collapse-btn {
+	color: #ffffff;
+	font-size: 20px;
+}
+
+.eams-nav__header-extra {
+	padding: 0 16px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	flex: 1;
+	min-width: 0;
+}
+
+.eams-nav__body {
+	display: flex;
+	min-height: calc(100vh - var(--eams-nav-header-height));
+}
+
+.eams-nav__menu {
+	width: var(--eams-nav-menu-width);
+	border-right: 0;
+	flex-shrink: 0;
+}
+
+.eams-nav__menu:not(.el-menu--collapse) {
+	min-height: calc(100vh - var(--eams-nav-header-height));
+}
+
+.eams-nav__content {
+	flex: 1;
+	min-width: 0;
+	padding: 16px;
+	box-sizing: border-box;
+	overflow: auto;
 }
 </style>
-

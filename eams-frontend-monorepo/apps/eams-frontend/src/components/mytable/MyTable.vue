@@ -37,20 +37,10 @@
 				:index="(index: number) => ++index"
 			/>
 			<!-- 数据列 -->
-			<el-table-column
-				v-for="(column, index) in tabdatacolumns"
-				:key="column.prop || index"
-				:="column"
-			>
+			<el-table-column v-for="(column, index) in tabdatacolumns" :key="column.prop || index" :="column">
 				<template #default="scope">
 					<!-- 声明一个具名插槽，用于支持外部自定义单元格显示内容 -->
-					<slot
-						name="customercell"
-						:column="column"
-						:prop="column.prop"
-						:index="scope.$index"
-						:row="scope.row"
-					>
+					<slot name="customercell" :column="column" :prop="column.prop" :index="scope.$index" :row="scope.row">
 						<!-- 数据列 -->
 						<template v-if="column.prop !== 'operate'">
 							{{ scope.row[column.prop] }}
@@ -94,8 +84,8 @@
 </template>
 
 <script setup lang="ts" generic="T extends Object">
-import { type PropType, computed, ref } from 'vue'
-import type { TableInstance } from 'element-plus'
+import { type PropType, computed, ref } from "vue";
+import type { TableInstance } from "element-plus";
 import {
 	type MyTableAttr,
 	type MyTableColumn,
@@ -103,11 +93,11 @@ import {
 	type MyTableOperationsBtn,
 	type PageDTO,
 	createMyTableOperationsColumn,
-	createPageDTO
-} from './type'
+	createPageDTO,
+} from "./type";
 
 // el-table的引用
-const tableRef = ref<TableInstance>()
+const tableRef = ref<TableInstance>();
 
 // 组件属性定义
 const props = defineProps({
@@ -116,22 +106,22 @@ const props = defineProps({
 	/** 是否显示自定义展开行，默认不显示 */
 	istabexpand: {
 		type: Boolean,
-		default: false
+		default: false,
 	},
 	/** 是否显示序号列，默认不显示 */
 	istabseq: {
 		type: Boolean,
-		default: false
+		default: false,
 	},
 	/** 是否开启多选，默认不开启 */
 	istabmultiple: {
 		type: Boolean,
-		default: false
+		default: false,
 	},
 	/** 是否开启分页，默认开启 */
 	istabpage: {
 		type: Boolean,
-		default: true
+		default: true,
 	},
 	/** 表格属性 */
 	tabattr: Object as PropType<MyTableAttr>,
@@ -140,14 +130,14 @@ const props = defineProps({
 	/** 表格数据 */
 	tabdata: {
 		type: Object as PropType<PageDTO<T>>,
-		default: () => createPageDTO()
+		default: () => createPageDTO(),
 	},
 	/** 表操作列按钮数据 */
 	taboperbtns: {
 		type: Array as PropType<MyTableOperationsBtn[]>,
-		default: () => []
-	}
-})
+		default: () => [],
+	},
+});
 
 /**
  * 合并表格默认属性与传入属性
@@ -155,51 +145,51 @@ const props = defineProps({
 const reltabattr = computed<MyTableAttr>(() => {
 	// 默认属性
 	const defaultAttrs: MyTableAttr = {
-		psize: 'default',
+		psize: "default",
 		border: false,
 		stripe: true,
-		'highlight-current-row': true
-	}
+		"highlight-current-row": true,
+	};
 	return {
 		...defaultAttrs,
-		...props.tabattr
-	}
-})
+		...props.tabattr,
+	};
+});
 
 /**
  * 合并操作列默认属性与传入属性
  */
 const tabopercolumnattr = computed<MyTableOperationsColumn>(() => {
-	const defaultCol = createMyTableOperationsColumn()
+	const defaultCol = createMyTableOperationsColumn();
 	if (props.tabdatacolumns) {
-		const col = props.tabdatacolumns.find((column) => column.prop === 'operate')
+		const col = props.tabdatacolumns.find((column) => column.prop === "operate");
 		if (col) {
-			return { ...defaultCol, ...col }
+			return { ...defaultCol, ...col };
 		}
 	}
-	return defaultCol
-})
+	return defaultCol;
+});
 
 /**
  * 声明emit事件
  */
 const emit = defineEmits<{
 	/** 分页事件 */
-	(event: 'page-change', data: PageDTO<T>): void
+	(event: "page-change", data: PageDTO<T>): void;
 	/** 选中行事件 */
-	(event: 'selection-change', data: Array<T>): void
+	(event: "selection-change", data: Array<T>): void;
 	/** 行双击事件 */
-	(event: 'row-dbclick', data: T): void
+	(event: "row-dbclick", data: T): void;
 	/** 操作栏点击事件 */
-	(event: 'taboper-click', index: number, row: T, evtname: string): void
-}>()
+	(event: "taboper-click", index: number, row: T, evtname: string): void;
+}>();
 
 /**
  * 多选框选中行发生改变时候触发
  * @param rows 当前选择的行
  */
 function handleSelectionChange(rows: T[]) {
-	emit('selection-change', rows)
+	emit("selection-change", rows);
 }
 
 /**
@@ -207,7 +197,7 @@ function handleSelectionChange(rows: T[]) {
  * @param row 当前双击的行
  */
 function handleRowDblclick(row: T) {
-	emit('row-dbclick', row)
+	emit("row-dbclick", row);
 }
 
 /**
@@ -215,15 +205,15 @@ function handleRowDblclick(row: T) {
  * @param val 每页数据条数
  */
 const handlePageSizeChange = (val: number) => {
-	emit('page-change', createPageDTO({ pageSize: val, pageIndex: 1 }))
-}
+	emit("page-change", createPageDTO({ pageSize: val, pageIndex: 1 }));
+};
 /**
  * 页码发生改变时候触发
  * @param val 当前页码
  */
 const handleCurrentPageChange = (val: number) => {
-	emit('page-change', createPageDTO({ pageSize: props.tabdata.pageSize, pageIndex: val }))
-}
+	emit("page-change", createPageDTO({ pageSize: props.tabdata.pageSize, pageIndex: val }));
+};
 </script>
 <style scoped>
 .table-container {

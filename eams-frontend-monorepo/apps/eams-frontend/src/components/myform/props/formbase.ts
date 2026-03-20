@@ -3,19 +3,19 @@
  */
 export interface MyFormBaseProps {
 	/** 组件大小 */
-	size?: 'large' | 'default' | 'small'
+	size?: "large" | "default" | "small";
 	/** 是否禁用 */
-	disabled?: boolean
+	disabled?: boolean;
 	/** 原生readonly属性，是否只读 */
-	readonly?: boolean
+	readonly?: boolean;
 	/** 占位文本 */
-	placeholder?: string
+	placeholder?: string;
 	/** 是否可以清空选项 */
-	clearable?: boolean
+	clearable?: boolean;
 	/** 设置组件宽度，不指定自适应宽度，如：188px */
-	width?: string
+	width?: string;
 	/** 原生name属性 */
-	name?: string
+	name?: string;
 	/** 原生id属性 */
-	id?: string
+	id?: string;
 }

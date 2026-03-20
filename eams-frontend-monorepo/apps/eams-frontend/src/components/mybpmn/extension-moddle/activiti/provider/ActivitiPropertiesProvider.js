@@ -13,7 +13,7 @@ export default function ActivitiPropertiesProvider(propertiesPanel, translate) {
 	 * @return {(Object[]) => (Object[])} groups middleware
 	 */
 	this.getGroups = function (element) {
-		console.log(element, translate)
+		console.log(element, translate);
 		/**
 		 * We return a middleware that modifies
 		 * the existing groups.
@@ -22,16 +22,16 @@ export default function ActivitiPropertiesProvider(propertiesPanel, translate) {
 		 */
 		return function (groups) {
 			// FIXME: implement groups
-			return groups
-		}
-	}
+			return groups;
+		};
+	};
 
 	// registration ////////
 
 	// Register our custom activiti properties provider.
 	// Use a lower priority to ensure it is loaded after
 	// the basic BPMN properties.
-	propertiesPanel.registerProvider(LOW_PRIORITY, this)
+	propertiesPanel.registerProvider(LOW_PRIORITY, this);
 }
 
-ActivitiPropertiesProvider.$inject = ['propertiesPanel', 'translate']
+ActivitiPropertiesProvider.$inject = ["propertiesPanel", "translate"];

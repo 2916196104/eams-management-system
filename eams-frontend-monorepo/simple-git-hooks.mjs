@@ -31,8 +31,8 @@ export default {
 	 * @see https://juejin.cn/post/7381372081915166739#heading-8
 	 * @see https://fabric.modyqyw.top/zh-Hans/guide/git/commitlint.html#%E6%95%B4%E5%90%88-simple-git-hooks
 	 */
-	"commit-msg": 'ROOT=$(pwd) && cd eams-frontend-monorepo && npx --no-install commitlint --edit "$ROOT/$1"',
+	"commit-msg": 'ROOT=$(pwd) && cd eams-frontend-monorepo && pnpm exec commitlint --edit "$ROOT/$1"',
 
 	/** 提交前格式化钩子。cd 到 monorepo 后执行 lint-staged，对暂存区文件运行 Prettier 格式化。 */
-	"pre-commit": "cd eams-frontend-monorepo && npx lint-staged",
+	"pre-commit": "cd eams-frontend-monorepo && pnpm exec lint-staged",
 };

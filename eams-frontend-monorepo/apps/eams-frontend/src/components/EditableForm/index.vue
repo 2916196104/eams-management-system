@@ -42,88 +42,93 @@
 	</div>
 </template>
 
-<script setup lang="ts">
-import { reactive, ref, watch } from "vue";
-
-const props = withDefaults(
-	defineProps<{
-		value: Record<string, any>;
-		fieldLabels?: Record<string, string>;
-		longTextFields?: string[];
-		dateFields?: string[];
-		editable?: boolean;
-	}>(),
-	{
-		fieldLabels: () => ({}),
-		longTextFields: () => [],
-		dateFields: () => [],
-		editable: true,
+<script>
+export default {
+	name: "EditableForm",
+	props: {
+		// 表单数据（支持v-model）
+		value: {
+			type: Object,
+			required: true,
+			default: () => ({}),
+		},
+		// 字段标签映射
+		fieldLabels: {
+			type: Object,
+			default: () => ({}),
+		},
+		// 长文本字段（需要显示为textarea）
+		longTextFields: {
+			type: Array,
+			default: () => [],
+		},
+		// 日期字段
+		dateFields: {
+			type: Array,
+			default: () => [],
+		},
+		// 是否可编辑
+		editable: {
+			type: Boolean,
+			default: true,
+		},
 	},
-);
-
-const emit = defineEmits<{
-	(e: "input", v: Record<string, any>): void;
-	(e: "save", v: Record<string, any>): void;
-	(e: "cancel"): void;
-	(e: "edit-start"): void;
-}>();
-
-const isEditing = ref(false);
-const formData = reactive<Record<string, any>>({});
-
-function clone<T>(v: T): T {
-	return JSON.parse(JSON.stringify(v)) as T;
-}
-
-watch(
-	() => props.value,
-	(v) => {
-		const next = clone(v ?? {});
-		for (const k of Object.keys(formData)) delete formData[k];
-		Object.assign(formData, next);
+	data() {
+		return {
+			isEditing: false,
+			formData: {},
+		};
 	},
-	{ immediate: true, deep: true },
-);
-
-function getFieldLabel(key: string) {
-	return props.fieldLabels[key] || key;
-}
-
-function isLongText(key: string) {
-	return props.longTextFields.includes(key);
-}
-
-function isDateField(key: string) {
-	return props.dateFields.includes(key);
-}
-
-function formatValue(value: unknown) {
-	if (value === null || value === undefined) return "-";
-	if (typeof value === "boolean") return value ? "是" : "否";
-	if (value instanceof Date) return value.toLocaleDateString();
-	if (typeof value === "object") return JSON.stringify(value);
-	return String(value);
-}
-
-function startEdit() {
-	isEditing.value = true;
-	emit("edit-start");
-}
-
-function save() {
-	isEditing.value = false;
-	const payload = clone(formData);
-	emit("input", payload);
-	emit("save", payload);
-}
-
-function cancel() {
-	isEditing.value = false;
-	const next = clone(props.value ?? {});
-	for (const k of Object.keys(formData)) delete formData[k];
-	Object.assign(formData, next);
-	emit("cancel");
-}
+	watch: {
+		value: {
+			handler(val) {
+				// 深拷贝，避免直接修改props
+				this.formData = JSON.parse(JSON.stringify(val));
+			},
+			immediate: true,
+			deep: true,
+		},
+	},
+	methods: {
+		// 获取字段显示名称
+		getFieldLabel(key) {
+			return this.fieldLabels[key] || key;
+		},
+		// 判断是否是长文本字段
+		isLongText(key) {
+			return this.longTextFields.includes(key);
+		},
+		// 判断是否是日期字段
+		isDateField(key) {
+			return this.dateFields.includes(key);
+		},
+		// 格式化显示值
+		formatValue(value) {
+			if (value === null || value === undefined) return "-";
+			if (typeof value === "boolean") return value ? "是" : "否";
+			if (value instanceof Date) return value.toLocaleDateString();
+			if (typeof value === "object") return JSON.stringify(value);
+			return String(value);
+		},
+		startEdit() {
+			this.isEditing = true;
+			this.$emit("edit-start");
+		},
+		save() {
+			this.isEditing = false;
+			// 触发v-model更新
+			this.$emit("input", this.formData);
+			// 触发save事件
+			this.$emit("save", this.formData);
+		},
+		cancel() {
+			this.isEditing = false;
+			// 恢复原始数据
+			this.formData = JSON.parse(JSON.stringify(this.value));
+			this.$emit("cancel");
+		},
+	},
+};
 </script>
 
 <style scoped>

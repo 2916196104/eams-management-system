@@ -1,7 +1,7 @@
-import assigneeProp from './parts/AssigneeProp'
-import conExpPorp from './parts/ConditionExpProp'
-import { is } from 'bpmn-js/lib/util/ModelUtil'
-const LOW_PRIORITY = 500
+import assigneeProp from "./parts/AssigneeProp";
+import conExpPorp from "./parts/ConditionExpProp";
+import { is } from "bpmn-js/lib/util/ModelUtil";
+const LOW_PRIORITY = 500;
 /**
  * 创建Flowable自定义属性组
  * @param {Function} translate 翻译函数
@@ -9,12 +9,12 @@ const LOW_PRIORITY = 500
  */
 function createFlowableCustomerGroup(translate, entries) {
 	const flowableGroup = {
-		id: 'flowable',
-		label: translate('Flowable properties'),
+		id: "flowable",
+		label: translate("Flowable properties"),
 		entries,
-		tooltip: translate('Settings for flowable properties')
-	}
-	return flowableGroup
+		tooltip: translate("Settings for flowable properties"),
+	};
+	return flowableGroup;
 }
 
 /**
@@ -40,23 +40,23 @@ export default function FlowablePropertiesProvider(propertiesPanel, translate) {
 		 */
 		return function (groups) {
 			// UserTask
-			if (is(element, 'bpmn:UserTask')) {
-				groups.push(createFlowableCustomerGroup(translate, [assigneeProp(element)]))
+			if (is(element, "bpmn:UserTask")) {
+				groups.push(createFlowableCustomerGroup(translate, [assigneeProp(element)]));
 			}
 			// SequenceFlow
-			if (is(element, 'bpmn:SequenceFlow')) {
-				groups.push(createFlowableCustomerGroup(translate, [conExpPorp(element)]))
+			if (is(element, "bpmn:SequenceFlow")) {
+				groups.push(createFlowableCustomerGroup(translate, [conExpPorp(element)]));
 			}
-			return groups
-		}
-	}
+			return groups;
+		};
+	};
 
 	// registration ////////
 
 	// Register our custom flowable properties provider.
 	// Use a lower priority to ensure it is loaded after
 	// the basic BPMN properties.
-	propertiesPanel.registerProvider(LOW_PRIORITY, this)
+	propertiesPanel.registerProvider(LOW_PRIORITY, this);
 }
 
-FlowablePropertiesProvider.$inject = ['propertiesPanel', 'translate']
+FlowablePropertiesProvider.$inject = ["propertiesPanel", "translate"];

@@ -1,4 +1,6 @@
-# <!-- TODO: 长任务 未完成 --> 迁移 `old\vue-element-cui` 旧项目的组件库，迁移改造全新的组件库
+<!-- 初步认定为已经完成迁移了 -->
+
+# 迁移 `old\vue-element-cui` 旧项目的组件库，迁移改造全新的组件库
 
 核心需求：
 
@@ -23,7 +25,7 @@
 - 全局导入类型提示。适配 volar 插件的类型识别导出路径。
 - playground 在线演示的子项目。
 - 可以实现交互的 docs 文档，使用 nuxt 风格的 doc 文档。
-- 适配 unplugin-vue-components 和 unplugin-auto-import，实现组件库的 resolver 按需导入工具。（暂不实现）
+- 适配 unplugin-vue-components 和 unplugin-auto-import，实现组件库的 resolver 按需导入工具。
 - 适配 nuxt 项目，实现按需导入的 nuxt 模块。（暂不实现）
 
 ## 新建 openspec 任务时的注意事项

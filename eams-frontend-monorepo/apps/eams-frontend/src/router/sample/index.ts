@@ -96,17 +96,19 @@ const routes = [
 				component: () => import("@/views/sample/pagination/Index.vue"),
 			},
 			{
-				name: "sf1nav",
-				path: "/sample/f1nav",
-				redirect: "/sample/f1nav/student/lesson-summary",
-				component: () => import("@/views/sample/f1nav/Index.vue"),
-				children: [
-					{
-						name: "sf1navany",
-						path: ":pathMatch(.*)*",
-						component: () => import("@/views/sample/f1nav/NavPlaceholder.vue"),
-					},
-				],
+				name: "smyselector",
+				path: "/sample/myselector",
+				component: () => import("@/views/sample/myselector/Index.vue"),
+			},
+			{
+				name: "smynav",
+				path: "/sample/mynav",
+				component: () => import("@/views/sample/mynav/Index.vue"),
+			},
+			{
+				name: "reicon",
+				path: "/sample/reicon",
+				component: () => import("@/views/sample/reicon/Index.vue"),
 			},
 		],
 	},

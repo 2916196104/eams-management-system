@@ -1,17 +1,17 @@
-import type { MyFormBaseProps } from './formbase'
-import type { CascaderProps } from 'element-plus'
+import type { MyFormBaseProps } from "./formbase";
+import type { CascaderProps } from "element-plus";
 /**
  * 下拉选择框选项值属性
  */
 export interface MyFormSelectOption {
 	/** 选项值 */
-	value: string | number | boolean | object
+	value: string | number | boolean | object;
 	/** 选项显示文本 */
-	label: string | number
+	label: string | number;
 	/** 是否禁用 */
-	disabled?: boolean
+	disabled?: boolean;
 	/** 子选项，用于支持级联选择器 */
-	children?: MyFormSelectOption[]
+	children?: MyFormSelectOption[];
 }
 
 /**
@@ -20,13 +20,13 @@ export interface MyFormSelectOption {
  */
 export interface MyFormSelectProps extends MyFormBaseProps {
 	/** 选项值 */
-	options: MyFormSelectOption[]
+	options: MyFormSelectOption[];
 	/** 是否多选 */
-	multiple?: boolean
+	multiple?: boolean;
 	/** 多选场景下用户最多可以选择的项目数，为0则不限制 */
-	'multiple-limit'?: number
+	"multiple-limit"?: number;
 	/** Select组件是否可筛选 */
-	filterable?: boolean
+	filterable?: boolean;
 }
 
 /**
@@ -35,19 +35,19 @@ export interface MyFormSelectProps extends MyFormBaseProps {
  */
 export interface MyFormCascaderProps extends MyFormBaseProps {
 	/** 选项的数据源 */
-	options: MyFormSelectOption[]
+	options: MyFormSelectOption[];
 	/** 配置选项 */
-	props?: CascaderProps
+	props?: CascaderProps;
 	/** 输入框中是否显示选中值的完整路径 */
-	'show-all-levels'?: boolean
+	"show-all-levels"?: boolean;
 	/** 多选模式下是否折叠Tag */
-	'collapse-tags'?: boolean
+	"collapse-tags"?: boolean;
 	/** 当鼠标悬停于折叠标签的文本时，是否显示所有选中的标签。 要使用此属性，collapse-tags属性必须设定为true */
-	'collapse-tags-tooltip'?: boolean
+	"collapse-tags-tooltip"?: boolean;
 	/** 用于分隔选项的字符 */
-	separator?: string
+	separator?: string;
 	/** 该选项是否可以被搜索 */
-	filterable?: boolean
+	filterable?: boolean;
 }
 
 /**
@@ -55,7 +55,7 @@ export interface MyFormCascaderProps extends MyFormBaseProps {
  */
 export interface MyFormCascaderPanelProps extends MyFormBaseProps {
 	/** 选项的数据源 */
-	options: MyFormSelectOption[]
+	options: MyFormSelectOption[];
 	/** 配置选项 */
-	props?: CascaderProps
+	props?: CascaderProps;
 }

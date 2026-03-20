@@ -24,6 +24,7 @@
 - [ ] 4.2 迁移安装、快速开始、迁移指南、排障和更新内容，尽量保留原有 markdown 文案
 - [ ] 4.3 按组件类型重组组件文档，并将可合并的旧页面重编排为新的体系页
 - [ ] 4.4 清理旧文档路径和旧内容入口，确保导航与正式入口中不再暴露旧结构
+- [ ] 4.5 核对并统一「resolver / 自动导入 / 组件库接入」文档与 `packages/vue-element-cui/src/resolver.ts` 实现及 `package.json` 导出的一致性；统一 README 与 Nuxt 安装页的 API 说明与用语（含 VueElementCuiAutoImportResolver 与 Volar 类型）
 
 ## 5. 新增规范栏目
 
