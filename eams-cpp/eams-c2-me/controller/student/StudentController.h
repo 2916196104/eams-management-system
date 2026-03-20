@@ -31,7 +31,7 @@ public:
     // 定义接口端点（实际处理逻辑）
     API_HANDLER_ENDPOINT_QUERY_AUTH(
         API_M_GET,                  // HTTP方法：GET
-        "/user/query-all",          // 路径
+        "/me/getStudentList",          // 路径
         queryAllUser,               // 函数名
         UserQuery,                  // Query类型（自动解析参数）
         executeQueryAll(query)      // 调用执行方法
