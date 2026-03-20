@@ -132,7 +132,8 @@ classroom:
   id: 教室ID
   name: 教室名称
   position: 地点
-  StudentFile:
+
+StudentFile:
   get:
    summary: 获取学员档案列表  
    details: 获取学员档案详情
