@@ -19,3 +19,42 @@ class:
     createtime: 创建时间
     endtime: 结束时间
     status: 状态
+
+# 班级学员相关词条
+stu:
+  # 接口标题
+  get-class-student-list: "获取班级学员列表（分页）"
+  get-class-student-details: "获取班级学员详情"
+  get-student-course-list: "获取班级学员课程列表"
+  
+  # 字段描述
+  field:
+    id: "学员ID"
+    classId: "班级ID"
+    studentId: "学员ID"
+    studentName: "学员姓名"
+    mobile: "手机号码"
+    gender: "性别"
+    age: "年龄"
+    birthday: "生日"
+    stage: "学员类型"
+    remark: "备注"
+    courseName: "课程名称"
+    recordId: "报名记录ID"
+    completedCount: "已上课次"
+    totalCount: "总课次"
+    remainingCount: "剩余课次"
+    expireDate: "过期日期"
+    progressText: "学习进度"
+    remainingText: "剩余次数"
+    expireText: "有效期"
+    
+  # API标签
+  tag: "班级学员管理"
+  list:
+    tag: "班级学员列表"
+  details:
+    tag: "班级学员详情"
+  course:
+    list:
+      tag: "学员课程列表"
