@@ -249,3 +249,28 @@ stprofiledetails:
   tag3: 学生档案详情
   title: 学生档案详细查询
 
+
+StudentRecord:
+ test:
+  tag: 学生档案
+  summary1: 获取学员课程进度接口
+  summary2: 获取学员课时记录接口
+  summary3: 获取学员报名记录接口
+  resp: 操作成功
+ student:
+  field:
+   name: 学生姓名
+   id: 学生ID
+ course:
+  field:
+   name: 课程名称 
+   status: 课程状态
+   coursesum: 课程总数
+   finishedsum: 已完成课程数
+   unfinishedsum: 未完成课程数
+   time: 报名时间
+   buycoursesum: 购买课程数
+   pay: 费用
+   consume_course_num: 消课
+   course_balance: 剩余
+
