@@ -9,6 +9,8 @@ import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j5.schedule.LessonScheduleVO;
 import com.zeroone.star.project.vo.j5.schedule.SchedulePlanVO;
 
+import java.util.List;
+
 /*
 * 描述：排课计划服务接口
 * */
@@ -21,4 +23,6 @@ public interface ScheduleService extends IService<LessonSchedule> {
     JsonVO<Long> saveOrUpdateSchedule(ScheduleSaveDTO scheduleSaveDTO);
 
     LessonScheduleVO getScheduleById(Long id);
+
+    List<Long> deleteSchedule(List<Long> ids);
 }
