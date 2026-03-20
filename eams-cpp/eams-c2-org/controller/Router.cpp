@@ -55,4 +55,5 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(PositionDataController);
 	ROUTER_SIMPLE_BIND(StaffController);
 	ROUTER_SIMPLE_BIND(StudentController);
+	ROUTER_SIMPLE_BIND(LessonController);
 }

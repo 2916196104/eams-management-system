@@ -1,0 +1,19 @@
+staff:
+ field:
+  id: 职工id
+  password: 
+  new-password: 新密码
+  state: 职工状态(离职或在职)
+ tags:
+  t1: 职工接口
+  t2: 课程接口
+ change-psword: 
+  summary: 修改职工密码   
+ export-list: 
+   keyword: 导出查询关键字(姓名或手机号)
+   export: 是否导出
+   summary: 导出职工数据
+ get-lesson-record:
+   summary: 获取授课记录
+   start-date: 开始日期
+   end-date: 结束日期

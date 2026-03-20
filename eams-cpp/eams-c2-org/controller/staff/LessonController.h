@@ -6,7 +6,7 @@
 #include "domain/vo/BaseJsonVO.h"
 #include "ApiHelper.h"
 #include "ServerInfo.h"
-
+#include"domain/dto/staff/LessonDTO.h"
 // 1 定义API控制器使用宏
 #include OATPP_CODEGEN_BEGIN(ApiController)
 #define API_TAG ZH_WORDS_GETTER("sample.tags")
@@ -20,8 +20,14 @@ class LessonController : public oatpp::web::server::api::ApiController // 1 继�
   API_ACCESS_DECLARE(LessonController);
   // 3 定义接口
 public:
+	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("staff.get-lesson-record.summary"), getLessonRecord, LessonQuery,StringJsonVO::Wrapper, ZH_WORDS_GETTER("staff.tags.t2"));
 
+	ENDPOINT(API_M_GET, "app/common/lesson/list", getLessonRecord, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
+		API_HANDLER_QUERY_PARAM(lessonQuery, LessonQuery, queryParams);
+		API_HANDLER_RESP_VO(executeGetLessonRecord(lessonQuery));
+	}
 private: // 定义接口执行函数
+	StringJsonVO::Wrapper executeGetLessonRecord(const LessonQuery::Wrapper& lessonQuery);
 };
 
 #undef API_TAG
