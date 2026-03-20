@@ -92,4 +92,39 @@ c7:
   teacher-id: 当前管理员编号
   teacher-name: 当前管理员名称
 
+homework:
+  tag: "作业管理"
+  detail:
+    summary: "获取作业详情"
+  assign:
+    summary: "布置作业"
+  record:
+    list:
+      summary: "获取作业提交记录列表"
+  review:
+    summary: "点评作业"
+  field:
+    id: "作业ID"
+    class-id: "班级ID"
+    class-name: "班级名称"
+    title: "作业标题"
+    content: "作业内容"
+    teacher-name: "教师姓名"
+    add-time: "创建时间"
+    total-students: "班级总人数"
+    submitted: "已提交人数"
+    reviewed: "已点评人数"
+    record-id: "提交记录ID"
+    student-id: "学生ID"
+    student-name: "学生姓名"
+    student-no: "学号"
+    score: "得分"
+    comment: "评语"
+    comment-time: "点评时间"
+    status: "状态"
+    records: "提交记录列表"
+    list: "数据列表"
+    success: "是否成功"
+    message: "提示信息"
+
 
