@@ -55,6 +55,53 @@ common:
    refund-status: 退费状态
    price-people: 收款经手人
 
+
+finishstudent:
+ api-tag: 结业学员接口
+ interface:
+  export-finish-student: 导出结业学员报表
+  import-finish-student: 导入结业学员报表
+ field:
+   finish-student-query:
+   id: 编号
+   student-name: 学员姓名
+   parent-name: 家长姓名
+   family-relation: 亲属关系
+   mobile: 手机号码
+   counselor: 顾问
+   grade: 年级
+   school-name: 分校名称
+   lesson-count: 课次数
+   points: 积分
+   gender: 性别
+   age: 年龄
+   remark: 备注
+   graduation-date: 结业日期
+   operation: 操作
+   keyword: 学员姓名或手机号
+   total-count: 导入总行数
+   success-count: 导入成功行数
+   failed-count: 导入失败行数
+
+parentaccount:  
+  api-tag: 家长账号接口
+  interface:
+   query-parent-account: 家长账号条件分页查询
+  field:
+   parent-query:
+    user-id: 家长id
+    mobile: 手机号
+    name: 家长姓名
+    student-name: 关联学生
+    wx-name: 微信昵称
+    keyword: 姓名或手机号
+    login-times: 登录次数
+    latest-login-time: 最近登录时间
+    latest-login-ip: 最近登录IP
+    add-time: 注册时间
+    state: 状态
+    operation: 操作
+
 intendedstudent:
  api-tag: 意向学员接口
  interface:
