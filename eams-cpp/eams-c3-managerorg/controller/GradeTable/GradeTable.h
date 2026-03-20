@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 
 #ifndef __GRADETABLE_H__
@@ -39,7 +39,7 @@ public:
     );
 
     API_HANDLER_ENDPOINT_QUERY_AUTH(
-        API_M_GET,
+        API_M_DEL,
         "/app/common/grade/delete",
         DeleteList,
         DeleteListQuery,
@@ -60,7 +60,7 @@ class SaveListController : public oatpp::web::server::api::ApiController
 
 public:
     API_DEF_ENDPOINT_INFO_QUERY_AUTH(
-        ZH_WORDS_GETTER("grade_table.save.save_list.title"),
+        ZH_WORDS_GETTER("grade_table.save.save_list_title"),
         SaveList,
         SaveListQuery,
         SaveListJsonVO::Wrapper,
