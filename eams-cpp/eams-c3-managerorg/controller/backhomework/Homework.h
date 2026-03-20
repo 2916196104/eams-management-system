@@ -27,7 +27,7 @@ public:		//定义接口
 	//GetHomeworkList，每条数据只有关键数据与唯一表示，完整数据通过详情接口获取。
 	//流程中显示有 作业标题，班级，发布者，提交量，页码
 	API_DEF_ENDPOINT_INFO_AUTH(
-		ZH_WORDS_GETTER("homework.gethomeworklist.summary"), GetHomeworkList, GetHomeworkListJsonVO::Wrapper, ZH_WORDS_GETTER("homework.summary"),
+		ZH_WORDS_GETTER("homework.gethomeworklist.summary"), GetHomeworkList, GetHomeworkListPageJsonVO::Wrapper, ZH_WORDS_GETTER("homework.summary"),
 		API_DEF_ADD_PAGE_PARAMS();                                                                                                 //分页参数
 		API_DEF_ADD_QUERY_PARAMS(String, "title", ZH_WORDS_GETTER("homework.gethomeworklist.title"), "title", false);              //查询作业的标题
 		API_DEF_ADD_QUERY_PARAMS(String, "classname", ZH_WORDS_GETTER("homework.gethomeworklist.classname"), "classname", true);  //查询哪个班级的作业
@@ -36,7 +36,7 @@ public:		//定义接口
 	//定义查询作业列表（条件+分页）处理，GetHomeworkList
 	API_HANDLER_ENDPOINT_AUTH("GET", "/c3/GetHomeworkList", GetHomeworkList, QUERY(String, title), execGetHomeworkList(title));
 	//API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c3/GetHomeworkList", GetHomeworkList, QUERIES(QueryParams, GetHomeworkListQuery),
-	//	API_HANDLER_QUERY_PARAM(query, SampleQuery, queryParams); return execExportSample(query););
+	//API_HANDLER_QUERY_PARAM(query, SampleQuery, queryParams); return execExportSample(query););
 
 
 	//定义获取作业详情描述
@@ -63,7 +63,7 @@ public:		//定义接口
 
 private:	//定义接口执行函数
 	// 执行函数：作业列表
-	GetHomeworkListJsonVO::Wrapper execGetHomeworkList(const String& id);
+	GetHomeworkListPageJsonVO::Wrapper execGetHomeworkList(const String& id);
 
 	GetHomeworkDetailJsonVO::Wrapper execGetHomeworkDetail();
 

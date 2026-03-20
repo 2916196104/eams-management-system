@@ -3,7 +3,7 @@
 #include "../../domain/vo/backhomework/backhomeworkVO.h"
 
 
-GetHomeworkListJsonVO::Wrapper Homework::execGetHomeworkList(const String& id) {
+GetHomeworkListPageJsonVO::Wrapper Homework::execGetHomeworkList(const String& id) {
 	return {};
 }
 

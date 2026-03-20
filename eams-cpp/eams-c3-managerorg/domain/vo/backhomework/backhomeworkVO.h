@@ -14,6 +14,10 @@ class GetHomeworkListJsonVO : public JsonVO<GetHomeworkListDTO::Wrapper> {
     DTO_INIT(GetHomeworkListJsonVO, JsonVO<GetHomeworkListDTO::Wrapper>)
 };
 
+class GetHomeworkListPageJsonVO : public JsonVO<GetHomeworkListPageDTO::Wrapper> {
+    DTO_INIT(GetHomeworkListPageJsonVO, JsonVO<GetHomeworkListPageDTO::Wrapper>)
+};
+
 //获取作业详情
 class GetHomeworkDetailJsonVO : public JsonVO<GetHomeworkDetailDTO::Wrapper> {
     DTO_INIT(GetHomeworkDetailJsonVO, JsonVO<GetHomeworkDetailDTO::Wrapper>);
