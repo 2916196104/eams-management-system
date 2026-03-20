@@ -32,7 +32,7 @@ public:
 	)
 
 private: // 定义接口执行函数
-	StringJsonVO::Wrapper executeSwitchStudent(int64_t id);
+	JsonVO<oatpp::Any>::Wrapper executeSwitchStudent(int64_t id);
 
 };
 
