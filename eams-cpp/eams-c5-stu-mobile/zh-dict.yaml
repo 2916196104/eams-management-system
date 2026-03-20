@@ -311,4 +311,17 @@ Notifications:
   tag: 公告提醒
   summary: 获取小红点提醒
   resp: 获取成功  
-
+leave:
+  tag: 课表
+  summary: 请假
+  field:
+    id: 主键
+    add_time: 请假时间
+    student_id: 学生外键
+    lesson_id: 请假课程外键
+    reason: 原因
+    state: 状态
+    verify_staff: 取消操作人
+    verify_time: 取消时间
+    counselor: 学生的顾问
+    school_id: 学生所属学校ID

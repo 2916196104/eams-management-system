@@ -37,6 +37,7 @@
 #include"home/AnnoucementReminder/GetRedDotNotificationsController.h"
 #include"home/trialcard/GetTrialcard/GetTrialcardController.h"
 #include"home/trialcard/UseTrialcard/UseTrialcardController.h"
+#include "schedule/LeaveController.h"
 
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
@@ -76,6 +77,7 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(NotificationsController);
 	ROUTER_SIMPLE_BIND(GetTrialcardController);
 	ROUTER_SIMPLE_BIND(UseTrialcardController);
+	ROUTER_SIMPLE_BIND(LeaveController);
 
 
 	
