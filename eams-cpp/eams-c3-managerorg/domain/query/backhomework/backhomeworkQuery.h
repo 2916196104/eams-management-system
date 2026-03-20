@@ -6,7 +6,7 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/*课后作业查询类*/
+//课后作业查询类
 class BackhomeworkQuery : public PageQuery
 {
 	DTO_INIT(BackhomeworkQuery, PageQuery)
@@ -19,8 +19,6 @@ class BackhomeworkQuery : public PageQuery
 		info->description = ZH_WORDS_GETTER("Homework.query.status");
 	}
 };
-
-/*课后作业查询类*/
 
 //定义查询作业列表（条件+分页）描述
 //GetHomeworkList，每条数据只有关键数据与唯一表示，完整数据通过详情接口获取。

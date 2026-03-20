@@ -5,7 +5,7 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/*ɾ����ҵDTO��*/
+
 class DeleteHomework : public oatpp::DTO
 {
 	DTO_INIT(DeleteHomework, DTO)
@@ -20,7 +20,7 @@ public:
 	}
 };
 
-/*获取作业提交列表DTO类*/
+//获取作业提交列表DTO类
 class Backhomework : public oatpp::DTO
 {
 	DTO_INIT(Backhomework, DTO)
@@ -98,7 +98,7 @@ public:
 	}
 };
 
-/*课后作业DTO类*/
+//课后作业DTO类
 
 //获取作业列表（条件+分页）
 class GetHomeworkListDTO : public oatpp::DTO

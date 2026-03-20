@@ -63,6 +63,22 @@ Homework:
   pageSize: 每页大小
 
 
+homework:
+  summary: 作业
+  gethomeworklist: 
+    summary: 获取作业列表(条件+分页)
+    title: 作业标题
+    classname: 班级
+    publisher: 作业发布者
+  gethomeworkdetail: 
+    summary: 获取作业详情
+    classname: 班级
+    title: 作业标题
+  savehomework:
+    summary: 保存作业 
+    id: ID
+
+
 SendHomework:
  homeworkSend: 作业提交
 
@@ -168,17 +184,3 @@ grade_table:
   save:
     save_list_title: 保存成绩单
     id: 成绩单id
-homework:
-  summary: 作业
-  gethomeworklist: 
-    summary: 获取作业列表
-    title: 作业标题
-    classname: 班级
-    publisher: 作业发布者
-  gethomeworkdetail: 
-    summary: 获取作业详情
-    classname: 班级
-    title: 作业标题
-  savehomework:
-    summary: 保存作业 
-    id: ID

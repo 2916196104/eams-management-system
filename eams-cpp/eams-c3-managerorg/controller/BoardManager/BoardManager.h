@@ -26,30 +26,30 @@ public:		//定义接口
 	// 定义保存公告接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("board.save.summary"), SaveBoard, StringJsonVO::Wrapper, API_TAG);
 	// 定义保存公告接口端点
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/board/add-board", SaveBoard, BODY_DTO(BoardAddDTO::Wrapper, dto), executeAddBoard(dto, authObject->getPayload()));
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "org/board/add-board", SaveBoard, BODY_DTO(BoardAddDTO::Wrapper, dto), executeAddBoard(dto, authObject->getPayload()));
 	
 	// 3.1 定义删除公告（支持批量删除）接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("board.delete.summary"), removeBoard, ListJsonVO<String>::Wrapper, API_TAG);
 	// 3.2 定义删除公告（支持批量删除）接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_DEL, "/board/remove-board", removeBoard, BODY_DTO(List<String>, ids), execRemoveBoard(ids));
+	API_HANDLER_ENDPOINT_AUTH(API_M_DEL, "org/board/remove-board", removeBoard, BODY_DTO(List<String>, ids), execRemoveBoard(ids));
 	
 	// 3.1 定义启用公告接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("board.start.summary"), startBoard, ListJsonVO<String>::Wrapper, API_TAG);
 	// 3.2 定义启用公告接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "/board/start-board", startBoard, BODY_DTO(List<String>, ids), execStartBoard(ids));
+	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "org/board/start-board", startBoard, BODY_DTO(List<String>, ids), execStartBoard(ids));
 
 	// 3.1 定义停用公告接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("board.end.summary"), endBoard, ListJsonVO<String>::Wrapper, API_TAG);
 	// 3.2 定义停用公告接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "/board/end-board", endBoard, BODY_DTO(List<String>, ids), execEndBoard(ids));
+	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "org/board/end-board", endBoard, BODY_DTO(List<String>, ids), execEndBoard(ids));
 
 	// ========== 新增：获取公告列表接口（和原有接口格式完全一致，一行写完） ==========
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("board.list.summary"), GetAnnouncementList, ListJsonVO<String>::Wrapper, API_TAG);
-	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/board/announcements", GetAnnouncementList, BODY_DTO(List<String>, ids), execGetAnnouncementList(authObject->getPayload()));
+	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "org/board/get-board-list", GetAnnouncementList, BODY_DTO(List<String>, ids), execGetAnnouncementList(authObject->getPayload()));
 
 	// ========== 新增：获取公告详情接口（和原有接口格式完全一致，一行写完） ==========
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("board.detail.summary"), GetAnnouncementDetail, StringJsonVO::Wrapper, API_TAG);
-	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/board/announcements/{id}", GetAnnouncementDetail, BODY_DTO(String, id, "公告ID"), execGetAnnouncementDetail(id, authObject->getPayload()));
+	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "org/board/get-board-detail", GetAnnouncementDetail, BODY_DTO(String, id, "公告ID"), execGetAnnouncementDetail(id, authObject->getPayload()));
 
 private:	//定义接口执行函数
 	StringJsonVO::Wrapper executeAddBoard(const BoardAddDTO::Wrapper& dto,const PayloadDTO& payload);
