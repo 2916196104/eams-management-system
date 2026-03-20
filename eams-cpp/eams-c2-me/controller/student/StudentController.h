@@ -20,8 +20,20 @@ class StudentController : public oatpp::web::server::api::ApiController // 1 继
   API_ACCESS_DECLARE(StudentController);
   // 3 定义接口
 public:
+	//切换用户
+	API_DEF_ENDPOINT_INFO_AUTH("Switch Student", switchStudent, StringJsonVO::Wrapper,
+		API_TAG);
+	API_HANDLER_ENDPOINT_AUTH(
+		API_M_GET,
+		"/me/switchStudent",
+		switchStudent,
+		QUERY(Int64,id),
+		executeSwitchStudent(id)
+	)
 
 private: // 定义接口执行函数
+	StringJsonVO::Wrapper executeSwitchStudent(int64_t id);
+
 };
 
 #undef API_TAG
