@@ -151,4 +151,54 @@ monthly_data:
  monthly_registration_amount: 月报名金额
  new_monthly_students: 月新增学员
 
+classroom:
+ tag: 教室管理
+ field:
+  id: 教室id
+  name: 教室名称
+  address: 教室地址
+ query-page: 
+  summary: 获取教室列表(条件+分页)
+
+repeatcourses:
+ tag: 重复排课
+ field:
+  id: 排课计划id
+  classid: 班级id
+  courseid: 课程id
+  teacherid: 教师id
+  assistantid: 助教id
+  classroomid: 教室id
+  startdate: 开始日期
+  enddate: 结束日期
+  limitpersonnum: 限制人数
+  skipholiday: 跳过节假日
+  openappointment: 开启预约
+  checkconflict: 是否检查冲突
+  weeks: 周几上课
+  starttime: 上课时间
+  endtime: 下课时间
+  decclasstime: 消课课时
+  classperiod: 排课周期
+ post:
+  summary: 新增重复排课 
+  
+freecourses:
+ tag: 自由排课
+ field:
+  id: 排课计划id
+  classid: 班级id
+  courseid: 课程id
+  teacherid: 教师id
+  assistantid: 助教id
+  classroomid: 教室id
+  classdate: 上课日期
+  starttime: 上课时间
+  endtime: 下课时间
+  decclasstime: 消课课时
+  limitpersonnum: 限制人数
+  openappointment: 开启预约
+  checkconflict: 是否检查冲突
+ post:
+   summary: 新增自由排课  
 

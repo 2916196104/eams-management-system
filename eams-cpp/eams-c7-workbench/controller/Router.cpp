@@ -31,7 +31,9 @@
 #include "schedule/SelectClassController.h"
 #include "schedule/SelectTeacherController.h"
 #include "UserRelated/MonthlyDataController.h"
-
+#include "Schedule/ClassroomController.h"
+#include "Schedule/repeatCoursesArrangeController.h"
+#include "Schedule/freeCoursesArrangeController.h"
 
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
@@ -65,4 +67,7 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(SelectClassController);
 	ROUTER_SIMPLE_BIND(SelectTeacherController);
 	ROUTER_SIMPLE_BIND(MonthlyDataController);
+	ROUTER_SIMPLE_BIND(ClassroomController);
+	ROUTER_SIMPLE_BIND(repeatCoursesArrangeController);
+	ROUTER_SIMPLE_BIND(freeCoursesArrangeController);
 }
