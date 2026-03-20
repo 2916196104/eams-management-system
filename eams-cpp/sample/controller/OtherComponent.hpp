@@ -1,9 +1,9 @@
 #pragma once
 /*
  Copyright Zero One Star. All rights reserved.
- 
+
  @Author: awei
- @Date: 2022/12/03 14:58:43
+ @Date: 2022/12/09 20:32:13
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,29 +17,17 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#ifndef _ROUTER_
-#define _ROUTER_
-#include "oatpp/web/server/api/Endpoint.hpp"
-#include "oatpp/web/server/HttpRouter.hpp"
-using namespace oatpp::web::server;
-using namespace oatpp::web::server::api;
+#ifndef _OTHERCOMMPONENT_H_
+#define _OTHERCOMMPONENT_H_
+#include "AbstractComponentReg.h"
 
 /**
- * 前端访问服务器路由绑定，用于定义前端访问后端接口和访问路径绑定
- * swagger文档访问示例地址：http://localhost:8090/swagger/ui
+ * 其它Oatpp组件注册附件，后续如果需要附加其它组件可以在这里进行外部定义
  */
-class Router
+class OtherComponent : public AbstractComponentReg
 {
-private:
-	// 文档访问端点
-	Endpoints* docEndpoints;
-	// 路由对象
-	HttpRouter* router;
-public:
-	// 构造初始化
-	Router(Endpoints* docEndpoints, HttpRouter* router);
-	// 呼叫初始化
-	void initRouter();
+	// #TIP: 项目中需要注册其他组件在下面书写组件注册代码
+	
 };
 
-#endif // !_ROUTER_
+#endif // _OTHERCOMMPONENT_H_
