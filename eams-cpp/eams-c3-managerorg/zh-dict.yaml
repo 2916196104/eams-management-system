@@ -1,7 +1,14 @@
-Homework:
-  GetHomeworkList:
-    summary:»ñÈ¡×÷ÒµÁĞ±í£¨Ìõ¼ş+·ÖÒ³£©
-  GetHomeworkDetail:
-    summary:»ñÈ¡×÷ÒµÏêÇé
-  SaveHomework:
-    summary:±£´æ×÷Òµ
+ï»¿homework:
+  summary: ä½œä¸š
+  gethomeworklist: 
+    summary: è·å–ä½œä¸šåˆ—è¡¨
+    title: ä½œä¸šæ ‡é¢˜
+    classname: ç­çº§
+    publisher: ä½œä¸šå‘å¸ƒè€…
+  gethomeworkdetail: 
+    summary: è·å–ä½œä¸šè¯¦æƒ…
+    classname: ç­çº§
+    title: ä½œä¸šæ ‡é¢˜
+  savehomework:
+    summary: ä¿å­˜ä½œä¸š 
+    id: ID

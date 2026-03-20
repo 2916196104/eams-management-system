@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
@@ -25,9 +25,9 @@
 
 std::string YamlHelper::getString(YAML::Node* node, const std::string& key)
 {
-	//²ğ·ÖKey
+	//æ‹†åˆ†Key
 	vector<std::string> keys = StringUtil::split(key, ".");
-	//Í¨¹ıKeyÑ­»·»ñÈ¡ÊôĞÔ
+	//é€šè¿‡Keyå¾ªç¯è·å–å±æ€§
 	auto iter = keys.begin();
 	std::stack<YAML::Node> st;
 	st.push((*node)[*iter++]);
@@ -45,17 +45,17 @@ std::string YamlHelper::getString(YAML::Node* node, const std::string& key)
 
 void YamlHelper::parseDbConnUrl(const std::string& url, std::string* ip, int* port, std::string* dbname)
 {
-	//µÚÒ»´ÎÍ¨¹ı?²ğ·Ö
+	//ç¬¬ä¸€æ¬¡é€šè¿‡?æ‹†åˆ†
 	std::string data = StringUtil::split(url, "?")[0];
-	//µÚ¶ş´ÎÍ¨¹ı//²ğ·Ö
+	//ç¬¬äºŒæ¬¡é€šè¿‡//æ‹†åˆ†
 	auto tmp = StringUtil::split(data, "//");
 	data = tmp[1];
-	//ÉèÖÃÊı¾İ¿âÃû³Æ
+	//è®¾ç½®æ•°æ®åº“åç§°
 	if (*dbname == "")
 	{
 		*dbname = tmp[2];
 	}
-	//»ñÈ¡ipºÍ¶Ë¿Ú
+	//è·å–ipå’Œç«¯å£
 	tmp = StringUtil::split(data, ":");
 	if (*ip == "") {
 		*ip = tmp[0];
