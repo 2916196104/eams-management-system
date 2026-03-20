@@ -2,7 +2,7 @@ package com.zeroone.star.project.j2.sys;
 
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j2.sys.*;
-import com.zeroone.star.project.query.j2.sys.Datadict.DictItemQuery;
+import com.zeroone.star.project.query.j2.sys.datadict.DictItemQuery;
 import com.zeroone.star.project.query.PageQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j2.sys.DatadictVO;

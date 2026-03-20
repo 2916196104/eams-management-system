@@ -1,4 +1,4 @@
-package com.zeroone.star.project.query.j2.sys.Roleperm;
+package com.zeroone.star.project.query.j2.sys.roleperm;
 
 import com.zeroone.star.project.query.PageQuery;
 import io.swagger.annotations.ApiModelProperty;
