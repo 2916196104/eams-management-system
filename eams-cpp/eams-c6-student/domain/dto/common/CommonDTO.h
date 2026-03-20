@@ -55,7 +55,8 @@ class RegistrationPageDTO : public PageDTO<RegistrationDTO::Wrapper> {
 };
 class FileOnlyDTO :public oatpp::DTO {
 	DTO_INIT(FileOnlyDTO, DTO);
-    API_DTO_FIELD_DEFAULT(oatpp::swagger::Binary, file, ZH_WORDS_GETTER("common.field.file.file"),true);
+    //API_DTO_FIELD_DEFAULT(oatpp::swagger::Binary, file, ZH_WORDS_GETTER("common.field.file.file"),true);多出第四个参数导致编译错误
+	API_DTO_FIELD_REQUIRE(oatpp::swagger::Binary, file, ZH_WORDS_GETTER("common.field.file.file"), true);
 };
 #include OATPP_CODEGEN_END(DTO)
 #endif
