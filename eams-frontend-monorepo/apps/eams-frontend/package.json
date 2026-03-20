@@ -12,7 +12,7 @@
 		"build-only": "vite build",
 		"type-check": "vue-tsc --build",
 		"lint": "eslint . --fix",
-		"format": "prettier --write src/"
+		"format": "prettier --config ../../../../prettier.config.mjs --experimental-cli --write src/"
 	},
 	"dependencies": {
 		"@bpmn-io/properties-panel": "^3.40.4",
@@ -59,7 +59,7 @@
 		"jiti": "^2.6.1",
 		"jsdom": "^26.1.0",
 		"npm-run-all2": "^7.0.2",
-		"prettier": "3.5.3",
+		"prettier": "^3.8.1",
 		"typescript": "~5.8.3",
 		"unplugin-auto-import": "^21.0.0",
 		"unplugin-icons": "^22.5.0",
