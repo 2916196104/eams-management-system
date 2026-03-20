@@ -1,11 +1,10 @@
 package com.zeroone.star.project.j5.courseschedule;
 
-import com.zeroone.star.project.dto.j5.courseschedule.LessonDTO;
-import com.zeroone.star.project.dto.j5.courseschedule.LessonListDTO;
-import com.zeroone.star.project.dto.j5.courseschedule.CourseStatusDTO;
+import com.zeroone.star.project.dto.j5.courseschedule.*;
 import com.zeroone.star.project.query.PageQuery;
 import com.zeroone.star.project.query.j5.courseschedule.CourseQuery;
 import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.query.j5.courseschedule.EvaluationQuery;
 import com.zeroone.star.project.query.j5.courseschedule.UpdateCourseQuery;
 import com.zeroone.star.project.query.j5.courseschedule.UpdateCoursesQuery;
 import com.zeroone.star.project.vo.JsonVO;
@@ -45,5 +44,20 @@ public interface CourseScheduleApis {
     JsonVO<String> updateCourses(List<UpdateCoursesQuery> updateCoursesQueries);
     //删除课次
     JsonVO<String> deleteCourses(List<Long> ids);
+
+
+    JsonVO<Long> saveCourseStudent(CourseStudentDTO courseStudentDTO);
+    /**
+     * 返回课后点评列表
+     * */
+    JsonVO<PageDTO<EvaluationDTO>> queryPage(EvaluationQuery condition);
+
+    /**
+     * 保存点评
+     * @param evaluationDTO 点评信息
+     * @return 操作条数
+     * */
+    JsonVO<Long> saveEvaluation(EvaluationDTO evaluationDTO);
+
 
 }

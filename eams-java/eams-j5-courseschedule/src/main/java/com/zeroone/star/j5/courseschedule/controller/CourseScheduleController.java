@@ -1,12 +1,11 @@
 package com.zeroone.star.j5.courseschedule.controller;
 
-import com.zeroone.star.project.dto.j5.courseschedule.CourseStatusDTO;
-import com.zeroone.star.project.dto.j5.courseschedule.LessonDTO;
-import com.zeroone.star.project.dto.j5.courseschedule.LessonListDTO;
+import com.zeroone.star.project.dto.j5.courseschedule.*;
 import com.zeroone.star.project.query.PageQuery;
 import com.zeroone.star.project.query.j5.courseschedule.CourseQuery;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.j5.courseschedule.CourseScheduleApis;
+import com.zeroone.star.project.query.j5.courseschedule.EvaluationQuery;
 import com.zeroone.star.project.query.j5.courseschedule.UpdateCourseQuery;
 import com.zeroone.star.project.query.j5.courseschedule.UpdateCoursesQuery;
 import com.zeroone.star.project.vo.JsonVO;
@@ -79,6 +78,27 @@ public class CourseScheduleController implements CourseScheduleApis {
     @ApiOperation("删除课次")
     @Override
     public JsonVO<String> deleteCourses(List<Long> ids) {
+        return null;
+    }
+
+    @Override
+    @ApiOperation("添加随课生")
+    @PostMapping("/course-student")
+    public JsonVO<Long> saveCourseStudent(@RequestBody CourseStudentDTO courseStudentDTO) {
+        return null;
+    }
+
+    @Override
+    @GetMapping("/evaluation/list")
+    @ApiOperation("获取获取课后点评列表（条件+分页）")
+    public JsonVO<PageDTO<EvaluationDTO>> queryPage(@RequestBody EvaluationQuery condition) {
+        return null;
+    }
+
+    @PostMapping("/evaluation")
+    @Override
+    @ApiOperation("保存点评")
+    public JsonVO<Long> saveEvaluation(@RequestBody EvaluationDTO evaluationDTO) {
         return null;
     }
 
