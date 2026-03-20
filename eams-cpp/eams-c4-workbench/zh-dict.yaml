@@ -74,7 +74,7 @@ workbench:
   summary: 使用声明式服务查询一条数据
  query-all:
   summary: 使用声明式服务查询多条数据
- schedule:
+schedule:
   field:
     classId: 班级ID
     courseId: 课程ID
