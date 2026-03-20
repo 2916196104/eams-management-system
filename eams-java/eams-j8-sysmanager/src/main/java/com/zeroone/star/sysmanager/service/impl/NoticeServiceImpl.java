@@ -20,8 +20,7 @@ import org.springframework.stereotype.Service;
  * @since 2026-03-14
  */
 @Service
-public class NoticeServiceImpl implements InternalNoticeService {
-
+public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> implements InternalNoticeService {
     @Override
     public PageResult<NoticeVO> getNoticeList(NoticeQuery query) {
         return null;

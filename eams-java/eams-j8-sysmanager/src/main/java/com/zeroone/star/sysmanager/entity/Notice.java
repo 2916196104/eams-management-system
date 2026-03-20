@@ -2,14 +2,10 @@ package com.zeroone.star.sysmanager.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import lombok.Getter;
-import lombok.Setter;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 /**
  * <p>
  * 公告
@@ -18,8 +14,7 @@ import java.time.LocalDateTime;
  * @author dabidai
  * @since 2026-03-14
  */
-@Getter
-@Setter
+@Data
 public class Notice implements Serializable {
 
     private static final long serialVersionUID = 1L;
