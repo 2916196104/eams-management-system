@@ -496,4 +496,17 @@ public class StudentController implements StudentApis {
             }
         }
     }
+    @Override
+    @PostMapping("/getCourseCounter")
+    @ApiOperation(value = "获取课程统计")
+    public JsonVO<PageDTO<CourseCounterVO>> getCourseCounter(StudentQuery studentQuery) {
+        return null;
+    }
+
+    @Override
+    @PostMapping("/getStudentSchedule")
+    @ApiOperation(value = "获取课表")
+    public JsonVO<StudentScheduleVO> getStudentSchedule(StudentQuery studentQuery) {
+        return null;
+    }
 }

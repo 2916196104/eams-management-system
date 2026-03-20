@@ -183,4 +183,18 @@ public interface StudentApis {
      * @return 办结结果
      */
     JsonVO<FinanceDTO> completeRefund(FinanceDTO financeDTO);
+
+    /**
+     * 获取课程统计
+     * @param studentQuery
+     * @return 课程统计
+     */
+    JsonVO<PageDTO<CourseCounterVO>> getCourseCounter(StudentQuery studentQuery);
+
+    /**
+     * 获取课表
+     * @param studentQuery
+     * @return 课表
+     */
+    JsonVO<StudentScheduleVO> getStudentSchedule(StudentQuery studentQuery);
 }
