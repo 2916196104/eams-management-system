@@ -23,7 +23,9 @@
 #include "UserRelated/UserProfileController.h"
 #include "UserRelated/ChangePictureController.h"
 #include "Course/CourseController.h"
-
+#include "MyCustomers/GetMyCustomersController.h"
+#include "MyCustomers/GetStudentCoursesController.h"
+#include "MyCustomers/GetStudentDetailController.h"
 
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
@@ -49,5 +51,7 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(GetUserProfileController);
 	ROUTER_SIMPLE_BIND(ChangePictureController);
 	ROUTER_SIMPLE_BIND(CourseController);
-
+	ROUTER_SIMPLE_BIND(GetMyCustomersController);
+	ROUTER_SIMPLE_BIND(GetStudentCoursesController);
+	ROUTER_SIMPLE_BIND(GetStudentDetailController);
 }

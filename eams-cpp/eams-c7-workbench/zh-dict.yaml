@@ -44,5 +44,21 @@ course:
         actualPayment: 实际支付
         discountPrice: 优惠金额
         tip: 备注
+cus:
+  tag: 我的客户
+  get-list:
+    summary: 获取我的客户
+  get-cus-details:
+    summary: 获取学员详情
+  get-cus-courses:
+    summary: 获取学员课程
+  field:
+    name: 学员名称
+    phoneNumber: 学员电话
+    sex: 性别
+    age: 年龄
+    brith: 生日
+    type: 类型
+    notes: 备注
 
 
