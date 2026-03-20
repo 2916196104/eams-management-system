@@ -11,6 +11,9 @@ import java.time.LocalDateTime;
 @Data
 public class HomeworkSubmissionListVo {
 
+    @ApiModelProperty(value="序号",example = "1")
+    private Long id;
+
     @ApiModelProperty(value = "提交人",example = "张小明")
     private String name;
 
