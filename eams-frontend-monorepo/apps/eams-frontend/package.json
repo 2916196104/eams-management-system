@@ -26,6 +26,7 @@
 		"bpmn-js-properties-panel": "^5.53.0",
 		"countup.js": "^2.10.0",
 		"crypto-js": "^4.2.0",
+		"consola": "^3.4.2",
 		"diagram-js-minimap": "^5.3.0",
 		"echarts": "^5.6.0",
 		"element-plus": "^2.13.5",
@@ -40,6 +41,8 @@
 		"xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
 	},
 	"devDependencies": {
+		"@iconify/json": "^2.2.406",
+		"@iconify/vue": "^5.0.0",
 		"@tsconfig/node22": "^22.0.5",
 		"@types/jsdom": "^21.1.7",
 		"@types/lodash-es": "^4.17.12",
@@ -59,9 +62,11 @@
 		"prettier": "3.5.3",
 		"typescript": "~5.8.3",
 		"unplugin-auto-import": "^21.0.0",
+		"unplugin-icons": "^22.5.0",
 		"unplugin-vue-components": "^31.0.0",
 		"vite": "^6.2.1",
 		"vite-plugin-mkcert": "^1.17.10",
+		"vite-svg-loader": "^5.1.0",
 		"vite-plugin-vue-devtools": "^7.7.9",
 		"vitest": "^3.2.4",
 		"vue-tsc": "^2.2.12"

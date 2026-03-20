@@ -99,48 +99,68 @@ type MenuOption = {
 	label: string;
 };
 
+/**
+ * 这里说明 mynav 的 icon 写法已经发生扩展：
+ * 1. 旧写法仍兼容：`IconMenu`、`IconUser`
+ * 2. 推荐离线 iconify 写法：`图标集/图标名`，例如 `ep/menu`、`ep/home-filled`
+ * 3. 在线 iconify 写法：`图标集:图标名`，例如 `ri:home-4-line`
+ *
+ * 当前示例统一改成离线 iconify 写法，便于后台项目按需打包并保持稳定。
+ *
+ * 常见迁移示例：
+ * - `IconHomeFilled` -> `ep/home-filled`
+ * - `IconUser` -> `ep/user`
+ * - `IconTickets` -> `ep/tickets`
+ * - `IconMenu` -> `ep/menu`
+ *
+ * 完整调研文档：
+ * https://01s-11comm-doc.ruan-cat.com/docs/reports/2025-11-14-pure-admin-icon-solution-research.md
+ *
+ * Iconify 官方文档：
+ * https://iconify.design/docs/
+ */
 const createMenus = (): EamsNavMenuItem[] => [
 	{
 		id: "dashboard",
 		text: "工作台",
 		path: "dashboard",
-		icon: "IconHomeFilled",
+		icon: "ep/home-filled",
 	},
 	{
 		id: "student",
 		text: "学籍管理",
-		icon: "IconUser",
+		icon: "ep/user",
 		children: [
 			{
 				id: "student-status",
 				text: "学籍信息",
 				path: "student-status",
-				icon: "IconTickets",
+				icon: "ep/tickets",
 			},
 			{
 				id: "student-change",
 				text: "异动管理",
 				path: "student-change",
-				icon: "IconTickets",
+				icon: "ep/tickets",
 			},
 		],
 	},
 	{
 		id: "course",
 		text: "教学管理",
-		icon: "IconSetting",
+		icon: "ep/setting",
 		children: [
 			{
 				id: "course-plan",
 				text: "培养方案",
 				path: "course-plan",
-				icon: "IconMenu",
+				icon: "ep/menu",
 			},
 			{
 				id: "course-table",
 				text: "课表安排",
 				path: "course-table",
-				icon: "IconMenu",
+				icon: "ep/menu",
 			},
 		],
 	},
@@ -200,11 +220,12 @@ function addChildMenu() {
 
 	updateMenuById(menus.value, parentId, (item) => {
 		if (!item.children) item.children = [];
+		/** 新增菜单时也继续写入 iconify 离线格式，避免回退成旧的 `IconMenu` */
 		item.children.push({
 			id: `${parentId}-${Date.now()}`,
 			text,
 			path,
-			icon: "IconMenu",
+			icon: "ep/menu",
 		});
 	});
 

@@ -1,11 +1,10 @@
-// 这里导入你要使用的图标
-// 写成多行避免解决冲突麻烦
+// 这里导入你要使用的图标，保持原有 Element Plus 全局注册方式不变
 import { Menu, Expand, Fold, HomeFilled } from "@element-plus/icons-vue";
 import { Setting, Operation } from "@element-plus/icons-vue";
 import { User } from "@element-plus/icons-vue";
 import { Tickets } from "@element-plus/icons-vue";
 import { UploadFilled, Download } from "@element-plus/icons-vue";
-// 表格中常用图标
+import { consola } from "consola";
 import {
 	Message,
 	Plus,
@@ -26,6 +25,7 @@ import {
 	RefreshRight,
 } from "@element-plus/icons-vue";
 import type { App } from "vue";
+import { IconifyIconOffline, IconifyIconOnline } from "@/components/ReIcon";
 
 export default {
 	/**
@@ -43,7 +43,8 @@ export default {
 		app.component("IconTickets", Tickets);
 		app.component("IconUpload", UploadFilled);
 		app.component("IconDownload", Download);
-		// 表格中常用图标
+
+		// 表格与通用操作图标
 		app.component("IconMessage", Message);
 		app.component("IconPlus", Plus);
 		app.component("IconEdit", Edit);
@@ -62,6 +63,9 @@ export default {
 		app.component("IconArrowDownBold", ArrowDownBold);
 		app.component("IconReset", RefreshRight);
 
-		console.log("El icon is installed.");
+		// 新增 iconify 组件能力，不覆盖原有全局别名
+		app.component("IconifyIconOffline", IconifyIconOffline);
+		app.component("IconifyIconOnline", IconifyIconOnline);
+		consola.success("[admin/icon] Element Plus global icons and Iconify components are ready");
 	},
 };

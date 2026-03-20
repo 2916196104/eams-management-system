@@ -268,5 +268,10 @@ const menus = reactive([
 		path: "/sample/mynav",
 		text: "导航组件示例",
 	},
+	{
+		id: 17,
+		path: "/sample/reicon",
+		text: "ReIcon 图标方案",
+	},
 ]);
 </script>

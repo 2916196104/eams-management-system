@@ -105,6 +105,11 @@ const routes = [
 				path: "/sample/mynav",
 				component: () => import("@/views/sample/mynav/Index.vue"),
 			},
+			{
+				name: "reicon",
+				path: "/sample/reicon",
+				component: () => import("@/views/sample/reicon/Index.vue"),
+			},
 		],
 	},
 ];
