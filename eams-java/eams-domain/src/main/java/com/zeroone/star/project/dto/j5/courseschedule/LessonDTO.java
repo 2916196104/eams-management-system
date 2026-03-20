@@ -1,4 +1,4 @@
-package com.zeroone.star.project.dto.j5.coursrschedule;
+package com.zeroone.star.project.dto.j5.courseschedule;
 
 import lombok.Data;
 

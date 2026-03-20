@@ -1,10 +1,10 @@
 package com.zeroone.star.j5.courseschedule.controller;
 
-import com.zeroone.star.project.dto.j5.coursrschedule.CourseStatusDTO;
-import com.zeroone.star.project.dto.j5.coursrschedule.LessonDTO;
-import com.zeroone.star.project.dto.j5.coursrschedule.LessonListDTO;
+import com.zeroone.star.project.dto.j5.courseschedule.CourseStatusDTO;
+import com.zeroone.star.project.dto.j5.courseschedule.LessonDTO;
+import com.zeroone.star.project.dto.j5.courseschedule.LessonListDTO;
 import com.zeroone.star.project.query.PageQuery;
-import com.zeroone.star.project.query.j5.courseschedule.LessonQuery;
+import com.zeroone.star.project.query.j5.courseschedule.CourseQuery;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.j5.courseschedule.CourseScheduleApis;
 import com.zeroone.star.project.vo.JsonVO;
@@ -24,14 +24,14 @@ public class CourseScheduleController implements CourseScheduleApis {
     @GetMapping("/calendar")
     @ApiOperation("获取课表日历（条件）")
     @Override
-    public JsonVO<List<LessonDTO>> queryList(LessonQuery condition) {
+    public JsonVO<List<LessonDTO>> queryList(CourseQuery condition) {
         return null;
     }
 
     @GetMapping("/list")
     @ApiOperation("获取课次列表（条件+分页）")
     @Override
-    public JsonVO<PageDTO<LessonListDTO>> queryPage(LessonQuery condition) {
+    public JsonVO<PageDTO<LessonListDTO>> queryPage(CourseQuery condition) {
         return null;
     }
 

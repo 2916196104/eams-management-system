@@ -1,10 +1,10 @@
 package com.zeroone.star.project.j5.courseschedule;
 
-import com.zeroone.star.project.dto.j5.coursrschedule.CourseStatusDTO;
-import com.zeroone.star.project.dto.j5.coursrschedule.LessonDTO;
-import com.zeroone.star.project.dto.j5.coursrschedule.LessonListDTO;
+import com.zeroone.star.project.dto.j5.courseschedule.CourseStatusDTO;
+import com.zeroone.star.project.dto.j5.courseschedule.LessonDTO;
+import com.zeroone.star.project.dto.j5.courseschedule.LessonListDTO;
 import com.zeroone.star.project.query.PageQuery;
-import com.zeroone.star.project.query.j5.courseschedule.LessonQuery;
+import com.zeroone.star.project.query.j5.courseschedule.CourseQuery;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j5.courseschedule.CourseScheduleVO;
@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface CourseScheduleApis {
-    JsonVO<List<LessonDTO>> queryList(LessonQuery condition);
+    JsonVO<List<LessonDTO>> queryList(CourseQuery condition);
 
-    JsonVO<PageDTO<LessonListDTO>> queryPage(LessonQuery condition);
+    JsonVO<PageDTO<LessonListDTO>> queryPage(CourseQuery condition);
     JsonVO<List<LessonListDTO>> queryNameList(Long id);
 
     //重复排课

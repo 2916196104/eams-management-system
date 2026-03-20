@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class LessonQuery extends PageQuery {
+public class CourseQuery extends PageQuery {
     private String className;      // 班级名称
     private String courseName;     // 课程名称
     private String teacherName;    // 老师名称

@@ -15,7 +15,7 @@ import java.time.LocalDate;
  */
 @Data
 @ApiModel(description = "排课计划查询条件")
-public class LessonScheduleQuery implements Serializable {
+public class CourseScheduleQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
