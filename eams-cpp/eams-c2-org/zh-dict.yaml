@@ -1,0 +1,13 @@
+getDutyRecord:
+  summary: 获取代班记录
+  resp: 获取成功
+  param1: 员工ID
+  param2: 代班日期
+modifyAvatar:
+  summary: 修改员工头像
+  resp: 头像修改成功
+  param1: 员工ID
+  param2: 头像文件
+sample:
+  tags: 员工管理
+
