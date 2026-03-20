@@ -104,3 +104,33 @@
       getdisplayedannouncement:
         summary: 获取显示通知公告
         search1: 添加时间    
+  schedule:
+    tag: 课表
+    Timeable:
+      tags:
+        t1: 获取课表
+      field:
+        id: 主键ID
+        course_id: 所属课程ID
+        title: 章节标题
+        lesson_count: 计划课时数
+        creator: 创建人
+        editor: 编辑者
+        add_time: 添加时间
+        edit_time: 修改时间
+        deleted: 删除标记
+      gettimeable:
+        summary: 获取课表接口
+        resp: 操作成功
+        search1: 学生id
+        search2: 日期
+        search3: 班级id
+      course:
+        name1: 线性代数
+        teachername1: 老师
+        searchname1: 
+        searchname2:
+     
+
+    
+      
