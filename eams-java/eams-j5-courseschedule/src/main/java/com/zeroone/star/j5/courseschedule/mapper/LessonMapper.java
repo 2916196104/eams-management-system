@@ -8,6 +8,9 @@ import com.zeroone.star.project.dto.j5.courseschedule.LessonParamDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+
+import java.util.List;
 
 /**
  * <p>
@@ -20,6 +23,19 @@ import org.apache.ibatis.annotations.Select;
  */
 @Mapper
 public interface LessonMapper extends BaseMapper<Lesson> {
+
+    /**
+     * 批量设置课次状态（停课/复课）
+     * @param lessonIds 课次ID列表
+     * @param state 状态值（0-已停课，1-进行中）
+     * @return 影响行数
+     */
+    @Update("<script>" +
+            "UPDATE lesson SET state = #{state} " +
+            "WHERE id IN " +
+            "<foreach collection='lessonIds' item='id' open='(' separator=',' close=')'>#{id}</foreach>" +
+            "</script>")
+    int batchToggleStatus(@Param("lessonIds") List<Long> lessonIds, @Param("state") Integer state);
 
     /**
      * 条件+分页列表查询
