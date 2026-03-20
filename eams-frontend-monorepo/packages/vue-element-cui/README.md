@@ -1,24 +1,16 @@
 # @eams-monorepo/vue-element-cui
 
-EAMS Vue Element Component UI Library - 基于 Element Plus 的企业级组件库
-
-## 特性
-
-- 🎨 基于 Element Plus 的二次封装
-- 📦 开箱即用的高质量组件
-- 🔧 TypeScript 严格类型支持
-- 🎯 面向 EAMS 业务场景优化
-- 📚 完善的文档和示例
+EAMS Vue Element Component UI Library，基于 Element Plus 的业务组件库。
 
 ## 安装
 
 ```bash
-pnpm add @eams-monorepo/vue-element-cui
+pnpm add @eams-monorepo/vue-element-cui element-plus
 ```
 
-## 使用
+## 全量注册
 
-```typescript
+```ts
 import { createApp } from "vue";
 import VueElementCui from "@eams-monorepo/vue-element-cui";
 import "@eams-monorepo/vue-element-cui/styles";
@@ -27,25 +19,35 @@ const app = createApp(App);
 app.use(VueElementCui);
 ```
 
+## unplugin-vue-components
+
+```ts
+import Components from "unplugin-vue-components/vite";
+import { VueElementCuiResolver } from "@eams-monorepo/vue-element-cui/resolver";
+
+Components({
+	resolvers: [VueElementCuiResolver()],
+});
+```
+
+## unplugin-auto-import
+
+```ts
+import AutoImport from "unplugin-auto-import/vite";
+import { vueElementCuiImports, vueElementCuiTypeImports } from "@eams-monorepo/vue-element-cui/resolver";
+
+AutoImport({
+	imports: [vueElementCuiImports, ...vueElementCuiTypeImports],
+});
+```
+
 ## 开发
 
 ```bash
-# 安装依赖
 pnpm install
-
-# 开发模式
-pnpm dev
-
-# 构建
 pnpm build
-
-# 测试
 pnpm test
 ```
-
-## 组件列表
-
-组件将在后续阶段逐步添加。
 
 ## License
 
