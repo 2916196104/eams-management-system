@@ -40,8 +40,10 @@
 #include "hh-controller/CustomerController.h"
 #include "hh-controller/ClassroomController.h"
 
-
 #include "lxianyu-controller/StudentFileController.h"
+
+#include "gw-controller/HomeworkController.h"
+
 
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
@@ -83,4 +85,6 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(ClassroomController);
 
 	ROUTER_SIMPLE_BIND(StudentFileController);
+
+	ROUTER_SIMPLE_BIND(HomeworkController);
 }
