@@ -63,7 +63,7 @@ intendedstudent:
    id: ID
    sex: 学员性别
    male: 男
-   fmale: 女
+   female: 女
    unknown: 未知
    name: 学员名字
    stage: 学员状态
@@ -81,11 +81,14 @@ onlinestudent:
  api-tag: 在线成员接口
  interface:
   export: 在线成员导出
+  import: 在线成员导入
  field:
   excel: 导入报表文件
   student:
    id: ID
    sex: 学员性别
+   male: 男
+   female: 女
    name: 学员名字
    stage: 学员状态
    mobile: 手机号码
@@ -94,4 +97,5 @@ onlinestudent:
    school: 学校
    grade: 年纪
    counselor: 顾问
-   birthday: 生日
+   age: 年龄
+   note: 备注

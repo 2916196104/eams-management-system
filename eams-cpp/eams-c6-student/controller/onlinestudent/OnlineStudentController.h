@@ -4,6 +4,7 @@
 
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/query/onlinestudent/OnlineStudentQuery.h"
+#include "domain/dto/onlinestudent/OnlineStudentDTO.h"
 
 // 定义API控制器使用宏
 #include OATPP_CODEGEN_BEGIN(ApiController)
@@ -27,7 +28,6 @@ public:
 		API_TAG													// 标签
 	);
 	// 定义导出接口处理
-	// 定义导出接口处理
 	API_HANDLER_ENDPOINT_OPTION_AUTH(
 		API_M_GET,
 		"/c6/student/online/export",
@@ -37,9 +37,28 @@ public:
 		return response;  // 直接返回 Response，不经过 createDtoResponse
 	);
 
+	// 定义导入接口描述
+	API_DEF_ENDPOINT_INFO_FILE_AUTH(
+		ZH_WORDS_GETTER("onlinestudent.interface.import"),		// 标题
+		importExcel,											// 函数名
+		OnlineImportDTO::Wrapper,								// 文件表单 DTO
+		StringJsonVO::Wrapper,									// 响应 JSON
+		API_TAG													// 标签
+	);
+	// 定义导入接口处理
+	API_HANDLER_ENDPOINT_AUTH(
+		API_M_POST,												// POST 方法
+		"/c6/student/online/import",							// URL
+		importExcel,											// 函数名
+		REQUEST(std::shared_ptr<IncomingRequest>, request),		// 接收文件
+		execImportExcel(request, authObject->getPayload())		// 执行导入
+	);
+
 private:
 	// 执行导出
 	std::shared_ptr<OutgoingResponse> execExportExcel(const List<String>& ids);
+	// 执行导入
+	StringJsonVO::Wrapper execImportExcel(std::shared_ptr<IncomingRequest> request, const PayloadDTO& payload);
 };
 
 #undef API_TAG
