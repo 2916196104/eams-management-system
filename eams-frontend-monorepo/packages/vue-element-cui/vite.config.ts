@@ -14,10 +14,13 @@ export default defineConfig({
 	],
 	build: {
 		lib: {
-			entry: resolve(__dirname, "src/index.ts"),
+			entry: {
+				index: resolve(__dirname, "src/index.ts"),
+				resolver: resolve(__dirname, "src/resolver.ts"),
+			},
 			name: "VueElementCui",
 			formats: ["es", "cjs"],
-			fileName: (format) => `index.${format === "es" ? "js" : "cjs"}`,
+			fileName: (format, entryName) => `${entryName}.${format === "es" ? "js" : "cjs"}`,
 		},
 		rollupOptions: {
 			external: ["vue", "element-plus", "@element-plus/icons-vue", "xlsx"],

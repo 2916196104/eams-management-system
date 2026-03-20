@@ -12,6 +12,14 @@
 			"import": "./dist/index.js",
 			"require": "./dist/index.cjs"
 		},
+		"./resolver": {
+			"types": "./dist/resolver.d.ts",
+			"import": "./dist/resolver.js",
+			"require": "./dist/resolver.cjs"
+		},
+		"./global": {
+			"types": "./dist/global.d.ts"
+		},
 		"./styles": "./dist/styles/index.css",
 		"./styles/*": "./dist/styles/*"
 	},
@@ -24,6 +32,7 @@
 		"build:js": "vite build",
 		"build:styles": "sass src/styles/index.scss dist/styles/index.css --no-source-map",
 		"test": "vitest run",
+		"test:volar-consumer": "vue-tsc --noEmit -p tests/fixtures/volar-consumer/tsconfig.json",
 		"test:watch": "vitest",
 		"typecheck": "vue-tsc --noEmit"
 	},
