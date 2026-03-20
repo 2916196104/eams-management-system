@@ -1,0 +1,2 @@
+# 删除职位接口描述
+position.delete.ids.description: "要删除的职位ID列表"

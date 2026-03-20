@@ -3,7 +3,12 @@
 #ifndef _POSITION_CONTROLLER_ 
 #define _POSITION_CONTROLLER_ 
 
+#include "domain/dto/postion/PositionDataPermissionQueryDTO.h"
+#include "domain/dto/postion/PositionDataPermissionPageDTO.h"
 #include "domain/vo/BaseJsonVO.h"
+#include "domain/dto/postion/DeletePositionRequestDTO.h"
+#include "domain/dto/postion/JsonResponseDTO.h"
+#include "domain/dto/postion/EmptyDTO.h"
 #include "ApiHelper.h"
 #include "ServerInfo.h"
 
@@ -20,7 +25,8 @@ class PositionController : public oatpp::web::server::api::ApiController // 1 �
   API_ACCESS_DECLARE(PositionController);
   // 3 定义接口
 public:
-
+    ENDPOINT("POST", "/positions/data/permissions/list", getPositionDataPermissionList, BODY_DTO(oatpp::Object<PositionDataPermissionQueryDTO>, request));
+    ENDPOINT("POST", "/positions/delete", deletePositions,BODY_DTO(oatpp::Object<DeletePositionRequestDTO>, request));
 private: // 定义接口执行函数
 };
 
