@@ -2,8 +2,8 @@
 #ifndef TIMETABLE_CONTROLLER_H
 #define TIMETABLE_CONTROLLER_H
 #include "domain/vo/BaseJsonVO.h"
-#include "../../domain/vo/timetable/leave/LeaveVO.h"
-#include "../../domain/vo/timetable/reserve/ReserveVO.h"
+#include "../../domain/vo/timetable/TimetableVO.h"
+#include "../../domain/dto/timetable/TimetableDTO.h"
 
 
 #include OATPP_CODEGEN_BEGIN(ApiController) 
