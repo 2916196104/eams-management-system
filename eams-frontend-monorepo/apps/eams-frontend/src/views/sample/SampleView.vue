@@ -260,14 +260,18 @@ const menus = reactive([
 	},
 	{
 		id: 15,
-    path: '/sample/myselector',
-    text: '人员选择器'
-	}
-	,
+		path: '/sample/myselector',
+		text: '人员选择器'
+	},
 	{
 		id: 16,
 		path: '/sample/mynav',
 		text: '导航组件示例'
+	},
+	{
+		id: 17,
+		path: '/sample/reicon',
+		text: 'ReIcon 图标方案'
 	}
 ])
 </script>
