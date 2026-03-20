@@ -6,6 +6,7 @@
 #include "ServerInfo.h"
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/vo/common/CommonVO.h"
+#include "domain/dto/common/CommonDTO.h"
 #include "domain/query/common/CommonQuery.h"
 #include "service/common/CommonService.h"
 
@@ -13,8 +14,8 @@
 #define API_TAG ZH_WORDS_GETTER("common.api-tag")
 class CommonController : public oatpp::web::server::api::ApiController {
 	API_ACCESS_DECLARE(CommonController);
-public: 
-	//获取学员详情
+public:
+//获取学员详情
 	API_DEF_ENDPOINT_INFO_AUTH(
 		ZH_WORDS_GETTER("common.interface.get-student-by-id"), 
 		getStudentById, StudentJsonVO::Wrapper,
@@ -69,8 +70,34 @@ public:
 	ENDPOINT(API_M_GET, "/c3/common/registration-recordf/query-by-page", queryRegistrationRecordByPage, QUERIES(QueryParams, queryParams),API_HANDLER_AUTH_PARAME) {
 		API_HANDLER_QUERY_PARAM(query, RegistrationPageQuery, queryParams);//获取参数
 		API_HANDLER_RESP_VO(executeQueryRegistrationRecordByPage(query));
+	}	
+	//获取学员课次数据
+	ENDPOINT_INFO(getCourseCountData) {
+		API_DEF_ADD_AUTH();//添加权限验证
+		API_DEF_ADD_TAG(API_TAG);//将接口添加到分组
+		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("common.interface.get-student-course-count"));//添加接口描述
+		API_DEF_ADD_PATH_PARAMS(String, "id", ZH_WORDS_GETTER("common.field.student.id"), "123", true);//添加参数
+		API_DEF_ADD_RSP_JSON_WRAPPER(CourseCountJsonVO);//添加返回数据包装
+	}
+	ENDPOINT(API_M_GET, "/c3/common/interface/get-student-course-count", getCourseCountData, PATH(String,id), API_HANDLER_AUTH_PARAME) {
+		API_HANDLER_RESP_VO(executeGetCourseCountData(id));
+	}
+	//保存学员
+	ENDPOINT_INFO(SaveStudent) {
+		API_DEF_ADD_AUTH();//添加权限验证
+		API_DEF_ADD_TAG(API_TAG);//将接口添加到分组
+		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("common.interface.save-student"));//添加接口描述
+		API_DEF_ADD_PATH_PARAMS(String, "id", ZH_WORDS_GETTER("common.field.student.id"), "123", true);//添加参数
+		API_DEF_ADD_RSP_JSON_WRAPPER(StringJsonVO);//添加返回数据包装
+	}
+	ENDPOINT(API_M_GET, "/c3/common/interface/save-student", SaveStudent, PATH(String, id), BODY_DTO(SaveStudentDTO::Wrapper, dto), API_HANDLER_AUTH_PARAME) {
+		API_HANDLER_RESP_VO(executeSaveStudent(id));
 	}
 private:
+	
+
+
+
 	StudentJsonVO::Wrapper executeGetStudentById(const String& id){
 		return StudentJsonVO::createShared();
 	}
@@ -82,6 +109,13 @@ private:
 	}
 	std::shared_ptr<OutgoingResponse> executeLoadStudentPicturebyPicturePath(const String& picturePath){
 		return nullptr;
+	}
+	CourseCountJsonVO::Wrapper executeGetCourseCountData(const String& id) {
+		return CourseCountJsonVO::createShared();
+	}
+
+	StringJsonVO::Wrapper executeSaveStudent(const String& id) {
+		return StringJsonVO::createShared();
 	}
 };
 #undef API_TAG

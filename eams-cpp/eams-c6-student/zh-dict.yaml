@@ -6,9 +6,15 @@ common:
   modify-student-picture: 修改学员头像
   query-student-registration-record: 获取报名记录（条件+分页）
   download-student-picture: 下载学员头像 
+  get-student-course-count: 获取学员课次数据
+  save-student: 保存学员  
  field:
   file:
    id: 文件ID
+  course:
+   name: 课程名称
+   total: 总课次
+   left: 剩余课次
   student:
    id: 学员ID
    name: 学员姓名
