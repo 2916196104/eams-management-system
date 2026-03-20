@@ -150,7 +150,7 @@
 					</p>
 					<el-progress
 						:percentage="uploadProgress.percent"
-						:status="importStatus === 'error' ? 'exception' : undefined"
+						:status="showProgressError ? 'exception' : undefined"
 					/>
 				</div>
 			</div>
@@ -191,7 +191,7 @@
 				<el-button
 					v-if="currentStep === 2 && importStatus === 'parsed'"
 					type="primary"
-					:loading="importStatus === 'uploading'"
+					:loading="false"
 					@click="handleImport"
 				>
 					确认导入
@@ -223,24 +223,28 @@ import type {
 } from './type'
 
 // Props 定义
-const props = withDefaults(defineProps<FileImportDialogProps>(), {
-	title: '数据导入',
-	width: '700px',
-	mode: 'frontend',
-	templateUrl: '',
-	templateFileName: '导入模板.xlsx',
-	action: '',
-	headers: () => ({}),
-	data: () => ({}),
-	maxSize: 10,
-	accept: '.xlsx,.xls',
-	showPreview: true,
-	previewLimit: 100,
-	showErrorSummary: true
-})
+const props = withDefaults(
+	defineProps<FileImportDialogProps & { modelValue?: boolean }>(),
+	{
+		title: '数据导入',
+		width: '700px',
+		mode: 'frontend',
+		templateUrl: '',
+		templateFileName: '导入模板.xlsx',
+		action: '',
+		headers: () => ({}),
+		data: () => ({}),
+		maxSize: 10,
+		accept: '.xlsx,.xls',
+		showPreview: true,
+		previewLimit: 100,
+		showErrorSummary: true,
+		modelValue: false
+	}
+)
 
 // Emits 定义
-const emit = defineEmits<FileImportDialogEmits>()
+const emit = defineEmits<FileImportDialogEmits & { (e: 'update:modelValue', value: boolean): void }>()
 
 // 响应式数据
 const dialogVisible = ref(false)
@@ -256,6 +260,12 @@ const parseResult = ref<ParseResult>({
 const uploadProgress = ref<UploadProgress>({ loaded: 0, total: 0, percent: 0 })
 const errorMessage = ref('')
 const uploadRef = ref()
+
+// 计算属性：上传额外参数（避免与 props.data 冲突）
+const uploadData = computed(() => props.data)
+
+// 计算属性：是否显示错误状态（用于进度条）
+const showProgressError = computed(() => importStatus.value === 'error')
 
 // 计算属性：预览数据
 const previewData = computed(() => {
@@ -522,7 +532,7 @@ function getRowIndex(index: number) {
 // 方法：关闭弹窗
 function handleClose() {
 	dialogVisible.value = false
-	emit('update:visible', false)
+	emit('update:modelValue', false)
 	// 延迟重置状态，等待动画结束
 	setTimeout(() => {
 		currentStep.value = 0
@@ -545,15 +555,17 @@ function close() {
 }
 
 // 监听外部 visible 变化
-const modelValue = defineModel<boolean>()
-
-watch(modelValue, (val) => {
-	dialogVisible.value = val
-})
+watch(
+	() => props.modelValue,
+	(val) => {
+		dialogVisible.value = val ?? false
+	},
+	{ immediate: true }
+)
 
 watch(dialogVisible, (val) => {
-	if (val !== modelValue.value) {
-		modelValue.value = val
+	if (val !== props.modelValue) {
+		emit('update:modelValue', val)
 	}
 })
 

@@ -13,8 +13,8 @@ export interface ParsedRow {
 	data: Record<string, any>
 	/** 是否有错误 */
 	hasError?: boolean
-	/** 错误信息 */
-	errors?: string[]
+	/** 错误信息（初始化为空数组） */
+	errors: string[]
 }
 
 /**
