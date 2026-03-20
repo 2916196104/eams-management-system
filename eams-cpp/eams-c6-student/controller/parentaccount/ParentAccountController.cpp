@@ -1,6 +1,5 @@
 #include "stdafx.h"
-#include "controller/parentaccount/ParentAccountController.h"
-#include "service/parentaccount/ParentAccountService.h"
+#include "ParentAccountController.h"
 
 ParentAccountPageJsonVO::Wrapper ParentAccountController::execQueryParentAccount(const ParentAccountQuery::Wrapper& query)
 {
@@ -9,4 +8,14 @@ ParentAccountPageJsonVO::Wrapper ParentAccountController::execQueryParentAccount
 	jvo->success(data);
 	return jvo;
 	//return {};
+
+}
+
+ParentAccountChangeJsonVO::Wrapper ParentAccountController::excuteParentAccountChange(const ParentAccountChangeDTO::Wrapper& dto) {
+	return {};
+}
+
+ParentPasswordChangeJsonVO::Wrapper ParentAccountController::excuteParentPasswordChange(const ParentPasswordChangeDTO::Wrapper& dto)
+{
+	return {};
 }

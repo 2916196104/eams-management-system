@@ -17,6 +17,13 @@ class ParentAccountPageJsonVO : public JsonVO<ParentAccountPageDTO>
 {
 	DTO_INIT(ParentAccountPageJsonVO, JsonVO<ParentAccountPageDTO>);
 };
+class ParentAccountChangeJsonVO : public JsonVO<oatpp::String> {
+	DTO_INIT(ParentAccountChangeJsonVO, JsonVO<oatpp::String>);
+};
+
+class ParentPasswordChangeJsonVO : public JsonVO<oatpp::String> {
+	DTO_INIT(ParentPasswordChangeJsonVO, JsonVO<oatpp::String>);
+};
 
 #include OATPP_CODEGEN_END(DTO)
 

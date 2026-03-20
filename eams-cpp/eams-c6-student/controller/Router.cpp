@@ -23,9 +23,10 @@
 #include "common/CommonController.h"
 #include "parentaccount/ParentAccountController.h"
 #include "finishstudent/FinishStudentController.h"
-// ???????????Swagger?????
+#include "summaryclass/SummaryClassController.h"
 #include "controller/onlinestudent/OnlineStudentController.h"
-// ???????????Swagger?????
+
+// 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
 // ??????????????
 #define ROUTER_SIMPLE_BIND(__CLASS__) \
@@ -48,6 +49,9 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(CommonController);
 	ROUTER_SIMPLE_BIND(ParentAccountController);
 	ROUTER_SIMPLE_BIND(FinishStudentController);
+	ROUTER_SIMPLE_BIND(CommonController);
+	ROUTER_SIMPLE_BIND(SummaryClassController);
+	ROUTER_SIMPLE_BIND(ParentAccountController);
 	ROUTER_SIMPLE_BIND(IntendedStudentController);
 	ROUTER_SIMPLE_BIND(OnlineStudentController);
 }
