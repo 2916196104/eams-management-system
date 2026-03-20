@@ -18,29 +18,29 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import type { EamsNavMenuItem } from './type'
+import { ref } from "vue";
+import type { EamsNavMenuItem } from "./type";
 
 const menus = ref<EamsNavMenuItem[]>([
 	{
-		id: 'system',
-		text: '系统管理',
-		icon: 'IconSetting',
+		id: "system",
+		text: "系统管理",
+		icon: "IconSetting",
 		children: [
-			{ id: 'user', text: '用户管理', path: '/system/user', icon: 'IconUser' },
-			{ id: 'role', text: '角色管理', path: '/system/role', icon: 'IconTickets' }
-		]
+			{ id: "user", text: "用户管理", path: "/system/user", icon: "IconUser" },
+			{ id: "role", text: "角色管理", path: "/system/role", icon: "IconTickets" },
+		],
 	},
 	{
-		id: 'course',
-		text: '教学管理',
-		icon: 'IconMenu',
+		id: "course",
+		text: "教学管理",
+		icon: "IconMenu",
 		children: [
-			{ id: 'course-list', text: '课程信息', path: '/course/list' },
-			{ id: 'schedule', text: '课表管理', path: '/course/schedule' }
-		]
-	}
-])
+			{ id: "course-list", text: "课程信息", path: "/course/list" },
+			{ id: "schedule", text: "课表管理", path: "/course/schedule" },
+		],
+	},
+]);
 </script>
 ```
 

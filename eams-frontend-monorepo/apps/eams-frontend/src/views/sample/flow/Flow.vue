@@ -1,13 +1,6 @@
 <template>
 	<!-- 工具栏 -->
-	<input
-		type="file"
-		ref="fileInput"
-		accept=".xml"
-		hidden
-		@change="handleFileChange"
-		:key="fileKey"
-	/>
+	<input type="file" ref="fileInput" accept=".xml" hidden @change="handleFileChange" :key="fileKey" />
 	<div class="tools">
 		<el-button type="primary" @click="importFile">本地导入</el-button>
 		<el-button type="primary" @click="recreate">重新创建</el-button>
@@ -20,55 +13,55 @@
 	</div>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue'
-import { ElMessage } from 'element-plus'
-import MyBpmnEditor from '@/components/mybpmn/MyBpmnEditor.vue'
-import { ProcessEngineType, type MyBpmnExport } from '@/components/mybpmn/type'
+import { ref } from "vue";
+import { ElMessage } from "element-plus";
+import MyBpmnEditor from "@/components/mybpmn/MyBpmnEditor.vue";
+import { ProcessEngineType, type MyBpmnExport } from "@/components/mybpmn/type";
 
 // myBpmnEditor实例引用
-const myBpmnEditorRef = ref<MyBpmnExport>()
+const myBpmnEditorRef = ref<MyBpmnExport>();
 
 // 文件选择框
-const fileInput = ref<HTMLInputElement>()
-const fileKey = ref(0)
+const fileInput = ref<HTMLInputElement>();
+const fileKey = ref(0);
 // 处理文件框文件选择事件
 function handleFileChange(e: any) {
-	const file = e.target.files[0]
+	const file = e.target.files[0];
 	if (file) {
-		const reader = new FileReader()
+		const reader = new FileReader();
 		reader.onload = (e) => {
 			// 获取XML
-			const xml = e.target?.result as string
+			const xml = e.target?.result as string;
 			// 加载XML
-			myBpmnEditorRef.value?.loadXML(xml)
+			myBpmnEditorRef.value?.loadXML(xml);
 			// 重新渲染文件选择框
-			fileKey.value = fileKey.value === 0 ? 1 : 0
-		}
-		reader.readAsText(file)
+			fileKey.value = fileKey.value === 0 ? 1 : 0;
+		};
+		reader.readAsText(file);
 	}
 }
 
 // 导入文件
 function importFile() {
-	fileInput.value?.click()
+	fileInput.value?.click();
 }
 
 // 重新创建
 function recreate() {
-	myBpmnEditorRef.value?.createNewDiagram()
+	myBpmnEditorRef.value?.createNewDiagram();
 }
 
 // 下载文件
 function downFile(blob: any, filename: string) {
-	const link = document.createElement('a')
-	link.href = window.URL.createObjectURL(blob)
-	link.download = filename
-	link.style.display = 'none'
-	document.body.appendChild(link)
-	link.click()
-	window.URL.revokeObjectURL(link.href)
-	document.body.removeChild(link)
-	ElMessage.success('下载成功')
+	const link = document.createElement("a");
+	link.href = window.URL.createObjectURL(blob);
+	link.download = filename;
+	link.style.display = "none";
+	document.body.appendChild(link);
+	link.click();
+	window.URL.revokeObjectURL(link.href);
+	document.body.removeChild(link);
+	ElMessage.success("下载成功");
 }
 
 // 保存为xml文件
@@ -76,11 +69,11 @@ function saveXml() {
 	myBpmnEditorRef.value?.modeler
 		.saveXML({ format: true })
 		.then((res: any) => {
-			const xml = res.xml as string
-			const blob = new Blob([xml], { type: 'application/xml' })
-			downFile(blob, 'bpmn-' + Date.now() + '.xml')
+			const xml = res.xml as string;
+			const blob = new Blob([xml], { type: "application/xml" });
+			downFile(blob, "bpmn-" + Date.now() + ".xml");
 		})
-		.catch((error: any) => console.log(error))
+		.catch((error: any) => console.log(error));
 }
 
 // 保存SVG文件
@@ -88,11 +81,11 @@ function saveSvg() {
 	myBpmnEditorRef.value?.modeler
 		.saveSVG()
 		.then((res: any) => {
-			const svg = res.svg as string
-			const blob = new Blob([svg], { type: 'image/svg+xml' })
-			downFile(blob, 'bpmn-' + Date.now() + '.svg')
+			const svg = res.svg as string;
+			const blob = new Blob([svg], { type: "image/svg+xml" });
+			downFile(blob, "bpmn-" + Date.now() + ".svg");
 		})
-		.catch((error: any) => console.log(error))
+		.catch((error: any) => console.log(error));
 }
 </script>
 

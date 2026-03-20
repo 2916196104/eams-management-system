@@ -14,42 +14,42 @@
 </template>
 
 <script setup lang="ts">
-	import { ref } from 'vue'
-	import MyDetailDialog from '@/components/mydetaildialog/MyDetailDialog.vue'
-	import type { MyDetailDialogColumn } from '@/components/mydetaildialog/type'
+	import { ref } from "vue";
+	import MyDetailDialog from "@/components/mydetaildialog/MyDetailDialog.vue";
+	import type { MyDetailDialogColumn } from "@/components/mydetaildialog/type";
 
 	interface CourseDetail {
-		courseName: string
-		duration: string
-		mainCount: number
-		assistCount: number
-		totalCount: number
-		mainFee: number
-		assistFee: number
-		mainAmount: number
-		assistAmount: number
-		totalAmount: number
+		courseName: string;
+		duration: string;
+		mainCount: number;
+		assistCount: number;
+		totalCount: number;
+		mainFee: number;
+		assistFee: number;
+		mainAmount: number;
+		assistAmount: number;
+		totalAmount: number;
 	}
 
-	const detailRef = ref<InstanceType<typeof MyDetailDialog> | null>(null)
+	const detailRef = ref<InstanceType<typeof MyDetailDialog> | null>(null);
 
 	const columns: MyDetailDialogColumn[] = [
-		{ prop: 'courseName', label: '课程', align: 'left' },
-		{ prop: 'duration', label: '时长' },
-		{ prop: 'mainCount', label: '上课课时数' },
-		{ prop: 'assistCount', label: '助教课时数' },
-		{ prop: 'totalCount', label: '课时总数' },
-		{ prop: 'mainFee', label: '单节上课费' },
-		{ prop: 'assistFee', label: '单节助教费' },
-		{ prop: 'mainAmount', label: '上课费小计' },
-		{ prop: 'assistAmount', label: '助教费小计' },
-		{ prop: 'totalAmount', label: '合计' }
-	]
+		{ prop: "courseName", label: "课程", align: "left" },
+		{ prop: "duration", label: "时长" },
+		{ prop: "mainCount", label: "上课课时数" },
+		{ prop: "assistCount", label: "助教课时数" },
+		{ prop: "totalCount", label: "课时总数" },
+		{ prop: "mainFee", label: "单节上课费" },
+		{ prop: "assistFee", label: "单节助教费" },
+		{ prop: "mainAmount", label: "上课费小计" },
+		{ prop: "assistAmount", label: "助教费小计" },
+		{ prop: "totalAmount", label: "合计" },
+	];
 
 	const rows: CourseDetail[] = [
 		{
-			courseName: '2025·KET考冲班-第1期',
-			duration: '120分钟',
+			courseName: "2025·KET考冲班-第1期",
+			duration: "120分钟",
 			mainCount: 2,
 			assistCount: 0,
 			totalCount: 2,
@@ -57,12 +57,12 @@
 			assistFee: 0,
 			mainAmount: 600,
 			assistAmount: 0,
-			totalAmount: 600
-		}
-	]
+			totalAmount: 600,
+		},
+	];
 
 	function openDialog() {
-		detailRef.value?.openDialog()
+		detailRef.value?.openDialog();
 	}
 </script>
 ```
@@ -73,17 +73,17 @@
 
 ```ts
 export interface MyDetailDialogColumn {
-	prop: string
-	label: string
-	width?: string | number
-	align?: 'left' | 'center' | 'right'
+	prop: string;
+	label: string;
+	width?: string | number;
+	align?: "left" | "center" | "right";
 }
 
 export interface MyDetailDialogProps<T = Record<string, any>> {
-	title?: string
-	width?: string | number
-	columns: MyDetailDialogColumn[]
-	data: T[]
+	title?: string;
+	width?: string | number;
+	columns: MyDetailDialogColumn[];
+	data: T[];
 }
 ```
 

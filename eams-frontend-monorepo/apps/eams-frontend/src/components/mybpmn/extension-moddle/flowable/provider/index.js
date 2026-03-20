@@ -1,6 +1,6 @@
-import FlowablePropertiesProvider from './FlowablePropertiesProvider'
+import FlowablePropertiesProvider from "./FlowablePropertiesProvider";
 
 export default {
-	__init__: ['flowablePropertiesProvider'],
-	flowablePropertiesProvider: ['type', FlowablePropertiesProvider]
-}
+	__init__: ["flowablePropertiesProvider"],
+	flowablePropertiesProvider: ["type", FlowablePropertiesProvider],
+};

@@ -23,11 +23,7 @@
 		:="item.fprops"
 		@change="$emit('update:model', $event)"
 	>
-		<el-option
-			v-for="(option, index) in (item.fprops as MyFormSelectProps).options"
-			:key="index"
-			:="option"
-		/>
+		<el-option v-for="(option, index) in (item.fprops as MyFormSelectProps).options" :key="index" :="option" />
 	</el-select>
 	<!-- 日期选择器 -->
 	<el-date-picker
@@ -103,29 +99,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-import type {
-	MyFormItemAttr,
-	MyFormSelectProps,
-	MyFormCheckBoxGroupProps,
-	MyFormRadioBoxGroupProps
-} from './type'
+import { ref, watch } from "vue";
+import type { MyFormItemAttr, MyFormSelectProps, MyFormCheckBoxGroupProps, MyFormRadioBoxGroupProps } from "./type";
 
 // 定义组件属性
 const props = defineProps<{
-	item: MyFormItemAttr
-	model: any
-}>()
+	item: MyFormItemAttr;
+	model: any;
+}>();
 
 // 使用本地状态代替props.model
-const localmodel = ref(props.model)
+const localmodel = ref(props.model);
 // 监听props.model变化，保持本地状态同步
 watch(
 	() => props.model,
 	(val) => {
-		localmodel.value = val
-	}
-)
+		localmodel.value = val;
+	},
+);
 </script>
 <style scoped>
 /* 解决内联模式宽度异常问题,设置一个默认宽度 */

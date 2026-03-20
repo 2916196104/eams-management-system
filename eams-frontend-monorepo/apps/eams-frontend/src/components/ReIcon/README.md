@@ -54,9 +54,9 @@ src/components/ReIcon/
 当菜单、表格列或其他配置项需要动态返回组件时，推荐使用 `useRenderIcon`。
 
 ```ts
-import { useRenderIcon } from '@/components/ReIcon'
+import { useRenderIcon } from "@/components/ReIcon";
 
-const menuIcon = useRenderIcon('ep/menu', { width: '18px', height: '18px' })
+const menuIcon = useRenderIcon("ep/menu", { width: "18px", height: "18px" });
 ```
 
 ## 3. 与 `mynav` 的集成

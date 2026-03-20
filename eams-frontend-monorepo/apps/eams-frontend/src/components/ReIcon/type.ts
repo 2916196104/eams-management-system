@@ -1,11 +1,11 @@
-import type { Component } from 'vue'
+import type { Component } from "vue";
 
 export interface ReIconProps {
-	icon: string | Component
+	icon: string | Component;
 }
 
 export interface ReIconOption {
-	label: string
-	icon: string | Component
-	description?: string
+	label: string;
+	icon: string | Component;
+	description?: string;
 }

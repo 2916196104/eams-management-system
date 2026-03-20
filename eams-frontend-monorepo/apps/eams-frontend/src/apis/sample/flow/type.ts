@@ -1,25 +1,25 @@
-import type { PageQuery } from '../../type'
+import type { PageQuery } from "../../type";
 
 /**
  * 添加流程定义参数模型
  */
 export interface ProcessDefinitionAddDTO extends Record<string, any> {
 	/** 流程唯一标识(业务中使用的key) */
-	processKey: string
+	processKey: string;
 	/** 流程名称 */
-	processName: string
+	processName: string;
 	/** 流程版本号 */
-	processVersion: number
+	processVersion: number;
 	/** 流程状态 */
-	processStatus: number
+	processStatus: number;
 	/** 流程描述 */
-	description?: string
+	description?: string;
 	/** 删除状态 */
-	deleted: number
+	deleted: number;
 	/** BPMN XML内容 */
-	xml?: string
+	xml?: string;
 	/** BPMN XML对应MongoDB中的存储ID */
-	xmlMongoId?: string
+	xmlMongoId?: string;
 }
 
 /**
@@ -27,7 +27,7 @@ export interface ProcessDefinitionAddDTO extends Record<string, any> {
  */
 export interface ProcessDefinitionModifyDTO extends ProcessDefinitionAddDTO {
 	/** 唯一标识 */
-	id: string
+	id: string;
 }
 
 /**
@@ -35,7 +35,7 @@ export interface ProcessDefinitionModifyDTO extends ProcessDefinitionAddDTO {
  */
 export interface ProcessDefinitionQuery extends PageQuery {
 	/** 流程定义名称 */
-	processName?: string
+	processName?: string;
 }
 
 /**
@@ -43,13 +43,13 @@ export interface ProcessDefinitionQuery extends PageQuery {
  */
 export interface ProcessDefinitionVO extends ProcessDefinitionModifyDTO {
 	/** 创建者 */
-	createBy?: string
+	createBy?: string;
 	/** 创建时间 */
-	createTime?: string
+	createTime?: string;
 	/** 修改者 */
-	updateBy?: string
+	updateBy?: string;
 	/** 修改时间 */
-	updateTime?: string
+	updateTime?: string;
 }
 
 /**
@@ -57,7 +57,7 @@ export interface ProcessDefinitionVO extends ProcessDefinitionModifyDTO {
  */
 export interface DeployProcessDefinitionDTO extends Record<string, any> {
 	/** 流程唯一标识(业务中使用的key) */
-	processKey: string
+	processKey: string;
 	/** 流程版本号 */
-	processVersion: number
+	processVersion: number;
 }

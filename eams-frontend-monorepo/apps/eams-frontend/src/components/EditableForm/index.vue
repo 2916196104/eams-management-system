@@ -14,11 +14,7 @@
 			<el-form :model="formData" label-width="100px" size="small">
 				<el-form-item v-for="(value, key) in formData" :key="key" :label="getFieldLabel(key)">
 					<!-- 根据数据类型显示不同的输入组件 -->
-					<el-input
-						v-if="typeof value === 'string' && !isLongText(key)"
-						v-model="formData[key]"
-						placeholder="请输入"
-					/>
+					<el-input v-if="typeof value === 'string' && !isLongText(key)" v-model="formData[key]" placeholder="请输入" />
 					<el-input
 						v-else-if="typeof value === 'string' && isLongText(key)"
 						v-model="formData[key]"
@@ -26,12 +22,7 @@
 						:rows="3"
 						placeholder="请输入"
 					/>
-					<el-input-number
-						v-else-if="typeof value === 'number'"
-						v-model="formData[key]"
-						:min="0"
-						:precision="0"
-					/>
+					<el-input-number v-else-if="typeof value === 'number'" v-model="formData[key]" :min="0" :precision="0" />
 					<el-switch v-else-if="typeof value === 'boolean'" v-model="formData[key]" />
 					<el-date-picker
 						v-else-if="isDateField(key)"
@@ -53,91 +44,91 @@
 
 <script>
 export default {
-	name: 'EditableForm',
+	name: "EditableForm",
 	props: {
 		// 表单数据（支持v-model）
 		value: {
 			type: Object,
 			required: true,
-			default: () => ({})
+			default: () => ({}),
 		},
 		// 字段标签映射
 		fieldLabels: {
 			type: Object,
-			default: () => ({})
+			default: () => ({}),
 		},
 		// 长文本字段（需要显示为textarea）
 		longTextFields: {
 			type: Array,
-			default: () => []
+			default: () => [],
 		},
 		// 日期字段
 		dateFields: {
 			type: Array,
-			default: () => []
+			default: () => [],
 		},
 		// 是否可编辑
 		editable: {
 			type: Boolean,
-			default: true
-		}
+			default: true,
+		},
 	},
 	data() {
 		return {
 			isEditing: false,
-			formData: {}
-		}
+			formData: {},
+		};
 	},
 	watch: {
 		value: {
 			handler(val) {
 				// 深拷贝，避免直接修改props
-				this.formData = JSON.parse(JSON.stringify(val))
+				this.formData = JSON.parse(JSON.stringify(val));
 			},
 			immediate: true,
-			deep: true
-		}
+			deep: true,
+		},
 	},
 	methods: {
 		// 获取字段显示名称
 		getFieldLabel(key) {
-			return this.fieldLabels[key] || key
+			return this.fieldLabels[key] || key;
 		},
 		// 判断是否是长文本字段
 		isLongText(key) {
-			return this.longTextFields.includes(key)
+			return this.longTextFields.includes(key);
 		},
 		// 判断是否是日期字段
 		isDateField(key) {
-			return this.dateFields.includes(key)
+			return this.dateFields.includes(key);
 		},
 		// 格式化显示值
 		formatValue(value) {
-			if (value === null || value === undefined) return '-'
-			if (typeof value === 'boolean') return value ? '是' : '否'
-			if (value instanceof Date) return value.toLocaleDateString()
-			if (typeof value === 'object') return JSON.stringify(value)
-			return String(value)
+			if (value === null || value === undefined) return "-";
+			if (typeof value === "boolean") return value ? "是" : "否";
+			if (value instanceof Date) return value.toLocaleDateString();
+			if (typeof value === "object") return JSON.stringify(value);
+			return String(value);
 		},
 		startEdit() {
-			this.isEditing = true
-			this.$emit('edit-start')
+			this.isEditing = true;
+			this.$emit("edit-start");
 		},
 		save() {
-			this.isEditing = false
+			this.isEditing = false;
 			// 触发v-model更新
-			this.$emit('input', this.formData)
+			this.$emit("input", this.formData);
 			// 触发save事件
-			this.$emit('save', this.formData)
+			this.$emit("save", this.formData);
 		},
 		cancel() {
-			this.isEditing = false
+			this.isEditing = false;
 			// 恢复原始数据
-			this.formData = JSON.parse(JSON.stringify(this.value))
-			this.$emit('cancel')
-		}
-	}
-}
+			this.formData = JSON.parse(JSON.stringify(this.value));
+			this.$emit("cancel");
+		},
+	},
+};
 </script>
 
 <style scoped>
