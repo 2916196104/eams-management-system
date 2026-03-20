@@ -33,41 +33,6 @@ public class AcademicController implements AcademicApis {
     @Resource
     private IAcademicFinanceService academicFinanceService;
 
-    @ApiOperation(value = "分页查询缴欠费与退费记录")
-    @GetMapping("/finance/page")
-    @Override
-    public JsonVO<PageDTO<FinanceDTO>> queryFinancePage(FinanceQuery query) {
-        return JsonVO.success(academicFinanceService.queryFinancePage(query));
-    }
-
-    @ApiOperation(value = "办理缴欠费")
-    @PostMapping("/finance/pay-debt")
-    @Override
-    public JsonVO<FinanceDTO> payDebt(@RequestBody FinanceDTO financeDTO) {
-        return JsonVO.success(academicFinanceService.payDebt(financeDTO));
-    }
-
-    @ApiOperation(value = "发起退费申请")
-    @PostMapping("/refund/apply")
-    @Override
-    public JsonVO<FinanceDTO> applyRefund(@RequestBody FinanceDTO financeDTO) {
-        return JsonVO.success(academicFinanceService.applyRefund(financeDTO));
-    }
-
-    @ApiOperation(value = "审核退费申请")
-    @PostMapping("/refund/audit")
-    @Override
-    public JsonVO<FinanceDTO> auditRefund(@RequestBody FinanceDTO financeDTO) {
-        return JsonVO.success(academicFinanceService.auditRefund(financeDTO));
-    }
-
-    @ApiOperation(value = "完成退费")
-    @PostMapping("/refund/complete")
-    @Override
-    public JsonVO<FinanceDTO> completeRefund(@RequestBody FinanceDTO financeDTO) {
-        return JsonVO.success(academicFinanceService.completeRefund(financeDTO));
-    }
-
     @Override
     public JsonVO<PageDTO<StudentDTO>> queryPage(StudentQuery condition) {
         return null;
