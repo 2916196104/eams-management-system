@@ -127,4 +127,28 @@ homework:
     success: "是否成功"
     message: "提示信息"
 
+select_class:
+ tag: 选择班级
+ A: 获取名称
+ B: 获取列表（条件+分页）
+ resp: 操作成功
+ id: ID
+ name: 班级名称
+select_teacher:
+ tag: 上课老师
+ A: 获取名称
+ B: 获取列表（条件+分页）
+ resp: 操作成功
+ id: ID
+ name: 教师名称
+monthly_data:
+ tag: 我的本月数据
+ A: 获取名称
+ B: 获取用户本月数据
+ resp: 操作成功
+ monthly_class_count: 本月课次数
+ monthly_check-in_count: 本月点名人次
+ monthly_registration_amount: 月报名金额
+ new_monthly_students: 月新增学员
+
 
