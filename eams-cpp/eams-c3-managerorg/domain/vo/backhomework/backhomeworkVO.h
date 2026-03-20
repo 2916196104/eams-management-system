@@ -1,7 +1,9 @@
-﻿#ifndef __BACKHOMEWORK_VO_H__
+#ifndef __BACKHOMEWORK_VO_H__
 #define __BACKHOMEWORK_VO_H__
 
 #include "domain/GlobalInclude.h"
+#include "../../GlobalInclude.h"
+#include "../../dto/backhomework/backhomeworkDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
@@ -27,48 +29,48 @@ public:
 	}
 };
 
-/*课后作业视图类*/
+/*�κ���ҵ��ͼ��*/
 class BackhomeworkVO : public oatpp::DTO {
 	DTO_INIT(BackhomeworkVO, oatpp::DTO);
 
 public:
-	// 序号（分页后的行号，从 1 开始）
+	// ��ţ���ҳ����кţ��� 1 ��ʼ��
 	DTO_FIELD(UInt64, serialNo);
 	DTO_FIELD_INFO(serialNo) {
 		info->description = ZH_WORDS_GETTER("Homework.vo.serialNo");
 	}
-	// 提交人（学生姓名）
+	// �ύ�ˣ�ѧ��������
 	DTO_FIELD(String, studentName);
 	DTO_FIELD_INFO(studentName) {
 		info->description = ZH_WORDS_GETTER("Homework.vo.submitterName");
 	}
-	// 提交内容
+	// �ύ����
 	DTO_FIELD(String, content);
 	DTO_FIELD_INFO(content) {
 		info->description = ZH_WORDS_GETTER("Homework.vo.submitContent");
 	}
-	// 提交时间（时间戳）
+	// �ύʱ�䣨ʱ�����
 	DTO_FIELD(Int64, submitTime);
 	DTO_FIELD_INFO(submitTime) {
 		info->description = ZH_WORDS_GETTER("Homework.vo.submitTime");
 	}
-	// 点评人
+	// ������
 	DTO_FIELD(String, teacherName);
 	DTO_FIELD_INFO(teacherName) {
 		info->description = ZH_WORDS_GETTER("Homework.vo.reviewerName");
 	}
-	// 点评得分
+	// �����÷�
 	DTO_FIELD(Float32, score);
 	DTO_FIELD_INFO(score) {
 		info->description = ZH_WORDS_GETTER("Homework.vo.score");
 	}
-	// 点评内容（评语）
+	// �������ݣ����
 	DTO_FIELD(String, teacherComment);
 	DTO_FIELD_INFO(teacherComment) {
 		info->description = ZH_WORDS_GETTER("Homework.vo.reviewComment");
 	}
 
-	// 作业列表数据
+	// ��ҵ�б�����
 	DTO_FIELD(oatpp::List<BackhomeworkVO::Wrapper>, list);
 	DTO_FIELD_INFO(list) {
 		info->description = ZH_WORDS_GETTER("Homework.vo.list");
@@ -91,6 +93,26 @@ public:
 	DTO_FIELD_INFO(pageSize) {
 		info->description = ZH_WORDS_GETTER("Homework.vo.pageSize");
 	}
+};
+
+
+//获取作业列表（条件+分页）
+class GetHomeworkListJsonVO : public JsonVO<GetHomeworkListDTO::Wrapper> {
+	DTO_INIT(GetHomeworkListJsonVO, JsonVO<GetHomeworkListDTO::Wrapper>)
+};
+
+class GetHomeworkListPageJsonVO : public JsonVO<GetHomeworkListPageDTO::Wrapper> {
+	DTO_INIT(GetHomeworkListPageJsonVO, JsonVO<GetHomeworkListPageDTO::Wrapper>)
+};
+
+//获取作业详情
+class GetHomeworkDetailJsonVO : public JsonVO<GetHomeworkDetailDTO::Wrapper> {
+	DTO_INIT(GetHomeworkDetailJsonVO, JsonVO<GetHomeworkDetailDTO::Wrapper>);
+};
+
+//保存作业
+class SaveHomeworkJsonVO : public JsonVO<GetHomeworkDetailDTO::Wrapper> {
+	DTO_INIT(SaveHomeworkJsonVO, JsonVO<GetHomeworkDetailDTO::Wrapper>);
 };
 
 #include OATPP_CODEGEN_END(DTO)
