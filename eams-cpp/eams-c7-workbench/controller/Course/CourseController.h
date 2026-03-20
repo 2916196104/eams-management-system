@@ -32,10 +32,7 @@ public:
 		execQueryCourseDetail(queryParams)
 	);
 	// 3.1 定义获取课程列表接口描述（只保留分页，干净！）
-	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("course.list.summary"), queryPage, CourseQuery, CoursePageJsonVO::Wrapper, API_TAG,
-		API_DEF_ADD_QUERY_PARAMS(Int32, "pageIndex", ZH_WORDS_GETTER("common.field.pageIndex"), 1, true);
-		API_DEF_ADD_QUERY_PARAMS(Int32, "pageSize", ZH_WORDS_GETTER("common.field.pageSize"), 10, true);
-		);
+	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("course.list.summary"), queryPage, CourseQuery, CoursePageJsonVO::Wrapper, API_TAG)
 
 	// 3.2 定义获取课程列表接口处理
 	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c7/workbench/courseList", queryPage, QUERIES(QueryParams, queryParams),
@@ -56,7 +53,7 @@ private:
 	CoursePageJsonVO::Wrapper execQueryPage(const CourseQuery::Wrapper& query);
 	Uint64JsonVO::Wrapper execSave(const CourseDTO::Wrapper& dto, const PayloadDTO& payload);
 };
-
+#undef API_TAG
 #include OATPP_CODEGEN_END(ApiController)
 
 #endif

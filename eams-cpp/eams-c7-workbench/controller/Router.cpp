@@ -26,6 +26,7 @@
 #include "MyCustomers/GetMyCustomersController.h"
 #include "MyCustomers/GetStudentCoursesController.h"
 #include "MyCustomers/GetStudentDetailController.h"
+#include "SignAndRemark/Controller.h"
 
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
@@ -54,4 +55,5 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(GetMyCustomersController);
 	ROUTER_SIMPLE_BIND(GetStudentCoursesController);
 	ROUTER_SIMPLE_BIND(GetStudentDetailController);
+	ROUTER_SIMPLE_BIND(Controller);
 }

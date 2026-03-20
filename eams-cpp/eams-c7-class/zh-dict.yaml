@@ -1,6 +1,6 @@
 ﻿
 class:
-  tag: 获取班级信息
+  tag: 班级
   query-classdetails: 
     summary: 获取班级详细信息
   query-classlist:
