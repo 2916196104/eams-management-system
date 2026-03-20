@@ -150,6 +150,10 @@ board:
   boardAddId: 文章编码(如果是新增不需要上传唯一ID,如果是修改就需要上传唯一ID)
   boardText: 公告文字内容
   sc: 成绩
+ list:
+  summary: "获取公告列表（条件+分页）"
+ detail:
+  summary: "获取公告详情"
 
 
      

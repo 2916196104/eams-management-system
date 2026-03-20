@@ -10,6 +10,7 @@
 #include "domain/dto/BoardManager/BoardManagerDTO.h"
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/dto/PayloadDTO.h"
+#include "ApiHelper.h"
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
 #define API_TAG ZH_WORDS_GETTER("board.tag")
@@ -42,13 +43,23 @@ public:		//定义接口
 	// 3.2 定义停用公告接口处理
 	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "/board/end-board", endBoard, BODY_DTO(List<String>, ids), execEndBoard(ids));
 
+	// ========== 新增：获取公告列表接口（和原有接口格式完全一致，一行写完） ==========
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("board.list.summary"), GetAnnouncementList, ListJsonVO<String>::Wrapper, API_TAG);
+	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/board/announcements", GetAnnouncementList, BODY_DTO(List<String>, ids), execGetAnnouncementList(authObject->getPayload()));
+
+	// ========== 新增：获取公告详情接口（和原有接口格式完全一致，一行写完） ==========
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("board.detail.summary"), GetAnnouncementDetail, StringJsonVO::Wrapper, API_TAG);
+	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/board/announcements/{id}", GetAnnouncementDetail, BODY_DTO(String, id, "公告ID"), execGetAnnouncementDetail(id, authObject->getPayload()));
+
 private:	//定义接口执行函数
 	StringJsonVO::Wrapper executeAddBoard(const BoardAddDTO::Wrapper& dto,const PayloadDTO& payload);
 	ListJsonVO<String>::Wrapper execRemoveBoard(const List<String>& ids);
 	ListJsonVO<String>::Wrapper execStartBoard(const List<String>& ids);
 	ListJsonVO<String>::Wrapper execEndBoard(const List<String>& ids);
 
-
+	// ========== 新增：函数声明（完全抄原有格式） ==========
+	ListJsonVO<String>::Wrapper execGetAnnouncementList(const PayloadDTO& payload);
+	StringJsonVO::Wrapper execGetAnnouncementDetail(const String& id, const PayloadDTO& payload);
 
 };
 
