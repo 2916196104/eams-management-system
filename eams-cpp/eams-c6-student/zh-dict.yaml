@@ -6,9 +6,15 @@ common:
   modify-student-picture: 修改学员头像
   query-student-registration-record: 获取报名记录（条件+分页）
   download-student-picture: 下载学员头像 
+  get-student-course-count: 获取学员课次数据
+  save-student: 保存学员  
  field:
   file:
    id: 文件ID
+  course:
+   name: 课程名称
+   total: 总课次
+   left: 剩余课次
   student:
    id: 学员ID
    name: 学员姓名
@@ -45,6 +51,7 @@ common:
    drop-class-count: 退课数量
    refund-describe: 退费说明
    refund-status: 退费状态
+
 
 finishstudent:
  api-tag: 结业学员接口
@@ -91,3 +98,48 @@ parentaccount:
     add-time: 注册时间
     state: 状态
     operation: 操作
+
+intendedstudent:
+ api-tag: 意向学员接口
+ interface:
+  export: 意向学员导出
+  import: 意向学员导入
+ field:
+  excel: 导入报表文件
+  student:
+   id: ID
+   sex: 学员性别
+   male: 男
+   fmale: 女
+   unknown: 未知
+   name: 学员名字
+   stage: 学员状态
+   mobile: 手机号码
+   parent: 家长姓名
+   parent-rel: 家长关系
+   school: 学校
+   grade: 年纪
+   counselor: 顾问
+   birthday: 生日
+   password: 登陆密码
+   idcard: 身份证密码
+
+onlinestudent:
+ api-tag: 在线成员接口
+ interface:
+  export: 在线成员导出
+ field:
+  excel: 导入报表文件
+  student:
+   id: ID
+   sex: 学员性别
+   name: 学员名字
+   stage: 学员状态
+   mobile: 手机号码
+   parent: 家长姓名
+   parent-rel: 家长关系
+   school: 学校
+   grade: 年纪
+   counselor: 顾问
+   birthday: 生日
+

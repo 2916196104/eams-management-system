@@ -19,10 +19,13 @@
 #include "stdafx.h"
 #include "Router.h"
 #include "ApiHelper.h"
+#include "controller/intendedstudent/IntendedStudentController.h"
 #include "common/CommonController.h"
 #include "parentaccount/ParentAccountController.h"
 #include "finishstudent/FinishStudentController.h"
 // ???????????Swagger?????
+#include "controller/onlinestudent/OnlineStudentController.h"
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¹Ø±ï¿½Swaggerï¿½Äµï¿½ï¿½ï¿½
 #ifdef CLOSE_SWAGGER_DOC
 // ??????????????
 #define ROUTER_SIMPLE_BIND(__CLASS__) \
@@ -41,8 +44,10 @@ Router::Router(Endpoints* docEndpoints, HttpRouter* router)
 
 void Router::initRouter()
 {
-	//#TIP :?????¡¤????ÈÉ§Õ?????????
+	//#TIP :?????ï¿½ï¿½????ï¿½É§ï¿½?????????
 	ROUTER_SIMPLE_BIND(CommonController);
 	ROUTER_SIMPLE_BIND(ParentAccountController);
 	ROUTER_SIMPLE_BIND(FinishStudentController);
+	ROUTER_SIMPLE_BIND(IntendedStudentController);
+	ROUTER_SIMPLE_BIND(OnlineStudentController);
 }
