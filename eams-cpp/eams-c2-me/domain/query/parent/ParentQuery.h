@@ -1,5 +1,6 @@
 #pragma once
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 #ifndef _PARENTQUERY_H_
 #define _PARENTQUERY_H_
@@ -22,6 +23,8 @@ class ParentQuery : public oatpp::DTO { // query本质上就是一种DTO
 #include OATPP_CODEGEN_END(DTO)
 #endif // _PARENTQUERY_H_
 =======
+=======
+>>>>>>> Stashed changes
 #ifndef _PARENT_QUERY_
 #define _PARENT_QUERY_
 
@@ -47,4 +50,7 @@ class ParentQuery : public oatpp::DTO
 
 #include OATPP_CODEGEN_END(DTO)
 #endif // !_PARENT_QUERY_
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
