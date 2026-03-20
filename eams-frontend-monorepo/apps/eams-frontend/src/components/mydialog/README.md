@@ -254,7 +254,6 @@ export interface MyFormDialogProps<T extends Record<string, any>> extends MyDial
 
 - `header`：标题栏插槽，输入数据包括 `close, titleClass, titleId, 所有定义属性`
 - 表单项插槽，输入数据包括 `item、model（组件本地数据模型）`
-
   - `itemahead`：前置插槽，扩充默认表单组件，里面的内容将渲染到默认表单组件的前面
   - `itemdefault`：默认插槽，默认实现根据表单类型使用`my-form-render`组件渲染表单组件，如果要定制特殊表单（如：文件组件），覆盖它即可
   - `itemtail`：后置插槽，扩充默认表单组件，里面的内容将渲染到默认表单组件的后面
