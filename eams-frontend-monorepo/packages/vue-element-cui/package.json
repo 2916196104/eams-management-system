@@ -18,7 +18,7 @@
 			"require": "./dist/resolver.cjs"
 		},
 		"./global": {
-			"types": "./dist/global.d.ts"
+			"types": "./dist/src/global.d.ts"
 		},
 		"./styles": "./dist/styles/index.css",
 		"./styles/*": "./dist/styles/*"
