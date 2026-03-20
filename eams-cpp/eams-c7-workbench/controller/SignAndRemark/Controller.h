@@ -77,6 +77,7 @@ private: //定义接口执行函数
 
 #undef API_TAG1
 #undef API_TAG2
+#undef API_TAG3
 #include OATPP_CODEGEN_END(ApiController)
 
 #endif // !_CONTROLLER_H_

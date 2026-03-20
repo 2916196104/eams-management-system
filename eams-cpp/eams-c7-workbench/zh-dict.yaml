@@ -202,3 +202,50 @@ freecourses:
  post:
    summary: 新增自由排课  
 
+stclassrecord:
+ dto:
+  title: 课程名称
+  state: 课程状态
+  sign_state: 是否签到
+  start_time: 课程开始时间
+  end_time: 课程结束时间
+ controller:
+  tag2: 学生上课记录
+  title: 学生上课记录查询
+
+stlist:
+ query:
+  name: 姓名
+  telephone: 电话号码
+ dto:
+  id: 编号
+  name: 学生姓名
+  telephone: 学生手机号
+  lesson_count: 学生剩余课时
+  gender: 学生性别
+ controller:
+  tag1: 学生档案列表
+  title: 学生档案列表查询（分页）
+  name: 姓名
+  telephone: 电话号码
+ 
+stprofiledetails:
+ dto:
+  name: 学生姓名
+  telephone: 手机号
+  lesson_count: 剩余课时
+  credit: 积分
+  remaining_quantity: 体验卡
+  stage: 学习阶段
+  family_name: 家长姓名
+  family_rel: 亲属关系
+  grade_names: 年级
+  gender: 性别
+  birthday: 生日
+  idcard: 身份证号码
+  join_date: 入学时间
+  add_time: 加入时间   
+ controller:
+  tag3: 学生档案详情
+  title: 学生档案详细查询
+

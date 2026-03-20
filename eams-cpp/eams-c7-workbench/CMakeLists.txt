@@ -39,7 +39,8 @@ if(WIN32)
 endif()
 
 # 编译可执行文件
-add_executable(${appName} ${SC_FILES}
+add_executable(${appName}
+    ${SC_FILES}
     "controller/UserRelated/ChangePictureController.cpp"
     "controller/UserRelated/UserInformationController.cpp"
     "controller/UserRelated/UserProfileController.cpp"
@@ -55,6 +56,9 @@ add_executable(${appName} ${SC_FILES}
     "controller/Schedule/ClassroomController.cpp"
     "controller/Schedule/freeCoursesArrangeController.cpp"
     "controller/Schedule/repeatCoursesArrangeController.cpp"
+    "controller/StudentRecord/StclassRecordController.cpp"
+    "controller/StudentRecord/StlistController.cpp"
+    "controller/StudentRecord/StprofileDetailsController.cpp"
 )
 # 发布Swagger文档包宏定义
 if(DEFINED _RELEASE_DOC_)
