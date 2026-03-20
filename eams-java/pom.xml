@@ -40,7 +40,6 @@
         <module>eams-doc</module>
         <module>eams-j1-institution</module>
         <module>eams-j1-orgmanager</module>
-        <module>eams-j1-org</module>
         <module>eams-j1-staff</module>
     </modules>
     <properties>
