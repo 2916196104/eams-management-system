@@ -1,14 +1,14 @@
 package com.zeroone.star.j5.courseschedule.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.extension.service.*;
 import com.zeroone.star.j5.courseschedule.entity.LessonStudent;
 import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j5.courseschedule.LessonChangeStateDTO;
 import com.zeroone.star.project.dto.j5.courseschedule.LessonCountLogQueryDTO;
+import com.zeroone.star.project.dto.j5.courseschedule.LessonParamDTO;
 import com.zeroone.star.project.dto.j5.courseschedule.LessonSignSaveDTO;
-import com.zeroone.star.project.query.PageQuery;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -19,22 +19,12 @@ import java.util.Map;
  * @author 冷月葬花魂
  * @version 1.0.0
  */
-public interface ILessonStudentService extends IService<LessonStudent> {
+public interface ICourseStudentService extends IService<LessonStudent> {
 
     /**
-     * Query student lesson status list.
+     * Query lesson list with pagination.
      */
-    PageDTO<Map<String, Object>> queryStatusList(String keyword, String status, PageQuery query);
-
-    /**
-     * Save one sign record.
-     */
-    Integer addOrUpdateRecord(LessonSignSaveDTO dto);
-
-    /**
-     * Save sign records in batch.
-     */
-    Integer batchAddOrUpdateRecord(List<LessonSignSaveDTO> dtoList);
+    PageDTO<?> queryList(LessonParamDTO param);
 
     /**
      * Batch set student status.
@@ -42,9 +32,15 @@ public interface ILessonStudentService extends IService<LessonStudent> {
     Integer batchSetStatus(List<Long> lessonStudentIds, String status);
 
     /**
-     * Batch toggle lesson state.
+     * Batch roll-call placeholder method.
      */
-    Integer batchToggleLessonStatus(List<Long> lessonStudentIds, String actionType);
+    Integer batchRollCall(List<LessonSignSaveDTO> signList);
+
+    /**
+     * Change lesson state in batch.
+     */
+    Integer changeLessonState(LessonChangeStateDTO dto);
+
 
     /**
      * Rollback consumed course count.

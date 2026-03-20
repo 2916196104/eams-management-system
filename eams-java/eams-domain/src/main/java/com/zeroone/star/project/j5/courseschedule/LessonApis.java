@@ -24,19 +24,6 @@ public interface LessonApis {
      */
     JsonVO<PageDTO<?>> listLesson(LessonParamDTO param);
 
-    /**
-     * 停课
-     * @param lessonIds 课次ID列表
-     * @return 影响行数
-     */
-    JsonVO<Integer> stopLesson(List<Long> lessonIds);
-
-    /**
-     * 复课
-     * @param lessonIds 课次ID列表
-     * @return 影响行数
-     */
-    JsonVO<Integer> resumeLesson(List<Long> lessonIds);
 
     /**
      * 获取课次详情
