@@ -3,6 +3,7 @@ package com.zeroone.star.student.controller;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j4.student.FollowUpDTO;
 import com.zeroone.star.project.dto.j4.student.StudentDTO;
+import com.zeroone.star.project.dto.j4.student.StudentEnrollDTO;
 import com.zeroone.star.project.j4.student.StudentApis;
 import com.zeroone.star.project.query.j4.student.FollowUpQuery;
 import com.zeroone.star.project.query.j4.student.StudentQuery;
@@ -39,24 +40,26 @@ public class StudentController implements StudentApis {
         return success ? Result.ok() : Result.build(false, "阶段更新失败");
     }
 
-    /**
-     * 学员报名课程
-     */
-    @PostMapping("/add-course")
-    @ApiOperation(value = "学员报名课程", notes = "关联学员与课程记录")
-    public Result<Boolean> addStudentCourse(@RequestBody StudentDTO studentDTO) {
-        boolean success = studentService.saveStudentCourse(studentDTO);
-        return success ? Result.ok() : Result.build(false, "报名存入失败");
+    @PostMapping("/add-enroll")
+    @ApiOperation(value = "新增学员报名", notes = "关联课程并初始化课时流水")
+    public Result<Boolean> addStudentEnroll(@RequestBody StudentEnrollDTO enrollDTO) {
+        // 基础校验
+        if (enrollDTO.getStudentId() == null || enrollDTO.getCourseId() == null) {
+            return Result.build(false, "报名失败：学员ID和课程ID不能为空");
+        }
+
+        boolean isSuccess = studentService.saveStudentEnroll(enrollDTO);
+        return isSuccess ? Result.ok() : Result.build(false, "报名存入数据库失败");
     }
 
     /**
      * 获取学员详情
      */
-    @GetMapping("/query-detail")
+    @GetMapping("/query-detail/id")
     @ApiOperation(value = "获取学员详细资料", notes = "根据ID查询单条详情")
-    public Result<StudentDTO> queryStudentDetail(StudentQuery studentQuery) {
+    public Result<StudentDTO> queryStudentDetail(Integer id) {
         // Service 返回原始 DTO 对象
-        StudentDTO detail = studentService.getStudentDetail(studentQuery);
+        StudentDTO detail = studentService.getStudentDetail(id);
         // 包装进 Result 的 result 字段
         return Result.build(detail);
     }

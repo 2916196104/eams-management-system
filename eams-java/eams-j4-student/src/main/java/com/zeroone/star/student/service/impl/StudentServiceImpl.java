@@ -1,6 +1,7 @@
 package com.zeroone.star.student.service.impl;
 
 import com.zeroone.star.project.dto.j4.student.StudentDTO;
+import com.zeroone.star.project.dto.j4.student.StudentEnrollDTO;
 import com.zeroone.star.project.query.j4.student.StudentQuery;
 import com.zeroone.star.student.mapper.StudentMapper;
 import com.zeroone.star.student.service.StudentService;
@@ -24,33 +25,26 @@ public class StudentServiceImpl implements StudentService {
         return studentMapper.updateStudentStage(studentDTO) > 0;
     }
 
-    /**
-     * 学生报名课程
-     * @param studentDTO
-     * @return
-     */
-    @Transactional // 涉及多表操作，建议开启事务
-    public boolean saveStudentCourse(StudentDTO studentDTO) {
-        int courseCount = studentMapper.countCourseById(studentDTO.getCourseId());
+    @Transactional(rollbackFor = Exception.class) // 保证两个表同时成功
+    public boolean saveStudentEnroll(StudentEnrollDTO enrollDTO) {
 
-        // 如果课程不存在，直接返回失败，不再往下走插入逻辑
-        if (courseCount <= 0) {
-            // 这里可以抛出自定义异常，或者直接返回 false
-            return false;
-        }
+        // 1. 写入报名主表
+        int count1 = studentMapper.insertStudentCourse(enrollDTO);
 
-        int rows = studentMapper.insertStudentCourse(studentDTO);
+        // 2. 写入课时流水表
+        int count2 = studentMapper.insertEnrollLog(enrollDTO);
 
-        return rows > 0;
+        return count1 > 0 && count2 > 0;
     }
+
 
     /**
      * 获取学员信息
-     * @param studentQuery
+     * @param id
      * @return
      */
-    public StudentDTO getStudentDetail(StudentQuery studentQuery) {
+    public StudentDTO getStudentDetail(Integer id) {
         // 直接返回查询到的数据，不进行 Result 包装
-        return studentMapper.selectStudentDetail(studentQuery);
+        return studentMapper.selectStudentDetail(id);
     }
 }

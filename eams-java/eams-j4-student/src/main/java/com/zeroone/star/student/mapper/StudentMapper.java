@@ -1,6 +1,7 @@
 package com.zeroone.star.student.mapper;
 
 import com.zeroone.star.project.dto.j4.student.StudentDTO;
+import com.zeroone.star.project.dto.j4.student.StudentEnrollDTO;
 import com.zeroone.star.project.query.j4.student.StudentQuery;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -17,21 +18,31 @@ public interface StudentMapper {
     int updateStudentStage(StudentDTO studentDTO);
 
     /**
-     * 查询课程是否存在
+     * 插入报名表 (student_course)
      */
-    @Select("SELECT COUNT(*) FROM course WHERE id = #{courseId}")
-    int countCourseById(Long courseId);
+    @Insert("INSERT INTO student_course " +
+            "(student_id, course_id, subject_id, start_date, expire_date, remark, " +
+            "count_lesson_total, count_lesson_complete, amount, paid_amount, " +
+            "operator, creator, add_time, verify_state, unit_price) " +
+            "VALUES " +
+            "(#{studentId}, #{courseId}, #{subjectId}, #{startDate}, #{expireDate}, #{remark}, " +
+            "#{countLessonTotal}, 0, #{amount}, #{paidAmount}, " +
+            "#{staffId}, #{staffId}, NOW(), 1, #{unitPrice})")
+    int insertStudentCourse(StudentEnrollDTO enrollDTO);
 
     /**
-     * 学员报名插入
+     * 插入课时变更流水表 (student_lesson_count_log)
      */
-    @Insert("INSERT INTO student_course (student_id, course_id) VALUES (#{id}, #{courseId})")
-    int insertStudentCourse(StudentDTO studentDTO);
+    @Insert("INSERT INTO student_lesson_count_log " +
+            "(student_id, course_id, change_count, remaining_count, staff_id, add_time, stage, remark) " +
+            "VALUES " +
+            "(#{studentId}, #{courseId}, #{countLessonTotal}, #{countLessonTotal}, #{staffId}, NOW(), 1, '报名')")
+    int insertEnrollLog(StudentEnrollDTO enrollDTO);
 
 
     /**
      * 查询学生详情
      */
     @Select("SELECT * FROM student WHERE id = #{id}")
-    StudentDTO selectStudentDetail(StudentQuery studentQuery);
+    StudentDTO selectStudentDetail(Integer id);
 }
