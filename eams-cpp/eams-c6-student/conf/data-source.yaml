@@ -6,7 +6,7 @@ spring:
     druid:
      max-active: 5
   redis:
-    host: 192.168.220.128
+    host: 192.168.149.1
     port: 6379
     password: 01star
   data:
