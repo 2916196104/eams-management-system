@@ -273,5 +273,10 @@ const menus = reactive([
 		path: "/sample/reicon",
 		text: "ReIcon 图标方案",
 	},
+	{
+		id: 15,
+		path: "/sample/attendanceManagement",
+		text: "弹窗点名管理",
+	},
 ]);
 </script>
