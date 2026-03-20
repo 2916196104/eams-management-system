@@ -130,7 +130,7 @@ StuJudgeTea:
   tags: 学评教
 GradeTable:
   query: 获取成绩单列表(条件+分页)
-  tags: 成绩单列表查询
+  tags: 成绩单管理
 
 
 board:
