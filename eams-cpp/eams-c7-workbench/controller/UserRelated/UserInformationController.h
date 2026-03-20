@@ -37,16 +37,16 @@ class GetUserInformationController : public oatpp::web::server::api::ApiControll
 public:			 //定义接口
 	//定义获取用户信息接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(
-		ZH_WORDS_GETTER("user.information.summary"), queryUserInformation , UserRelatedVO::Wrapper, API_TAG2,
-		API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("user.field.name"), "name", true);
-	);
+		ZH_WORDS_GETTER("user.information.summary"), queryUserInformation, UserRelatedVO::Wrapper, API_TAG2,
+		// API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("user.field.name"), "name", true);
+		);
 
 	//定义获取用户信息接口实现
-	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/C7/workbench/Information", queryUserInformation, QUERY(String, name),execQuaryUserInformation(name))
+	API_HANDLER_ENDPOINT_NOPARAM_AUTH(API_M_GET, "/C7/workbench/Information", queryUserInformation, execQuaryUserInformation(authObject->getPayload()))
 
 private:		 //定义执行函数
 	//定义获取用户信息接口执行函数
-	UserRelatedVO::Wrapper execQuaryUserInformation(const oatpp::String& name);
+	UserRelatedVO::Wrapper execQuaryUserInformation(const PayloadDTO& payload);
 };
 
 #undef API_TAG2

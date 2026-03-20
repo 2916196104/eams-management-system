@@ -30,9 +30,9 @@
 class UserRelatedDTO : public oatpp::DTO
 {
 	DTO_INIT(UserRelatedDTO, DTO);
-	
+
 	// 用户权限（用于按钮控制）
-	API_DTO_FIELD_REQUIRE(List<String>, permissions, ZH_WORDS_GETTER("file.field.ft"),true);
+	API_DTO_FIELD_REQUIRE(List<String>, permissions, ZH_WORDS_GETTER("file.field.ft"), true);
 	// 角色编码
 	API_DTO_FIELD_REQUIRE(List<String>, role, ZH_WORDS_GETTER("file.field.ft"), true);
 	//用户ID
@@ -41,6 +41,9 @@ class UserRelatedDTO : public oatpp::DTO
 	API_DTO_FIELD_REQUIRE(String, name, ZH_WORDS_GETTER("user.field.name"), true);
 	//用户手机号
 	API_DTO_FIELD_REQUIRE(String, mobile, ZH_WORDS_GETTER("file.field.ft"), true);
+
+	// 关联一个PayloadDTO负载数据对象
+	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
 
 public:
 
@@ -82,6 +85,9 @@ class UserProfileDTO : public oatpp::DTO
 	API_DTO_FIELD_REQUIRE(String, fireDate, ZH_WORDS_GETTER("user.field.fireDate"), true);
 	//是否在职
 	API_DTO_FIELD_REQUIRE(Boolean, isInner, ZH_WORDS_GETTER("user.field.isInner"), true);
+
+	// 关联一个PayloadDTO负载数据对象
+	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
 public:
 
 };
@@ -103,8 +109,8 @@ class FileOnlyDTO : public oatpp::DTO
 class ChangePictureDTO : public oatpp::DTO
 {
 	DTO_INIT(ChangePictureDTO, DTO);
-	
-	
+
+
 	// 图片url地址
 	API_DTO_FIELD_DEFAULT(String, head_img, ZH_WORDS_GETTER("user.field.head_img"));
 

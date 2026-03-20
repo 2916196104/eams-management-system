@@ -34,22 +34,22 @@ class ChangePictureController : public oatpp::web::server::api::ApiController
 	//定义控制器访问入口
 	API_ACCESS_DECLARE(ChangePictureController);
 public:			 //定义接口
-	
+
 	////定义修改接口描述
 	//API_DEF_ENDPOINT_INFO_AUTH(
 	//	ZH_WORDS_GETTER("user.changepicture.summary"), queryChangePicture, ChangePictureVO::Wrapper, API_TAG2,
 	//);
 	//// 3.2 定义修改接口处理
 	//API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "/C7/workbench/ChangePicture", queryChangePicture, QUERY(String, name), execQuaryChangePicture(name));
-	
+
 	// 定义描述
 	API_DEF_ENDPOINT_INFO_FILE_AUTH(ZH_WORDS_GETTER("user.changepicture.summary"), uploadImage, FileOnlyDTO::Wrapper, ChangePictureVO::Wrapper, API_TAG2);
 	// 定义端点
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/C7/workbench/ChangePicture", uploadImage, REQUEST(std::shared_ptr<IncomingRequest>, request), execQuaryChangePicture(request));
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/C7/workbench/ChangePicture", uploadImage, REQUEST(std::shared_ptr<IncomingRequest>, request), execQueryChangePicture(request));
 
 private:		 //定义执行函数
 	//定义修改头像接口执行函数
-	ChangePictureVO::Wrapper execQuaryChangePicture(const std::shared_ptr<IncomingRequest>& request);
+	ChangePictureVO::Wrapper execQueryChangePicture(const std::shared_ptr<IncomingRequest>& request);
 };
 
 #undef API_TAG2

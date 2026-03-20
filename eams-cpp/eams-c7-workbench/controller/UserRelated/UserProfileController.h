@@ -20,8 +20,12 @@
 #ifndef _USERPROFILECONTROLLER_H_
 #define _USERPROFILECONTROLLER_H_
 
+#include "ApiHelper.h"
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/vo/UserRelated/UserProfileVO.h"
+#include "ServerInfo.h"
+#include "Macros.h"
+
 
 #include OATPP_CODEGEN_BEGIN(ApiController) //<- Begin Codegen
 
@@ -35,17 +39,18 @@ class GetUserProfileController : public oatpp::web::server::api::ApiController
 	//定义控制器访问入口
 	API_ACCESS_DECLARE(GetUserProfileController);
 public:			 //定义接口
-	//定义获取用户信息接口描述
+
+	//定义获取用户资料接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(
 		ZH_WORDS_GETTER("user.profile.summary"), queryUserProfile, UserProfileVO::Wrapper, API_TAG2,
-		API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("user.field.name"), "name", true);
-	);
+		//API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("user.field.name"), "name", true);
+		);
 
-	//定义获取用户信息接口实现
-	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/C7/workbench/profile", queryUserProfile, QUERY(String, name), execQuaryUserProfile(name))
+	//定义获取用户资料接口实现
+	API_HANDLER_ENDPOINT_NOPARAM_AUTH(API_M_GET, "/C7/workbench/profile", queryUserProfile, execQuaryUserProfile(authObject->getPayload()))
 private:		 //定义执行函数
 	//定义获取用户资料接口执行函数
-	UserProfileVO::Wrapper execQuaryUserProfile(const oatpp::String& name);
+	UserProfileVO::Wrapper execQuaryUserProfile(const PayloadDTO& payload);
 };
 
 #undef API_TAG2
