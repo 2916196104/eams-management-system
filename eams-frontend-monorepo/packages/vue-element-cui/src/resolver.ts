@@ -1,4 +1,8 @@
-const PACKAGE_NAME = "@eams-monorepo/vue-element-cui";
+/** 包名与 package.json 的 name 保持单一数据源；Vite 构建会将 JSON 内联进 dist/resolver.* */
+import packageJson from "../package.json" with { type: "json" };
+import { VUE_ELEMENT_CUI_COMPONENT_NAMES, VUE_ELEMENT_CUI_TYPE_EXPORT_NAMES } from "./components-manifest";
+
+const PACKAGE_NAME: string = packageJson.name;
 const STYLE_ENTRY = `${PACKAGE_NAME}/styles`;
 
 type Awaitable<T> = T | PromiseLike<T>;
@@ -26,74 +30,14 @@ export interface VueElementCuiTypeImport {
 	type: true;
 }
 
-export const vueElementCuiComponentNames = [
-	"CuiTable",
-	"CuiForm",
-	"CuiSearch",
-	"CuiDialog",
-	"CuiDialogForm",
-	"CuiDetail",
-	"CuiTab",
-	"CuiExcel",
-	"CuiSelectBox",
-	"CuiSelect",
-	"CuiSelectEnum",
-	"CuiSelectDict",
-	"CuiRadioEnum",
-	"CuiRadioDict",
-	"CuiCheckboxEnum",
-	"CuiAutocomplete",
-] as const;
+/** 组件名列表，由 components-manifest 驱动，新增组件时只改 manifest */
+export const vueElementCuiComponentNames = VUE_ELEMENT_CUI_COMPONENT_NAMES;
 
+/** 运行时导出名（install、version + 所有组件名），供 unplugin-auto-import 等使用 */
 export const vueElementCuiRuntimeExports = ["install", "version", ...vueElementCuiComponentNames] as const;
 
-export const vueElementCuiTypeExportNames = [
-	"CuiTableProps",
-	"CuiTableColumn",
-	"SortChangeEvent",
-	"SelectionChangeEvent",
-	"CuiFormProps",
-	"CuiFormField",
-	"CuiFormFieldType",
-	"CuiFormSelectOption",
-	"CuiFormValidateResult",
-	"CuiSearchProps",
-	"CuiSearchField",
-	"CuiDialogProps",
-	"CuiDialogEmits",
-	"CuiDialogFormProps",
-	"CuiDialogFormEmits",
-	"CuiDetailProps",
-	"CuiDetailField",
-	"CuiTabProps",
-	"CuiTabItem",
-	"CuiExcelProps",
-	"CuiExcelEmits",
-	"CuiSelectBoxProps",
-	"CuiSelectBoxEmits",
-	"CuiSelectBoxOption",
-	"CuiSelectProps",
-	"CuiSelectEmits",
-	"CuiSelectOption",
-	"CuiSelectEnumProps",
-	"CuiSelectEnumEmits",
-	"CuiSelectEnumOption",
-	"CuiSelectDictProps",
-	"CuiSelectDictEmits",
-	"CuiSelectDictOption",
-	"CuiRadioEnumProps",
-	"CuiRadioEnumEmits",
-	"CuiRadioEnumOption",
-	"CuiRadioDictProps",
-	"CuiRadioDictEmits",
-	"CuiRadioDictOption",
-	"CuiCheckboxEnumProps",
-	"CuiCheckboxEnumEmits",
-	"CuiCheckboxEnumOption",
-	"CuiAutocompleteProps",
-	"CuiAutocompleteEmits",
-	"CuiAutocompleteSuggestion",
-] as const;
+/** 类型导出名列表，由 components-manifest 驱动 */
+export const vueElementCuiTypeExportNames = VUE_ELEMENT_CUI_TYPE_EXPORT_NAMES;
 
 const componentNameSet = new Set<string>(vueElementCuiComponentNames);
 const runtimeExportNameSet = new Set<string>(vueElementCuiRuntimeExports);
