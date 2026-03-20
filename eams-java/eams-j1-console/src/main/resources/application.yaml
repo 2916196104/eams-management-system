@@ -1,0 +1,5 @@
+server:
+  port: ${sp.j1-console}
+spring:
+  application:
+    name: ${sn.j1-console}
