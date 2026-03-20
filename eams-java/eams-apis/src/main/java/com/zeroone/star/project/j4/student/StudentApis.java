@@ -8,10 +8,9 @@ import com.zeroone.star.project.query.j4.student.StudentQuery;
 import com.zeroone.star.project.dto.j4.student.FinanceDTO;
 import com.zeroone.star.project.query.j4.student.FinanceQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.project.vo.j4.student.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
-import com.zeroone.star.project.vo.j4.student.LessonSummaryVO;
-import com.zeroone.star.project.vo.j4.student.StudentDetailVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,16 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-import com.zeroone.star.project.dto.j4.student.StudentDTO;
 import com.zeroone.star.project.vo.j4.student.StudentDetailVO;
 import com.zeroone.star.project.vo.j4.student.LessonSummaryVO;
-import com.zeroone.star.project.query.j4.student.StudentQuery;
-import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.dto.PageDTO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.*;
-
 
 @Api(tags = "Student Course Interface")
 
