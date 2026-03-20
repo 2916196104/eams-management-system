@@ -4,6 +4,9 @@
 
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/GlobalInclude.h"
+#include "domain/query/GradeTable/GradeTableQuery.h"
+#include "domain/vo/BaseJsonVO.h"
+#include "domain/vo/GradeTable/GradeTableVO.h"
 #include "oatpp/web/server/api/ApiController.hpp"
 
 // 引入成绩单相关VO、查询参数、数据传输对象
@@ -56,6 +59,64 @@ private:
      * @return 分页查询结果VO
      */
     GradeTablePageJsonVO::Wrapper execQueryPageGradeTable(const GradeTableQuery::Wrapper& query);
+};
+
+/* Delete */
+class DeleteListController : public oatpp::web::server::api::ApiController
+{
+    API_ACCESS_DECLARE(DeleteListController);
+
+public:
+    API_DEF_ENDPOINT_INFO_QUERY_AUTH(
+        ZH_WORDS_GETTER("grade_table.delete.delete_list_title"),
+        DeleteList,
+        DeleteListQuery,
+        DeleteListJsonVO::Wrapper,
+        ZH_WORDS_GETTER("grade_table.tag")
+    );
+
+    API_HANDLER_ENDPOINT_QUERY_AUTH(
+        API_M_DEL,
+        "/app/common/grade/delete",
+        DeleteList,
+        DeleteListQuery,
+        ExecDeleteListQuery(query, authObject->getPayload())
+    );
+
+private:
+    Vector<Int64> ExecDeleteListQuery(
+        const DeleteListQuery::Wrapper& query,
+        const PayloadDTO& payload
+    );
+};
+
+/* save list */
+class SaveListController : public oatpp::web::server::api::ApiController
+{
+    API_ACCESS_DECLARE(SaveListController);
+
+public:
+    API_DEF_ENDPOINT_INFO_QUERY_AUTH(
+        ZH_WORDS_GETTER("grade_table.save.save_list_title"),
+        SaveList,
+        SaveListQuery,
+        SaveListJsonVO::Wrapper,
+        ZH_WORDS_GETTER("grade_table.tag")
+    );
+
+    API_HANDLER_ENDPOINT_QUERY_AUTH(
+        API_M_GET,
+        "/app/common/grade/save",
+        SaveList,
+        SaveListQuery,
+        ExecSaveListQuery(query, authObject->getPayload())
+    );
+
+private:
+    Vector<Int64> ExecSaveListQuery(
+        const SaveListQuery::Wrapper& query,
+        const PayloadDTO& payload
+    );
 };
 
 #include OATPP_CODEGEN_END(ApiController)

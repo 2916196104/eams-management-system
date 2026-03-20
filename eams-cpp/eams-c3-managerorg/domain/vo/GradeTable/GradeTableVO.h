@@ -3,13 +3,33 @@
 #define __GRADE_TABLE_PAGE_JSON_VO_H__
 
 #include "domain/GlobalInclude.h"
-
 #include "domain/dto/GradeTable/GradeTableDTO.h"
+#include "domain/vo/JsonVO.h"
+#include "oatpp/core/Types.hpp"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 
- //成绩单分页显示JsonVO对象，用于响应给客户端
+
+
+class GradeTableVO : public JsonVO<GradeTableDTO::Wrapper>
+{
+    DTO_INIT(GradeTableVO, JsonVO<GradeTableDTO::Wrapper>);
+};
+
+/* Delete List */
+class DeleteListJsonVO : public JsonVO<Vector<Int64>>
+{
+    DTO_INIT(DeleteListJsonVO, JsonVO<Vector<Int64>>);
+};
+
+/* Save List */
+class SaveListJsonVO : public JsonVO<Vector<Int64>>
+{
+    DTO_INIT(SaveListJsonVO, JsonVO<Vector<Int64>>);
+};
+
+//成绩单分页显示JsonVO对象，用于响应给客户端
 
 class GradeTablePageJsonVO : public JsonVO<GradeTablePageDTO::Wrapper>
 {
