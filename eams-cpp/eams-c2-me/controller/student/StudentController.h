@@ -20,8 +20,19 @@ class StudentController : public oatpp::web::server::api::ApiController // 1 继
   API_ACCESS_DECLARE(StudentController);
   // 3 定义接口
 public:
-
+    //删除用户
+    API_DEF_ENDPOINT_INFO_AUTH("删除用户", removeStudent, StringJsonVO::Wrapper,
+        API_TAG);
+    API_HANDLER_ENDPOINT_AUTH(
+        API_M_DEL,
+        "/me/removeStudent",
+        removeStudent,
+        BODY_DTO(List<String>, ids),  // 接收ID列表
+        executeRemoveUser(ids)
+    );
 private: // 定义接口执行函数
+    StringJsonVO::Wrapper executeRemoveUser(const List<String>& ids);
+
 };
 
 #undef API_TAG
