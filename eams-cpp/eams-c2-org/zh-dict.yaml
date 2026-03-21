@@ -1,0 +1,15 @@
+institution:
+ field:
+  id: 机构编号
+  name: 机构名称
+  parentId: 父机构编号
+  children: 子机构列表
+ tags:
+  t1: 机构管理
+ tree:
+  summary: 获取机构名称树
+ save:
+  summary: 保存机构名称
+ api:
+  get: 获取机构树
+  save: 保存机构
