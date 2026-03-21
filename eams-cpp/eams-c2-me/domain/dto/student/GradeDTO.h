@@ -12,8 +12,11 @@
  */
 class GradeDTO : public oatpp::DTO {
     DTO_INIT(GradeDTO, DTO);
-
-
-    API_DTO_FIELD(Int32, grade, ZH_WORDS_GETTER("student.grade"), true, 0);
+    API_DTO_FIELD(String, name, ZH_WORDS_GETTER("student.grade"), true, "");
 
 };
+class GradePageDTO : public PageDTO<GradeDTO::Wrapper>
+{
+    DTO_INIT(GradePageDTO, PageDTO<GradeDTO::Wrapper>);
+};
+#include OATPP_CODEGEN_END(DTO)

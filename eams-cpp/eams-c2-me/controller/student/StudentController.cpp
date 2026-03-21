@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "StudentController.h"
+#include "./service/GradeService.h"
 
 
-
-GradeJsonVO::Wrapper StudentController::executeQueryGrade(const GradeQuery::Wrapper& query) {
-	auto data = GradeDTO::createShared();
-	auto vo = GradeJsonVO::createShared();
-	vo->success(data);
+GradePageJsonVO::Wrapper StudentController::executeQueryGrade(const GradeQuery::Wrapper& query) {
+	GradeService gs;
+	auto vo = GradePageJsonVO::createShared();
+	vo->success(gs.listAllGrade(query));
 	return vo;
 }
 

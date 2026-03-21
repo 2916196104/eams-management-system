@@ -21,13 +21,12 @@ class StudentController : public oatpp::web::server::api::ApiController // 1 继
   API_ACCESS_DECLARE(StudentController);
   // 3 定义接口
 public:
-	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("student.query.grade"), queryGrade, GradeQuery, GradeJsonVO::Wrapper, API_TAG);
+	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("student.query.grade"), queryGrade, GradeQuery, GradePageJsonVO::Wrapper, API_TAG);
 	// 定义查询所有用户信息接口端点
-
 	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/me/getOptionalGrade", queryGrade, GradeQuery, executeQueryGrade(query));
 private: // 定义接口执行函数
 	
-	GradeJsonVO::Wrapper executeQueryGrade(const GradeQuery::Wrapper& query);
+	GradePageJsonVO::Wrapper executeQueryGrade(const GradeQuery::Wrapper& query);
 };
 
 #undef API_TAG
