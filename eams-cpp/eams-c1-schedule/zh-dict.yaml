@@ -1,23 +1,23 @@
 schedule:
-  tag: 课表模块示例接口
+  tag: 课表模块
   appointment:
     scheduleId: 预约课次ID
     studentId: 预约学生ID
-    summary: 家长提交课程预约申请
+    summary: 预约
   leave: 
     scheduleId: 请假课次ID
     studentId: 请假学生ID
     reason: 请假原因
-    summary: 家长提交课程请假申请
+    summary: 请假
   # Swagger 上的分组标签
   tags:
     main: "课表管理"
 
   # 接口的标题/摘要
   query:
-    summary: "获取课表列表"
+    summary: "获取课表"
   signin:
-    summary: "学生签到"
+    summary: "签到"
     success: "签到成功"
     fail: "签到失败，请稍后重试"
 
