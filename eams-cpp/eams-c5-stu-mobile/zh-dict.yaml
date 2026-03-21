@@ -274,7 +274,7 @@ redeemcredit:
     student_id: 学生id
     school_id: 学校id
 CheckIn:
-  tag: 签到
+  tag: 课表
   summary: 签到
   field:
     courseType: 班级类型
