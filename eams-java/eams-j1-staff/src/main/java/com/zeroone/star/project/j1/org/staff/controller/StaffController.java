@@ -4,6 +4,7 @@ import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j1.org.StaffDTO;
 import com.zeroone.star.project.dto.j1.org.ResetPasswordDTO;
 import com.zeroone.star.project.j1.org.staff.StaffMangerApis;
+import com.zeroone.star.project.j1.org.staff.service.StaffService;
 import com.zeroone.star.project.query.j1.org.StaffQuery;
 import com.zeroone.star.project.query.j1.org.ClassRecordQuery;
 import com.zeroone.star.project.query.j1.org.TeachRecordQuery;
@@ -14,6 +15,7 @@ import com.zeroone.star.project.vo.j1.org.TeachRecordVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,11 +36,13 @@ import java.util.Collections;
 @Api(tags="员工管理")
 @Slf4j
 public class StaffController implements StaffMangerApis {
+    @Autowired
+    private StaffService staffService;
     @GetMapping("/getpage")
     @ApiOperation("获取员工列表（条件+分页）")
     @Override
     public JsonVO<PageDTO<StaffVO>> queryPage(StaffQuery condition) {
-        return null;
+        return staffService.queryPage(condition);
     }
     @GetMapping("/get")
     @Override
