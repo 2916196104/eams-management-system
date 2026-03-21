@@ -11,3 +11,13 @@ StringJsonVO::Wrapper TimetableController::executeLeave(const LeaveDTO::Wrapper&
 
 	return StringJsonVO::Wrapper();
 }
+
+TimetableVO::Wrapper TimetableController::executeQuery(const TimetableQuery::Wrapper& query)
+{
+	return TimetableVO::Wrapper();
+}
+
+TimetableSignVO::Wrapper TimetableController::executeSign(const TimetableSignDTO::Wrapper& dto)
+{
+	return TimetableSignVO::Wrapper();
+}

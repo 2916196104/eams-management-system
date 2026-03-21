@@ -1,5 +1,4 @@
-﻿# 公共接口
-common:
+﻿common:
  api-tag: 公共接口
  interface:
   get-student-by-id: 获取学员详情
@@ -7,7 +6,9 @@ common:
   query-student-registration-record: 获取报名记录（条件+分页）
   download-student-picture: 下载学员头像 
   get-student-course-count: 获取学员课次数据
-  save-student: 保存学员  
+  save-student: 保存学员
+  enrollstudentCourse: 学员报名课程
+  studentstage: 获取学员阶段
  field:
   file:
    id: 文件ID
@@ -51,6 +52,57 @@ common:
    drop-class-count: 退课数量
    refund-describe: 退费说明
    refund-status: 退费状态
+   price-people: 收款经手人
+
+finishstudent:
+ api-tag: 结业学员接口
+ interface:
+  export-finish-student: 导出结业学员报表
+  import-finish-student: 导入结业学员报表
+ field:
+  finish-student-query:
+   id: 编号
+   student-name: 学员姓名
+   parent-name: 家长姓名
+   family-relation: 亲属关系
+   mobile: 手机号码
+   counselor: 顾问
+   grade: 年级
+   school-name: 分校名称
+   lesson-count: 课次数
+   points: 积分
+   gender: 性别
+   age: 年龄
+   remark: 备注
+   graduation-date: 结业日期
+   operation: 操作
+   keyword: 学员姓名或手机号
+   total-count: 导入总行数
+   success-count: 导入成功行数
+   failed-count: 导入失败行数
+
+parentaccount:
+ api-tag: 家长账号
+ interface:
+  query-parent-account: 家长账号条件分页查询
+  modify-parent-account: 家长账户更改
+  modify-parent-password: 家长密码更改
+ field:
+  parent:
+   user-id: 家长id
+   mobile: 手机号
+   name: 家长姓名
+   student-name: 关联学生
+   wx-name: 微信昵称
+   keyword: 姓名或手机号
+   login-times: 登录次数
+   latest-login-time: 最近登录时间
+   latest-login-ip: 最近登录IP
+   add-time: 注册时间
+   state: 状态
+   operation: 操作
+   old-password: 旧密码
+   new-password: 新密码
 
 intendedstudent:
  api-tag: 意向学员接口
@@ -103,5 +155,17 @@ onlinestudent:
    school: 学校
    grade: 年纪
    counselor: 顾问
-   age: 年龄
-   note: 备注
+   birthday: 生日
+
+summaryclass:
+ api-tag: 课时汇总
+ interface:
+  query-summaryclass: 课时汇总查询
+ field:
+  student:
+   student-name: 学员姓名
+   course-name: 课程名字
+   attendance-record: 上课记录
+   total-lessons: 总课次
+   used-lessons: 已上课次
+   remaining-lessons: 剩余课次

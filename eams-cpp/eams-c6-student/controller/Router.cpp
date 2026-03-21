@@ -21,14 +21,18 @@
 #include "ApiHelper.h"
 #include "controller/intendedstudent/IntendedStudentController.h"
 #include "common/CommonController.h"
+#include "parentaccount/ParentAccountController.h"
+#include "finishstudent/FinishStudentController.h"
+#include "summaryclass/SummaryClassController.h"
 #include "controller/onlinestudent/OnlineStudentController.h"
+
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
-// 简化绑定控制器宏定义
+// ??????????????
 #define ROUTER_SIMPLE_BIND(__CLASS__) \
 router->addController(__CLASS__::createShared())
 #else
-// 简化绑定控制器宏定义
+// ??????????????
 #define ROUTER_SIMPLE_BIND(__CLASS__) \
 BIND_CONTROLLER(docEndpoints, router, __CLASS__)
 #endif
@@ -41,8 +45,13 @@ Router::Router(Endpoints* docEndpoints, HttpRouter* router)
 
 void Router::initRouter()
 {
-	//#TIP :系统扩展路由定义，写在这个后面
+	//#TIP :???????????????????????
 	ROUTER_SIMPLE_BIND(CommonController);
+	ROUTER_SIMPLE_BIND(ParentAccountController);
+	ROUTER_SIMPLE_BIND(FinishStudentController);
+	ROUTER_SIMPLE_BIND(CommonController);
+	ROUTER_SIMPLE_BIND(SummaryClassController);
+	ROUTER_SIMPLE_BIND(ParentAccountController);
 	ROUTER_SIMPLE_BIND(IntendedStudentController);
 	ROUTER_SIMPLE_BIND(OnlineStudentController);
 }
