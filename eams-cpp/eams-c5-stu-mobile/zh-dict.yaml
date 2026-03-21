@@ -4,7 +4,7 @@ test :
  resp: 操作成功
 
 spsmtp:
- summary: 发送密码验证接口
+ summary: 发送密码验证
  phone : 手机号
 
 api_post_code :
@@ -18,6 +18,8 @@ credit_mall:
  tags:
   t1: 基础示例接口
   t2: 声明式服务示例接口
+  t3: 积分兑换
+  t4: 登入
  get:
   summary-school_id: 通过学校id分页查询礼品数据
   summary: 通过id查询礼品
