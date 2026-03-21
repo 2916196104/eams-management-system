@@ -69,56 +69,13 @@
 //    // 保留原有Payload字段（若业务需要）
 //    CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
 //};
-class ScheduleTimeableDTO : public oatpp::DTO
+class GetTimeableDTO : public oatpp::DTO
 {
-    DTO_INIT(ScheduleTimeableDTO, DTO);
-
-    // 1. 主键ID（bigint unsigned → Int64）
-    DTO_FIELD(Int64, id);
-    DTO_FIELD_INFO(id) {
-        info->description = ZH_WORDS_GETTER("c5.schedule.Timeable.field.id");
-    }
-    // 2. 所属课程ID（bigint → Int64，NOT NULL）
-    DTO_FIELD(Int64, course_id);
-    DTO_FIELD_INFO(course_id) {
-        info->description = ZH_WORDS_GETTER("c5.schedule.Timeable.field.course_id");
-    }
-    //3.章节标题(varchar(255))
-    DTO_FIELD(String, title);
-    DTO_FIELD_INFO(title) {
-        info->description = ZH_WORDS_GETTER("c5.schedule.Timeable.field.title");
-    }
-    //4.计划课时数(int)
-    DTO_FIELD(Int64, lesson_count);
-    DTO_FIELD_INFO(lesson_count) {
-        info->description = ZH_WORDS_GETTER("c5.schedule.Timeable.field.lesson_count");
-    }
-    //5.创建人(bigint → Int64，NOT NULL)
-    DTO_FIELD(String, creator);
-    DTO_FIELD_INFO(creator) {
-        info->description = ZH_WORDS_GETTER("c5.schedule.Timeable.field.creato");
-    }
-    //6.编辑者(bigint → Int64，NOT NULL)
-    DTO_FIELD(String, editor);
-    DTO_FIELD_INFO(editor) {
-        info->description = ZH_WORDS_GETTER("c5.schedule.Timeable.field.editor");
-    }
-    //7.添加时间（datetime → String）
-    DTO_FIELD(String, add_time);
-    DTO_FIELD_INFO(add_time) {
-        info->description = ZH_WORDS_GETTER("c5.schedule.Timeable.field.add_time");
-    }
-    //8..修改时间（datetime → String）
-    DTO_FIELD(String, edit_time);
-    DTO_FIELD_INFO(edit_time) {
-        info->description = ZH_WORDS_GETTER("c5.schedule.Timeable.field.edit_time");
-
-    }
-    //9.删除标记（tinyint(1) → Boolean，DEFAULT '0'）
-    DTO_FIELD(String, deleted);
-    DTO_FIELD_INFO(deleted) {
-        info->description = ZH_WORDS_GETTER("c5.schedule.Timeable.field.deleted");
-
+    DTO_INIT(GetTimeableDTO, DTO);
+    // 日期
+    DTO_FIELD(String, date);
+    DTO_FIELD_INFO(date) {
+        info->description = ZH_WORDS_GETTER("sample.field.sex");//日期
     }
 
     // 保留原有Payload字段（若业务需要）
@@ -130,9 +87,55 @@ class ScheduleTimeableDTO : public oatpp::DTO
 //{
 //    DTO_INIT(ClassStudentPageDTO, PageDTO<ClassStudentDTO::Wrapper>);
 //};
-class ScheduleTimeablePageDTO : public PageDTO<ScheduleTimeableDTO::Wrapper>
+class GetTimeablePageDTO : public PageDTO<GetTimeableDTO::Wrapper>
 {
-    DTO_INIT(ScheduleTimeablePageDTO, PageDTO<ScheduleTimeableDTO::Wrapper>);
+    DTO_INIT(GetTimeablePageDTO, PageDTO<GetTimeableDTO::Wrapper>);
 };
+
+//// 1. 主键ID（bigint unsigned → Int64）
+//DTO_FIELD(Int64, id);
+//DTO_FIELD_INFO(id) {
+//    info->description = ZH_WORDS_GETTER("c5.schedule.Timeable.field.id");
+//}
+//// 2. 所属课程ID（bigint → Int64，NOT NULL）
+//DTO_FIELD(Int64, course_id);
+//DTO_FIELD_INFO(course_id) {
+//    info->description = ZH_WORDS_GETTER("c5.schedule.Timeable.field.course_id");
+//}
+////3.章节标题(varchar(255))
+//DTO_FIELD(String, title);
+//DTO_FIELD_INFO(title) {
+//    info->description = ZH_WORDS_GETTER("c5.schedule.Timeable.field.title");
+//}
+////4.计划课时数(int)
+//DTO_FIELD(Int64, lesson_count);
+//DTO_FIELD_INFO(lesson_count) {
+//    info->description = ZH_WORDS_GETTER("c5.schedule.Timeable.field.lesson_count");
+//}
+////5.创建人(bigint → Int64，NOT NULL)
+//DTO_FIELD(String, creator);
+//DTO_FIELD_INFO(creator) {
+//    info->description = ZH_WORDS_GETTER("c5.schedule.Timeable.field.creato");
+//}
+////6.编辑者(bigint → Int64，NOT NULL)
+//DTO_FIELD(String, editor);
+//DTO_FIELD_INFO(editor) {
+//    info->description = ZH_WORDS_GETTER("c5.schedule.Timeable.field.editor");
+//}
+////7.添加时间（datetime → String）
+//DTO_FIELD(String, add_time);
+//DTO_FIELD_INFO(add_time) {
+//    info->description = ZH_WORDS_GETTER("c5.schedule.Timeable.field.add_time");
+//}
+////8..修改时间（datetime → String）
+//DTO_FIELD(String, edit_time);
+//DTO_FIELD_INFO(edit_time) {
+//    info->description = ZH_WORDS_GETTER("c5.schedule.Timeable.field.edit_time");
+//
+////9.删除标记（tinyint(1) → Boolean，DEFAULT '0'）
+//DTO_FIELD(String, deleted);
+//DTO_FIELD_INFO(deleted) {
+//    info->description = ZH_WORDS_GETTER("c5.schedule.Timeable.field.deleted");
+
 #include OATPP_CODEGEN_END(DTO)
 #endif // !_TIMEABLE_DTO_
