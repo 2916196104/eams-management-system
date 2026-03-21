@@ -1,22 +1,29 @@
 <template>
 	<div class="contain">
-		<div class="code">主面板</div>
-		<div class="info">这是主面板</div>
+		<el-row :gutter="20">
+			<el-col :span="6">
+				<statistics
+					:targetText="'学员数'"
+					:targetNumber="999"
+					:iconName="'mdi:people'"
+					:iconColor="'#40C9C6'"
+					:hoverIconColor="'white'"
+					:hoverBgColor="'#40C9C6'"
+				/>
+			</el-col>
+			<el-col :span="6">
+				<statistics :targetText="'学员数2'" :targetNumber="12345" :hoverColor="'green'" />
+			</el-col>
+			<el-col :span="6">
+				<statistics :targetText="'学员数3'" :targetNumber="99234569" :hoverColor="'black'" />
+			</el-col>
+			<el-col :span="6">
+				<statistics :targetText="'学员数4'" :targetNumber="13323" :hoverColor="'yellow'" />
+			</el-col>
+		</el-row>
 	</div>
 </template>
-
-<style lang="css" scoped>
-.contain {
-	text-align: center;
-	padding: 20%;
-}
-.code {
-	font-size: xxx-large;
-	font-weight: bold;
-	color: #222222;
-}
-.info {
-	font-weight: bold;
-	color: dimgray;
-}
-</style>
+<script setup lang="ts">
+import statistics from "@/components/statistics/statistics.vue";
+</script>
+<style lang="css" scoped></style>
