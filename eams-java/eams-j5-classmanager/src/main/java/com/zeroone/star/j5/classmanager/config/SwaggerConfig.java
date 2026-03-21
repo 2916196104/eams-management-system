@@ -1,4 +1,4 @@
-package com.zeroone.star.j5.courseplan.config;
+package com.zeroone.star.j5.classmanager.config;
 
 import com.zeroone.star.project.config.swagger.SwaggerCore;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +20,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 public class SwaggerConfig {
     @Bean
     Docket CoursePlanApi() {
-        return SwaggerCore.defaultDocketBuilder("排课计划模块", "com.zeroone.star.j5.courseplan", "j5-courseplan");
+        return SwaggerCore.defaultDocketBuilder("班级管理模块", "com.zeroone.star.j5.classmanager", "j5-classmanager");
     }
 }
