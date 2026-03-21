@@ -168,6 +168,16 @@ description: 当用户要求在 bug 已经定位并修复后，记录排错经�
 - 记忆重点：未来写记忆时，要说明 warning 清理必须基于“单一 fresh dev 进程”的新日志，而不是基于旧日志拼接猜测。
 - 后续约束：验证结论时，应优先记录 `fresh dev.stderr` 是否为空、页面 HTTP 是否 200、Chrome console 是否无新增 `warn/error`。
 
+### `packages/vue-element-cui-nuxt` 的 Windows PowerShell 构建假卡死与 Nitro trace 事故（2026-03）
+
+- 问题现象：`pnpm --filter @eams-monorepo/vue-element-cui-nuxt build` 长期停在 `Building Nuxt Nitro server (preset: node-server)`；多次超时重跑后，看起来像是“越跑越卡、彻底卡死”。
+- 实际根因：有两层原因叠加。第一层是真卡点：Nitro node-server 出包阶段默认 `externals.trace` 会触发 `nodeFileTrace`，在当前文档站 + pnpm workspace + Windows 环境下持续消耗高 CPU 和高内存，构建长时间卡在 Nitro 收尾。第二层是假象放大：PowerShell 下超时终止、手动中断，或 `Start-Process` 后台运行 `pnpm -> cmd -> node -> nuxt build` 时，外层命令结束不代表内层子进程树退出，旧构建链会残留并和新构建叠加。
+- 关键误导点：日志停在同一行，不等于进程已经空转；如果不先清理残留子进程，后续 `Get-Process`、日志和产物观察会把旧进程噪音误判成当前命令的状态。
+- 关键线索：单进程复现时，`.nuxt/dist/server/server.mjs` 已生成，但 `.output/server` 仍为空，说明 Vite SSR 已完成、卡点在 Nitro 收尾；同时 `nuxt.mjs build` 的工作集可涨到 2GB 以上，CPU 仍持续增加，符合 `nitropack` 的 `nodeFileTrace` tracing 阶段特征。
+- 有效修复：先按命令行特征清理旧的 `pnpm -> cmd -> node` 构建链，只保留一条单独进程复现；然后在 `packages/vue-element-cui-nuxt/nuxt.config.ts` 中显式设置 `nitro.externals.trace = false`，绕开当前环境下的 tracing 卡点。
+- 验证方式：单进程执行 `pnpm --filter @eams-monorepo/vue-element-cui-nuxt exec nuxi build --logLevel=verbose`，应生成 `.output/server/index.mjs` 并打印 `Build complete!`；同时确认不再残留目标构建进程链。
+- 后续约束：以后在 Windows PowerShell 下复现“构建卡死”时，先确认是否有旧子进程残留，再判断当前命令是否真的卡住；不要把多条残留构建链叠加后的现象直接归因到当前修改。
+
 ## 写入经验时必须保留的额外信息
 
 如果这次 bug 与仓库已有事故模式相似，写记忆时不要遗漏下面这些额外信息：
