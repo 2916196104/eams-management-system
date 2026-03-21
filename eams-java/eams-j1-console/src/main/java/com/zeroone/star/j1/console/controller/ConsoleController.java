@@ -1,46 +1,59 @@
 package com.zeroone.star.j1.console.controller;
 
-import com.zeroone.star.project.j1.org.ConsoleApis;
-import com.zeroone.star.project.query.j1.console.*;
-import com.zeroone.star.j1.console.service.IConsoleService;
+import com.zeroone.star.project.j1.ConsoleApis;
+import com.zeroone.star.project.query.j1.console.ConsoleNoticeQuery;
+import com.zeroone.star.project.query.j1.console.MyFollowUpQuery;
+import com.zeroone.star.project.query.j1.console.MyPaymentRequestQuery;
+import com.zeroone.star.project.query.j1.console.MyRegistrationQuery;
+import com.zeroone.star.project.query.j1.console.TimetableCalendarQuery;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.vo.j1.console.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.zeroone.star.project.vo.j1.console.ConsoleNoticeVO;
+import com.zeroone.star.project.vo.j1.console.MyFollowUpVO;
+import com.zeroone.star.project.vo.j1.console.MyPaymentRequestVO;
+import com.zeroone.star.project.vo.j1.console.MyRegistrationVO;
+import com.zeroone.star.project.vo.j1.console.TimetableCalendarVO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Api(tags = "控制台管理")
 public class ConsoleController implements ConsoleApis {
 
-    @Autowired
-    private IConsoleService consoleService;
-
     @Override
-    public JsonVO<ConsoleStatisticsVO> getStatistics() {
-        ConsoleStatisticsVO vo = consoleService.getStatistics();
-        return JsonVO.success(vo);
+    @ApiOperation(value = "我的报名", notes = "分页查询我的报名列表")
+    @PostMapping("/console/course-enrollment")
+    public JsonVO<MyRegistrationVO> getCourseEnrollment(@RequestBody MyRegistrationQuery query) {
+        return JsonVO.success(new MyRegistrationVO());
     }
 
     @Override
-    public JsonVO<MonthEnrollmentVO> getMonthEnrollment(MonthEnrollmentQuery query) {
-        MonthEnrollmentVO vo = consoleService.getMonthEnrollment(query);
-        return JsonVO.success(vo);
+    @ApiOperation(value = "公告数据", notes = "分页查询控制台公告数据")
+    @PostMapping("/console/notice")
+    public JsonVO<ConsoleNoticeVO> getNoticeList(@RequestBody ConsoleNoticeQuery query) {
+        return JsonVO.success(new ConsoleNoticeVO());
     }
 
     @Override
-    public JsonVO<CourseEnrollmentVO> getCourseEnrollment(CourseEnrollmentQuery query) {
-        CourseEnrollmentVO vo = consoleService.getCourseEnrollment(query);
-        return JsonVO.success(vo);
+    @ApiOperation(value = "我的跟进", notes = "分页查询我的跟进记录")
+    @PostMapping("/console/customer")
+    public JsonVO<MyFollowUpVO> getCustomers(@RequestBody MyFollowUpQuery query) {
+        return JsonVO.success(new MyFollowUpVO());
     }
 
     @Override
-    public JsonVO<ScheduleVO> getSchedule(ScheduleQuery query) {
-        ScheduleVO vo = consoleService.getSchedule(query);
-        return JsonVO.success(vo);
+    @ApiOperation(value = "我的请款", notes = "分页查询我的请款记录")
+    @PostMapping("/console/cashout")
+    public JsonVO<MyPaymentRequestVO> getCashoutList(@RequestBody MyPaymentRequestQuery query) {
+        return JsonVO.success(new MyPaymentRequestVO());
     }
 
     @Override
-    public JsonVO<CustomerVO> getCustomers(CustomerQuery query) {
-        CustomerVO vo = consoleService.getCustomers(query);
-        return JsonVO.success(vo);
+    @ApiOperation(value = "课表日历", notes = "查询控制台课表日历数据")
+    @PostMapping("/console/schedule")
+    public JsonVO<TimetableCalendarVO> getSchedule(@RequestBody TimetableCalendarQuery query) {
+        return JsonVO.success(new TimetableCalendarVO());
     }
 }

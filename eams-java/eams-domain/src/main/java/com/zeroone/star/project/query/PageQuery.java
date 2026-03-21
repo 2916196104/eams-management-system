@@ -7,23 +7,23 @@ import lombok.ToString;
 
 import javax.validation.constraints.Min;
 
-/**
- * <p>
- * 描述：分页查询父类对象
- * </p>
- * <p>版权：&copy;01星球</p>
- * <p>地址：01星球总部</p>
- * @author 阿伟学长
- * @version 1.0.0
- */
 @Getter
 @Setter
 @ToString
 public class PageQuery {
-    @Min(value = 1, message = "页码最小值为1")
-    @ApiModelProperty(value = "查询页码", example = "1")
-    private long pageIndex;
-    @Min(value = 1, message = "条数最小值为1")
-    @ApiModelProperty(value = "查询条数", example = "10")
-    private long pageSize;
+    @Min(value = 1, message = "pageNum must be at least 1")
+    @ApiModelProperty(value = "Current page", example = "1")
+    private Integer pageNum = 1;
+
+    @Min(value = 1, message = "pageSize must be at least 1")
+    @ApiModelProperty(value = "Page size", example = "30")
+    private Integer pageSize = 30;
+
+    public Integer getPageIndex() {
+        return pageNum;
+    }
+
+    public void setPageIndex(Integer pageIndex) {
+        this.pageNum = pageIndex;
+    }
 }
