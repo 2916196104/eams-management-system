@@ -51,3 +51,6 @@ class:
         countLessonRemaining: 剩余课次
         progress: 学习进度
         defaultConsumeCourse: 是否默认消费课程
+
+class1:
+ summary: 获取班级详情
