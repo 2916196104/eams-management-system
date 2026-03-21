@@ -38,6 +38,9 @@
 #include "StudentRecord/StclassRecordController.h"
 #include "StudentRecord/StprofileDetailsController.h"
 #include "StudentRecord/student_coursecontroller.h"
+#include "RegistRecord/GetRegistRecordDetailsController.h"
+#include "RegistRecord/GetRegistRecordListController.h"
+#include "AddStudent/PostStudentInfo.h"
 
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
@@ -78,4 +81,7 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(StclassRecordController);
 	ROUTER_SIMPLE_BIND(StprofileDetailsController);
 	ROUTER_SIMPLE_BIND(StudentRecord::CourseControllor);
+	ROUTER_SIMPLE_BIND(GetRegistRecordDetailsController);
+	ROUTER_SIMPLE_BIND(GetRegistRecordListController);
+	ROUTER_SIMPLE_BIND(PostStudentInfoController);
 }

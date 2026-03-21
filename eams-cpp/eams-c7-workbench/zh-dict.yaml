@@ -274,3 +274,24 @@ StudentRecord:
    consume_course_num: 消课
    course_balance: 剩余
 
+translation:
+ summary: 测试接口
+ resp: 操作成功
+ RegistRecordList: 获取报名记录（分页）
+ RegistRecordDetails: 获取报名记录详情
+ AddStudent: 添加意向学员
+ studentName: 学生姓名
+ courseName: 课程名称
+ courseFee: 课程金额
+ paidAmount: 实付金额
+ startDate: 开始时间
+ expireDate: 过期日期
+ countLessonTotal: 总购买课次
+ doneLesson: 已完成课次
+ amount: 优惠金额
+ subjectName: 课程科目
+ debt: 欠款金额
+ addTime: 提交时间
+ tag: 备注
+ refund: 退款信息
+

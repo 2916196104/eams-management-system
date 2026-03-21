@@ -59,7 +59,7 @@ add_executable(${appName}
     "controller/StudentRecord/StclassRecordController.cpp"
     "controller/StudentRecord/StlistController.cpp"
     "controller/StudentRecord/StprofileDetailsController.cpp"
- "controller/StudentRecord/student_coursecontroller.cpp" "controller/StudentRecord/student_coursecontroller.h" "domain/dto/StudentRecord/student_courseDTO.h" "domain/query/StudentRecord/studentinformation.h" "domain/vo/StudentRecord/student_courseVO.h")
+ "controller/StudentRecord/student_coursecontroller.cpp" "controller/StudentRecord/student_coursecontroller.h" "domain/dto/StudentRecord/student_courseDTO.h" "domain/query/StudentRecord/studentinformation.h" "domain/vo/StudentRecord/student_courseVO.h" "controller/AddStudent/PostStudentInfo.cpp" "controller/AddStudent/PostStudentInfo.h" "controller/RegistRecord/GetRegistRecordDetailsController.cpp" "controller/RegistRecord/GetRegistRecordDetailsController.h" "controller/RegistRecord/GetRegistRecordListController.cpp" "controller/RegistRecord/GetRegistRecordListController.h" "domain/dto/AddStudent/AddStudentDTO.h" "domain/dto/RegistRecord/RegistRecordDTO.h" "domain/query/AddStudent/AddStudentQuery.h" "domain/query/RegistRecord/RegistRecordQuery.h" "domain/vo/AddStudent/AddStudentVO.h" "domain/vo/RegistRecord/RegistRecordVO.h")
 # 发布Swagger文档包宏定义
 if(DEFINED _RELEASE_DOC_)
 	target_compile_definitions(${appName} PRIVATE _RELEASE_DOC_)
