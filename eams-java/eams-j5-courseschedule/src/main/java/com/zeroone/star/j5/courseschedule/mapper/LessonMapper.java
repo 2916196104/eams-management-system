@@ -55,6 +55,10 @@ public interface LessonMapper extends BaseMapper<Lesson> {
             "<foreach collection='param.classIds' item='id' open='(' separator=',' close=')'>#{id}</foreach></if>" +
             "<if test='param.teacherIds != null and param.teacherIds.size() > 0'>AND l.teacher_id IN " +
             "<foreach collection='param.teacherIds' item='id' open='(' separator=',' close=')'>#{id}</foreach></if>" +
+            "<if test='param.studentIds != null and param.studentIds.size() > 0'>AND EXISTS (" +
+            "SELECT 1 FROM lesson_student ls WHERE ls.lesson_id = l.id AND ls.student_id IN " +
+            "<foreach collection='param.studentIds' item='id' open='(' separator=',' close=')'>#{id}</foreach>" +
+            ")</if>" +
             "<if test='param.subjectId != null'>AND c.subject_id = #{param.subjectId}</if>" +
             "<if test='param.roomId != null'>AND l.room_id = #{param.roomId}</if>" +
             "<if test='param.startDate != null'>AND l.date &gt;= #{param.startDate}</if>" +

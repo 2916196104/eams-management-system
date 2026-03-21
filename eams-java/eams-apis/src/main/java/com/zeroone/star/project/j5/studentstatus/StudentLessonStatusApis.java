@@ -2,6 +2,7 @@ package com.zeroone.star.project.j5.studentstatus;
 
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j5.courseschedule.LessonCountLogQueryDTO;
+import com.zeroone.star.project.dto.j5.courseschedule.LessonSignSaveDTO;
 import com.zeroone.star.project.query.PageQuery;
 import com.zeroone.star.project.vo.JsonVO;
 
@@ -18,6 +19,16 @@ public interface StudentLessonStatusApis {
     JsonVO<PageDTO<Map<String, Object>>> list(String keyword, String status, PageQuery query);
 
     /**
+     * 签到保存
+     */
+    JsonVO<Integer> saveSign(LessonSignSaveDTO lessonSignSaveDTO);
+
+    /**
+     * 批量签到
+     */
+    JsonVO<Integer> batchSaveSign(List<LessonSignSaveDTO> lessonSignSaveDTOs);
+
+    /**
      * 批量设置课程状态
      */
     JsonVO<Integer> batchSetStatus(List<Long> lessonStudentIds, String status);
@@ -28,7 +39,7 @@ public interface StudentLessonStatusApis {
     JsonVO<Integer> batchRestore(List<Long> lessonStudentIds);
 
     /**
-     * Query lesson count change logs with pagination.
+     * 分页查询课次变更流水
      */
     JsonVO<PageDTO<?>> queryLessonCountLog(LessonCountLogQueryDTO queryDTO);
 }

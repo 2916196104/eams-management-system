@@ -10,10 +10,12 @@ import com.zeroone.star.project.dto.j5.courseschedule.LessonParamDTO;
 import com.zeroone.star.project.vo.j5.courseschedule.LessonDetailVO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -79,6 +82,28 @@ class LessonServiceImplTest {
         assertThat(result).isNotNull();
         assertThat(result.getPageIndex()).isEqualTo(1);
         assertThat(result.getPageSize()).isEqualTo(10);
+    }
+
+    @Test
+    void queryList_shouldParseDateRange_whenStartAndEndDateAbsent() {
+        // Arrange
+        LessonParamDTO param = new LessonParamDTO();
+        param.setDateRange("2026-03-01,2026-03-10");
+
+        Page<Lesson> page = new Page<>(1, 10);
+        page.setTotal(0);
+        page.setRecords(new ArrayList<>());
+        when(lessonMapper.selectLessonPage(any(Page.class), any(LessonParamDTO.class))).thenReturn(page);
+
+        // Act
+        lessonService.queryList(param);
+
+        // Assert
+        ArgumentCaptor<LessonParamDTO> captor = ArgumentCaptor.forClass(LessonParamDTO.class);
+        verify(lessonMapper).selectLessonPage(any(Page.class), captor.capture());
+        LessonParamDTO passed = captor.getValue();
+        assertThat(passed.getStartDate()).isEqualTo(LocalDate.parse("2026-03-01"));
+        assertThat(passed.getEndDate()).isEqualTo(LocalDate.parse("2026-03-10"));
     }
 
     @Test

@@ -1,7 +1,7 @@
 package com.zeroone.star.j5.courseschedule.exception;
 
 /**
- * Error code skeleton for course schedule module.
+ * 课程编排模块错误码定义
  */
 public enum CourseScheduleErrorCode {
     UNKNOWN_ERROR,
@@ -9,4 +9,3 @@ public enum CourseScheduleErrorCode {
     DATA_NOT_FOUND,
     OPERATION_NOT_SUPPORTED
 }
-

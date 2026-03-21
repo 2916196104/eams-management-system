@@ -39,12 +39,14 @@ public class LessonStudentController implements StudentLessonStatusApis {
 
     @PostMapping("sign")
     @ApiOperation("签到保存")
+    @Override
     public JsonVO<Integer> saveSign(@ApiParam(value = "签到参数", required = true) @Valid @RequestBody LessonSignSaveDTO lessonSignSaveDTO) {
         return JsonVO.success(lessonStudentService.addOrUpdateRecord(lessonSignSaveDTO));
     }
 
     @PostMapping("batch-sign")
     @ApiOperation("批量签到")
+    @Override
     public JsonVO<Integer> batchSaveSign(@ApiParam(value = "签到参数列表", required = true) @Valid @RequestBody List<LessonSignSaveDTO> lessonSignSaveDTOs) {
         return JsonVO.success(lessonStudentService.batchAddOrUpdateRecord(lessonSignSaveDTOs));
     }

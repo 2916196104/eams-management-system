@@ -21,13 +21,14 @@ public interface LessonStudentMapper extends BaseMapper<LessonStudent> {
 
     @Select("<script>" +
             "SELECT ls.*, l.title lesson_title, l.date lesson_date, l.start_time, l.end_time, " +
-            "s.name student_name, s.mobile student_mobile, cls.name class_name " +
+            "s.name student_name, u.mobile student_mobile, cls.name class_name " +
             "FROM lesson_student ls " +
             "LEFT JOIN lesson l ON ls.lesson_id = l.id " +
             "LEFT JOIN student s ON ls.student_id = s.id " +
+            "LEFT JOIN `user` u ON s.user_id = u.id " +
             "LEFT JOIN `class` cls ON ls.class_id = cls.id " +
             "WHERE ls.id IS NOT NULL " +
-            "<if test='keyword != null and keyword != \"\"'>AND (s.name LIKE CONCAT('%', #{keyword}, '%') OR s.mobile LIKE CONCAT('%', #{keyword}, '%'))</if>" +
+            "<if test='keyword != null and keyword != \"\"'>AND (s.name LIKE CONCAT('%', #{keyword}, '%') OR u.mobile LIKE CONCAT('%', #{keyword}, '%'))</if>" +
             "<if test='status != null and status != \"\"'>AND ls.sign_state = #{status}</if>" +
             "ORDER BY l.date DESC, l.start_time DESC" +
             "</script>")
@@ -51,7 +52,7 @@ public interface LessonStudentMapper extends BaseMapper<LessonStudent> {
                              @Param("signTime") LocalDateTime signTime);
 
     @Update("<script>" +
-            "UPDATE lesson_student SET sign_state = 0, sign_time = NULL, sign_type = NULL, " +
+            "UPDATE lesson_student SET sign_state = 0, sign_time = NULL, sign_type = NULL, dec_lesson_count = 0, " +
             "score = NULL, evaluation = NULL, evaluate_time = NULL, evaluate_teacher = NULL " +
             "WHERE id IN " +
             "<foreach collection='ids' item='id' open='(' separator=',' close=')'>#{id}</foreach>" +

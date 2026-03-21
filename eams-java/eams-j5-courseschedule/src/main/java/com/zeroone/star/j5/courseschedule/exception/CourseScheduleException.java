@@ -1,7 +1,7 @@
 package com.zeroone.star.j5.courseschedule.exception;
 
 /**
- * Runtime exception skeleton for course schedule module.
+ * 课程编排模块运行时异常
  */
 public class CourseScheduleException extends RuntimeException {
 
@@ -16,4 +16,3 @@ public class CourseScheduleException extends RuntimeException {
         return errorCode;
     }
 }
-

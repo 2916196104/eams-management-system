@@ -186,7 +186,9 @@ public class LessonStudentServiceImpl extends ServiceImpl<LessonStudentMapper, L
         }
 
         try {
-            return Integer.parseInt(status);
+            int code = Integer.parseInt(status);
+            SignStateEnum signStateEnum = SignStateEnum.getByCode(code);
+            return signStateEnum == null ? null : signStateEnum.getCode();
         } catch (NumberFormatException ignored) {
             String normalized = status.trim().toUpperCase(Locale.ROOT);
             for (SignStateEnum stateEnum : SignStateEnum.values()) {

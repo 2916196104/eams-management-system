@@ -229,7 +229,7 @@ class LessonStudentServiceImplTest {
         List<Long> ids = Arrays.asList(1L, 2L, 3L);
         String status = "1"; // 已签到
 
-        when(baseMapper.batchUpdateSignState(ids, 1, LocalDateTime.now())).thenReturn(3);
+        when(baseMapper.batchUpdateSignState(eq(ids), eq(1), any(LocalDateTime.class))).thenReturn(3);
 
         // Act
         Integer result = lessonStudentService.batchSetStatus(ids, status);
@@ -257,6 +257,19 @@ class LessonStudentServiceImplTest {
 
         // Assert
         assertThat(result).isEqualTo(0);
+    }
+
+    @Test
+    void batchSetStatus_shouldReturnZero_whenStatusCodeOutOfRange() {
+        // Arrange
+        List<Long> ids = Arrays.asList(1L, 2L);
+
+        // Act
+        Integer result = lessonStudentService.batchSetStatus(ids, "99");
+
+        // Assert
+        assertThat(result).isEqualTo(0);
+        verify(baseMapper, never()).batchUpdateSignState(any(), any(), any());
     }
 
     @Test

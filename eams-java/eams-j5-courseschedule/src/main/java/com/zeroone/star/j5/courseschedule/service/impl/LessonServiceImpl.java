@@ -14,18 +14,63 @@ import com.zeroone.star.project.vo.j5.courseschedule.LessonDetailVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
 @Service
 public class LessonServiceImpl extends ServiceImpl<LessonMapper, Lesson> implements ILessonService {
 
     @Override
     public PageDTO<?> queryList(LessonParamDTO param) {
         LessonParamDTO safeParam = param == null ? new LessonParamDTO() : param;
+        applyDateRange(safeParam);
         long pageIndex = safeParam.getPageIndex() > 0 ? safeParam.getPageIndex() : 1L;
         long pageSize = safeParam.getPageSize() > 0 ? safeParam.getPageSize() : 10L;
 
         Page<Lesson> page = new Page<>(pageIndex, pageSize);
         IPage<Lesson> result = baseMapper.selectLessonPage(page, safeParam);
         return toPageDTO(result);
+    }
+
+    private void applyDateRange(LessonParamDTO param) {
+        if (param == null || param.getStartDate() != null || param.getEndDate() != null || isBlank(param.getDateRange())) {
+            return;
+        }
+        String normalized = param.getDateRange().trim().replace("~", ",").replace("，", ",");
+        String[] parts = normalized.split(",");
+        if (parts.length == 1) {
+            LocalDate date = parseDate(parts[0]);
+            if (date != null) {
+                param.setStartDate(date);
+                param.setEndDate(date);
+            }
+            return;
+        }
+        if (parts.length >= 2) {
+            LocalDate start = parseDate(parts[0]);
+            LocalDate end = parseDate(parts[1]);
+            if (start != null) {
+                param.setStartDate(start);
+            }
+            if (end != null) {
+                param.setEndDate(end);
+            }
+        }
+    }
+
+    private LocalDate parseDate(String value) {
+        if (isBlank(value)) {
+            return null;
+        }
+        try {
+            return LocalDate.parse(value.trim());
+        } catch (DateTimeParseException ignored) {
+            return null;
+        }
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
     }
 
     @Override

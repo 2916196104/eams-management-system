@@ -19,17 +19,17 @@ import com.zeroone.star.project.vo.j5.courseschedule.LessonDetailVO;
 public interface ILessonService extends IService<Lesson> {
 
     /**
-     * Query lesson list with pagination.
+     * 分页查询课次列表
      */
     PageDTO<?> queryList(LessonParamDTO param);
 
     /**
-     * Change lesson state in batch.
+     * 批量变更课次状态
      */
     Integer changeLessonState(LessonChangeStateDTO dto);
 
     /**
-     * Query single lesson detail.
+     * 查询单个课次详情
      */
     LessonDetailVO queryDetail(Long lessonId);
 }
