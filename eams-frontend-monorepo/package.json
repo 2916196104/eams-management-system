@@ -11,8 +11,8 @@
 	"scripts": {
 		"up-taze": "pnpm -w up @ruan-cat/taze-config -L && npx taze -r",
 		"git:fetch": "git fetch -p",
-		"git:dev-2-main": "pnpm git:fetch && pnpm git:push && git rebase f1-ruancat f1 && pnpm git:push",
-		"git:main-2-dev": "git rebase f1 f1-ruancat && pnpm git:push",
+		"git:dev-2-main": "pnpm git:fetch && pnpm git:push && git rebase origin/f1 f1-ruancat && pnpm git:push",
+		"git:main-2-dev": "git rebase origin/f1 f1-ruancat && pnpm git:push",
 		"git:push": "git push --follow-tags",
 		"preinstall": "npx only-allow pnpm",
 		"postinstall": "simple-git-hooks",
