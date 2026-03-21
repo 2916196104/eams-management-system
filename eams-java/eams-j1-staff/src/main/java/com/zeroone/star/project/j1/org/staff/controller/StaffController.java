@@ -9,6 +9,7 @@ import com.zeroone.star.project.query.j1.org.StaffQuery;
 import com.zeroone.star.project.query.j1.org.ClassRecordQuery;
 import com.zeroone.star.project.query.j1.org.TeachRecordQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.project.vo.j1.org.StaffDetailsVO;
 import com.zeroone.star.project.vo.j1.org.StaffVO;
 import com.zeroone.star.project.vo.j1.org.ClassRecordVO;
 import com.zeroone.star.project.vo.j1.org.TeachRecordVO;
@@ -47,14 +48,15 @@ public class StaffController implements StaffMangerApis {
     @GetMapping("/get")
     @Override
     @ApiOperation("获取员工详情")
-    public JsonVO<StaffVO> queryStaff(StaffQuery condition) {
-        return null;
+    public JsonVO<StaffDetailsVO> queryStaff(StaffQuery condition) {
+        return staffService.queryStaff(condition);
     }
        @PostMapping("/save")
     @Override
     @ApiOperation("保存员工")
     public JsonVO<Long> saveStaff(@RequestBody  StaffDTO condition) {
-        return null;
+
+        return  staffService.saveStaff(condition);
     }
 @DeleteMapping("/delete")
     @Override
