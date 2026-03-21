@@ -1,11 +1,9 @@
 package com.zeroone.star.stumanager.service.impl;
 
-import com.zeroone.star.project.dto.j8.SaveStu.StuSignCourseDTO;
-import com.zeroone.star.project.vo.j8.StuSignCourse.StuSignCourseVO;
+import com.zeroone.star.project.dto.j8.stumanager.common.StuSignCourseDTO;
+import com.zeroone.star.project.vo.j8.stumanager.StuSignCourse.StuSignCourseVO;
 import com.zeroone.star.stumanager.entity.StudentCourse;
 import org.mapstruct.Mapper;
-
-import java.util.List;
 
 /**
  * StudentCourse领域模型类型转换

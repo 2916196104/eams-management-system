@@ -1,4 +1,4 @@
-package com.zeroone.star.project.vo.j8.StuSignCourse;
+package com.zeroone.star.project.vo.j8.stumanager.StuSignCourse;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

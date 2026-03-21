@@ -1,6 +1,6 @@
 package com.zeroone.star.project.j8.sysmanager;
 
-import com.zeroone.star.project.dto.notice.NoticeSettingDTO;
+import com.zeroone.star.project.dto.j8.sysmanager.NoticeSettingDTO;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

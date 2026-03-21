@@ -1,4 +1,4 @@
-package com.zeroone.star.project.dto.j8.SaveStu;
+package com.zeroone.star.project.dto.j8.stumanager.SaveStu;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

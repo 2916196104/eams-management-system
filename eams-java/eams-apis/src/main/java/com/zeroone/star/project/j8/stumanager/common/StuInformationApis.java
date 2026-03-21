@@ -1,10 +1,9 @@
 package com.zeroone.star.project.j8.stumanager.common;
 
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.dto.j8.SaveStu.SaveStuAddDTO;
-import com.zeroone.star.project.dto.j8.SaveStu.SaveStuDTO;
-import com.zeroone.star.project.dto.j8.SaveStu.StuSignCourseDTO;
-import com.zeroone.star.project.dto.j8.stumanager.common.StudentDTO;
+import com.zeroone.star.project.dto.j8.stumanager.SaveStu.SaveStuAddDTO;
+import com.zeroone.star.project.dto.j8.stumanager.SaveStu.SaveStuDTO;
+import com.zeroone.star.project.dto.j8.stumanager.common.StuSignCourseDTO;
 import com.zeroone.star.project.query.j8.stumanager.StudentQuery;
 import com.zeroone.star.project.query.j8.stumanager.common.StudentCourseQuery;
 import com.zeroone.star.project.query.j8.stumanager.common.StudentListQuery;
@@ -13,7 +12,6 @@ import com.zeroone.star.project.vo.j8.stumanager.StudentAvatarVo;
 import com.zeroone.star.project.vo.j8.stumanager.StudentCourseVO;
 import com.zeroone.star.project.vo.j8.stumanager.StudentListVO;
 import com.zeroone.star.project.vo.j8.stumanager.StudentVO;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**

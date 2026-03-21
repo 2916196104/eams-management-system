@@ -1,6 +1,6 @@
 package com.zeroone.star.project.j8.stumanager;
 
-import com.zeroone.star.project.dto.OnlineStu.StudentAdvisorDTO;
+import com.zeroone.star.project.dto.j8.stumanager.OnlineStu.StudentAdvisorDTO;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

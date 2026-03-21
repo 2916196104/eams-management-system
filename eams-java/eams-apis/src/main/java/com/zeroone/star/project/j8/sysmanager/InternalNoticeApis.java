@@ -1,6 +1,6 @@
 package com.zeroone.star.project.j8.sysmanager;
 
-import com.zeroone.star.project.dto.notice.delInternalNoticeDTO;
+import com.zeroone.star.project.dto.j8.sysmanager.delInternalNoticeDTO;
 import cn.hutool.db.PageResult;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.dto.j8.sysmanager.NoticeDTO;

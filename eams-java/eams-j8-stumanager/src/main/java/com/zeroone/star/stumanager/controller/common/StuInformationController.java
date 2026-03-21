@@ -1,9 +1,9 @@
 package com.zeroone.star.stumanager.controller.common;
 
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.dto.j8.SaveStu.SaveStuAddDTO;
-import com.zeroone.star.project.dto.j8.SaveStu.SaveStuDTO;
-import com.zeroone.star.project.dto.j8.SaveStu.StuSignCourseDTO;
+import com.zeroone.star.project.dto.j8.stumanager.SaveStu.SaveStuAddDTO;
+import com.zeroone.star.project.dto.j8.stumanager.SaveStu.SaveStuDTO;
+import com.zeroone.star.project.dto.j8.stumanager.common.StuSignCourseDTO;
 import com.zeroone.star.project.j8.stumanager.common.StuInformationApis;
 import com.zeroone.star.project.query.j8.stumanager.common.StudentCourseQuery;
 import com.zeroone.star.project.query.j8.stumanager.common.StudentListQuery;

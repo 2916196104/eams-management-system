@@ -7,11 +7,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 /**
- * 结业学员
+ * 意向学员
  */
-public interface GraduatedStuApis {
+public interface ProspectiveStuApis {
     // 导出意向学员
-    ResponseEntity<byte[]> exportPGraduatedStu(List<Long> ids);
+    ResponseEntity<byte[]> exportProspectiveStu(List<Long> ids);
     // 导入意向学员
-    JsonVO<String> importGraduatedStu(MultipartFile file);
+    JsonVO<String> importProspectiveStu(MultipartFile file);
 }

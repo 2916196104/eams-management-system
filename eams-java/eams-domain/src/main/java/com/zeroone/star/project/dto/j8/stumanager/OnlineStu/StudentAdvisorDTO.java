@@ -1,4 +1,4 @@
-package com.zeroone.star.project.dto.OnlineStu;
+package com.zeroone.star.project.dto.j8.stumanager.OnlineStu;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

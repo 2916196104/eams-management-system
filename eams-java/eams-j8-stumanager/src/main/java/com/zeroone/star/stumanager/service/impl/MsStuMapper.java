@@ -1,8 +1,8 @@
 package com.zeroone.star.stumanager.service.impl;
 
-import com.zeroone.star.project.dto.j8.SaveStu.SaveStuAddDTO;
-import com.zeroone.star.project.dto.j8.SaveStu.SaveStuDTO;
-import com.zeroone.star.project.vo.j8.SaveStu.StuSaveVO;
+import com.zeroone.star.project.dto.j8.stumanager.SaveStu.SaveStuAddDTO;
+import com.zeroone.star.project.dto.j8.stumanager.SaveStu.SaveStuDTO;
+import com.zeroone.star.project.vo.j8.stumanager.SaveStu.StuSaveVO;
 import com.zeroone.star.stumanager.entity.Student;
 import org.mapstruct.Mapper;
 /**

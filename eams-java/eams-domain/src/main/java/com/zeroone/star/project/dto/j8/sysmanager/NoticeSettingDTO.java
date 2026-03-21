@@ -1,4 +1,4 @@
-package com.zeroone.star.project.dto.notice;
+package com.zeroone.star.project.dto.j8.sysmanager;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
