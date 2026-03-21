@@ -2,15 +2,20 @@
 #define __BOARDMANAGERVO_H__
 
 #include "domain/GlobalInclude.h"
+#include "domain/dto/BoardManager/BoardManagerDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /*公告管理视图类*/
 
-//class BoardManagerVO : public
-//{
-//	DTO_INIT(BoardManagerVO, )
-//};
+/**
+ * 定义一个公告信息分页显示JsonVO对象，用于响应给客户端
+ */
+class BoardPageJsonVO : public JsonVO<BoardPageDTO::Wrapper>
+{
+	DTO_INIT(BoardPageJsonVO, JsonVO<BoardPageDTO::Wrapper>);
+};
+
 
 #include OATPP_CODEGEN_END(DTO)
 

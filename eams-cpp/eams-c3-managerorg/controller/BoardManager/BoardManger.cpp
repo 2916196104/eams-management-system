@@ -22,9 +22,9 @@ ListJsonVO<String>::Wrapper BoardManager::execEndBoard(const List<String>& ids)
 }
 
 // ========== 新增：获取公告列表接口实现 ==========
-ListJsonVO<String>::Wrapper BoardManager::execGetAnnouncementList(const PayloadDTO& payload)
+ListJsonVO<String>::Wrapper BoardManager::execGetBoardList(const BoardQuery::Wrapper& query)
 {
-	return {};
+	return ListJsonVO<String>::Wrapper();
 }
 
 // ========== 新增：获取公告详情接口实现 ==========
