@@ -1,4 +1,4 @@
-package com.zeroone.star.project.vo.j1.Console;
+package com.zeroone.star.project.vo.j1.console;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
