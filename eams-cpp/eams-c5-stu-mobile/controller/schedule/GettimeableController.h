@@ -31,7 +31,7 @@ public://定义接口
         API_DEF_ADD_QUERY_PARAMS(String, "student_id", ZH_WORDS_GETTER("c5.schedule.Timeable.gettimeable.search1"), "101", true);
         //API_DEF_ADD_QUERY_PARAMS(String, "class_id", ZH_WORDS_GETTER("gettimeable.search3"), "101", false);
         //按上课日期查询
-        API_DEF_ADD_QUERY_PARAMS(String, "data", ZH_WORDS_GETTER("c5.schedule.Timeable.gettimeable.search2"), "2026-9-5", true);
+        API_DEF_ADD_QUERY_PARAMS(String, "date", ZH_WORDS_GETTER("c5.schedule.Timeable.gettimeable.search2"), "2026-9-5", true);
         /*API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("gettimeable.search1"), ZH_WORDS_GETTER("course.name1"), false);
         API_DEF_ADD_QUERY_PARAMS(String,"teacher_info", ZH_WORDS_GETTER("gettimeable.search2"), "Roin"+ZH_WORDS_GETTER("course.teachername1"), false);*/
     }
