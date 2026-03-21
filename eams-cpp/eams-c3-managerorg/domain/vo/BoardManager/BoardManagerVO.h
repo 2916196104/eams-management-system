@@ -2,15 +2,15 @@
 #define __BOARDMANAGERVO_H__
 
 #include "domain/GlobalInclude.h"
+#include "domain/dto/BoardManager/BoardManagerDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/*¹«¸æ¹ÜÀíÊÓÍ¼Àà*/
+//å…¬å‘Šç®¡ç†è§†å›¾ç±»
 
-//class BoardManagerVO : public
-//{
-//	DTO_INIT(BoardManagerVO, )
-//};
+class GetBoardDetailJsonVO : public JsonVO<GetBoardDetailDTO::Wrapper> {
+	DTO_INIT(GetBoardDetailJsonVO, JsonVO<GetBoardDetailDTO::Wrapper>);
+};
 
 #include OATPP_CODEGEN_END(DTO)
 

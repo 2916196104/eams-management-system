@@ -32,6 +32,32 @@ class BoardAddDTO : public oatpp::DTO
 	//API_DTO_FIELD_REQUIRE(oatpp::swagger::Binary, boardFile, ZH_WORDS_GETTER("board.field.avatar"),false);
 };
 
+class GetBoardDetailDTO : public oatpp::DTO
+{
+	DTO_INIT(GetBoardDetailDTO, DTO);
+	// 查看公告标题
+	DTO_FIELD(String, boardtitle);
+	DTO_FIELD_INFO(boardtitle) {
+		info->description = ZH_WORDS_GETTER("board.field.boardTitle");
+	}
+	// 查看公告内容
+	DTO_FIELD(String, boardtext);
+	DTO_FIELD_INFO(boardtext) {
+		info->description = ZH_WORDS_GETTER("board.field.boardText");
+	}
+	// 查看公告类型
+	DTO_FIELD(String, boardtype);
+	DTO_FIELD_INFO(boardtype) {
+		info->description = ZH_WORDS_GETTER("board.field.boardType");
+	}
+	// 查看公告状态
+	DTO_FIELD(String, boardstatus);
+	DTO_FIELD_INFO(boardstatus) {
+		info->description = ZH_WORDS_GETTER("board.field.boardStatus");
+	}
+
+};
+
 #include OATPP_CODEGEN_END(DTO)
 
 #endif

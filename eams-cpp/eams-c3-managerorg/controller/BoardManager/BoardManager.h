@@ -48,8 +48,17 @@ public:		//定义接口
 	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "org/board/get-board-list", GetAnnouncementList, BODY_DTO(List<String>, ids), execGetAnnouncementList(authObject->getPayload()));
 
 	// ========== 新增：获取公告详情接口（和原有接口格式完全一致，一行写完） ==========
-	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("board.detail.summary"), GetAnnouncementDetail, StringJsonVO::Wrapper, API_TAG);
-	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "org/board/get-board-detail", GetAnnouncementDetail, BODY_DTO(String, id, "公告ID"), execGetAnnouncementDetail(id, authObject->getPayload()));
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("board.detail.summary"), GetBoardDetail, GetBoardDetailJsonVO::Wrapper, API_TAG,
+		API_DEF_ADD_QUERY_PARAMS(String, "boardId", ZH_WORDS_GETTER("board.field.boardId"), "boardId", true);
+		API_DEF_ADD_QUERY_PARAMS(String, "boardTitle", ZH_WORDS_GETTER("board.field.boardTitle"), "boardTitle", false);
+		API_DEF_ADD_QUERY_PARAMS(String, "boardType", ZH_WORDS_GETTER("board.field.boardType"), "boardType", false);
+	);
+	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET,"org/board/get-board-detail", GetBoardDetail, QUERIES(QueryParams, queryParams), 
+		auto boardId = queryParams.get("boardId");
+		auto boardTitle = queryParams.get("boardTitle");
+		auto boardType = queryParams.get("boardType");
+		API_HANDLER_RESP_VO(execGetBoardDetail(boardId, boardTitle, boardType));
+	);
 
 private:	//定义接口执行函数
 	StringJsonVO::Wrapper executeAddBoard(const BoardAddDTO::Wrapper& dto,const PayloadDTO& payload);
@@ -59,7 +68,7 @@ private:	//定义接口执行函数
 
 	// ========== 新增：函数声明（完全抄原有格式） ==========
 	ListJsonVO<String>::Wrapper execGetAnnouncementList(const PayloadDTO& payload);
-	StringJsonVO::Wrapper execGetAnnouncementDetail(const String& id, const PayloadDTO& payload);
+	GetBoardDetailJsonVO::Wrapper execGetBoardDetail(const oatpp::String& boardId, const oatpp::String& boardTitle, const oatpp::String& boardType);
 
 };
 
