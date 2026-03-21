@@ -1,4 +1,4 @@
-package com.zeroone.star.project.dto.j8.stumanager;
+package com.zeroone.star.project.vo.j8.stumanager;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,8 +7,8 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-@ApiModel(value = "ClassHourSummaryDto", description = "获取汇总列表")
-public class ClassHourSummaryDto {
+@ApiModel(value = "ClassHourSummaryVO", description = "获取汇总列表")
+public class ClassHourSummaryVO{
 
     @ApiModelProperty(value = "学员姓名", example = "小王")
     private String studentName;

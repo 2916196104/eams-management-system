@@ -4,16 +4,15 @@ import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j8.SaveStu.SaveStuAddDTO;
 import com.zeroone.star.project.dto.j8.SaveStu.SaveStuDTO;
 import com.zeroone.star.project.dto.j8.SaveStu.StuSignCourseDTO;
-import com.zeroone.star.project.dto.j8.stumanager.common.StudentDTO;
+import com.zeroone.star.project.dto.j8.stumanager.StudentAvatarDTO;
 import com.zeroone.star.project.query.j8.stumanager.StudentQuery;
 import com.zeroone.star.project.query.j8.stumanager.common.StudentCourseQuery;
 import com.zeroone.star.project.query.j8.stumanager.common.StudentListQuery;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.vo.j8.stumanager.StudentAvatarVo;
+import com.zeroone.star.project.vo.j8.stumanager.StudentAvatarVO;
 import com.zeroone.star.project.vo.j8.stumanager.StudentCourseVO;
 import com.zeroone.star.project.vo.j8.stumanager.StudentListVO;
 import com.zeroone.star.project.vo.j8.stumanager.StudentVO;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -32,7 +31,7 @@ public interface StuInformationApis {
     JsonVO<StudentVO> getStudentDetail(StudentQuery query);
 
     @ApiOperation("修改学员头像")
-    JsonVO<StudentAvatarVo> updateStudentAvatar(String avatarUrl);
+    JsonVO<StudentAvatarVO> updateStudentAvatar(StudentAvatarDTO studentAvatarDTO);
 
     /**
      * 分页 + 条件 查询学员列表
