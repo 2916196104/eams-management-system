@@ -14,9 +14,11 @@
 
 我希望这款 `use-iconify` 技能能够指导本项目的全部开发者，能够正常的集成并使用相关的 iconify 显示功能。
 
-## 003 <!-- TODO: 先完成monorepo的重构； --> 在别的项目内新增一款名为 `init-pure-admin-iconify` 的开发技能
+## 003 <!-- 已完成 --> 在别的项目内新增一款名为 `init-pure-admin-iconify` 的开发技能
 
 本项目之前集成了 iconify 能力，效果很好。我经常要对一个 vite+vue3 架构的项目，初始化基于 vue3 的 iconify 图标渲染方案。初始化一揽子的 iconify 使用工具和函数。
 
 1. 深刻阅读该报告 https://01s-11comm-doc.ruan-cat.com/docs/reports/2025-11-14-pure-admin-icon-solution-research.md ，该报告也指导了本项目如何初始化 iconify 使用工具。
-2. 在
+2. 认真查看在后台项目内，本项目是如何配置实现 pure-admin 提供的 iconify 方案的。
+3. 认真读取 memorix 关于此的记忆。
+4. 在 `D:\code\github-desktop-store\gh.ruancat.monorepo\ai-plugins\dev-skills\skills` 目录内，根据其他 `D:\code\github-desktop-store\gh.ruancat.monorepo\ai-plugins\common-tools\skills` 技能的写法，模仿其 yaml 格式数据，编写一个 `init-pure-admin-iconify` 技能。
