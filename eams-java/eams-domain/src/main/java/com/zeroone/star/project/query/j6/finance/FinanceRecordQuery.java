@@ -1,6 +1,7 @@
 package com.zeroone.star.project.query.j6.finance;
 
 import com.zeroone.star.project.query.PageQuery;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -8,6 +9,7 @@ import lombok.Data;
  * 款项列表查询条件构造
  */
 @Data
+@ApiModel("款项信息查询条件")
 public class FinanceRecordQuery extends PageQuery {
     @ApiModelProperty(value = "标题",example = "样例标题")
     private String title;

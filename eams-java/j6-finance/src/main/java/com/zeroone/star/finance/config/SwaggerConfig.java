@@ -15,7 +15,7 @@ public class SwaggerConfig {
     @Bean
     Docket gradeManagerApi() {
         return SwaggerCore.defaultDocketBuilder(
-            "年级管理模块",
+            "财务管理模块",
             "com.zeroone.star.finance.controller",
             "finance"
         );
