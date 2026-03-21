@@ -16,6 +16,6 @@
             addsuccess: 新增数据成功
             addfail: 新增数据失败
             modifysuccess: 修改数据成功
-            modifyfail: 修改数据失败
+            modifyfail: 修改数据失败(修改的结果与旧数据相同也会造成此结果)
         
     

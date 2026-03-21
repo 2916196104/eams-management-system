@@ -21,7 +21,7 @@ class PositionDataDTO : public oatpp::DTO
 	API_DTO_FIELD_REQUIRE(String, ownerField, ZH_WORDS_GETTER("datapermission.psdto.ownerfield"), false);
 	API_DTO_FIELD_REQUIRE(String, ownerOrgField, ZH_WORDS_GETTER("datapermission.psdto.ownerorgfield"), false);
 	API_DTO_FIELD_REQUIRE(Int64, position_Id, ZH_WORDS_GETTER("datapermission.psdto.positionid"), true);
-	API_DTO_FIELD_REQUIRE(Int8, scopeType, ZH_WORDS_GETTER("datapermission.psdto.scopetype"), true);
+	API_DTO_FIELD_REQUIRE(Int8, scopeType, ZH_WORDS_GETTER("datapermission.psdto.scopetype"), false);
 };
 
 #include OATPP_CODEGEN_END(DTO)

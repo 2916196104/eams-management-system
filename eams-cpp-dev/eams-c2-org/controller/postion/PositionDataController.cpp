@@ -5,11 +5,30 @@
 
 Uint64JsonVO::Wrapper PositionDataController::executesavePositionDataPermission(const PositionDataDTO::Wrapper& dto)
 {
+	auto uvo = Uint64JsonVO::createShared();
+	
+	// 校验参数
+	if (!dto->entityName)
+	{
+		uvo->init({}, ResultStatus(u8"参数无效，实体表名称不可为空", 9995));
+		return uvo;
+	}
+	if (!dto->position_Id)
+	{
+		uvo->init({}, ResultStatus(u8"参数无效，职位id不可为空", 9995));
+		return uvo;
+	}
+	if (dto->scopeType == 10 && (!dto->orgIds.get() || dto->orgIds.get()->size() == 0))
+	{
+		uvo->init({}, ResultStatus(u8"参数无效，自定义模式下未选择机构", 9995));
+		return uvo;
+	}
+
 	// 呼叫职位数据权限相关服务来执行业务逻辑
 	DataPermissionService ds;
 	auto res = ds.savePermission(dto);
 
-	auto uvo = Uint64JsonVO::createShared();
+	
 	if (res)
 		if (dto->id)
 			uvo->init(res, ResultStatus(ZH_WORDS_GETTER("datapermission.endpoint.resp.modifysuccess")));

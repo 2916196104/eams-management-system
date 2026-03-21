@@ -40,3 +40,29 @@ public:
 
 // 定义一个智能指针别名方便使用
 typedef std::shared_ptr<PermissionDO> PtrPermissionDO;
+
+
+// 定义自定义数据前线数据模型
+class PermissionCustomDO : public BaseDO
+{
+	// 单条记录唯一标识id
+	MYSQL_SYNTHESIZE(uint64_t, id, Id);
+
+	// 职位权限id，对应上面permissiondo中的id
+	MYSQL_SYNTHESIZE(uint64_t, permissionId, PermissionId);
+
+	// 职位id
+	MYSQL_SYNTHESIZE(int64_t, positionId, PositionId);
+
+	// 组织id，当一个职位某条记录的scopetype是custom(10)就会来该表查询它custpomize的组织id，后面查询时稚嫩刚查询组织id是这些值的记录
+	MYSQL_SYNTHESIZE(int64_t, orgId, OrgId);
+public:
+	PermissionCustomDO()
+		: BaseDO("data_permission_custom")
+	{
+		MYSQL_ADD_FIELD_PK("id", "ull", id);
+		MYSQL_ADD_FIELD("permission_id", "ull", permissionId);
+		MYSQL_ADD_FIELD_NULLABLE("position_id", "ll", positionId, false);
+		MYSQL_ADD_FIELD_NULLABLE("org_id", "ll", orgId, false);
+	}
+};
