@@ -81,6 +81,17 @@ public:
 
 		API_HANDLER_RESP_VO(exePayFees(dto));
 	}
+	// 学员退费
+	ENDPOINT_INFO(refund) {
+		API_DEF_ADD_AUTH();//添加权限认证
+		API_DEF_ADD_TAG(API_TAG);//将接口添加到分组
+		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("common.interface.refund"));
+		API_DEF_ADD_RSP_JSON_WRAPPER(RefundJsonVO);
+	}
+	ENDPOINT(API_M_POST, "/c6/common/student/refund", refund, BODY_DTO(RefundDTO::Wrapper, dto), API_HANDLER_AUTH_PARAME) {
+
+		API_HANDLER_RESP_VO(executeRefund(dto));
+	}
 private:
 	StudentJsonVO::Wrapper executeGetStudentById(const String& id){
 		return StudentJsonVO::createShared();
@@ -96,6 +107,9 @@ private:
 	}
 	PayFeesJsonVO::Wrapper exePayFees(const PayFeesDTO::Wrapper& dto) {
 		
+		return {};
+	}
+	RefundJsonVO::Wrapper executeRefund(const RefundDTO::Wrapper& dto) {
 		return {};
 	}
 };

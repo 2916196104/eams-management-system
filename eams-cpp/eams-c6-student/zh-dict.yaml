@@ -6,7 +6,9 @@ common:
   modify-student-picture: 修改学员头像
   query-student-registration-record: 获取报名记录（条件+分页）
   download-student-picture: 下载学员头像 
-  
+  pay-fees: 缴欠费
+  refund: 退费
+
  field:
   file:
    id: 文件ID
@@ -47,5 +49,8 @@ common:
    refund-describe: 退费说明
    refund-status: 退费状态
   fees:
-   pay-fees: 缴欠费
    handler:  收费经手人
+   refund-amount: 退费金额
+   pay-amount: 付费金额
+   times: 退费次数
+   reason: 退款原因

@@ -59,8 +59,15 @@ class FileOnlyDTO :public oatpp::DTO {
 };
 class PayFeesDTO :public oatpp::DTO {
 	DTO_INIT(PayFeesDTO, DTO);
-	API_DTO_FIELD_DEFAULT(UInt64, amount, ZH_WORDS_GETTER("common.filed.fees.pay-fees"), true);
+	API_DTO_FIELD_DEFAULT(UInt64, amount, ZH_WORDS_GETTER("common.filed.fees.pay-amount"), true);
 	API_DTO_FIELD_DEFAULT(String, id, ZH_WORDS_GETTER("common.files.fees.handler"), false);
+	
+};
+class RefundDTO :public oatpp::DTO{
+	DTO_INIT(RefundDTO, DTO);
+	API_DTO_FIELD_DEFAULT(UInt64, amount, ZH_WORDS_GETTER("common.filed.fees.refund-amount"), true);
+	API_DTO_FIELD_DEFAULT(UInt64, times, ZH_WORDS_GETTER("common.files.fees.times"), true);
+	API_DTO_FIELD_DEFAULT(String,reason , ZH_WORDS_GETTER("common.files.fees.reason"), true);
 };
 #include OATPP_CODEGEN_END(DTO)
 #endif
