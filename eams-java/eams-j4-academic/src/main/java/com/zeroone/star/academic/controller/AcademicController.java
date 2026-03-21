@@ -30,36 +30,5 @@ import java.util.List;
 @RequestMapping("/j4/academic")
 @Api(tags = "学员模块财务接口")
 public class AcademicController implements AcademicApis {
-    @Resource
-    private IAcademicFinanceService academicFinanceService;
 
-    @Override
-    public JsonVO<PageDTO<StudentDTO>> queryPage(StudentQuery condition) {
-        return null;
-    }
-
-    @Override
-    public JsonVO<Long> saveStudents(StudentDTO studentDTO) {
-        return null;
-    }
-
-    @Override
-    public JsonVO<Long> deleteStudents(Long id) {
-        return null;
-    }
-
-    @Override
-    public JsonVO<Long> updateStudents(StudentDTO studentDTO) {
-        return null;
-    }
-
-    @Override
-    public JsonVO<StudentDTO> queryStudents(Long id) {
-        return null;
-    }
-
-    @Override
-    public JsonVO<List<StudentDTO>> queryStudents() {
-        return null;
-    }
 }
