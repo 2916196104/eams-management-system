@@ -133,7 +133,7 @@ onMounted(() => {
 	line-height: 1;
 }
 /* 容器查询：当卡片小于一定宽度时 */
-@container (max-width: 245px) {
+@container (max-width: 215px) {
 	.statistics .text-container {
 		display: none;
 	}
