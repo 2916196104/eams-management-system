@@ -1,7 +1,7 @@
 package com.zeroone.star.student.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zeroone.star.student.domain.po.SysLog;
+import com.zeroone.star.student.entity.SysLog;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

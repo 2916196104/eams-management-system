@@ -1,6 +1,6 @@
 package com.zeroone.star.student.service.impl;
 
-import com.zeroone.star.student.domain.po.User;
+import com.zeroone.star.student.entity.User;
 import com.zeroone.star.student.mapper.UserMapper;
 import com.zeroone.star.student.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

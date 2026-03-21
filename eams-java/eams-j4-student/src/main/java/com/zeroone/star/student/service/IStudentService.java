@@ -2,7 +2,7 @@ package com.zeroone.star.student.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zeroone.star.project.dto.j4.student.StudentDTO;
-import com.zeroone.star.student.domain.po.Student;
+import com.zeroone.star.student.entity.Student;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
