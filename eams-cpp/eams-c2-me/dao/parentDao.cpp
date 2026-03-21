@@ -3,7 +3,7 @@
 #include "../domain/do/parentDO.h"
 #include "../lib-mysql/include/BaseDAO.h"
 
-
+//查询说明列表信息的sql语句构建器
 std::string parentDAO::queryListBuilder(
 	const ListQuery::Wrapper& query,
 	SqlParams& params
@@ -18,7 +18,7 @@ std::string parentDAO::queryListBuilder(
 	return sqlList.str();
 }
 
-
+//查询说明列表某一详细信息的sql语句构建器
 std::string parentDAO::queryDetailBuilder(
 	const DetailQuery::Wrapper& query,
 	SqlParams& params
@@ -33,18 +33,25 @@ std::string parentDAO::queryDetailBuilder(
 	return sqlDetail.str();
 }
 
-
-uint64_t parentDAO::count(const ListQuery::Wrapper& query)
+/**
+* 统计列表的记录数
+* @return 记录总数
+*/
+uint64_t parentDAO::count()
 {
-	
 	// 构建SQL
 	string sql = "SELECT COUNT(*) FROM help ";
 	
 	// 执行查询并返回数值结果
 	return sqlSession->executeQueryNumerical(sql);
-	
 }
 
+
+/**
+* 展示列表的记录
+* query为查询条件
+* @return 记录总数
+*/
 std::list<ParentDO> parentDAO::showList(const ListQuery::Wrapper& query)
 {
 	
@@ -52,11 +59,10 @@ std::list<ParentDO> parentDAO::showList(const ListQuery::Wrapper& query)
 	// 1. 构建基础查询SQL
 	string sql = "SELECT id, title ,add_time,edit_time FROM help ";
 
-	// 2. 添加排序
+	// 2. 添加排序  优先按sort_num降序，最后按ID降序
 	sql += " ORDER BY `sort_num` DESC, `id` DESC ";
-	// 优先按sort_num降序，最后按ID降序
 	
-	// 3. 添加分页限制 // LIMIT 0, 5 表示：跳过0条，取5条
+	// 3. 添加分页限制  LIMIT 0, 5 表示：跳过0条，取5条
 	sql += queryListBuilder(query, params);
 
 	/*uint64_t offset = (query->pageIndex - 1) * query->pageSize;
@@ -68,7 +74,7 @@ std::list<ParentDO> parentDAO::showList(const ListQuery::Wrapper& query)
 
 
 
-
+//主键查询（返回单条）：
 PtrParentDO parentDAO::selectById(std::string id)
 {
 	string sql = "SELECT * FROM help WHERE `id` = ?";

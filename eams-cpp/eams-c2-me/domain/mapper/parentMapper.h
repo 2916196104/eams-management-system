@@ -1,13 +1,19 @@
 #pragma once
 #include "Mapper.h"
 #include "domain/do/parentDO.h"
+
+
+/**
+* 数据映射器
+* 功能：将数据库查询结果映射为ParentDO对象
+*/
 class ListMapper : public Mapper<ParentDO>
 {
 public:
 	/**
 	* 映射方法
 	* @param resultSet 数据库结果集指针
-	* @return 映射后的SampleDO对象
+	* @return 映射后的ParentDO对象
 	*/
 	ParentDO mapper(ResultSet* resultSet) const override
 	{
@@ -22,7 +28,10 @@ public:
 	}
 };
 
-
+/**
+* 数据映射器 - 返回智能指针版本
+* 功能：将数据库查询结果映射为PtrParentDO对象（智能指针）
+*/
 class PtrDetailMapper : public Mapper<PtrParentDO>
 {
 public:

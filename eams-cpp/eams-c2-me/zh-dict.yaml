@@ -5,6 +5,7 @@ help:
  pageSize: 每页条数
  id: 编号
  title: 标题
+ content: 内容
 
 test:
  resp: 操作成功
