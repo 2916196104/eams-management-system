@@ -18,7 +18,7 @@ class ParentDO : public BaseDO {
 	MYSQL_SYNTHESIZE(int, _sortNum,SortNum);
 public:
 	// 构造函数中注册字段
-	ParentDO() : BaseDO("help") // "sample"是表名
+	ParentDO() : BaseDO("help") // "help"是表名
 	{
 		// 注册主键字段
 		MYSQL_ADD_FIELD_PK("id", "i", _id);

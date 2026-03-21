@@ -1,6 +1,10 @@
 help:
  querylist: 获取使用说明列表
  querydetail: 获取使用说明详情
+ pageIndex: 页码
+ pageSize: 每页条数
+ id: 编号
+ title: 标题
 
 test:
  resp: 操作成功

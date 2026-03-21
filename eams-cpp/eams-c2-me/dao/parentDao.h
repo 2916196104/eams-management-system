@@ -18,6 +18,6 @@ private:
 public:
 	// ≤È—Ø∑Ω∑®
 	uint64_t count(const ListQuery::Wrapper& query);
-	std::list<ParentDO> selectWithList(const ListQuery::Wrapper& query);
+	std::list<ParentDO> showList(const ListQuery::Wrapper& query);
 	PtrParentDO selectById(std::string id);
 };

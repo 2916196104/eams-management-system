@@ -19,26 +19,26 @@ class ParentDTO : public oatpp::DTO {
 //使用说明单条数据DTO
 class UsageGuideDto : public oatpp::DTO {
 	DTO_INIT(UsageGuideDto, DTO)
-	API_DTO_FIELD(Int32, id, "id", true, 0);
+	//API_DTO_FIELD(Int32, id, "id", true, 0);
 	API_DTO_FIELD(String, title, "title", true, "");
-	API_DTO_FIELD(String, add_time, "add_time", true, "");
-	API_DTO_FIELD(String, edit_time, "edit_time", true, "");
+	//API_DTO_FIELD(String, add_time, "add_time", true, "");
+	//API_DTO_FIELD(String, edit_time, "edit_time", true, "");
 };
 
 //使用说明详情
 class UsageGuideDetailDto : public oatpp::DTO {
 	DTO_INIT(UsageGuideDetailDto, DTO)
-	API_DTO_FIELD(Int32, id, "id", true, 0);
+	//API_DTO_FIELD(Int32, id, "id", true, 0);
 	API_DTO_FIELD(String, title, "title", true, "");
 	API_DTO_FIELD(String, content, "content", true, "");
-	API_DTO_FIELD(String, type, "type", true, "");
-	API_DTO_FIELD(Int32, creator, "creator", true,0);
+	//API_DTO_FIELD(String, type, "type", true, "");
+	/*API_DTO_FIELD(Int32, creator, "creator", true,0);
 	API_DTO_FIELD(String, add_time, "add_time", true, "");
 	API_DTO_FIELD(Int32, deleted, "deleted", true, 0);
 	API_DTO_FIELD(String, edit_time, "edit_time", true, "");
 	API_DTO_FIELD(Int32, editor, "editor", true, 0);
 	API_DTO_FIELD(Int32, state, "state", true, 0);
-	API_DTO_FIELD(Int32, sort_num, "sort_num", true, 0);
+	API_DTO_FIELD(Int32, sort_num, "sort_num", true, 0);*/
 };
 
 /**

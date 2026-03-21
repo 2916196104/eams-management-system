@@ -17,6 +17,7 @@ public:
 		data.setId(resultSet->getInt(1)); // µÚ1ÁĞ£ºid
 		data.setTitle(resultSet->getString(2));
 		data.setAddTime(resultSet->getString(3)); 
+		data.setEditTime(resultSet->getString(4));
 		return data;
 	}
 };

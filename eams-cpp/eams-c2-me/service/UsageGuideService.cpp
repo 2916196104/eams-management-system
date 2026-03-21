@@ -18,19 +18,24 @@ UsageListDTO::Wrapper UsageGuideService:: UsageGuideService::listAll(const ListQ
 	pages->total = count;
 	pages->calcPages(); // 计算总页数
 	// 【步骤4】查询分页数据
-	list<ParentDO> result = dao.selectWithList(query);
+	list<ParentDO> result = dao.showList(query);
 	// 【步骤5】DO转DTO
 	for (ParentDO& sub : result) {
 		auto dto = UsageGuideDto::createShared();
 		ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub,
-			id, Id,
-			title, Title,
-			add_time, AddTime,
-			edit_time, EditTime
+			//id, Id,
+			title, Title
+			//,
+			//add_time, AddTime,
+			//edit_time, EditTime
 		);
+		/*if (!dto->edit_time) {
+			dto->edit_time = oatpp::String("no edit_time");
+		}*/
 		pages->addData(dto);
 	}
 	// 【步骤6】返回结果
+	
 	return pages;
 }
 
@@ -46,17 +51,18 @@ UsageGuideDetailDto::Wrapper UsageGuideService::UsageGuideService::getById(std::
 	// 【步骤3】DO转DTO
 	auto dto = UsageGuideDetailDto::createShared();
 	ZO_STAR_DOMAIN_DO_TO_DTO_1(dto, res,
-		id, Id,
+		//id, Id,
 		title, Title,
-		content, Content,
-		type, Type,
-		creator, Creator,
-		add_time, AddTime,
-		deleted, Deleted,
-		edit_time, EditTime,
-		editor, Editor,
-		state, State,
-		sort_num,SortNum
+		content, Content
+		//,
+		//type, Type,
+		//creator, Creator,
+		//add_time, AddTime,
+		//deleted, Deleted,
+		//edit_time, EditTime,
+		//editor, Editor,
+		//state, State,
+		//sort_num,SortNum
 	);
 	// 【步骤4】返回结果
 	return dto;
