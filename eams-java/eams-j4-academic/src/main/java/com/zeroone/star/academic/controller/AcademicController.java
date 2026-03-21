@@ -30,7 +30,7 @@ import java.util.List;
 @RequestMapping("/j4/academic")
 @Api(tags = "学员模块财务接口")
 public class AcademicController implements AcademicApis {
-    @Resource
+//    @Resource
     private IAcademicFinanceService academicFinanceService;
 
     @Override

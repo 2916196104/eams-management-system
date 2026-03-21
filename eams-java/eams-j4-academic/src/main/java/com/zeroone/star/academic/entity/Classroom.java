@@ -1,4 +1,4 @@
-package com.zeroone.star.project.vo.j4.academic;
+package com.zeroone.star.academic.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -7,15 +7,17 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
+
 /**
  * <p>
- * 教室视图对象
+ * 教室实体类
  * </p>
  * @author ab
  */
 @Data
-@ApiModel(value = "ClassroomVO", description = "教室视图对象")
-public class ClassroomVO {
+@ApiModel(value = "Classroom", description = "教室实体类")
+@TableName("classroom")
+public class Classroom {
     /**
      * 教室ID
      */
@@ -47,14 +49,35 @@ public class ClassroomVO {
     @ApiModelProperty(value = "创建者 ID")
     private Long creator;
     /**
+     * 编辑者 ID
+     */
+    @ApiModelProperty(value = "编辑者 ID")
+    private Long editor;
+    /**
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime addTime;
-
+    /**
+     * 修改时间
+     */
+    @ApiModelProperty(value = "修改时间")
+    private LocalDateTime editTime;
+    /**
+     * 逻辑删除
+     */
+    @ApiModelProperty(value = "逻辑删除")
+    private Integer deleted;
     /**
      * 学校ID
      */
     @ApiModelProperty(value = "学校ID",example = "1")
     private Long schoolId;
+
+    /**
+     * 组织ID
+     */
+    @ApiModelProperty(value = "组织ID",example = "1")
+    private String orgId;
+
 }

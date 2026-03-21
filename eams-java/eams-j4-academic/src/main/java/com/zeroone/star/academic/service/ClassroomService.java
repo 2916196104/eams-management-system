@@ -2,6 +2,7 @@ package com.zeroone.star.academic.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zeroone.star.academic.entity.Classroom;
 import com.zeroone.star.project.dto.j4.academic.ClassroomDTO;
 import com.zeroone.star.project.query.j4.academic.ClassroomQuery;
 import com.zeroone.star.project.vo.j4.academic.ClassroomVO;
@@ -9,7 +10,7 @@ import com.zeroone.star.project.vo.j4.academic.ClassroomVO;
 /**
  * 教室管理业务接口
  */
-public interface ClassroomService extends IService<ClassroomVO> {
+public interface ClassroomService extends IService<Classroom> {
     /**
      * 分页查询教室
      * @param query 查询条件
