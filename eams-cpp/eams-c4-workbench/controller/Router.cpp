@@ -42,8 +42,6 @@
 
 #include "lxianyu-controller/StudentFileController.h"
 
-#include "gw-controller/HomeworkController.h"
-
 #include "workbench/CurrentUserController.h"
 
 
@@ -87,8 +85,6 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(ClassroomController);
 
 	ROUTER_SIMPLE_BIND(StudentFileController);
-
-	ROUTER_SIMPLE_BIND(HomeworkController);
 
 	ROUTER_SIMPLE_BIND(CurrentUserController);
 }
