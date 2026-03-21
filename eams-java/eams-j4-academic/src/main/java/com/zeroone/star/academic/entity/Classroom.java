@@ -1,5 +1,8 @@
 package com.zeroone.star.academic.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -21,6 +24,7 @@ public class Classroom {
     /**
      * 教室ID
      */
+    @TableId(value = "id")
     @ApiModelProperty(value = "教室ID",example = "1")
     private Long id;
     /**
@@ -56,28 +60,33 @@ public class Classroom {
     /**
      * 创建时间
      */
+    @TableField("add_time")
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime addTime;
     /**
      * 修改时间
      */
+    @TableField("edit_time")
     @ApiModelProperty(value = "修改时间")
     private LocalDateTime editTime;
     /**
      * 逻辑删除
      */
+    @TableLogic
+    @TableField("deleted")
     @ApiModelProperty(value = "逻辑删除")
     private Integer deleted;
     /**
      * 学校ID
      */
+    @TableField("school_id")
     @ApiModelProperty(value = "学校ID",example = "1")
     private Long schoolId;
-
     /**
      * 组织ID
      */
+    @TableField("org_id")
     @ApiModelProperty(value = "组织ID",example = "1")
-    private String orgId;
+    private Long orgId;
 
 }

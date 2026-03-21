@@ -53,6 +53,16 @@ public class ClassroomVO {
     private LocalDateTime addTime;
 
     /**
+     * 修改者 ID
+     */
+    @ApiModelProperty(value = "修改者 ID")
+    private Long editor;
+    /**
+     * 修改时间
+     */
+    @ApiModelProperty(value = "修改时间")
+    private LocalDateTime editTime;
+    /**
      * 学校ID
      */
     @ApiModelProperty(value = "学校ID",example = "1")

@@ -1,6 +1,5 @@
 package com.zeroone.star.project.query.j4.academic;
 
-import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.query.PageQuery;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
