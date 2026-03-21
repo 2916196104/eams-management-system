@@ -18,27 +18,23 @@ import java.util.List;
 @ApiModel("本月报名统计视图对象")
 @Data
 public class MonthEnrollmentVO {
-    
     @ApiModelProperty(value = "月份", example = "2024-03")
     private String month;
-    
+
     @ApiModelProperty(value = "总报名人数", example = "328")
     private Integer totalEnrollments;
-    
+
     @ApiModelProperty(value = "目标完成率", example = "82.5")
     private Double targetCompletionRate;
-    
+
     @ApiModelProperty(value = "每日报名数据列表", example = "[{'date':'2024-03-01','count':15}]")
     private List<DailyEnrollmentData> dailyData;
-    
-    /**
-     * 每日报名数据内部类
-     */
+
     @Data
     public static class DailyEnrollmentData {
         @ApiModelProperty(value = "日期", example = "2024-03-01")
         private String date;
-        
+
         @ApiModelProperty(value = "报名数量", example = "15")
         private Integer count;
     }

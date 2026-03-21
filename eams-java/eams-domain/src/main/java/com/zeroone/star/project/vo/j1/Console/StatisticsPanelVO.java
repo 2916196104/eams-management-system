@@ -1,4 +1,4 @@
-package com.zeroone.star.project.vo.j1.Console;
+package com.zeroone.star.project.vo.j1.console;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -24,64 +24,33 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StatisticsPanelVO {
-    
-    /**
-     * 总学员数
-     */
     @ApiModelProperty(value = "总学员数", example = "1000")
     private Integer totalStudents;
-    
-    /**
-     * 总教师数
-     */
+
     @ApiModelProperty(value = "总教师数", example = "50")
     private Integer totalTeachers;
-    
-    /**
-     * 总课程数
-     */
+
     @ApiModelProperty(value = "总课程数", example = "120")
     private Integer totalCourses;
-    
-    /**
-     * 总班级数
-     */
+
     @ApiModelProperty(value = "总班级数", example = "30")
     private Integer totalClasses;
-    
-    /**
-     * 今日出勤率（百分比）
-     */
+
     @ApiModelProperty(value = "今日出勤率", example = "95.5")
     private BigDecimal todayAttendanceRate;
-    
-    /**
-     * 本月新增学员数
-     */
+
     @ApiModelProperty(value = "本月新增学员数", example = "80")
     private Integer monthNewStudents;
-    
-    /**
-     * 待办事项数量
-     */
+
     @ApiModelProperty(value = "待办事项数量", example = "15")
     private Integer pendingTasks;
-    
-    /**
-     * 系统消息数量
-     */
+
     @ApiModelProperty(value = "系统消息数量", example = "5")
     private Integer systemMessages;
-    
-    /**
-     * 较昨日新增学员数
-     */
+
     @ApiModelProperty(value = "较昨日新增学员数", example = "5")
     private Integer yesterdayNewStudents;
-    
-    /**
-     * 较上月同期增长率（百分比）
-     */
+
     @ApiModelProperty(value = "较上月同期增长率", example = "15.5")
     private BigDecimal growthRate;
 }

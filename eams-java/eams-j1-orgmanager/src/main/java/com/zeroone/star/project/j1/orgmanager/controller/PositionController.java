@@ -5,7 +5,8 @@ import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j1.orgmanager.PositionDTO;
 import com.zeroone.star.project.dto.j1.orgmanager.PositionSetDTO;
 import com.zeroone.star.project.j1.orgmanager.PositionApis;
-import com.zeroone.star.project.query.j1.orgmanager.PositionQueryCondition;
+import com.zeroone.star.project.j1.orgmanager.service.IPositionService;
+import com.zeroone.star.project.j1.orgmanager.service.IStaffOrgInfoService;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -17,11 +18,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import com.zeroone.star.project.query.j1.orgmanager.PositionQueryCondition;
 
 /**
  * <p>
@@ -32,9 +36,15 @@ import java.util.stream.Collectors;
  * @version 1.0.0
  */
 @RestController
+@Validated
 @RequestMapping("/common/position")
 @Api(tags = "职位管理")
 public class PositionController implements PositionApis {
+    @Resource
+    private IPositionService positionService;
+    @Resource
+    private IStaffOrgInfoService staffOrgInfoService;
+
     @Override
     @GetMapping("/list")
     @ApiOperation(value = "职位列表", notes = "支持按职位名称模糊搜索，返回分页数据")
@@ -48,19 +58,7 @@ public class PositionController implements PositionApis {
                     dataTypeClass = String.class, defaultValue = "")
     })
     public JsonVO<PageDTO<PositionDTO>> list(@Valid PositionQueryCondition condition) {
-        List<PositionDTO> records = buildPositions();
-        if (condition.getName() != null && !condition.getName().trim().isEmpty()) {
-            records = records.stream()
-                    .filter(item -> item.getName().contains(condition.getName().trim()))
-                    .collect(Collectors.toList());
-        }
-        PageDTO<PositionDTO> pageDTO = new PageDTO<>();
-        pageDTO.setPageIndex(condition.getPage() == null ? 1L : condition.getPage().longValue());
-        pageDTO.setPageSize(condition.getPageSize() == null ? 30L : condition.getPageSize().longValue());
-        pageDTO.setTotal((long) records.size());
-        pageDTO.setPages(1L);
-        pageDTO.setRows(records);
-        return JsonVO.success(pageDTO);
+        return JsonVO.success(positionService.list(condition));
     }
 
     @Override
@@ -68,7 +66,8 @@ public class PositionController implements PositionApis {
     @ApiOperation(value = "创建和修改职位", notes = "ID为空时新增，有ID时修改")
     @ApiOperationSupport(order = 2)
     public JsonVO<String> save(@Valid @RequestBody PositionDTO dto) {
-        return JsonVO.success(dto.getId() == null ? "创建职位成功" : "修改职位成功");
+        boolean result = positionService.save(dto);
+        return result ? JsonVO.success(dto.getId() == null ? "创建职位成功" : "修改职位成功") : JsonVO.fail("操作失败");
     }
 
     @Override
@@ -76,8 +75,9 @@ public class PositionController implements PositionApis {
     @ApiOperation(value = "删除职位", notes = "支持批量删除，传职位ID列表")
     @ApiOperationSupport(order = 3)
     public JsonVO<String> delete(@ApiParam(value = "职位ID列表", required = true, example = "[1,2,3]")
-                                 @RequestBody List<Long> ids) {
-        return JsonVO.success(String.format("成功删除 %d 个职位", ids.size()));
+                                 @RequestBody @NotEmpty(message = "职位ID列表不能为空") List<@NotNull(message = "职位ID不能为空") Long> ids) {
+        boolean result = positionService.delete(ids);
+        return result ? JsonVO.success(String.format("成功删除 %d 个职位", ids.size())) : JsonVO.fail("删除职位失败");
     }
 
     @Override
@@ -85,21 +85,7 @@ public class PositionController implements PositionApis {
     @ApiOperation(value = "设置员工职位", notes = "为员工设置所属组织和职位")
     @ApiOperationSupport(order = 4)
     public JsonVO<String> setStaffPosition(@Valid @RequestBody PositionSetDTO dto) {
-        return JsonVO.success("设置员工职位成功");
-    }
-
-    private List<PositionDTO> buildPositions() {
-        List<PositionDTO> list = new ArrayList<>();
-        list.add(buildPosition(1L, "校长"));
-        list.add(buildPosition(2L, "财务总监"));
-        list.add(buildPosition(3L, "助教"));
-        return list;
-    }
-
-    private PositionDTO buildPosition(Long id, String name) {
-        PositionDTO positionDTO = new PositionDTO();
-        positionDTO.setId(id);
-        positionDTO.setName(name);
-        return positionDTO;
+        boolean result = staffOrgInfoService.setStaffPosition(dto);
+        return result ? JsonVO.success("设置员工职位成功") : JsonVO.fail("设置员工职位失败");
     }
 }

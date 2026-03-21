@@ -6,9 +6,13 @@ import com.zeroone.star.project.dto.j1.schedule.MyScheduleDTO;
 import com.zeroone.star.project.query.j1.customer.MyCustomerQuery;
 import com.zeroone.star.project.query.j1.schedule.MyScheduleQuery;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.vo.j1.Console.StatisticsPanelVO;
+import com.zeroone.star.project.vo.j1.console.StatisticsPanelVO;
+import com.zeroone.star.project.vo.j1.console.ConsoleStatisticsVO;
+import com.zeroone.star.project.vo.j1.console.CourseEnrollmentVO;
+import com.zeroone.star.project.vo.j1.console.CustomerVO;
+import com.zeroone.star.project.vo.j1.console.MonthEnrollmentVO;
+import com.zeroone.star.project.vo.j1.console.ScheduleVO;
 import com.zeroone.star.project.vo.j1.customer.MyCustomerVO;
-import com.zeroone.star.project.vo.j1.enrollment.CourseEnrollmentVO;
 import com.zeroone.star.project.vo.j1.enrollment.MonthlyEnrollmentVO;
 import com.zeroone.star.project.vo.j1.schedule.MyScheduleVO;
 
@@ -147,15 +151,9 @@ public interface ConsoleApis {
      */
     @ApiOperation(value = "获取课程报名统计", notes = "返回所有课程的报名情况统计，支持条件筛选")
     @PostMapping("/console/course-enrollment")
-    CourseEnrollmentVO getCourseEnrollment(@RequestBody CourseEnrollmentQuery query);
-    
-    /**
-     * 获取我的课表
-     * 
-     * @param query 查询参数（用户 ID、用户类型、周次）
-     * @return 个人课表数据
-     */
-    @ApiOperation(value = "获取我的课表", notes = "返回指定用户的课程安排表")
+    com.zeroone.star.project.vo.j1.console.CourseEnrollmentVO getCourseEnrollment(@RequestBody CourseEnrollmentQuery query);
+
+    @ApiOperation(value = "Get schedule")
     @PostMapping("/console/schedule")
     ScheduleVO getSchedule(@RequestBody ScheduleQuery query);
     

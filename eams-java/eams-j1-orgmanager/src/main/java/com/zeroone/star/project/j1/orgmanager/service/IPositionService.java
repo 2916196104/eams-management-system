@@ -1,0 +1,23 @@
+package com.zeroone.star.project.j1.orgmanager.service;
+
+import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j1.orgmanager.PositionDTO;
+import com.zeroone.star.project.query.j1.orgmanager.PositionQueryCondition;
+
+import java.util.List;
+
+/**
+ * <p>
+ * 描述：职位业务层接口
+ * </p>
+ *
+ * @author gzx
+ * @version 1.0.0
+ */
+public interface IPositionService {
+    PageDTO<PositionDTO> list(PositionQueryCondition condition);
+
+    boolean save(PositionDTO dto);
+
+    boolean delete(List<Long> ids);
+}
