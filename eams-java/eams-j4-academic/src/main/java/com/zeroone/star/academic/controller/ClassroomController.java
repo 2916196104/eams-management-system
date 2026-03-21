@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
@@ -41,11 +42,14 @@ public class ClassroomController implements ClassroomApis {
      * @return 教室列表
      */
     @Override
+    @Validated
     @GetMapping("/list")
     @ApiOperation("获取教室列表（条件+分页）")
-    public JsonVO<PageDTO<ClassroomVO>> queryClassroom(@RequestParam(value = "pageIndex", defaultValue = "1") Long pageIndex,
-                                                       @RequestParam(value = "pageSize", defaultValue = "30") Long pageSize,
-                                                       @RequestParam(value = "name", defaultValue = "") String name) {
+    public JsonVO<PageDTO<ClassroomVO>> queryClassroom(
+            @RequestParam(value = "pageIndex", defaultValue = "1") @Min(value = 1, message = "页码最小值为1") Long pageIndex,
+            @RequestParam(value = "pageSize", defaultValue = "30") @Min(value = 1, message = "每页条数最小值为1") Long pageSize,
+            @RequestParam(value = "name", defaultValue = "") String name)
+ {
         ClassroomQuery query = new ClassroomQuery();
         query.setPageIndex(pageIndex);
         query.setPageSize(pageSize);
@@ -69,7 +73,7 @@ public class ClassroomController implements ClassroomApis {
     @Override
     @GetMapping("/{id}")
     @ApiOperation("获取教室详情")
-    public JsonVO<ClassroomVO> getClassroomById(@PathVariable Long id) {
+    public JsonVO<ClassroomVO> getClassroomById(@PathVariable @Min(value = 1, message = "ID最小值为1") Long id) {
         ClassroomVO classroomVO = classroomService.getClassroomById(id);
         return JsonVO.success(classroomVO);
     }
@@ -82,7 +86,7 @@ public class ClassroomController implements ClassroomApis {
     @Override
     @PostMapping("/save")
     @ApiOperation("保存教室")
-    public JsonVO saveClassroom(@RequestBody @Validated ClassroomDTO classroomDTO) {
+    public JsonVO<Boolean> saveClassroom(@RequestBody @Validated ClassroomDTO classroomDTO) {
         return JsonVO.success(classroomService.save(classroomDTO));
     }
 

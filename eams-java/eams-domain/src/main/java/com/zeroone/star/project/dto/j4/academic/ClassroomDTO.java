@@ -27,7 +27,7 @@ public class ClassroomDTO {
      * 教室名称
      */
     @NotBlank(message = "教室名称不能为空")
-    @Size(max = 50, message = "教室名称长度不能超过20个字符")
+    @Size(max = 50, message = "教室名称长度不能超过50个字符")
     @ApiModelProperty(value = "教室名称",required = true,example = "教学楼")
     private String name;
     /**
@@ -46,6 +46,7 @@ public class ClassroomDTO {
     /**
      * 备注说明
      */
+    @Size(max = 255, message = "备注说明长度不能超过255个字符")
     @ApiModelProperty(value = "备注说明",example = "测试测试")
     private String remark;
     /**

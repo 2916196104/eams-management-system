@@ -31,10 +31,14 @@ public class ClassroomServiceImpl extends ServiceImpl<ClassroomMapper, Classroom
     @Override
     public ClassroomVO getClassroomById(Long id) {
         Classroom classroom = this.getById(id);
+        if (classroom == null) {
+            throw new IllegalArgumentException("教室不存在");
+        }
         ClassroomVO classroomVO = new ClassroomVO();
         BeanUtils.copyProperties(classroom, classroomVO);
         return classroomVO;
     }
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean save(ClassroomDTO classroomDTO) {

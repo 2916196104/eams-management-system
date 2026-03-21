@@ -36,7 +36,7 @@ public interface ClassroomApis {
      * @param classroomDTO 教室信息
      * @return 保存结果
      */
-    JsonVO<Long> saveClassroom(ClassroomDTO classroomDTO);
+    JsonVO<Boolean> saveClassroom(ClassroomDTO classroomDTO);
     /**
      * 批量删除教室信息
      * @param ids 教室ID列表
