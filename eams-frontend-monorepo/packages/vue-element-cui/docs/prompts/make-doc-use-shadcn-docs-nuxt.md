@@ -126,4 +126,27 @@
 4. 每修完一项都重新刷新并复测暗黑模式按钮、侧边栏折叠按钮。
 5. 只有当 console 不再出现阻断 hydration 的模块错误后，再去判断 Tailwind 或主题样式问题。
 
-## 04 <!-- TODO: --> 将使用 shadcn-docs-nuxt 制作组件库的知识制作成通用的，可以跨项目服用的技能
+## 04 <!-- 已处理 --> 解决文档渲染问题
+
+认真阅读 `packages\vue-element-cui-nuxt\content` 目录下面的 markdown 文档， 对于很多的 `::demo-playground` 页面，出现了明显的渲染失败的问题。请你检查一下是不是 mdc 格式出错，导致渲染失败？或者是你使用了 shadcn-docs-nuxt 提供的错误的组件？
+
+注意阅读之前的错误经验教训，看看是不是要增加 prettier 的忽略注释。
+
+如下图所示：
+
+![2026-03-22-04-05-15](https://gh-img-store.ruan-cat.com/img/2026-03-22-04-05-15.png)
+
+## 05 <!-- TODO: --> 将使用 shadcn-docs-nuxt 制作组件库的知识制作成通用的，可以跨项目复用的技能
+
+认真阅读以下内容：
+
+1. openspec\changes\rebuild-vue-element-cui-nuxt-shadcn-docs 目录的实施规范。
+2. packages\vue-element-cui-nuxt\package.json ，即整个 `vue-element-cui-nuxt` 项目。
+3. docs\plans\2026-03-13-vue-element-cui-nuxt-shadcn-docs-rebuild-plan.md 实施计划。
+4. docs\reports\2026-3-12-use-shadcn-docs-nuxt.md 探索报告。
+
+我需要你根据本地的记忆，和历史的经验教训，编写一个跨项目的，通用的技能。用来实现快速给其他组件库或项目初始化一个基于 `shadcn-docs-nuxt` 的组件库文档。
+
+### 编写地址
+
+在 `D:\code\github-desktop-store\gh.ruancat.monorepo\ai-plugins\dev-skills\skills\init-shadcn-docs-nuxt` 内编写 `init-shadcn-docs-nuxt` 这款技能。
