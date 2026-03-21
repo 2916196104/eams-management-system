@@ -84,11 +84,13 @@ finishstudent:
    failed-count: 导入失败行数
 
 parentaccount:  
-  api-tag: 家长账号接口
+  api-tag: 家长账号
   interface:
    query-parent-account: 家长账号条件分页查询
+   modify-parent-account: 家长账户更改
+   modify-parent-password: 家长密码更改
   field:
-   parent-query:
+   parent:
     user-id: 家长id
     mobile: 手机号
     name: 家长姓名
@@ -101,6 +103,8 @@ parentaccount:
     add-time: 注册时间
     state: 状态
     operation: 操作
+    old-password: 旧密码
+    new-password: 新密码
 
 intendedstudent:
  api-tag: 意向学员接口
@@ -158,15 +162,4 @@ summaryclass:
       total-lessons: 总课次
       used-lessons: 已上课次
       remaining-lessons: 剩余课次
-parentaccount:
-  api-tag: 家长账户
-  interface:
-    modify-parent-account: 家长账户更改
-    modify-parent-password: 家长密码更改
-  field:
-    parent:
-      id: 家长ID
-      name: 家长姓名
-      state: 家长账号状态
-      old-password: 旧密码
-      new-password: 新密码
+      
