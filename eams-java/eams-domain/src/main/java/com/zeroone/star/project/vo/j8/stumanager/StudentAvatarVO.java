@@ -5,8 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel(value = "StudentAvatarVo", description = "学员头像数据传输对象")
-public class StudentAvatarVo {
+@ApiModel(value = "StudentAvatarVO", description = "学员头像数据传输对象")
+public class StudentAvatarVO {
 
     @ApiModelProperty(value = "学员ID", example = "10001")
     private Long studentId;

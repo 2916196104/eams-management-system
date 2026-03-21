@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
  * 跟进记录
  */
 
-@Api(value = "共用接口-跟进记录")
+@Api(tags = "共用接口-跟进记录")
 @RequestMapping("/stu/common/follow-records")
 @RestController
 public class FollowRecordsController implements FollowRecordsApis {

@@ -5,9 +5,14 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.math.BigInteger;
+
 @Data
 @ApiModel(value = "StudentQuery", description = "学员列表查询条件")
-public class StudentQuery extends PageQuery {
+public class StudentQuery{
+
+    @ApiModelProperty(value = "学员ID", example = "1")
+    private Long id;
 
     @ApiModelProperty(value = "学员姓名", example = "小明")
     private String name;

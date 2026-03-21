@@ -9,16 +9,13 @@ import com.zeroone.star.stumanager.entity.ClassStudent;
 import com.zeroone.star.stumanager.service.IClassStudentService;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.j8.stumanager.common.ClassScheduleApis;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j8.stumanager.ClassScheduleVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.zeroone.star.project.vo.j8.stumanager.StuClassVO;
@@ -48,6 +45,8 @@ public class ClassScheduleController implements ClassScheduleApis {
     /**
      * 学生加入班级
      */
+    @ApiOperation(value = "加入班级")
+    @PostMapping("/join-class")
     @Override
     public JsonVO<Void> joinClass(
             @RequestParam @ApiParam(required = true, value = "学生ID") Long studentId,
@@ -85,6 +84,8 @@ public class ClassScheduleController implements ClassScheduleApis {
     /**
      * 学生退出班级
      */
+    @ApiOperation(value="退出班级")
+    @PostMapping("/exit-class")
     @Override
     public JsonVO<Void> exitClass(
             @RequestParam @ApiParam(required = true, value = "学生ID") Long studentId) {
@@ -109,6 +110,8 @@ public class ClassScheduleController implements ClassScheduleApis {
     /**
      * 班级课程统计（
      */
+    @ApiOperation("班级课程统计")
+    @GetMapping("/course-statistics")
     @Override
     public JsonVO<CourseStatisticsDTO> courseStatistics(
             @RequestParam(required = false) @ApiParam(value = "班级ID（为空则统计所有）") Long classId) {

@@ -1,21 +1,30 @@
 package com.zeroone.star.stumanager.controller.common;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j8.stumanager.SaveStu.SaveStuAddDTO;
 import com.zeroone.star.project.dto.j8.stumanager.SaveStu.SaveStuDTO;
 import com.zeroone.star.project.dto.j8.stumanager.common.StuSignCourseDTO;
+import com.zeroone.star.project.dto.j8.stumanager.StudentAvatarDTO;
 import com.zeroone.star.project.j8.stumanager.common.StuInformationApis;
+import com.zeroone.star.project.query.j8.stumanager.StudentQuery;
 import com.zeroone.star.project.query.j8.stumanager.common.StudentCourseQuery;
 import com.zeroone.star.project.query.j8.stumanager.common.StudentListQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.project.vo.j8.stumanager.StudentAvatarVO;
 import com.zeroone.star.project.vo.j8.stumanager.StudentCourseVO;
 import com.zeroone.star.project.vo.j8.stumanager.StudentListVO;
+import com.zeroone.star.project.vo.j8.stumanager.StudentVO;
+import com.zeroone.star.stumanager.entity.Student;
 import com.zeroone.star.stumanager.service.IStudentCourseService;
 import com.zeroone.star.stumanager.service.IStudentService;
 import com.zeroone.star.stumanager.service.impl.MsStuCouMapper;
 import com.zeroone.star.stumanager.service.impl.MsStuMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,6 +78,45 @@ public class StuInformationController implements StuInformationApis {
         JsonVO<StuSignCourseDTO> jsonVO = new JsonVO<>();
         jsonVO.setData(stuSignCourseDTO);
         return jsonVO;
+    }
+
+    @Override
+    @GetMapping("/get-studentDetail")
+    @ApiOperation(value = "查询学员详细信息")
+    public JsonVO<StudentVO> getStudentDetail(StudentQuery query) {
+        if (query == null || query.getId() == null) {
+            return JsonVO.fail("学员ID不能为空");
+        }
+        LambdaQueryWrapper<Student> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Student::getId, query.getId());
+        queryWrapper.like(StringUtils.isNotEmpty(query.getName()), Student::getName, query.getName());
+        queryWrapper.eq(StringUtils.isNotEmpty(query.getBranchSchool()), Student::getSchoolId, query.getBranchSchool());
+        queryWrapper.eq(StringUtils.isNotEmpty(query.getGrade()), Student::getGrade, query.getGrade());
+        queryWrapper.like(StringUtils.isNotEmpty(query.getTeacherName()), Student::getCounselor, query.getTeacherName());//StudentVo:counselor,StudentQuery:teacherName;
+        Student student=iStudentService.getOne(queryWrapper);
+        if(student == null){
+            return JsonVO.fail("未找到该学员信息");
+        }
+        StudentVO studentVO=new StudentVO();
+        BeanUtils.copyProperties(student,studentVO);
+        return JsonVO.success(studentVO);
+    }
+
+    @Override
+    @PutMapping("/update-studentAvatar")
+    @ApiOperation(value = "修改学员头像")
+    public JsonVO<StudentAvatarVO> updateStudentAvatar(@Validated @RequestBody StudentAvatarDTO studentAvatarDTO ) {
+        LambdaUpdateWrapper<Student> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(Student::getId,studentAvatarDTO.getStudentId());
+        updateWrapper.set(Student::getHeadImg,studentAvatarDTO.getAvatarUrl());//Student:headImg
+        boolean success = iStudentService.update(updateWrapper);
+        if(!success){
+            return JsonVO.fail("修改头像失败");
+        }
+        StudentAvatarVO studentAvatarVO=new StudentAvatarVO();
+        studentAvatarVO.setStudentId(studentAvatarDTO.getStudentId());
+        studentAvatarVO.setAvatarUrl(studentAvatarDTO.getAvatarUrl());
+        return JsonVO.success(studentAvatarVO);
     }
 
     @GetMapping("/query-studentlist")

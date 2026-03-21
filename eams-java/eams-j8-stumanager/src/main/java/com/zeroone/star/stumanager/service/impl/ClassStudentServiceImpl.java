@@ -17,4 +17,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class ClassStudentServiceImpl extends ServiceImpl<ClassStudentMapper, ClassStudent> implements IClassStudentService {
 
+    @Override
+    public boolean bindStudentToClass(Long studentId, Long classId) {
+        return false;
+    }
+
+    @Override
+    public boolean unbindStudentFromClass(Long studentId) {
+        return false;
+    }
 }
