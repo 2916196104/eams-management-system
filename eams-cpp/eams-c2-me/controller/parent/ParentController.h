@@ -7,18 +7,11 @@
 #include "ApiHelper.h"
 #include "ServerInfo.h"
 #include "domain/vo/parent/ParentVO.h"
-<<<<<<< Updated upstream
-
-// 1 定义API控制器使用宏
-#include OATPP_CODEGEN_BEGIN(ApiController)
-#define API_TAG ZH_WORDS_GETTER("parent.tag")
-=======
 #include "domain/query/parent/ParentQuery.h"
 
 // 1 定义API控制器使用宏
 #include OATPP_CODEGEN_BEGIN(ApiController)
 #define API_TAG ZH_WORDS_GETTER("parent.tags")
->>>>>>> Stashed changes
 
 /*
  * 家长控制器
@@ -27,18 +20,8 @@ class ParentController : public oatpp::web::server::api::ApiController // 1 继�
 {
   // 2 定义控制器访问入口
   API_ACCESS_DECLARE(ParentController);
+  // 3 定义接口
 public:
-<<<<<<< Updated upstream
-  // 3.1 定义获取家长信息接口描述
-  API_DEF_ENDPOINT_INFO_AUTH(
-	ZH_WORDS_GETTER("parent.query-one.summary"), queryParentInfo, ParentJsonVO::Wrapper, API_TAG,
-	API_DEF_ADD_QUERY_PARAMS(UInt64, "phone", ZH_WORDS_GETTER("parent.field.phone"), 1891235678, true);
-  );
-  // 3.2 定义获取家长信息接口处理
-  API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c2/me/parent", queryParentInfo, QUERY(UInt64, phone), execQueryOne(phone));
-private: // 定义接口执行函数
-  ParentJsonVO::Wrapper execQueryOne(const oatpp::UInt64& phone);
-=======
   // 定义获取家长详细信息接口描述
  // API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("parent.query.summary"), queryOne, ParentJsonVO::Wrapper, API_TAG,
 	//API_DEF_ADD_QUERY_PARAMS(String, "phone", ZH_WORDS_GETTER("parent.field.phone"), "13712345678", true);
@@ -70,7 +53,6 @@ private: // 定义接口执行函数
   ParentJsonVO::Wrapper execModifyName(const ParentDTO::Wrapper& dto, const PayloadDTO &payload);
   // 修改家长密码
   ParentJsonVO::Wrapper execModifyPassword(const ParentDTO::Wrapper& dto);
->>>>>>> Stashed changes
 };
 
 #undef API_TAG
