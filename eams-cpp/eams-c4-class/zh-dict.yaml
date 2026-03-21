@@ -54,3 +54,13 @@ class:
 
 class1:
  summary: 获取班级详情
+
+Class:
+  get:
+   summary: 获取班级列表
+   tag: 班级
+  myclass:
+   myclass: 班级
+   teacher: 班主任
+   course: 课程
+   number: 人数

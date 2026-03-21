@@ -17,7 +17,7 @@ public:
 	//定义描述
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("teacher.query.summary"), getTeacherList, TeacherQuery, TeacherPageJsonVO::Wrapper, API_TAG);
 	//定义教师查询端点
-	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/teacher/list", getTeacherList, TeacherQuery, executeGetTeacherList(query));
+	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c4/teacher/list", getTeacherList, TeacherQuery, executeGetTeacherList(query));
 private:
 	//查询教师列表
 	TeacherPageJsonVO::Wrapper executeGetTeacherList(const TeacherQuery::Wrapper& query);

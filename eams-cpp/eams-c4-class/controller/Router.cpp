@@ -5,6 +5,7 @@
 #include "Router.h"
 #include "ApiHelper.h"
 #include "class/ClassStudentController.h"
+#include "class/MyClassController.h"
 #include"../controller/class/classController.h"
 
 #ifdef CLOSE_SWAGGER_DOC
@@ -26,4 +27,5 @@ void Router::initRouter()
 	//#TIP :系统扩展路由定义，写在这个后面
 	ROUTER_SIMPLE_BIND(ClassController);
 	ROUTER_SIMPLE_BIND(ClassStudentController);
+	ROUTER_SIMPLE_BIND(MyClassController);
 }

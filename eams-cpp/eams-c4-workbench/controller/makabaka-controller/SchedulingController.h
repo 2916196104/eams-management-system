@@ -19,7 +19,7 @@ public:
         JsonVO<SchedulingVO::Wrapper>::Wrapper,
         API_TAG)
 
-    API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/scheduling/repeat/create",
+    API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c4/scheduling/repeat/create",
         createRepeat,
         BODY_DTO(RepeatedSchedulingQuery::Wrapper, query),
         execCreateRepeat(query)
@@ -30,7 +30,7 @@ public:
         JsonVO<SchedulingVO::Wrapper>::Wrapper,
         API_TAG)
 
-    API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/scheduling/free/create",
+    API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c4/scheduling/free/create",
         createFree,
         BODY_DTO(FreeSchedulingQuery::Wrapper, query),
         execCreateFree(query)
