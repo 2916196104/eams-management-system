@@ -3,6 +3,10 @@ server:
 spring:
   application:
     name: ${sn.courseplan}
+  # PDF 配置
+pdf:
+  conf: classpath:pdf/fop.xconf
+  template: classpath:pdf/template
 knife4j:
   enableAggregation: true
   nacos:
