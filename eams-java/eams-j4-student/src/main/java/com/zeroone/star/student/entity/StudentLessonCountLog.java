@@ -2,7 +2,7 @@ package com.zeroone.star.student.entity;
 
 import java.time.LocalDateTime;
 
-public class studentLessonCountLog {
+public class StudentLessonCountLog {
     private int id;
 
     private int studentId;

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 /**
  * student_Credit_Log
  */
-public class studentCreditLog {
+public class StudentCreditLog {
     private int id;
 
     private int studentId;
