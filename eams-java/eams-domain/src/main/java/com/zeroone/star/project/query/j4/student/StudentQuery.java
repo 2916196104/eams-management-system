@@ -22,4 +22,16 @@ public class StudentQuery extends PageQuery {
 
     @ApiModelProperty(value = "学员ID", example = "1")
     private String studentId;
+
+    @ApiModelProperty("姓名")
+    private String name;
+
+    @ApiModelProperty("电话")
+    private String phone;
+
+    @ApiModelProperty("状态")
+    private String status;
+
+    @ApiModelProperty("顾问ID")
+    private String advisorId;
 }
