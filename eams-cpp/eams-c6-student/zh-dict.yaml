@@ -1,4 +1,5 @@
-﻿common:
+﻿#公共接口
+common:
  api-tag: 公共接口
  interface:
   get-student-by-id: 获取学员详情
@@ -9,7 +10,10 @@
   save-student: 保存学员
   enrollstudentCourse: 学员报名课程
   studentstage: 获取学员阶段
+  delete-contact-record: 删除跟进记录
  field:
+  contact-record:
+   ids: 跟进记录 ID 列表
   file:
    id: 文件ID
   course:

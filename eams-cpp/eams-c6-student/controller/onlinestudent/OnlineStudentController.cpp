@@ -120,3 +120,37 @@ StringJsonVO::Wrapper OnlineStudentController::execImportExcel(
 	jvo->success(nullptr);
 	return jvo;
 }
+
+// 执行修改顾问
+StringJsonVO::Wrapper OnlineStudentController::execModifyCounselor(const ModifyCounselorDTO::Wrapper& dto)
+{
+	// 0 定义返回数据对象
+	auto jvo = StringJsonVO::createShared();
+
+	// 1 校验参数
+	if (!dto->studentIds || dto->studentIds->size() == 0)
+	{
+		jvo->init("studentIds is empty.", RS_PARAMS_INVALID);
+		return jvo;
+	}
+
+	if (!dto->counselorName || dto->counselorName->empty())
+	{
+		jvo->init("counselorName is empty.", RS_PARAMS_INVALID);
+		return jvo;
+	}
+
+	if (!dto->counselorPosition || dto->counselorPosition->empty())
+	{
+		jvo->init("counselorPosition is empty.", RS_PARAMS_INVALID);
+		return jvo;
+	}
+
+	// 2 调用 Service 层更新学员顾问信息
+	// TODO: 实现 Service 层方法
+	// OnlineStudentService::modifyCounselor(dto->studentIds, dto->counselorName, dto->counselorPosition);
+
+	// 3 返回成功结果
+	jvo->success(nullptr);
+	return jvo;
+}

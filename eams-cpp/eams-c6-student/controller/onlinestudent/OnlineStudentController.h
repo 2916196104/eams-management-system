@@ -54,11 +54,29 @@ public:
 		execImportExcel(request, authObject->getPayload())		// 执行导入
 	);
 
+	// 定义修改顾问接口描述
+	API_DEF_ENDPOINT_INFO_AUTH(
+		ZH_WORDS_GETTER("onlinestudent.interface.modify-counselor"),	// 标题
+		modifyCounselor,												// 函数名
+		StringJsonVO::Wrapper,											// Swagger 响应体
+		API_TAG															// 标签
+	);
+	// 定义修改顾问接口处理
+	API_HANDLER_ENDPOINT_AUTH(
+		API_M_POST,														// POST 方法
+		"/c6/student/online/counselor/modify",							// URL
+		modifyCounselor,												// 函数名
+		BODY_DTO(ModifyCounselorDTO::Wrapper, dto),						// 请求参数
+		execModifyCounselor(dto)										// 执行修改
+	);
+
 private:
 	// 执行导出
 	std::shared_ptr<OutgoingResponse> execExportExcel(const List<String>& ids);
 	// 执行导入
 	StringJsonVO::Wrapper execImportExcel(std::shared_ptr<IncomingRequest> request, const PayloadDTO& payload);
+	// 执行修改顾问
+	StringJsonVO::Wrapper execModifyCounselor(const ModifyCounselorDTO::Wrapper& dto);
 };
 
 #undef API_TAG

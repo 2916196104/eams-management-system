@@ -162,6 +162,13 @@ class ModifyCounselorDTO : public oatpp::DTO
 		info->description = ZH_WORDS_GETTER("onlinestudent.field.counselor.name");
 		info->required = true;
 	}
+
+	// 顾问职位（必填）
+	DTO_FIELD(String, counselorPosition);
+	DTO_FIELD_INFO(counselorPosition) {
+		info->description = ZH_WORDS_GETTER("onlinestudent.field.counselor.position");
+		info->required = true;
+	}
 };
 
 #include OATPP_CODEGEN_END(DTO)
