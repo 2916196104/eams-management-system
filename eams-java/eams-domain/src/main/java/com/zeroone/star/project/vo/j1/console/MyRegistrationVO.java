@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 @ApiModel(value = "CourseEnrollmentVO", description = "课程报名列表视图对象")
-public class CourseEnrollmentVO {
+public class MyRegistrationVO {
 
     @ApiModelProperty(value = "总记录数")
     private Long total;

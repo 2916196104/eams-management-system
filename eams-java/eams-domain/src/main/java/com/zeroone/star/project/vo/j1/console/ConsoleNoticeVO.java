@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @ApiModel(value = "NoticeConsoleVO", description = "公告列表视图对象")
-public class NoticeConsoleVO {
+public class ConsoleNoticeVO {
 
     @ApiModelProperty(value = "总记录数")
     private Long total;

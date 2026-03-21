@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @ApiModel("我的请款DTO")
-public class CashoutDTO {
+public class MyPaymentRequestDTO {
 
     @ApiModelProperty(value = "主键ID")
     private Long id;

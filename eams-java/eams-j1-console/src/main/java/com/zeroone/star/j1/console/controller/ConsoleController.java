@@ -1,17 +1,17 @@
 package com.zeroone.star.j1.console.controller;
 
 import com.zeroone.star.project.j1.ConsoleApis;
-import com.zeroone.star.project.query.j1.console.CashoutQuery;
-import com.zeroone.star.project.query.j1.console.CourseEnrollmentQuery;
-import com.zeroone.star.project.query.j1.console.CustomerQuery;
-import com.zeroone.star.project.query.j1.console.NoticeQuery;
-import com.zeroone.star.project.query.j1.console.ScheduleQuery;
+import com.zeroone.star.project.query.j1.console.ConsoleNoticeQuery;
+import com.zeroone.star.project.query.j1.console.MyFollowUpQuery;
+import com.zeroone.star.project.query.j1.console.MyPaymentRequestQuery;
+import com.zeroone.star.project.query.j1.console.MyRegistrationQuery;
+import com.zeroone.star.project.query.j1.console.TimetableCalendarQuery;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.vo.j1.console.CashoutVO;
-import com.zeroone.star.project.vo.j1.console.CourseEnrollmentVO;
-import com.zeroone.star.project.vo.j1.console.CustomerVO;
-import com.zeroone.star.project.vo.j1.console.NoticeConsoleVO;
-import com.zeroone.star.project.vo.j1.console.ScheduleVO;
+import com.zeroone.star.project.vo.j1.console.ConsoleNoticeVO;
+import com.zeroone.star.project.vo.j1.console.MyFollowUpVO;
+import com.zeroone.star.project.vo.j1.console.MyPaymentRequestVO;
+import com.zeroone.star.project.vo.j1.console.MyRegistrationVO;
+import com.zeroone.star.project.vo.j1.console.TimetableCalendarVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,35 +25,35 @@ public class ConsoleController implements ConsoleApis {
     @Override
     @ApiOperation(value = "我的报名", notes = "分页查询我的报名列表")
     @PostMapping("/console/course-enrollment")
-    public JsonVO<CourseEnrollmentVO> getCourseEnrollment(@RequestBody CourseEnrollmentQuery query) {
-        return JsonVO.success(new CourseEnrollmentVO());
+    public JsonVO<MyRegistrationVO> getCourseEnrollment(@RequestBody MyRegistrationQuery query) {
+        return JsonVO.success(new MyRegistrationVO());
     }
 
     @Override
     @ApiOperation(value = "公告数据", notes = "分页查询控制台公告数据")
     @PostMapping("/console/notice")
-    public JsonVO<NoticeConsoleVO> getNoticeList(@RequestBody NoticeQuery query) {
-        return JsonVO.success(new NoticeConsoleVO());
+    public JsonVO<ConsoleNoticeVO> getNoticeList(@RequestBody ConsoleNoticeQuery query) {
+        return JsonVO.success(new ConsoleNoticeVO());
     }
 
     @Override
     @ApiOperation(value = "我的跟进", notes = "分页查询我的跟进记录")
     @PostMapping("/console/customer")
-    public JsonVO<CustomerVO> getCustomers(@RequestBody CustomerQuery query) {
-        return JsonVO.success(new CustomerVO());
+    public JsonVO<MyFollowUpVO> getCustomers(@RequestBody MyFollowUpQuery query) {
+        return JsonVO.success(new MyFollowUpVO());
     }
 
     @Override
     @ApiOperation(value = "我的请款", notes = "分页查询我的请款记录")
     @PostMapping("/console/cashout")
-    public JsonVO<CashoutVO> getCashoutList(@RequestBody CashoutQuery query) {
-        return JsonVO.success(new CashoutVO());
+    public JsonVO<MyPaymentRequestVO> getCashoutList(@RequestBody MyPaymentRequestQuery query) {
+        return JsonVO.success(new MyPaymentRequestVO());
     }
 
     @Override
     @ApiOperation(value = "课表日历", notes = "查询控制台课表日历数据")
     @PostMapping("/console/schedule")
-    public JsonVO<ScheduleVO> getSchedule(@RequestBody ScheduleQuery query) {
-        return JsonVO.success(new ScheduleVO());
+    public JsonVO<TimetableCalendarVO> getSchedule(@RequestBody TimetableCalendarQuery query) {
+        return JsonVO.success(new TimetableCalendarVO());
     }
 }

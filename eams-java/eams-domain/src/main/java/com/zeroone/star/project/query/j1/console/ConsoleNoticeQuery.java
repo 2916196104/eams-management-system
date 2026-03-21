@@ -6,8 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel(value = "NoticeQuery", description = "Notice query")
-public class NoticeQuery extends PageQuery {
+@ApiModel(value = "ConsoleNoticeQuery", description = "Notice query")
+public class ConsoleNoticeQuery extends PageQuery {
 
     @ApiModelProperty(value = "Title")
     private String title;

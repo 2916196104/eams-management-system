@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Data
 @ApiModel("课表日历DTO")
-public class ScheduleDTO {
+public class TimetableCalendarDTO {
 
     @ApiModelProperty(value = "主键ID")
     private Long id;

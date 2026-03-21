@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 @ApiModel(value = "CashoutVO", description = "请款列表视图对象")
-public class CashoutVO {
+public class MyPaymentRequestVO {
 
     @ApiModelProperty(value = "总记录数")
     private Long total;

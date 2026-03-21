@@ -8,8 +8,8 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-@ApiModel(value = "CourseEnrollmentQuery", description = "Course enrollment query")
-public class CourseEnrollmentQuery extends PageQuery {
+@ApiModel(value = "MyRegistrationQuery", description = "Course enrollment query")
+public class MyRegistrationQuery extends PageQuery {
 
     @ApiModelProperty(value = "Student name or phone")
     private String keyword;

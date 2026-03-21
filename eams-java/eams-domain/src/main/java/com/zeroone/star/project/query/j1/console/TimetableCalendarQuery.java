@@ -8,8 +8,8 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-@ApiModel(value = "ScheduleQuery", description = "Schedule query")
-public class ScheduleQuery extends PageQuery {
+@ApiModel(value = "TimetableCalendarQuery", description = "Schedule query")
+public class TimetableCalendarQuery extends PageQuery {
 
     @ApiModelProperty(value = "Week start")
     private LocalDate weekStart;

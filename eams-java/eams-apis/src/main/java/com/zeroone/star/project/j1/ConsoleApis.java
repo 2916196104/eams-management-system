@@ -27,7 +27,7 @@ public interface ConsoleApis {
      */
     @ApiOperation(value = "我的报名", notes = "分页查询报名签约列表")
     @PostMapping("/console/course-enrollment")
-    JsonVO<CourseEnrollmentVO> getCourseEnrollment(@RequestBody CourseEnrollmentQuery query);
+    JsonVO<MyRegistrationVO> getCourseEnrollment(@RequestBody MyRegistrationQuery query);
 
     /**
      * 控制台-公告数据（分页查询）
@@ -37,7 +37,7 @@ public interface ConsoleApis {
      */
     @ApiOperation(value = "公告数据", notes = "分页查询控制台公告列表")
     @PostMapping("/console/notice")
-    JsonVO<NoticeConsoleVO> getNoticeList(@RequestBody NoticeQuery query);
+    JsonVO<ConsoleNoticeVO> getNoticeList(@RequestBody ConsoleNoticeQuery query);
 
     /**
      * 我的跟进（分页查询）
@@ -47,7 +47,7 @@ public interface ConsoleApis {
      */
     @ApiOperation(value = "我的跟进", notes = "分页查询跟进记录列表")
     @PostMapping("/console/customer")
-    JsonVO<CustomerVO> getCustomers(@RequestBody CustomerQuery query);
+    JsonVO<MyFollowUpVO> getCustomers(@RequestBody MyFollowUpQuery query);
 
     /**
      * 我的请款（分页查询）
@@ -57,7 +57,7 @@ public interface ConsoleApis {
      */
     @ApiOperation(value = "我的请款", notes = "分页查询请款记录列表")
     @PostMapping("/console/cashout")
-    JsonVO<CashoutVO> getCashoutList(@RequestBody CashoutQuery query);
+    JsonVO<MyPaymentRequestVO> getCashoutList(@RequestBody MyPaymentRequestQuery query);
 
     /**
      * 控制台-课表日历
@@ -67,5 +67,5 @@ public interface ConsoleApis {
      */
     @ApiOperation(value = "课表日历", notes = "查询指定周期的课表日历数据")
     @PostMapping("/console/schedule")
-    JsonVO<ScheduleVO> getSchedule(@RequestBody ScheduleQuery query);
+    JsonVO<TimetableCalendarVO> getSchedule(@RequestBody TimetableCalendarQuery query);
 }

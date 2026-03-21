@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Data
 @ApiModel("课程报名DTO")
-public class CourseEnrollmentDTO {
+public class MyRegistrationDTO {
 
     @ApiModelProperty(value = "主键ID")
     private Long id;

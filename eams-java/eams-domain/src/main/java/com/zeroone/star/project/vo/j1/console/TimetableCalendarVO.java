@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 @ApiModel(value = "ScheduleVO", description = "课表日历视图对象")
-public class ScheduleVO {
+public class TimetableCalendarVO {
 
     @ApiModelProperty(value = "总记录数")
     private Long total;

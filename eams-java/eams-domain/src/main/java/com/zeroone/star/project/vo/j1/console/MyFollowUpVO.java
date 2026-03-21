@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @ApiModel(value = "CustomerVO", description = "我的跟进列表视图对象")
-public class CustomerVO {
+public class MyFollowUpVO {
 
     @ApiModelProperty(value = "总记录数")
     private Long total;

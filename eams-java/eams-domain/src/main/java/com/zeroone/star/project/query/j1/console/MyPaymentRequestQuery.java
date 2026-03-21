@@ -8,8 +8,8 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@ApiModel(value = "CashoutQuery", description = "Cashout query")
-public class CashoutQuery extends PageQuery {
+@ApiModel(value = "MyPaymentRequestQuery", description = "Cashout query")
+public class MyPaymentRequestQuery extends PageQuery {
 
     @ApiModelProperty(value = "Apply time start")
     private LocalDateTime addTimeStart;

@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Data
 @ApiModel("公告数据DTO")
-public class NoticeConsoleDTO {
+public class ConsoleNoticeDTO {
 
     @ApiModelProperty(value = "公告ID")
     private Long id;
