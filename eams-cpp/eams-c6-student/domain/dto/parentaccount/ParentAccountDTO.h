@@ -14,22 +14,22 @@ class ParentAccountDTO : public oatpp::DTO
 {
 	DTO_INIT(ParentAccountDTO, DTO);
 
-	API_DTO_FIELD_DEFAULT(Int64, userId, ZH_WORDS_GETTER("parentaccount.field.parent-query.user-id"));
-	API_DTO_FIELD_DEFAULT(String, mobile, ZH_WORDS_GETTER("parentaccount.field.parent-query.mobile"));
-	API_DTO_FIELD_DEFAULT(String, name, ZH_WORDS_GETTER("parentaccount.field.parent-query.name"));
-	API_DTO_FIELD_DEFAULT(String, studentName, ZH_WORDS_GETTER("parentaccount.field.parent-query.student-name"));
-	API_DTO_FIELD_DEFAULT(String, wxName, ZH_WORDS_GETTER("parentaccount.field.parent-query.wx-name"));
-	API_DTO_FIELD_DEFAULT(Int32, loginTimes, ZH_WORDS_GETTER("parentaccount.field.parent-query.login-times"));
-	API_DTO_FIELD_DEFAULT(String, latestLoginTime, ZH_WORDS_GETTER("parentaccount.field.parent-query.latest-login-time"));
-	API_DTO_FIELD_DEFAULT(String, latestLoginIp, ZH_WORDS_GETTER("parentaccount.field.parent-query.latest-login-ip"));
-	API_DTO_FIELD_DEFAULT(String, addTime, ZH_WORDS_GETTER("parentaccount.field.parent-query.add-time"));
-	API_DTO_FIELD_DEFAULT(Int32, state, ZH_WORDS_GETTER("parentaccount.field.parent-query.state"));
+	API_DTO_FIELD_DEFAULT(Int64, userId, ZH_WORDS_GETTER("parentaccount.field.parent.user-id"));
+	API_DTO_FIELD_DEFAULT(String, mobile, ZH_WORDS_GETTER("parentaccount.field.parent.mobile"));
+	API_DTO_FIELD_DEFAULT(String, name, ZH_WORDS_GETTER("parentaccount.field.parent.name"));
+	API_DTO_FIELD_DEFAULT(String, studentName, ZH_WORDS_GETTER("parentaccount.field.parent.student-name"));
+	API_DTO_FIELD_DEFAULT(String, wxName, ZH_WORDS_GETTER("parentaccount.field.parent.wx-name"));
+	API_DTO_FIELD_DEFAULT(Int32, loginTimes, ZH_WORDS_GETTER("parentaccount.field.parent.login-times"));
+	API_DTO_FIELD_DEFAULT(String, latestLoginTime, ZH_WORDS_GETTER("parentaccount.field.parent.latest-login-time"));
+	API_DTO_FIELD_DEFAULT(String, latestLoginIp, ZH_WORDS_GETTER("parentaccount.field.parent.latest-login-ip"));
+	API_DTO_FIELD_DEFAULT(String, addTime, ZH_WORDS_GETTER("parentaccount.field.parent.add-time"));
+	API_DTO_FIELD_DEFAULT(Int32, state, ZH_WORDS_GETTER("parentaccount.field.parent.state"));
 };
 class ParentAccountChangeDTO : public oatpp::DTO
 {
 	DTO_INIT(ParentAccountChangeDTO, DTO);
 
-	API_DTO_FIELD_REQUIRE(UInt64, id, ZH_WORDS_GETTER("parentaccount.field.parent.id"), true);
+	API_DTO_FIELD_REQUIRE(UInt64, id, ZH_WORDS_GETTER("parentaccount.field.parent.user-id"), true);
 
 	API_DTO_FIELD_REQUIRE(String, name, ZH_WORDS_GETTER("parentaccount.field.parent.name"), true);
 
@@ -40,7 +40,7 @@ class ParentPasswordChangeDTO : public oatpp::DTO
 {
 	DTO_INIT(ParentPasswordChangeDTO, DTO);
 
-	API_DTO_FIELD_REQUIRE(UInt64, id, ZH_WORDS_GETTER("parentaccount.field.parent.id"), true);
+	API_DTO_FIELD_REQUIRE(UInt64, id, ZH_WORDS_GETTER("parentaccount.field.parent.user-id"), true);
 
 	API_DTO_FIELD_REQUIRE(String, oldPassword, ZH_WORDS_GETTER("parentaccount.field.parent.old-password"), true);
 

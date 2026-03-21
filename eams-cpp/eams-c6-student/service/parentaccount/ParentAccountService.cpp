@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "ParentAccountService.h"
 
 ParentAccountPageDTO ParentAccountService::listParentAccount(const ParentAccountQuery::Wrapper& query)
@@ -11,12 +11,5 @@ ParentAccountPageDTO ParentAccountService::listParentAccount(const ParentAccount
 	if (count == 0) {
 		return pages;
 	}
-
-	auto list = m_parentAccountDAO.listParentAccount(query);
-	for (const auto& item : list) {
-		auto dto = ParentAccountDTO::createShared();
-		
-		ZO_STAR_DOMAIN_DO_TO_DTO(dto, item, userId, UserId, mobile, Mobile, name, Name, studentName, StudentName, wxName, WxName, loginTimes, LoginTimes, latestLoginTime, LatestLoginTime, latestLoginIp, LatestLoginIp,addTime, AddTime, state, State);
-	}
-    return pages;
+	return pages;
 }
