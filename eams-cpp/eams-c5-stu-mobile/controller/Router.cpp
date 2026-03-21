@@ -38,6 +38,8 @@
 #include"home/trialcard/GetTrialcard/GetTrialcardController.h"
 #include"home/trialcard/UseTrialcard/UseTrialcardController.h"
 #include "schedule/LeaveController.h"
+#include "home/credit_mallController.h"
+#include "login/SendPassSMTP.h"
 
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
@@ -78,6 +80,8 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(GetTrialcardController);
 	ROUTER_SIMPLE_BIND(UseTrialcardController);
 	ROUTER_SIMPLE_BIND(LeaveController);
+	ROUTER_SIMPLE_BIND(CreditMallController);
+	ROUTER_SIMPLE_BIND(SendPassSMTPControl);
 
 
 	

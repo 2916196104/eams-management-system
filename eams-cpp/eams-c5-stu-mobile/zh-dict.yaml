@@ -1,4 +1,4 @@
-c5:
+﻿c5:
   home:
     trial:
         tag: 课程体验卡
@@ -325,3 +325,73 @@ leave:
     verify_time: 取消时间
     counselor: 学生的顾问
     school_id: 学生所属学校ID
+
+
+test :
+ summary: 测试接口
+ resp: 操作成功
+
+spsmtp:
+ summary: 发送密码验证
+ phone : 手机号
+
+api_post_code :
+ summary: 发送密码短信验证接口
+ resp: 操作成功
+ field:  
+  phone_number: 手机号
+
+
+credit_mall:
+ tags:
+  t1: 基础示例接口
+  t2: 声明式服务示例接口
+  t3: 积分兑换
+  t4: 登录
+ get:
+  summary-school_id: 通过学校id分页查询礼品数据
+  summary: 通过id查询礼品
+  summary-material_id: 通过物料id分页查询礼品数据
+  summary-category_id: 通过种类id分页查询礼品数据
+  summary-category_name: 通过种类名称分页查询礼品数据
+ post:
+  summary: 新增积分商城礼品数据  
+ put:
+  summary: 修改积分商城礼品数据    
+ delete:
+  summary: 批量删除积分商城礼品数据 
+ query-by-id:
+  summary: 通过ID获取单条积分商城礼品数据
+ export:
+  summary: 导出积分商城礼品数据(响应Excel文件)
+ export-pdf:
+  summary: 导出积分商城礼品数据(响应PdfBase64字符串)
+ import:
+  summary: 导入积分商城礼品数据
+ query-one:
+  summary: 使用声明式服务查询单条积分商城礼品数据
+ query-all:
+  summary: 使用声明式服务查询全部积分商城礼品数据
+ field:  
+  id: 编号
+  school_id: 所属学校id
+  material_id: 物料分类id
+  category_id: 礼品分类id
+  category_name: 种类名称
+  name: 礼品名称
+  credit: 兑换积分        
+  state: 是否可兑换          
+  sale_num: 历史兑换数量    
+  view_num: 预览次数         
+  cover: 礼品封面地址        
+  content: 礼品详情内容      
+  creator: 创建人ID        
+  editor: 编辑人ID          
+  add_time: 添加时间        
+  edit_time: 编辑时间        
+  deleted: 删除标记          
+  org_id: 创建者所属组织ID   
+  excel: 导入报表文件        
+
+
+
