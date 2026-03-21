@@ -4,10 +4,39 @@ timetable:
  interface:
    reserve: "预约"
    leave: "请假"
- filed:
+   query-lesson: "按日期获取课表"
+   sign: "签到"
+
+ field:
   leave:
    lesson-id: "课程Id"
    reason: "请假原因"
    student-id: "学员Id"
   reserve:  
    lesson-id: "课程Id"
+
+  query:
+   query-date: "查询日期"
+   total: "课表总节数"
+   lesson-list: "课程列表"
+
+  item:
+   lesson-id: "课程Id"
+   title: "课程标题"
+   class-name: "班级名称"
+   room-name: "教室名称"
+   teacher-name: "教师姓名"
+   date: "上课日期"
+   start-time: "开始时间"
+   end-time: "结束时间"
+   state: "课程状态"
+   remark: "备注"
+   sign-state: "签到状态"
+   sign-time: "签到时间"
+   can-sign: "是否可签到"
+
+  sign:
+   lesson-id: "课程Id"
+   sign-type: "签到方式"
+
+  
