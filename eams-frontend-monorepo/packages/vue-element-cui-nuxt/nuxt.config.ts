@@ -91,6 +91,13 @@ export default defineNuxtConfig({
 	 * 若需要纯静态托管，可改用 `nuxi generate` 或在有足够内存的环境执行带预渲染的构建。
 	 */
 	nitro: {
+		externals: {
+			/**
+			 * Windows + pnpm workspace 下 nodeFileTrace 在当前文档站产物上会长期占用高 CPU/内存，
+			 * 先关闭 trace，避免 `nuxt build` 卡在 `Building Nuxt Nitro server` 阶段。
+			 */
+			trace: false,
+		},
 		prerender: {
 			crawlLinks: false,
 		},
