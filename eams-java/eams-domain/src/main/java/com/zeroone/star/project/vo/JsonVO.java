@@ -107,3 +107,4 @@ public class JsonVO<T> implements Serializable {
         return create(null, ResultStatus.FAIL.getCode(), message);
     }
 }
+

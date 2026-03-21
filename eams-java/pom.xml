@@ -62,6 +62,19 @@
                 <artifactId>eams-domain</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <!-- 依赖 eams-domain 模块，引用 JsonVO/ResultStatus -->
+            <dependency>
+                <groupId>com.zeroone.star</groupId>
+                <artifactId>eams-domain</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <!--导入lombok依赖-->
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.30</version>
+                <scope>provided</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

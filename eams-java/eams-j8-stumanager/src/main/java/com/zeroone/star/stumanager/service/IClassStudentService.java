@@ -12,5 +12,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2026-03-14
  */
 public interface IClassStudentService extends IService<ClassStudent> {
-
+    //判断学生id加入班级成功
+    boolean bindStudentToClass(Long studentId, Long classId);
+    ////判断学生id退出班级成功
+    boolean unbindStudentFromClass(Long studentId);
 }
