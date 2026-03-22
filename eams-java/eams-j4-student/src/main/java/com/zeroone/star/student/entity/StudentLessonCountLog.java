@@ -1,7 +1,13 @@
 package com.zeroone.star.student.entity;
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
+/**
+ * 消课记录服务DO
+ */
+@Data
 public class StudentLessonCountLog {
     private int id;
 

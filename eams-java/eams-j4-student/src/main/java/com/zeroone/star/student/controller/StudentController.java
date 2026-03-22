@@ -9,6 +9,9 @@ import com.zeroone.star.project.dto.j4.student.GraduateStudentImportBatchDTO;
 import com.zeroone.star.project.j4.student.StudentApis;
 import com.zeroone.star.project.query.j4.student.*;
 import com.zeroone.star.project.vo.j4.student.*;
+import com.zeroone.star.student.mapper.IOmyMapper;
+import com.zeroone.star.student.service.IOmyServcie;
+import com.zeroone.star.student.service.ISclServcie;
 import com.zeroone.star.student.service.IStudentFinanceService;
 import com.zeroone.star.student.service.IStudentService;
 import com.zeroone.star.project.query.j4.student.FinanceQuery;
@@ -16,6 +19,8 @@ import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.StringUtils;
+import org.apache.poi.util.StringUtil;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import io.swagger.annotations.ApiParam;
@@ -117,25 +122,56 @@ public class StudentController implements StudentApis {
         // TODO: 调用 Service 层实现业务逻辑
         return null;
     }
+
+    @Resource
+    IOmyServcie IOmyServcie;
+
     @GetMapping("/queryOmyLessonCount")
     @ApiOperation("获取消课记录（条件+分页）")
     @Override
-    public JsonVO<PageDTO<LessonCountDTO>> queryOmyLessonCount(@RequestParam(value = "2026010206",required = true) String StudentID) {
-        return null;
+    public JsonVO<PageDTO<LessonCountDTO>> queryOmyLessonCount(@RequestParam(value = "2026010206") String StudentID) {
+
+        if(StringUtils.isBlank(StudentID)){
+            return JsonVO.fail("学生ID不能为空");
+        }
+        PageDTO<LessonCountDTO> lessonCountDTOPageDTO = IOmyServcie.PageLessonCount(StudentID);
+        return JsonVO.success(lessonCountDTOPageDTO);
     }
+
+    @Resource
+    ISclServcie iSclServcie;
 
     @GetMapping("/queryCreditLog")
     @ApiOperation("获取积分记录（条件+分页）")
     @Override
     public JsonVO<PageDTO<CreditLogDTO>> queryCreditLog(@RequestBody CreditSelectQuery creditSelectQuery) {
-        return null;
+        if(creditSelectQuery.getStudent_Name() == null){
+            creditSelectQuery.setStudent_Name("");
+        }
+        if (creditSelectQuery.getBegin_time() != null && creditSelectQuery.getEnd_time() != null) {
+            // 比较开始时间是否大于结束时间
+            if (creditSelectQuery.getBegin_time().compareTo(creditSelectQuery.getEnd_time()) > 0) {
+                return JsonVO.fail("开始时间不能大于结束时间");
+            }
+        }
+        PageDTO<CreditLogDTO> pageDTOPageDTO = iSclServcie.PageCreditLog(creditSelectQuery);
+        return JsonVO.success(pageDTOPageDTO);
     }
 
     @PostMapping("/saveCreditLog")
     @ApiOperation("调整积分")
     @Override
     public JsonVO<Long> saveCreditLog(@RequestBody ChangeCreditQuery changeCreditQuery) {
-        return null;
+        if(changeCreditQuery.getStudent_id().isEmpty()){
+            return JsonVO.fail("学生学号不能为空");
+        }
+        if(changeCreditQuery.getChange_credit().isEmpty()){
+            return JsonVO.fail("调整积分数不能为空");
+        }
+        if(iSclServcie.saveCreditLog(changeCreditQuery)){
+            return JsonVO.success(200L);
+        }
+        return JsonVO.success(-1L);
     }
 
     @PostMapping("/modifyConsultant")
