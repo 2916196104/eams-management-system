@@ -1,0 +1,10 @@
+ClassList:
+ tag: 课程
+ test: hahaha
+ summary: 查看课程列表
+ id: 学员id
+ ClassListDTO:
+  id: 主键
+
+ 
+ 
