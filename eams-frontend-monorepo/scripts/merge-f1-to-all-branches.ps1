@@ -55,7 +55,8 @@ foreach ($branch in $remoteBranches) {
         }
 
         Write-Host "  正在合并 origin/f1 ..." -ForegroundColor Gray
-        git merge origin/f1 --no-edit --no-ff 2>&1 | ForEach-Object { Write-Host "  $_" -ForegroundColor Gray }
+        # 不使用管道，避免 $ErrorActionPreference=Stop 将 git 钩子的 stderr 信息误判为致命错误
+        git merge origin/f1 --no-edit --no-ff
 
         if ($LASTEXITCODE -ne 0) {
             throw "合并退出码 $LASTEXITCODE"
