@@ -8,10 +8,10 @@
 /*公告管理查询类*/
 
 
-class BoardManagerQuery : public
-{
-	DTO_INIT(BoardManagerQuery, )
-};
+//class BoardManagerQuery : public
+//{
+//	DTO_INIT(BoardManagerQuery, )
+//};
 
 #include OATPP_CODEGEN_END(DTO)
 
