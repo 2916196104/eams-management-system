@@ -10,9 +10,9 @@
 /**
  * 定义一个用户信息显示JsonVO对象，用于响应给客户端
  */
-class UserJsonVO : public JsonVO<StudentDTO::Wrapper>
+class StudentJsonVO : public JsonVO<StudentDTO::Wrapper>
 {
-	DTO_INIT(UserJsonVO, JsonVO<StudentDTO::Wrapper>);
+	DTO_INIT(StudentJsonVO, JsonVO<StudentDTO::Wrapper>);
 };
 
  
