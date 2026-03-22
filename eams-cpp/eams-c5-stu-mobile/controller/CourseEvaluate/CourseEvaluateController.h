@@ -12,7 +12,7 @@
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
-#define API_TAG ZH_WORDS_GETTER("CourseEvaluate.tag")
+#define API_TAG ZH_WORDS_GETTER("CourseRecord.tag")
 
 /**
  * 课程评价控制器

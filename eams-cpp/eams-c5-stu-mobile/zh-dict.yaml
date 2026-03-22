@@ -34,7 +34,6 @@
 
 CourseEvaluate:
  summary: 评价课程
- tag: 课程评价
  get-summary: 获取课程评价列表
  post-summary: 提交课程评价
  resp: 操作成功
