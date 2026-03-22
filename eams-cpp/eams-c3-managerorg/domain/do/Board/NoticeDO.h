@@ -13,7 +13,7 @@ class NoticeDO : public BaseDO
 	MYSQL_SYNTHESIZE(int, id, Id);
 	//通知名称（如：学员上课提醒）
 	MYSQL_SYNTHESIZE(std::string, name, Name);
-	//通知编码（唯一标识，如：studentLessonStart）
+	//通知编码
 	MYSQL_SYNTHESIZE(std::string, code, Code);
 	//是否启用（1-启用，0-禁用）
 	MYSQL_SYNTHESIZE(int, enabled, Enabled);
@@ -27,7 +27,7 @@ class NoticeDO : public BaseDO
 	MYSQL_SYNTHESIZE(int, forceEnable, ForceEnable);
 	//描述说明
 	MYSQL_SYNTHESIZE(std::string, description, Description);
-	//排序序号（未使用，但保留）
+	//排序序号
 	MYSQL_SYNTHESIZE(int, sort, Sort);
 	//接收人类型（'student' 或 'teacher'）
 	MYSQL_SYNTHESIZE(std::string, receiverType, ReceiverType);
@@ -37,10 +37,7 @@ class NoticeDO : public BaseDO
 public:
 	NoticeDO() : BaseDO("setting_notice")
 	{
-		// 主键字段
 		MYSQL_ADD_FIELD_PK("id", "i", id);
-
-		// 普通字段（按表顺序）
 		MYSQL_ADD_FIELD("name", "s", name);
 		MYSQL_ADD_FIELD("code", "s", code);
 		MYSQL_ADD_FIELD("enabled", "i", enabled);
