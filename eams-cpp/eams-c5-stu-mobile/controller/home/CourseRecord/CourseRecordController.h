@@ -31,7 +31,7 @@ public:
 		API_DEF_ADD_QUERY_PARAMS(UInt64, "course_id", ZH_WORDS_GETTER("CourseRecord.field.course_id"), 1, false);
 	}
 	// 查询上课记录接口处理
-	ENDPOINT(API_M_GET, "/course-record", queryCourseRecord, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_GET, "/c5/home/courseRecord/list/get", queryCourseRecord, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
 		API_HANDLER_QUERY_PARAM(query, CourseRecordQuery, queryParams);
 		API_HANDLER_RESP_VO(execQueryCourseRecord(query));
 	}

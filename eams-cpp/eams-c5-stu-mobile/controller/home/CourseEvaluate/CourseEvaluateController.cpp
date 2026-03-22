@@ -1,14 +1,14 @@
 #include "stdafx.h"
 #include "CourseEvaluateController.h"
-#include "../../service/CourseEvaluate/CourseEvaluateService.h"
+#include "../../../service/CourseEvaluate/CourseEvaluateService.h"
 
-CourseEvaluatePageJsonVO::Wrapper CourseEvaluateController::execQueryCourseEvaluate(const CourseEvaluateQuery::Wrapper& query)
-{
-	auto result = CourseEvaluateService().listAll(query);
-	auto jvo = CourseEvaluatePageJsonVO::createShared();
-	jvo->success(result);
-	return jvo;
-}
+//CourseEvaluatePageJsonVO::Wrapper CourseEvaluateController::execQueryCourseEvaluate(const CourseEvaluateQuery::Wrapper& query)
+//{
+//	auto result = CourseEvaluateService().listAll(query);
+//	auto jvo = CourseEvaluatePageJsonVO::createShared();
+//	jvo->success(result);
+//	return jvo;
+//}
 
 StringJsonVO::Wrapper CourseEvaluateController::execAddCourseEvaluate(const CourseEvaluateDTO::Wrapper& dto, const PayloadDTO& payload)
 {

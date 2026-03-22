@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CourseRecordController.h"
-#include "../../service/CourseRecord/CourseRecordService.h"
+#include "../../../service/CourseRecord/CourseRecordService.h"
 
 CourseRecordPageJsonVO::Wrapper CourseRecordController::execQueryCourseRecord(const CourseRecordQuery::Wrapper& query)
 {
