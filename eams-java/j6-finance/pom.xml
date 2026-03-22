@@ -41,10 +41,10 @@
         </dependency>
 
         <!-- alibaba seata -->
-<!--        <dependency>-->
-<!--            <groupId>com.alibaba.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+        </dependency>
 
         <!-- openfeign -->
         <dependency>
@@ -94,7 +94,7 @@
                         <!-- 数据库端口 -->
                         <port>3306</port>
                         <!-- 数据库名称 -->
-                        <dbname>test</dbname>
+                        <dbname>hzb_ems</dbname>
                         <!-- 数据库用户名 -->
                         <username>root</username>
                         <!-- 数据库密码 -->
