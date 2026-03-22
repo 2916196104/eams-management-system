@@ -11,22 +11,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import MyCalendar from '@/components/mycalendar/MyCalendar.vue'
+import { ref, onMounted } from "vue";
+import MyCalendar from "@/components/mycalendar/MyCalendar.vue";
 
-const currentYear = ref(2026)
-const currentMonth = ref(2)
-const selectedDate = ref<Date | null>(new Date(2026, 2, 12))
+const currentYear = ref(2026);
+const currentMonth = ref(2);
+const selectedDate = ref<Date | null>(new Date(2026, 2, 12));
 
 onMounted(() => {
 	// 可选：首次打开时使用当前年月与今天，便于日常测试
 	// currentYear.value = new Date().getFullYear()
 	// currentMonth.value = new Date().getMonth()
 	// selectedDate.value = new Date()
-})
+});
 
 function onDateSelect(date: Date) {
-	console.log('选中日期', date)
+	console.log("选中日期", date);
 }
 </script>
 

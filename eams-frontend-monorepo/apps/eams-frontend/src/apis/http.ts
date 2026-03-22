@@ -5,17 +5,17 @@ import Axios, {
 	type AxiosResponse,
 	type InternalAxiosRequestConfig,
 	type Method,
-	type AxiosError
-} from 'axios'
-import { stringify } from 'qs'
-import { ElLoading } from 'element-plus'
+	type AxiosError,
+} from "axios";
+import { stringify } from "qs";
+import { ElLoading } from "element-plus";
 
 /** 扩展Axios配置类型，添加自定义属性 */
 export interface CustomAxiosRequestConfig extends AxiosRequestConfig {
 	/** 上传数据类型 */
-	upType?: number
+	upType?: number;
 	/** 是否显示加载提示 */
-	showLoading?: boolean
+	showLoading?: boolean;
 }
 
 /** 默认基础配置 */
@@ -26,32 +26,32 @@ const defaultConfig: AxiosRequestConfig = {
 	timeout: import.meta.env.VITE_API_TIMEOUT,
 	/** params参数使用qs序列化 */
 	paramsSerializer: {
-		serialize: stringify as CustomParamsSerializer
-	}
-}
+		serialize: stringify as CustomParamsSerializer,
+	},
+};
 
 /** 拦截器配置 */
 interface InterceptorsConfig {
 	/** 请求拦截器 */
 	requestInterceptor?: (
-		config: InternalAxiosRequestConfig & CustomAxiosRequestConfig
-	) => InternalAxiosRequestConfig & CustomAxiosRequestConfig
+		config: InternalAxiosRequestConfig & CustomAxiosRequestConfig,
+	) => InternalAxiosRequestConfig & CustomAxiosRequestConfig;
 	/** 请求错误拦截器 */
-	requestErrorInterceptor?: (error: AxiosError) => Promise<any>
+	requestErrorInterceptor?: (error: AxiosError) => Promise<any>;
 	/** 响应拦截器 */
-	responseInterceptor?: (response: AxiosResponse<JsonVO<any>>) => any
+	responseInterceptor?: (response: AxiosResponse<JsonVO<any>>) => any;
 	/** 响应错误拦截器 */
-	responseErrorInterceptor?: (error: AxiosError) => Promise<any>
+	responseErrorInterceptor?: (error: AxiosError) => Promise<any>;
 }
 
 /** 后端响应数据类型定义 */
 export interface JsonVO<T> {
 	/** 状态码 */
-	code: number
+	code: number;
 	/** 提示信息 */
-	message: string
+	message: string;
 	/** 数据对象 */
-	data?: T
+	data?: T;
 }
 
 /**
@@ -59,7 +59,7 @@ export interface JsonVO<T> {
  */
 export default class HttpClient {
 	/** axios实例对象 */
-	private instance: AxiosInstance
+	private instance: AxiosInstance;
 
 	/**
 	 * 构造初始化配置
@@ -67,27 +67,21 @@ export default class HttpClient {
 	 * @param interceptors 自定义拦截器配置
 	 */
 	constructor(customConfig?: AxiosRequestConfig, interceptors?: InterceptorsConfig) {
-		this.instance = Axios.create({ ...defaultConfig, ...customConfig })
-		this.initInterceptors(interceptors)
+		this.instance = Axios.create({ ...defaultConfig, ...customConfig });
+		this.initInterceptors(interceptors);
 	}
 
 	/** 初始化拦截器 */
 	private initInterceptors(interceptors?: InterceptorsConfig) {
 		// 请求拦截器
-		this.instance.interceptors.request.use(
-			interceptors?.requestInterceptor,
-			interceptors?.requestErrorInterceptor
-		)
+		this.instance.interceptors.request.use(interceptors?.requestInterceptor, interceptors?.requestErrorInterceptor);
 		// 响应拦截器
-		this.instance.interceptors.response.use(
-			interceptors?.responseInterceptor,
-			interceptors?.responseErrorInterceptor
-		)
+		this.instance.interceptors.response.use(interceptors?.responseInterceptor, interceptors?.responseErrorInterceptor);
 	}
 
 	/** 获取Axios实例 */
 	public getInstance(): AxiosInstance {
-		return this.instance
+		return this.instance;
 	}
 
 	/**
@@ -97,17 +91,13 @@ export default class HttpClient {
 	 * @param config 请求配置
 	 * @returns 响应数据,如果要同步接收数据，需要搭配await使用，否则会返回Promise对象
 	 */
-	public async request<T = any>(
-		method: Method,
-		url: string,
-		config?: CustomAxiosRequestConfig
-	): Promise<JsonVO<T>> {
+	public async request<T = any>(method: Method, url: string, config?: CustomAxiosRequestConfig): Promise<JsonVO<T>> {
 		try {
-			const response = await this.instance.request<JsonVO<T>>({ ...config, method, url })
-			return Promise.resolve(response.data)
+			const response = await this.instance.request<JsonVO<T>>({ ...config, method, url });
+			return Promise.resolve(response.data);
 		} catch (error) {
-			console.warn('request ex:', error)
-			return Promise.reject(error)
+			console.warn("request ex:", error);
+			return Promise.reject(error);
 		}
 	}
 
@@ -118,12 +108,8 @@ export default class HttpClient {
 	 * @param config 请求配置
 	 * @returns 响应数据
 	 */
-	public get<T = any>(
-		url: string,
-		params?: any,
-		config?: CustomAxiosRequestConfig
-	): Promise<JsonVO<T>> {
-		return this.request<T>('get', url, { upType: DataUpType.form, ...config, params })
+	public get<T = any>(url: string, params?: any, config?: CustomAxiosRequestConfig): Promise<JsonVO<T>> {
+		return this.request<T>("get", url, { upType: DataUpType.form, ...config, params });
 	}
 
 	/**
@@ -134,7 +120,7 @@ export default class HttpClient {
 	 * @returns 请求发送后的Promise对象
 	 */
 	public getFile(url: string, params?: any, config?: CustomAxiosRequestConfig): Promise<any> {
-		return this.instance.request({ ...config, method: 'get', url, params })
+		return this.instance.request({ ...config, method: "get", url, params });
 	}
 
 	/**
@@ -144,12 +130,8 @@ export default class HttpClient {
 	 * @param config 请求配置
 	 * @returns 响应数据
 	 */
-	public post<T = any>(
-		url: string,
-		data?: any,
-		config?: CustomAxiosRequestConfig
-	): Promise<JsonVO<T>> {
-		return this.request<T>('post', url, { upType: DataUpType.json, ...config, data })
+	public post<T = any>(url: string, data?: any, config?: CustomAxiosRequestConfig): Promise<JsonVO<T>> {
+		return this.request<T>("post", url, { upType: DataUpType.json, ...config, data });
 	}
 
 	/**
@@ -159,12 +141,8 @@ export default class HttpClient {
 	 * @param config 请求配置
 	 * @returns 响应数据
 	 */
-	public put<T = any>(
-		url: string,
-		data?: any,
-		config?: CustomAxiosRequestConfig
-	): Promise<JsonVO<T>> {
-		return this.request<T>('put', url, { upType: DataUpType.json, ...config, data })
+	public put<T = any>(url: string, data?: any, config?: CustomAxiosRequestConfig): Promise<JsonVO<T>> {
+		return this.request<T>("put", url, { upType: DataUpType.json, ...config, data });
 	}
 
 	/**
@@ -174,12 +152,8 @@ export default class HttpClient {
 	 * @param config 请求配置
 	 * @returns 响应数据
 	 */
-	public delete<T = any>(
-		url: string,
-		data?: any,
-		config?: CustomAxiosRequestConfig
-	): Promise<JsonVO<T>> {
-		return this.request<T>('delete', url, { upType: DataUpType.json, ...config, data })
+	public delete<T = any>(url: string, data?: any, config?: CustomAxiosRequestConfig): Promise<JsonVO<T>> {
+		return this.request<T>("delete", url, { upType: DataUpType.json, ...config, data });
 	}
 
 	/**
@@ -190,18 +164,14 @@ export default class HttpClient {
 	 * @param config 请求配置
 	 * @returns 响应数据
 	 */
-	public postWithFile<T = any>(
-		url: string,
-		data: any,
-		config?: CustomAxiosRequestConfig
-	): Promise<JsonVO<T>> {
+	public postWithFile<T = any>(url: string, data: any, config?: CustomAxiosRequestConfig): Promise<JsonVO<T>> {
 		// 将data转换成FormData对象
-		const formData = new FormData()
+		const formData = new FormData();
 		for (const key in data) {
-			formData.append(key, data[key])
+			formData.append(key, data[key]);
 		}
 		// 发送请求
-		return this.request<T>('post', url, { ...config, data: formData, upType: DataUpType.file })
+		return this.request<T>("post", url, { ...config, data: formData, upType: DataUpType.file });
 	}
 
 	/**
@@ -217,30 +187,30 @@ export default class HttpClient {
 		file: any,
 		success: RequestCallback,
 		fail: RequestCallback,
-		config?: CustomAxiosRequestConfig
+		config?: CustomAxiosRequestConfig,
 	) {
 		// 读取文件
-		const reader = new FileReader()
-		reader.readAsArrayBuffer(file)
+		const reader = new FileReader();
+		reader.readAsArrayBuffer(file);
 		reader.onloadend = () => {
 			// 读取文件失败
 			if (reader.error) {
-				fail('文件读取失败')
-				return
+				fail("文件读取失败");
+				return;
 			}
 			// 上传文件
-			this.request<T>('post', url, {
+			this.request<T>("post", url, {
 				...config,
 				data: reader.result,
-				upType: DataUpType.stream
+				upType: DataUpType.stream,
 			})
 				.then((res) => {
-					success(res)
+					success(res);
 				})
 				.catch((err) => {
-					fail(err)
-				})
-		}
+					fail(err);
+				});
+		};
 	}
 }
 
@@ -253,16 +223,16 @@ export const DataUpType = {
 	/** 文件类型 */
 	file: 2,
 	/** 文件流类型 */
-	stream: 3
-}
+	stream: 3,
+};
 
 /** 请求回调函数 */
-export type RequestCallback = (res: any) => void
+export type RequestCallback = (res: any) => void;
 
 /** 记录加载提示打开次数 */
-let openLoadingCount = 0
+let openLoadingCount = 0;
 /** 网络加载框实例 */
-let loading: any
+let loading: any;
 
 /** 显示网络加载效果 */
 export function showLoading() {
@@ -276,31 +246,31 @@ export function showLoading() {
           A 15 15, 0, 0, 1, 15 30
           A 15 15, 0, 1, 1, 27.99 7.5
           L 15 15
-        " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>`
+        " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>`;
 		loading = ElLoading.service({
 			lock: true,
-			text: '网络连接中',
-			background: 'rgba(255, 255, 255, 0.5)',
+			text: "网络连接中",
+			background: "rgba(255, 255, 255, 0.5)",
 			svg: svg,
-			svgViewBox: '-10, -10, 50, 50',
+			svgViewBox: "-10, -10, 50, 50",
 			beforeClose: function () {
-				openLoadingCount--
-				if (openLoadingCount > 0) return false
-				return true
+				openLoadingCount--;
+				if (openLoadingCount > 0) return false;
+				return true;
 			},
 			closed: function () {
-				openLoadingCount = 0
-				loading = null
-			}
-		})
+				openLoadingCount = 0;
+				loading = null;
+			},
+		});
 	}
 	// 打开次数+1
-	openLoadingCount++
+	openLoadingCount++;
 }
 
 /** 关闭网络加载效果 */
 export function closeLoading() {
 	if (loading) {
-		loading.close()
+		loading.close();
 	}
 }

@@ -13,17 +13,15 @@
 ### 导入组件
 
 ```typescript
-import LineChart from '@/components/mychart/LineChart.vue'
-import BarChart from '@/components/mychart/BarChart.vue'
-import PieChart from '@/components/mychart/PieChart.vue'
+import LineChart from "@/components/mychart/LineChart.vue";
+import BarChart from "@/components/mychart/BarChart.vue";
+import PieChart from "@/components/mychart/PieChart.vue";
 ```
 
 ## LineChart 折线图
 
 ```vue
-<LineChart 引入对应属性即可使用  >
-
-
+<LineChart 引入对应属性即可使用></LineChart>
 ```
 
 ### 基本用法
@@ -41,20 +39,20 @@ import PieChart from '@/components/mychart/PieChart.vue'
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import LineChart from '@/components/mychart/LineChart.vue'
+import { ref } from "vue";
+import LineChart from "@/components/mychart/LineChart.vue";
 
-const xAxisData = ref(['03-10', '03-11', '03-12', '03-13', '03-14'])
+const xAxisData = ref(["03-10", "03-11", "03-12", "03-13", "03-14"]);
 const seriesData = ref([
 	{
-		name: '报名人数',
+		name: "报名人数",
 		data: [122205, 880000, 1296957.12, 950000, 325439],
-		color: '#5470c6'
-	}
-])
+		color: "#5470c6",
+	},
+]);
 //需要自行绑定点击事件
 function handleChartClick(params: any) {
-	console.log('图表点击:', params)
+	console.log("图表点击:", params);
 }
 </script>
 ```
@@ -95,27 +93,21 @@ function handleChartClick(params: any) {
 
 ```vue
 <template>
-	<BarChart
-		title="月度销售统计"
-		:x-axis-data="xAxisData"
-		:series-data="seriesData"
-		height="400px"
-		:show-label="true"
-	/>
+	<BarChart title="月度销售统计" :x-axis-data="xAxisData" :series-data="seriesData" height="400px" :show-label="true" />
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import BarChart from '@/components/mychart/BarChart.vue'
+import { ref } from "vue";
+import BarChart from "@/components/mychart/BarChart.vue";
 
-const xAxisData = ref(['1月', '2月', '3月', '4月', '5月', '6月'])
+const xAxisData = ref(["1月", "2月", "3月", "4月", "5月", "6月"]);
 const seriesData = ref([
 	{
-		name: '销售额',
+		name: "销售额",
 		data: [820, 932, 901, 934, 1290, 1330],
-		color: '#5470c6'
-	}
-])
+		color: "#5470c6",
+	},
+]);
 </script>
 ```
 
@@ -146,16 +138,16 @@ const seriesData = ref([
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import PieChart from '@/components/mychart/PieChart.vue'
+import { ref } from "vue";
+import PieChart from "@/components/mychart/PieChart.vue";
 
 const seriesData = ref([
-	{ name: '直接访问', value: 335 },
-	{ name: '邮件营销', value: 310 },
-	{ name: '联盟广告', value: 234 },
-	{ name: '视频广告', value: 135 },
-	{ name: '搜索引擎', value: 1548 }
-])
+	{ name: "直接访问", value: 335 },
+	{ name: "邮件营销", value: 310 },
+	{ name: "联盟广告", value: 234 },
+	{ name: "视频广告", value: 135 },
+	{ name: "搜索引擎", value: 1548 },
+]);
 </script>
 ```
 
@@ -213,36 +205,36 @@ const seriesData = ref([
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import LineChart from '@/components/mychart/LineChart.vue'
-import BarChart from '@/components/mychart/BarChart.vue'
-import PieChart from '@/components/mychart/PieChart.vue'
+import { ref } from "vue";
+import LineChart from "@/components/mychart/LineChart.vue";
+import BarChart from "@/components/mychart/BarChart.vue";
+import PieChart from "@/components/mychart/PieChart.vue";
 
 const lineData = ref([
 	{
-		name: '报名人数',
+		name: "报名人数",
 		data: [122205, 880000, 1296957.12, 950000, 325439],
-		color: '#5470c6'
-	}
-])
+		color: "#5470c6",
+	},
+]);
 
 const barData = ref([
 	{
-		name: '第一季度',
+		name: "第一季度",
 		data: [320, 280, 350, 240],
-		color: '#5470c6'
+		color: "#5470c6",
 	},
 	{
-		name: '第二季度',
+		name: "第二季度",
 		data: [380, 320, 400, 290],
-		color: '#91cc75'
-	}
-])
+		color: "#91cc75",
+	},
+]);
 
 const pieData = ref([
-	{ name: '男性', value: 1048, color: '#5470c6' },
-	{ name: '女性', value: 735, color: '#fac858' }
-])
+	{ name: "男性", value: 1048, color: "#5470c6" },
+	{ name: "女性", value: 735, color: "#fac858" },
+]);
 </script>
 
 <style scoped>

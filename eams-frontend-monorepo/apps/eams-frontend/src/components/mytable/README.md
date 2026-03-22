@@ -11,8 +11,8 @@
 ```html
 <script setup lang="ts">
 	// 引入组件和类型
-	import MyTable from '@/components/mytable/MyTable.vue'
-	import { createPageDTO, type PageDTO, type MyTableColumn } from '@/components/mytable/type'
+	import MyTable from "@/components/mytable/MyTable.vue";
+	import { createPageDTO, type PageDTO, type MyTableColumn } from "@/components/mytable/type";
 </script>
 ```
 
@@ -92,59 +92,59 @@ export interface SampleFormData extends Record<string, any> {
 
 ```html
 <script setup lang="ts">
-	import { ref } from 'vue'
+	import { ref } from "vue";
 
 	// 引入组件和类型
-	import MyTable from '@/components/mytable/MyTable.vue'
-	import { createPageDTO, type PageDTO, type MyTableColumn } from '@/components/mytable/type'
+	import MyTable from "@/components/mytable/MyTable.vue";
+	import { createPageDTO, type PageDTO, type MyTableColumn } from "@/components/mytable/type";
 
 	// 业务数据模型
-	import type { SampleFormData } from '@/apis/sample/type'
+	import type { SampleFormData } from "@/apis/sample/type";
 
 	// 定义列数据
 	const tabdatacolumns: MyTableColumn[] = [
 		{
-			prop: 'name',
-			label: '姓名',
-			width: '80px',
-			fixed: 'left'
+			prop: "name",
+			label: "姓名",
+			width: "80px",
+			fixed: "left",
 		},
 		{
-			prop: 'date',
-			label: '生日',
-			width: '200px',
-			fixed: 'left',
-			align: 'center'
+			prop: "date",
+			label: "生日",
+			width: "200px",
+			fixed: "left",
+			align: "center",
 		},
 		{
-			prop: 'state',
-			label: '省份',
-			width: '150px'
+			prop: "state",
+			label: "省份",
+			width: "150px",
 		},
 		{
-			prop: 'city',
-			label: '城市',
-			width: '200px'
+			prop: "city",
+			label: "城市",
+			width: "200px",
 		},
 		{
-			prop: 'address',
-			label: '详细地址',
-			width: '600px',
-			'show-overflow-tooltip': true
+			prop: "address",
+			label: "详细地址",
+			width: "600px",
+			"show-overflow-tooltip": true,
 		},
 		{
-			prop: 'zip',
-			label: '邮编',
-			width: '200px'
+			prop: "zip",
+			label: "邮编",
+			width: "200px",
 		},
 		{
-			prop: 'tag',
-			label: '标签'
-		}
-	]
+			prop: "tag",
+			label: "标签",
+		},
+	];
 
 	// 定义表格数据
-	const tabdata = ref<PageDTO<SampleFormData>>(createPageDTO())
+	const tabdata = ref<PageDTO<SampleFormData>>(createPageDTO());
 </script>
 ```
 
@@ -161,16 +161,16 @@ export interface SampleFormData extends Record<string, any> {
 
 ```html
 <script setup lang="ts">
-	import { ref, onMounted } from 'vue'
+	import { ref, onMounted } from "vue";
 	// 引入示例后端接口
-	import { listall } from '@/apis/sample/index'
+	import { listall } from "@/apis/sample/index";
 
 	// 引入组件和类型
-	import MyTable from '@/components/mytable/MyTable.vue'
-	import { createPageDTO, type PageDTO, type MyTableColumn } from '@/components/mytable/type'
+	import MyTable from "@/components/mytable/MyTable.vue";
+	import { createPageDTO, type PageDTO, type MyTableColumn } from "@/components/mytable/type";
 
 	// 业务数据模型
-	import type { SampleFormData } from '@/apis/sample/type'
+	import type { SampleFormData } from "@/apis/sample/type";
 
 	// 这里省略必须属性数据定义的代码
 
@@ -181,15 +181,15 @@ export interface SampleFormData extends Record<string, any> {
 		listall(
 			{
 				pageIndex: tabdata.value.pageIndex,
-				pageSize: tabdata.value.pageSize
+				pageSize: tabdata.value.pageSize,
 			},
 			(data) => {
-				tabdata.value = data
+				tabdata.value = data;
 			},
 			(error: any) => {
-				console.log(error)
-			}
-		)
+				console.log(error);
+			},
+		);
 	}
 
 	/**
@@ -197,17 +197,17 @@ export interface SampleFormData extends Record<string, any> {
 	 * @param data 请求数据
 	 */
 	function handlePageChange(data: PageDTO<SampleFormData>) {
-		tabdata.value.pageIndex = data.pageIndex
-		tabdata.value.pageSize = data.pageSize
-		loadData()
+		tabdata.value.pageIndex = data.pageIndex;
+		tabdata.value.pageSize = data.pageSize;
+		loadData();
 	}
 
 	/**
 	 * 组件挂载钩子函数
 	 */
 	onMounted(() => {
-		loadData()
-	})
+		loadData();
+	});
 </script>
 ```
 
@@ -257,12 +257,12 @@ export interface MyTableAttr {
 
 ```html
 <script setup lang="ts">
-	import type { MyTableAttr } from '@/components/mytable/type'
+	import type { MyTableAttr } from "@/components/mytable/type";
 	// 定义表格属性
 	const tabattr: MyTableAttr = {
 		height: 200,
-		'max-height': 400
-	}
+		"max-height": 400,
+	};
 </script>
 ```
 
@@ -357,16 +357,11 @@ istabpage: {
 </template>
 <script setup lang="ts">
 	// 引入组件和类型
-	import MyTable from '@/components/mytable/MyTable.vue'
-	import {
-		createPageDTO,
-		type PageDTO,
-		type MyTableAttr,
-		type MyTableColumn
-	} from '@/components/mytable/type'
+	import MyTable from "@/components/mytable/MyTable.vue";
+	import { createPageDTO, type PageDTO, type MyTableAttr, type MyTableColumn } from "@/components/mytable/type";
 
 	// 业务数据模型
-	import type { SampleFormData } from '@/apis/sample/type'
+	import type { SampleFormData } from "@/apis/sample/type";
 
 	// 这里省略必须属性数据定义的代码
 
@@ -398,16 +393,11 @@ istabpage: {
 </template>
 <script setup lang="ts">
 	// 引入组件和类型
-	import MyTable from '@/components/mytable/MyTable.vue'
-	import {
-		createPageDTO,
-		type PageDTO,
-		type MyTableAttr,
-		type MyTableColumn
-	} from '@/components/mytable/type'
+	import MyTable from "@/components/mytable/MyTable.vue";
+	import { createPageDTO, type PageDTO, type MyTableAttr, type MyTableColumn } from "@/components/mytable/type";
 
 	// 业务数据模型
-	import type { SampleFormData } from '@/apis/sample/type'
+	import type { SampleFormData } from "@/apis/sample/type";
 
 	// 这里省略必须属性数据定义的代码
 
@@ -489,7 +479,7 @@ export interface MyTableOperationsBtn {
 </template>
 <script setup lang="ts">
 	// 引入组件和类型
-	import MyTable from '@/components/mytable/MyTable.vue'
+	import MyTable from "@/components/mytable/MyTable.vue";
 	import {
 		createPageDTO,
 		type PageDTO,
@@ -497,11 +487,11 @@ export interface MyTableOperationsBtn {
 		type MyTableColumn,
 		type MyTableOperationsColumn,
 		type MyTableOperationsBtn,
-		createMyTableOperationsColumn
-	} from '@/components/mytable/type'
+		createMyTableOperationsColumn,
+	} from "@/components/mytable/type";
 
 	// 业务数据模型
-	import type { SampleFormData } from '@/apis/sample/type'
+	import type { SampleFormData } from "@/apis/sample/type";
 
 	// 这里省略部分必须属性数据定义的代码
 
@@ -509,31 +499,31 @@ export interface MyTableOperationsBtn {
 	const tabopercolumns: MyTableOperationsColumn[] = [
 		// 操作列
 		createMyTableOperationsColumn({
-			'min-width': 200,
-			fixed: 'right',
-			align: 'center'
-		})
+			"min-width": 200,
+			fixed: "right",
+			align: "center",
+		}),
 		// 省略其他列数据定义
-	]
+	];
 
 	// 定义操作列按钮数据
 	const taboperbtns = ref<MyTableOperationsBtn[]>([
 		{
-			evtname: 'info',
-			text: '详情',
+			evtname: "info",
+			text: "详情",
 			attr: {
-				type: 'primary'
-			}
+				type: "primary",
+			},
 		},
 		{
-			evtname: 'edit',
-			text: '编辑',
+			evtname: "edit",
+			text: "编辑",
 			attr: {
-				type: 'success',
-				icon: 'icon-edit'
-			}
-		}
-	])
+				type: "success",
+				icon: "icon-edit",
+			},
+		},
+	]);
 
 	/**
 	 * 表格操作栏事件处理
@@ -544,17 +534,17 @@ export interface MyTableOperationsBtn {
 	function handleOperation(index: number, row: SampleFormData, evtname: string) {
 		// 这里逻辑根据自己的实际需求来完成
 		switch (evtname) {
-			case 'info':
-				console.log('info' + index, row)
-				break
-			case 'edit':
-				console.log('edit' + index, row)
-				break
-			case 'delete':
-				console.log('delete' + index, row)
-				break
+			case "info":
+				console.log("info" + index, row);
+				break;
+			case "edit":
+				console.log("edit" + index, row);
+				break;
+			case "delete":
+				console.log("delete" + index, row);
+				break;
 			default:
-				break
+				break;
 		}
 	}
 </script>
@@ -598,15 +588,15 @@ export interface MyTableOperationsBtn {
 	// 省略表格属性定义代码
 
 	// 搜索框绑定数据
-	const keywords = ref('')
+	const keywords = ref("");
 	// 是否全选
-	const isSelectAll = ref(false)
+	const isSelectAll = ref(false);
 	/**
 	 * 全选反选按钮点击事件处理
 	 */
 	function handleSelectAll(table: any) {
-		table?.toggleAllSelection()
-		isSelectAll.value = !isSelectAll.value
+		table?.toggleAllSelection();
+		isSelectAll.value = !isSelectAll.value;
 	}
 </script>
 ```

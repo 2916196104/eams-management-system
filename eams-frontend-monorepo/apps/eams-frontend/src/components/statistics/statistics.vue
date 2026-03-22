@@ -17,53 +17,53 @@
 	</el-card>
 </template>
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import peopleIcon from './people.svg'
-import { CountUp } from 'countup.js'
-const countRef = ref(null)
+import { ref, onMounted } from "vue";
+import peopleIcon from "./people.svg";
+import { CountUp } from "countup.js";
+const countRef = ref(null);
 const { targetText, targetNumber } = defineProps({
 	targetText: {
 		type: String,
-		default: '学员数'
+		default: "学员数",
 	},
 	// 目标数字
 	targetNumber: {
 		type: Number,
-		default: 1000
+		default: 1000,
 	},
 	// 图标颜色(未启用)
 	color: {
 		type: String,
-		default: 'black'
+		default: "black",
 	},
 	// 鼠标悬停时图标颜色
 	hoverColor: {
 		type: String,
-		default: 'red'
-	}
-})
+		default: "red",
+	},
+});
 onMounted(() => {
 	// 提取目标数字为变量，避免硬编码
 	if (countRef.value) {
 		// 判断是否需要千分位
-		const useGrouping = targetNumber >= 1000
+		const useGrouping = targetNumber >= 1000;
 		// 创建数字滚动实例
 		const countUp = new CountUp(countRef.value, targetNumber, {
 			startVal: 0, // 起始值
 			duration: 2, // 持续时间（秒）
-			separator: ',', // 千分位分隔符
+			separator: ",", // 千分位分隔符
 			useEasing: true,
 			decimalPlaces: 0, // 明确指定小数位数（整数设为0）
-			useGrouping: useGrouping // 是否使用千分位分隔符
-		})
+			useGrouping: useGrouping, // 是否使用千分位分隔符
+		});
 		// 启动动画
 		if (!countUp.error) {
-			countUp.start()
+			countUp.start();
 		} else {
-			console.error('数字滚动初始化失败:', countUp.error)
+			console.error("数字滚动初始化失败:", countUp.error);
 		}
 	}
-})
+});
 </script>
 <style scoped>
 .statistics {

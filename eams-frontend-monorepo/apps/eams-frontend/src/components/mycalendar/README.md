@@ -11,20 +11,16 @@
 
 ```vue
 <template>
-	<my-calendar
-		title="2.课程表(预约管理、预约管理)"
-		v-model:selected-date="selectedDate"
-		@date-select="onDateSelect"
-	/>
+	<my-calendar title="2.课程表(预约管理、预约管理)" v-model:selected-date="selectedDate" @date-select="onDateSelect" />
 </template>
 
 <script setup lang="ts">
-import MyCalendar from '@/components/mycalendar/MyCalendar.vue'
-import { ref } from 'vue'
+import MyCalendar from "@/components/mycalendar/MyCalendar.vue";
+import { ref } from "vue";
 
-const selectedDate = ref<Date | null>(null)
+const selectedDate = ref<Date | null>(null);
 function onDateSelect(date: Date) {
-	console.log('选中日期', date)
+	console.log("选中日期", date);
 }
 </script>
 ```

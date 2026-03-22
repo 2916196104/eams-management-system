@@ -94,7 +94,7 @@ hiprint-printPanel {
 	padding: 0 0 0 0;
 	border: 0.75pt none rgb(0, 0, 0);
 	direction: ltr;
-	font-family: 'SimSun';
+	font-family: "SimSun";
 	font-size: 9pt;
 	font-style: normal;
 	font-weight: normal;
@@ -120,7 +120,7 @@ hiprint-printPanel {
 	background-repeat: repeat;
 	border: 0.75pt none rgb(0, 0, 0);
 	direction: ltr;
-	font-family: 'SimSun';
+	font-family: "SimSun";
 	font-size: 9pt;
 	font-style: normal;
 	font-weight: normal;
@@ -144,7 +144,7 @@ hiprint-printPanel {
 	border-color: rgb(0, 0, 0);
 	border-style: none;
 	direction: ltr;
-	font-family: 'SimSun';
+	font-family: "SimSun";
 	font-size: 9pt;
 	font-style: normal;
 	font-weight: normal;
@@ -264,7 +264,7 @@ hiprint-printPanel {
 .hi-grid-row::after,
 .hi-grid-row::before {
 	display: table;
-	content: '';
+	content: "";
 	box-sizing: border-box;
 }
 

@@ -5,21 +5,21 @@
 /**
  * 后端响应数据类型
  */
-export { type JsonVO } from './http'
+export { type JsonVO } from "./http";
 
 /**
  * 分页数据模型
  */
-export { type PageDTO, createPageDTO } from '@/components/mytable/type'
+export { type PageDTO, createPageDTO } from "@/components/mytable/type";
 
 /**
  * 分页查询数据模型
  */
 export interface PageQuery {
 	/** 页码 */
-	pageIndex: number
+	pageIndex: number;
 	/** 每页数据条数 */
-	pageSize: number
+	pageSize: number;
 }
 
 /**
@@ -27,7 +27,7 @@ export interface PageQuery {
  */
 export interface SelectItem {
 	/** 选项值 */
-	value: string | number
+	value: string | number;
 	/** 选项显示文本 */
-	label: string
+	label: string;
 }

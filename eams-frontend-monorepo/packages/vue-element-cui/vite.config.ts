@@ -9,15 +9,19 @@ export default defineConfig({
 		dts({
 			insertTypesEntry: true,
 			copyDtsFiles: true,
-			include: ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue"],
+			// 与 tsconfig 一致：resolver 从 package.json 读取 name，需纳入 d.ts 生成图
+			include: ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue", "package.json"],
 		}),
 	],
 	build: {
 		lib: {
-			entry: resolve(__dirname, "src/index.ts"),
+			entry: {
+				index: resolve(__dirname, "src/index.ts"),
+				resolver: resolve(__dirname, "src/resolver.ts"),
+			},
 			name: "VueElementCui",
 			formats: ["es", "cjs"],
-			fileName: (format) => `index.${format === "es" ? "js" : "cjs"}`,
+			fileName: (format, entryName) => `${entryName}.${format === "es" ? "js" : "cjs"}`,
 		},
 		rollupOptions: {
 			external: ["vue", "element-plus", "@element-plus/icons-vue", "xlsx"],

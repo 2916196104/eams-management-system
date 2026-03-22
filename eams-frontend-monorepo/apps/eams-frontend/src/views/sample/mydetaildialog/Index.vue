@@ -19,42 +19,42 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import MyDetailDialog from '@/components/mydetaildialog/MyDetailDialog.vue'
-import type { MyDetailDialogColumn } from '@/components/mydetaildialog/type'
+import { ref } from "vue";
+import MyDetailDialog from "@/components/mydetaildialog/MyDetailDialog.vue";
+import type { MyDetailDialogColumn } from "@/components/mydetaildialog/type";
 
 interface CourseDetail {
-	courseName: string
-	duration: string
-	mainCount: number
-	assistCount: number
-	totalCount: number
-	mainFee: number
-	assistFee: number
-	mainAmount: number
-	assistAmount: number
-	totalAmount: number
+	courseName: string;
+	duration: string;
+	mainCount: number;
+	assistCount: number;
+	totalCount: number;
+	mainFee: number;
+	assistFee: number;
+	mainAmount: number;
+	assistAmount: number;
+	totalAmount: number;
 }
 
-const detailDialogRef = ref<any>()
+const detailDialogRef = ref<any>();
 
 const columns: MyDetailDialogColumn[] = [
-	{ prop: 'courseName', label: '课程', align: 'left', minWidth: '180px' },
-	{ prop: 'duration', label: '时长', minWidth: '80px' },
-	{ prop: 'mainCount', label: '上课课时数', minWidth: '100px' },
-	{ prop: 'assistCount', label: '助教课时数', minWidth: '100px' },
-	{ prop: 'totalCount', label: '课时总数', minWidth: '80px' },
-	{ prop: 'mainFee', label: '单节上课费', minWidth: '100px' },
-	{ prop: 'assistFee', label: '单节助教费', minWidth: '100px' },
-	{ prop: 'mainAmount', label: '上课费小计', minWidth: '100px' },
-	{ prop: 'assistAmount', label: '助教费小计', minWidth: '100px' },
-	{ prop: 'totalAmount', label: '合计', minWidth: '80px' }
-]
+	{ prop: "courseName", label: "课程", align: "left", minWidth: "180px" },
+	{ prop: "duration", label: "时长", minWidth: "80px" },
+	{ prop: "mainCount", label: "上课课时数", minWidth: "100px" },
+	{ prop: "assistCount", label: "助教课时数", minWidth: "100px" },
+	{ prop: "totalCount", label: "课时总数", minWidth: "80px" },
+	{ prop: "mainFee", label: "单节上课费", minWidth: "100px" },
+	{ prop: "assistFee", label: "单节助教费", minWidth: "100px" },
+	{ prop: "mainAmount", label: "上课费小计", minWidth: "100px" },
+	{ prop: "assistAmount", label: "助教费小计", minWidth: "100px" },
+	{ prop: "totalAmount", label: "合计", minWidth: "80px" },
+];
 
 const rows: CourseDetail[] = [
 	{
-		courseName: '2025·KET考冲班-第1期',
-		duration: '120分钟',
+		courseName: "2025·KET考冲班-第1期",
+		duration: "120分钟",
 		mainCount: 2,
 		assistCount: 0,
 		totalCount: 2,
@@ -62,12 +62,12 @@ const rows: CourseDetail[] = [
 		assistFee: 0,
 		mainAmount: 600,
 		assistAmount: 0,
-		totalAmount: 600
-	}
-]
+		totalAmount: 600,
+	},
+];
 
 function openDialog() {
-	detailDialogRef.value?.openDialog()
+	detailDialogRef.value?.openDialog();
 }
 </script>
 

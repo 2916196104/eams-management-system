@@ -1,24 +1,16 @@
 # @eams-monorepo/vue-element-cui
 
-EAMS Vue Element Component UI Library - 基于 Element Plus 的企业级组件库
-
-## 特性
-
-- 🎨 基于 Element Plus 的二次封装
-- 📦 开箱即用的高质量组件
-- 🔧 TypeScript 严格类型支持
-- 🎯 面向 EAMS 业务场景优化
-- 📚 完善的文档和示例
+EAMS Vue Element Component UI Library，基于 Element Plus 的业务组件库。
 
 ## 安装
 
 ```bash
-pnpm add @eams-monorepo/vue-element-cui
+pnpm add @eams-monorepo/vue-element-cui element-plus
 ```
 
-## 使用
+## 全量注册
 
-```typescript
+```ts
 import { createApp } from "vue";
 import VueElementCui from "@eams-monorepo/vue-element-cui";
 import "@eams-monorepo/vue-element-cui/styles";
@@ -27,25 +19,65 @@ const app = createApp(App);
 app.use(VueElementCui);
 ```
 
+## unplugin-vue-components
+
+使用 `VueElementCuiResolver()` 时，组件样式会通过 sideEffects 自动带入，通常无需再单独引入 `@eams-monorepo/vue-element-cui/styles`。
+
+```ts
+import Components from "unplugin-vue-components/vite";
+import { VueElementCuiResolver } from "@eams-monorepo/vue-element-cui/resolver";
+
+Components({
+	resolvers: [VueElementCuiResolver()],
+});
+```
+
+## unplugin-auto-import
+
+推荐使用组件库提供的 imports 配置（运行时与类型一并自动导入）：
+
+```ts
+import AutoImport from "unplugin-auto-import/vite";
+import { vueElementCuiImports, vueElementCuiTypeImports } from "@eams-monorepo/vue-element-cui/resolver";
+
+AutoImport({
+	imports: [vueElementCuiImports, ...vueElementCuiTypeImports],
+});
+```
+
+若更偏好 resolvers 形式，可使用 `VueElementCuiAutoImportResolver`，并配合类型导入：
+
+```ts
+import AutoImport from "unplugin-auto-import/vite";
+import { VueElementCuiAutoImportResolver, vueElementCuiTypeImports } from "@eams-monorepo/vue-element-cui/resolver";
+
+AutoImport({
+	resolvers: [VueElementCuiAutoImportResolver()],
+	imports: [...vueElementCuiTypeImports],
+});
+```
+
+## Volar 类型提示
+
+若通过 `app.use(VueElementCui)` 做全局注册，并希望在模板中获得 `Cui*` 组件的类型提示，可在项目的 `tsconfig.json` 中补充：
+
+```json
+{
+	"compilerOptions": {
+		"types": ["@eams-monorepo/vue-element-cui/global"]
+	}
+}
+```
+
+使用 `unplugin-vue-components` 自动生成 `components.d.ts` 时，通常无需再额外配置 `@eams-monorepo/vue-element-cui/global`。
+
 ## 开发
 
 ```bash
-# 安装依赖
 pnpm install
-
-# 开发模式
-pnpm dev
-
-# 构建
 pnpm build
-
-# 测试
 pnpm test
 ```
-
-## 组件列表
-
-组件将在后续阶段逐步添加。
 
 ## License
 

@@ -151,6 +151,15 @@ description: 当用户要求在 bug 已经定位并修复后，记录排错经�
 - 验证方式：外部终端 `pnpm install` 结束后无 EPERM 错误，`pnpm-lock.yaml` 正确更新。
 - 后续约束：在该 monorepo 中更新任何涉及原生 Node.js addon 的依赖（如 `@oxc-parser`、`esbuild`、`@swc/*`）时，必须在 Cursor 外的终端运行 `pnpm install`；Cursor 内置终端只用于读取日志，不用于执行 install。
 
+### 仓库根 `.gitattributes` 与 `eol=lf` 导致的 CRLF/LF「幽灵」差异（2026-03）
+
+- 问题现象：例如 `eams-frontend-monorepo/README.md` 在多个 `f1-*` 子分支上**永远显示已修改（M）**，切换分支也不消失，阻塞合并；`git diff` 往往只显示整文件「换行符变化」而无实质内容差异。
+- 实际根因：根目录 `.gitattributes` 已规定文本文件 `eol=lf`，Git 检出时把工作区写成 LF，但**各分支索引里该文件的历史 blob 仍是 CRLF**；索引与工作区行尾策略不一致，形成持续脏状态。
+- 关键误导点：误当成「单个分支未保存」或「IDE 捣乱」；只在一条分支上改文件不够，**每个仍含 CRLF 索引的分支都要 `git add --renormalize` 后提交**，否则切回即复现。
+- 有效修复：对路径执行 `git add --renormalize <path>`（或按需全库 `git add --renormalize .`）并提交，使对象库与 `.gitattributes` 一致；在 monorepo `eams-frontend-monorepo/.editorconfig` 的 `[*]` 下增加 `end_of_line = lf`，减少 Windows 下新文件默认 CRLF。将各子分支改动收拢到 `f1` 时，合并提交说明须过 commitlint，使用 **`chore: merge <branch> into f1`** 等形式，避免使用非法 type（如 `merge:`）导致合并不完成。
+- 验证方式：在多条 `f1-*` 分支上 `git checkout` 后 `git status` 无该文件；`git diff` 对该路径为空。
+- 后续约束：引入或收紧 `eol=lf` 后出现「永远 M 的文本文件」，优先核对 **`git diff` 是否仅为 CRLF↔LF** 与 **`git add --renormalize`**，不要先大范围改业务代码；批量合并子分支进主干前确认提交信息符合本仓库 Conventional Commits 规则。
+
 ### `packages/vue-element-cui-nuxt` 的 dev warning 清理经验
 
 - 历史现象：即使页面可打开，`nuxt dev` 里仍可能残留 i18n、OG Image、Icon、Sass 等 warning。
@@ -158,6 +167,16 @@ description: 当用户要求在 bug 已经定位并修复后，记录排错经�
 - 有效修复：显式补齐单语 i18n 配置；避免同名 helper 重复自动导入；`ogImage.enabled = false` 时应通过页面覆盖去掉 `defineOgImageComponent()` 调用，而不是硬开模块；安装 `@iconify-json/lucide`；把 Sass 的 `mix()` 迁移到 `color.mix()`。
 - 记忆重点：未来写记忆时，要说明 warning 清理必须基于“单一 fresh dev 进程”的新日志，而不是基于旧日志拼接猜测。
 - 后续约束：验证结论时，应优先记录 `fresh dev.stderr` 是否为空、页面 HTTP 是否 200、Chrome console 是否无新增 `warn/error`。
+
+### `packages/vue-element-cui-nuxt` 的 Windows PowerShell 构建假卡死与 Nitro trace 事故（2026-03）
+
+- 问题现象：`pnpm --filter @eams-monorepo/vue-element-cui-nuxt build` 长期停在 `Building Nuxt Nitro server (preset: node-server)`；多次超时重跑后，看起来像是“越跑越卡、彻底卡死”。
+- 实际根因：有两层原因叠加。第一层是真卡点：Nitro node-server 出包阶段默认 `externals.trace` 会触发 `nodeFileTrace`，在当前文档站 + pnpm workspace + Windows 环境下持续消耗高 CPU 和高内存，构建长时间卡在 Nitro 收尾。第二层是假象放大：PowerShell 下超时终止、手动中断，或 `Start-Process` 后台运行 `pnpm -> cmd -> node -> nuxt build` 时，外层命令结束不代表内层子进程树退出，旧构建链会残留并和新构建叠加。
+- 关键误导点：日志停在同一行，不等于进程已经空转；如果不先清理残留子进程，后续 `Get-Process`、日志和产物观察会把旧进程噪音误判成当前命令的状态。
+- 关键线索：单进程复现时，`.nuxt/dist/server/server.mjs` 已生成，但 `.output/server` 仍为空，说明 Vite SSR 已完成、卡点在 Nitro 收尾；同时 `nuxt.mjs build` 的工作集可涨到 2GB 以上，CPU 仍持续增加，符合 `nitropack` 的 `nodeFileTrace` tracing 阶段特征。
+- 有效修复：先按命令行特征清理旧的 `pnpm -> cmd -> node` 构建链，只保留一条单独进程复现；然后在 `packages/vue-element-cui-nuxt/nuxt.config.ts` 中显式设置 `nitro.externals.trace = false`，绕开当前环境下的 tracing 卡点。
+- 验证方式：单进程执行 `pnpm --filter @eams-monorepo/vue-element-cui-nuxt exec nuxi build --logLevel=verbose`，应生成 `.output/server/index.mjs` 并打印 `Build complete!`；同时确认不再残留目标构建进程链。
+- 后续约束：以后在 Windows PowerShell 下复现“构建卡死”时，先确认是否有旧子进程残留，再判断当前命令是否真的卡住；不要把多条残留构建链叠加后的现象直接归因到当前修改。
 
 ## 写入经验时必须保留的额外信息
 
@@ -223,3 +242,12 @@ description: 当用户要求在 bug 已经定位并修复后，记录排错经�
 这个技能只负责记忆沉淀和总结。
 
 它不能替代调试、实现、测试和修复工作流。如果 bug 还没修好，先使用合适的调试或实现技能，等结果稳定后再回到这个技能做经验沉淀。
+
+## 额外易错点：集成改动不要删减原注释和组件说明信息
+
+- 问题现象：为了接入新工具或调整初始化顺序，直接整文件重写入口文件或组件文件，导致原有注释、说明文字、命名语义和组件传达的信息被一起抹掉。
+- 实际根因：把“功能接入”误当成“允许覆盖原文件表达层”，只关注代码是否还能运行，没有把注释、说明文案、结构命名视为现有实现的一部分。
+- 关键误导点：表面上只是恢复 import 顺序、插件顺序或模板结构，容易误以为“逻辑等价就没问题”；但对本仓库来说，原注释和组件说明本身就是约定和上下文，不是可随手丢弃的噪音。
+- 有效修复：优先做最小补丁式修改，保留原注释、原有说明文本和原组件表达；如果必须重写整段内容，先回读基线文件，把原注释和说明信息一并迁移回来，再补充新增集成说明。
+- 验证方式：对比修改前后的目标文件，确认原注释块、原说明文本和原组件语义仍在；不能只验证运行通过，还要验证信息表达没有缩水。
+- 后续约束：后续在 `main.ts`、sample 页面、组件 README、组件入口文件里接入工具或调整结构时，不要再用覆盖式重写替代局部修改；不要删减掉注释，不要损耗原本的组件传达的信息。

@@ -5,11 +5,26 @@
 ## 本项目的技能表
 
 - `record-bug-fix-memory`
-- 路径：`.claude/skills/fix-bug/record-bug-fix-memory/SKILL.md`
-- 用途：在 bug 已经定位并修复后，记录事故结论、排错经验、AI 记忆更新、复盘摘要和本地 MCP 记忆。
-- 触发时机：当用户要求“记录经验教训”“补充 AI 记忆”“写事故记录”“同步本地 MCP 记忆”时，必须使用；当主代理完成错误处理后，也应主动参考并补充这个技能。
-- 参考作用：后续处理错误时，应先把这个技能作为历史事故模式、稳定基线、验证证据写法的参考来源之一。
-- 约束：这个技能只负责记忆沉淀和经验总结，不承担具体修复职责；解决错误后，应主动把新增的根因、关键误导点、有效修复、验证方式和后续约束补充回这个技能。
+  - 路径：`.claude/skills/fix-bug/record-bug-fix-memory/SKILL.md`
+  - 用途：在 bug 已经定位并修复后，记录事故结论、排错经验、AI 记忆更新、复盘摘要和本地 MCP 记忆。
+  - 触发时机：当用户要求“记录经验教训”“补充 AI 记忆”“写事故记录”“同步本地 MCP 记忆”时，必须使用；当主代理完成错误处理后，也应主动参考并补充这个技能。
+  - 参考作用：后续处理错误时，应先把这个技能作为历史事故模式、稳定基线、验证证据写法的参考来源之一。
+  - 约束：这个技能只负责记忆沉淀和经验总结，不承担具体修复职责；解决错误后，应主动把新增的根因、关键误导点、有效修复、验证方式和后续约束补充回这个技能。
+
+## 2. 对话沟通术语表
+
+在我和你沟通时，我会使用以下术语，便于你理解。
+
+### 2.1. 全局术语
+
+在任何沟通下，这些术语都生效。
+
+- `后台项目`： 即 `apps\eams-frontend\package.json` 指代的 vue3 后台项目。
+- `教师端项目`： 即 `apps\eams-fronttea\package.json` 指代的 uniapp 移动端项目。
+- `学生端项目`： 即 `apps\eams-frontstu\package.json` 指代的 uniapp 移动端项目。
+- `组件库`： 即 `packages\vue-element-cui\package.json` 这款二次封装 element-plus 的组件库。目前主要服务于`后台项目`。
+- `组件库文档`： 即 `packages\vue-element-cui-nuxt\package.json` 这款使用 `shadcn-docs-nuxt` 模板封装的组件库文档站点。
+- `旧组件库`： 即 `old\vue-element-cui\package.json` 这款用 vue-cli 制作的老旧组件库。在本 monorepo 内只作为被迁移的对象，不实际参与使用。
 
 ## 主动问询实施细节
 
@@ -120,6 +135,14 @@
 | `pnpm run build / test`  |    30 秒     |
 |      `pnpm install`      |    60 秒     |
 
+### 5. 清理残留子进程，避免“假卡死”
+
+在 Windows PowerShell 下，`pnpm build/test` 被超时终止、手动中断，或通过 `Start-Process`/重定向日志后台运行时，外层命令结束并不代表内层 `cmd.exe`、`node.exe` 子进程树也结束。
+
+- 症状：同一个构建命令看起来“越来越卡”，日志停在某一行不动，但任务管理器里其实残留了多条旧的 `pnpm -> cmd -> node` 构建链。
+- 处理原则：重跑前先按命令行特征清理旧进程，只保留一条新的单独构建链；优先记录 PID 并围绕单个 PID 观察，不要并发开多轮复现。
+- 验证方式：确认只剩一条目标构建进程链，再看日志、CPU 和产物目录，避免把旧进程噪音误判成当前命令卡死。
+
 ## 简单任务的高效执行原则
 
 当用户交代的任务范围明确清晰时，必须**直接行动**，禁止进行不必要的大范围侦察。
@@ -187,6 +210,8 @@
 - `packages/vue-element-cui-nuxt` 文档站 MDC 图标丢失事故（2026-03）：prettier 格式化 `.md` 文件时，在 `::card` 和 `---` 之间插入空行，导致 YAML frontmatter 解析失败，`icon`/`title`/`to` 等 props 变成纯文本。处理原则：在 `.prettierignore` 中排除 `packages/vue-element-cui-nuxt/content/**/*.md`；`prettier.config.mjs` 的 `overrides` 中添加 `requirePragma: true` 双重保险。排查时先看 HTML 源码有无 icon 元素，而不是先查图标库配置。
 - `packages/vue-element-cui-nuxt` Nuxt SSR `registerMessageResolver is not a function` 事故（2026-03）：`@intlify/core-base` 多版本共存（9.1.9 与 11.x）+ `shamefully-hoist=false` 导致 Vite SSR 命中旧版。处理原则：先用 `pnpm why` 确认多版本，再在 `pnpm-workspace.yaml` 的 `overrides` 中强制单一版本（`@intlify/core-base`、`@intlify/shared`、`sass`）；不要第一反应改 nuxt.config.ts 的 Vite 层配置。
 - Cursor IDE 内置终端 `pnpm install` 失败事故（EPERM，2026-03）：Cursor tsserver 持有 `@oxc-parser` 等原生 `.node` 文件锁，pnpm 无法删除文件，安装回滚。处理原则：涉及原生 addon 的依赖更新（`@oxc-parser`、`esbuild`、`@swc/*`），必须在 Cursor 外的外部终端运行 `pnpm install`。
+- 仓库根 `.gitattributes` 已设 `eol=lf` 时，若索引中仍是历史 CRLF（如 `eams-frontend-monorepo/README.md`），会在多分支上反复出现「幽灵」修改、阻塞合并。处理原则：用 `git add --renormalize <path>` 提交以统一对象库；`eams-frontend-monorepo/.editorconfig` 补 `end_of_line = lf`；合并子分支进 `f1` 时合并说明须符合 commitlint（例如 `chore: merge <branch> into f1`）。详见 `.claude/skills/fix-bug/record-bug-fix-memory/SKILL.md` 对应条目。
+- `packages/vue-element-cui-nuxt` 在 Windows PowerShell 下的 `nuxt build` 卡死事故（2026-03）：表面现象是构建长期停在 `Building Nuxt Nitro server (preset: node-server)`，而且多次重跑越看越像“彻底卡死”。实际根因分两层：(1) Nitro node-server 出包阶段默认的 `externals.trace` 会触发 `nodeFileTrace`，在当前文档站 + pnpm workspace + Windows 环境下长期占用高 CPU/高内存，导致构建长时间卡在 Nitro 收尾；(2) PowerShell 下超时终止或手动中断 `pnpm -> cmd -> node -> nuxt build` 时，旧子进程树不会自动清干净，叠加出多条残留构建链，进一步放大“卡死”错觉。处理原则：先按命令行特征清理旧构建进程，只保留一条单独进程复现；确认 `.nuxt/dist/server/server.mjs` 已生成后，把排查焦点收缩到 Nitro 收尾；在 `packages/vue-element-cui-nuxt/nuxt.config.ts` 中显式设置 `nitro.externals.trace = false`，绕开当前环境下的 tracing 卡点。验证方式：单进程执行 `pnpm --filter @eams-monorepo/vue-element-cui-nuxt exec nuxi build --logLevel=verbose`，应产出 `.output/server/index.mjs` 并打印 `Build complete!`；不要再把“日志停住”直接等同于“进程空转无进展”。
 - `.claude/skills/fix-bug/record-bug-fix-memory/SKILL.md` 是本项目专用的错误经验沉淀技能。后续处理 bug、warning、启动事故或 hydration 问题时，可以先把这个技能作为历史经验参考；一旦确认问题已经修复，应主动把新增的根因、关键误导点、有效修复、验证方式和后续约束补充回这个技能，并在需要时同步回根级 AI 记忆文档与 Memorix。不要把这个技能写成具体修复步骤清单。
 
 # Memorix — Automatic Memory Rules
