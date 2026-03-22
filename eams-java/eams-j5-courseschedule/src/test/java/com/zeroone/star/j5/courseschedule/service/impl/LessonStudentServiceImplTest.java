@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zeroone.star.j5.courseschedule.entity.LessonStudent;
 import com.zeroone.star.j5.courseschedule.entity.StudentCourse;
 import com.zeroone.star.j5.courseschedule.entity.StudentLessonCountLog;
+import com.zeroone.star.j5.courseschedule.mapper.LessonMapper;
 import com.zeroone.star.j5.courseschedule.mapper.LessonStudentMapper;
 import com.zeroone.star.j5.courseschedule.mapper.StudentCourseMapper;
 import com.zeroone.star.j5.courseschedule.mapper.StudentLessonCountLogMapper;
@@ -12,9 +13,10 @@ import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j5.courseschedule.LessonCountLogQueryDTO;
 import com.zeroone.star.project.dto.j5.courseschedule.LessonSignSaveDTO;
 import com.zeroone.star.project.enums.SignStateEnum;
-import com.zeroone.star.project.query.PageQuery;
+import com.zeroone.star.project.query.j5.courseschedule.StudentStatusQuery;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -25,8 +27,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -46,15 +50,20 @@ class LessonStudentServiceImplTest {
     @Mock
     private StudentCourseMapper studentCourseMapper;
 
+    @Mock
+    private LessonMapper lessonMapper;
+
     @InjectMocks
     private LessonStudentServiceImpl lessonStudentService;
 
     @Test
     void queryStatusList_shouldReturnPagedResults() {
         // Arrange
-        PageQuery query = new PageQuery();
+        StudentStatusQuery query = new StudentStatusQuery();
         query.setPageIndex(1L);
         query.setPageSize(10L);
+        query.setKeyword("keyword");
+        query.setStatus("status");
 
         Map<String, Object> record = new HashMap<>();
         record.put("id", 1L);
@@ -68,7 +77,7 @@ class LessonStudentServiceImplTest {
             .thenReturn(page);
 
         // Act
-        PageDTO<Map<String, Object>> result = lessonStudentService.queryStatusList("keyword", "status", query);
+        PageDTO<Map<String, Object>> result = lessonStudentService.queryStatusList(query);
 
         // Assert
         assertThat(result).isNotNull();
@@ -87,7 +96,7 @@ class LessonStudentServiceImplTest {
             .thenReturn(page);
 
         // Act
-        PageDTO<Map<String, Object>> result = lessonStudentService.queryStatusList(null, null, null);
+        PageDTO<Map<String, Object>> result = lessonStudentService.queryStatusList(null);
 
         // Assert
         assertThat(result).isNotNull();
@@ -368,10 +377,13 @@ class LessonStudentServiceImplTest {
     void pauseOrResumeLesson_shouldResumeLesson_whenIsResumeTrue() {
         // Arrange
         List<Long> lessonIds = Arrays.asList(1L, 2L, 3L);
+        List<Long> distinctLessonIds = lessonIds.stream().distinct().collect(Collectors.toList());
         Boolean isResume = true;
 
-        // 复课时设置为 0 (未签到)
-        when(baseMapper.batchUpdateSignStateByLessonIds(eq(lessonIds), eq(0), any(LocalDateTime.class)))
+        // 复课时设置 lesson.state = 1 (进行中)
+        when(lessonMapper.batchToggleStatus(eq(distinctLessonIds), eq(1))).thenReturn(3);
+        // 复课时设置 sign_state = 0 (未签到) - 一个课次可能有多名学员，返回>=3都算成功
+        when(baseMapper.batchUpdateSignStateByLessonIds(eq(distinctLessonIds), eq(0)))
             .thenReturn(3);
 
         // Act
@@ -379,17 +391,21 @@ class LessonStudentServiceImplTest {
 
         // Assert
         assertThat(result).isEqualTo(3);
-        verify(baseMapper).batchUpdateSignStateByLessonIds(eq(lessonIds), eq(0), any(LocalDateTime.class));
+        verify(lessonMapper).batchToggleStatus(eq(distinctLessonIds), eq(1));
+        verify(baseMapper).batchUpdateSignStateByLessonIds(eq(distinctLessonIds), eq(0));
     }
 
     @Test
     void pauseOrResumeLesson_shouldPauseLesson_whenIsResumeFalse() {
         // Arrange
         List<Long> lessonIds = Arrays.asList(1L, 2L);
+        List<Long> distinctLessonIds = lessonIds.stream().distinct().collect(Collectors.toList());
         Boolean isResume = false;
 
-        // 停课时设置为 4 (旷课)
-        when(baseMapper.batchUpdateSignStateByLessonIds(eq(lessonIds), eq(4), any(LocalDateTime.class)))
+        // 停课时设置 lesson.state = 0 (已停课)
+        when(lessonMapper.batchToggleStatus(eq(distinctLessonIds), eq(0))).thenReturn(2);
+        // 停课时设置 sign_state = 4 (旷课) - 一个课次可能有多名学员，返回>=2都算成功
+        when(baseMapper.batchUpdateSignStateByLessonIds(eq(distinctLessonIds), eq(4)))
             .thenReturn(2);
 
         // Act
@@ -397,17 +413,20 @@ class LessonStudentServiceImplTest {
 
         // Assert
         assertThat(result).isEqualTo(2);
-        verify(baseMapper).batchUpdateSignStateByLessonIds(eq(lessonIds), eq(4), any(LocalDateTime.class));
+        verify(lessonMapper).batchToggleStatus(eq(distinctLessonIds), eq(0));
+        verify(baseMapper).batchUpdateSignStateByLessonIds(eq(distinctLessonIds), eq(4));
     }
 
     @Test
     void pauseOrResumeLesson_shouldResumeLesson_whenIsResumeNull() {
         // Arrange
         List<Long> lessonIds = Arrays.asList(1L);
+        List<Long> distinctLessonIds = lessonIds.stream().distinct().collect(Collectors.toList());
         Boolean isResume = null;
 
-        // isResume 为 null 时，按 false 处理（停课，设置 4-旷课）
-        when(baseMapper.batchUpdateSignStateByLessonIds(eq(lessonIds), eq(4), any(LocalDateTime.class)))
+        // isResume 为 null 时，按 false 处理（停课，设置 lesson.state = 0, sign_state = 4）
+        when(lessonMapper.batchToggleStatus(eq(distinctLessonIds), eq(0))).thenReturn(1);
+        when(baseMapper.batchUpdateSignStateByLessonIds(eq(distinctLessonIds), eq(4)))
             .thenReturn(1);
 
         // Act
@@ -415,7 +434,8 @@ class LessonStudentServiceImplTest {
 
         // Assert
         assertThat(result).isEqualTo(1);
-        verify(baseMapper).batchUpdateSignStateByLessonIds(eq(lessonIds), eq(4), any(LocalDateTime.class));
+        verify(lessonMapper).batchToggleStatus(eq(distinctLessonIds), eq(0));
+        verify(baseMapper).batchUpdateSignStateByLessonIds(eq(distinctLessonIds), eq(4));
     }
 
     @Test
@@ -425,7 +445,7 @@ class LessonStudentServiceImplTest {
 
         // Assert
         assertThat(result).isEqualTo(0);
-        verify(baseMapper, never()).batchUpdateSignStateByLessonIds(any(), any(), any());
+        verify(baseMapper, never()).batchUpdateSignStateByLessonIds(any(), any());
     }
 
     @Test
@@ -435,7 +455,7 @@ class LessonStudentServiceImplTest {
 
         // Assert
         assertThat(result).isEqualTo(0);
-        verify(baseMapper, never()).batchUpdateSignStateByLessonIds(any(), any(), any());
+        verify(baseMapper, never()).batchUpdateSignStateByLessonIds(any(), any());
     }
 
     // ==================== 补充边界条件测试 ====================
@@ -443,8 +463,7 @@ class LessonStudentServiceImplTest {
     @Test
     void queryStatusList_shouldWorkWithCourseIdFilter() {
         // Arrange - 使用 StudentStatusQuery（包含 courseId）
-        com.zeroone.star.project.query.j5.courseschedule.StudentStatusQuery query =
-            new com.zeroone.star.project.query.j5.courseschedule.StudentStatusQuery();
+        StudentStatusQuery query = new StudentStatusQuery();
         query.setPageIndex(1L);
         query.setPageSize(20L);
         query.setCourseId(100L);
@@ -462,7 +481,7 @@ class LessonStudentServiceImplTest {
             .thenReturn(page);
 
         // Act
-        PageDTO<Map<String, Object>> result = lessonStudentService.queryStatusList(null, null, query);
+        PageDTO<Map<String, Object>> result = lessonStudentService.queryStatusList(query);
 
         // Assert
         assertThat(result).isNotNull();
@@ -474,8 +493,7 @@ class LessonStudentServiceImplTest {
     @Test
     void queryStatusList_shouldWorkWithKeywordAndStatus() {
         // Arrange - 使用带 keyword 和 status 的查询
-        com.zeroone.star.project.query.j5.courseschedule.StudentStatusQuery query =
-            new com.zeroone.star.project.query.j5.courseschedule.StudentStatusQuery();
+        StudentStatusQuery query = new StudentStatusQuery();
         query.setPageIndex(1L);
         query.setPageSize(10L);
         query.setCourseId(100L);
@@ -494,7 +512,7 @@ class LessonStudentServiceImplTest {
             .thenReturn(page);
 
         // Act
-        PageDTO<Map<String, Object>> result = lessonStudentService.queryStatusList("张三", "1", query);
+        PageDTO<Map<String, Object>> result = lessonStudentService.queryStatusList(query);
 
         // Assert
         assertThat(result).isNotNull();
@@ -585,5 +603,184 @@ class LessonStudentServiceImplTest {
         // Assert
         assertThat(result).isEqualTo(0);
         verify(baseMapper, never()).batchUpdateSignState(any(), any(), any());
+    }
+
+    // ==================== pauseOrResumeLesson 失败路径测试 ====================
+
+    @Test
+    void pauseOrResumeLesson_shouldThrowException_whenLessonMapperReturnsZero() {
+        // Arrange - lessonMapper 返回 0（失败），应抛出异常并阻止后续操作
+        List<Long> lessonIds = Arrays.asList(1L, 2L);
+        Boolean isResume = true;
+        List<Long> distinctLessonIds = lessonIds.stream().distinct().collect(Collectors.toList());
+
+        // lessonMapper 更新失败，返回 0
+        when(lessonMapper.batchToggleStatus(eq(distinctLessonIds), eq(1))).thenReturn(0);
+
+        // Act & Assert - 应抛出异常，不会继续调用 baseMapper
+        assertThatThrownBy(() -> lessonStudentService.pauseOrResumeLesson(lessonIds, isResume))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("课次状态更新失败");
+        verify(lessonMapper).batchToggleStatus(eq(distinctLessonIds), eq(1));
+        verify(baseMapper, never()).batchUpdateSignStateByLessonIds(any(), any());
+    }
+
+    @Test
+    void pauseOrResumeLesson_shouldThrowException_whenBaseMapperPartialFailure() {
+        // Arrange - 第一步成功，但第二步部分失败，应抛出异常
+        List<Long> lessonIds = Arrays.asList(1L, 2L, 3L);
+        Boolean isResume = false;
+        List<Long> distinctLessonIds = lessonIds.stream().distinct().collect(Collectors.toList());
+
+        // lessonMapper 成功更新 3 条
+        when(lessonMapper.batchToggleStatus(eq(distinctLessonIds), eq(0))).thenReturn(3);
+        // 但 baseMapper 只成功更新 1 条（模拟部分失败场景，1 < 3）
+        when(baseMapper.batchUpdateSignStateByLessonIds(eq(distinctLessonIds), eq(4))).thenReturn(1);
+
+        // Act & Assert - 应抛出异常
+        assertThatThrownBy(() -> lessonStudentService.pauseOrResumeLesson(lessonIds, isResume))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("学员签到状态更新失败");
+    }
+
+    // ==================== 分页参数精确校验测试 ====================
+
+    @Test
+    void queryStatusList_shouldPassCorrectPageIndexAndSize() {
+        // Arrange
+        StudentStatusQuery query = new StudentStatusQuery();
+        query.setPageIndex(3L);
+        query.setPageSize(20L);
+
+        Page<Map<String, Object>> page = new Page<>(3, 20);
+        page.setTotal(0);
+        page.setRecords(new ArrayList<>());
+
+        // 精确捕获 Page 参数
+        ArgumentCaptor<Page> pageCaptor = ArgumentCaptor.forClass(Page.class);
+        when(baseMapper.selectStudentStatusPage(pageCaptor.capture(), any(), any(), any()))
+            .thenReturn(page);
+
+        // Act
+        PageDTO<Map<String, Object>> result = lessonStudentService.queryStatusList(query);
+
+        // Assert - 验证分页参数正确传递
+        Page<Map<String, Object>> capturedPage = pageCaptor.getValue();
+        assertThat(capturedPage.getCurrent()).isEqualTo(3L);
+        assertThat(capturedPage.getSize()).isEqualTo(20L);
+    }
+
+    @Test
+    void queryStatusList_shouldUseDefaultPageIndex_whenZero() {
+        // Arrange - pageIndex 为 0 时应使用默认值 1
+        StudentStatusQuery query = new StudentStatusQuery();
+        query.setPageIndex(0L);
+        query.setPageSize(10L);
+
+        Page<Map<String, Object>> page = new Page<>(1, 10);
+        page.setTotal(0);
+        page.setRecords(new ArrayList<>());
+
+        ArgumentCaptor<Page> pageCaptor = ArgumentCaptor.forClass(Page.class);
+        when(baseMapper.selectStudentStatusPage(pageCaptor.capture(), any(), any(), any()))
+            .thenReturn(page);
+
+        // Act
+        PageDTO<Map<String, Object>> result = lessonStudentService.queryStatusList(query);
+
+        // Assert
+        Page<Map<String, Object>> capturedPage = pageCaptor.getValue();
+        assertThat(capturedPage.getCurrent()).isEqualTo(1L);
+        assertThat(capturedPage.getSize()).isEqualTo(10L);
+    }
+
+    @Test
+    void queryStatusList_shouldUseDefaultPageSize_whenNegative() {
+        // Arrange - pageSize 为负数时应使用默认值 10
+        StudentStatusQuery query = new StudentStatusQuery();
+        query.setPageIndex(1L);
+        query.setPageSize(-5L);
+
+        Page<Map<String, Object>> page = new Page<>(1, 10);
+        page.setTotal(0);
+        page.setRecords(new ArrayList<>());
+
+        ArgumentCaptor<Page> pageCaptor = ArgumentCaptor.forClass(Page.class);
+        when(baseMapper.selectStudentStatusPage(pageCaptor.capture(), any(), any(), any()))
+            .thenReturn(page);
+
+        // Act
+        PageDTO<Map<String, Object>> result = lessonStudentService.queryStatusList(query);
+
+        // Assert
+        Page<Map<String, Object>> capturedPage = pageCaptor.getValue();
+        assertThat(capturedPage.getCurrent()).isEqualTo(1L);
+        assertThat(capturedPage.getSize()).isEqualTo(10L);
+    }
+
+    // ==================== rollbackCourseNum 参数断言测试 ====================
+
+    @Test
+    void rollbackCourseNum_shouldPassCorrectRollbackCount() {
+        // Arrange
+        List<Long> ids = Arrays.asList(1L, 2L);
+
+        LessonStudent ls1 = new LessonStudent();
+        ls1.setId(1L);
+        ls1.setStudentId(100L);
+        ls1.setConsumeCourseId(10L);
+        ls1.setConsumeStudentCourseId(1L);
+        ls1.setDecLessonCount(2);  // 应回退 2 课时
+
+        LessonStudent ls2 = new LessonStudent();
+        ls2.setId(2L);
+        ls2.setStudentId(101L);
+        ls2.setConsumeCourseId(11L);
+        ls2.setConsumeStudentCourseId(2L);
+        ls2.setDecLessonCount(3);  // 应回退 3 课时
+
+        StudentCourse sc = new StudentCourse();
+        sc.setCountLessonTotal(20);
+        sc.setCountLessonComplete(5);
+
+        when(baseMapper.selectBatchIds(ids)).thenReturn(Arrays.asList(ls1, ls2));
+        when(baseMapper.batchRestore(ids)).thenReturn(2);
+
+        // 精确捕获 rollBackLessonCount 参数
+        ArgumentCaptor<Integer> countCaptor = ArgumentCaptor.forClass(Integer.class);
+        when(studentCourseMapper.rollBackLessonCount(any(), countCaptor.capture())).thenReturn(1);
+        when(studentCourseMapper.selectById(any())).thenReturn(sc);
+
+        // Act
+        Integer result = lessonStudentService.rollbackCourseNum(ids);
+
+        // Assert - 验证回退课时数正确
+        assertThat(result).isEqualTo(2);
+        // 验证 decLessonCount 被正确传递
+        List<Integer> capturedCounts = countCaptor.getAllValues();
+        assertThat(capturedCounts).containsExactlyInAnyOrder(2, 3);
+    }
+
+    @Test
+    void rollbackCourseNum_shouldNotRollback_whenDecLessonCountIsZero() {
+        // Arrange - decLessonCount 为 0 时不应回退
+        List<Long> ids = Arrays.asList(1L);
+
+        LessonStudent ls1 = new LessonStudent();
+        ls1.setId(1L);
+        ls1.setStudentId(100L);
+        ls1.setConsumeCourseId(10L);
+        ls1.setConsumeStudentCourseId(1L);
+        ls1.setDecLessonCount(0);  // 0 课时不应回退
+
+        when(baseMapper.selectBatchIds(ids)).thenReturn(Arrays.asList(ls1));
+        when(baseMapper.batchRestore(ids)).thenReturn(1);
+
+        // Act
+        Integer result = lessonStudentService.rollbackCourseNum(ids);
+
+        // Assert - 虽然调用了 batchRestore，但不应调用 rollBackLessonCount
+        assertThat(result).isEqualTo(1);
+        verify(studentCourseMapper, never()).rollBackLessonCount(any(), anyInt());
     }
 }

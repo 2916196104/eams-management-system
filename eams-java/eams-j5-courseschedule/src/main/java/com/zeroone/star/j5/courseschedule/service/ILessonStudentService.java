@@ -5,14 +5,14 @@ import com.zeroone.star.j5.courseschedule.entity.LessonStudent;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j5.courseschedule.LessonCountLogQueryDTO;
 import com.zeroone.star.project.dto.j5.courseschedule.LessonSignSaveDTO;
-import com.zeroone.star.project.query.PageQuery;
+import com.zeroone.star.project.query.j5.courseschedule.StudentStatusQuery;
 
 import java.util.List;
 import java.util.Map;
 
 public interface ILessonStudentService extends IService<LessonStudent> {
 
-    PageDTO<Map<String, Object>> queryStatusList(String keyword, String status, PageQuery query);
+    PageDTO<Map<String, Object>> queryStatusList(StudentStatusQuery query);
 
     Integer addOrUpdateRecord(LessonSignSaveDTO dto);
 
