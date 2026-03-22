@@ -18,24 +18,36 @@
 */
 #include "stdafx.h"
 #include "exchangecontroller.h"
+#include "service/points-exchange/exchangeService.h"
+
 //实现接口执行函数
 
 
+// 定义查询所有积分礼品列表信息
 GoodsPageJsonVO::Wrapper exchangeController::executeQueryAll(const PageQuery::Wrapper& query)
 {
-	return {};
+	exchangeService es;
+	auto vo = GoodsPageJsonVO::createShared();
+	vo->success(es.listAllGoods(query));
+	return vo;
 }
 
-
-AcceptGoodsPageJsonVO::Wrapper exchangeController::executeQueryAcceptGoods(const AcceptGoodsQuery::Wrapper& acceptGoods)
+// 定义查询当前用户兑换记录
+AcceptGoodsPageJsonVO::Wrapper exchangeController::executeQueryAcceptGoods(const AcceptGoodsQuery::Wrapper& query)
 {
-	return {};
+	exchangeService es;
+	auto vo = AcceptGoodsPageJsonVO::createShared();
+	vo->success(es.listAcceptGoods(query));
+	return vo;
 }
 
-
+//定义查询积分兑换规则
 SettingJsonVO::Wrapper exchangeController::executeQueryRule(const UInt64& id)
 {
-	return {};
+	exchangeService es;
+	auto vo = SettingJsonVO::createShared();
+	vo->success(es.getSetting(id));
+	return vo;
 }
 
 /*
