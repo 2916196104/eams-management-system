@@ -1,4 +1,4 @@
-﻿# 公共接口
+﻿#公共接口
 common:
  api-tag: 公共接口
  interface:
@@ -10,7 +10,10 @@ common:
   save-student: 保存学员
   enrollstudentCourse: 学员报名课程
   studentstage: 获取学员阶段
+  delete-contact-record: 删除跟进记录
  field:
+  contact-record:
+   ids: 跟进记录 ID 列表
   file:
    id: 文件ID
   course:
@@ -55,14 +58,13 @@ common:
    refund-status: 退费状态
    price-people: 收款经手人
 
-
 finishstudent:
  api-tag: 结业学员接口
  interface:
   export-finish-student: 导出结业学员报表
   import-finish-student: 导入结业学员报表
  field:
-   finish-student-query:
+  finish-student-query:
    id: 编号
    student-name: 学员姓名
    parent-name: 家长姓名
@@ -83,28 +85,28 @@ finishstudent:
    success-count: 导入成功行数
    failed-count: 导入失败行数
 
-parentaccount:  
-  api-tag: 家长账号
-  interface:
-   query-parent-account: 家长账号条件分页查询
-   modify-parent-account: 家长账户更改
-   modify-parent-password: 家长密码更改
-  field:
-   parent:
-    user-id: 家长id
-    mobile: 手机号
-    name: 家长姓名
-    student-name: 关联学生
-    wx-name: 微信昵称
-    keyword: 姓名或手机号
-    login-times: 登录次数
-    latest-login-time: 最近登录时间
-    latest-login-ip: 最近登录IP
-    add-time: 注册时间
-    state: 状态
-    operation: 操作
-    old-password: 旧密码
-    new-password: 新密码
+parentaccount:
+ api-tag: 家长账号
+ interface:
+  query-parent-account: 家长账号条件分页查询
+  modify-parent-account: 家长账户更改
+  modify-parent-password: 家长密码更改
+ field:
+  parent:
+   user-id: 家长id
+   mobile: 手机号
+   name: 家长姓名
+   student-name: 关联学生
+   wx-name: 微信昵称
+   keyword: 姓名或手机号
+   login-times: 登录次数
+   latest-login-time: 最近登录时间
+   latest-login-ip: 最近登录IP
+   add-time: 注册时间
+   state: 状态
+   operation: 操作
+   old-password: 旧密码
+   new-password: 新密码
 
 intendedstudent:
  api-tag: 意向学员接口
@@ -117,7 +119,7 @@ intendedstudent:
    id: ID
    sex: 学员性别
    male: 男
-   fmale: 女
+   female: 女
    unknown: 未知
    name: 学员名字
    stage: 学员状态
@@ -135,11 +137,20 @@ onlinestudent:
  api-tag: 在线成员接口
  interface:
   export: 在线成员导出
+  import: 在线成员导入
+  modify-counselor: 修改顾问
+  query-counselor-list: 查询顾问列表
  field:
   excel: 导入报表文件
+  counselor:
+   id: 顾问 ID
+   name: 顾问姓名
+   position: 职位
   student:
    id: ID
    sex: 学员性别
+   male: 男
+   female: 女
    name: 学员名字
    stage: 学员状态
    mobile: 手机号码
@@ -151,15 +162,14 @@ onlinestudent:
    birthday: 生日
 
 summaryclass:
-  api-tag: 课时汇总
-  interface: 
-    query-summaryclass: 课时汇总查询
-  field:
-    student:
-      student-name: 学员姓名
-      course-name: 课程名字
-      attendance-record: 上课记录
-      total-lessons: 总课次
-      used-lessons: 已上课次
-      remaining-lessons: 剩余课次
-      
+ api-tag: 课时汇总
+ interface:
+  query-summaryclass: 课时汇总查询
+ field:
+  student:
+   student-name: 学员姓名
+   course-name: 课程名字
+   attendance-record: 上课记录
+   total-lessons: 总课次
+   used-lessons: 已上课次
+   remaining-lessons: 剩余课次

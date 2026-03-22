@@ -4,9 +4,9 @@
 #include"domain/vo/parentaccount/ParentAccountVO.h"
 #include"domain/query/parentaccount/ParentAccountQuery.h"
 #include"domain/dto/parentaccount/ParentAccountDTO.h"
-#include"DAO/parentaccount/ParentAccountDAO.h"
+#include"dao/parentaccount/ParentAccountDAO.h"
 /**
- * å®¶é•¿è´¦å·ä¸šåŠ¡å±‚
+ * ¼Ò³¤ÕËºÅÒµÎñ²ã
  */
 class ParentAccountService
 {
