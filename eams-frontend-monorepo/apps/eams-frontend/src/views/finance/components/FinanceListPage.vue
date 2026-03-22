@@ -34,7 +34,7 @@
 			</div>
 			<div class="filter-actions">
 				<el-button text type="primary" @click="isExpanded = !isExpanded">
-					{{ isExpanded ? '收起' : '展开' }}
+					{{ isExpanded ? "收起" : "展开" }}
 				</el-button>
 				<el-button :icon="Search" circle @click="handleSearch" />
 				<el-button :icon="CircleClose" circle @click="handleReset" />
@@ -50,7 +50,7 @@
 					v-for="action in config.batchActions || []"
 					:key="action.key"
 					:type="action.type || 'primary'"
-					@click="handleBatchAction(action.label)"
+					@click="handleBatchAction(action.key, action.label)"
 				>
 					{{ action.label }}
 				</el-button>
@@ -66,17 +66,29 @@
 			:istabmultiple="true"
 			:tabattr="tableAttr"
 			:tabdatacolumns="config.columns"
-			:tabdata="pageData"
+			:tabdata="displayPageData"
 			:taboperbtns="config.operationButtons || []"
 			@page-change="handlePageChange"
 			@selection-change="handleSelectionChange"
 			@taboper-click="handleOperation"
 		>
 			<template #customercell="{ prop, row }">
-				<template v-if="prop === 'amount' || prop === 'unitClassFee' || prop === 'classSubtotal' || prop === 'unitTutorFee' || prop === 'tutorSubtotal' || prop === 'unitReward' || prop === 'rewardSubtotal'">
+				<template
+					v-if="
+						[
+							'amount',
+							'singleClassFee',
+							'classFeeSubtotal',
+							'singleAssistantFee',
+							'assistantFeeSubtotal',
+							'feePerClass',
+							'feeSubtotal',
+						].includes(prop)
+					"
+				>
 					{{ formatCurrency(row[prop]) }}
 				</template>
-				<template v-else-if="prop === 'status' || prop === 'auditStatus'">
+				<template v-else-if="['verifyStateName', 'status', 'auditStatus'].includes(prop)">
 					<el-tag :type="getStatusType(row[prop])" effect="light">{{ row[prop] }}</el-tag>
 				</template>
 				<template v-else>
@@ -88,120 +100,159 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
-import { ElMessage } from 'element-plus'
-import { CircleClose, Download, Grid, Printer, RefreshRight, Search } from '@element-plus/icons-vue'
-import MyTable from '@/components/mytable/MyTable.vue'
-import { createPageDTO, type MyTableAttr, type PageDTO } from '@/components/mytable/type'
-import type { FinanceListConfig } from '../shared'
+import { computed, onMounted, reactive, ref } from "vue";
+import { ElMessage, ElMessageBox } from "element-plus";
+import { CircleClose, Download, Grid, Printer, RefreshRight, Search } from "@element-plus/icons-vue";
+import MyTable from "@/components/mytable/MyTable.vue";
+import { createPageDTO, type MyTableAttr, type PageDTO } from "@/components/mytable/type";
+import type { FinanceListConfig } from "../shared";
 
 const props = defineProps<{
-	config: FinanceListConfig<Record<string, any>>
-}>()
+	config: FinanceListConfig<Record<string, any>>;
+}>();
 
-const filters = reactive<Record<string, string>>({ ...props.config.initialFilters })
-const isExpanded = ref(false)
-const pageIndex = ref(1)
-const pageSize = ref(10)
-const selectedRows = ref<Record<string, any>[]>([])
+const filters = reactive<Record<string, any>>({ ...props.config.initialFilters });
+const isExpanded = ref(false);
+const pageIndex = ref(1);
+const pageSize = ref(10);
+const selectedRows = ref<Record<string, any>[]>([]);
+const pageData = ref(createPageDTO<Record<string, any>>());
 
 const tableAttr: MyTableAttr = {
-	'row-key': 'id',
-	'max-height': 520
-}
+	"row-key": "id",
+	"max-height": 520,
+};
 
-const visibleFields = computed(() => {
-	if (isExpanded.value) return props.config.filters
-	return props.config.filters.slice(0, 4)
-})
+const visibleFields = computed(() => (isExpanded.value ? props.config.filters : props.config.filters.slice(0, 4)));
 
 const filteredRows = computed(() => {
-	return props.config.rows.filter((row) =>
+	if (props.config.loadPage) return pageData.value.rows || [];
+	return (props.config.rows || []).filter((row) =>
 		props.config.filters.every((field) => {
-			const keyword = String(filters[field.prop] || '').trim()
-			if (!keyword) return true
+			const keyword = String(filters[field.prop] || "").trim();
+			if (!keyword) return true;
+			const rawValue = row[field.prop];
+			return String(rawValue ?? "").includes(keyword);
+		}),
+	);
+});
 
-			if (field.type === 'date') {
-				const fieldValue = String(row[field.prop] || row.startDate || row.endDate || '')
-				return fieldValue >= keyword
-			}
-
-			const rawValue = row[field.prop]
-			return String(rawValue ?? '').includes(keyword)
-		})
-	)
-})
-
-const pageData = computed(() =>
-	createPageDTO({
+const displayPageData = computed(() => {
+	if (props.config.loadPage) return pageData.value;
+	return createPageDTO({
 		pageIndex: pageIndex.value,
 		pageSize: pageSize.value,
 		total: filteredRows.value.length,
-		rows: filteredRows.value.slice((pageIndex.value - 1) * pageSize.value, pageIndex.value * pageSize.value)
-	})
-)
+		rows: filteredRows.value.slice((pageIndex.value - 1) * pageSize.value, pageIndex.value * pageSize.value),
+	});
+});
 
 function handleSearch() {
-	pageIndex.value = 1
+	pageIndex.value = 1;
+	loadData();
 }
 
 function handleReset() {
-	Object.assign(filters, props.config.initialFilters)
-	pageIndex.value = 1
+	Object.assign(filters, props.config.initialFilters);
+	pageIndex.value = 1;
+	loadData();
 }
 
-function handleExport() {
-	ElMessage.success(`已准备导出 ${props.config.title} 数据`)
+async function handleExport() {
+	if (props.config.exportHandler) {
+		const message = await props.config.exportHandler(filters);
+		ElMessage.success(message);
+		return;
+	}
+	ElMessage.success(`已准备导出 ${props.config.title} 数据`);
 }
 
 function handleRefresh() {
-	ElMessage.success(`${props.config.title} 已刷新`)
+	loadData();
 }
 
 function handlePrint() {
-	ElMessage.info(`请在联调接口后接入 ${props.config.title} 打印能力`)
+	ElMessage.info(`请在联调接口后接入 ${props.config.title} 打印能力`);
 }
 
 function handleLayout() {
-	ElMessage.info('布局切换已预留，可继续扩展为卡片视图')
-}
-
-function handleBatchAction(label: string) {
-	if (!selectedRows.value.length) {
-		ElMessage.warning(`请先勾选需要${label}的记录`)
-		return
-	}
-	ElMessage.success(`已对 ${selectedRows.value.length} 条记录执行${label}`)
+	ElMessage.info("布局切换已预留，可继续扩展为卡片视图");
 }
 
 function handleSelectionChange(rows: Record<string, any>[]) {
-	selectedRows.value = rows
+	selectedRows.value = rows;
+}
+
+async function handleBatchAction(key: string, label: string) {
+	if (!selectedRows.value.length) {
+		ElMessage.warning(`请先勾选需要${label}的记录`);
+		return;
+	}
+	if (props.config.batchActionHandler) {
+		const message = await props.config.batchActionHandler(key, selectedRows.value);
+		ElMessage.success(message);
+		loadData();
+		return;
+	}
+	ElMessage.success(`已对 ${selectedRows.value.length} 条记录执行${label}`);
 }
 
 function handlePageChange(data: PageDTO<Record<string, any>>) {
-	pageIndex.value = data.pageIndex
-	pageSize.value = data.pageSize
+	pageIndex.value = data.pageIndex;
+	pageSize.value = data.pageSize;
+	loadData();
 }
 
-function handleOperation(_: number, row: Record<string, any>, evtname: string) {
-	const actionMap: Record<string, string> = {
-		detail: '查看详情',
-		approve: '通过',
-		reject: '驳回'
+async function handleOperation(_: number, row: Record<string, any>, evtname: string) {
+	if (props.config.operationHandler) {
+		const message = await props.config.operationHandler(evtname, row);
+		if (evtname === "detail") {
+			ElMessageBox.alert(message, `${props.config.title}详情`, {
+				confirmButtonText: "关闭",
+			});
+		} else {
+			ElMessage.success(message);
+			loadData();
+		}
+		return;
 	}
-	ElMessage.success(`${actionMap[evtname] || '处理'}：${row.project || row.title}`)
+	const actionMap: Record<string, string> = {
+		detail: "查看详情",
+		approve: "通过",
+		reject: "驳回",
+	};
+	ElMessage.success(`${actionMap[evtname] || "处理"}：${row.project || row.title}`);
 }
 
 function formatCurrency(value: number | string) {
-	const amount = Number(value || 0)
-	return `¥ ${amount.toLocaleString('zh-CN')}`
+	const amount = Number(value || 0);
+	return `¥ ${amount.toLocaleString("zh-CN")}`;
 }
 
 function getStatusType(status: string) {
-	if (status.includes('通过') || status.includes('已认款')) return 'success'
-	if (status.includes('驳回')) return 'danger'
-	return 'warning'
+	if (!status) return "info";
+	if (status.includes("通过") || status.includes("认款") || status.includes("已审核")) return "success";
+	if (status.includes("驳回") || status.includes("拒绝") || status.includes("作废")) return "danger";
+	return "warning";
 }
+
+async function loadData() {
+	if (!props.config.loadPage) return;
+	try {
+		const data = await props.config.loadPage({
+			...filters,
+			pageIndex: pageIndex.value,
+			pageSize: pageSize.value,
+		});
+		pageData.value = createPageDTO(data);
+	} catch (error: any) {
+		ElMessage.error(error?.message || `${props.config.title}加载失败`);
+	}
+}
+
+onMounted(() => {
+	loadData();
+});
 </script>
 
 <style scoped>

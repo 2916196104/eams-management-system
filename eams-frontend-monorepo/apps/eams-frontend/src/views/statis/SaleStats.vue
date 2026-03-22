@@ -10,12 +10,13 @@
 					start-placeholder="开始日期"
 					end-placeholder="结束日期"
 					value-format="YYYY-MM-DD"
+					@change="loadTrendData"
 				/>
 			</div>
 			<line-chart
 				title="本月报名趋势"
-				:x-axis-data="saleTrendXAxis"
-				:series-data="saleTrendSeries"
+				:x-axis-data="trendXAxis"
+				:series-data="trendSeries"
 				height="360px"
 				:show-area="true"
 			/>
@@ -31,6 +32,7 @@
 					start-placeholder="开始日期"
 					end-placeholder="结束日期"
 					value-format="YYYY-MM-DD"
+					@change="loadCourseSalesData"
 				/>
 			</div>
 			<bar-chart
@@ -45,18 +47,63 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import LineChart from '@/components/mychart/LineChart.vue'
-import BarChart from '@/components/mychart/BarChart.vue'
-import {
-	courseSalesSeries,
-	courseSalesXAxis,
-	saleTrendSeries,
-	saleTrendXAxis
-} from '@/views/finance/shared'
+import { onMounted, ref } from "vue";
+import { ElMessage } from "element-plus";
+import LineChart from "@/components/mychart/LineChart.vue";
+import BarChart from "@/components/mychart/BarChart.vue";
+import { queryCourseSalesTotal, querySaleTrend } from "@/apis/finance";
 
-const trendRange = ref(['2026-03-01', '2026-03-31'])
-const courseRange = ref(['2026-01-01', '2026-03-31'])
+const trendRange = ref(["2026-03-01", "2026-03-31"]);
+const courseRange = ref(["2026-01-01", "2026-03-31"]);
+
+const trendXAxis = ref<string[]>([]);
+const trendSeries = ref([
+	{ name: "报名数", data: [] as number[], color: "#3b82f6" },
+	{ name: "收入", data: [] as number[], color: "#10b981" },
+]);
+
+const courseSalesXAxis = ref<string[]>([]);
+const courseSalesSeries = ref([
+	{ name: "报名数", data: [] as number[], color: "#f59e0b" },
+	{ name: "收入", data: [] as number[], color: "#6366f1" },
+]);
+
+async function loadTrendData() {
+	try {
+		const data = await querySaleTrend({
+			startDate: trendRange.value?.[0],
+			endDate: trendRange.value?.[1],
+		});
+		trendXAxis.value = data.map((item) => item.dates);
+		trendSeries.value = [
+			{ name: "报名数", data: data.map((item) => Number(item.totalCount || 0)), color: "#3b82f6" },
+			{ name: "收入", data: data.map((item) => Number(item.totalAmount || 0)), color: "#10b981" },
+		];
+	} catch (error: any) {
+		ElMessage.error(error?.message || "报名趋势加载失败");
+	}
+}
+
+async function loadCourseSalesData() {
+	try {
+		const data = await queryCourseSalesTotal({
+			startDate: courseRange.value?.[0],
+			endDate: courseRange.value?.[1],
+		});
+		courseSalesXAxis.value = data.map((item) => item.courseName);
+		courseSalesSeries.value = [
+			{ name: "报名数", data: data.map((item) => Number(item.totalCount || 0)), color: "#f59e0b" },
+			{ name: "收入", data: data.map((item) => Number(item.totalAmount || 0)), color: "#6366f1" },
+		];
+	} catch (error: any) {
+		ElMessage.error(error?.message || "课程销量加载失败");
+	}
+}
+
+onMounted(() => {
+	loadTrendData();
+	loadCourseSalesData();
+});
 </script>
 
 <style scoped>
