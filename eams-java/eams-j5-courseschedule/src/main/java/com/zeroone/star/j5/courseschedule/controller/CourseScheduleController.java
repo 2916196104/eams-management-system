@@ -1,5 +1,6 @@
 package com.zeroone.star.j5.courseschedule.controller;
 
+import com.zeroone.star.j5.courseschedule.service.ILessonStudentService;
 import com.zeroone.star.project.dto.j5.courseschedule.*;
 import com.zeroone.star.project.query.j5.courseschedule.*;
 import com.zeroone.star.project.dto.PageDTO;
@@ -12,12 +13,16 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
 @RestController("j5/courseschedule")
 @Api(tags="课程表")
 public class CourseScheduleController implements CourseScheduleApis {
+
+    @Resource
+    private ILessonStudentService lessonStudentService;
 
     @GetMapping("/calendar")
     @ApiOperation("获取课表日历（条件）")
@@ -89,7 +94,10 @@ public class CourseScheduleController implements CourseScheduleApis {
     @ApiOperation("分页查询学员上课状态列表")
     @Override
     public JsonVO<PageDTO<Map<String, Object>>> queryStudentsStatusList(StudentStatusQuery studentStatusQuery) {
-        return JsonVO.success(null);
+        return JsonVO.success(lessonStudentService.queryStatusList(
+                studentStatusQuery.getKeyword(),
+                studentStatusQuery.getStatus(),
+                studentStatusQuery));
     }
 
 
@@ -97,14 +105,17 @@ public class CourseScheduleController implements CourseScheduleApis {
     @ApiOperation("设置学员上课状态")
     @Override
     public JsonVO<Integer> batchSetStatus(SetStudentsStatusDTO setStudentsStatusDTO) {
-        return JsonVO.success(0);
+        return JsonVO.success(lessonStudentService.batchSetStatus(
+                setStudentsStatusDTO.getLessonStudentIds(),
+                setStudentsStatusDTO.getStatus()));
     }
 
     @PostMapping("batch-restore")
     @ApiOperation("批量还原课程进度")
     @Override
     public JsonVO<Integer> batchRestore(RollBackDTO rollBackDTO) {
-        return JsonVO.success(0);
+        return JsonVO.success(lessonStudentService.rollbackCourseNum(
+                rollBackDTO.getLessonStudentIds()));
     }
 
 
@@ -112,7 +123,9 @@ public class CourseScheduleController implements CourseScheduleApis {
     @ApiOperation("停/复课")
     @Override
     public JsonVO<Integer> resumeLesson(CoursePauseResumeDTO coursePauseResumeDTO) {
-        return JsonVO.success(0);
+        return JsonVO.success(lessonStudentService.pauseOrResumeLesson(
+                coursePauseResumeDTO.getCourseIds(),
+                coursePauseResumeDTO.getIsResume()));
     }
 
     @Override

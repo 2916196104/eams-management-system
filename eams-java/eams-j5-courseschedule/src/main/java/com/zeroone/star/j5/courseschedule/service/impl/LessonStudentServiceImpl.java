@@ -39,8 +39,14 @@ public class LessonStudentServiceImpl extends ServiceImpl<LessonStudentMapper, L
         long pageIndex = query != null && query.getPageIndex() > 0 ? query.getPageIndex() : 1L;
         long pageSize = query != null && query.getPageSize() > 0 ? query.getPageSize() : 10L;
 
+        // 获取 courseId（从 query 对象中提取）
+        Long courseId = null;
+        if (query instanceof com.zeroone.star.project.query.j5.courseschedule.StudentStatusQuery) {
+            courseId = ((com.zeroone.star.project.query.j5.courseschedule.StudentStatusQuery) query).getCourseId();
+        }
+
         Page<Map<String, Object>> page = new Page<>(pageIndex, pageSize);
-        IPage<Map<String, Object>> result = baseMapper.selectStudentStatusPage(page, keyword, status);
+        IPage<Map<String, Object>> result = baseMapper.selectStudentStatusPage(page, courseId, keyword, status);
         return toPageDTO(result);
     }
 
@@ -131,6 +137,21 @@ public class LessonStudentServiceImpl extends ServiceImpl<LessonStudentMapper, L
         );
 
         return toPageDTO(result);
+    }
+
+    @Override
+    public Integer pauseOrResumeLesson(List<Long> lessonIds, Boolean isResume) {
+        if (lessonIds == null || lessonIds.isEmpty()) {
+            return 0;
+        }
+
+        // isResume = true: 复课，设置为0(未签到)
+        // isResume = false: 停课，设置为4(旷课)
+        Integer targetState = Boolean.TRUE.equals(isResume)
+                ? SignStateEnum.NONE.getCode()   // 0-未签到
+                : SignStateEnum.ABSENT.getCode();     // 4-旷课
+
+        return baseMapper.batchUpdateSignStateByLessonIds(lessonIds, targetState, LocalDateTime.now());
     }
 
     private void rollbackStudentCourseAndWriteLog(LessonStudent lessonStudent) {

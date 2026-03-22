@@ -64,7 +64,7 @@ class LessonStudentServiceImplTest {
         page.setTotal(1);
         page.setRecords(new ArrayList<>(Arrays.asList(record)));
 
-        when(baseMapper.selectStudentStatusPage(any(Page.class), eq("keyword"), eq("status")))
+        when(baseMapper.selectStudentStatusPage(any(Page.class), eq(null), eq("keyword"), eq("status")))
             .thenReturn(page);
 
         // Act
@@ -83,7 +83,7 @@ class LessonStudentServiceImplTest {
         page.setTotal(0);
         page.setRecords(new ArrayList<>());
 
-        when(baseMapper.selectStudentStatusPage(any(Page.class), any(), any()))
+        when(baseMapper.selectStudentStatusPage(any(Page.class), any(), any(), any()))
             .thenReturn(page);
 
         // Act
@@ -360,5 +360,230 @@ class LessonStudentServiceImplTest {
         assertThat(result).isNotNull();
         assertThat(result.getPageIndex()).isEqualTo(1);
         assertThat(result.getPageSize()).isEqualTo(10);
+    }
+
+    // ==================== pauseOrResumeLesson 停课/复课测试 ====================
+
+    @Test
+    void pauseOrResumeLesson_shouldResumeLesson_whenIsResumeTrue() {
+        // Arrange
+        List<Long> lessonIds = Arrays.asList(1L, 2L, 3L);
+        Boolean isResume = true;
+
+        // 复课时设置为 0 (未签到)
+        when(baseMapper.batchUpdateSignStateByLessonIds(eq(lessonIds), eq(0), any(LocalDateTime.class)))
+            .thenReturn(3);
+
+        // Act
+        Integer result = lessonStudentService.pauseOrResumeLesson(lessonIds, isResume);
+
+        // Assert
+        assertThat(result).isEqualTo(3);
+        verify(baseMapper).batchUpdateSignStateByLessonIds(eq(lessonIds), eq(0), any(LocalDateTime.class));
+    }
+
+    @Test
+    void pauseOrResumeLesson_shouldPauseLesson_whenIsResumeFalse() {
+        // Arrange
+        List<Long> lessonIds = Arrays.asList(1L, 2L);
+        Boolean isResume = false;
+
+        // 停课时设置为 4 (旷课)
+        when(baseMapper.batchUpdateSignStateByLessonIds(eq(lessonIds), eq(4), any(LocalDateTime.class)))
+            .thenReturn(2);
+
+        // Act
+        Integer result = lessonStudentService.pauseOrResumeLesson(lessonIds, isResume);
+
+        // Assert
+        assertThat(result).isEqualTo(2);
+        verify(baseMapper).batchUpdateSignStateByLessonIds(eq(lessonIds), eq(4), any(LocalDateTime.class));
+    }
+
+    @Test
+    void pauseOrResumeLesson_shouldResumeLesson_whenIsResumeNull() {
+        // Arrange
+        List<Long> lessonIds = Arrays.asList(1L);
+        Boolean isResume = null;
+
+        // isResume 为 null 时，按 false 处理（停课，设置 4-旷课）
+        when(baseMapper.batchUpdateSignStateByLessonIds(eq(lessonIds), eq(4), any(LocalDateTime.class)))
+            .thenReturn(1);
+
+        // Act
+        Integer result = lessonStudentService.pauseOrResumeLesson(lessonIds, isResume);
+
+        // Assert
+        assertThat(result).isEqualTo(1);
+        verify(baseMapper).batchUpdateSignStateByLessonIds(eq(lessonIds), eq(4), any(LocalDateTime.class));
+    }
+
+    @Test
+    void pauseOrResumeLesson_shouldReturnZero_whenLessonIdsEmpty() {
+        // Act
+        Integer result = lessonStudentService.pauseOrResumeLesson(new ArrayList<>(), true);
+
+        // Assert
+        assertThat(result).isEqualTo(0);
+        verify(baseMapper, never()).batchUpdateSignStateByLessonIds(any(), any(), any());
+    }
+
+    @Test
+    void pauseOrResumeLesson_shouldReturnZero_whenLessonIdsNull() {
+        // Act
+        Integer result = lessonStudentService.pauseOrResumeLesson(null, true);
+
+        // Assert
+        assertThat(result).isEqualTo(0);
+        verify(baseMapper, never()).batchUpdateSignStateByLessonIds(any(), any(), any());
+    }
+
+    // ==================== 补充边界条件测试 ====================
+
+    @Test
+    void queryStatusList_shouldWorkWithCourseIdFilter() {
+        // Arrange - 使用 StudentStatusQuery（包含 courseId）
+        com.zeroone.star.project.query.j5.courseschedule.StudentStatusQuery query =
+            new com.zeroone.star.project.query.j5.courseschedule.StudentStatusQuery();
+        query.setPageIndex(1L);
+        query.setPageSize(20L);
+        query.setCourseId(100L);
+
+        Map<String, Object> record = new HashMap<>();
+        record.put("id", 1L);
+        record.put("student_name", "李四");
+
+        Page<Map<String, Object>> page = new Page<>(1, 20);
+        page.setTotal(1);
+        page.setRecords(new ArrayList<>(Arrays.asList(record)));
+
+        // 传入的 keyword 和 status 为 null，courseId 为 100L
+        when(baseMapper.selectStudentStatusPage(any(Page.class), eq(100L), isNull(), isNull()))
+            .thenReturn(page);
+
+        // Act
+        PageDTO<Map<String, Object>> result = lessonStudentService.queryStatusList(null, null, query);
+
+        // Assert
+        assertThat(result).isNotNull();
+        assertThat(result.getTotal()).isEqualTo(1);
+        assertThat(result.getRows()).hasSize(1);
+        verify(baseMapper).selectStudentStatusPage(any(Page.class), eq(100L), isNull(), isNull());
+    }
+
+    @Test
+    void queryStatusList_shouldWorkWithKeywordAndStatus() {
+        // Arrange - 使用带 keyword 和 status 的查询
+        com.zeroone.star.project.query.j5.courseschedule.StudentStatusQuery query =
+            new com.zeroone.star.project.query.j5.courseschedule.StudentStatusQuery();
+        query.setPageIndex(1L);
+        query.setPageSize(10L);
+        query.setCourseId(100L);
+        query.setKeyword("张三");
+        query.setStatus("1");
+
+        Map<String, Object> record = new HashMap<>();
+        record.put("id", 1L);
+        record.put("student_name", "张三");
+
+        Page<Map<String, Object>> page = new Page<>(1, 10);
+        page.setTotal(1);
+        page.setRecords(new ArrayList<>(Arrays.asList(record)));
+
+        when(baseMapper.selectStudentStatusPage(any(Page.class), eq(100L), eq("张三"), eq("1")))
+            .thenReturn(page);
+
+        // Act
+        PageDTO<Map<String, Object>> result = lessonStudentService.queryStatusList("张三", "1", query);
+
+        // Assert
+        assertThat(result).isNotNull();
+        assertThat(result.getTotal()).isEqualTo(1);
+        assertThat(result.getRows()).hasSize(1);
+        verify(baseMapper).selectStudentStatusPage(any(Page.class), eq(100L), eq("张三"), eq("1"));
+    }
+
+    @Test
+    void rollbackCourseNum_shouldReturnZero_whenSelectBatchIdsReturnsEmptyList() {
+        // Arrange
+        List<Long> ids = Arrays.asList(1L, 2L);
+
+        when(baseMapper.selectBatchIds(ids)).thenReturn(new ArrayList<>());
+
+        // Act
+        Integer result = lessonStudentService.rollbackCourseNum(ids);
+
+        // Assert
+        assertThat(result).isEqualTo(0);
+        verify(baseMapper, never()).batchRestore(any());
+        verify(studentCourseMapper, never()).rollBackLessonCount(any(), anyInt());
+    }
+
+    @Test
+    void batchSetStatus_shouldReturnZero_whenStatusNull() {
+        // Arrange
+        List<Long> ids = Arrays.asList(1L, 2L);
+
+        // Act
+        Integer result = lessonStudentService.batchSetStatus(ids, null);
+
+        // Assert
+        assertThat(result).isEqualTo(0);
+        verify(baseMapper, never()).batchUpdateSignState(any(), any(), any());
+    }
+
+    @Test
+    void batchSetStatus_shouldReturnZero_whenStatusBlank() {
+        // Arrange
+        List<Long> ids = Arrays.asList(1L, 2L);
+
+        // Act
+        Integer result = lessonStudentService.batchSetStatus(ids, "   ");
+
+        // Assert
+        assertThat(result).isEqualTo(0);
+        verify(baseMapper, never()).batchUpdateSignState(any(), any(), any());
+    }
+
+    @Test
+    void batchSetStatus_shouldWorkWithEnumName() {
+        // Arrange - 使用枚举名称设置状态
+        List<Long> ids = Arrays.asList(1L);
+        String status = "NORMAL"; // 已签到
+
+        when(baseMapper.batchUpdateSignState(eq(ids), eq(1), any(LocalDateTime.class))).thenReturn(1);
+
+        // Act
+        Integer result = lessonStudentService.batchSetStatus(ids, status);
+
+        // Assert
+        assertThat(result).isEqualTo(1);
+        verify(baseMapper).batchUpdateSignState(eq(ids), eq(1), any(LocalDateTime.class));
+    }
+
+    @Test
+    void batchSetStatus_shouldWorkWithEnumNameLowerCase() {
+        // Arrange - 使用小写枚举名称
+        List<Long> ids = Arrays.asList(1L);
+        String status = "leave"; // 请假
+
+        when(baseMapper.batchUpdateSignState(eq(ids), eq(3), any(LocalDateTime.class))).thenReturn(1);
+
+        // Act
+        Integer result = lessonStudentService.batchSetStatus(ids, status);
+
+        // Assert
+        assertThat(result).isEqualTo(1);
+        verify(baseMapper).batchUpdateSignState(eq(ids), eq(3), any(LocalDateTime.class));
+    }
+
+    @Test
+    void batchSetStatus_shouldReturnZero_whenIdsNull() {
+        // Act
+        Integer result = lessonStudentService.batchSetStatus(null, "1");
+
+        // Assert
+        assertThat(result).isEqualTo(0);
+        verify(baseMapper, never()).batchUpdateSignState(any(), any(), any());
     }
 }

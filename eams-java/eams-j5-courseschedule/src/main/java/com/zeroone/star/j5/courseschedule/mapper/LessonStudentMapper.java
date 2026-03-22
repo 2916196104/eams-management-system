@@ -28,11 +28,13 @@ public interface LessonStudentMapper extends BaseMapper<LessonStudent> {
             "LEFT JOIN `user` u ON s.user_id = u.id " +
             "LEFT JOIN `class` cls ON ls.class_id = cls.id " +
             "WHERE ls.id IS NOT NULL " +
+            "<if test='courseId != null'>AND l.course_id = #{courseId}</if>" +
             "<if test='keyword != null and keyword != \"\"'>AND (s.name LIKE CONCAT('%', #{keyword}, '%') OR u.mobile LIKE CONCAT('%', #{keyword}, '%'))</if>" +
             "<if test='status != null and status != \"\"'>AND ls.sign_state = #{status}</if>" +
             "ORDER BY l.date DESC, l.start_time DESC" +
             "</script>")
     IPage<Map<String, Object>> selectStudentStatusPage(Page<Map<String, Object>> page,
+                                                        @Param("courseId") Long courseId,
                                                         @Param("keyword") String keyword,
                                                         @Param("status") String status);
 
@@ -58,4 +60,20 @@ public interface LessonStudentMapper extends BaseMapper<LessonStudent> {
             "<foreach collection='ids' item='id' open='(' separator=',' close=')'>#{id}</foreach>" +
             "</script>")
     int batchRestore(@Param("ids") List<Long> ids);
+
+    /**
+     * 根据课次ID批量更新签到状态（用于停/复课）
+     * @param lessonIds 课次ID列表
+     * @param signState 目标签到状态
+     * @param signTime 签到时间
+     * @return 更新行数
+     */
+    @Update("<script>" +
+            "UPDATE lesson_student SET sign_state = #{signState}, sign_time = #{signTime} " +
+            "WHERE lesson_id IN " +
+            "<foreach collection='lessonIds' item='id' open='(' separator=',' close=')'>#{id}</foreach>" +
+            "</script>")
+    int batchUpdateSignStateByLessonIds(@Param("lessonIds") List<Long> lessonIds,
+                                       @Param("signState") Integer signState,
+                                       @Param("signTime") LocalDateTime signTime);
 }

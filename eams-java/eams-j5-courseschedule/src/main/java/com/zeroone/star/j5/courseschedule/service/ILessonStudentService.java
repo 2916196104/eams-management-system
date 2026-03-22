@@ -23,4 +23,12 @@ public interface ILessonStudentService extends IService<LessonStudent> {
     Integer rollbackCourseNum(List<Long> lessonStudentIds);
 
     PageDTO<?> queryLessonCountLog(LessonCountLogQueryDTO queryDTO);
+
+    /**
+     * 停课或复课
+     * @param lessonIds 课次ID列表
+     * @param isResume true=复课, false=停课
+     * @return 更新行数
+     */
+    Integer pauseOrResumeLesson(List<Long> lessonIds, Boolean isResume);
 }

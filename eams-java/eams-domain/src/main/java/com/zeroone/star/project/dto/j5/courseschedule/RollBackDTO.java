@@ -7,12 +7,12 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-@ApiModel("学生签到状态还原 DTO")
+@ApiModel("学员课程进度还原 DTO")
 public class RollBackDTO {
 
-    @ApiModelProperty(value = "课次ID", required = true, example = "1001")
+    @ApiModelProperty(value = "课次ID", example = "1001")
     private Long lessonId;
 
-    @ApiModelProperty(value = "要还原的学生ID列表（支持多选）", required = true, example = "[2001, 2002]")
-    private List<Long> studentIds;
+    @ApiModelProperty(value = "课次学员记录ID列表（支持多选）", required = true, example = "[1001, 1002]")
+    private List<Long> lessonStudentIds;
 }
