@@ -1,4 +1,4 @@
-# <!-- TODO: --> 使用 shadcn-docs-nuxt 重构重做 vue-element-cui-nuxt 组件库文档
+# <!-- 已完成 --> 使用 shadcn-docs-nuxt 重构重做 vue-element-cui-nuxt 组件库文档
 
 针对现在的 `packages\vue-element-cui-nuxt\package.json` ，针对 vue-element-cui-nuxt 这款组件库文档内，我要求你做出重大改造。
 
@@ -136,7 +136,7 @@
 
 ![2026-03-22-04-05-15](https://gh-img-store.ruan-cat.com/img/2026-03-22-04-05-15.png)
 
-## 05 <!-- TODO: --> 将使用 shadcn-docs-nuxt 制作组件库的知识制作成通用的，可以跨项目复用的技能
+## 05 <!-- 已完成 --> 将使用 shadcn-docs-nuxt 制作组件库的知识制作成通用的，可以跨项目复用的技能
 
 认真阅读以下内容：
 
