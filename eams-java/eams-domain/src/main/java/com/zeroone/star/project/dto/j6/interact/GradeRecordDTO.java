@@ -15,19 +15,24 @@ import lombok.Data;
  */
 
 @Data
-@ApiModel("成绩导入对象")
-public class GradeRecordAddDTO {
+@ApiModel("成绩数据对象")
+public class GradeRecordDTO {
 
+    /**
+     * 主键id
+     */
+    @ApiModelProperty(value = "唯一ID，新增不传，修改传",example = "2030583010845589505")
+    private Long id;
     /**
      * 学生id
      */
     @ApiModelProperty(value = "学生id", required = true)
-    private Long student_id;
+    private Long studentId;
 
     /**
-     * 分数
+     * 成绩
      */
-    @ApiModelProperty("分数")
+    @ApiModelProperty(value = "成绩", example = "90")
     private Integer score;
 }
 

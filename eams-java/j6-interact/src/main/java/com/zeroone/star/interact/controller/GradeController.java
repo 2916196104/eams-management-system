@@ -1,9 +1,10 @@
 package com.zeroone.star.interact.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
+import com.zeroone.star.interact.service.IGradeRecordService;
 import com.zeroone.star.project.dto.j6.interact.GradeListDTO;
 import com.zeroone.star.project.dto.j6.interact.GradeFormDTO;
-import com.zeroone.star.project.dto.j6.interact.GradeRecordAddDTO;
+import com.zeroone.star.project.dto.j6.interact.GradeRecordDTO;
 import com.zeroone.star.project.j6.interact.GradeApis;
 import com.zeroone.star.project.query.j6.interact.GradeFormQuery;
 import com.zeroone.star.project.vo.JsonVO;
@@ -11,6 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +20,9 @@ import java.util.Map;
 @RequestMapping("j6/grade")
 @Api(tags = "成绩单")
 public class GradeController implements GradeApis {
+
+    @Resource
+    private IGradeRecordService gradeRecordService;
 
     /**
      * 获得成绩单列表（条件+分页）
@@ -67,22 +72,21 @@ public class GradeController implements GradeApis {
     @DeleteMapping("/form")
     @ApiOperation("删除成绩单")
     @Override
-    public JsonVO<List<Long>> deleteGrade(List<Long> ids) {
+    public JsonVO<List<Long>> deleteGrade(@RequestBody List<Long> ids) {
         return null;
     }
 
     /**
      * 保存成绩
      *
-     * @param gradeListDTO 成绩数据对象
-     *  todo 可能需要新建完整的成绩数据对象
+     * @param gradeRecordDTO 成绩数据对象
      * @return
      */
     @PostMapping("/record")
     @ApiOperation("保存成绩")
     @Override
-    public JsonVO<String> modifyGradeRecord(GradeListDTO gradeListDTO) {
-        return null;
+    public JsonVO<String> saveGradeRecord(GradeRecordDTO gradeRecordDTO) {
+        return gradeRecordService.saveGradeRecord(gradeRecordDTO);
     }
 
     /**
@@ -94,22 +98,23 @@ public class GradeController implements GradeApis {
     @DeleteMapping("/record")
     @ApiOperation("删除成绩")
     @Override
-    public JsonVO<List<Long>> deleteGradeRecord(List<Long> ids) {
-        return null;
+    public JsonVO<List<Long>> deleteGradeRecord(@RequestBody List<Long> ids) {
+       return  gradeRecordService.deleteGradeRecord(ids);
     }
 
     /**
      * 导入成绩
      *
-     * @param grade_id
+     * @param gradeId
      * @param gradeRecords
      * @return
      */
     @PostMapping("/file")
     @ApiOperation("导入成绩")
     @Override
-    public JsonVO<Map<Long, Object>> addGrades(Long grade_id, List<GradeRecordAddDTO> gradeRecords) {
-        return null;
+    public JsonVO<Map<Long, Object>> addGrades( @RequestParam Long gradeId,
+                                                @RequestBody List<GradeRecordDTO> gradeRecords) {
+        return gradeRecordService.addGrades(gradeId, gradeRecords);
     }
 
 }
