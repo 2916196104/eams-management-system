@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zeroone.star.project.dto.j5.classmanager.ClassDTO;
 import com.zeroone.star.project.dto.j5.classmanager.ClassStudentDTO;
 import com.zeroone.star.project.j5.classmanager.ClassStudentApis;
+import com.zeroone.star.project.query.j5.classmanager.ClassOptionsQuery;
 import com.zeroone.star.project.query.j5.classmanager.ClassPageQuery;
 import com.zeroone.star.project.query.j5.classmanager.ClassStudentQuery;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.vo.j5.classmanager.ClassDetailVO;
+import com.zeroone.star.project.vo.j5.classmanager.ClassListVO;
+import com.zeroone.star.project.vo.j5.classmanager.ClassOptionsVO;
 import com.zeroone.star.project.vo.j5.classmanager.ClassStudentVO;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,15 @@ import java.util.List;
 @RequestMapping("j5/classManager")
 @Api(tags = "班级管理")
 public class ClassManagerController implements ClassStudentApis {
+    @GetMapping("/class-options")
+    @ApiOperation(value = "获取班级下拉选项", notes = "获取所有班级的下拉选项，用于表单选择")
+    public JsonVO<Page<ClassOptionsVO>> queryClassOptions(ClassOptionsQuery classOptionsQuery) {
+        // 实际业务中调用 service 获取班级下拉选项
+        return JsonVO.success(null);
+    }
+
+
+
     @PostMapping("/page")
     @ApiOperation(value = "条件分页查询班级（支持按名称模糊查询）",
             notes = "根据班级名称、课程名称、班主任姓名、教室名称、年级名称进行分页查询，每页默认30条")
@@ -43,11 +54,11 @@ public class ClassManagerController implements ClassStudentApis {
             @ApiResponse(code = 404, message = "Not Found")
     })
     @Override
-    public JsonVO<Page<ClassDetailVO>> pageClass(
+    public JsonVO<Page<ClassListVO>> queryClassByPage(
             @ModelAttribute ClassPageQuery queryDTO
     ) {
         // 实际业务中需调用 service 进行关联查询，此处模拟返回
-        Page<ClassDetailVO> pageInfo = new Page<>();
+        Page<ClassListVO> pageInfo = new Page<>();
         pageInfo.setTotal(58L);
         // 设置列表数据（略）
         return JsonVO.success(pageInfo);
@@ -60,7 +71,7 @@ public class ClassManagerController implements ClassStudentApis {
     /**
      * 获取班级详情
      */
-    @GetMapping("/{id}")
+    @GetMapping("/class-detail/{id}")
     @ApiOperation(value = "获取班级详情", notes = "根据班级ID查询班级详细信息，包括关联的课程、教室、班主任、年级名称")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "班级ID", required = true, dataType = "long", paramType = "path", example = "1")
@@ -70,12 +81,12 @@ public class ClassManagerController implements ClassStudentApis {
             @ApiResponse(code = 404, message = "班级不存在")
     })
     @Override
-    public JsonVO<ClassDetailVO> getClassDetail(
+    public JsonVO<ClassListVO> getClassDetail(
             @PathVariable("id") Long id
     ) {
         // 实际业务中调用 service 查询班级详情并组装关联名称
         // 此处模拟返回
-        ClassDetailVO detail = new ClassDetailVO();
+        ClassListVO detail = new ClassListVO();
         detail.setId(id);
         detail.setName("三年二班");
         detail.setCourseId(5L);
@@ -137,7 +148,7 @@ public class ClassManagerController implements ClassStudentApis {
         return null;
     }
 
-    @GetMapping
+    @PutMapping
     @ApiOperation("结业班级")
     @ApiImplicitParam(name = "ids", value = "班级已结业")
     @Override

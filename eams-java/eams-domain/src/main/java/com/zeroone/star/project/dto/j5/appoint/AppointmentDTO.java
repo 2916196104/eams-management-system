@@ -17,25 +17,6 @@ public class AppointmentDTO implements Serializable {
     @ApiModelProperty(value = "主键ID", example = "101")
     private Long id;
 
-    @ApiModelProperty(value = "预约时间", example = "2000-07-02 03:31")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime addTime;
-
-    @ApiModelProperty(value = "审核状态值(1-待审核, 2-通过, 3-驳回)", example = "2")
-    private Integer verifyState;
-
-    @ApiModelProperty(value = "审核时间", example = "2026-03-15 20:00")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime verifyTime;
-
-    @ApiModelProperty(value = "审核内容/意见", example = "同意试听")
-    private String verifyRemark;
-
-    @ApiModelProperty(value = "备注", example = "2KJNEONJXP")
-    private String remark;
-
-    // --- 列表增强字段 ---
-
     @ApiModelProperty(value = "学生姓名", example = "Peggy Jordan")
     private String studentName;
 
@@ -49,9 +30,15 @@ public class AppointmentDTO implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime lessonTime;
 
-    @ApiModelProperty(value = "状态文本(如：审核通过)", example = "审核通过")
-    private String verifyStateText;
+    @ApiModelProperty(value = "预约时间", example = "2000-07-02 03:31")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime addTime;
 
-    @ApiModelProperty(value = "审核人姓名", example = "管理员")
-    private String verifyStaffName;
+    @ApiModelProperty(value = "审核状态值(1-待审核, 2-通过, 3-驳回)", example = "2")
+    private Integer verifyState;
+
+
+    @ApiModelProperty(value = "备注", example = "2KJNEONJXP")
+    private String remark;
+
 }

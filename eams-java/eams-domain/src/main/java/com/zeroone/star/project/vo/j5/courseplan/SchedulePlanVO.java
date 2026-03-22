@@ -14,17 +14,17 @@ public class SchedulePlanVO {
     @ApiModelProperty(value = "排课计划id",required = false, example = "1")
     private Long id;
 
-    @ApiModelProperty(value = "班级名称",required = false,example = "信息特长班")
-    private String className;
-
-    @ApiModelProperty(value = "课程名称",required = false,example = "C语言")
-    private String courseName;
-
     @ApiModelProperty(value = "课表是否生成 默认0",required = false,example = "0 未生成 1 已生成")
     private Integer state;
 
     @ApiModelProperty(value = "冲突的id列表 空字符表示无冲突 null是未检查" ,required = false,example = "无冲突 or 8个冲突")
     private String conflictIds;
+
+    @ApiModelProperty(value = "班级名称",required = false,example = "信息特长班")
+    private String className;
+
+    @ApiModelProperty(value = "课程名称",required = false,example = "C语言")
+    private String courseName;
 
     @ApiModelProperty(value = "上课老师名称列表",required = false,example = "张三，李四")
     private String teacherNames;

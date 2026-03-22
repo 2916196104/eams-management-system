@@ -14,64 +14,56 @@ public class ClassDetailVO {
     @ApiModelProperty(value = "主键", example = "1")
     private Long id;
 
-    @ApiModelProperty(value = "班级名", example = "三年二班")
-    private String name;
 
-    @ApiModelProperty(value = "课程ID", example = "5")
-    private Long courseId;
+    // 核心ID（用于后续编辑、查询操作）
+    @ApiModelProperty(value = "班级ID", example = "1")
+    private Long classId;
 
-    @ApiModelProperty(value = "课程名称", example = "数学")
+    // ========== 基本信息展示字段（和截图一一对应） ==========
+    @ApiModelProperty(value = "班级名称", example = "钢琴一班")
+    private String className;
+
+    @ApiModelProperty(value = "课程名称", example = "钢琴入门课")
     private String courseName;
 
-    @ApiModelProperty(value = "教室ID", example = "10")
-    private Long classroomId;
+    @ApiModelProperty(value = "科目名称", example = "钢琴")
+    private String subjectName;
 
-    @ApiModelProperty(value = "教室名称", example = "A101")
-    private String classroomName;
-
-    @ApiModelProperty(value = "班级负责人ID", example = "3")
-    private Long teacherId;
-
-    @ApiModelProperty(value = "班主任姓名", example = "张老师")
+    @ApiModelProperty(value = "负责老师（班主任）", example = "管理员")
     private String teacherName;
 
-    @ApiModelProperty(value = "年级ID", example = "2")
-    private Integer gradeId;
+    @ApiModelProperty(value = "助教姓名", example = "张三")
+    private String assistantName;
 
-    @ApiModelProperty(value = "年级名称", example = "三年级")
-    private String gradeName;
+    @ApiModelProperty(value = "教室名称", example = "多媒体一教")
+    private String classroomName;
 
-    @ApiModelProperty(value = "排课备注", example = "数学强化班")
-    private String remark;
+    @ApiModelProperty(value = "当前学生数", example = "1")
+    private Integer currentStudentCount;
 
-    @ApiModelProperty(value = "是否完结", example = "false")
-    private Boolean beOver;
-
-    @ApiModelProperty(value = "完结时间", example = "2023-06-30 18:00:00")
-    private LocalDateTime overTime;
-
-    @ApiModelProperty(value = "计划开班日期", example = "2023-03-01")
-    private LocalDate startDate;
-
-    @ApiModelProperty(value = "计划结业日期", example = "2023-07-01")
-    private LocalDate endDate;
-
-    @ApiModelProperty(value = "预招人数", example = "30")
+    @ApiModelProperty(value = "计划胜（招）生人数", example = "20")
     private Integer plannedStudentCount;
 
-    @ApiModelProperty(value = "预排课次数", example = "20")
+    @ApiModelProperty(value = "计划排课数", example = "5")
     private Integer plannedLessonCount;
 
-    @ApiModelProperty(value = "创建者所属学校id", example = "100")
-    private Long schoolId;
+    @ApiModelProperty(value = "已上/已排课数", example = "17/17")
+    private String lessonProgress;
 
-    @ApiModelProperty(value = "创建者所属组织ID", example = "200")
-    private Long orgId;
+    @ApiModelProperty(value = "创建时间", example = "2026-01-16")
+    private LocalDate createTime;
 
-    @ApiModelProperty(value = "添加时间", example = "2023-01-01 10:00:00")
-    private LocalDateTime addTime;
+    @ApiModelProperty(value = "计划开班日期", example = "2026-01-16")
+    private LocalDate startDate;
 
-    @ApiModelProperty(value = "编辑时间", example = "2023-01-02 11:00:00")
-    private LocalDateTime editTime;
+    @ApiModelProperty(value = "计划结业日期", example = "2026-03-28")
+    private LocalDate endDate;
+
+    @ApiModelProperty(value = "排课备注", example = "每周一三五上课")
+    private String remark;
+
+    @ApiModelProperty(value = "班级状态", example = "进行中")
+    private String status;
+
 }
 

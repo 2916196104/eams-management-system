@@ -21,7 +21,7 @@ public interface StudentLeaveApis {
      * @param ids 请假表id
      * @return    撤销结果
      */
-    JsonVO<String> cancelLeaveRequest(List<Long> ids);
+    JsonVO<Integer> cancelLeaveRequest(List<Long> ids);
 
     /**
      * 获取请假列表 （条件+分页）

@@ -67,15 +67,6 @@ public class CoursePlanController implements CoursePlanApi {
 
 
 
-    @GetMapping("/classes")
-    @ApiOperation("获取班级下拉列表")
-    @Override
-    public JsonVO<PageDTO<ClassOptionVO>> getClassOption(ClassByNameQuery query) {
-        log.info("查询参数：{}", query); // 添加日志
-        PageDTO<ClassOptionVO> page = PageDTO.create(classService.listByClassName(query));
-        return JsonVO.success(page);
-    }
-
     /*
      * 保存或更新排课计划信息
      * */
@@ -116,7 +107,6 @@ public class CoursePlanController implements CoursePlanApi {
     public JsonVO<LessonScheduleVO> getScheduleById(@PathVariable Long id) {
         return JsonVO.success(scheduleService.getScheduleById(id));
     }
-
 
 
     /**

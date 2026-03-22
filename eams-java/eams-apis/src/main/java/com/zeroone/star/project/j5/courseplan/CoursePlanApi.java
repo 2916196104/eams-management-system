@@ -41,10 +41,7 @@ public interface CoursePlanApi {
      * */
     JsonVO<PageDTO<SchedulePlanVO>> queryPage(SchedulePlanQuery query);
 
-    /*
-     * 描述：获取班级下拉列表
-     * */
-    JsonVO<PageDTO<ClassOptionVO>> getClassOption(ClassByNameQuery query);
+
 
     /*
      * 描述：新增或修改排课计划

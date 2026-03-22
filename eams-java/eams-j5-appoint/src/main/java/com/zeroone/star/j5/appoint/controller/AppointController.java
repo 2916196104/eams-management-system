@@ -45,7 +45,7 @@ public class AppointController implements AppointmentApis {
 
 
     @GetMapping("/{id}")
-    @ApiOperation("获取预约详情")
+    @ApiOperation("获取预约课程详情")
     @Override
     public JsonVO<AppointmentDetailVO> getAppointmentDetail(@PathVariable("id") Long id) {
         return null;

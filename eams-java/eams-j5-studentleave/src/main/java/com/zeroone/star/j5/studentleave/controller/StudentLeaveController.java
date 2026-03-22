@@ -26,7 +26,7 @@ public class StudentLeaveController implements StudentLeaveApis {
     @Override
     @ApiOperation("撤销请假")
     @PutMapping("cancel")
-    public JsonVO<String> cancelLeaveRequest(@RequestBody List<Long> ids) {
+    public JsonVO<Integer> cancelLeaveRequest(@RequestBody List<Long> ids) {
         return null;
     }
 

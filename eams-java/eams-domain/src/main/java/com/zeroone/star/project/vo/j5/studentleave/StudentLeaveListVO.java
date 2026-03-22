@@ -36,22 +36,13 @@ public class StudentLeaveListVO {
     @ApiModelProperty(value = "电话", example = "13814754869")
     private String mobile;
 
-    @ApiModelProperty(value = "请假课次", example = "大学语文")
-    private String courseName;
+    @ApiModelProperty(value = "请假课次(包含上课日期时间，以字符串形式输出)", example = "大学语文")
+    private String courseInfo;
 
-    @ApiModelProperty(value = "上课日期", example = "2026-03-15")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate date;
 
-    @ApiModelProperty(value = "开始时间", example = "10:00")
-    @JsonFormat(pattern = "HH:mm")
-    private LocalTime startTime;
 
-    @ApiModelProperty(value = "结束时间", example = "12:00")
-    @JsonFormat(pattern = "HH:mm")
-    private LocalTime endTime;
 
-    @ApiModelProperty(value = "教师名称(可能多位)", example = "张三, 李四")
+    @ApiModelProperty(value = "任课老师(可能多位)", example = "张三, 李四")
     private String teacherNames;
 
     @ApiModelProperty(value = "请假原因", example = "病假")

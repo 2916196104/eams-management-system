@@ -30,11 +30,9 @@ public class AppointmentCalendarVO {
     @ApiModelProperty(value = "预约表 id", example = "2008418408000000001")
     private Long id;
 
-    @ApiModelProperty(value = "学生姓名", example = "小明")
-    private String studentName;
+    @ApiModelProperty(value = "学生姓名和电话", example = "小明 13254856729")
+    private String studentNameAndPhone;
 
-    @ApiModelProperty(value = "学生电话", example = "13254856729")
-    private String mobile;
 
     @ApiModelProperty(value = "预约课程", example = "C语言")
     private String lessonTitle;
@@ -43,32 +41,8 @@ public class AppointmentCalendarVO {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
-    @ApiModelProperty(value = "开始时间", example = "10:00")
-    @JsonFormat(pattern = "hh:mm")
-    private LocalTime startTime;
-
-    @ApiModelProperty(value = "结束时间", example = "10:00")
-    @JsonFormat(pattern = "hh:mm")
-    private LocalTime endTime;
-
-    @ApiModelProperty(value = "预约时间", example = "2026-03-12 10:00:00")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    private LocalDateTime addTime;
-
-    @ApiModelProperty(value = "备注", example = "无")
-    private String remark;
-
     @ApiModelProperty(value = "审核状态", example = "已审核")
     private String verifyState;
 
-    @ApiModelProperty(value = "审核时间", example = "2026-03-14 10:00:00")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    private LocalDateTime verifyTime;
-
-    @ApiModelProperty(value = "审核人", example = "管理员")
-    private String verifyStaff;
-
-    @ApiModelProperty(value = "审核内容", example = "审核通过....")
-    private String verifyRemark;
 
 }

@@ -17,8 +17,15 @@ public class AppointmentDetailVO {
     @ApiModelProperty(value = "课程名称", example = "钢琴入门课")
     private String courseName;
 
+    @ApiModelProperty(value = "课程ID", example = "1001")
+    private Long courseId;
+
     @ApiModelProperty(value = "班级名称", example = "钢琴一班")
     private String className;
+
+    @ApiModelProperty(value = "班级ID", example = "2001")
+    private Long classId;
+
 
     @ApiModelProperty(value = "类型(如：小班课)", example = "小班课")
     private String courseType;
@@ -32,9 +39,15 @@ public class AppointmentDetailVO {
     @ApiModelProperty(value = "老师", example = "管理员")
     private String teacherName;
 
+
+    @ApiModelProperty(value = "教师ID", example = "3001")
+    private Long teacherId;
+
     @ApiModelProperty(value = "助教", example = "王老师")
     private String assistantName;
 
+    @ApiModelProperty(value = "助教ID", example = "4001")
+    private Long assistantId;
     @ApiModelProperty(value = "实到人数", example = "0")
     private Integer actualAttendance;
 

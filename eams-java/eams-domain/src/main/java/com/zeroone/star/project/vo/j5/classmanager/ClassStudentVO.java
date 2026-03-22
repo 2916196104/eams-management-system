@@ -17,8 +17,6 @@ public class ClassStudentVO {
     @ApiModelProperty(value = "学员姓名", example = "张三")
     private String name;
 
-    @ApiModelProperty(value = "学号", example = "20230001")
-    private String studentNo;
 
     @ApiModelProperty(value = "所属班级ID", example = "5")
     private Long classId;
@@ -29,9 +27,6 @@ public class ClassStudentVO {
     @ApiModelProperty(value = "联系电话", example = "13800138000")
     private String phone;
 
-    @ApiModelProperty(value = "添加时间", example = "2023-01-01 10:00:00")
-    private LocalDateTime addTime;
-
-    @ApiModelProperty(value = "删除标记", example = "false")
-    private Boolean deleted;
+    @ApiModelProperty(value = "默认课程", example = "java从入门到入土")
+    private String defaultCourse;
 }

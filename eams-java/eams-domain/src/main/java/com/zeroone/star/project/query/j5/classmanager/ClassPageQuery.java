@@ -19,4 +19,5 @@ public class ClassPageQuery extends PageQuery {
     @ApiModelProperty(value = "年级名称（模糊匹配）", example = "2026")
     private String gradeName;
 
+
 }

@@ -1,12 +1,12 @@
-package com.zeroone.star.project.dto.j5.courseschedule;
+package com.zeroone.star.project.vo.j5.courseschedule;
 
 import io.swagger.annotations.ApiModelProperty;
 
-public class EvaluationDTO {
+public class EvaluationVO {
     @ApiModelProperty("主键id，评价序号")
     private Long id;
 
-    @ApiModelProperty("老师id")
+
     private Long teacherId;
     @ApiModelProperty("老师姓名")
     private String teacherName;
@@ -35,5 +35,4 @@ public class EvaluationDTO {
 
     @ApiModelProperty(value = "评价内容", example = "还是不错的")
     private String content;
-
 }

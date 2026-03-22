@@ -14,7 +14,7 @@ import lombok.Data;
  */
 
 @Data
-public class CourseStatusDTO {
+public class CourseAppointStatusDTO {
     @ApiModelProperty( value = "课程编号", example = "1")
     private String id;
     @ApiModelProperty( value = "课程预约开关", example = "1")
