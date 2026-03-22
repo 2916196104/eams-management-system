@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -22,8 +22,8 @@
 #include <string>
 
 /**
- * °¢ÀïÔÆÏà¹ØÃØÔ¿ºÍkeyÅäÖÃÊı¾İ
- * ×¢Òâ£º´ËÀàµÄ¾²Ì¬±äÁ¿ºÍ¾²Ì¬º¯ÊıĞèÒªÔÙÍâ²¿ÏµÍ³¶¨ÒåËüÃÇ
+ * é˜¿é‡Œäº‘ç›¸å…³ç§˜é’¥å’Œkeyé…ç½®æ•°æ®
+ * æ³¨æ„ï¼šæ­¤ç±»çš„é™æ€å˜é‡å’Œé™æ€å‡½æ•°éœ€è¦å†å¤–éƒ¨ç³»ç»Ÿå®šä¹‰å®ƒä»¬
  */
 class AliKeyConfig final
 {
@@ -39,9 +39,9 @@ public:
 	// FullName:  AliKeyConfig::init
 	// Access:    public static 
 	// Returns:   void
-	// Description: ³õÊ¼»¯ÅäÖÃÊı¾İ
-	// Parameter: const std::string& fileName ÅäÖÃÎÄ¼şÃû
-	// Parameter: const std::string& prefix smsÅäÖÃÇ°×º
+	// Description: åˆå§‹åŒ–é…ç½®æ•°æ®
+	// Parameter: const std::string& fileName é…ç½®æ–‡ä»¶å
+	// Parameter: const std::string& prefix smsé…ç½®å‰ç¼€
 	//************************************
 	static void init(const std::string& fileName, const std::string& prefix);
 };

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -24,22 +24,22 @@
 #include "domain/dto/PayloadDTO.h"
 
 /**
- * JWT¹¤¾ßÀà
+ * JWTå·¥å…·ç±»
  */
 class JWTUtil
 {
 private:
-	//¶Ô×Ö·û´®½øĞĞMD5´¦Àí
+	//å¯¹å­—ç¬¦ä¸²è¿›è¡ŒMD5å¤„ç†
 	static std::string md5(const std::string& src);
 public:
 	//************************************
 	// Method:    generateTokenByHmac
 	// FullName:  JWTUtil::generateTokenByHmac
 	// Access:    public static 
-	// Returns:   std::string ·µ»ØToken×Ö·û´®
-	// Description: Ê¹ÓÃHMACËã·¨¹¹½¨Token
-	// Parameter: const PayloadDTO& payloadDto ¸ºÔØĞÅÏ¢¶ÔÏó
-	// Parameter: const std::string& secretStr ÃØÔ¿
+	// Returns:   std::string è¿”å›Tokenå­—ç¬¦ä¸²
+	// Description: ä½¿ç”¨HMACç®—æ³•æ„å»ºToken
+	// Parameter: const PayloadDTO& payloadDto è´Ÿè½½ä¿¡æ¯å¯¹è±¡
+	// Parameter: const std::string& secretStr ç§˜é’¥
 	//************************************
 	static std::string generateTokenByHmac(const PayloadDTO& payloadDto, const std::string& secretStr);
 
@@ -47,10 +47,10 @@ public:
 	// Method:    verifyTokenByHmac
 	// FullName:  JWTUtil::verifyTokenByHmac
 	// Access:    public static 
-	// Returns:   PayloadDTO ¸ºÔØĞÅÏ¢¶ÔÏó
-	// Description: ÑéÖ¤HMAC Token
-	// Parameter: const std::string& token Token×Ö·û´®
-	// Parameter: const std::string& secretStr ÃØÔ¿
+	// Returns:   PayloadDTO è´Ÿè½½ä¿¡æ¯å¯¹è±¡
+	// Description: éªŒè¯HMAC Token
+	// Parameter: const std::string& token Tokenå­—ç¬¦ä¸²
+	// Parameter: const std::string& secretStr ç§˜é’¥
 	//************************************
 	static PayloadDTO verifyTokenByHmac(const std::string& token, const std::string& secretStr);
 
@@ -59,9 +59,9 @@ public:
 	// FullName:  JWTUtil::generateTokenByRsa
 	// Access:    public static 
 	// Returns:   std::string
-	// Description: Ê¹ÓÃRSA PemÉú³ÉToken£¬ÃÜÔ¿¶ÔÔÚÏßÉú³É¹¤¾ß£ºhttp://www.metools.info/code/c80.html
-	// Parameter: const PayloadDTO& payloadDto ¸ºÔØĞÅÏ¢
-	// Parameter: const std::string& rsaPriKey RSAË½Ô¿
+	// Description: ä½¿ç”¨RSA Pemç”ŸæˆTokenï¼Œå¯†é’¥å¯¹åœ¨çº¿ç”Ÿæˆå·¥å…·ï¼šhttp://www.metools.info/code/c80.html
+	// Parameter: const PayloadDTO& payloadDto è´Ÿè½½ä¿¡æ¯
+	// Parameter: const std::string& rsaPriKey RSAç§é’¥
 	//************************************
 	static std::string generateTokenByRsa(const PayloadDTO& payloadDto, const std::string& rsaPriKey);
 
@@ -70,9 +70,9 @@ public:
 	// FullName:  JWTUtil::verifyTokenByRsa
 	// Access:    public static 
 	// Returns:   PayloadDTO
-	// Description: ÑéÖ¤RSA Pem Token
-	// Parameter: const std::string& token Token×Ö·û´®
-	// Parameter: const std::string& rsaPubKey RSA¹«Ô¿
+	// Description: éªŒè¯RSA Pem Token
+	// Parameter: const std::string& token Tokenå­—ç¬¦ä¸²
+	// Parameter: const std::string& rsaPubKey RSAå…¬é’¥
 	//************************************
 	static PayloadDTO verifyTokenByRsa(const std::string& token, const std::string& rsaPubKey);
 };

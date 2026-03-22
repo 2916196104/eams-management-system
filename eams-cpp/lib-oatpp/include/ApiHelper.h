@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -21,22 +21,22 @@
 #define _API_HELPER_
 
 #include <string>
-// ºËÐÄ¿âÏà¹Ø±êÍ·
+// æ ¸å¿ƒåº“ç›¸å…³æ ‡å¤´
 #include "oatpp/core/Types.hpp"
 #include "oatpp/core/macro/codegen.hpp"
 #include "oatpp/core/macro/component.hpp"
 #include "oatpp/web/protocol/http/Http.hpp"
 #include "oatpp/web/server/api/ApiController.hpp"
 #include "oatpp/parser/json/mapping/ObjectMapper.hpp"
-// ÎÄ¼þÉÏ´«Ïà¹ØÍ·
+// æ–‡ä»¶ä¸Šä¼ ç›¸å…³å¤´
 #include "oatpp/web/mime/multipart/InMemoryDataProvider.hpp"
 #include "oatpp/web/mime/multipart/FileProvider.hpp"
 #include "oatpp/web/mime/multipart/Reader.hpp"
 #include "oatpp/web/mime/multipart/PartList.hpp"
 #include "oatpp/web/protocol/http/outgoing/BufferBody.hpp"
-// swaggerÏà¹ØÍ·
+// swaggerç›¸å…³å¤´
 #include "oatpp-swagger/Types.hpp"
-// ¶þ´Î·â×°³£ÓÃÍ·
+// äºŒæ¬¡å°è£…å¸¸ç”¨å¤´
 #include "domain/vo/JsonVO.h"
 #include "domain/dto/PageDTO.h"
 #include "CustomerAuthorizeHandler.h"
@@ -45,17 +45,17 @@ using namespace std;
 using namespace oatpp::web::protocol::http;
 
 /**
- * °ó¶¨¿ØÖÆÆ÷
- * @param __DOC__: doc¶Ëµã¶ÔÏóÖ¸Õë
- * @param __ROUTER__: router¶ÔÏóÖ¸Õë
- * @param __CLASS__: controllerÀàÃû³Æ
+ * ç»‘å®šæŽ§åˆ¶å™¨
+ * @param __DOC__: docç«¯ç‚¹å¯¹è±¡æŒ‡é’ˆ
+ * @param __ROUTER__: routerå¯¹è±¡æŒ‡é’ˆ
+ * @param __CLASS__: controllerç±»åç§°
  */
 #define BIND_CONTROLLER(__DOC__, __ROUTER__, __CLASS__) \
 __DOC__->append(__ROUTER__->addController(__CLASS__::createShared())->getEndpoints())
 
 /**
- * ¿ØÖÆÆ÷Àà·ÃÎÊ¶¨Òå£¬ÓÃÓÚ°ó¶¨ÊÚÈ¨´¦ÀíÆ÷ºÍÀà´´½¨Èë¿Úº¯Êý
- * @param __CLASS__: controllerÀàÃû³Æ
+ * æŽ§åˆ¶å™¨ç±»è®¿é—®å®šä¹‰ï¼Œç”¨äºŽç»‘å®šæŽˆæƒå¤„ç†å™¨å’Œç±»åˆ›å»ºå…¥å£å‡½æ•°
+ * @param __CLASS__: controllerç±»åç§°
  */
 #define API_ACCESS_DECLARE(__CLASS__) \
 public: \
@@ -66,62 +66,62 @@ static std::shared_ptr<__CLASS__> createShared(OATPP_COMPONENT(std::shared_ptr<O
 	return std::make_shared<__CLASS__>(objectMapper); \
 }
 
-// »ñÈ¡Êý¾ÝÇëÇó
+// èŽ·å–æ•°æ®è¯·æ±‚
 #define API_M_GET  "GET"
-// ÐÂÔöÊý¾ÝÇëÇó
+// æ–°å¢žæ•°æ®è¯·æ±‚
 #define API_M_POST "POST"
-// ÐÞ¸ÄÊý¾ÝÇëÇó
+// ä¿®æ”¹æ•°æ®è¯·æ±‚
 #define API_M_PUT  "PUT"
-// É¾³ýÊý¾ÝÇëÇó
+// åˆ é™¤æ•°æ®è¯·æ±‚
 #define API_M_DEL  "DELETE"
-// TokenÔÚÇëÇóÍ·ÖÐ¶ÔÓ¦µÄÃû³Æ
+// Tokenåœ¨è¯·æ±‚å¤´ä¸­å¯¹åº”çš„åç§°
 #define API_H_TOKEN "Authorization"
-// WebSocket TokenÔÚÇëÇóÍ·ÖÐ¶ÔÓ¦µÄÃû³Æ
+// WebSocket Tokenåœ¨è¯·æ±‚å¤´ä¸­å¯¹åº”çš„åç§°
 #define API_H_WS_TOKEN "Sec-WebSocket-Protocol"
 
 //////////////////////////////////////////////////////////////////////////
 
 /**
- * APIÃèÊöÌí¼Ó±êÌâ
- * @param _TITLE_: ½Ó¿Ú±êÌâ
+ * APIæè¿°æ·»åŠ æ ‡é¢˜
+ * @param _TITLE_: æŽ¥å£æ ‡é¢˜
  */
 #define API_DEF_ADD_TITLE(_TITLE_) info->summary = _TITLE_
 
-// APIÃèÊöÌí¼Ó°²È«ÑéÖ¤
+// APIæè¿°æ·»åŠ å®‰å…¨éªŒè¯
 #define API_DEF_ADD_AUTH() info->addSecurityRequirement("bearer_auth")
 
 /**
- * APIÃèÊöÌí¼Ó±êÇ©
- * @param _TAG_: ±êÇ©Ãû³Æ
+ * APIæè¿°æ·»åŠ æ ‡ç­¾
+ * @param _TAG_: æ ‡ç­¾åç§°
  */
 #define API_DEF_ADD_TAG(_TAG_) info->addTag(_TAG_)
 
-// APIÃèÊöÌí¼ÓÎÄ¼þÁ÷,ÓÃÓÚÁ÷·½Ê½µ¥ÎÄ¼þÉÏ´«
+// APIæè¿°æ·»åŠ æ–‡ä»¶æµ,ç”¨äºŽæµæ–¹å¼å•æ–‡ä»¶ä¸Šä¼ 
 #define API_DEF_ADD_FILE_STREAM() info->addConsumes<oatpp::swagger::Binary>("application/octet-stream")
 
 /**
- * APIÃèÊöÌí¼ÓÎÄ¼þ±íµ¥,ÓÃÓÚ±íµ¥·½Ê½ÉÏ´«µ¥ÎÄ¼þ£¬ÕâÖÖ·½Ê½Ö§³Ö¶àÎÄ¼þÉÏ´«
- * @param _TYPE_: ±íµ¥Êý¾ÝÀàÐÍ£¬Èç£ºxxxDTO::Wrapper
+ * APIæè¿°æ·»åŠ æ–‡ä»¶è¡¨å•,ç”¨äºŽè¡¨å•æ–¹å¼ä¸Šä¼ å•æ–‡ä»¶ï¼Œè¿™ç§æ–¹å¼æ”¯æŒå¤šæ–‡ä»¶ä¸Šä¼ 
+ * @param _TYPE_: è¡¨å•æ•°æ®ç±»åž‹ï¼Œå¦‚ï¼šxxxDTO::Wrapper
  */
 #define API_DEF_ADD_FILE_FORM(_TYPE_) info->addConsumes<_TYPE_>("multipart/form-data")
 
 /**
- * APIÃèÊöÌí¼ÓÏìÓ¦Êý¾Ý
- * @param __RESP_TYPE__: ÏìÓ¦Êý¾ÝÀàÐÍ£¬Èç£ºxxxJsonVO::Wrapper
+ * APIæè¿°æ·»åŠ å“åº”æ•°æ®
+ * @param __RESP_TYPE__: å“åº”æ•°æ®ç±»åž‹ï¼Œå¦‚ï¼šxxxJsonVO::Wrapper
  */
 #define API_DEF_ADD_RSP_JSON(__RESP_TYPE__) info->addResponse<__RESP_TYPE__>(Status::CODE_200, "application/json")
 
 /**
- * APIÃèÊöÌí¼ÓÏìÓ¦Êý¾Ý£¬ÓÃoatpp::Object°ü×°·ºÐÍ
- * @param __RESP_TYPE__: ÏìÓ¦Êý¾ÝÀàÐÍ£¬Èç£ºxxxJsonVO
+ * APIæè¿°æ·»åŠ å“åº”æ•°æ®ï¼Œç”¨oatpp::ObjectåŒ…è£…æ³›åž‹
+ * @param __RESP_TYPE__: å“åº”æ•°æ®ç±»åž‹ï¼Œå¦‚ï¼šxxxJsonVO
  */
 #define API_DEF_ADD_RSP_JSON_WRAPPER(__RESP_TYPE__) API_DEF_ADD_RSP_JSON(oatpp::Object<__RESP_TYPE__>)
 
 /**
- * APIÃèÊöÌí¼ÓÍ¨ÓÃ²ÎÊý¶¨Òå
- * @param _TITLE_: ½Ó¿Ú±êÌâ
- * @param __RESP_TYPE__: ½Ó¿ÚÏìÓ¦²ÎÊýÀàÐÍ¡£Èç£º"UserPageJsonVO::Wrapper"¡¢"StringJsonVO::Wrapper"
- * @param __TAG__: ±êÇ©Ãû³Æ
+ * APIæè¿°æ·»åŠ é€šç”¨å‚æ•°å®šä¹‰
+ * @param _TITLE_: æŽ¥å£æ ‡é¢˜
+ * @param __RESP_TYPE__: æŽ¥å£å“åº”å‚æ•°ç±»åž‹ã€‚å¦‚ï¼š"UserPageJsonVO::Wrapper"ã€"StringJsonVO::Wrapper"
+ * @param __TAG__: æ ‡ç­¾åç§°
  */
 #define API_DEF_ADD_COMMON(_TITLE_, __RESP_TYPE__, __TAG__) \
 API_DEF_ADD_TITLE(_TITLE_); \
@@ -129,24 +129,24 @@ API_DEF_ADD_TAG(__TAG__); \
 API_DEF_ADD_RSP_JSON(__RESP_TYPE__)
 
 /**
- * APIÃèÊöÌí¼ÓÍ¨ÓÃ²ÎÊý¶¨Òå£¬¶¨ÒåµÄÊ±ºò»á¶¨ÒåÊÚÈ¨²ÎÊý
- * @param _TITLE_: ½Ó¿Ú±êÌâ
- * @param __RESP_TYPE__: ½Ó¿ÚÏìÓ¦²ÎÊýÀàÐÍ¡£Èç£º"UserPageJsonVO::Wrapper"¡¢"StringJsonVO::Wrapper"
- * @param __TAG__: ±êÇ©Ãû³Æ
+ * APIæè¿°æ·»åŠ é€šç”¨å‚æ•°å®šä¹‰ï¼Œå®šä¹‰çš„æ—¶å€™ä¼šå®šä¹‰æŽˆæƒå‚æ•°
+ * @param _TITLE_: æŽ¥å£æ ‡é¢˜
+ * @param __RESP_TYPE__: æŽ¥å£å“åº”å‚æ•°ç±»åž‹ã€‚å¦‚ï¼š"UserPageJsonVO::Wrapper"ã€"StringJsonVO::Wrapper"
+ * @param __TAG__: æ ‡ç­¾åç§°
  */
 #define API_DEF_ADD_COMMON_AUTH(_TITLE_, __RESP_TYPE__, __TAG__) \
 API_DEF_ADD_AUTH(); \
 API_DEF_ADD_COMMON(_TITLE_, __RESP_TYPE__, __TAG__)
 
-// ´¦Àí¿çÆ½Ì¨ÃèÊöÐÅÏ¢ÖÐÎÄÂÒÂëÎÊÌâ
+// å¤„ç†è·¨å¹³å°æè¿°ä¿¡æ¯ä¸­æ–‡ä¹±ç é—®é¢˜
 #ifndef LINUX
-#define API_PAGE_INDEX_DESC u8"²éÑ¯Ò³Âë"
-#define API_PAGE_SIZE_DESC u8"²éÑ¯ÌõÊý"
+#define API_PAGE_INDEX_DESC u8"æŸ¥è¯¢é¡µç "
+#define API_PAGE_SIZE_DESC u8"æŸ¥è¯¢æ¡æ•°"
 #else
 #define API_PAGE_INDEX_DESC "page index"
 #define API_PAGE_SIZE_DESC "page size"
 #endif
-// APIÃèÊöÌí¼Ó·ÖÒ³²ÎÊýËµÃ÷
+// APIæè¿°æ·»åŠ åˆ†é¡µå‚æ•°è¯´æ˜Ž
 #define API_DEF_ADD_PAGE_PARAMS() \
 info->queryParams.add<UInt64>("pageIndex").description = API_PAGE_INDEX_DESC;\
 info->queryParams["pageIndex"].addExample("default", oatpp::UInt64(1)); \
@@ -154,12 +154,12 @@ info->queryParams.add<UInt64>("pageSize").description = API_PAGE_SIZE_DESC; \
 info->queryParams["pageSize"].addExample("default", oatpp::UInt64(10))
 
 /**
- * APIÃèÊöÌí¼Ó²éÑ¯²ÎÊýËµÃ÷
- * @param _TYPE_: ×Ö¶ÎÊý¾ÝÀàÐÍ¡£Èç£ºString¡¢UInt32µÈ
- * @param _FIELD_NAME_: ×Ö¶ÎÃû³Æ¡£Èç£º"age"¡¢"sex"
- * @param _DESCRIPTION_: ×Ö¶ÎÃèÊö¡£
- * @param _EXAMPLE_VAL_: Ê¾ÀýÖµ¡£Èç£º"li si"¡¢123
- * @param _REQUIRE_: ÊÇ·ñ±Ø´«²ÎÊý£¬boolÖµ¡£Èç£ºtrue¡¢false
+ * APIæè¿°æ·»åŠ æŸ¥è¯¢å‚æ•°è¯´æ˜Ž
+ * @param _TYPE_: å­—æ®µæ•°æ®ç±»åž‹ã€‚å¦‚ï¼šStringã€UInt32ç­‰
+ * @param _FIELD_NAME_: å­—æ®µåç§°ã€‚å¦‚ï¼š"age"ã€"sex"
+ * @param _DESCRIPTION_: å­—æ®µæè¿°ã€‚
+ * @param _EXAMPLE_VAL_: ç¤ºä¾‹å€¼ã€‚å¦‚ï¼š"li si"ã€123
+ * @param _REQUIRE_: æ˜¯å¦å¿…ä¼ å‚æ•°ï¼Œboolå€¼ã€‚å¦‚ï¼štrueã€false
  */
 #define API_DEF_ADD_QUERY_PARAMS(_TYPE_, _FIELD_NAME_, _DESCRIPTION_, _EXAMPLE_VAL_, _REQUIRE_) \
 info->queryParams.add<_TYPE_>(_FIELD_NAME_).description = _DESCRIPTION_; \
@@ -167,30 +167,30 @@ info->queryParams[_FIELD_NAME_].addExample("default", _TYPE_(_EXAMPLE_VAL_)); \
 info->queryParams[_FIELD_NAME_].required = _REQUIRE_
 
 /**
- * APIÃèÊöÌí¼ÓÂ·¾¶²ÎÊýËµÃ÷
- * @param _TYPE_: ×Ö¶ÎÊý¾ÝÀàÐÍ¡£Èç£ºString¡¢UInt32µÈ
- * @param _FIELD_NAME_: ×Ö¶ÎÃû³Æ¡£Èç£º"age"¡¢"sex"
- * @param _DESCRIPTION_: ×Ö¶ÎÃèÊö¡£
- * @param _EXAMPLE_VAL_: Ê¾ÀýÖµ¡£Èç£º"li si"¡¢123
- * @param _REQUIRE_: ÊÇ·ñ±Ø´«²ÎÊý£¬boolÖµ¡£Èç£ºtrue¡¢false
+ * APIæè¿°æ·»åŠ è·¯å¾„å‚æ•°è¯´æ˜Ž
+ * @param _TYPE_: å­—æ®µæ•°æ®ç±»åž‹ã€‚å¦‚ï¼šStringã€UInt32ç­‰
+ * @param _FIELD_NAME_: å­—æ®µåç§°ã€‚å¦‚ï¼š"age"ã€"sex"
+ * @param _DESCRIPTION_: å­—æ®µæè¿°ã€‚
+ * @param _EXAMPLE_VAL_: ç¤ºä¾‹å€¼ã€‚å¦‚ï¼š"li si"ã€123
+ * @param _REQUIRE_: æ˜¯å¦å¿…ä¼ å‚æ•°ï¼Œboolå€¼ã€‚å¦‚ï¼štrueã€false
  */
 #define API_DEF_ADD_PATH_PARAMS(_TYPE_, _FIELD_NAME_, _DESCRIPTION_, _EXAMPLE_VAL_, _REQUIRE_) \
 info->pathParams.add<_TYPE_>(_FIELD_NAME_).description = _DESCRIPTION_; \
 info->pathParams[_FIELD_NAME_].addExample("default", _TYPE_(_EXAMPLE_VAL_)); \
 info->pathParams[_FIELD_NAME_].required = _REQUIRE_
 
-// ÃèÊö¶¨ÒåÀ©Õ¹²ÎÊýÕ¹¿ªÏà¹Øºê
+// æè¿°å®šä¹‰æ‰©å±•å‚æ•°å±•å¼€ç›¸å…³å®
 #define API_DEF_EXPAND( x ) x
-// ¶¨Òå¿Õ±ê¼Ç
+// å®šä¹‰ç©ºæ ‡è®°
 #define API_DEF_NOTHING
 
 /**
- * APIÃèÊö¶¨Òå
- * @param __TITLE__: ApiÃèÊö±êÌâ
- * @param __ENDPOINT_FUN_NAME__: Api¶Ëµãº¯ÊýÃû³Æ
- * @param __RESP_TYPE__: ÏìÓ¦Êý¾ÝÀàÐÍÈç£ºXxxJsonVO::Wrapper
- * @param __TAG__: ApiÃèÊö±êÇ©
- * @param ...: À©Õ¹Ñ¡Ïî
+ * APIæè¿°å®šä¹‰
+ * @param __TITLE__: Apiæè¿°æ ‡é¢˜
+ * @param __ENDPOINT_FUN_NAME__: Apiç«¯ç‚¹å‡½æ•°åç§°
+ * @param __RESP_TYPE__: å“åº”æ•°æ®ç±»åž‹å¦‚ï¼šXxxJsonVO::Wrapper
+ * @param __TAG__: Apiæè¿°æ ‡ç­¾
+ * @param ...: æ‰©å±•é€‰é¡¹
  */
 #define API_DEF_ENDPOINT_INFO(__TITLE__, __ENDPOINT_FUN_NAME__, __RESP_TYPE__, __TAG__, ...) \
 ENDPOINT_INFO(__ENDPOINT_FUN_NAME__) { \
@@ -199,12 +199,12 @@ ENDPOINT_INFO(__ENDPOINT_FUN_NAME__) { \
 } 
 
 /**
- * APIÃèÊö¶¨Òå£¬¶¨ÒåµÄÊ±ºòÌí¼ÓÊÚÈ¨¶¨Òå
- * @param __TITLE__: ApiÃèÊö±êÌâ
- * @param __ENDPOINT_FUN_NAME__: Api¶Ëµãº¯ÊýÃû³Æ
- * @param __RESP_TYPE__: ÏìÓ¦Êý¾ÝÀàÐÍÈç£ºXxxJsonVO::Wrapper
- * @param __TAG__: ApiÃèÊö±êÇ©
- * @param ...: À©Õ¹Ñ¡Ïî
+ * APIæè¿°å®šä¹‰ï¼Œå®šä¹‰çš„æ—¶å€™æ·»åŠ æŽˆæƒå®šä¹‰
+ * @param __TITLE__: Apiæè¿°æ ‡é¢˜
+ * @param __ENDPOINT_FUN_NAME__: Apiç«¯ç‚¹å‡½æ•°åç§°
+ * @param __RESP_TYPE__: å“åº”æ•°æ®ç±»åž‹å¦‚ï¼šXxxJsonVO::Wrapper
+ * @param __TAG__: Apiæè¿°æ ‡ç­¾
+ * @param ...: æ‰©å±•é€‰é¡¹
  */
 #define API_DEF_ENDPOINT_INFO_AUTH(__TITLE__, __ENDPOINT_FUN_NAME__, __RESP_TYPE__, __TAG__, ...) \
 ENDPOINT_INFO(__ENDPOINT_FUN_NAME__) { \
@@ -213,8 +213,8 @@ ENDPOINT_INFO(__ENDPOINT_FUN_NAME__) { \
 }
 
 /**
- * ¸ù¾ÝÊý¾ÝÀàÐÍ¹¹½¨Api²éÑ¯²ÎÊýÃèÊöÐÅÏ¢
- * @param __QUERY_TYPE__: ²éÑ¯Êý¾ÝÀàÐÍÈç£ºXxxQuery
+ * æ ¹æ®æ•°æ®ç±»åž‹æž„å»ºApiæŸ¥è¯¢å‚æ•°æè¿°ä¿¡æ¯
+ * @param __QUERY_TYPE__: æŸ¥è¯¢æ•°æ®ç±»åž‹å¦‚ï¼šXxxQuery
 */
 #define API_DEF_QUERY_PARAM_BUILD( __QUERY_TYPE__) \
 auto tmp = __QUERY_TYPE__::createShared(); \
@@ -246,70 +246,70 @@ for (auto one : __QUERY_TYPE__::Wrapper::getPropertiesMap()) { \
 }
 
 /**
- * APIÃèÊö¶¨Òå£¬ÓÃÓÚ²éÑ¯½Ó¿Ú
- * @param __TITLE__: ApiÃèÊö±êÌâ
- * @param __ENDPOINT_FUN_NAME__: Api¶Ëµãº¯ÊýÃû³Æ
- * @param __QUERY_TYPE__: ²éÑ¯Êý¾ÝÀàÐÍÈç£ºXxxQuery
- * @param __RESP_TYPE__: ÏìÓ¦Êý¾ÝÀàÐÍÈç£ºXxxJsonVO::Wrapper
- * @param __TAG__: ApiÃèÊö±êÇ©
+ * APIæè¿°å®šä¹‰ï¼Œç”¨äºŽæŸ¥è¯¢æŽ¥å£
+ * @param __TITLE__: Apiæè¿°æ ‡é¢˜
+ * @param __ENDPOINT_FUN_NAME__: Apiç«¯ç‚¹å‡½æ•°åç§°
+ * @param __QUERY_TYPE__: æŸ¥è¯¢æ•°æ®ç±»åž‹å¦‚ï¼šXxxQuery
+ * @param __RESP_TYPE__: å“åº”æ•°æ®ç±»åž‹å¦‚ï¼šXxxJsonVO::Wrapper
+ * @param __TAG__: Apiæè¿°æ ‡ç­¾
  */
 #define API_DEF_ENDPOINT_INFO_QUERY(__TITLE__, __ENDPOINT_FUN_NAME__, __QUERY_TYPE__, __RESP_TYPE__, __TAG__) \
 API_DEF_ENDPOINT_INFO(__TITLE__, __ENDPOINT_FUN_NAME__, __RESP_TYPE__, __TAG__, API_DEF_QUERY_PARAM_BUILD(__QUERY_TYPE__);)
 
 /**
- * APIÃèÊö¶¨Òå£¬ÓÃÓÚ²éÑ¯½Ó¿Ú£¬¶¨ÒåµÄÊ±ºòÌí¼ÓÊÚÈ¨¶¨Òå
- * @param __TITLE__: ApiÃèÊö±êÌâ
- * @param __ENDPOINT_FUN_NAME__: Api¶Ëµãº¯ÊýÃû³Æ
- * @param __QUERY_TYPE__: ²éÑ¯Êý¾ÝÀàÐÍÈç£ºXxxQuery
- * @param  __RESP_TYPE__: ÏìÓ¦Êý¾ÝÀàÐÍÈç£ºXxxJsonVO::Wrapper
- * @param __TAG__: ApiÃèÊö±êÇ©
+ * APIæè¿°å®šä¹‰ï¼Œç”¨äºŽæŸ¥è¯¢æŽ¥å£ï¼Œå®šä¹‰çš„æ—¶å€™æ·»åŠ æŽˆæƒå®šä¹‰
+ * @param __TITLE__: Apiæè¿°æ ‡é¢˜
+ * @param __ENDPOINT_FUN_NAME__: Apiç«¯ç‚¹å‡½æ•°åç§°
+ * @param __QUERY_TYPE__: æŸ¥è¯¢æ•°æ®ç±»åž‹å¦‚ï¼šXxxQuery
+ * @param  __RESP_TYPE__: å“åº”æ•°æ®ç±»åž‹å¦‚ï¼šXxxJsonVO::Wrapper
+ * @param __TAG__: Apiæè¿°æ ‡ç­¾
  */
 #define API_DEF_ENDPOINT_INFO_QUERY_AUTH(__TITLE__, __ENDPOINT_FUN_NAME__, __QUERY_TYPE__, __RESP_TYPE__, __TAG__) \
 API_DEF_ENDPOINT_INFO_AUTH(__TITLE__, __ENDPOINT_FUN_NAME__, __RESP_TYPE__, __TAG__, API_DEF_QUERY_PARAM_BUILD(__QUERY_TYPE__);)
 
 /**
- * APIÃèÊö¶¨Òå£¬ÓÃÓÚÐèÒªÖ§³ÖÎÄ¼þÉÏ´«µÄ½Ó¿ÚÃèÊö¶¨Òå
- * @param __TITLE__: ApiÃèÊö±êÌâ
- * @param __ENDPOINT_FUN_NAME__: Api¶Ëµãº¯ÊýÃû³Æ
- * @param __FORMDATA_TYPE__: ÇëÇóÎÄ¼þ±íµ¥Êý¾ÝÀàÐÍÈç£ºXxxDTO::Wrapper
- * @param __RESP_TYPE__: ÏìÓ¦Êý¾ÝÀàÐÍÈç£ºXxxJsonVO::Wrapper
- * @param __TAG__: ApiÃèÊö±êÇ©
- * @param ...: À©Õ¹Ñ¡Ïî
+ * APIæè¿°å®šä¹‰ï¼Œç”¨äºŽéœ€è¦æ”¯æŒæ–‡ä»¶ä¸Šä¼ çš„æŽ¥å£æè¿°å®šä¹‰
+ * @param __TITLE__: Apiæè¿°æ ‡é¢˜
+ * @param __ENDPOINT_FUN_NAME__: Apiç«¯ç‚¹å‡½æ•°åç§°
+ * @param __FORMDATA_TYPE__: è¯·æ±‚æ–‡ä»¶è¡¨å•æ•°æ®ç±»åž‹å¦‚ï¼šXxxDTO::Wrapper
+ * @param __RESP_TYPE__: å“åº”æ•°æ®ç±»åž‹å¦‚ï¼šXxxJsonVO::Wrapper
+ * @param __TAG__: Apiæè¿°æ ‡ç­¾
+ * @param ...: æ‰©å±•é€‰é¡¹
  */
 #define API_DEF_ENDPOINT_INFO_FILE(__TITLE__, __ENDPOINT_FUN_NAME__, __FORMDATA_TYPE__, __RESP_TYPE__, __TAG__) \
 API_DEF_ENDPOINT_INFO(__TITLE__, __ENDPOINT_FUN_NAME__, __RESP_TYPE__, __TAG__, API_DEF_ADD_FILE_FORM(__FORMDATA_TYPE__);)
 
 /**
- * APIÃèÊö¶¨Òå£¬ÓÃÓÚÐèÒªÖ§³ÖÎÄ¼þÉÏ´«µÄ½Ó¿ÚÃèÊö¶¨Òå£¬¶¨ÒåµÄÊ±ºòÌí¼ÓÊÚÈ¨¶¨Òå
- * @param __TITLE__: ApiÃèÊö±êÌâ
- * @param __ENDPOINT_FUN_NAME__: Api¶Ëµãº¯ÊýÃû³Æ
- * @param __FORMDATA_TYPE__: ÇëÇóÎÄ¼þ±íµ¥Êý¾ÝÀàÐÍÈç£ºXxxDTO::Wrapper
- * @param __RESP_TYPE__: ÏìÓ¦Êý¾ÝÀàÐÍÈç£ºXxxJsonVO::Wrapper
- * @param __TAG__: ApiÃèÊö±êÇ©
- * @param ...: À©Õ¹Ñ¡Ïî
+ * APIæè¿°å®šä¹‰ï¼Œç”¨äºŽéœ€è¦æ”¯æŒæ–‡ä»¶ä¸Šä¼ çš„æŽ¥å£æè¿°å®šä¹‰ï¼Œå®šä¹‰çš„æ—¶å€™æ·»åŠ æŽˆæƒå®šä¹‰
+ * @param __TITLE__: Apiæè¿°æ ‡é¢˜
+ * @param __ENDPOINT_FUN_NAME__: Apiç«¯ç‚¹å‡½æ•°åç§°
+ * @param __FORMDATA_TYPE__: è¯·æ±‚æ–‡ä»¶è¡¨å•æ•°æ®ç±»åž‹å¦‚ï¼šXxxDTO::Wrapper
+ * @param __RESP_TYPE__: å“åº”æ•°æ®ç±»åž‹å¦‚ï¼šXxxJsonVO::Wrapper
+ * @param __TAG__: Apiæè¿°æ ‡ç­¾
+ * @param ...: æ‰©å±•é€‰é¡¹
  */
 #define API_DEF_ENDPOINT_INFO_FILE_AUTH(__TITLE__, __ENDPOINT_FUN_NAME__, __FORMDATA_TYPE__, __RESP_TYPE__, __TAG__) \
 API_DEF_ENDPOINT_INFO_AUTH(__TITLE__, __ENDPOINT_FUN_NAME__, __RESP_TYPE__, __TAG__, API_DEF_ADD_FILE_FORM(__FORMDATA_TYPE__);)
 
 //////////////////////////////////////////////////////////////////////////
 
-// ½Ó¿Ú´¦ÀíÆ÷·ÖÒ³²ÎÊý»ñÈ¡¶¨Òå
+// æŽ¥å£å¤„ç†å™¨åˆ†é¡µå‚æ•°èŽ·å–å®šä¹‰
 #define API_HANDLER_PAGE_PARAME \
 QUERY(UInt64, pageIndex), \
 QUERY(UInt64, pageSize)
 
-// ½Ó¿Ú´¦ÀíÆ÷ÊÚÈ¨²ÎÊý»ñÈ¡¶¨Òå
+// æŽ¥å£å¤„ç†å™¨æŽˆæƒå‚æ•°èŽ·å–å®šä¹‰
 #define API_HANDLER_AUTH_PARAME \
 AUTHORIZATION(std::shared_ptr<CustomerAuthorizeObject>, authObject)
 
-// ÊÚÈ¨²ÎÊý
+// æŽˆæƒå‚æ•°
 #define API_HANDLER_AUTN_HEADER HEADER(oatpp::String, token, API_H_TOKEN)
 
 /**
- * ½Ó¿Ú´¦ÀíÆ÷½âÎö²éÑ¯²ÎÊýµ½²éÑ¯Êý¾Ý¶ÔÏó
- * @param __VAR__: ×ª»»ºóµÄ±äÁ¿Ãû³Æ£¬Èçquery
- * @param __TYPE__: ²éÑ¯Êý¾Ý¶ÔÏóÀàÐÍ£¬ÈçXxxQuery
- * @param __PARAMS__: QueryParamsµÄ±äÁ¿Ãû³Æ£¬Èç£ºQUERIES(QueryParams, queryParams),Ôò´«ÈëqueryParams
+ * æŽ¥å£å¤„ç†å™¨è§£æžæŸ¥è¯¢å‚æ•°åˆ°æŸ¥è¯¢æ•°æ®å¯¹è±¡
+ * @param __VAR__: è½¬æ¢åŽçš„å˜é‡åç§°ï¼Œå¦‚query
+ * @param __TYPE__: æŸ¥è¯¢æ•°æ®å¯¹è±¡ç±»åž‹ï¼Œå¦‚XxxQuery
+ * @param __PARAMS__: QueryParamsçš„å˜é‡åç§°ï¼Œå¦‚ï¼šQUERIES(QueryParams, queryParams),åˆ™ä¼ å…¥queryParams
  */
 #define API_HANDLER_QUERY_PARAM(__VAR__, __TYPE__, __PARAMS__) \
 auto __VAR__ = __TYPE__::createShared(); \
@@ -335,24 +335,24 @@ for (auto& param : __PARAMS__.getAll()) { \
 }
 
 /**
- * ½Ó¿Ú´¦ÀíÆ÷ÏìÓ¦VOÊý¾Ý
- * @param __VO__: ÏìÓ¦Êý¾Ý¶ÔÏó
+ * æŽ¥å£å¤„ç†å™¨å“åº”VOæ•°æ®
+ * @param __VO__: å“åº”æ•°æ®å¯¹è±¡
  */
 #define API_HANDLER_RESP_VO(__VO__) return createDtoResponse(Status::CODE_200, __VO__)
 
 /**
- * ½Ó¿Ú´¦ÀíÆ÷ÏìÓ¦VOÊý¾Ý£¬ÓÃoatpp::Object°ü×°·ºÐÍ
- * @param __VO__: ÏìÓ¦Êý¾Ý¶ÔÏó
+ * æŽ¥å£å¤„ç†å™¨å“åº”VOæ•°æ®ï¼Œç”¨oatpp::ObjectåŒ…è£…æ³›åž‹
+ * @param __VO__: å“åº”æ•°æ®å¯¹è±¡
  */
 #define API_HANDLER_RESP_VO_WRAPPER(__VO__) API_HANDLER_RESP_VO(oatpp::Object<__VO__>)
 
 /**
- * API¶Ëµã¶¨Òå
- * @param _METHOD_: ÇëÇó·½Ê½¡£Èç£ºAPI_M_GET
- * @param _PATH_: ¶Ëµã·ÃÎÊµØÖ·¡£Èç£º/user/query-by-name
- * @param __ENDPOINT_FUN_NAME__: Api¶Ëµãº¯ÊýÃû³Æ
- * @param _PARAM_MACRO_: Ö¸¶¨Ò»¸ö²ÎÊý½âÎö²Ù×÷ºê¡£Èç£ºBODY_DTO(SampleDTO::Wrapper, dto)
- * @param _EXECUTE_: ´¦ÀíÂß¼­£¬µ÷ÓÃexecXXXº¯Êý¡£Èç£ºexecModifySample(dto)
+ * APIç«¯ç‚¹å®šä¹‰
+ * @param _METHOD_: è¯·æ±‚æ–¹å¼ã€‚å¦‚ï¼šAPI_M_GET
+ * @param _PATH_: ç«¯ç‚¹è®¿é—®åœ°å€ã€‚å¦‚ï¼š/user/query-by-name
+ * @param __ENDPOINT_FUN_NAME__: Apiç«¯ç‚¹å‡½æ•°åç§°
+ * @param _PARAM_MACRO_: æŒ‡å®šä¸€ä¸ªå‚æ•°è§£æžæ“ä½œå®ã€‚å¦‚ï¼šBODY_DTO(SampleDTO::Wrapper, dto)
+ * @param _EXECUTE_: å¤„ç†é€»è¾‘ï¼Œè°ƒç”¨execXXXå‡½æ•°ã€‚å¦‚ï¼šexecModifySample(dto)
  */
 #define API_HANDLER_ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_, _EXECUTE_) \
 ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_) { \
@@ -360,12 +360,12 @@ ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_) { \
 }
 
 /**
- * API¶Ëµã¶¨Òå£¬¶¨ÒåµÄÊ±ºòÌí¼ÓÊÚÈ¨¶¨Òå
- * @param _METHOD_: ÇëÇó·½Ê½¡£Èç£ºAPI_M_GET
- * @param _PATH_: ¶Ëµã·ÃÎÊµØÖ·¡£Èç£º/user/query-by-name
- * @param __ENDPOINT_FUN_NAME__: Api¶Ëµãº¯ÊýÃû³Æ
- * @param _PARAM_MACRO_: Ö¸¶¨Ò»¸ö²ÎÊý½âÎö²Ù×÷ºê¡£Èç£ºBODY_DTO(SampleDTO::Wrapper, dto)
- * @param _EXECUTE_: ´¦ÀíÂß¼­£¬µ÷ÓÃexecXXXº¯Êý¡£Èç£ºexecModifySample(dto)
+ * APIç«¯ç‚¹å®šä¹‰ï¼Œå®šä¹‰çš„æ—¶å€™æ·»åŠ æŽˆæƒå®šä¹‰
+ * @param _METHOD_: è¯·æ±‚æ–¹å¼ã€‚å¦‚ï¼šAPI_M_GET
+ * @param _PATH_: ç«¯ç‚¹è®¿é—®åœ°å€ã€‚å¦‚ï¼š/user/query-by-name
+ * @param __ENDPOINT_FUN_NAME__: Apiç«¯ç‚¹å‡½æ•°åç§°
+ * @param _PARAM_MACRO_: æŒ‡å®šä¸€ä¸ªå‚æ•°è§£æžæ“ä½œå®ã€‚å¦‚ï¼šBODY_DTO(SampleDTO::Wrapper, dto)
+ * @param _EXECUTE_: å¤„ç†é€»è¾‘ï¼Œè°ƒç”¨execXXXå‡½æ•°ã€‚å¦‚ï¼šexecModifySample(dto)
  */
 #define API_HANDLER_ENDPOINT_AUTH(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_, _EXECUTE_) \
 ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_, API_HANDLER_AUTH_PARAME) { \
@@ -373,11 +373,11 @@ ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_, API_HANDLER_AUT
 }
 
 /**
- * API¶Ëµã¶¨Òå£¬²»¶¨Òå²ÎÊý½âÎö
- * @param _METHOD_: ÇëÇó·½Ê½¡£Èç£ºAPI_M_GET
- * @param _PATH_: ¶Ëµã·ÃÎÊµØÖ·¡£Èç£º/user/query-by-name
- * @param __ENDPOINT_FUN_NAME__: Api¶Ëµãº¯ÊýÃû³Æ
- * @param _EXECUTE_: ´¦ÀíÂß¼­£¬µ÷ÓÃexecXXXº¯Êý¡£Èç£ºexecModifySample(dto)
+ * APIç«¯ç‚¹å®šä¹‰ï¼Œä¸å®šä¹‰å‚æ•°è§£æž
+ * @param _METHOD_: è¯·æ±‚æ–¹å¼ã€‚å¦‚ï¼šAPI_M_GET
+ * @param _PATH_: ç«¯ç‚¹è®¿é—®åœ°å€ã€‚å¦‚ï¼š/user/query-by-name
+ * @param __ENDPOINT_FUN_NAME__: Apiç«¯ç‚¹å‡½æ•°åç§°
+ * @param _EXECUTE_: å¤„ç†é€»è¾‘ï¼Œè°ƒç”¨execXXXå‡½æ•°ã€‚å¦‚ï¼šexecModifySample(dto)
  */
 #define API_HANDLER_ENDPOINT_NOPARAM(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _EXECUTE_) \
 ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__) { \
@@ -385,11 +385,11 @@ ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__) { \
 }
 
 /**
- * API¶Ëµã¶¨Òå£¬²»¶¨Òå²ÎÊý½âÎö£¬¶¨ÒåµÄÊ±ºòÌí¼ÓÊÚÈ¨¶¨Òå
- * @param _METHOD_: ÇëÇó·½Ê½¡£Èç£ºAPI_M_GET
- * @param _PATH_: ¶Ëµã·ÃÎÊµØÖ·¡£Èç£º/user/query-by-name
- * @param __ENDPOINT_FUN_NAME__: Api¶Ëµãº¯ÊýÃû³Æ
- * @param _EXECUTE_: ´¦ÀíÂß¼­£¬µ÷ÓÃexecXXXº¯Êý¡£Èç£ºexecModifySample(dto)
+ * APIç«¯ç‚¹å®šä¹‰ï¼Œä¸å®šä¹‰å‚æ•°è§£æžï¼Œå®šä¹‰çš„æ—¶å€™æ·»åŠ æŽˆæƒå®šä¹‰
+ * @param _METHOD_: è¯·æ±‚æ–¹å¼ã€‚å¦‚ï¼šAPI_M_GET
+ * @param _PATH_: ç«¯ç‚¹è®¿é—®åœ°å€ã€‚å¦‚ï¼š/user/query-by-name
+ * @param __ENDPOINT_FUN_NAME__: Apiç«¯ç‚¹å‡½æ•°åç§°
+ * @param _EXECUTE_: å¤„ç†é€»è¾‘ï¼Œè°ƒç”¨execXXXå‡½æ•°ã€‚å¦‚ï¼šexecModifySample(dto)
  */
 #define API_HANDLER_ENDPOINT_NOPARAM_AUTH(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _EXECUTE_) \
 ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, API_HANDLER_AUTH_PARAME) { \
@@ -397,12 +397,12 @@ ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, API_HANDLER_AUTH_PARAME) { \
 }
 
 /**
- * API¶Ëµã¶¨Òå£¬ÓÃÓÚ´¦Àí´«Êä²éÑ¯²ÎÊýµÄÇëÇó£¬²éÑ¯²ÎÊý½âÎöºóµÄ±äÁ¿ÃûÎªquery
- * @param _METHOD_: ÇëÇó·½Ê½¡£Èç£ºAPI_M_GET
- * @param _PATH_: ¶Ëµã·ÃÎÊµØÖ·¡£Èç£º/user/query-by-name
- * @param __ENDPOINT_FUN_NAME__: Api¶Ëµãº¯ÊýÃû³Æ
- * @param _QUERY_TYPE_: ²éÑ¯²ÎÊýÀàÐÍ¡£Èç£ºSampleQuery
- * @param _EXECUTE_: ´¦ÀíÂß¼­£¬µ÷ÓÃexecXXXº¯Êý¡£Èç£ºexecQuerySample(query)
+ * APIç«¯ç‚¹å®šä¹‰ï¼Œç”¨äºŽå¤„ç†ä¼ è¾“æŸ¥è¯¢å‚æ•°çš„è¯·æ±‚ï¼ŒæŸ¥è¯¢å‚æ•°è§£æžåŽçš„å˜é‡åä¸ºquery
+ * @param _METHOD_: è¯·æ±‚æ–¹å¼ã€‚å¦‚ï¼šAPI_M_GET
+ * @param _PATH_: ç«¯ç‚¹è®¿é—®åœ°å€ã€‚å¦‚ï¼š/user/query-by-name
+ * @param __ENDPOINT_FUN_NAME__: Apiç«¯ç‚¹å‡½æ•°åç§°
+ * @param _QUERY_TYPE_: æŸ¥è¯¢å‚æ•°ç±»åž‹ã€‚å¦‚ï¼šSampleQuery
+ * @param _EXECUTE_: å¤„ç†é€»è¾‘ï¼Œè°ƒç”¨execXXXå‡½æ•°ã€‚å¦‚ï¼šexecQuerySample(query)
  */
 #define API_HANDLER_ENDPOINT_QUERY(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _QUERY_TYPE_, _EXECUTE_) \
 ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, QUERIES(QueryParams, queryParams)) { \
@@ -411,12 +411,12 @@ ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, QUERIES(QueryParams, queryPara
 }
 
 /**
- * API¶Ëµã¶¨Òå£¬ÓÃÓÚ´¦Àí´«Êä²éÑ¯²ÎÊýµÄÇëÇó£¬²éÑ¯²ÎÊý½âÎöºóµÄ±äÁ¿ÃûÎªquery£¬¶¨ÒåµÄÊ±ºòÌí¼ÓÊÚÈ¨¶¨Òå
- * @param _METHOD_: ÇëÇó·½Ê½¡£Èç£ºAPI_M_GET
- * @param _PATH_: ¶Ëµã·ÃÎÊµØÖ·¡£Èç£º/user/query-by-name
- * @param __ENDPOINT_FUN_NAME__: Api¶Ëµãº¯ÊýÃû³Æ
- * @param _QUERY_TYPE_: ²éÑ¯²ÎÊýÀàÐÍ¡£Èç£ºSampleQuery
- * @param _EXECUTE_: ´¦ÀíÂß¼­£¬µ÷ÓÃexecXXXº¯Êý¡£Èç£ºexecQuerySample(query, authObject->getPayload())
+ * APIç«¯ç‚¹å®šä¹‰ï¼Œç”¨äºŽå¤„ç†ä¼ è¾“æŸ¥è¯¢å‚æ•°çš„è¯·æ±‚ï¼ŒæŸ¥è¯¢å‚æ•°è§£æžåŽçš„å˜é‡åä¸ºqueryï¼Œå®šä¹‰çš„æ—¶å€™æ·»åŠ æŽˆæƒå®šä¹‰
+ * @param _METHOD_: è¯·æ±‚æ–¹å¼ã€‚å¦‚ï¼šAPI_M_GET
+ * @param _PATH_: ç«¯ç‚¹è®¿é—®åœ°å€ã€‚å¦‚ï¼š/user/query-by-name
+ * @param __ENDPOINT_FUN_NAME__: Apiç«¯ç‚¹å‡½æ•°åç§°
+ * @param _QUERY_TYPE_: æŸ¥è¯¢å‚æ•°ç±»åž‹ã€‚å¦‚ï¼šSampleQuery
+ * @param _EXECUTE_: å¤„ç†é€»è¾‘ï¼Œè°ƒç”¨execXXXå‡½æ•°ã€‚å¦‚ï¼šexecQuerySample(query, authObject->getPayload())
  */
 #define API_HANDLER_ENDPOINT_QUERY_AUTH(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _QUERY_TYPE_, _EXECUTE_) \
 ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) { \
@@ -425,12 +425,12 @@ ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, QUERIES(QueryParams, queryPara
 }
 
 /**
- * API¶Ëµã¶¨Òå,¶¨ÖÆ»¯´¦ÀíÂß¼­
- * @param _METHOD_: ÇëÇó·½Ê½¡£Èç£ºAPI_M_GET
- * @param _PATH_: ¶Ëµã·ÃÎÊµØÖ·¡£Èç£º/user/query-by-name
- * @param __ENDPOINT_FUN_NAME__: Api¶Ëµãº¯ÊýÃû³Æ
- * @param _PARAM_MACRO_: Ö¸¶¨Ò»¸ö²ÎÊý½âÎö²Ù×÷ºê¡£Èç£ºBODY_DTO(SampleDTO::Wrapper, dto)
- * @param ...: À©Õ¹´¦ÀíÂß¼­
+ * APIç«¯ç‚¹å®šä¹‰,å®šåˆ¶åŒ–å¤„ç†é€»è¾‘
+ * @param _METHOD_: è¯·æ±‚æ–¹å¼ã€‚å¦‚ï¼šAPI_M_GET
+ * @param _PATH_: ç«¯ç‚¹è®¿é—®åœ°å€ã€‚å¦‚ï¼š/user/query-by-name
+ * @param __ENDPOINT_FUN_NAME__: Apiç«¯ç‚¹å‡½æ•°åç§°
+ * @param _PARAM_MACRO_: æŒ‡å®šä¸€ä¸ªå‚æ•°è§£æžæ“ä½œå®ã€‚å¦‚ï¼šBODY_DTO(SampleDTO::Wrapper, dto)
+ * @param ...: æ‰©å±•å¤„ç†é€»è¾‘
  */
 #define API_HANDLER_ENDPOINT_OPTION(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_, ...) \
 ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_) { \
@@ -438,12 +438,12 @@ ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_) { \
 }
 
 /**
- * API¶Ëµã¶¨Òå,¶¨ÖÆ»¯´¦ÀíÂß¼­,¶¨ÒåµÄÊ±ºòÌí¼ÓÊÚÈ¨¶¨Òå
- * @param _METHOD_: ÇëÇó·½Ê½¡£Èç£ºAPI_M_GET
- * @param _PATH_: ¶Ëµã·ÃÎÊµØÖ·¡£Èç£º/user/query-by-name
- * @param __ENDPOINT_FUN_NAME__: Api¶Ëµãº¯ÊýÃû³Æ
- * @param _PARAM_MACRO_: Ö¸¶¨Ò»¸ö²ÎÊý½âÎö²Ù×÷ºê¡£Èç£ºBODY_DTO(SampleDTO::Wrapper, dto)
- * @param ...: À©Õ¹´¦ÀíÂß¼­,À©Õ¹Âß¼­ÐèÒª×Ô¼º±àÐ´·µ»ØÂß¼­£¬Èç£ºreturn createOkResponse(result);
+ * APIç«¯ç‚¹å®šä¹‰,å®šåˆ¶åŒ–å¤„ç†é€»è¾‘,å®šä¹‰çš„æ—¶å€™æ·»åŠ æŽˆæƒå®šä¹‰
+ * @param _METHOD_: è¯·æ±‚æ–¹å¼ã€‚å¦‚ï¼šAPI_M_GET
+ * @param _PATH_: ç«¯ç‚¹è®¿é—®åœ°å€ã€‚å¦‚ï¼š/user/query-by-name
+ * @param __ENDPOINT_FUN_NAME__: Apiç«¯ç‚¹å‡½æ•°åç§°
+ * @param _PARAM_MACRO_: æŒ‡å®šä¸€ä¸ªå‚æ•°è§£æžæ“ä½œå®ã€‚å¦‚ï¼šBODY_DTO(SampleDTO::Wrapper, dto)
+ * @param ...: æ‰©å±•å¤„ç†é€»è¾‘,æ‰©å±•é€»è¾‘éœ€è¦è‡ªå·±ç¼–å†™è¿”å›žé€»è¾‘ï¼Œå¦‚ï¼šreturn createOkResponse(result);
  */
 #define API_HANDLER_ENDPOINT_OPTION_AUTH(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_, ...) \
 ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_, API_HANDLER_AUTH_PARAME) { \
@@ -453,12 +453,12 @@ ENDPOINT(_METHOD_, _PATH_, __ENDPOINT_FUN_NAME__, _PARAM_MACRO_, API_HANDLER_AUT
 //////////////////////////////////////////////////////////////////////////
 
 /**
- * DTO×Ö¶Î¶¨Òåºê
- * @param _TYPE_: ×Ö¶ÎÀàÐÍ¡£Èç£ºString¡¢Int32¡¢List<Int32>¡¢List<SampleQuery::Wrapper>
- * @param _NAME_: ×Ö¶ÎÃû³Æ¡£Èç£ºname¡¢sex
- * @param _DESCRIPTION_: ×Ö¶ÎÃèÊö
- * @param _REQUIRE_: ÊÇ·ñ±Ø´«²ÎÊý¡£Èç£ºtrue¡¢false
- * @param _DEFAULT_: ×Ö¶ÎÄ¬ÈÏÖµ£¬×¢ÒâÈç¹ûÉèÖÃÄ¬ÈÏÖµ£¬Èç¹û´Ë×Ö¶ÎÖµÃ»ÓÐ±»¸²¸Ç¾Í»á±£³ÖÖµÎªÄ¬ÈÏÖµ¡£Èç£º"zhangsan" ¡¢123
+ * DTOå­—æ®µå®šä¹‰å®
+ * @param _TYPE_: å­—æ®µç±»åž‹ã€‚å¦‚ï¼šStringã€Int32ã€List<Int32>ã€List<SampleQuery::Wrapper>
+ * @param _NAME_: å­—æ®µåç§°ã€‚å¦‚ï¼šnameã€sex
+ * @param _DESCRIPTION_: å­—æ®µæè¿°
+ * @param _REQUIRE_: æ˜¯å¦å¿…ä¼ å‚æ•°ã€‚å¦‚ï¼štrueã€false
+ * @param _DEFAULT_: å­—æ®µé»˜è®¤å€¼ï¼Œæ³¨æ„å¦‚æžœè®¾ç½®é»˜è®¤å€¼ï¼Œå¦‚æžœæ­¤å­—æ®µå€¼æ²¡æœ‰è¢«è¦†ç›–å°±ä¼šä¿æŒå€¼ä¸ºé»˜è®¤å€¼ã€‚å¦‚ï¼š"zhangsan" ã€123
  */
 #define API_DTO_FIELD(_TYPE_, _NAME_, _DESCRIPTION_, _REQUIRE_, _DEFAULT_) \
 DTO_FIELD(_TYPE_, _NAME_) = _DEFAULT_; \
@@ -468,10 +468,10 @@ DTO_FIELD_INFO(_NAME_) { \
 }
 
 /**
- * DTO×Ö¶Î¶¨Òåºê£¬´ó²¿·ÖÊôÐÔ±£³ÖÏµÍ³Ä¬ÈÏ
- * @param _TYPE_: ×Ö¶ÎÀàÐÍ¡£Èç£ºString¡¢Int32¡¢List<Int32>¡¢List<SampleQuery::Wrapper>
- * @param _NAME_: ×Ö¶ÎÃû³Æ¡£Èç£ºname¡¢sex
- * @param _DESCRIPTION_: ×Ö¶ÎÃèÊö
+ * DTOå­—æ®µå®šä¹‰å®ï¼Œå¤§éƒ¨åˆ†å±žæ€§ä¿æŒç³»ç»Ÿé»˜è®¤
+ * @param _TYPE_: å­—æ®µç±»åž‹ã€‚å¦‚ï¼šStringã€Int32ã€List<Int32>ã€List<SampleQuery::Wrapper>
+ * @param _NAME_: å­—æ®µåç§°ã€‚å¦‚ï¼šnameã€sex
+ * @param _DESCRIPTION_: å­—æ®µæè¿°
  */
 #define API_DTO_FIELD_DEFAULT(_TYPE_, _NAME_, _DESCRIPTION_) \
 DTO_FIELD(_TYPE_, _NAME_); \
@@ -480,11 +480,11 @@ DTO_FIELD_INFO(_NAME_) { \
 }
 
 /**
- * DTO×Ö¶Î¶¨Òåºê£¬Ö§³ÖÉèÖÃÊÇ·ñ±ØÌî²ÎÊý
- * @param _TYPE_: ×Ö¶ÎÀàÐÍ¡£Èç£ºString¡¢Int32¡¢List<Int32>¡¢List<SampleQuery::Wrapper>
- * @param _NAME_: ×Ö¶ÎÃû³Æ¡£Èç£ºname¡¢sex
- * @param _DESCRIPTION_: ×Ö¶ÎÃèÊö
- * @param _REQUIRE_: ÊÇ·ñ±Ø´«²ÎÊý¡£Èç£ºtrue¡¢false
+ * DTOå­—æ®µå®šä¹‰å®ï¼Œæ”¯æŒè®¾ç½®æ˜¯å¦å¿…å¡«å‚æ•°
+ * @param _TYPE_: å­—æ®µç±»åž‹ã€‚å¦‚ï¼šStringã€Int32ã€List<Int32>ã€List<SampleQuery::Wrapper>
+ * @param _NAME_: å­—æ®µåç§°ã€‚å¦‚ï¼šnameã€sex
+ * @param _DESCRIPTION_: å­—æ®µæè¿°
+ * @param _REQUIRE_: æ˜¯å¦å¿…ä¼ å‚æ•°ã€‚å¦‚ï¼štrueã€false
  */
 #define API_DTO_FIELD_REQUIRE(_TYPE_, _NAME_, _DESCRIPTION_, _REQUIRE_) \
 DTO_FIELD(_TYPE_, _NAME_); \
@@ -496,50 +496,50 @@ DTO_FIELD_INFO(_NAME_) { \
 //////////////////////////////////////////////////////////////////////////
 
 /**
- * ³õÊ¼»¯multipartÊý¾Ý¶ÁÈ¡ÈÝÆ÷ºÍ¶ÁÈ¡Æ÷
- * @param _VAR_CONTAINER_: ÈÝÆ÷±äÁ¿Ãû
- * @param _VAR_READER_: ¶ÁÈ¡Æ÷±äÁ¿Ãû
+ * åˆå§‹åŒ–multipartæ•°æ®è¯»å–å®¹å™¨å’Œè¯»å–å™¨
+ * @param _VAR_CONTAINER_: å®¹å™¨å˜é‡å
+ * @param _VAR_READER_: è¯»å–å™¨å˜é‡å
  */
 #define API_MULTIPART_INIT(_VAR_CONTAINER_, _VAR_READER_) \
 namespace multipart = oatpp::web::mime::multipart; \
-/* ´´½¨multipartÈÝÆ÷ */ \
+/* åˆ›å»ºmultipartå®¹å™¨ */ \
 auto _VAR_CONTAINER_ = std::make_shared<multipart::PartList>(request->getHeaders()); \
-/* ´´½¨multipart¶ÁÈ¡Æ÷ */ \
+/* åˆ›å»ºmultipartè¯»å–å™¨ */ \
 multipart::Reader _VAR_READER_(_VAR_CONTAINER_.get())
 
 /**
- * ÅäÖÃ¶ÁÈ¡²¿·Öµ½ÄÚ´æÖÐ
- * @param _READER_: ¶ÁÈ¡Æ÷
- * @param _FIELD_NAME_: ×Ö¶ÎÃû³Æ¡£Èç£º"nickname"
- * @param _MDS_: ×î´ó¶ÁÈ¡Êý¾Ý´óÐ¡£¬´«Èë-1±íÊ¾¶ÁÈ¡¸Ã×Ö¶ÎÈ«²¿Êý¾Ý
+ * é…ç½®è¯»å–éƒ¨åˆ†åˆ°å†…å­˜ä¸­
+ * @param _READER_: è¯»å–å™¨
+ * @param _FIELD_NAME_: å­—æ®µåç§°ã€‚å¦‚ï¼š"nickname"
+ * @param _MDS_: æœ€å¤§è¯»å–æ•°æ®å¤§å°ï¼Œä¼ å…¥-1è¡¨ç¤ºè¯»å–è¯¥å­—æ®µå…¨éƒ¨æ•°æ®
  */
 #define API_MULTIPART_CONFIG_MEMO(_READER_, _FIELD_NAME_, _MDS_) \
 _READER_.setPartReader(_FIELD_NAME_, multipart::createInMemoryPartReader(_MDS_))
 
 /**
- * ÅäÖÃ¶ÁÈ¡²¿·Öµ½ÄÚ´æÖÐ£¬ÎªËùÓÐÃ»ÓÐÅäÖÃ¶ÁÈ¡´óÐ¡µÄ×Ö¶ÎÅäÖÃ¶ÁÈ¡´óÐ¡£¬²¢ÇÒ¶ÁÈ¡µ½ÄÚ´æÖÐ
- * @param _READER_: ¶ÁÈ¡Æ÷
- * @param _MDS_: ×î´ó¶ÁÈ¡Êý¾Ý´óÐ¡£¬´«Èë-1±íÊ¾¶ÁÈ¡¸Ã×Ö¶ÎÈ«²¿Êý¾Ý
+ * é…ç½®è¯»å–éƒ¨åˆ†åˆ°å†…å­˜ä¸­ï¼Œä¸ºæ‰€æœ‰æ²¡æœ‰é…ç½®è¯»å–å¤§å°çš„å­—æ®µé…ç½®è¯»å–å¤§å°ï¼Œå¹¶ä¸”è¯»å–åˆ°å†…å­˜ä¸­
+ * @param _READER_: è¯»å–å™¨
+ * @param _MDS_: æœ€å¤§è¯»å–æ•°æ®å¤§å°ï¼Œä¼ å…¥-1è¡¨ç¤ºè¯»å–è¯¥å­—æ®µå…¨éƒ¨æ•°æ®
  */
 #define API_MULTIPART_CONFIG_MEMO_DEFAULT(_READER_, _MDS_) \
 _READER_.setDefaultPartReader(multipart::createInMemoryPartReader(_MDS_));
 
 /**
- * ÅäÖÃ¶ÁÈ¡²¿·Öµ½ÎÄ¼þÖÐ£¬Ò»°ãÓÃÓÚÖ±½Ó±£´æÎÄ¼þ²Ù×÷
- * @param _READER_: ¶ÁÈ¡Æ÷
- * @param _FIELD_NAME_: ×Ö¶ÎÃû³Æ¡£Èç£º"file"
- * @param _PATH_: ÎÄ¼þ±£´æÈ«Â·¾¶¡£Èç£º"/tmp/zo/file.png"
+ * é…ç½®è¯»å–éƒ¨åˆ†åˆ°æ–‡ä»¶ä¸­ï¼Œä¸€èˆ¬ç”¨äºŽç›´æŽ¥ä¿å­˜æ–‡ä»¶æ“ä½œ
+ * @param _READER_: è¯»å–å™¨
+ * @param _FIELD_NAME_: å­—æ®µåç§°ã€‚å¦‚ï¼š"file"
+ * @param _PATH_: æ–‡ä»¶ä¿å­˜å…¨è·¯å¾„ã€‚å¦‚ï¼š"/tmp/zo/file.png"
  */
 #define API_MULTIPART_CONFIG_FILE(_READER_, _FIELD_NAME_, _PATH_) \
 _READER_.setPartReader(_FIELD_NAME_, multipart::createFilePartReader(_PATH_))
 
 /**
- * ½âÎöÊý×ÖÀàÐÍ±íµ¥Êý¾Ý
- * @param _CONTAINER_: ¶ÁÈ¡ÈÝÆ÷
- * @param _FIELD_NAME_: ×Ö¶ÎÃû³Æ¡£Èç£º"age"
- * @param _TYPE_: Êý¾ÝÀàÐÍ¡£Èç£ºInt32¡¢UInt32¡¢Float32µÈµÈ
- * @param _VAR_: ´æ´¢±äÁ¿µÄÃû³Æ¡£Èç£ºage
- * @param _TYPE_TRANS_FUN_: Êý¾ÝÀàÐÍ×ª»»º¯Êý¡£Èç£ºstoi¡¢stoll¡¢stoull¡¢stof¡¢stod
+ * è§£æžæ•°å­—ç±»åž‹è¡¨å•æ•°æ®
+ * @param _CONTAINER_: è¯»å–å®¹å™¨
+ * @param _FIELD_NAME_: å­—æ®µåç§°ã€‚å¦‚ï¼š"age"
+ * @param _TYPE_: æ•°æ®ç±»åž‹ã€‚å¦‚ï¼šInt32ã€UInt32ã€Float32ç­‰ç­‰
+ * @param _VAR_: å­˜å‚¨å˜é‡çš„åç§°ã€‚å¦‚ï¼šage
+ * @param _TYPE_TRANS_FUN_: æ•°æ®ç±»åž‹è½¬æ¢å‡½æ•°ã€‚å¦‚ï¼šstoiã€stollã€stoullã€stofã€stod
  */
 #define API_MULTIPART_PARSE_FORM_FIELD_NUM(_CONTAINER_, _FIELD_NAME_, _TYPE_, _VAR_, _TYPE_TRANS_FUN_) \
 oatpp::_TYPE_ _VAR_ = nullptr; \
@@ -549,10 +549,10 @@ if(part##_VAR_){ \
 }
 
 /**
- * ½âÎö×Ö·û´®ÀàÐÍ±íµ¥Êý¾Ý
- * @param _CONTAINER_: ¶ÁÈ¡ÈÝÆ÷
- * @param _FIELD_NAME_: ×Ö¶ÎÃû³Æ¡£Èç£º"nickname"
- * @param _VAR_: ´æ´¢±äÁ¿µÄÃû³Æ¡£Èç£ºnickname
+ * è§£æžå­—ç¬¦ä¸²ç±»åž‹è¡¨å•æ•°æ®
+ * @param _CONTAINER_: è¯»å–å®¹å™¨
+ * @param _FIELD_NAME_: å­—æ®µåç§°ã€‚å¦‚ï¼š"nickname"
+ * @param _VAR_: å­˜å‚¨å˜é‡çš„åç§°ã€‚å¦‚ï¼šnickname
  */
 #define API_MULTIPART_PARSE_FORM_FIELD_STR(_CONTAINER_, _FIELD_NAME_, _VAR_) \
 oatpp::String _VAR_ = nullptr; \
@@ -562,10 +562,10 @@ if(part##_VAR_){ \
 }
 
 /**
- * ½âÎö²¼¶ûÀàÐÍ±íµ¥Êý¾Ý
- * @param _CONTAINER_: ¶ÁÈ¡ÈÝÆ÷
- * @param _FIELD_NAME_: ×Ö¶ÎÃû³Æ¡£Èç£º"isopen"
- * @param _VAR_: ´æ´¢±äÁ¿µÄÃû³Æ¡£Èç£ºisopen
+ * è§£æžå¸ƒå°”ç±»åž‹è¡¨å•æ•°æ®
+ * @param _CONTAINER_: è¯»å–å®¹å™¨
+ * @param _FIELD_NAME_: å­—æ®µåç§°ã€‚å¦‚ï¼š"isopen"
+ * @param _VAR_: å­˜å‚¨å˜é‡çš„åç§°ã€‚å¦‚ï¼šisopen
  */
 #define API_MULTIPART_PARSE_FORM_FIELD_BOO(_CONTAINER_, _FIELD_NAME_, _VAR_) \
 oatpp::Boolean _VAR_ = nullptr; \
@@ -576,10 +576,10 @@ if(part##_VAR_){ \
 }
 
 /**
- * ½âÎöÎÄ¼þÊý¾Ý£¬´ËÊ±½«½âÎöÄÚ´æÖÐµÄÎÄ¼þÊý¾Ýµ½´æ´¢±äÁ¿ÖÐ
- * @param _CONTAINER_: ¶ÁÈ¡ÈÝÆ÷
- * @param _FIELD_NAME_: ×Ö¶ÎÃû³Æ¡£Èç£º"head"
- * @param _VAR_: ´æ´¢±äÁ¿µÄÃû³Æ¡£Èç£ºhead
+ * è§£æžæ–‡ä»¶æ•°æ®ï¼Œæ­¤æ—¶å°†è§£æžå†…å­˜ä¸­çš„æ–‡ä»¶æ•°æ®åˆ°å­˜å‚¨å˜é‡ä¸­
+ * @param _CONTAINER_: è¯»å–å®¹å™¨
+ * @param _FIELD_NAME_: å­—æ®µåç§°ã€‚å¦‚ï¼š"head"
+ * @param _VAR_: å­˜å‚¨å˜é‡çš„åç§°ã€‚å¦‚ï¼šhead
  */
 #define API_MULTIPART_PARSE_FILE_FIELD(_CONTAINER_, _FIELD_NAME_, _VAR_) \
 oatpp::String _VAR_ = nullptr; \

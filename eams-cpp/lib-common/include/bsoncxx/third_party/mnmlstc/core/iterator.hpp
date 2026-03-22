@@ -1,4 +1,4 @@
-#ifndef CORE_ITERATOR_HPP
+﻿#ifndef CORE_ITERATOR_HPP
 #define CORE_ITERATOR_HPP
 
 #include <functional>

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2020 YuQing <384681@qq.com>
  *
  * This program is free software: you can use, redistribute, and/or modify

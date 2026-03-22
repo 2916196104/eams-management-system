@@ -1,4 +1,4 @@
-#ifndef CORE_FUNCTIONAL_HPP
+﻿#ifndef CORE_FUNCTIONAL_HPP
 #define CORE_FUNCTIONAL_HPP
 
 #include <bsoncxx/third_party/mnmlstc/core/type_traits.hpp>

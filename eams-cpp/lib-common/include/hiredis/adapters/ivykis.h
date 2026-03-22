@@ -1,4 +1,4 @@
-#ifndef __HIREDIS_IVYKIS_H__
+﻿#ifndef __HIREDIS_IVYKIS_H__
 #define __HIREDIS_IVYKIS_H__
 #include <iv.h>
 #include "../hiredis.h"

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2013, 2017 Andrey Semashev
  * Copyright 2017 James E. King, III
  *

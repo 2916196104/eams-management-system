@@ -1,4 +1,4 @@
-#ifndef STDUUID_H
+﻿#ifndef STDUUID_H
 #define STDUUID_H
 
 #include <cstring>

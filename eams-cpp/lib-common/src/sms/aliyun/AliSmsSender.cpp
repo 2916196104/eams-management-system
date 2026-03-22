@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
@@ -33,9 +33,9 @@ using namespace AlibabaCloud::Dysmsapi;
 AliSmsSender::AliSmsSender(const std::string& keyfilename /*= "key-config.yaml"*/, const std::string& prefix /*= "aliyun.sms"*/)
 {
 #ifdef USE_ALISMS
-	// ³õÊ¼»¯SDK
+	// åˆå§‹åŒ–SDK
 	AlibabaCloud::InitializeSdk();
-	// ³õÊ¼»¯keyÅäÖÃ
+	// åˆå§‹åŒ–keyé…ç½®
 	AliKeyConfig::init(keyfilename, prefix);
 #endif
 }
@@ -43,7 +43,7 @@ AliSmsSender::AliSmsSender(const std::string& keyfilename /*= "key-config.yaml"*
 AliSmsSender::~AliSmsSender()
 {
 #ifdef USE_ALISMS
-	// ¹Ø±ÕSDK
+	// å…³é—­SDK
 	AlibabaCloud::ShutdownSdk();
 #endif
 }
@@ -51,28 +51,28 @@ AliSmsSender::~AliSmsSender()
 std::shared_ptr<AliSmsResult> AliSmsSender::sendSms(const std::string& phoneNumber, const std::string& signName, const std::string& templateCode, const std::string& templateParams)
 {
 #ifdef USE_ALISMS
-	// ÅäÖÃÊµÀı
+	// é…ç½®å®ä¾‹
 	ClientConfiguration configuration(AliKeyConfig::region);
 	DysmsapiClient client(AliKeyConfig::ak, AliKeyConfig::sk, configuration);
-	// ´´½¨APIÇëÇó²¢ÉèÖÃ²ÎÊı
+	// åˆ›å»ºAPIè¯·æ±‚å¹¶è®¾ç½®å‚æ•°
 	Model::SendSmsRequest request;
 	request.setPhoneNumbers(phoneNumber);
 	request.setSignName(signName);
 	request.setTemplateCode(templateCode);
 	request.setTemplateParam(templateParams);
-	// ·¢ËÍ¶ÌĞÅ
+	// å‘é€çŸ­ä¿¡
 	auto outcome = client.sendSms(request);
-	// ·¢ËÍÒì³£
+	// å‘é€å¼‚å¸¸
 	auto result = std::make_shared<AliSmsResult>();
 	if (!outcome.isSuccess())
 	{
-		// Òì³£´¦Àí
+		// å¼‚å¸¸å¤„ç†
 		std::cout << outcome.error().errorCode() << std::endl;
 		result->Code(outcome.error().errorCode());
 		result->Message(outcome.error().errorMessage());
 		return result;
 	}
-	// ·¢ËÍÕı³££¬´¦Àí¶ÔÓ¦·µ»Ø½á¹û
+	// å‘é€æ­£å¸¸ï¼Œå¤„ç†å¯¹åº”è¿”å›ç»“æœ
 	result->Code(outcome.result().getCode());
 	result->Message(outcome.result().getMessage());
 	result->BizId(outcome.result().getBizId());
@@ -89,28 +89,28 @@ std::shared_ptr<AliSmsResult> AliSmsSender::sendSms(const std::string& phoneNumb
 std::shared_ptr<AliSmsResult> AliSmsSender::sendSmsBatch(const std::string& phoneNumbers, const std::string& signNames, const std::string& templateCode, const std::string& templateParams)
 {
 #ifdef USE_ALISMS
-	// ÅäÖÃÊµÀı
+	// é…ç½®å®ä¾‹
 	ClientConfiguration configuration(AliKeyConfig::region);
 	DysmsapiClient client(AliKeyConfig::ak, AliKeyConfig::sk, configuration);
-	// ´´½¨APIÇëÇó²¢ÉèÖÃ²ÎÊı
+	// åˆ›å»ºAPIè¯·æ±‚å¹¶è®¾ç½®å‚æ•°
 	Model::SendBatchSmsRequest request;
 	request.setPhoneNumberJson(phoneNumbers);
 	request.setSignNameJson(signNames);
 	request.setTemplateCode(templateCode);
 	request.setTemplateParamJson(templateParams);
-	// ·¢ËÍ¶ÌĞÅ
+	// å‘é€çŸ­ä¿¡
 	auto outcome = client.sendBatchSms(request);
-	// ·¢ËÍÒì³£
+	// å‘é€å¼‚å¸¸
 	auto result = std::make_shared<AliSmsResult>();
 	if (!outcome.isSuccess())
 	{
-		// Òì³£´¦Àí
+		// å¼‚å¸¸å¤„ç†
 		std::cout << outcome.error().errorCode() << std::endl;
 		result->Code(outcome.error().errorCode());
 		result->Message(outcome.error().errorMessage());
 		return result;
 	}
-	// ·¢ËÍÕı³££¬´¦Àí¶ÔÓ¦·µ»Ø½á¹û
+	// å‘é€æ­£å¸¸ï¼Œå¤„ç†å¯¹åº”è¿”å›ç»“æœ
 	result->Code(outcome.result().getCode());
 	result->Message(outcome.result().getMessage());
 	result->BizId(outcome.result().getBizId());

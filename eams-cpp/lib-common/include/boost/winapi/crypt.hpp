@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2014 Antony Polukhin
  * Copyright 2015 Andrey Semashev
  *

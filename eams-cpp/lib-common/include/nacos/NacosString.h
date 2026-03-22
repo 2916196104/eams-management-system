@@ -1,4 +1,4 @@
-#ifndef __NACOS_STRING_H_
+﻿#ifndef __NACOS_STRING_H_
 #define __NACOS_STRING_H_
 
 #include <string>

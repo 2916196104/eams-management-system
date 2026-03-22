@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -22,7 +22,7 @@
 #include "TreeNode.h"
 
 /**
- * ¶ÔÏó×ª»»½ÚµãÊı¾İÆ¥Åä½Ó¿Ú,ÓÃÓÚ´¦Àí²»Í¬¶ÔÏóÓëTreeNode¶ÔÏó×Ö¶ÎÃû²»ÅäÎÊÌâ
+ * å¯¹è±¡è½¬æ¢èŠ‚ç‚¹æ•°æ®åŒ¹é…æ¥å£,ç”¨äºå¤„ç†ä¸åŒå¯¹è±¡ä¸TreeNodeå¯¹è±¡å­—æ®µåä¸é…é—®é¢˜
  */
 template <typename T>
 class TreeNodeMapper
@@ -32,9 +32,9 @@ public:
 	// Method:    objectMapper
 	// FullName:  shared_ptr<TreeNode>::objectMapper
 	// Access:    virtual public 
-	// Returns:   shared_ptr<TreeNode> ×ª»»½á¹û
-	// Description: °ÑÒ»¸öÊı¾İ¶ÔÏó×ª»»Îª½ÚµãµÄÊı¾İ¶ÔÏó
-	// Parameter: T source ´ı×ª»»µÄÊı¾İÔ´¶ÔÏó
+	// Returns:   shared_ptr<TreeNode> è½¬æ¢ç»“æœ
+	// Description: æŠŠä¸€ä¸ªæ•°æ®å¯¹è±¡è½¬æ¢ä¸ºèŠ‚ç‚¹çš„æ•°æ®å¯¹è±¡
+	// Parameter: T source å¾…è½¬æ¢çš„æ•°æ®æºå¯¹è±¡
 	//************************************
 	virtual shared_ptr<TreeNode> objectMapper(T source) const = 0;
 };

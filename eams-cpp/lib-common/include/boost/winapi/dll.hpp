@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2010 Vicente J. Botet Escriba
  * Copyright 2014 Renato Tegon Forti, Antony Polukhin
  * Copyright 2015, 2020 Andrey Semashev

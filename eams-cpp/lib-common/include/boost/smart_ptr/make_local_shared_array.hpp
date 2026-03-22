@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright 2017 Peter Dimov
 Copyright 2017-2019 Glen Joseph Fernandes
 (glenjofe@gmail.com)

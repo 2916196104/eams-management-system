@@ -1,4 +1,4 @@
-/*
+﻿/*
  * << Haru Free PDF Library >> -- hpdf_catalog.h
  *
  * URL: http://libharu.org

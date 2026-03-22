@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright 2003 The Trustees of Indiana University
 
 Authors: Jaakko Jarvi (jajarvi at osl.iu.edu)

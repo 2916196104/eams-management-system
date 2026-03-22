@@ -1,4 +1,4 @@
-// Copyright 2015 MongoDB Inc.
+﻿// Copyright 2015 MongoDB Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -319,7 +319,7 @@ class MONGOCXX_API index {
     const stdx::optional<bsoncxx::string::view_or_value>& default_language() const;
 
     ///
-    /// For text indexes, the name of the field, in the collection’s documents, that contains the
+    /// For text indexes, the name of the field, in the collection鈥檚 documents, that contains the
     /// override language for the document.
     ///
     /// @param language_override

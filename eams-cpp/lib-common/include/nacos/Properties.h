@@ -1,4 +1,4 @@
-#ifndef __PROPERTIES_H_
+﻿#ifndef __PROPERTIES_H_
 #define __PROPERTIES_H_
 
 #include <map>

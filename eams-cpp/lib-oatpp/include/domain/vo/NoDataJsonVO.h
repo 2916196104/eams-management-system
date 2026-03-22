@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -26,27 +26,27 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * ÎŞÊı¾İJsonVO
+ * æ— æ•°æ®JsonVO
  */
 class NoDataJsonVO : public oatpp::DTO
 {
-	// ³õÊ¼»¯¶¨Òå
+	// åˆå§‹åŒ–å®šä¹‰
 	DTO_INIT(NoDataJsonVO, DTO);
 
-	// ×´Ì¬Âë
+	// çŠ¶æ€ç 
 	DTO_FIELD_INFO(code) {
 #ifndef LINUX
-		info->description = u8"×´Ì¬Âë";
+		info->description = u8"çŠ¶æ€ç ";
 #else
 		info->description = "status code";
 #endif
 		info->required = true;
 	}
 	DTO_FIELD(Int32, code, "code") = 10000;
-	// ÌáÊ¾ÏûÏ¢
+	// æç¤ºæ¶ˆæ¯
 	DTO_FIELD_INFO(message) {
 #ifndef LINUX
-		info->description = u8"ÌáÊ¾ĞÅÏ¢";
+		info->description = u8"æç¤ºä¿¡æ¯";
 #else
 		info->description = "info message";
 #endif
@@ -54,7 +54,7 @@ class NoDataJsonVO : public oatpp::DTO
 	}
 	DTO_FIELD(String, message, "message") = "success";
 public:
-	// ³õÊ¼»¯
+	// åˆå§‹åŒ–
 	void init(ResultStatus resultStatus) {
 		this->code = resultStatus.getCode();
 		this->message = resultStatus.getMessage();

@@ -1,4 +1,4 @@
-#ifndef ARC4RANDOM_H_INCLUDED
+﻿#ifndef ARC4RANDOM_H_INCLUDED
 #define ARC4RANDOM_H_INCLUDED
 
 #include <cstdlib>     /* srand, rand */

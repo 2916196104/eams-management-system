@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -23,36 +23,36 @@
 #include "oatpp/web/server/interceptor/ResponseInterceptor.hpp"
 
 /**
- * ¿çÓòÇëÇóÀ¹½ØÆ÷
+ * è·¨åŸŸè¯·æ±‚æ‹¦æˆªå™¨
  */
 class CrosRequestInterceptor : public oatpp::web::server::interceptor::RequestInterceptor
 {
 public:
-	// À¹½ØÆ÷Ö´ĞĞÂß¼­
+	// æ‹¦æˆªå™¨æ‰§è¡Œé€»è¾‘
 	std::shared_ptr<OutgoingResponse> intercept(const std::shared_ptr<IncomingRequest>& request) override;
 };
 
 /**
- * ¿çÓòÏìÓ¦À¹½ØÆ÷
+ * è·¨åŸŸå“åº”æ‹¦æˆªå™¨
  */
 class CrosResponseInterceptor : public oatpp::web::server::interceptor::ResponseInterceptor {
 public:
-	// À¹½ØÆ÷Ö´ĞĞÂß¼­
+	// æ‹¦æˆªå™¨æ‰§è¡Œé€»è¾‘
 	std::shared_ptr<OutgoingResponse> intercept(const std::shared_ptr<IncomingRequest>& request, const std::shared_ptr<OutgoingResponse>& response) override;
 };
 
 /**
- * Ğ£ÑéÆ¾Ö¤ÇëÇóÀ¹½ØÆ÷
+ * æ ¡éªŒå‡­è¯è¯·æ±‚æ‹¦æˆªå™¨
  */
 class CheckRequestInterceptor : public oatpp::web::server::interceptor::RequestInterceptor
 {
 private:
-	// DTOĞòÁĞ»¯¶ÔÏó
+	// DTOåºåˆ—åŒ–å¯¹è±¡
 	std::shared_ptr<oatpp::data::mapping::ObjectMapper> m_objectMapper;
 public:
-	// ¹¹ÔìµÄÊ±ºò´«ÈëÊı¾İĞòÁĞ»¯¶ÔÏó
+	// æ„é€ çš„æ—¶å€™ä¼ å…¥æ•°æ®åºåˆ—åŒ–å¯¹è±¡
 	explicit CheckRequestInterceptor(const std::shared_ptr<oatpp::data::mapping::ObjectMapper>& objectMapper);
-	// À¹½ØÆ÷Ö´ĞĞÂß¼­
+	// æ‹¦æˆªå™¨æ‰§è¡Œé€»è¾‘
 	std::shared_ptr<OutgoingResponse> intercept(const std::shared_ptr<IncomingRequest>& request) override;
 };
 

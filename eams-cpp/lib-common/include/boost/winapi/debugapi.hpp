@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2017 Vinnie Falco
  *
  * Distributed under the Boost Software License, Version 1.0.

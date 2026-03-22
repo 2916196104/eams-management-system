@@ -1,4 +1,4 @@
-#ifndef BOOST_DETAIL_ATOMIC_COUNT_HPP_INCLUDED
+﻿#ifndef BOOST_DETAIL_ATOMIC_COUNT_HPP_INCLUDED
 #define BOOST_DETAIL_ATOMIC_COUNT_HPP_INCLUDED
 
 // MS compatible compilers support #pragma once

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -20,79 +20,79 @@
 #ifndef _MACROS_
 #define _MACROS_
 
-/** ¶¨ÒåÊÜ±£»¤µÄ±äÁ¿£¬²¢Ìá¹©get¡¢set·½·¨ */
+/** å®šä¹‰å—ä¿æŠ¤çš„å˜é‡ï¼Œå¹¶æä¾›getã€setæ–¹æ³• */
 #define CC_SYNTHESIZE(varType, varName, funName)\
 protected: varType varName;\
 public: varType get##funName(void) const { return varName; }\
 public: void set##funName(varType var){	varName = var; }
 
-/** ¶¨ÒåÊÜ±£»¤µÄmap±äÁ¿£¬²¢Ìá¹©get¡¢set·½·¨ */
+/** å®šä¹‰å—ä¿æŠ¤çš„mapå˜é‡ï¼Œå¹¶æä¾›getã€setæ–¹æ³• */
 #define CC_SYNTHESIZE_MAP(keyType, valType, varName, funName)\
 protected: std::map<keyType, valType> varName;\
 public: std::map<keyType, valType> get##funName(void) const { return varName; }\
 public: void set##funName(std::map<keyType,valType> var){ varName = var; }
 
-/** ¶¨ÒåÊÜ±£»¤µÄ±äÁ¿£¬²¢Ìá¹©get·½·¨ */
+/** å®šä¹‰å—ä¿æŠ¤çš„å˜é‡ï¼Œå¹¶æä¾›getæ–¹æ³• */
 #define CC_SYNTHESIZE_GET(varType, varName, funName)\
 protected: varType varName;\
 public: varType get##funName(void) const { return varName; }
 
-/** ¶¨ÒåÊÜ±£»¤µÄmap±äÁ¿£¬²¢Ìá¹©get·½·¨ */
+/** å®šä¹‰å—ä¿æŠ¤çš„mapå˜é‡ï¼Œå¹¶æä¾›getæ–¹æ³• */
 #define CC_SYNTHESIZE_MAP_GET(keyType, valType, varName, funName)\
 protected: std::map<keyType, valType> varName;\
 public: std::map<keyType, valType> get##funName(void) const { return varName; }\
 
-/** ¶¨ÒåÊÜ±£»¤µÄ±äÁ¿£¬²¢Ìá¹©set·½·¨ */
+/** å®šä¹‰å—ä¿æŠ¤çš„å˜é‡ï¼Œå¹¶æä¾›setæ–¹æ³• */
 #define CC_SYNTHESIZE_SET(varType, varName, funName)\
 protected: varType varName;\
 public: void set##funName(varType var){	varName = var; }
 
-/** ¶¨ÒåÊÜ±£»¤µÄmap±äÁ¿£¬²¢Ìá¹©set·½·¨ */
+/** å®šä¹‰å—ä¿æŠ¤çš„mapå˜é‡ï¼Œå¹¶æä¾›setæ–¹æ³• */
 #define CC_SYNTHESIZE_MAP_SET(keyType, valType, varName, funName)\
 protected: std::map<keyType, valType> varName;\
 public: void set##funName(std::map<keyType,valType> var){ varName = var; }
 
-/** ¶¨ÒåÊÜ±£»¤µÄ±äÁ¿£¬²¢Ìá¹©get·½·¨£¬·µ»Ø±äÁ¿ÒıÓÃ */
+/** å®šä¹‰å—ä¿æŠ¤çš„å˜é‡ï¼Œå¹¶æä¾›getæ–¹æ³•ï¼Œè¿”å›å˜é‡å¼•ç”¨ */
 #define CC_SYNTHESIZE_CR_GET(varType, varName, funName)\
 protected: varType varName;\
 public: varType& get##funName(void) { return varName; }\
 
-/** ¶¨ÒåÊÜ±£»¤µÄmap±äÁ¿£¬²¢Ìá¹©get·½·¨£¬·µ»ØmapÒıÓÃ */
+/** å®šä¹‰å—ä¿æŠ¤çš„mapå˜é‡ï¼Œå¹¶æä¾›getæ–¹æ³•ï¼Œè¿”å›mapå¼•ç”¨ */
 #define CC_SYNTHESIZE_CR_MAP_GET(keyType, valType, varName, funName)\
 protected: std::map<keyType, valType> varName;\
 public: std::map<keyType, valType>& get##funName(void) { return varName; }\
 
-/** ¶¨ÒåÊÜ±£»¤µÄ±äÁ¿£¬²¢Ìá¹©Ğéget¡¢set·½·¨ */
+/** å®šä¹‰å—ä¿æŠ¤çš„å˜é‡ï¼Œå¹¶æä¾›è™šgetã€setæ–¹æ³• */
 #define CC_SYNTHESIZE_VIRTUAL(varType, varName, funName)\
 protected: varType varName;\
 public: virtual varType get##funName(void) const { return varName; }\
 public: virtual void set##funName(varType var){ varName = var; }
 
-/** ¶¨ÒåÊÜ±£»¤µÄ±äÁ¿£¬²¢Ìá¹©Ğéget·½·¨ */
+/** å®šä¹‰å—ä¿æŠ¤çš„å˜é‡ï¼Œå¹¶æä¾›è™šgetæ–¹æ³• */
 #define CC_SYNTHESIZE_VIRTUAL_GET(varType, varName, funName)\
 protected: varType varName;\
 public: virtual varType get##funName(void) const { return varName; }
 
-/** ¶¨ÒåÊÜ±£»¤µÄ±äÁ¿£¬²¢Ìá¹©Ğéset·½·¨ */
+/** å®šä¹‰å—ä¿æŠ¤çš„å˜é‡ï¼Œå¹¶æä¾›è™šsetæ–¹æ³• */
 #define CC_SYNTHESIZE_VIRTUAL_SET(varType, varName, funName)\
 protected: varType varName;\
 public: virtual void set##funName(varType var){ varName = var; }
 
-/** ¶¨ÒåÊÜ±£»¤µÄ±äÁ¿£¬²¢Ìá¹©Ğéget·½·¨£¬·µ»Ø±äÁ¿ÒıÓÃ */
+/** å®šä¹‰å—ä¿æŠ¤çš„å˜é‡ï¼Œå¹¶æä¾›è™šgetæ–¹æ³•ï¼Œè¿”å›å˜é‡å¼•ç”¨ */
 #define CC_SYNTHESIZE_VIRTUAL_CR_GET(varType, varName, funName)\
 protected: varType varName;\
 public: virtual varType& get##funName(void) { return varName; }
 
 //////////////////////////////////////////////////////////////////////////
 
-/** Ë½ÓĞ»¯¸³ÖµÔËËã·û/¿½±´¹¹Ôì/ÎŞ²Î¹¹Ôì */
+/** ç§æœ‰åŒ–èµ‹å€¼è¿ç®—ç¬¦/æ‹·è´æ„é€ /æ— å‚æ„é€  */
 #define SINGLETON_HEPLER(TypeName) \
 private: \
 TypeName() { init(); } \
 TypeName(const TypeName&) = delete; \
 TypeName& operator=(const TypeName&) = delete;
 
-/** ¶¨Òåµ¥Àı¡£×¢Òâ£ºĞèÒªÔÚ×Ô¼ºµÄÀàÖĞÌá¹©Ò»¸öË½ÓĞinitº¯ÊıÓÃÓÚ³õÊ¼»¯Êı¾İ */
+/** å®šä¹‰å•ä¾‹ã€‚æ³¨æ„ï¼šéœ€è¦åœ¨è‡ªå·±çš„ç±»ä¸­æä¾›ä¸€ä¸ªç§æœ‰initå‡½æ•°ç”¨äºåˆå§‹åŒ–æ•°æ® */
 #define DECLARE_INSTANCE(TypeName) \
 SINGLETON_HEPLER(TypeName) \
 public: \

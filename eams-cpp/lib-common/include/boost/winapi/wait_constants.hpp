@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2020 Andrey Semashev
  *
  * Distributed under the Boost Software License, Version 1.0.

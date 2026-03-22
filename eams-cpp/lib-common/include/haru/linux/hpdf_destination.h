@@ -1,4 +1,4 @@
-/*
+﻿/*
  * << Haru Free PDF Library >> -- hpdf_destination.c
  *
  * URL: http://libharu.org

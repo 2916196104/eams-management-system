@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright 2014 Glen Joseph Fernandes
 (glenjofe@gmail.com)
 

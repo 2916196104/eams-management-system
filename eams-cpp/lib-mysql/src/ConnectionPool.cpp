@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
  
  @Author: awei
@@ -21,7 +21,7 @@
 #include <exception>
 #include <stdio.h>
 
-// Êı¾İ¿âÁ¬½Ó³ØµÄ¹¹Ôìº¯Êı
+// æ•°æ®åº“è¿æ¥æ± çš„æ„é€ å‡½æ•°
 ConnPool::ConnPool(string url, string userName, string password, int maxSize)
 {
 	this->maxSize = maxSize;
@@ -43,11 +43,11 @@ ConnPool::ConnPool(string url, string userName, string password, int maxSize)
 		printf("[ConnPool] run time error. msg=%s\n", e.what());
 	}
 
-	// ÔÚ³õÊ¼»¯Á¬½Ó³ØÊ±£¬½¨Á¢Ò»¶¨ÊıÁ¿µÄÊı¾İ¿âÁ¬½Ó
+	// åœ¨åˆå§‹åŒ–è¿æ¥æ± æ—¶ï¼Œå»ºç«‹ä¸€å®šæ•°é‡çš„æ•°æ®åº“è¿æ¥
 	this->InitConnection(maxSize < 2 ? maxSize : maxSize / 2);
 }
 
-// ³õÊ¼»¯Êı¾İ¿âÁ¬½Ó³Ø£¬´´½¨×î´óÁ¬½ÓÊıÒ»°ëµÄÁ¬½ÓÊıÁ¿
+// åˆå§‹åŒ–æ•°æ®åº“è¿æ¥æ± ï¼Œåˆ›å»ºæœ€å¤§è¿æ¥æ•°ä¸€åŠçš„è¿æ¥æ•°é‡
 void ConnPool::InitConnection(int iInitialSize)
 {
 	Connection* conn;
@@ -71,13 +71,13 @@ void ConnPool::InitConnection(int iInitialSize)
 	lock.unlock();
 }
 
-// ´´½¨²¢·µ»ØÒ»¸öÁ¬½Ó
+// åˆ›å»ºå¹¶è¿”å›ä¸€ä¸ªè¿æ¥
 Connection* ConnPool::CreateConnection()
 {
 	Connection* conn;
 	try
 	{
-		// ½¨Á¢Á¬½Ó
+		// å»ºç«‹è¿æ¥
 		conn = driver->connect(this->url, this->username, this->password);
 		return conn;
 	}
@@ -93,29 +93,29 @@ Connection* ConnPool::CreateConnection()
 	}
 }
 
-// ´ÓÁ¬½Ó³ØÖĞ»ñµÃÒ»¸öÁ¬½Ó
+// ä»è¿æ¥æ± ä¸­è·å¾—ä¸€ä¸ªè¿æ¥
 Connection* ConnPool::GetConnection()
 {
 	Connection* con;
 	lock.lock();
 
-	// Á¬½Ó³ØÈİÆ÷ÖĞ»¹ÓĞÁ¬½Ó
+	// è¿æ¥æ± å®¹å™¨ä¸­è¿˜æœ‰è¿æ¥
 	if (connList.size() > 0)
 	{
-		// »ñÈ¡µÚÒ»¸öÁ¬½Ó
+		// è·å–ç¬¬ä¸€ä¸ªè¿æ¥
 		con = connList.front();
-		// ÒÆ³ıµÚÒ»¸öÁ¬½Ó
+		// ç§»é™¤ç¬¬ä¸€ä¸ªè¿æ¥
 		connList.pop_front();
-		// ÅĞ¶Ï»ñÈ¡µ½µÄÁ¬½ÓµÄ¿ÉÓÃĞÔ
-		// Èç¹ûÁ¬½ÓÒÑ¾­±»¹Ø±Õ£¬É¾³ıºóÖØĞÂ½¨Á¢Ò»¸ö
+		// åˆ¤æ–­è·å–åˆ°çš„è¿æ¥çš„å¯ç”¨æ€§
+		// å¦‚æœè¿æ¥å·²ç»è¢«å…³é—­ï¼Œåˆ é™¤åé‡æ–°å»ºç«‹ä¸€ä¸ª
 		if (con->isClosed() || !con->isValid())
 		{
 			delete con;
 			con = this->CreateConnection();
-			// Èç¹ûÁ¬½ÓÎª¿Õ£¬ËµÃ÷´´½¨Á¬½Ó³ö´í
+			// å¦‚æœè¿æ¥ä¸ºç©ºï¼Œè¯´æ˜åˆ›å»ºè¿æ¥å‡ºé”™
 			if (con == NULL)
 			{
-				// ´ÓÈİÆ÷ÖĞÈ¥µôÕâ¸ö¿ÕÁ¬½Ó
+				// ä»å®¹å™¨ä¸­å»æ‰è¿™ä¸ªç©ºè¿æ¥
 				--curSize;
 			}
 		}
@@ -123,10 +123,10 @@ Connection* ConnPool::GetConnection()
 		lock.unlock();
 		return con;
 	}
-	// Á¬½Ó³ØÈİÆ÷ÖĞÃ»ÓĞÁ¬½Ó
+	// è¿æ¥æ± å®¹å™¨ä¸­æ²¡æœ‰è¿æ¥
 	else
 	{
-		// µ±Ç°ÒÑ´´½¨µÄÁ¬½ÓÊıĞ¡ÓÚ×î´óÁ¬½ÓÊı£¬Ôò´´½¨ĞÂµÄÁ¬½Ó
+		// å½“å‰å·²åˆ›å»ºçš„è¿æ¥æ•°å°äºæœ€å¤§è¿æ¥æ•°ï¼Œåˆ™åˆ›å»ºæ–°çš„è¿æ¥
 		if (curSize < maxSize)
 		{
 			con = this->CreateConnection();
@@ -142,7 +142,7 @@ Connection* ConnPool::GetConnection()
 				return NULL;
 			}
 		}
-		// µ±Ç°½¨Á¢µÄÁ¬½ÓÊıÒÑ¾­´ïµ½×î´óÁ¬½ÓÊı
+		// å½“å‰å»ºç«‹çš„è¿æ¥æ•°å·²ç»è¾¾åˆ°æœ€å¤§è¿æ¥æ•°
 		else
 		{
 			perror("[GetConnection] connections reach the max number. \n");
@@ -152,7 +152,7 @@ Connection* ConnPool::GetConnection()
 	}
 }
 
-// ÊÍ·ÅÊı¾İ¿âÁ¬½Ó£¬½«¸ÃÁ¬½Ó·Å»Øµ½Á¬½Ó³ØÖĞ
+// é‡Šæ”¾æ•°æ®åº“è¿æ¥ï¼Œå°†è¯¥è¿æ¥æ”¾å›åˆ°è¿æ¥æ± ä¸­
 void ConnPool::ReleaseConnection(sql::Connection* conn)
 {
 	if (conn)
@@ -165,19 +165,19 @@ void ConnPool::ReleaseConnection(sql::Connection* conn)
 	}
 }
 
-// »ñÈ¡µ±Ç°Á¬½Ó³Ø´óĞ¡
+// è·å–å½“å‰è¿æ¥æ± å¤§å°
 int ConnPool::getPoolSize()
 {
 	return curSize;
 }
 
-// Êı¾İ¿âÁ¬½Ó³ØµÄÎö¹¹º¯Êı
+// æ•°æ®åº“è¿æ¥æ± çš„ææ„å‡½æ•°
 ConnPool::~ConnPool()
 {
 	this->DestoryConnPool();
 }
 
-// Ïú»ÙÁ¬½Ó³Ø£¬ĞèÒªÏÈÏú»ÙÁ¬½Ó³ØµÄÖĞÁ¬½Ó
+// é”€æ¯è¿æ¥æ± ï¼Œéœ€è¦å…ˆé”€æ¯è¿æ¥æ± çš„ä¸­è¿æ¥
 void ConnPool::DestoryConnPool()
 {
 	list<Connection*>::iterator itCon;
@@ -185,25 +185,25 @@ void ConnPool::DestoryConnPool()
 
 	for (itCon = connList.begin(); itCon != connList.end(); ++itCon)
 	{
-		// Ïú»ÙÁ¬½Ó³ØÖĞµÄÁ¬½Ó
+		// é”€æ¯è¿æ¥æ± ä¸­çš„è¿æ¥
 		this->DestoryConnection(*itCon);
 	}
 	curSize = 0;
 
-	// Çå¿ÕÁ¬½Ó³ØÖĞµÄÁ¬½Ó
+	// æ¸…ç©ºè¿æ¥æ± ä¸­çš„è¿æ¥
 	connList.clear();
 
 	lock.unlock();
 }
 
-// Ïú»ÙÊı¾İ¿âÁ¬½Ó
+// é”€æ¯æ•°æ®åº“è¿æ¥
 void ConnPool::DestoryConnection(Connection* conn)
 {
 	if (conn)
 	{
 		try
 		{
-			// ¹Ø±ÕÁ¬½Ó
+			// å…³é—­è¿æ¥
 			conn->close();
 		}
 		catch (sql::SQLException& e)
@@ -214,7 +214,7 @@ void ConnPool::DestoryConnection(Connection* conn)
 		{
 			printf("%s\n", e.what());
 		}
-		// É¾³ıÁ¬½Ó
+		// åˆ é™¤è¿æ¥
 		delete conn;
 	}
 }

@@ -1,4 +1,4 @@
-#ifndef NACOS_FACTORY_FACTORY_H
+﻿#ifndef NACOS_FACTORY_FACTORY_H
 #define NACOS_FACTORY_FACTORY_H
 #include "INacosServiceFactory.h"
 #include "../NacosString.h"

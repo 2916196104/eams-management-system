@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef _LESSONDTO_H_
 #define _LESSONDTO_H_
@@ -8,7 +8,7 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /*
-	授课记录数据传输对象
+	鎺堣璁板綍鏁版嵁浼犺緭瀵硅薄
  */
 class LessonDTO : public oatpp::DTO {
   DTO_INIT(LessonDTO, DTO);

@@ -1,4 +1,4 @@
-/*=============================================================================
+﻿/*=============================================================================
     Copyright (c) 2005 Matthew Calabrese
 
     Use, modification and distribution is subject to the Boost Software

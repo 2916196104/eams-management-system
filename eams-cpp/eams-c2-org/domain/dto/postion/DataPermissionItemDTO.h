@@ -1,16 +1,16 @@
-#pragma once
+ï»¿#pragma once
 #include "../../GlobalInclude.h"
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 class DataPermissionItemDTO : public oatpp::DTO {
     DTO_INIT(DataPermissionItemDTO, DTO)
-        DTO_FIELD(String, dataTableName);       // Êı¾İ±íÃû³Æ
-    DTO_FIELD(String, dataScopeType);        // Êı¾İ·¶Î§ÀàĞÍ
-    DTO_FIELD(String, dataTableCode);        // Êı¾İ±ícode
-    DTO_FIELD(String, dataOwnerField);       // Êı¾İ¸ºÔğÈË×Ö¶Î
-    DTO_FIELD(String, dataOrgField);         // Êı¾İËùÊô×éÖ¯×Ö¶Î
-    // Èç¹ûĞèÒª²Ù×÷£¬¿ÉÒÔ¼ÓÒ»¸ö id ×Ö¶Î
-    DTO_FIELD(Int32, id);                     // È¨ÏŞÏîID£¨ÓÃÓÚ±à¼­/É¾³ı£©
+        DTO_FIELD(String, dataTableName);       // æ•°æ®è¡¨åç§°
+    DTO_FIELD(String, dataScopeType);        // æ•°æ®èŒƒå›´ç±»å‹
+    DTO_FIELD(String, dataTableCode);        // æ•°æ®è¡¨code
+    DTO_FIELD(String, dataOwnerField);       // æ•°æ®è´Ÿè´£äººå­—æ®µ
+    DTO_FIELD(String, dataOrgField);         // æ•°æ®æ‰€å±ç»„ç»‡å­—æ®µ
+    // å¦‚æœéœ€è¦æ“ä½œï¼Œå¯ä»¥åŠ ä¸€ä¸ª id å­—æ®µ
+    DTO_FIELD(Int32, id);                     // æƒé™é¡¹IDï¼ˆç”¨äºç¼–è¾‘/åˆ é™¤ï¼‰
 };
 
 #include OATPP_CODEGEN_END(DTO)

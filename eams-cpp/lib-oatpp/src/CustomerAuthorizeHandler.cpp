@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
@@ -34,7 +34,7 @@
 // zwIDAQAB
 // -----END PUBLIC KEY-----)");
 
-// RSA¹«Ô¿
+// RSAå…¬é’¥
 std::unique_ptr<std::string> RSA_PUB_KEY = nullptr;
 
 CustomerAuthorizeObject::CustomerAuthorizeObject(PayloadDTO payload)
@@ -49,7 +49,7 @@ const PayloadDTO& CustomerAuthorizeObject::getPayload()
 
 CustomerAuthorizeHandler::CustomerAuthorizeHandler()
 {
-	//¶ÁÈ¡¹«Ô¿
+	//è¯»å–å…¬é’¥
 	if (!RSA_PUB_KEY)
 	{
 		std::string pubKey = "";
@@ -69,14 +69,14 @@ CustomerAuthorizeHandler::CustomerAuthorizeHandler()
 
 std::shared_ptr<oatpp::web::server::handler::AuthorizationHandler::AuthorizationObject> CustomerAuthorizeHandler::authorize(const oatpp::String& token)
 {
-	// ½âÎöÆ¾Ö¤
+	// è§£æå‡­è¯
 	PayloadDTO payload = JWTUtil::verifyTokenByRsa(token, RSA_PUB_KEY->c_str());
 	if (payload.getCode() != PayloadCode::SUCCESS) {
 		std::stringstream ss;
 		ss << "Token: check fail code <" << PayloadDTO::getCodeName(payload.getCode()) << ">.";
 		throw std::logic_error(ss.str());
 	}
-	// ½«Êı¾İ´æ·Åµ½ÊÚÈ¨¶ÔÏóÖĞ
+	// å°†æ•°æ®å­˜æ”¾åˆ°æˆæƒå¯¹è±¡ä¸­
 	payload.setToken(token);
 	return std::make_shared<CustomerAuthorizeObject>(payload);
 }

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef _PARENTDTO_H_
 #define _PARENTDTO_H_
@@ -8,7 +8,7 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /*
-	家长数据传输对象
+	瀹堕暱鏁版嵁浼犺緭瀵硅薄
  */
 class ParentDTO : public oatpp::DTO {
   DTO_INIT(ParentDTO, DTO);

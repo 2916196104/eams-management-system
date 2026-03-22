@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
  
@@ -22,14 +22,14 @@
 #include "BaseDAO.h"
 
 /**
- * ¶¨ÒåÒ»¸öÊÂÎñ¹ÜÀíÆ÷
+ * å®šä¹‰ä¸€ä¸ªäº‹åŠ¡ç®¡ç†å™¨
  */
 class TransactionManager final
 {
 private:
-	// ¼ÇÂ¼Ò»¸öÓÃÓÚ¹ÜÀíÊÂÎñµÄDAO¶ÔÏó
+	// è®°å½•ä¸€ä¸ªç”¨äºç®¡ç†äº‹åŠ¡çš„DAOå¯¹è±¡
 	BaseDAO* transDao;
-	// ÉèÖÃSqlsession
+	// è®¾ç½®Sqlsession
 	void settingSqlsession(BaseDAO* transDao, BaseDAO* changeDao) {
 		changeDao->setSqlSession(transDao->getSqlSession());
 		changeDao->setAutoRelease(false);
@@ -40,23 +40,23 @@ public:
 	// FullName:  TransactionManager::TransactionManager
 	// Access:    public 
 	// Returns:   
-	// Description: ¹¹Ôì³õÊ¼»¯,Ê¹ÓÃ¸ÃÊÂÎñ¹ÜÀíÆ÷µÄÊ±ºò£¬¾ÍÒÑ¾­¿ªÆôÊÂÎñÁË
-	// Parameter: BaseDAO * first ¹ÜÀíÊÂÎñµÄDAO¶ÔÏó
-	// Parameter: DAO ... args ±»¹ÜÀíÊÂÎñµÄDAO¶ÔÏó
+	// Description: æ„é€ åˆå§‹åŒ–,ä½¿ç”¨è¯¥äº‹åŠ¡ç®¡ç†å™¨çš„æ—¶å€™ï¼Œå°±å·²ç»å¼€å¯äº‹åŠ¡äº†
+	// Parameter: BaseDAO * first ç®¡ç†äº‹åŠ¡çš„DAOå¯¹è±¡
+	// Parameter: DAO ... args è¢«ç®¡ç†äº‹åŠ¡çš„DAOå¯¹è±¡
 	//************************************
 	template <class ... DAO>
 	TransactionManager(BaseDAO* transDao, DAO ... args) {
-		// ĞŞ¸Ä±»ÍĞ¹ÜDAOµÄsqlsession
+		// ä¿®æ”¹è¢«æ‰˜ç®¡DAOçš„sqlsession
 		initializer_list<int>{(settingSqlsession(transDao, std::forward<DAO>(args)), 0)...};
-		// ¿ªÆôÊÂÎñ
+		// å¼€å¯äº‹åŠ¡
 		this->transDao = transDao;
 		this->transDao->getSqlSession()->beginTransaction();
 	}
-	// Ìá½»ÊÂÎñ
+	// æäº¤äº‹åŠ¡
 	void commit() {
 		this->transDao->getSqlSession()->commitTransaction();
 	}
-	// »Ø¹öÊÂÎñ
+	// å›æ»šäº‹åŠ¡
 	void rollback() {
 		this->transDao->getSqlSession()->rollbackTransaction();
 	}

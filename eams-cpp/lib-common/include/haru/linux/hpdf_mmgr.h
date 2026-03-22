@@ -1,4 +1,4 @@
-/*
+﻿/*
  * << Haru Free PDF Library >> -- hpdf_mmgr.h
  *
  * URL: http://libharu.org

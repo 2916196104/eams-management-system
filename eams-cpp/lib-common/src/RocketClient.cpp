@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
  
  @Author: awei
@@ -28,14 +28,14 @@
 using namespace std;
 using namespace std::chrono;
 
-// Éú³ÉÒ»¸öÊµÀıÃû³Æ
+// ç”Ÿæˆä¸€ä¸ªå®ä¾‹åç§°
 #define RCMQ_INSTANCE_NAME_MK(_TAG_) \
 auto now = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count(); \
 stringstream ss; \
 ss << groupname << "@" << _TAG_ << "-" << now; \
 string instanceName = ss.str() 
 
-// ¶¨ÒåÒ»¸öÈ«¾Ö»¥³âËø
+// å®šä¹‰ä¸€ä¸ªå…¨å±€äº’æ–¥é”
 std::mutex rocket_mq_mtx;
 
 RocketClient::RMessageLisenter::RMessageLisenter(RocketClient* client)
@@ -76,14 +76,14 @@ RocketClient::RSendCallback::RSendCallback(std::function<void(SendStatus)> cf)
 
 void RocketClient::RSendCallback::onSuccess(SendResult& sendResult)
 {
-	// ºô½Ğ»Øµ÷
+	// å‘¼å«å›è°ƒ
 	cf(sendResult.getSendStatus());
 }
 
 void RocketClient::RSendCallback::onException(MQException& e)
 {
 	cout << "RSendCallback: send exception, " << e.what() << endl;
-	// ºô½Ğ»Øµ÷
+	// å‘¼å«å›è°ƒ
 	cf(SendStatus::SEND_FLUSH_DISK_TIMEOUT);
 }
 
@@ -128,16 +128,16 @@ RocketClient::~RocketClient()
 
 void RocketClient::productMsgAsync(const std::string& topic, const std::string& body, SendCallback* cb /*= nullptr*/)
 {
-	// Éú³ÉÒ»¸öÊµÀıÃû³Æ
+	// ç”Ÿæˆä¸€ä¸ªå®ä¾‹åç§°
 	RCMQ_INSTANCE_NAME_MK("async-producer");
-	// ´´½¨Éú²úÕß
+	// åˆ›å»ºç”Ÿäº§è€…
 	auto producer = new DefaultMQProducer(groupname);
 	producer->setNamesrvAddr(namesrv);
 	producer->setInstanceName(instanceName);
-	// »Øµ÷¶¨Òå
+	// å›è°ƒå®šä¹‰
 	SendCallback* delCallBack = nullptr;
 	if (!cb) delCallBack = new RAutoDeleteSendCallback();
-	// Æô¶¯Éú²úÕß
+	// å¯åŠ¨ç”Ÿäº§è€…
 	try {
 		producer->start();
 	}
@@ -152,12 +152,12 @@ void RocketClient::productMsgAsync(const std::string& topic, const std::string& 
 		delete producer;
 		return;
 	}
-	// ´´½¨·¢ËÍÏûÏ¢Ïß³Ì
+	// åˆ›å»ºå‘é€æ¶ˆæ¯çº¿ç¨‹
 	std::thread th([=]() 
 		{
-			// ´´½¨ÏûÏ¢¶ÔÏó
+			// åˆ›å»ºæ¶ˆæ¯å¯¹è±¡
 			MQMessage msg(topic, body);
-			// ·¢ËÍÏûÏ¢
+			// å‘é€æ¶ˆæ¯
 			try {
 				if (cb)
 					producer->send(msg, cb);
@@ -181,16 +181,16 @@ void RocketClient::productMsgAsync(const std::string& topic, const std::string& 
 
 rocketmq::SendStatus RocketClient::productMsgSync(const std::string& topic, const std::string& body)
 {
-	// ´´½¨Éú²úÕß
+	// åˆ›å»ºç”Ÿäº§è€…
 	if (!m_producer || this->m_topic != topic)
 	{
-		// Ê×ÏÈÊÍ·Å×ÊÔ´
+		// é¦–å…ˆé‡Šæ”¾èµ„æº
 		releaseProducer();
-		// ÉèÖÃµ±Ç°Ïû·ÑÕß
+		// è®¾ç½®å½“å‰æ¶ˆè´¹è€…
 		this->m_topic = topic;
-		// Éú³ÉÒ»¸öÊµÀıÃû³Æ
+		// ç”Ÿæˆä¸€ä¸ªå®ä¾‹åç§°
 		RCMQ_INSTANCE_NAME_MK("sync-producer");
-		// ÉèÖÃÉú²úÕßÊôĞÔ
+		// è®¾ç½®ç”Ÿäº§è€…å±æ€§
 		m_producer = new DefaultMQProducer(groupname);
 		m_producer->setNamesrvAddr(namesrv);
 		m_producer->setInstanceName(instanceName);
@@ -204,9 +204,9 @@ rocketmq::SendStatus RocketClient::productMsgSync(const std::string& topic, cons
 			return rocketmq::SendStatus::SEND_FLUSH_DISK_TIMEOUT;
 		}
 	}
-	// ´´½¨ÏûÏ¢¶ÔÏó
+	// åˆ›å»ºæ¶ˆæ¯å¯¹è±¡
 	MQMessage msg(topic, body);
-	// ·¢ËÍÏûÏ¢
+	// å‘é€æ¶ˆæ¯
 	try {
 		SendResult sendResult = m_producer->send(msg);
 		return sendResult.getSendStatus();
@@ -219,7 +219,7 @@ rocketmq::SendStatus RocketClient::productMsgSync(const std::string& topic, cons
 
 bool RocketClient::subscribe(const std::string& topic)
 {
-	// ÅĞ¶ÏÊÇ·ñÒÑ¾­¶©ÔÄ¹ı
+	// åˆ¤æ–­æ˜¯å¦å·²ç»è®¢é˜…è¿‡
 	if (m_consumer)
 	{
 		std::cerr << "already subscribed, no need to subscribe again." << std::endl;
@@ -227,10 +227,10 @@ bool RocketClient::subscribe(const std::string& topic)
 		return true;
 	}
 
-	// Éú³ÉÒ»¸öÊµÀıÃû³Æ
+	// ç”Ÿæˆä¸€ä¸ªå®ä¾‹åç§°
 	RCMQ_INSTANCE_NAME_MK("push-consumer");
 	
-	// ´´½¨Ïû·ÑÕß
+	// åˆ›å»ºæ¶ˆè´¹è€…
 	m_consumer = new DefaultMQPushConsumer(groupname);
 	m_consumer->setNamesrvAddr(namesrv);
 	m_consumer->setInstanceName(instanceName);
@@ -240,7 +240,7 @@ bool RocketClient::subscribe(const std::string& topic)
 	m_consumer->setConsumeThreadCount(1);
 	m_consumer->setTcpTransportTryLockTimeout(1000);
 	m_consumer->setTcpTransportConnectTimeout(400);
-	// ×¢²áÊÂ¼ş¼àÌı
+	// æ³¨å†Œäº‹ä»¶ç›‘å¬
 	m_consumer->registerMessageListener(this->m_msgListener);
 	m_consumer->setAsyncPull(true);
 	m_consumer->setMessageTrace(true);

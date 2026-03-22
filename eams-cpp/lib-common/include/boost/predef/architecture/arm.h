@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright Rene Rivera 2008-2019
 Copyright Franz Detro 2014
 Copyright (c) Microsoft Corporation 2014

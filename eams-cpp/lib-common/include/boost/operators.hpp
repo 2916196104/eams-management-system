@@ -1,4 +1,4 @@
-//  Boost operators.hpp header file  ----------------------------------------//
+﻿//  Boost operators.hpp header file  ----------------------------------------//
 
 //  (C) Copyright David Abrahams, Jeremy Siek, Daryle Walker 1999-2001.
 //  (C) Copyright Daniel Frey 2002-2017.

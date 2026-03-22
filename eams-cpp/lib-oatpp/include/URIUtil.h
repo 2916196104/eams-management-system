@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -22,7 +22,7 @@
 #include <string>
 
 /**
- * URI±àÂë½âÂë¹¤¾ß
+ * URIç¼–ç è§£ç å·¥å…·
  */
 class URIUtil
 {
@@ -30,9 +30,9 @@ private:
 	static std::string charToHex(unsigned char c);
 	static unsigned char hexToChar(const std::string& str);
 public:
-	// url±àÂë
+	// urlç¼–ç 
 	static std::string urlEncode(const std::string& toEncode);
-	// url½âÂë
+	// urlè§£ç 
 	static std::string urlDecode(const std::string& toDecode);
 };
 

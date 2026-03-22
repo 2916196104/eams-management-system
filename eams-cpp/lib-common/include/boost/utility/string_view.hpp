@@ -1,4 +1,4 @@
-/*
+﻿/*
    Copyright (c) Marshall Clow 2012-2015.
    Copyright (c) Beman Dawes 2015
    Copyright (c) Glen Joseph Fernandes 2019 (glenjofe@gmail.com)

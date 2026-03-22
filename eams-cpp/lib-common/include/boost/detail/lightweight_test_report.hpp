@@ -1,4 +1,4 @@
-//  boost/detail/lightweight_test_reporter.hpp  ----------------------------------------//
+﻿//  boost/detail/lightweight_test_reporter.hpp  ----------------------------------------//
 
 //  Copyright Beman Dawes 2014
 

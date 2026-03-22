@@ -1,4 +1,4 @@
-/*
+﻿/*
  * << Haru Free PDF Library >> -- hpdf_encryptdict.h
  *
  * URL: http://libharu.org

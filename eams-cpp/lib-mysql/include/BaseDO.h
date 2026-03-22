@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -25,42 +25,42 @@
 #include <vector>
 
 /**
- * DO×Ö¶ÎÓò£¬ÓÃÓÚÍ¨¹ıDOÉú³É¶¯Ì¬SQLÓï¾ä
+ * DOå­—æ®µåŸŸï¼Œç”¨äºé€šè¿‡DOç”ŸæˆåŠ¨æ€SQLè¯­å¥
  */
 class DOField final {
 public:
-	// ×Ö¶ÎÖµ»ñÈ¡º¯Êı
+	// å­—æ®µå€¼è·å–å‡½æ•°
 	using ValueGetter = std::function<void* ()>;
-	// ¹¹Ôìº¯Êı
+	// æ„é€ å‡½æ•°
 	DOField(std::string column, std::string type, ValueGetter getter, bool isNullable = true, bool isPrimaryKey = false);
-	// ÒÆ¶¯¹¹Ôìº¯Êı
+	// ç§»åŠ¨æ„é€ å‡½æ•°
 	DOField(DOField&& other) noexcept;
-	// É¾³ı¿½±´¹¹Ôì/¸³Öµ
+	// åˆ é™¤æ‹·è´æ„é€ /èµ‹å€¼
 	DOField(const DOField&) = delete;
 	DOField& operator=(const DOField&) = delete;
-	// »ñÈ¡×Ö¶ÎÃû³Æ
+	// è·å–å­—æ®µåç§°
 	std::string getColumn() const;
-	// »ñÈ¡×Ö¶ÎÀàĞÍÕ¼Î»·û
+	// è·å–å­—æ®µç±»å‹å ä½ç¬¦
 	std::string getType() const;
-	// »ñÈ¡ÊÇ·ñÎªÖ÷¼ü
+	// è·å–æ˜¯å¦ä¸ºä¸»é”®
 	bool getIsPrimaryKey() const;
-	// »ñÈ¡×Ö¶ÎÊÇ·ñÔÊĞíÎª¿Õ
+	// è·å–å­—æ®µæ˜¯å¦å…è®¸ä¸ºç©º
 	bool getIsNullable() const;
-	// »ñÈ¡×Ö¶ÎÖµÖ¸Õë
+	// è·å–å­—æ®µå€¼æŒ‡é’ˆ
 	void* get();
-	// »ñÈ¡×Ö¶ÎÖµ
+	// è·å–å­—æ®µå€¼
 	template<typename T>
 	const T* getValue();
 private:
-	// ×Ö¶ÎÃû³Æ
+	// å­—æ®µåç§°
 	std::string column;
-	// ×Ö¶ÎÀàĞÍÕ¼Î»·û£¬Èç£ºs¡¢i¡¢bi¡¢b¡¢d¡¢dt
+	// å­—æ®µç±»å‹å ä½ç¬¦ï¼Œå¦‚ï¼šsã€iã€biã€bã€dã€dt
 	std::string type;
-	// ×Ö¶ÎÊÇ·ñÊÇÖ÷¼ü
+	// å­—æ®µæ˜¯å¦æ˜¯ä¸»é”®
 	bool isPrimaryKey;
-	// ×Ö¶ÎÊÇ·ñÔÊĞíÎª¿Õ
+	// å­—æ®µæ˜¯å¦å…è®¸ä¸ºç©º
 	bool isNullable;
-	// »ñÈ¡×Ö¶ÎÖµµÄº¯Êı
+	// è·å–å­—æ®µå€¼çš„å‡½æ•°
 	ValueGetter getter;
 };
 
@@ -73,37 +73,37 @@ const T* DOField::getValue()
 }
 
 /**
- * ¶¨ÒåÒ»¸ö»ù´¡µÄDOÀà£¬·½±ã¹ÜÀí£¬ºóĞø¶¨ÒåDO¶¼ĞèÒª¼Ì³ĞËü
+ * å®šä¹‰ä¸€ä¸ªåŸºç¡€çš„DOç±»ï¼Œæ–¹ä¾¿ç®¡ç†ï¼Œåç»­å®šä¹‰DOéƒ½éœ€è¦ç»§æ‰¿å®ƒ
  */
 class BaseDO
 {
 protected:
-	// Ìí¼Ó×Ö¶ÎÓò
+	// æ·»åŠ å­—æ®µåŸŸ
 	void addColField(DOField* field);
-	// ¹¹ÔìÊ±±ØĞëÖ¸¶¨Êı¾İ¿â±íÃû
+	// æ„é€ æ—¶å¿…é¡»æŒ‡å®šæ•°æ®åº“è¡¨å
 	BaseDO(std::string table);
 private:
-	// ±íÃû
+	// è¡¨å
 	std::string _table;
-	// Ö÷¼ü×Ö¶ÎÓò
+	// ä¸»é”®å­—æ®µåŸŸ
 	DOField* _primaryField;
-	// ÆÕÍ¨×Ö¶ÎÓò
+	// æ™®é€šå­—æ®µåŸŸ
 	std::vector<DOField*> _fields;
 public:
-	// Îö¹¹º¯Êı
+	// ææ„å‡½æ•°
 	virtual ~BaseDO();
-	// É¾³ı¿½±´¹¹Ôì/¸³Öµ
+	// åˆ é™¤æ‹·è´æ„é€ /èµ‹å€¼
 	BaseDO(const BaseDO&) = delete;
 	BaseDO& operator=(const BaseDO&) = delete;
-	// ÒÆ¶¯¹¹Ôìº¯Êı
+	// ç§»åŠ¨æ„é€ å‡½æ•°
 	BaseDO(BaseDO&& other) noexcept;
-	// ÒÆ¶¯¸³ÖµÔËËã·û
+	// ç§»åŠ¨èµ‹å€¼è¿ç®—ç¬¦
 	BaseDO& operator=(BaseDO&& other) noexcept;
-	// »ñÈ¡±íÃû
+	// è·å–è¡¨å
 	std::string getTable() const;
-	// »ñÈ¡Ö÷¼ü×Ö¶ÎÓò
+	// è·å–ä¸»é”®å­—æ®µåŸŸ
 	DOField* getPrimaryField() const;
-	// »ñÈ¡ÆÕÍ¨×Ö¶ÎÓò
+	// è·å–æ™®é€šå­—æ®µåŸŸ
 	const std::vector<DOField*>& getFields() const;
 };
 

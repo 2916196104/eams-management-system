@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
  
@@ -30,14 +30,14 @@
 using namespace rocketmq;
 
 /**
- * ¶¨ÒåÒ»¸öRocketmq¿Í»§¶Ë£¬À´·â×°³£ÓÃ²Ù×÷¡£
- * ²Î¿¼Á¬½Ó£ºhttps://github.com/apache/rocketmq-client-cpp/tree/release-2.1.0/example
+ * å®šä¹‰ä¸€ä¸ªRocketmqå®¢æˆ·ç«¯ï¼Œæ¥å°è£…å¸¸ç”¨æ“ä½œã€‚
+ * å‚è€ƒè¿æ¥ï¼šhttps://github.com/apache/rocketmq-client-cpp/tree/release-2.1.0/example
  */
 class RocketClient
 {
 private:
 	/**
-	 * MQÏûÏ¢¼àÌıÆ÷
+	 * MQæ¶ˆæ¯ç›‘å¬å™¨
 	 */
 	class RMessageLisenter : public MessageListenerConcurrently {
 	private:
@@ -47,7 +47,7 @@ private:
 		ConsumeStatus consumeMessage(const std::vector<MQMessageExt>& msgs) override;
 	};
 	/**
-	 * MQ×Ô¶¯É¾³ı»Øµ÷
+	 * MQè‡ªåŠ¨åˆ é™¤å›è°ƒ
 	 */
 	class RAutoDeleteSendCallback : public AutoDeleteSendCallBack {
 	public:
@@ -56,7 +56,7 @@ private:
 	};
 public:
 	/**
-	 * ÏûÏ¢½»¸¶»Øµ÷
+	 * æ¶ˆæ¯äº¤ä»˜å›è°ƒ
 	 */
 	class RSendCallback : public SendCallback {
 	private:
@@ -67,31 +67,31 @@ public:
 		void onException(MQException& e) override;
 	};
 	/**
-	 * Ïû·ÑÏûÏ¢¼àÌıÆ÷
+	 * æ¶ˆè´¹æ¶ˆæ¯ç›‘å¬å™¨
 	 */
 	class RConsumerListener {
 	public:
-		// ½ÓÊÕÏûÏ¢
+		// æ¥æ”¶æ¶ˆæ¯
 		virtual void receiveMessage(std::string payload) = 0;
 	};
 private:
-	// nameserverµØÖ·
+	// nameserveråœ°å€
 	std::string namesrv;
-	// ·Ö×éÃû³Æ
+	// åˆ†ç»„åç§°
 	std::string groupname;
-	// µ±Ç°Ö÷Ìâ
+	// å½“å‰ä¸»é¢˜
 	std::string m_topic;
-	// ½ÓÊÕÏûÏ¢ÊÂ¼şÍ¨Öª¼¯ºÏ
+	// æ¥æ”¶æ¶ˆæ¯äº‹ä»¶é€šçŸ¥é›†åˆ
 	std::vector<RConsumerListener*> m_listeners;
-	// Éú²úÕß
+	// ç”Ÿäº§è€…
 	DefaultMQProducer* m_producer;
-	// Ïû·ÑÕß
+	// æ¶ˆè´¹è€…
 	DefaultMQPushConsumer* m_consumer;
-	// MQÏûÏ¢¼àÌıÆ÷
+	// MQæ¶ˆæ¯ç›‘å¬å™¨
 	RMessageLisenter* m_msgListener;
-	// ÊÍ·ÅÉú²úÕß
+	// é‡Šæ”¾ç”Ÿäº§è€…
 	void releaseProducer();
-	// ÊÍ·ÅÏû·ÑÕß
+	// é‡Šæ”¾æ¶ˆè´¹è€…
 	void releaseConsumer();
 public:
 	//************************************
@@ -99,42 +99,42 @@ public:
 	// FullName:  RocketClient::RocketClient
 	// Access:    public 
 	// Returns:   
-	// Description: ¹¹Ôì³õÊ¼»¯
-	// Parameter: const std::string & namesrv nameserverµØÖ·£¬Èç£ºip1:port1;ip2:port2
-	// Parameter: const std::string & groupName ·Ö×éÃû³Æ£¬Ä¬ÈÏÖµÎªcpp-rocketmq
+	// Description: æ„é€ åˆå§‹åŒ–
+	// Parameter: const std::string & namesrv nameserveråœ°å€ï¼Œå¦‚ï¼šip1:port1;ip2:port2
+	// Parameter: const std::string & groupName åˆ†ç»„åç§°ï¼Œé»˜è®¤å€¼ä¸ºcpp-rocketmq
 	//************************************
 	explicit RocketClient(const std::string& namesrv, const std::string& groupName = "cpp-rocketmq");
-	// Îö¹¹ÊÍ·Å×ÊÔ´
+	// ææ„é‡Šæ”¾èµ„æº
 	~RocketClient();
 	//************************************
 	// Method:    productMsg
 	// FullName:  RocketClient::productMsg
 	// Access:    public 
 	// Returns:   void
-	// Description: Éú²úÏûÏ¢
-	// Parameter: const std::string & topic Ö÷Ìâ
-	// Parameter: const std::string & body ÏûÏ¢Ö÷Ìâ
-	// Parameter: SendCallback * cb ·¢ËÍ½á¹û»Øµ÷¶ÔÏó£¬Ä¬ÈÏÖµnullptr
+	// Description: ç”Ÿäº§æ¶ˆæ¯
+	// Parameter: const std::string & topic ä¸»é¢˜
+	// Parameter: const std::string & body æ¶ˆæ¯ä¸»é¢˜
+	// Parameter: SendCallback * cb å‘é€ç»“æœå›è°ƒå¯¹è±¡ï¼Œé»˜è®¤å€¼nullptr
 	//************************************
 	void productMsgAsync(const std::string& topic, const std::string& body, SendCallback* cb = nullptr);
 	//************************************
 	// Method:    productMsgSync
 	// FullName:  RocketClient::productMsgSync
 	// Access:    public 
-	// Returns:   rocketmq::SendStatus ÏûÏ¢·¢ËÍ½á¹û×´Ì¬
-	// Description: Í¬²½Éú²úÏûÏ¢
-	// Parameter: const std::string & topic Ö÷Ìâ
-	// Parameter: const std::string & body ÏûÏ¢Ö÷Ìå
+	// Returns:   rocketmq::SendStatus æ¶ˆæ¯å‘é€ç»“æœçŠ¶æ€
+	// Description: åŒæ­¥ç”Ÿäº§æ¶ˆæ¯
+	// Parameter: const std::string & topic ä¸»é¢˜
+	// Parameter: const std::string & body æ¶ˆæ¯ä¸»ä½“
 	//************************************
 	rocketmq::SendStatus productMsgSync(const std::string& topic, const std::string& body);
 	//************************************
 	// Method:    subscribe
 	// FullName:  RocketClient::subscribe
 	// Access:    public 
-	// Returns:   bool ¶©ÔÄ³É¹¦·µ»Øtrue
-	// Description: ¶©ÔÄÖ÷Ìâ
-	// ×¢Òâ£ºÍ¬Ò»¸öRocketClient¶ÔÏóÖ»ÄÜ¶©ÔÄÒ»´Î£¬µ±È»Äã¿ÉÒÔÈ¡Ïû¶©ÔÄ£¬È»ºóÖØĞÂ¶©ÔÄ
-	// Parameter: const std::string & topic Ö÷Ìâ
+	// Returns:   bool è®¢é˜…æˆåŠŸè¿”å›true
+	// Description: è®¢é˜…ä¸»é¢˜
+	// æ³¨æ„ï¼šåŒä¸€ä¸ªRocketClientå¯¹è±¡åªèƒ½è®¢é˜…ä¸€æ¬¡ï¼Œå½“ç„¶ä½ å¯ä»¥å–æ¶ˆè®¢é˜…ï¼Œç„¶åé‡æ–°è®¢é˜…
+	// Parameter: const std::string & topic ä¸»é¢˜
 	//************************************
 	bool subscribe(const std::string& topic);
 	//************************************
@@ -142,7 +142,7 @@ public:
 	// FullName:  RocketClient::unsubscribe
 	// Access:    public 
 	// Returns:   void
-	// Description: È¡Ïû¶©ÔÄ
+	// Description: å–æ¶ˆè®¢é˜…
 	//************************************
 	void unsubscribe();
 	//************************************
@@ -150,8 +150,8 @@ public:
 	// FullName:  RocketClient::addListener
 	// Access:    public 
 	// Returns:   void
-	// Description: Ìí¼Ó¶©ÔÄÏûÏ¢´¦Àí¼àÌıÕß
-	// Parameter: RConsumerListener * listener ¼àÌıÕß¶ÔÏó
+	// Description: æ·»åŠ è®¢é˜…æ¶ˆæ¯å¤„ç†ç›‘å¬è€…
+	// Parameter: RConsumerListener * listener ç›‘å¬è€…å¯¹è±¡
 	//************************************
 	void addListener(RConsumerListener* listener);
 	//************************************
@@ -159,8 +159,8 @@ public:
 	// FullName:  RocketClient::removeListener
 	// Access:    public 
 	// Returns:   void
-	// Description: ÒÆ³ı¶©ÔÄÏûÏ¢´¦Àí¼àÌıÕß
-	// Parameter: RConsumerListener * listener ¼àÌıÕß¶ÔÏó
+	// Description: ç§»é™¤è®¢é˜…æ¶ˆæ¯å¤„ç†ç›‘å¬è€…
+	// Parameter: RConsumerListener * listener ç›‘å¬è€…å¯¹è±¡
 	//************************************
 	void removeListener(RConsumerListener* listener);
 	//************************************
@@ -168,7 +168,7 @@ public:
 	// FullName:  RocketClient::removeAllListener
 	// Access:    public 
 	// Returns:   void
-	// Description: ÒÆ³ıËùÓĞ¶©ÔÄÏûÏ¢´¦Àí¼àÌıÕß
+	// Description: ç§»é™¤æ‰€æœ‰è®¢é˜…æ¶ˆæ¯å¤„ç†ç›‘å¬è€…
 	//************************************
 	void removeAllListener();
 };

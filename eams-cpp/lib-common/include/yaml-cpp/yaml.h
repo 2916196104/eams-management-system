@@ -1,4 +1,4 @@
-#ifndef YAML_H_62B23520_7C8E_11DE_8A39_0800200C9A66
+﻿#ifndef YAML_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 #define YAML_H_62B23520_7C8E_11DE_8A39_0800200C9A66
 
 #if defined(_MSC_VER) ||                                            \

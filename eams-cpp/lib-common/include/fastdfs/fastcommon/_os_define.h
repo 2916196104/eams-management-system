@@ -1,4 +1,4 @@
-#ifndef _OS_DEFINE_H
+﻿#ifndef _OS_DEFINE_H
 #define _OS_DEFINE_H
 
 #define OS_BITS  64

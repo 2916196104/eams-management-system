@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
@@ -27,15 +27,15 @@
 #include "../include/AppComponent.hpp"
 #include "../include/IpUtil.h"
 
-// Èç¹ûÃ»ÓĞ¶¨Òå¹Ø±Õ·şÎñÆ÷ÃÜÂë
+// å¦‚æœæ²¡æœ‰å®šä¹‰å…³é—­æœåŠ¡å™¨å¯†ç 
 #ifndef STOP_PWD
 #define STOP_PWD "01star"
 #endif
 
-// ¶¨ÒåÒ»¸öÈ«¾Ö±äÁ¿£¬ÉèÖÃÊÇ·ñÈÃ·şÎñÆ÷ÔËĞĞ
+// å®šä¹‰ä¸€ä¸ªå…¨å±€å˜é‡ï¼Œè®¾ç½®æ˜¯å¦è®©æœåŠ¡å™¨è¿è¡Œ
 bool isAllowServerRun = true;
 
-// ¶¨Òå¹Ø±ÕÇëÇó¿ØÖÆÆ÷
+// å®šä¹‰å…³é—­è¯·æ±‚æ§åˆ¶å™¨
 #include OATPP_CODEGEN_BEGIN(ApiController)
 class ServerCloseController : public oatpp::web::server::api::ApiController {
 public:
@@ -58,59 +58,59 @@ public:
 
 void HttpServer::initServer(string port, string host, function<void(Endpoints*, HttpRouter*)> bindRouterFun, function<void(std::shared_ptr<AbstractComponentReg>*)> otherComponentRegCall)
 {
-	// ×¢²á»·¾³×é¼ş
+	// æ³¨å†Œç¯å¢ƒç»„ä»¶
 	AppComponent components;
-	// ×¢²áÆäËü×é¼ş
+	// æ³¨å†Œå…¶å®ƒç»„ä»¶
 	std::shared_ptr<AbstractComponentReg> other = nullptr;
 	if (otherComponentRegCall)
 	{
 		otherComponentRegCall(&other);
 	}
 
-	// ´´½¨¼àÌı¶Ë¿ÚµÄConnectionProvider×é¼ş
+	// åˆ›å»ºç›‘å¬ç«¯å£çš„ConnectionProviderç»„ä»¶
 	uint16_t currPort = (uint16_t)strtoul(port.c_str(), NULL, 0);
 	OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::network::ServerConnectionProvider>, serverConnectionProvider)([=] {
 		return oatpp::network::tcp::server::ConnectionProvider::createShared({ host, currPort, oatpp::network::Address::IP_4 });
 		}());
-	// »ñÈ¡Â·ÓÉ×é¼ş
+	// è·å–è·¯ç”±ç»„ä»¶
 	OATPP_COMPONENT(std::shared_ptr<oatpp::web::server::HttpRouter>, router);
-	// »ñÈ¡Á¬½Ó´¦Àí×é¼ş
+	// è·å–è¿æ¥å¤„ç†ç»„ä»¶
 	OATPP_COMPONENT(std::shared_ptr<oatpp::network::ConnectionHandler>, connectionHandler, "http");
-	// »ñÈ¡Á¬½ÓÌá¹©×é¼ş
+	// è·å–è¿æ¥æä¾›ç»„ä»¶
 	OATPP_COMPONENT(std::shared_ptr<oatpp::network::ServerConnectionProvider>, connectionProvider);
-	// ´´½¨·şÎñ
+	// åˆ›å»ºæœåŠ¡
 	oatpp::network::Server server(connectionProvider, connectionHandler);
-	// ´òÓ¡·şÎñÆ÷ĞÅÏ¢
+	// æ‰“å°æœåŠ¡å™¨ä¿¡æ¯
 	OATPP_LOGI("Server", "Running on port %s...", connectionProvider->getProperty("port").toString()->c_str());
 
 #ifndef CLOSE_SWAGGER_DOC
-	// ´´½¨ÎÄµµ¶Ëµã
+	// åˆ›å»ºæ–‡æ¡£ç«¯ç‚¹
 	oatpp::web::server::api::Endpoints docEndpoints;
 
-	// ³õÊ¼»¯Â·ÓÉ
+	// åˆå§‹åŒ–è·¯ç”±
 	bindRouterFun(&docEndpoints, router.get());
 
-	// Ìí¼ÓAPIÎÄµµ¿ØÖÆÆ÷
+	// æ·»åŠ APIæ–‡æ¡£æ§åˆ¶å™¨
 	router->addController(oatpp::swagger::Controller::createShared(docEndpoints));
 #else
-	// ³õÊ¼»¯Â·ÓÉ
+	// åˆå§‹åŒ–è·¯ç”±
 	bindRouterFun(nullptr, router.get());
 #endif
 
-	// Ìí¼Ó¹Ø±Õ·şÎñ¿ØÖÆÆ÷
+	// æ·»åŠ å…³é—­æœåŠ¡æ§åˆ¶å™¨
 	router->addController(ServerCloseController::createShared());
 	OATPP_LOGI("Server", "Router init success");
 
 #ifndef CLOSE_SWAGGER_DOC
 	OATPP_LOGI("Server", "local  api doc url is http://localhost:%s/swagger/ui", port.c_str());
 
-	// »ñÈ¡ipµØÖ·
+	// è·å–ipåœ°å€
 	std::vector<std::string> addresses;
 	if (IpUtil::getLocalIpAddress(&addresses))
 	{
 		for (auto ip : addresses)
 		{
-			// È¥µôIPV6µØÖ·ÏÔÊ¾
+			// å»æ‰IPV6åœ°å€æ˜¾ç¤º
 			if (ip.find("::") == string::npos)
 			{
 				OATPP_LOGI("Server", "remote api doc url is http://%s:%s/swagger/ui", ip.c_str(), port.c_str());
@@ -119,14 +119,14 @@ void HttpServer::initServer(string port, string host, function<void(Endpoints*, 
 	}
 #endif
 
-	// °ó¶¨½»»¥ĞÅºÅ¼àÌı£¨Ctrl + C£©
+	// ç»‘å®šäº¤äº’ä¿¡å·ç›‘å¬ï¼ˆCtrl + Cï¼‰
 	signal(SIGINT, [](int signum)
 		{
 			isAllowServerRun = false;
 			OATPP_LOGI("Server", "server stop ok");
 		});
 
-	// ÔËĞĞ·şÎñ
+	// è¿è¡ŒæœåŠ¡
 	server.run([=] {return isAllowServerRun; });
 }
 

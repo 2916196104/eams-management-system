@@ -1,4 +1,4 @@
-//  underlying_type.hpp  ---------------------------------------------------------//
+﻿//  underlying_type.hpp  ---------------------------------------------------------//
 
 //  Copyright Beman Dawes, 2009
 //  Copyright (C) 2011-2012 Vicente J. Botet Escriba

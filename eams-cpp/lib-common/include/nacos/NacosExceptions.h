@@ -1,4 +1,4 @@
-#ifndef __NACOS_EXCEPTIONS_H_
+﻿#ifndef __NACOS_EXCEPTIONS_H_
 #define __NACOS_EXCEPTIONS_H_
 
 #include <exception>
@@ -23,7 +23,7 @@ public:
 
     static const int CLIENT_INVALID_PARAM = -400;
     /**
-    * over client threshold（超过server端的限流阈值）
+    * over client threshold锛堣秴杩噑erver绔殑闄愭祦闃堝€硷級
     */
     static const int CLIENT_OVER_THRESHOLD = -503;
 
@@ -34,30 +34,30 @@ public:
     */
 
     /**
-    * invalid param（参数错误）
+    * invalid param锛堝弬鏁伴敊璇級
     */
     static const int INVALID_PARAM = 400;
     /**
-    * no right（鉴权失败）
+    * no right锛堥壌鏉冨け璐ワ級
     */
     static const int NO_RIGHT = 403;
 
     static const int HTTP_NOT_FOUND = 404;
 
     /**
-    * conflict（写并发冲突）
+    * conflict锛堝啓骞跺彂鍐茬獊锛?
     */
     static const int CONFLICT = 409;
     /**
-    * server error（server异常，如超时）
+    * server error锛坰erver寮傚父锛屽瓒呮椂锛?
     */
     static const int SERVER_ERROR = 500;
     /**
-    * bad gateway（路由异常，如nginx后面的Server挂掉）
+    * bad gateway锛堣矾鐢卞紓甯革紝濡俷ginx鍚庨潰鐨凷erver鎸傛帀锛?
     */
     static const int BAD_GATEWAY = 502;
     /**
-    * over threshold（超过server端的限流阈值）
+    * over threshold锛堣秴杩噑erver绔殑闄愭祦闃堝€硷級
     */
     static const int OVER_THRESHOLD = 503;
 

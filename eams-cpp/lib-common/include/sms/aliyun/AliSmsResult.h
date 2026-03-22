@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -22,28 +22,28 @@
 #include <string>
 
 /**
- * ·¢ËÍÏûÏ¢ÏìÓ¦½á¹û
+ * å‘é€æ¶ˆæ¯å“åº”ç»“æœ
  */
 class AliSmsResult
 {
 private:
 	/**
-	 * ÇëÇó×´Ì¬Âë¡£
-	 * ·µ»ØOK´ú±íÇëÇó³É¹¦¡£
-	 * ÆäËû´íÎóÂë£¬API´íÎóÂëÇë²Î¼û:https://help.aliyun.com/document_detail/101346.html
+	 * è¯·æ±‚çŠ¶æ€ç ã€‚
+	 * è¿”å›OKä»£è¡¨è¯·æ±‚æˆåŠŸã€‚
+	 * å…¶ä»–é”™è¯¯ç ï¼ŒAPIé”™è¯¯ç è¯·å‚è§:https://help.aliyun.com/document_detail/101346.html
 	 */
 	std::string code;
 	/**
-	 * ×´Ì¬ÂëµÄÃèÊö¡£
+	 * çŠ¶æ€ç çš„æè¿°ã€‚
 	 */
 	std::string message;
 	/**
-	 * ·¢ËÍ»ØÖ´ID¡£
-	 * ¿É¸ù¾İ·¢ËÍ»ØÖ´IDÔÚ½Ó¿ÚQuerySendDetailsÖĞ²éÑ¯¾ßÌåµÄ·¢ËÍ×´Ì¬¡£
+	 * å‘é€å›æ‰§IDã€‚
+	 * å¯æ ¹æ®å‘é€å›æ‰§IDåœ¨æ¥å£QuerySendDetailsä¸­æŸ¥è¯¢å…·ä½“çš„å‘é€çŠ¶æ€ã€‚
 	 */
 	std::string bizId;
 	/**
-	 * ÇëÇóID¡£
+	 * è¯·æ±‚IDã€‚
 	 */
 	std::string requestId;
 public:

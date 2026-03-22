@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
@@ -59,33 +59,33 @@ SnowFlake::SnowFlake(int datacenterId, int machineId)
 
 uint64_t SnowFlake::nextId()
 {
-	// ¹¹Ôì³õÊ¼»¯´íÎó£¬²»Ö´ĞĞºóĞøÂß¼­
+	// æ„é€ åˆå§‹åŒ–é”™è¯¯ï¼Œä¸æ‰§è¡Œåç»­é€»è¾‘
 	if (!m_is_init) return 0;
 
 	std::unique_lock<std::mutex> lock(m_mtx);
 	uint64_t curTimeStamp = getNewTimeStamp();
-	// Èç¹ûµ±Ç°Ê±¼äĞ¡ÓÚÉÏÒ»´ÎIDÉú³ÉµÄÊ±¼ä´Á£¬ËµÃ÷ÏµÍ³Ê±ÖÓ»ØÍË¹ıÕâ¸öÊ±ºòÓ¦µ±Å×³öÒì³£
+	// å¦‚æœå½“å‰æ—¶é—´å°äºä¸Šä¸€æ¬¡IDç”Ÿæˆçš„æ—¶é—´æˆ³ï¼Œè¯´æ˜ç³»ç»Ÿæ—¶é’Ÿå›é€€è¿‡è¿™ä¸ªæ—¶å€™åº”å½“æŠ›å‡ºå¼‚å¸¸
 	if (curTimeStamp < m_last_time_stamp) {
 		std::cerr << "clock moved backwards. refusing to generate id" << std::endl;
 		return 0;
 	}
-	// Èç¹ûÊÇÍ¬Ò»Ê±¼äÉú³ÉµÄ£¬Ôò½øĞĞºÁÃëÄÚĞòÁĞ
+	// å¦‚æœæ˜¯åŒä¸€æ—¶é—´ç”Ÿæˆçš„ï¼Œåˆ™è¿›è¡Œæ¯«ç§’å†…åºåˆ—
 	if (curTimeStamp == m_last_time_stamp) {
 		m_sequence = (m_sequence + 1) & m_max_sequence_num;
-		// ºÁÃëÄÚĞòÁĞÒç³ö
+		// æ¯«ç§’å†…åºåˆ—æº¢å‡º
 		if (m_sequence == 0) {
-			// »ñÈ¡ÏÂÒ»¸öºÁÃëÊ±¼ä´Á
+			// è·å–ä¸‹ä¸€ä¸ªæ¯«ç§’æ—¶é—´æˆ³
 			curTimeStamp = getNextMill();
 		}
 	}
-	// Ê±¼ä´Á¸Ä±ä£¬ºÁÃëÄÚĞòÁĞÖØÖÃ
+	// æ—¶é—´æˆ³æ”¹å˜ï¼Œæ¯«ç§’å†…åºåˆ—é‡ç½®
 	else
 	{
 		m_sequence = 0;
 	}
-	// ¸üĞÂÉÏ´ÎÉú³ÉIDµÄÊ±¼ä´Á
+	// æ›´æ–°ä¸Šæ¬¡ç”ŸæˆIDçš„æ—¶é—´æˆ³
 	m_last_time_stamp = curTimeStamp;
-	// ÒÆÎ»²¢Í¨¹ı»òÔËËãÆ´µ½Ò»Æğ×é³É64Î»µÄID
+	// ç§»ä½å¹¶é€šè¿‡æˆ–è¿ç®—æ‹¼åˆ°ä¸€èµ·ç»„æˆ64ä½çš„ID
 	return (curTimeStamp - m_start_time_stamp) << m_timestamp_left
 		| m_datacenterId << m_datacenter_left
 		| m_machineId << m_machine_left

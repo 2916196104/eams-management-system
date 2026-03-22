@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -24,7 +24,7 @@
 #include <vector>
 
 /**
- * ÊéĞ´Ò»¸öÓÊ¼ş·¢ËÍ¹¤¾ßÀà
+ * ä¹¦å†™ä¸€ä¸ªé‚®ä»¶å‘é€å·¥å…·ç±»
  */
 class EmailSender
 {
@@ -34,13 +34,13 @@ public:
 	// FullName:  EmailSender::EmailSender
 	// Access:    public 
 	// Returns:   
-	// Description: ¹¹Ôì³õÊ¼»¯
-	// Parameter: const std::string& smtp_server ÓÊ¼ş·şÎñÆ÷£¬Èçsmtp.163.com
-	// Parameter: const int smtp_port ·şÎñÆ÷¶Ë¿Ú£¬Èç25
-	// Parameter: const std::string& password ÊÚÈ¨ÃÜÂë
-	// Parameter: const std::string& from_email ÓÊ¼ş·¢ËÍÈËÓÊÏäµØÖ·
-	// Parameter: const std::string& from_name  ÓÊ¼ş·¢ËÍÈËÃû³Æ£¬Ä¬ÈÏÖµNo-Reply
-	// Parameter: const std::string& charset ÄÚÈİ±àÂë£¬Ä¬ÈÏÖµgb2312
+	// Description: æ„é€ åˆå§‹åŒ–
+	// Parameter: const std::string& smtp_server é‚®ä»¶æœåŠ¡å™¨ï¼Œå¦‚smtp.163.com
+	// Parameter: const int smtp_port æœåŠ¡å™¨ç«¯å£ï¼Œå¦‚25
+	// Parameter: const std::string& password æˆæƒå¯†ç 
+	// Parameter: const std::string& from_email é‚®ä»¶å‘é€äººé‚®ç®±åœ°å€
+	// Parameter: const std::string& from_name  é‚®ä»¶å‘é€äººåç§°ï¼Œé»˜è®¤å€¼No-Reply
+	// Parameter: const std::string& charset å†…å®¹ç¼–ç ï¼Œé»˜è®¤å€¼gb2312
 	//************************************
 	EmailSender(
 		const std::string& smtp_server,
@@ -50,50 +50,50 @@ public:
 		const std::string& from_name = "No-Reply",
 		const std::string& charset = "gb2312");
 	~EmailSender();
-	// ÉèÖÃÓÊ¼şÖ÷ÌâºÍÄÚÈİ£¬¿ÉÒÔÊÇHTML¸ñÊ½»ò´¿ÎÄ±¾
+	// è®¾ç½®é‚®ä»¶ä¸»é¢˜å’Œå†…å®¹ï¼Œå¯ä»¥æ˜¯HTMLæ ¼å¼æˆ–çº¯æ–‡æœ¬
 	void setEmailContent(const std::string& subject = "", const std::string& body = "");
-	// Ìí¼ÓÓÊ¼ş½ÓÊÕÈË
+	// æ·»åŠ é‚®ä»¶æ¥æ”¶äºº
 	void addRecvEmailAddr(const std::string& email_addr, const std::string& name = "");
-	// Ìí¼ÓÓÊ¼ş³­ËÍÈË
+	// æ·»åŠ é‚®ä»¶æŠ„é€äºº
 	void addCcEmailAddr(const std::string& email_addr, const std::string& name = "");
-	// Ìí¼Ó¸½¼ş
+	// æ·»åŠ é™„ä»¶
 	void addAttachment(const std::string& filename);
-	// Ö´ĞĞ·¢ËÍ
+	// æ‰§è¡Œå‘é€
 	bool send();
-	// »ñÈ¡±àÂë
+	// è·å–ç¼–ç 
 	std::string getCharset() const;
-	// ÉèÖÃ±àÂë
+	// è®¾ç½®ç¼–ç 
 	void setCharset(std::string val);
-	// ÆôÓÃSSLĞ­Òé
+	// å¯ç”¨SSLåè®®
 	void enableSSL();
-	// ½ûÓÃSSLĞ­Òé
+	// ç¦ç”¨SSLåè®®
 	void disableSSL();
 private:
-	// smtp·şÎñÆ÷
+	// smtpæœåŠ¡å™¨
 	std::string m_smtp_url;
-	// ÄÚÈİ±àÂë£¬Ä¬ÈÏgb2312
+	// å†…å®¹ç¼–ç ï¼Œé»˜è®¤gb2312
 	std::string m_charset;
-	// ÓÊ¼ş·¢ËÍÈË key ÓÊ¼şµØÖ· val ·¢ËÍÈËÃû³Æ
+	// é‚®ä»¶å‘é€äºº key é‚®ä»¶åœ°å€ val å‘é€äººåç§°
 	std::pair<std::string, std::string> m_from;
-	// ÓÊ¼ş·şÎñÆ÷ÊÚÈ¨ÃÜÂë
+	// é‚®ä»¶æœåŠ¡å™¨æˆæƒå¯†ç 
 	std::string m_password;
-	// ÓÊ¼ş½ÓÊÕÈË key ÓÊ¼şµØÖ· val ½ÓÊÕÈËÃû³Æ
+	// é‚®ä»¶æ¥æ”¶äºº key é‚®ä»¶åœ°å€ val æ¥æ”¶äººåç§°
 	std::vector<std::pair<std::string, std::string>> m_recvs;
-	// ÓÊ¼ş³­ËÍÈË key ÓÊ¼şµØÖ· val ³­ËÍÈËÃû³Æ
+	// é‚®ä»¶æŠ„é€äºº key é‚®ä»¶åœ°å€ val æŠ„é€äººåç§°
 	std::vector<std::pair<std::string, std::string>> m_ccs;
-	// ÓÊ¼şÖ÷Ìâ
+	// é‚®ä»¶ä¸»é¢˜
 	std::string m_email_subject;
-	// ÓÊ¼şÄÚÈİ
+	// é‚®ä»¶å†…å®¹
 	std::string m_email_body;
-	// ÓÊ¼ş¸½¼şÎÄ¼şÁĞ±í£¨ÎÄ¼şµÄ¾ø¶Ô»òÏà¶ÔÂ·¾¶£©
+	// é‚®ä»¶é™„ä»¶æ–‡ä»¶åˆ—è¡¨ï¼ˆæ–‡ä»¶çš„ç»å¯¹æˆ–ç›¸å¯¹è·¯å¾„ï¼‰
 	std::vector<std::string> m_attachments;
-	// »Øµ÷º¯Êı£¬½«MIMEĞ­ÒéµÄÆ´½ÓµÄ×Ö·û´®ÓÉlibcurl·¢³ö
+	// å›è°ƒå‡½æ•°ï¼Œå°†MIMEåè®®çš„æ‹¼æ¥çš„å­—ç¬¦ä¸²ç”±libcurlå‘å‡º
 	static size_t payloadSource(void* ptr, size_t size, size_t nmemb, void* stream);
-	// ´´½¨ÓÊ¼şMIMEÄÚÈİ
+	// åˆ›å»ºé‚®ä»¶MIMEå†…å®¹
 	std::string generateMimeMessage();
-	// »ñÈ¡¸½¼şÎÄ¼şÃû
+	// è·å–é™„ä»¶æ–‡ä»¶å
 	void getFileName(const std::string& path, std::string& filename);
-	// »ñÈ¡¸½¼şÎÄ¼şÀàĞÍ  
+	// è·å–é™„ä»¶æ–‡ä»¶ç±»å‹  
 	void getFileContentType(const std::string& path, std::string& contentType);
 };
 

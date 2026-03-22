@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
  
@@ -24,7 +24,7 @@
 using namespace std;
 
 /**
- * ×Ö·û´®²Ù×÷¹¤¾ßÀà
+ * å­—ç¬¦ä¸²æ“ä½œå·¥å…·ç±»
  */
 class StringUtil final
 {
@@ -33,10 +33,10 @@ public:
 	// Method:    split
 	// FullName:  StringUtil::split
 	// Access:    public static 
-	// Returns:   std::vector<std::string> ²ğ·Ö×Ö·û´®ÁĞ±í
-	// Description: ×Ö·û´®²ğ·Ö
-	// Parameter: const string & str ´ı²ğ·Ö×Ö·û´®
-	// Parameter: const string & delim ·Ö¸î·û
+	// Returns:   std::vector<std::string> æ‹†åˆ†å­—ç¬¦ä¸²åˆ—è¡¨
+	// Description: å­—ç¬¦ä¸²æ‹†åˆ†
+	// Parameter: const string & str å¾…æ‹†åˆ†å­—ç¬¦ä¸²
+	// Parameter: const string & delim åˆ†å‰²ç¬¦
 	//************************************
 	static vector<string> split(const string& str,const string& delim);
 
@@ -45,8 +45,8 @@ public:
 	// FullName:  StringUtil::trim
 	// Access:    public static 
 	// Returns:   void
-	// Description: ×Ö·û´®Çå³ıÁ½¶Ë¿Õ¸ñ
-	// Parameter: string * str ´ı´¦Àí×Ö·û´®
+	// Description: å­—ç¬¦ä¸²æ¸…é™¤ä¸¤ç«¯ç©ºæ ¼
+	// Parameter: string * str å¾…å¤„ç†å­—ç¬¦ä¸²
 	//************************************
 	static void trim(string* str);
 
@@ -55,10 +55,10 @@ public:
 	// FullName:  StringUtil::replace
 	// Access:    public static 
 	// Returns:   void
-	// Description: ×Ö·û´®Ìæ»»´¦Àí
-	// Parameter: string * base ´ıÌæ»»×Ö·û´®
-	// Parameter: const string & src Ìæ»»×Ó´®
-	// Parameter: const string & dst Ä¿±ê×Ó´®
+	// Description: å­—ç¬¦ä¸²æ›¿æ¢å¤„ç†
+	// Parameter: string * base å¾…æ›¿æ¢å­—ç¬¦ä¸²
+	// Parameter: const string & src æ›¿æ¢å­ä¸²
+	// Parameter: const string & dst ç›®æ ‡å­ä¸²
 	//************************************
 	static void replace(string* base, const string& src, const string& dst);
 };

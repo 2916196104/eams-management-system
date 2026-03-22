@@ -1,4 +1,4 @@
-#ifndef __ATOMIC_INT_H_
+﻿#ifndef __ATOMIC_INT_H_
 #define __ATOMIC_INT_H_
 
 namespace nacos{

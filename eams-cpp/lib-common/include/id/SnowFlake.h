@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -23,9 +23,9 @@
 #include <mutex>
 
 /**
- * Ñ©»¨IDÉú³É¹¤¾ß
- * Ê¹ÓÃÊ¾Àı£º
- * ÏÂÃæÊ¾ÀıÉú³É10¸öID
+ * é›ªèŠ±IDç”Ÿæˆå·¥å…·
+ * ä½¿ç”¨ç¤ºä¾‹ï¼š
+ * ä¸‹é¢ç¤ºä¾‹ç”Ÿæˆ10ä¸ªID
  * SnowFlake sf(1, 1);
  * for (int i = 0; i < 10; i++)
  *	std::cout << sf.nextId() << std::endl;
@@ -33,40 +33,40 @@
 class SnowFlake
 {
 private:
-	// ³õÊ¼Ê±¼ä´Á£¬¸øÒ»¸öËæ»úÖµ
+	// åˆå§‹æ—¶é—´æˆ³ï¼Œç»™ä¸€ä¸ªéšæœºå€¼
 	static const uint64_t m_start_time_stamp = 1480166465631;
-	// ĞòÁĞºÅÕ¼ÓÃÎ»Êı
+	// åºåˆ—å·å ç”¨ä½æ•°
 	static const uint64_t m_sequence_bit = 12;
-	// »úÆ÷IDÕ¼ÓÃÎ»Êı
+	// æœºå™¨IDå ç”¨ä½æ•°
 	static const uint64_t m_machine_bit = 5;
-	// Êı¾İ±êÊ¶Õ¼ÓÃÎ»Êı
+	// æ•°æ®æ ‡è¯†å ç”¨ä½æ•°
 	static const uint64_t m_datacenter_bit = 5;
 
-	// »ñÈ¡Î»ÊıµÄ×î´óÖµ
+	// è·å–ä½æ•°çš„æœ€å¤§å€¼
 	static const uint64_t m_max_datacenter_num = -1 ^ (uint64_t(-1) << m_datacenter_bit);
 	static const uint64_t m_max_machine_num = -1 ^ (uint64_t(-1) << m_machine_bit);
 	static const uint64_t m_max_sequence_num = -1 ^ (uint64_t(-1) << m_sequence_bit);
 
-	// ÏÂ±ê
-	static const uint64_t m_machine_left = m_sequence_bit;// »úÆ÷IDÏò×óÒÆ12Î»
-	static const uint64_t m_datacenter_left = m_sequence_bit + m_machine_bit;// Êı¾İ±êÊ¶IDÏò×óÒÆ17Î»(12+5)
-	static const uint64_t m_timestamp_left = m_sequence_bit + m_machine_bit + m_datacenter_bit; // Ê±¼ä´ÁÏò×óÒÆ22Î»(5+5+12)
+	// ä¸‹æ ‡
+	static const uint64_t m_machine_left = m_sequence_bit;// æœºå™¨IDå‘å·¦ç§»12ä½
+	static const uint64_t m_datacenter_left = m_sequence_bit + m_machine_bit;// æ•°æ®æ ‡è¯†IDå‘å·¦ç§»17ä½(12+5)
+	static const uint64_t m_timestamp_left = m_sequence_bit + m_machine_bit + m_datacenter_bit; // æ—¶é—´æˆ³å‘å·¦ç§»22ä½(5+5+12)
 
-	// Êı¾İÖĞĞÄID(0~31)
+	// æ•°æ®ä¸­å¿ƒID(0~31)
 	uint64_t m_datacenterId;
-	// ¹¤×÷»úÆ÷ID(0~31)
+	// å·¥ä½œæœºå™¨ID(0~31)
 	uint64_t m_machineId;
-	// ºÁÃëÄÚĞòÁĞ(0~4095)
+	// æ¯«ç§’å†…åºåˆ—(0~4095)
 	uint64_t m_sequence;
-	// ÉÏ´ÎÉú³ÉIDµÄÊ±¼ä´Á
+	// ä¸Šæ¬¡ç”ŸæˆIDçš„æ—¶é—´æˆ³
 	uint64_t m_last_time_stamp;
-	// ±êÊ¶ÊÇ·ñ³õÊ¼»¯Íê³É
+	// æ ‡è¯†æ˜¯å¦åˆå§‹åŒ–å®Œæˆ
 	bool m_is_init;
-	// Ïß³ÌËø
+	// çº¿ç¨‹é”
 	std::mutex m_mtx;
-	// »ñµÃĞÂµÄÊ±¼ä´Á
+	// è·å¾—æ–°çš„æ—¶é—´æˆ³
 	uint64_t getNextMill();
-	// ·µ»ØÒÔºÁÃëÎªµ¥Î»µÄµ±Ç°Ê±¼ä
+	// è¿”å›ä»¥æ¯«ç§’ä¸ºå•ä½çš„å½“å‰æ—¶é—´
 	uint64_t getNewTimeStamp();
 public:
 	//************************************
@@ -74,9 +74,9 @@ public:
 	// FullName:  SnowFlake::SnowFlake
 	// Access:    public 
 	// Returns:   
-	// Description: ¹¹Ôì³õÊ¼»¯
-	// Parameter: int datacenterId Êı¾İÖĞĞÄID (0~31)
-	// Parameter: int machineId ¹¤×÷»úÆ÷ID(0~31)
+	// Description: æ„é€ åˆå§‹åŒ–
+	// Parameter: int datacenterId æ•°æ®ä¸­å¿ƒID (0~31)
+	// Parameter: int machineId å·¥ä½œæœºå™¨ID(0~31)
 	//************************************
 	SnowFlake(int datacenterId, int machineId);
 
@@ -84,8 +84,8 @@ public:
 	// Method:    nextId
 	// FullName:  SnowFlake::nextId
 	// Access:    public 
-	// Returns:   uint64_t ·µ»Ø¼ÆËã³öÀ´µÄID£¬·µ»Ø0±íÊ¾Éú³ÉIDÊ§°Ü
-	// Description: »ñÈ¡ÏÂÒ»¸öID
+	// Returns:   uint64_t è¿”å›è®¡ç®—å‡ºæ¥çš„IDï¼Œè¿”å›0è¡¨ç¤ºç”ŸæˆIDå¤±è´¥
+	// Description: è·å–ä¸‹ä¸€ä¸ªID
 	//************************************
 	uint64_t nextId();
 };

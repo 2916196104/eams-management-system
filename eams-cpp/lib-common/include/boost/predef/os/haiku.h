@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright Jessica Hamilton 2014
 Copyright Rene Rivera 2014-2015
 Distributed under the Boost Software License, Version 1.0.

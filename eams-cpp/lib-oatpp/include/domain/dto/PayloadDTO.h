@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -22,31 +22,31 @@
 #include "jwt/jwt.hpp"
 
 /**
- * ¸ºÔØĞÅÏ¢»ñÈ¡×´Ì¬±àÂë
+ * è´Ÿè½½ä¿¡æ¯è·å–çŠ¶æ€ç¼–ç 
  */
 enum class PayloadCode
 {
-	// ĞÅÏ¢ÑéÖ¤´¦Àí³É¹¦
+	// ä¿¡æ¯éªŒè¯å¤„ç†æˆåŠŸ
 	SUCCESS,
-	// TokenÒÑ¹ıÆÚ
+	// Tokenå·²è¿‡æœŸ
 	TOKEN_EXPIRED_ERROR,
-	// Ç©Ãû¸ñÊ½´íÎó
+	// ç­¾åæ ¼å¼é”™è¯¯
 	SIGNATUREFORMAT_ERROR,
-	// ½âÃÜ´íÎó
+	// è§£å¯†é”™è¯¯
 	DECODE_ERROR,
-	// ÑéÖ¤´íÎó
+	// éªŒè¯é”™è¯¯
 	VERIFICATION_ERROR,
-	// ÆäËû´íÎó
+	// å…¶ä»–é”™è¯¯
 	OTHER_ERROR
 };
 
 /**
- * ¸ºÔØĞÅÏ¢ÊµÌåÀà
+ * è´Ÿè½½ä¿¡æ¯å®ä½“ç±»
  */
 class PayloadDTO
 {
 public:
-	// »ñÈ¡×´Ì¬Âë¶ÔÓ¦µÄÃ¶¾ÙÖµÃû³Æ
+	// è·å–çŠ¶æ€ç å¯¹åº”çš„æšä¸¾å€¼åç§°
 	static std::string getCodeName(PayloadCode code) 
 	{
 		switch (code)
@@ -67,26 +67,26 @@ public:
 			return "NONE";
 		}
 	}
-	// »ñÈ¡Æ¾Ö¤Ç°×º
+	// è·å–å‡­è¯å‰ç¼€
 	static std::string getTokenPrefix() {
 		return "Bearer ";
 	}
 private:
-	// Token×Ö·û´®¶ÔÓ¦µÄÖµ
+	// Tokenå­—ç¬¦ä¸²å¯¹åº”çš„å€¼
 	std::string token;
-	// Ö÷ÌåÊı¾İ
+	// ä¸»ä½“æ•°æ®
 	std::string sub;
-	// Æ¾Ö¤ÓĞĞ§Ê±³¤£¨Ãë£©
+	// å‡­è¯æœ‰æ•ˆæ—¶é•¿ï¼ˆç§’ï¼‰
 	int64_t exp;
-	// ÓÃ»§±àºÅ
+	// ç”¨æˆ·ç¼–å·
 	std::string id;
-	// ÓÃ»§Ãû
+	// ç”¨æˆ·å
 	std::string username;
-	// ÓÃ»§ÓµÓĞµÄÈ¨ÏŞ
+	// ç”¨æˆ·æ‹¥æœ‰çš„æƒé™
 	std::list<std::string> authorities;
-	// Êı¾İ×´Ì¬ÏµĞÅÏ¢
+	// æ•°æ®çŠ¶æ€ç³»ä¿¡æ¯
 	PayloadCode code;
-	// TIP£ºĞÂÔöÊôĞÔ×Ö¶ÎÔÚºóÃæÌí¼Ó¼´¿É
+	// TIPï¼šæ–°å¢å±æ€§å­—æ®µåœ¨åé¢æ·»åŠ å³å¯
 public:
 	PayloadDTO()
 	{
@@ -94,7 +94,7 @@ public:
 		this->exp = 0;
 		this->sub = "";
 		this->setCode(PayloadCode::SUCCESS);
-		// ×¢Òâ£ºĞÂÔöÊôĞÔ×Ö¶Î¸³ÖµÄ¬ÈÏÖµÔÚºóÃæ²¹³ä¼´¿É
+		// æ³¨æ„ï¼šæ–°å¢å±æ€§å­—æ®µèµ‹å€¼é»˜è®¤å€¼åœ¨åé¢è¡¥å……å³å¯
 	}
 	PayloadDTO(std::string _sub, int64_t _exp, std::string _username, std::list<std::string> _authorities) :
 		sub(_sub), exp(_exp), username(_username), authorities(_authorities)
@@ -117,45 +117,45 @@ public:
 	void setId(std::string val) { id = val; }
 	std::string getToken() const { return token; }
 	void setToken(std::string val) { token = val; }
-	// ×¢Òâ£ºĞÂÔöÊôĞÔ×Ö¶ÎºóĞèÒª²¹³ägetter/setter
+	// æ³¨æ„ï¼šæ–°å¢å±æ€§å­—æ®µåéœ€è¦è¡¥å……getter/setter
 
-	// Ìí¼ÓÈ¨ÏŞ
+	// æ·»åŠ æƒé™
 	void putAuthority(std::string authstr) { authorities.push_back(authstr); }
 	
-	// ½«PayloadµÄÊôĞÔ×ª»»µ½jwt_objectÖĞ
-	// ×¢Òâ£ºĞÂÔöÊôĞÔ×Ö¶ÎºóĞèÒªÎ¬»¤´Ë·½·¨
+	// å°†Payloadçš„å±æ€§è½¬æ¢åˆ°jwt_objectä¸­
+	// æ³¨æ„ï¼šæ–°å¢å±æ€§å­—æ®µåéœ€è¦ç»´æŠ¤æ­¤æ–¹æ³•
 	template<class T>
 	void propToJwt(T* obj) const
 	{
-		// ×ª»»È¨ÏŞÁĞ±í
+		// è½¬æ¢æƒé™åˆ—è¡¨
 		obj->add_claim("authorities", authorities);
-		// ×ª»»ÓÃ»§Ãû
+		// è½¬æ¢ç”¨æˆ·å
 		obj->add_claim("user_name", username);
-		// ×ª»»id
+		// è½¬æ¢id
 		obj->add_claim("id", id);
-		// TIP£ºĞÂÔö×Ö¶ÎÔÚºóÃæ²¹³ä¼´¿É
+		// TIPï¼šæ–°å¢å­—æ®µåœ¨åé¢è¡¥å……å³å¯
 	}
 
-	// ½«jwt_objectµÄÊôĞÔ×ª»»µ½PayloadÖĞ
-	// ×¢Òâ£ºĞÂÔöÊôĞÔ×Ö¶ÎºóĞèÒªÎ¬»¤´Ë·½·¨
+	// å°†jwt_objectçš„å±æ€§è½¬æ¢åˆ°Payloadä¸­
+	// æ³¨æ„ï¼šæ–°å¢å±æ€§å­—æ®µåéœ€è¦ç»´æŠ¤æ­¤æ–¹æ³•
 	void propToPayload(jwt::jwt_object* obj) 
 	{
-		// »ñÈ¡¸ºÔØĞÅÏ¢
+		// è·å–è´Ÿè½½ä¿¡æ¯
 		auto payload = obj->payload();
 		auto _payload = payload.create_json_obj();
 
-		// ×ª»»È¨ÏŞÁĞ±í
+		// è½¬æ¢æƒé™åˆ—è¡¨
 		if (_payload.contains("authorities"))
 			setAuthorities(payload.get_claim_value<std::list<std::string>>("authorities"));
-		// ×ª»»ÓÃ»§Ãû
+		// è½¬æ¢ç”¨æˆ·å
 		setUsername(payload.get_claim_value<std::string>("user_name"));
-		// ×ª»»Êı×ÖÀàĞÍid
+		// è½¬æ¢æ•°å­—ç±»å‹id
 		if (_payload["id"].is_number()) 
 			setId(std::to_string(_payload["id"].get<int64_t>()));
-		// ×ª»»×Ö·û´®ÀàĞÍid
+		// è½¬æ¢å­—ç¬¦ä¸²ç±»å‹id
 		else
 			setId(_payload["id"].get<std::string>());
-		// TIP£ºĞÂÔö×Ö¶ÎÔÚºóÃæ²¹³ä¼´¿É
+		// TIPï¼šæ–°å¢å­—æ®µåœ¨åé¢è¡¥å……å³å¯
 	}
 };
 

@@ -1,4 +1,4 @@
-// Boost result_of library
+﻿// Boost result_of library
 
 //  Copyright Douglas Gregor 2004. Use, modification and
 //  distribution is subject to the Boost Software License, Version

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2015 Klemens Morgenstern
  * Copyright 2016 Jorge Lodos
  * Copyright 2016 Andrey Semashev

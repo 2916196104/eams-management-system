@@ -1,4 +1,4 @@
-#ifndef __WEIGHTED_RND_SELECTOR_H_
+﻿#ifndef __WEIGHTED_RND_SELECTOR_H_
 #define __WEIGHTED_RND_SELECTOR_H_
 
 #include <list>

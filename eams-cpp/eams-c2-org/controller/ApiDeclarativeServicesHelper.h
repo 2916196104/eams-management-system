@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -20,25 +20,25 @@
 #ifndef _APIDECLARATIVESERVICESHELPER_H_
 #define _APIDECLARATIVESERVICESHELPER_H_
 /**
- * ¶¨ÒåÉùÃ÷Ê½·þÎñµ÷ÓÃºê¼ò»¯²Ù×÷£¬ÒÔ¼°ÔÚ´ËÎÄ¼þÖÐÍ³Ò»µ¼ÈëÉùÃ÷Ê½·þÎñÀàÏà¹ØÍ·ÎÄ¼þ£¬·½±ã¹ÜÀíºÍµ÷ÓÃ
+ * å®šä¹‰å£°æ˜Žå¼æœåŠ¡è°ƒç”¨å®ç®€åŒ–æ“ä½œï¼Œä»¥åŠåœ¨æ­¤æ–‡ä»¶ä¸­ç»Ÿä¸€å¯¼å…¥å£°æ˜Žå¼æœåŠ¡ç±»ç›¸å…³å¤´æ–‡ä»¶ï¼Œæ–¹ä¾¿ç®¡ç†å’Œè°ƒç”¨
  */
 
-// µ¼Èë±ØÐëÍ·ÎÄ¼þ
+// å¯¼å…¥å¿…é¡»å¤´æ–‡ä»¶
 #include "oatpp/core/data/mapping/ObjectMapper.hpp"
 #include "oatpp/web/client/HttpRequestExecutor.hpp"
 //////////////////////////////////////////////////////////////////////////
-// #TIP: ÏîÄ¿ÖÐµÄApiClientÔÚÕâÀïµ¼Èë
+// #TIP: é¡¹ç›®ä¸­çš„ApiClientåœ¨è¿™é‡Œå¯¼å…¥
 
 
 
 //////////////////////////////////////////////////////////////////////////
 
 /**
- * ¶¨ÒåÒ»¸ö´´½¨API ClientµÄºê
- * @param _VAR_CLIENT_: ´´½¨µÄ¿Í»§¶Ë±äÁ¿Ãû³Æ
- * @param _VAR_MAPPER_: ÓÃÓÚJSONÊý¾Ý×ª»»µÄmapper¶ÔÏó±äÁ¿Ãû³Æ
- * @param _CLASS_CLIENT_: ¿Í»§¶ËÀàÃû
- * @param _EXECUTOR_NAME_: HttpRequestExecutorÖ´ÐÐÆ÷×é¼þÃû³Æ¡£Èç£º"gateway"
+ * å®šä¹‰ä¸€ä¸ªåˆ›å»ºAPI Clientçš„å®
+ * @param _VAR_CLIENT_: åˆ›å»ºçš„å®¢æˆ·ç«¯å˜é‡åç§°
+ * @param _VAR_MAPPER_: ç”¨äºŽJSONæ•°æ®è½¬æ¢çš„mapperå¯¹è±¡å˜é‡åç§°
+ * @param _CLASS_CLIENT_: å®¢æˆ·ç«¯ç±»å
+ * @param _EXECUTOR_NAME_: HttpRequestExecutoræ‰§è¡Œå™¨ç»„ä»¶åç§°ã€‚å¦‚ï¼š"gateway"
  */
 #define API_CLIENT_CREATE(_VAR_CLIENT_, _VAR_MAPPER_, _CLASS_CLIENT_, _EXECUTOR_NAME_) \
 OATPP_COMPONENT(std::shared_ptr<oatpp::web::client::HttpRequestExecutor>, requestExecutor, _EXECUTOR_NAME_); \

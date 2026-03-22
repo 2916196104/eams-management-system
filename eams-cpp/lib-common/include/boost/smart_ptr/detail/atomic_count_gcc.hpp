@@ -1,4 +1,4 @@
-#ifndef BOOST_SMART_PTR_DETAIL_ATOMIC_COUNT_GCC_HPP_INCLUDED
+﻿#ifndef BOOST_SMART_PTR_DETAIL_ATOMIC_COUNT_GCC_HPP_INCLUDED
 #define BOOST_SMART_PTR_DETAIL_ATOMIC_COUNT_GCC_HPP_INCLUDED
 
 //
@@ -9,7 +9,7 @@
 //  http://gcc.gnu.org/onlinedocs/porting/Thread-safety.html
 //
 //  Copyright (c) 2001, 2002 Peter Dimov and Multi Media Ltd.
-//  Copyright (c) 2002 Lars Gullik Bjønnes <larsbj@lyx.org>
+//  Copyright (c) 2002 Lars Gullik Bj酶nnes <larsbj@lyx.org>
 //  Copyright 2003-2005 Peter Dimov
 //
 //  Distributed under the Boost Software License, Version 1.0. (See

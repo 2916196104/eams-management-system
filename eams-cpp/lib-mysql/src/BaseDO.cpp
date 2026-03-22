@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
@@ -57,20 +57,20 @@ void* DOField::get()
 
 void BaseDO::addColField(DOField* field)
 {
-	// ÅĞ¶ÏÊÇ·ñÊÇÖ÷¼üÓò
+	// åˆ¤æ–­æ˜¯å¦æ˜¯ä¸»é”®åŸŸ
 	if (field->getIsPrimaryKey())
 	{
 		if (_primaryField) delete _primaryField;
 		_primaryField = field;
 		return;
 	}
-	// Èç¹ûÒÑ¾­´æÔÚ×Ö¶ÎÓò£¬ÔòÉ¾³ı
+	// å¦‚æœå·²ç»å­˜åœ¨å­—æ®µåŸŸï¼Œåˆ™åˆ é™¤
 	auto iter = std::find_if(_fields.begin(), _fields.end(), [field](DOField* f) { return field->getColumn() == f->getColumn(); });
 	if (iter != _fields.end()) {
 		delete* iter;
 		_fields.erase(iter);
 	}
-	// Ìí¼Ó×Ö¶ÎÓò
+	// æ·»åŠ å­—æ®µåŸŸ
 	_fields.emplace_back(field);
 }
 

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2016 Klemens D. Morgenstern
  * Copyright 2016 Andrey Semashev
  *

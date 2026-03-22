@@ -1,4 +1,4 @@
-#ifndef CORE_OPTIONAL_HPP
+﻿#ifndef CORE_OPTIONAL_HPP
 #define CORE_OPTIONAL_HPP
 
 #include <initializer_list>

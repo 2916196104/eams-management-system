@@ -1,4 +1,4 @@
-/*
+﻿/*
  * << Haru Free PDF Library 2.0.8 >> -- hpdf.h
  *
  * URL http://libharu.org/

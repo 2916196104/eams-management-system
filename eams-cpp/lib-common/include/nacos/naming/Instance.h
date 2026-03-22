@@ -1,4 +1,4 @@
-#ifndef __INSTANCE_H_
+﻿#ifndef __INSTANCE_H_
 #define __INSTANCE_H_
 
 #include <map>

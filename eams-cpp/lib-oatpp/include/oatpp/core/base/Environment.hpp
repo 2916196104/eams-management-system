@@ -1,4 +1,4 @@
-/***************************************************************************
+﻿/***************************************************************************
  *
  * Project         _____    __   ____   _      _
  *                (  _  )  /__\ (_  _)_| |_  _| |_
@@ -7,7 +7,7 @@
  *
  *
  * Copyright 2018-present, Leonid Stryzhevskyi <lganzzzo@gmail.com>
- *                         Benedikt-Alexander Mokroß <oatpp@bamkrs.de>
+ *                         Benedikt-Alexander Mokro脽 <oatpp@bamkrs.de>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

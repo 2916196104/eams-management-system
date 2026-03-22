@@ -1,4 +1,4 @@
-#ifndef __SVC_INFO_2_H_
+﻿#ifndef __SVC_INFO_2_H_
 #define __SVC_INFO_2_H_
 
 #include <list>

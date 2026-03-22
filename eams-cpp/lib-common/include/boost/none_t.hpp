@@ -1,4 +1,4 @@
-// Copyright (C) 2003, Fernando Luis Cacciola Carballal.
+﻿// Copyright (C) 2003, Fernando Luis Cacciola Carballal.
 // Copyright (C) 2014, 2015 Andrzej Krzemienski.
 //
 // Use, modification, and distribution is subject to the Boost Software

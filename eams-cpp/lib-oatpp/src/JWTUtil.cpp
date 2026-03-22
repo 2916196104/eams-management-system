@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
@@ -65,18 +65,18 @@ std::string JWTUtil::md5(const std::string& src)
 
 std::string JWTUtil::generateTokenByHmac(const PayloadDTO& payloadDto, const std::string& secretStr)
 {
-	//1 ´´½¨JWTÍ·£¬ÉèÖÃÇ©ÃûËã·¨ºÍÀàĞÍ
+	//1 åˆ›å»ºJWTå¤´ï¼Œè®¾ç½®ç­¾åç®—æ³•å’Œç±»å‹
 	jwt_header hdr = jwt_header{ jwt::algorithm::HS256 };
-	//2 ½«¸ºÔØĞÅÏ¢·â×°µ½PayloadÖĞ
+	//2 å°†è´Ÿè½½ä¿¡æ¯å°è£…åˆ°Payloadä¸­
 	jwt::jwt_payload jp;
-	//2.1 ºô½ĞÊôĞÔ×ª»»
+	//2.1 å‘¼å«å±æ€§è½¬æ¢
 	payloadDto.propToJwt(&jp);
-	//2.2 Ê§Ğ§Ê±¼äÔÚÄÚ²¿´¦Àí
+	//2.2 å¤±æ•ˆæ—¶é—´åœ¨å†…éƒ¨å¤„ç†
 	jp.add_claim("exp", std::chrono::system_clock::now() + std::chrono::seconds{ payloadDto.getExp() });
-	//3 ´´½¨HMACÇ©ÃûÆ÷
+	//3 åˆ›å»ºHMACç­¾åå™¨
 	jwt::jwt_signature sgn{ md5(secretStr) };
 	std::error_code ec{};
-	//4 Éú³Étoken
+	//4 ç”Ÿæˆtoken
 	auto res = sgn.encode(hdr, jp, ec);
 	return res;
 }
@@ -87,9 +87,9 @@ PayloadDTO JWTUtil::verifyTokenByHmac(const std::string& token, const std::strin
 	using namespace jwt::params;
 	try {
 		jwt_object dec_obj = jwt::decode(token, algorithms({ "HS256" }), secret(string_view(md5(secretStr))), verify(true));
-		// ºô½ĞÊôĞÔ×ª»»
+		// å‘¼å«å±æ€§è½¬æ¢
 		p.propToPayload(&dec_obj);
-		// Ê§Ğ§Ê±¼äÔÚÄÚ²¿´¦Àí
+		// å¤±æ•ˆæ—¶é—´åœ¨å†…éƒ¨å¤„ç†
 		p.setExp(dec_obj.payload().get_claim_value<int64_t>("exp"));
 	}
 	JU_VERIFY_CATCH(p);
@@ -101,9 +101,9 @@ std::string JWTUtil::generateTokenByRsa(const PayloadDTO& payloadDto, const std:
 	jwt::jwt_object obj;
 	obj.secret(rsaPriKey);
 	obj.header().algo(jwt::algorithm::RS256);
-	// ºô½ĞÊôĞÔ×ª»»
+	// å‘¼å«å±æ€§è½¬æ¢
 	payloadDto.propToJwt(&obj);
-	// Ê§Ğ§Ê±¼äÔÚÄÚ²¿´¦Àí
+	// å¤±æ•ˆæ—¶é—´åœ¨å†…éƒ¨å¤„ç†
 	obj.add_claim("exp", std::chrono::system_clock::now() + std::chrono::seconds{ payloadDto.getExp() });
 	return obj.signature();
 }
@@ -114,9 +114,9 @@ PayloadDTO JWTUtil::verifyTokenByRsa(const std::string& token, const std::string
 	using namespace jwt::params;
 	try {
 		jwt_object dec_obj = jwt::decode(token, algorithms({ "RS256" }), secret(rsaPubKey), verify(true));
-		// ºô½ĞÊôĞÔ×ª»»
+		// å‘¼å«å±æ€§è½¬æ¢
 		p.propToPayload(&dec_obj);
-		// Ê§Ğ§Ê±¼äÔÚÄÚ²¿´¦Àí
+		// å¤±æ•ˆæ—¶é—´åœ¨å†…éƒ¨å¤„ç†
 		p.setExp(dec_obj.payload().get_claim_value<int64_t>("exp"));
 	}
 	JU_VERIFY_CATCH(p);

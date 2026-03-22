@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -21,10 +21,10 @@
 #define _SQL_HELPER_H_
 
 /**
- * ¶¨ÒåÊÜ±£»¤µÄ±äÁ¿£¨×îÖÕÀàĞÍÊÇÖÇÄÜÖ¸Õë£©£¬²¢Ìá¹©get¡¢set·½·¨
- * @param varType: ±äÁ¿ÀàĞÍ
- * @param varName: ±äÁ¿Ãû³Æ
- * @param funName: get set ·½·¨Ãû³Æ
+ * å®šä¹‰å—ä¿æŠ¤çš„å˜é‡ï¼ˆæœ€ç»ˆç±»å‹æ˜¯æ™ºèƒ½æŒ‡é’ˆï¼‰ï¼Œå¹¶æä¾›getã€setæ–¹æ³•
+ * @param varType: å˜é‡ç±»å‹
+ * @param varName: å˜é‡åç§°
+ * @param funName: get set æ–¹æ³•åç§°
  */
 #define MYSQL_SYNTHESIZE(varType, varName, funName)\
 protected: std::shared_ptr<varType> varName = nullptr;\
@@ -34,29 +34,29 @@ varType get##funName(void) const { return *varName.get(); }\
 public: void set##funName(varType var){	varName = std::make_shared<varType>(var);}
 
 /**
- * ¸øDOµÄÌí¼ÓÆÕÍ¨×Ö¶ÎÓò
- * @param __COL_NAME__: ¶ÔÓ¦Êı¾İ¿âµÄ×Ö¶ÎÃû³Æ£¬Èç£º"name"¡¢"sex"¡¢"age"
- * @param __COL_TYPE__: ¶ÔÓ¦Êı¾İÀàĞÍÕ¼Î»·û£¬Èç£º"i"¡¢"s"¡¢"d"¡¢"b"¡¢"dt"¡¢"nul"¡¢"bi"¡¢"ull"¡¢"ll"¡¢"ui"
- * @param __PROP_VAR__: ×Ö¶ÎÔÚDOÖĞ¶ÔÓ¦³ÉÔ±±äÁ¿Ãû
+ * ç»™DOçš„æ·»åŠ æ™®é€šå­—æ®µåŸŸ
+ * @param __COL_NAME__: å¯¹åº”æ•°æ®åº“çš„å­—æ®µåç§°ï¼Œå¦‚ï¼š"name"ã€"sex"ã€"age"
+ * @param __COL_TYPE__: å¯¹åº”æ•°æ®ç±»å‹å ä½ç¬¦ï¼Œå¦‚ï¼š"i"ã€"s"ã€"d"ã€"b"ã€"dt"ã€"nul"ã€"bi"ã€"ull"ã€"ll"ã€"ui"
+ * @param __PROP_VAR__: å­—æ®µåœ¨DOä¸­å¯¹åº”æˆå‘˜å˜é‡å
  */
 #define MYSQL_ADD_FIELD(__COL_NAME__, __COL_TYPE__, __PROP_VAR__) \
 addColField(new DOField(__COL_NAME__, __COL_TYPE__, [this]() {return __PROP_VAR__.get(); }))
 
 /**
- * ¸øDOµÄÌí¼ÓÆÕÍ¨×Ö¶ÎÓò, ¿ÉÒÔÖ¸¶¨ÊÇ·ñÔÊĞíÎªNULL
- * @param __COL_NAME__: ¶ÔÓ¦Êı¾İ¿âµÄ×Ö¶ÎÃû³Æ£¬Èç£º"name"¡¢"sex"¡¢"age"
- * @param __COL_TYPE__: ¶ÔÓ¦Êı¾İÀàĞÍÕ¼Î»·û£¬Èç£º"i"¡¢"s"¡¢"d"¡¢"b"¡¢"dt"¡¢"nul"¡¢"bi"¡¢"ull"¡¢"ll"¡¢"ui"
- * @param __PROP_VAR__: ×Ö¶ÎÔÚDOÖĞ¶ÔÓ¦³ÉÔ±±äÁ¿Ãû
- * @param __NULL_ABLE__: ÊÇ·ñÔÊĞíÎªNULL£¬trueÔÊĞíÎªNULL£¬false²»ÔÊĞíÎªNULL
+ * ç»™DOçš„æ·»åŠ æ™®é€šå­—æ®µåŸŸ, å¯ä»¥æŒ‡å®šæ˜¯å¦å…è®¸ä¸ºNULL
+ * @param __COL_NAME__: å¯¹åº”æ•°æ®åº“çš„å­—æ®µåç§°ï¼Œå¦‚ï¼š"name"ã€"sex"ã€"age"
+ * @param __COL_TYPE__: å¯¹åº”æ•°æ®ç±»å‹å ä½ç¬¦ï¼Œå¦‚ï¼š"i"ã€"s"ã€"d"ã€"b"ã€"dt"ã€"nul"ã€"bi"ã€"ull"ã€"ll"ã€"ui"
+ * @param __PROP_VAR__: å­—æ®µåœ¨DOä¸­å¯¹åº”æˆå‘˜å˜é‡å
+ * @param __NULL_ABLE__: æ˜¯å¦å…è®¸ä¸ºNULLï¼Œtrueå…è®¸ä¸ºNULLï¼Œfalseä¸å…è®¸ä¸ºNULL
  */
 #define MYSQL_ADD_FIELD_NULLABLE(__COL_NAME__, __COL_TYPE__, __PROP_VAR__, __NULL_ABLE__) \
 addColField(new DOField(__COL_NAME__, __COL_TYPE__, [this]() {return __PROP_VAR__.get(); }, __NULL_ABLE__))
 
 /**
- * ¸øDOµÄÌí¼ÓÖ÷¼ü×Ö¶ÎÓò
- * @param __COL_NAME__: ¶ÔÓ¦Êı¾İ¿âµÄ×Ö¶ÎÃû³Æ£¬Èç£º"name"¡¢"sex"¡¢"age"
- * @param __COL_TYPE__: ¶ÔÓ¦Êı¾İÀàĞÍÕ¼Î»·û£¬Èç£º"i"¡¢"s"¡¢"d"¡¢"b"¡¢"dt"¡¢"nul"¡¢"bi"¡¢"ull"¡¢"ll"¡¢"ui"
- * @param __PROP_VAR__: ×Ö¶ÎÔÚDOÖĞ¶ÔÓ¦³ÉÔ±±äÁ¿Ãû
+ * ç»™DOçš„æ·»åŠ ä¸»é”®å­—æ®µåŸŸ
+ * @param __COL_NAME__: å¯¹åº”æ•°æ®åº“çš„å­—æ®µåç§°ï¼Œå¦‚ï¼š"name"ã€"sex"ã€"age"
+ * @param __COL_TYPE__: å¯¹åº”æ•°æ®ç±»å‹å ä½ç¬¦ï¼Œå¦‚ï¼š"i"ã€"s"ã€"d"ã€"b"ã€"dt"ã€"nul"ã€"bi"ã€"ull"ã€"ll"ã€"ui"
+ * @param __PROP_VAR__: å­—æ®µåœ¨DOä¸­å¯¹åº”æˆå‘˜å˜é‡å
  */
 #define MYSQL_ADD_FIELD_PK(__COL_NAME__, __COL_TYPE__, __PROP_VAR__) \
 addColField(new DOField(__COL_NAME__, __COL_TYPE__, [this]() {return __PROP_VAR__.get(); }, false, true))

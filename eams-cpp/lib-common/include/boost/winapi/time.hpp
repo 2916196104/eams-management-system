@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2010 Vicente J. Botet Escriba
  * Copyright (c) Microsoft Corporation 2014
  * Copyright 2015, 2017 Andrey Semashev

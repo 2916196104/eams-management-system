@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -23,39 +23,39 @@
 #include <string>
 #include <vector>
 /**
- * Excel×é¼ş
- * ×¢Òâ£ºxlntÖ»Ö§³ÖxlsxÎÄ¼ş¸ñÊ½
+ * Excelç»„ä»¶
+ * æ³¨æ„ï¼šxlntåªæ”¯æŒxlsxæ–‡ä»¶æ ¼å¼
  */
 class ExcelComponent
 {
 private:
 	xlnt::workbook wb;
 	xlnt::worksheet sheet;
-	// ĞĞ¸ß
+	// è¡Œé«˜
 	double rowHeight = 20;
-	// ÁĞ¿í
+	// åˆ—å®½
 	double colWidth = 20;
-	// ´´½¨Sheet
+	// åˆ›å»ºSheet
 	void createSheet(const std::string& sheetname);
-	// ÖğĞĞĞ´ÈëÊı¾İ
+	// é€è¡Œå†™å…¥æ•°æ®
 	void writeLineByLine(const std::vector<std::vector<std::string>>& source);
-	// ÖğĞĞ¶ÁÈ¡Êı¾İ
+	// é€è¡Œè¯»å–æ•°æ®
 	static void readLineByLine(xlnt::worksheet* source, std::vector<std::vector<std::string>>* target);
 public:
 	ExcelComponent();
-	// ÉèÖÃĞĞ¸ß
+	// è®¾ç½®è¡Œé«˜
 	void setRowHeight(double rowHeight);
-	// ÉèÖÃÁĞ¿í
+	// è®¾ç½®åˆ—å®½
 	void setColWidth(double colWidth);
-	// Çå¿Õ¹¤×÷±¡
+	// æ¸…ç©ºå·¥ä½œè–„
 	void clearWorkbook();
-	// ¼ÓÔØÖ¸¶¨ExcelÎÄ¼şµ½ÄÚ´æ
+	// åŠ è½½æŒ‡å®šExcelæ–‡ä»¶åˆ°å†…å­˜
 	void loadFile(const std::string& filename);
-	// ÉèÖÃĞĞÍ¨ÓÃÊôĞÔ
+	// è®¾ç½®è¡Œé€šç”¨å±æ€§
 	void setRowProperties(int row);
-	// ÉèÖÃµ¥Ôª¸ñÄÚÈİ
+	// è®¾ç½®å•å…ƒæ ¼å†…å®¹
 	void setCellValue(int row, int col, const std::string& value);
-	// Ìí¼Ó±íÍ·
+	// æ·»åŠ è¡¨å¤´
 	void addHeader(const std::vector<std::string>& header);
 
 	//************************************
@@ -63,10 +63,10 @@ public:
 	// FullName:  ExcelComponent::writeVectorToFile
 	// Access:    public 
 	// Returns:   void
-	// Parameter: const std::string& filename ÎÄ¼şÃû³ÆµÄÈ«Â·¾¶£¬×¢ÒâÎÄ¼şÂ·¾¶·Ö¸ô·ûÊ¹ÓÃ/
-	// Parameter: const std::string& sheetname ĞÂÔöÄÚÈİ±£´æµ½µÄÒ³Ç©Ãû³Æ
-	// Parameter: std::function<void(ExcelComponent*)> fillData Ìî³äÊı¾İ´¦Àíº¯Êı£¬ÓÃÓÚÖ§³ÖÍâ²¿×Ô¶¨ÒåÊı¾İÌî³ä
-	// Description: ĞÂÔöÄÚÈİµ½Ö¸¶¨Ò³Ç©£¬²¢±£´æµ½ÎÄ¼şÖĞ
+	// Parameter: const std::string& filename æ–‡ä»¶åç§°çš„å…¨è·¯å¾„ï¼Œæ³¨æ„æ–‡ä»¶è·¯å¾„åˆ†éš”ç¬¦ä½¿ç”¨/
+	// Parameter: const std::string& sheetname æ–°å¢å†…å®¹ä¿å­˜åˆ°çš„é¡µç­¾åç§°
+	// Parameter: std::function<void(ExcelComponent*)> fillData å¡«å……æ•°æ®å¤„ç†å‡½æ•°ï¼Œç”¨äºæ”¯æŒå¤–éƒ¨è‡ªå®šä¹‰æ•°æ®å¡«å……
+	// Description: æ–°å¢å†…å®¹åˆ°æŒ‡å®šé¡µç­¾ï¼Œå¹¶ä¿å­˜åˆ°æ–‡ä»¶ä¸­
 	//************************************
 	void writeVectorToFile(const std::string& filename, const std::string& sheetname, std::function<void(ExcelComponent*)> fillData);
 
@@ -75,10 +75,10 @@ public:
 	// FullName:  ExcelComponent::writeVectorToFile
 	// Access:    public 
 	// Returns:   void
-	// Parameter: const std::string& filename ÎÄ¼şÃû³ÆµÄÈ«Â·¾¶£¬×¢ÒâÎÄ¼şÂ·¾¶·Ö¸ô·ûÊ¹ÓÃ/
-	// Parameter: const std::string& sheetname ĞÂÔöÄÚÈİ±£´æµ½µÄÒ³Ç©Ãû³Æ
-	// Parameter: const std::vector<std::vector<std::string>>& data ĞÂÔö±£´æµÄÊı¾İ
-	// Description: ĞÂÔöÄÚÈİµ½Ö¸¶¨Ò³Ç©£¬²¢±£´æµ½ÎÄ¼şÖĞ
+	// Parameter: const std::string& filename æ–‡ä»¶åç§°çš„å…¨è·¯å¾„ï¼Œæ³¨æ„æ–‡ä»¶è·¯å¾„åˆ†éš”ç¬¦ä½¿ç”¨/
+	// Parameter: const std::string& sheetname æ–°å¢å†…å®¹ä¿å­˜åˆ°çš„é¡µç­¾åç§°
+	// Parameter: const std::vector<std::vector<std::string>>& data æ–°å¢ä¿å­˜çš„æ•°æ®
+	// Description: æ–°å¢å†…å®¹åˆ°æŒ‡å®šé¡µç­¾ï¼Œå¹¶ä¿å­˜åˆ°æ–‡ä»¶ä¸­
 	//************************************
 	void writeVectorToFile(const std::string& filename, const std::string& sheetname, const std::vector<std::vector<std::string>>& data);
 
@@ -86,10 +86,10 @@ public:
 	// Method:      writeVectorToBuff
 	// FullName:    ExcelComponent::writeVectorToBuff
 	// Access:      public 
-	// Returns:     std::vector<std::uint8_t> ·µ»Ø»º´æ½á¹û£¬½á¹û¿ÉÒÔÊ¹ÓÃreinterpret_cast×ª»»³Éconst char*£¬Èç£ºconst char* charData = reinterpret_cast<const char*>(data.data());
-	// Parameter:   const std::string& sheetname ĞÂÔöÄÚÈİ±£´æµ½µÄÒ³Ç©Ãû³Æ
-	// Parameter:   std::function<void(ExcelComponent*)> fillData Ìî³äÊı¾İ´¦Àíº¯Êı£¬ÓÃÓÚÖ§³ÖÍâ²¿×Ô¶¨ÒåÊı¾İÌî³ä
-	// Description: ĞÂÔöÄÚÈİµ½Ö¸¶¨Ò³Ç©£¬²¢±£´æµ½µ½»º´æÖĞ·½±ã´«Êä
+	// Returns:     std::vector<std::uint8_t> è¿”å›ç¼“å­˜ç»“æœï¼Œç»“æœå¯ä»¥ä½¿ç”¨reinterpret_castè½¬æ¢æˆconst char*ï¼Œå¦‚ï¼šconst char* charData = reinterpret_cast<const char*>(data.data());
+	// Parameter:   const std::string& sheetname æ–°å¢å†…å®¹ä¿å­˜åˆ°çš„é¡µç­¾åç§°
+	// Parameter:   std::function<void(ExcelComponent*)> fillData å¡«å……æ•°æ®å¤„ç†å‡½æ•°ï¼Œç”¨äºæ”¯æŒå¤–éƒ¨è‡ªå®šä¹‰æ•°æ®å¡«å……
+	// Description: æ–°å¢å†…å®¹åˆ°æŒ‡å®šé¡µç­¾ï¼Œå¹¶ä¿å­˜åˆ°åˆ°ç¼“å­˜ä¸­æ–¹ä¾¿ä¼ è¾“
 	//************************************
 	std::vector<std::uint8_t> writeVectorToBuff(const std::string& sheetname, std::function<void(ExcelComponent*)> fillData);
 
@@ -97,10 +97,10 @@ public:
 	// Method:      writeVectorToBuff
 	// FullName:    ExcelComponent::writeVectorToBuff
 	// Access:      public 
-	// Returns:     std::vector<std::uint8_t> ·µ»Ø»º´æ½á¹û£¬½á¹û¿ÉÒÔÊ¹ÓÃreinterpret_cast×ª»»³Éconst char*£¬Èç£ºconst char* charData = reinterpret_cast<const char*>(data.data());
-	// Parameter:   const std::string& sheetname ĞÂÔöÄÚÈİ±£´æµ½µÄÒ³Ç©Ãû³Æ
-	// Parameter:   const std::vector<std::vector<std::string>>& data ĞÂÔö±£´æµÄÊı¾İ
-	// Description: ĞÂÔöÄÚÈİµ½Ö¸¶¨Ò³Ç©£¬²¢±£´æµ½µ½»º´æÖĞ·½±ã´«Êä
+	// Returns:     std::vector<std::uint8_t> è¿”å›ç¼“å­˜ç»“æœï¼Œç»“æœå¯ä»¥ä½¿ç”¨reinterpret_castè½¬æ¢æˆconst char*ï¼Œå¦‚ï¼šconst char* charData = reinterpret_cast<const char*>(data.data());
+	// Parameter:   const std::string& sheetname æ–°å¢å†…å®¹ä¿å­˜åˆ°çš„é¡µç­¾åç§°
+	// Parameter:   const std::vector<std::vector<std::string>>& data æ–°å¢ä¿å­˜çš„æ•°æ®
+	// Description: æ–°å¢å†…å®¹åˆ°æŒ‡å®šé¡µç­¾ï¼Œå¹¶ä¿å­˜åˆ°åˆ°ç¼“å­˜ä¸­æ–¹ä¾¿ä¼ è¾“
 	//************************************
 	std::vector<std::uint8_t> writeVectorToBuff(const std::string& sheetname, const std::vector<std::vector<std::string>>& data);
 
@@ -109,10 +109,10 @@ public:
 	// FullName:    ExcelComponent::read
 	// Access:      public static 
 	// Returns:     void
-	// Parameter:   const std::string& filename ÎÄ¼şÃû³ÆµÄÈ«Â·¾¶£¬×¢ÒâÎÄ¼şÂ·¾¶·Ö¸ô·ûÊ¹ÓÃ/
-	// Parameter:   const std::string& sheetname Ò³Ç©Ãû³Æ
-	// Parameter:   std::function<void(xlnt::worksheet*)> parseData Êı¾İ½âÎöº¯Êı£¬ÓÃÓÚÖ§³ÖÍâ²¿×Ô¶¨ÒåÊı¾İ½âÎö´¦Àí
-	// Description: ¶ÁÈ¡Ö¸¶¨ÎÄ¼şÖ¸¶¨Ò³Ç©µÄÄÚÈİ
+	// Parameter:   const std::string& filename æ–‡ä»¶åç§°çš„å…¨è·¯å¾„ï¼Œæ³¨æ„æ–‡ä»¶è·¯å¾„åˆ†éš”ç¬¦ä½¿ç”¨/
+	// Parameter:   const std::string& sheetname é¡µç­¾åç§°
+	// Parameter:   std::function<void(xlnt::worksheet*)> parseData æ•°æ®è§£æå‡½æ•°ï¼Œç”¨äºæ”¯æŒå¤–éƒ¨è‡ªå®šä¹‰æ•°æ®è§£æå¤„ç†
+	// Description: è¯»å–æŒ‡å®šæ–‡ä»¶æŒ‡å®šé¡µç­¾çš„å†…å®¹
 	//************************************
 	static void read(const std::string& filename, const std::string& sheetname, std::function<void(xlnt::worksheet*)> parseData);
 
@@ -121,11 +121,11 @@ public:
 	// FullName:    ExcelComponent::read
 	// Access:      public static 
 	// Returns:     void
-	// Parameter:   const char* data Êı¾İÄÚÈİ
-	// Parameter:   size_t size Êı¾İ´óĞ¡
-	// Parameter:   const std::string& sheetname Ò³Ç©Ãû³Æ
-	// Parameter:   std::function<void(xlnt::worksheet*)> parseData Êı¾İ½âÎöº¯Êı£¬ÓÃÓÚÖ§³ÖÍâ²¿×Ô¶¨ÒåÊı¾İ½âÎö´¦Àí
-	// Description: ¶ÁÈ¡ÄÚ´æÊı¾İÖĞÖ¸¶¨Ò³Ç©µÄÄÚÈİ
+	// Parameter:   const char* data æ•°æ®å†…å®¹
+	// Parameter:   size_t size æ•°æ®å¤§å°
+	// Parameter:   const std::string& sheetname é¡µç­¾åç§°
+	// Parameter:   std::function<void(xlnt::worksheet*)> parseData æ•°æ®è§£æå‡½æ•°ï¼Œç”¨äºæ”¯æŒå¤–éƒ¨è‡ªå®šä¹‰æ•°æ®è§£æå¤„ç†
+	// Description: è¯»å–å†…å­˜æ•°æ®ä¸­æŒ‡å®šé¡µç­¾çš„å†…å®¹
 	//************************************
 	static void read(const char* data, size_t size, const std::string& sheetname, std::function<void(xlnt::worksheet*)> parseData);
 
@@ -133,10 +133,10 @@ public:
 	// Method:    readIntoVector
 	// FullName:  ExcelComponent::readIntoVector
 	// Access:    public static
-	// Returns:   std::vector<std::vector<std::string>> Ö¸¶¨Ò³Ç©ÄÚÈİµÄ¶şÎ¬vector
-	// Parameter: const std::string& filename ÎÄ¼şÃû³ÆµÄÈ«Â·¾¶£¬×¢ÒâÎÄ¼şÂ·¾¶·Ö¸ô·ûÊ¹ÓÃ/
-	// Parameter: const std::string& sheetname Ò³Ç©Ãû³Æ
-	// Description: ¶ÁÈ¡Ö¸¶¨ÎÄ¼şÖ¸¶¨Ò³Ç©µÄÄÚÈİ
+	// Returns:   std::vector<std::vector<std::string>> æŒ‡å®šé¡µç­¾å†…å®¹çš„äºŒç»´vector
+	// Parameter: const std::string& filename æ–‡ä»¶åç§°çš„å…¨è·¯å¾„ï¼Œæ³¨æ„æ–‡ä»¶è·¯å¾„åˆ†éš”ç¬¦ä½¿ç”¨/
+	// Parameter: const std::string& sheetname é¡µç­¾åç§°
+	// Description: è¯»å–æŒ‡å®šæ–‡ä»¶æŒ‡å®šé¡µç­¾çš„å†…å®¹
 	//************************************
 	static std::vector<std::vector<std::string>> readIntoVector(const std::string& filename, const std::string& sheetname);
 
@@ -144,11 +144,11 @@ public:
 	// Method:      readIntoVector
 	// FullName:    ExcelComponent::readIntoVector
 	// Access:      public static
-	// Returns:     std::vector<std::vector<std::string>> Ö¸¶¨Ò³Ç©ÄÚÈİµÄ¶şÎ¬vector
-	// Parameter:   const char* data Êı¾İÄÚÈİ
-	// Parameter:   size_t size Êı¾İ´óĞ¡
-	// Parameter:   const std::string& sheetname Ò³Ç©Ãû³Æ
-	// Description: ¶ÁÈ¡ÄÚ´æÊı¾İÖĞÖ¸¶¨Ò³Ç©µÄÄÚÈİ
+	// Returns:     std::vector<std::vector<std::string>> æŒ‡å®šé¡µç­¾å†…å®¹çš„äºŒç»´vector
+	// Parameter:   const char* data æ•°æ®å†…å®¹
+	// Parameter:   size_t size æ•°æ®å¤§å°
+	// Parameter:   const std::string& sheetname é¡µç­¾åç§°
+	// Description: è¯»å–å†…å­˜æ•°æ®ä¸­æŒ‡å®šé¡µç­¾çš„å†…å®¹
 	//************************************
 	static std::vector<std::vector<std::string>> readIntoVector(const char* data, size_t size, const std::string& sheetname);
 };

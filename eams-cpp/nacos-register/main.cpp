@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
@@ -23,45 +23,45 @@
 #include <iostream>
 
 /**
- * ½âÎöÆô¶¯²ÎÊı
- * ×¢Òâ£º
- * ²ÎÊıÖĞÊı¾İĞèÒªÂú×ãÒ»¶¨µÄ¸ñÊ½£¬Èç£ºsp=8090¡¢sn=feign-cpp-sample
- * Ç°×ºÓëÕæÊµÖµÖ®¼äÊ¹ÓÃ=·Ö¸ô
+ * è§£æå¯åŠ¨å‚æ•°
+ * æ³¨æ„ï¼š
+ * å‚æ•°ä¸­æ•°æ®éœ€è¦æ»¡è¶³ä¸€å®šçš„æ ¼å¼ï¼Œå¦‚ï¼šsp=8090ã€sn=feign-cpp-sample
+ * å‰ç¼€ä¸çœŸå®å€¼ä¹‹é—´ä½¿ç”¨=åˆ†éš”
  */
 void getStartArg(int argc, char* argv[]) {
-	// ·şÎñÆ÷¶Ë¿Ú
+	// æœåŠ¡å™¨ç«¯å£
 	std::string serverPort = "8070";
-	// NacosÅäÖÃ²ÎÊı
+	// Nacosé…ç½®å‚æ•°
 	std::string nacosAddr = "192.168.220.128:8848";
 	std::string nacosNs = "4833404f-4b82-462e-889a-3c508160c6b4";
 	std::string regFileId = "demo-nacos-cli";
 
-	// ¿ªÊ¼½âÎö
+	// å¼€å§‹è§£æ
 	int currIndex = 1;
 	bool isSetDb = false;
 	while (currIndex < argc)
 	{
-		// ²ğ·Ö×Ö·û´®
+		// æ‹†åˆ†å­—ç¬¦ä¸²
 		auto args = StringUtil::split(argv[currIndex], "=");
-		// ÅĞ¶Ï²ÎÊıÊÇ·ñºÏ·¨
+		// åˆ¤æ–­å‚æ•°æ˜¯å¦åˆæ³•
 		if (args.size() != 2)
 		{
 			std::cout << "arg: " << argv[currIndex] << ", format error." << std::endl;
 			exit(1);
 		}
 
-		// ¸ù¾İ²ÎÊıÇ°×º¶Ô²»Í¬ÊôĞÔ¸³Öµ
+		// æ ¹æ®å‚æ•°å‰ç¼€å¯¹ä¸åŒå±æ€§èµ‹å€¼
 		std::string prefix = args[0];
 		std::string val = args[1];
 		if (prefix == "sp") serverPort = val;
 		else if (prefix == "na") nacosAddr = val;
 		else if (prefix == "ns") nacosNs = val;
 		else if (prefix == "fi") regFileId = val;
-		// ¸üĞÂË÷Òı
+		// æ›´æ–°ç´¢å¼•
 		currIndex++;
 	}
 
-	// ¼ÇÂ¼·şÎñÆ÷ÅäÖÃµ½ÄÚ´æÖĞ·½±ãÊ¹ÓÃ
+	// è®°å½•æœåŠ¡å™¨é…ç½®åˆ°å†…å­˜ä¸­æ–¹ä¾¿ä½¿ç”¨
 	ServerInfo::getInstance().setServerPort(serverPort);
 	ServerInfo::getInstance().setNacosAddr(nacosAddr);
 	ServerInfo::getInstance().setNacosNs(nacosNs);
@@ -69,27 +69,27 @@ void getStartArg(int argc, char* argv[]) {
 }
 
 int main(int argc, char* argv[]) {
-	// ·şÎñÆ÷²ÎÊı³õÊ¼»¯
+	// æœåŠ¡å™¨å‚æ•°åˆå§‹åŒ–
 	getStartArg(argc, argv);
 
-	// ´´½¨Nacos¿Í»§¶Ë¶ÔÏó
+	// åˆ›å»ºNacoså®¢æˆ·ç«¯å¯¹è±¡
 	NacosClient nacosClient(
 		ServerInfo::getInstance().getNacosAddr(),
 		ServerInfo::getInstance().getNacosNs());
 
-	// ¶ÁÈ¡ÅäÖÃ
+	// è¯»å–é…ç½®
 	auto configs = nacosClient.getConfig(ServerInfo::getInstance().getNacosRegFileID());
 
-	// ×¢²á·şÎñ
+	// æ³¨å†ŒæœåŠ¡
 	for (auto one : configs)
 	{
 		nacosClient.registerInstance(one["ip"].as<string>(), one["port"].as<int>(), one["name"].as<string>());
 	}
 
-	// Æô¶¯HTTP·şÎñÆ÷
+	// å¯åŠ¨HTTPæœåŠ¡å™¨
 	HttpServer::startServer(ServerInfo::getInstance().getServerPort(), [=](Endpoints* doc, HttpRouter* router) {});
 
-	// ·´×¢²á·şÎñ
+	// åæ³¨å†ŒæœåŠ¡
 	for (auto one : configs)
 	{
 		nacosClient.deregisterInstance(one["ip"].as<string>(), one["port"].as<int>(), one["name"].as<string>());

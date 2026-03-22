@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
  
@@ -23,7 +23,7 @@
 using namespace sql;
 
 /**
- * ²éÑ¯½á¹û¼¯Æ¥Åä½Ó¿Ú¶¨Òå
+ * æŸ¥è¯¢ç»“æœé›†åŒ¹é…æ¥å£å®šä¹‰
  */
 template <class T>
 class Mapper

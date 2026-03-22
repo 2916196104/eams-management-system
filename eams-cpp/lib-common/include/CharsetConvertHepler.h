@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -21,7 +21,7 @@
 #define _CHARSETCONVERTHEPLER_H_
 #include <string>
 /**
- * ×Ö·û´®±àÂë×ªÂë¹¤¾ßÀà
+ * å­—ç¬¦ä¸²ç¼–ç è½¬ç å·¥å…·ç±»
  */
 class CharsetConvertHepler final
 {
@@ -30,9 +30,9 @@ public:
 	// Method:    unicodeToUtf8
 	// FullName:  CharsetConvertHepler::unicodeToUtf8
 	// Access:    public static 
-	// Returns:   std::string ·µ»Ø×ª»»ºóµÄ×Ö·û´®
-	// Description: ½«Unicode×Ö·û´®×ª»»³ÉUTF8×Ö·û´®
-	// Parameter: const std::wstring& wstr Unicode×Ö·û´®
+	// Returns:   std::string è¿”å›è½¬æ¢åçš„å­—ç¬¦ä¸²
+	// Description: å°†Unicodeå­—ç¬¦ä¸²è½¬æ¢æˆUTF8å­—ç¬¦ä¸²
+	// Parameter: const std::wstring& wstr Unicodeå­—ç¬¦ä¸²
 	//************************************
 	static std::string unicodeToUtf8(const std::wstring& wstr);
 
@@ -40,9 +40,9 @@ public:
 	// Method:    utf8ToUnicode
 	// FullName:  CharsetConvertHepler::utf8ToUnicode
 	// Access:    public static 
-	// Returns:   std::wstring ·µ»Ø×ª»»ºóµÄ×Ö·û´®
-	// Description: ½«UTF8×Ö·û´®×ª»»³ÉUnicode×Ö·û´®
-	// Parameter: const std::string& str UTF8×Ö·û´®
+	// Returns:   std::wstring è¿”å›è½¬æ¢åçš„å­—ç¬¦ä¸²
+	// Description: å°†UTF8å­—ç¬¦ä¸²è½¬æ¢æˆUnicodeå­—ç¬¦ä¸²
+	// Parameter: const std::string& str UTF8å­—ç¬¦ä¸²
 	//************************************
 	static std::wstring utf8ToUnicode(const std::string& str);
 
@@ -50,9 +50,9 @@ public:
 	// Method:    unicodeToAnsi
 	// FullName:  CharsetConvertHepler::unicodeToAnsi
 	// Access:    public static 
-	// Returns:   std::string ·µ»Ø×ª»»ºóµÄ×Ö·û´®
-	// Description: ½«Unicode×Ö·û´®×ª»»³ÉANSI×Ö·û´®
-	// Parameter: const std::wstring& wstr Unicode×Ö·û´®
+	// Returns:   std::string è¿”å›è½¬æ¢åçš„å­—ç¬¦ä¸²
+	// Description: å°†Unicodeå­—ç¬¦ä¸²è½¬æ¢æˆANSIå­—ç¬¦ä¸²
+	// Parameter: const std::wstring& wstr Unicodeå­—ç¬¦ä¸²
 	//************************************
 	static std::string unicodeToAnsi(const std::wstring& wstr);
 
@@ -60,9 +60,9 @@ public:
 	// Method:    ansiToUnicode
 	// FullName:  CharsetConvertHepler::ansiToUnicode
 	// Access:    public static 
-	// Returns:   std::wstring ·µ»Ø×ª»»ºóµÄ×Ö·û´®
-	// Description: ½«ANSI×Ö·û´®×ª»»³ÉUnicode×Ö·û´®
-	// Parameter: const std::string& str ANSI×Ö·û´®
+	// Returns:   std::wstring è¿”å›è½¬æ¢åçš„å­—ç¬¦ä¸²
+	// Description: å°†ANSIå­—ç¬¦ä¸²è½¬æ¢æˆUnicodeå­—ç¬¦ä¸²
+	// Parameter: const std::string& str ANSIå­—ç¬¦ä¸²
 	//************************************
 	static std::wstring ansiToUnicode(const std::string& str);
 
@@ -70,9 +70,9 @@ public:
 	// Method:      utf8ToAnsi
 	// FullName:    CharsetConvertHepler::utf8ToAnsi
 	// Access:      public static 
-	// Returns:     std::string ·µ»Ø×ª»»ºóµÄ×Ö·û´®
-	// Description:  ½«UTF8×Ö·û´®×ª»»³ÉANSI×Ö·û´®
-	// Parameter:   const std::string& str UTF8×Ö·û´®
+	// Returns:     std::string è¿”å›è½¬æ¢åçš„å­—ç¬¦ä¸²
+	// Description:  å°†UTF8å­—ç¬¦ä¸²è½¬æ¢æˆANSIå­—ç¬¦ä¸²
+	// Parameter:   const std::string& str UTF8å­—ç¬¦ä¸²
 	//************************************
 	static std::string utf8ToAnsi(const std::string& str);
 
@@ -81,15 +81,15 @@ public:
 	// FullName:  CharsetConvertHepler::ansiToUtf8
 	// Access:    public static 
 	// Returns:   std::string
-	// Description: ½«ANSI×Ö·û´®×ª»»³ÉUTF8×Ö·û´®
-	// Parameter: const std::string& str ANSI×Ö·û´®
+	// Description: å°†ANSIå­—ç¬¦ä¸²è½¬æ¢æˆUTF8å­—ç¬¦ä¸²
+	// Parameter: const std::string& str ANSIå­—ç¬¦ä¸²
 	//************************************
 	static std::string ansiToUtf8(const std::string& str);
 
-	// ×Ö·û´®utf8±àÂë×ª»»gbk±àÂë
+	// å­—ç¬¦ä¸²utf8ç¼–ç è½¬æ¢gbkç¼–ç 
 	static std::string utf8ToGbk(const std::string& str);
 
-	// ×Ö·û´®gbk±àÂë×ª»»utf8±àÂë
+	// å­—ç¬¦ä¸²gbkç¼–ç è½¬æ¢utf8ç¼–ç 
 	static std::string gbkToUtf8(const std::string& str);
 };
 #endif // _CHARSETCONVERTHEPLER_H_

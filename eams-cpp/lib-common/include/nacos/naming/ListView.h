@@ -1,4 +1,4 @@
-#ifndef __NACOS_LIST_VUE_H_
+﻿#ifndef __NACOS_LIST_VUE_H_
 #define __NACOS_LIST_VUE_H_
 
 #include <list>

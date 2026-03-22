@@ -1,4 +1,4 @@
-
+﻿
 //  Copyright (c) 2014 Agustin Berge
 //
 //  Use, modification and distribution are subject to the Boost Software License,

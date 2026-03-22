@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef _MANUALDTO_H_
 #define _MANUALDTO_H_
@@ -8,7 +8,7 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /*
-	使用说明数据传输对象
+	浣跨敤璇存槑鏁版嵁浼犺緭瀵硅薄
  */
 class ManualDTO : public oatpp::DTO {
   DTO_INIT(ManualDTO, DTO);

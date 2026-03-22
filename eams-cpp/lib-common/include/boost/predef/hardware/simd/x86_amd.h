@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright Charly Chevalier 2015
 Copyright Joel Falcou 2015
 Distributed under the Boost Software License, Version 1.0.

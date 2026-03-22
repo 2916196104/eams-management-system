@@ -1,4 +1,4 @@
-/*
+﻿/*
  * << Haru Free PDF Library >> -- hpdf_u3d.h
  *
  * URL: http://libharu.org

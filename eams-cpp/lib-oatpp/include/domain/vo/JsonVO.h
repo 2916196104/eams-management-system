@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -25,41 +25,41 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * Ç°ºó¶ËÊı¾İ¶Ô½ÓÊı¾İ¶ÔÏó
+ * å‰åç«¯æ•°æ®å¯¹æ¥æ•°æ®å¯¹è±¡
  */
 template<class T>
 class JsonVO : public NoDataJsonVO
 {
-	// ³õÊ¼»¯¶¨Òå
+	// åˆå§‹åŒ–å®šä¹‰
 	DTO_INIT(JsonVO, NoDataJsonVO);
 
-	// Êı¾İ¶ÔÏó
+	// æ•°æ®å¯¹è±¡
 	DTO_FIELD(T, data, "data");
 	DTO_FIELD_INFO(data) {
 #ifndef LINUX
-		info->description = u8"Êı¾İ¶ÔÏó";
+		info->description = u8"æ•°æ®å¯¹è±¡";
 #else
 		info->description = "data object";
 #endif
 	}
 
 public:
-	// ÉèÖÃ×´Ì¬
+	// è®¾ç½®çŠ¶æ€
 	void setStatus(ResultStatus resultStatus) {
 		this->message = resultStatus.getMessage();
 		this->code = resultStatus.getCode();
 	}
-	// ³õÊ¼»¯
+	// åˆå§‹åŒ–
 	void init(T data, ResultStatus resultStatus) {
 		this->data = data;
 		this->setStatus(resultStatus);
 	}
-	// ¹¹½¨³É¹¦ÏûÏ¢
+	// æ„å»ºæˆåŠŸæ¶ˆæ¯
 	void success(T data) {
 		this->setStatus(RS_SUCCESS);
 		this->data = data;
 	}
-	// ¹¹½¨Ê§°ÜÏûÏ¢
+	// æ„å»ºå¤±è´¥æ¶ˆæ¯
 	void fail(T data) {
 		this->setStatus(RS_FAIL);
 		this->data = data;

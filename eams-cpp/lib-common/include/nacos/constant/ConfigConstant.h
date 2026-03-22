@@ -1,4 +1,4 @@
-#ifndef __CONFIG_CONSTANTS_H_
+﻿#ifndef __CONFIG_CONSTANTS_H_
 #define __CONFIG_CONSTANTS_H_
 
 #include "../NacosString.h"

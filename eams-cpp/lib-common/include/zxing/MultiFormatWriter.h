@@ -1,4 +1,4 @@
-/*
+﻿/*
 * Copyright 2017 Huy Cuong Nguyen
 */
 // SPDX-License-Identifier: Apache-2.0

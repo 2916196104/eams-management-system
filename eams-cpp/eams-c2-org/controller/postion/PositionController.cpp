@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "PositionController.h"
 #include "domain/dto/postion/PermissionDTO.h"
 #include "domain/dto/postion/PositionDataDTO.h"
@@ -14,37 +14,37 @@ using namespace oatpp::web::protocol::http;
 std::shared_ptr<PositionController::OutgoingResponse> PositionController::getPositionDataPermissionList(
     const oatpp::Object<PositionDataPermissionQueryDTO>& request) {
 
-    // Ä£ÄâÊı¾İ£¨Êµ¼ÊÓ¦´ÓÊı¾İ¿â²éÑ¯£©
+    // æ¨¡æ‹Ÿæ•°æ®ï¼ˆå®é™…åº”ä»æ•°æ®åº“æŸ¥è¯¢ï¼‰
     auto pageResult = PositionDataPermissionPageDTO::createShared();
-    pageResult->total = 7;  // ¹²7Ìõ
+    pageResult->total = 7;  // å…±7æ¡
 
     auto list = oatpp::Vector<oatpp::Object<DataPermissionItemDTO>>::createShared();
 
-    // Ä£ÄâµÚ1Ìõ
+    // æ¨¡æ‹Ÿç¬¬1æ¡
     auto item1 = DataPermissionItemDTO::createShared();
     item1->id = 1;
-    item1->dataTableName = "Ô±¹¤Êı¾İ";
-    item1->dataScopeType = "±¾Ğ£Êı¾İ";
+    item1->dataTableName = "å‘˜å·¥æ•°æ®";
+    item1->dataScopeType = "æœ¬æ ¡æ•°æ®";
     item1->dataTableCode = "staff";
     item1->dataOwnerField = "id";
     item1->dataOrgField = "";
     list->push_back(item1);
 
-    // Ä£ÄâµÚ2Ìõ£¨ÖØ¸´Ïî¿ÉÒÔ¶àÌõ£©
+    // æ¨¡æ‹Ÿç¬¬2æ¡ï¼ˆé‡å¤é¡¹å¯ä»¥å¤šæ¡ï¼‰
     auto item2 = DataPermissionItemDTO::createShared();
     item2->id = 2;
-    item2->dataTableName = "Ô±¹¤ÕËºÅ±í(a)";
-    item2->dataScopeType = "±¾Ğ£Êı¾İ";
+    item2->dataTableName = "å‘˜å·¥è´¦å·è¡¨(a)";
+    item2->dataScopeType = "æœ¬æ ¡æ•°æ®";
     item2->dataTableCode = "staff";
     item2->dataOwnerField = "creator";
     item2->dataOrgField = "org_id";
     list->push_back(item2);
 
-    // ... ¿ÉÒÔ¼ÌĞøÌí¼ÓÄ£ÄâÊı¾İÖ±µ½7Ìõ
+    // ... å¯ä»¥ç»§ç»­æ·»åŠ æ¨¡æ‹Ÿæ•°æ®ç›´åˆ°7æ¡
 
     pageResult->list = list;
 
-    // ¹¹½¨Í³Ò»ÏìÓ¦
+    // æ„å»ºç»Ÿä¸€å“åº”
     auto response = JsonVO<oatpp::Object<PositionDataPermissionPageDTO>>::createShared();
     response->code = 0;
     response->message = "";
@@ -53,21 +53,21 @@ std::shared_ptr<PositionController::OutgoingResponse> PositionController::getPos
     return createDtoResponse(Status::CODE_200, response);
 }
 
-// ĞÂÔö£ºÅúÁ¿É¾³ıÖ°Î»½Ó¿Ú
+// æ–°å¢ï¼šæ‰¹é‡åˆ é™¤èŒä½æ¥å£
 std::shared_ptr<PositionController::OutgoingResponse> PositionController::deletePositions(
     const oatpp::Object<DeletePositionRequestDTO>& request) {
 
-    // Ğ£Ñé ids ²»ÄÜÎª¿Õ
+    // æ ¡éªŒ ids ä¸èƒ½ä¸ºç©º
     if (!request->ids || request->ids->empty()) {
         auto error = JsonResponseDTO<oatpp::Object<EmptyDTO>>::createShared();
         error->errCode = 400;
-        error->msg = "ids ²»ÄÜÎª¿Õ";
+        error->msg = "ids ä¸èƒ½ä¸ºç©º";
         error->data = EmptyDTO::createShared();
         return createDtoResponse(Status::CODE_400, error);
     }
 
-    // TODO: µ÷ÓÃ Service Ö´ĞĞÅúÁ¿É¾³ı£¨ÀıÈç positionService->deleteByIds(ids)£©
-    // Ä¿Ç°·µ»ØÄ£Äâ³É¹¦ÏìÓ¦
+    // TODO: è°ƒç”¨ Service æ‰§è¡Œæ‰¹é‡åˆ é™¤ï¼ˆä¾‹å¦‚ positionService->deleteByIds(ids)ï¼‰
+    // ç›®å‰è¿”å›æ¨¡æ‹ŸæˆåŠŸå“åº”
     auto response = JsonResponseDTO<oatpp::Object<EmptyDTO>>::createShared();
     response->errCode = 0;
     response->msg = "";

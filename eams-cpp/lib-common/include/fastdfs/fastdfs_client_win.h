@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
  
@@ -39,13 +39,13 @@
 
 typedef enum enumTemplateResult_FDFS
 {
-	enumSuccess_FDFS = 0,				//³É¹¦
-	enumFailure_FDFS = 1,				//Ê§°Ü
-	enumNotInit_FDFS = 2,				//Î´³õÊ¼»¯
-	enumInvalidParameters_FDFS = 3,		//²ÎÊı´íÎó
-	enumNetworkError_FDFS = 4,			//ÍøÂç´íÎó
-	enumFileNotExists_FDFS = 5,			//ÎÄ¼ş²»´æÔÚ
-	enumNoEnoughSpace_FDFS = 6			//´ÅÅÌ¿Õ¼ä²»×ã
+	enumSuccess_FDFS = 0,				//æˆåŠŸ
+	enumFailure_FDFS = 1,				//å¤±è´¥
+	enumNotInit_FDFS = 2,				//æœªåˆå§‹åŒ–
+	enumInvalidParameters_FDFS = 3,		//å‚æ•°é”™è¯¯
+	enumNetworkError_FDFS = 4,			//ç½‘ç»œé”™è¯¯
+	enumFileNotExists_FDFS = 5,			//æ–‡ä»¶ä¸å­˜åœ¨
+	enumNoEnoughSpace_FDFS = 6			//ç£ç›˜ç©ºé—´ä¸è¶³
 } Result_FDFS;
 
 typedef struct __ServerAddress__
@@ -70,7 +70,7 @@ typedef struct
 	UINT32	nCurrentTrunkFileID;  //current trunk file id
 } FDFSGroupStat;
 
-//FDFS Storage×´Ì¬Êı¾İ½á¹¹
+//FDFS StorageçŠ¶æ€æ•°æ®ç»“æ„
 typedef struct
 {
 	UINT64 nTotalUploadCount;
@@ -164,82 +164,82 @@ extern "C" {
 #endif
 
 	/**
-	 * ³õÊ¼»¯FastDFS ¿Í»§¶Ë
+	 * åˆå§‹åŒ–FastDFS å®¢æˆ·ç«¯
 	 *
-	 * ²ÎÊı£º
-	 * pAddr		[in]	tracker·şÎñÆ÷µØÖ·Êı×é
-	 * nAddrCount	[in]	tracker·şÎñÆ÷µØÖ·Êı×éµÄ³¤¶È£¬ºÍtrackerµÄÊıÁ¿ÏàÍ¬
+	 * å‚æ•°ï¼š
+	 * pAddr		[in]	trackeræœåŠ¡å™¨åœ°å€æ•°ç»„
+	 * nAddrCount	[in]	trackeræœåŠ¡å™¨åœ°å€æ•°ç»„çš„é•¿åº¦ï¼Œå’Œtrackerçš„æ•°é‡ç›¸åŒ
 	 *
-	 * ·µ»ØÖµ£º
-	 * enumSuccess_FDFS£º³õÊ¼»¯³É¹¦
-	 * enumInvalidParameters_FDFS£ºÎŞĞ§µÄ²ÎÊı
-	 * enumFailure_FDFS£º³õÊ¼»¯Ê§°Ü
+	 * è¿”å›å€¼ï¼š
+	 * enumSuccess_FDFSï¼šåˆå§‹åŒ–æˆåŠŸ
+	 * enumInvalidParameters_FDFSï¼šæ— æ•ˆçš„å‚æ•°
+	 * enumFailure_FDFSï¼šåˆå§‹åŒ–å¤±è´¥
 	 */
 	UINT32 __stdcall FDFSC_Initialize(ServerAddress* pAddr,
 		UINT32 nAddrCount,
 		UINT32 nLogLevel);
 
 	/**
-	 * ·´³õÊ¼»¯FastDFS ¿Í»§¶Ë
+	 * ååˆå§‹åŒ–FastDFS å®¢æˆ·ç«¯
 	 *
-	 * ²ÎÊı£ºÎŞ
+	 * å‚æ•°ï¼šæ— 
 	 *
-	 * ·µ»ØÖµ£ºÎŞ
+	 * è¿”å›å€¼ï¼šæ— 
 	 */
 	void __stdcall FDFSC_UnInitialize();
 
 	/**
-	 * ÉÏ´«ÎÄ¼ş
+	 * ä¸Šä¼ æ–‡ä»¶
 	 *
-	 * ²ÎÊı£º
-	 * pbyFileBuff			[in]	ÒªÉÏ´«µÄÎÄ¼şµÄÄÚ´æÊı¾İ
-	 * nFileSize			[in]	ÒªÉÏ´«µÄÎÄ¼şµÄ´óĞ¡
-	 * pszFileExtName		[in]	ÒªÉÏ´«µÄÎÄ¼şµÄÀ©Õ¹Ãû
-	 * pszGroupName			[out]   ÉÏ´«µÄÎÄ¼şËùÔÚ×éµÄ×éÃû
-	 * pszRemoteFileName	[out]	ÉÏ´«µÄÎÄ¼şÎÄ¼şÃû
+	 * å‚æ•°ï¼š
+	 * pbyFileBuff			[in]	è¦ä¸Šä¼ çš„æ–‡ä»¶çš„å†…å­˜æ•°æ®
+	 * nFileSize			[in]	è¦ä¸Šä¼ çš„æ–‡ä»¶çš„å¤§å°
+	 * pszFileExtName		[in]	è¦ä¸Šä¼ çš„æ–‡ä»¶çš„æ‰©å±•å
+	 * pszGroupName			[out]   ä¸Šä¼ çš„æ–‡ä»¶æ‰€åœ¨ç»„çš„ç»„å
+	 * pszRemoteFileName	[out]	ä¸Šä¼ çš„æ–‡ä»¶æ–‡ä»¶å
 	 *
-	 * ·µ»ØÖµ£º
-	 * enumSuccess_FDFS£ºÉÏ´«³É¹¦
-	 * enumInvalidParameters_FDFS£ºÎŞĞ§µÄ²ÎÊı
-	 * enumFailure_FDFS£ºÉÏ´«Ê§°Ü
+	 * è¿”å›å€¼ï¼š
+	 * enumSuccess_FDFSï¼šä¸Šä¼ æˆåŠŸ
+	 * enumInvalidParameters_FDFSï¼šæ— æ•ˆçš„å‚æ•°
+	 * enumFailure_FDFSï¼šä¸Šä¼ å¤±è´¥
 	 */
 	UINT32 __stdcall FDFSC_UploadFile(const BYTE* pbyFileBuff, UINT32 nFileSize, const TCHAR* pszFileExtName,
 		TCHAR* pszGroupName, TCHAR* pszRemoteFileName);
 
 	/**
-	 * ÉÏ´«ÎÄ¼ş
+	 * ä¸Šä¼ æ–‡ä»¶
 	 *
-	 * ²ÎÊı£º
-	 * pbyFileBuff			[in]	ÒªÉÏ´«µÄÎÄ¼şµÄÄÚ´æÊı¾İ
-	 * nFileSize			[in]	ÒªÉÏ´«µÄÎÄ¼şµÄ´óĞ¡
-	 * pszFileExtName		[in]	ÒªÉÏ´«µÄÎÄ¼şµÄÀ©Õ¹Ãû
-	 * pszFileID			[out]	ÉÏ´«µÄÎÄ¼şID
+	 * å‚æ•°ï¼š
+	 * pbyFileBuff			[in]	è¦ä¸Šä¼ çš„æ–‡ä»¶çš„å†…å­˜æ•°æ®
+	 * nFileSize			[in]	è¦ä¸Šä¼ çš„æ–‡ä»¶çš„å¤§å°
+	 * pszFileExtName		[in]	è¦ä¸Šä¼ çš„æ–‡ä»¶çš„æ‰©å±•å
+	 * pszFileID			[out]	ä¸Šä¼ çš„æ–‡ä»¶ID
 	 *
-	 * ·µ»ØÖµ£º
-	 * enumSuccess_FDFS£ºÉÏ´«³É¹¦
-	 * enumInvalidParameters_FDFS£ºÎŞĞ§µÄ²ÎÊı
-	 * enumFailure_FDFS£ºÉÏ´«Ê§°Ü
+	 * è¿”å›å€¼ï¼š
+	 * enumSuccess_FDFSï¼šä¸Šä¼ æˆåŠŸ
+	 * enumInvalidParameters_FDFSï¼šæ— æ•ˆçš„å‚æ•°
+	 * enumFailure_FDFSï¼šä¸Šä¼ å¤±è´¥
 	 */
 	UINT32 __stdcall FDFSC_UploadFileByID(const BYTE* pbyFileBuff, UINT32 nFileSize, const TCHAR* pszFileExtName,
 		TCHAR* pszFileID);
 
 	/**
-	 * ÉÏ´«´ÓÎÄ¼ş
+	 * ä¸Šä¼ ä»æ–‡ä»¶
 	 *
-	 * ²ÎÊı£º
-	 * pbyFileBuff			[in]	ÒªÉÏ´«µÄ´ÓÎÄ¼şµÄÄÚ´æÊı¾İ
-	 * nFileSize			[in]	ÒªÉÏ´«µÄ´ÓÎÄ¼şµÄ´óĞ¡
-	 * pszMasterGroupName	[in]	Ö÷ÎÄ¼şËùÔÚ×éµÄ×éÃû
-	 * pszMasterFileName	[in]	Ö÷ÎÄ¼şµÄÎÄ¼şÃû
-	 * pszPrefixName		[in]	´ÓÎÄ¼şµÄPrefix
-	 * pszFileExtName		[in]	ÒªÉÏ´«µÄ´ÓÎÄ¼şµÄÀ©Õ¹Ãû
-	 * pszGroupName			[out]   ÉÏ´«µÄ´ÓÎÄ¼şËùÔÚ×éµÄ×éÃû
-	 * pszRemoteFileName	[out]	ÉÏ´«µÄ´ÓÎÄ¼şÎÄ¼şÃû
+	 * å‚æ•°ï¼š
+	 * pbyFileBuff			[in]	è¦ä¸Šä¼ çš„ä»æ–‡ä»¶çš„å†…å­˜æ•°æ®
+	 * nFileSize			[in]	è¦ä¸Šä¼ çš„ä»æ–‡ä»¶çš„å¤§å°
+	 * pszMasterGroupName	[in]	ä¸»æ–‡ä»¶æ‰€åœ¨ç»„çš„ç»„å
+	 * pszMasterFileName	[in]	ä¸»æ–‡ä»¶çš„æ–‡ä»¶å
+	 * pszPrefixName		[in]	ä»æ–‡ä»¶çš„Prefix
+	 * pszFileExtName		[in]	è¦ä¸Šä¼ çš„ä»æ–‡ä»¶çš„æ‰©å±•å
+	 * pszGroupName			[out]   ä¸Šä¼ çš„ä»æ–‡ä»¶æ‰€åœ¨ç»„çš„ç»„å
+	 * pszRemoteFileName	[out]	ä¸Šä¼ çš„ä»æ–‡ä»¶æ–‡ä»¶å
 	 *
-	 * ·µ»ØÖµ£º
-	 * enumSuccess_FDFS£ºÉÏ´«³É¹¦
-	 * enumInvalidParameters_FDFS£ºÎŞĞ§µÄ²ÎÊı
-	 * enumFailure_FDFS£ºÉÏ´«Ê§°Ü
+	 * è¿”å›å€¼ï¼š
+	 * enumSuccess_FDFSï¼šä¸Šä¼ æˆåŠŸ
+	 * enumInvalidParameters_FDFSï¼šæ— æ•ˆçš„å‚æ•°
+	 * enumFailure_FDFSï¼šä¸Šä¼ å¤±è´¥
 	 */
 	UINT32 __stdcall FDFSC_UploadSlaveFile(const BYTE* pbyFileBuff, UINT32 nFileSize,
 		const TCHAR* pszMasterGroupName, const TCHAR* pszMasterFileName,
@@ -247,21 +247,21 @@ extern "C" {
 		TCHAR* pszGroupName, TCHAR* pszRemoteFileName);
 
 	/**
-	 * ÉÏ´«´ÓÎÄ¼ş
+	 * ä¸Šä¼ ä»æ–‡ä»¶
 	 *
-	 * ²ÎÊı£º
-	 * pbyFileBuff			[in]	ÒªÉÏ´«µÄ´ÓÎÄ¼şµÄÄÚ´æÊı¾İ
-	 * nFileSize			[in]	ÒªÉÏ´«µÄ´ÓÎÄ¼şµÄ´óĞ¡
-	 * pszMasterGroupName	[in]	Ö÷ÎÄ¼şËùÔÚ×éµÄ×éÃû
-	 * pszMasterFileName	[in]	Ö÷ÎÄ¼şµÄÎÄ¼şÃû
-	 * pszPrefixName		[in]	´ÓÎÄ¼şµÄPrefix
-	 * pszFileExtName		[in]	ÒªÉÏ´«µÄ´ÓÎÄ¼şµÄÀ©Õ¹Ãû
-	 * pszFileID			[out]	ÉÏ´«µÄ´ÓÎÄ¼şID
+	 * å‚æ•°ï¼š
+	 * pbyFileBuff			[in]	è¦ä¸Šä¼ çš„ä»æ–‡ä»¶çš„å†…å­˜æ•°æ®
+	 * nFileSize			[in]	è¦ä¸Šä¼ çš„ä»æ–‡ä»¶çš„å¤§å°
+	 * pszMasterGroupName	[in]	ä¸»æ–‡ä»¶æ‰€åœ¨ç»„çš„ç»„å
+	 * pszMasterFileName	[in]	ä¸»æ–‡ä»¶çš„æ–‡ä»¶å
+	 * pszPrefixName		[in]	ä»æ–‡ä»¶çš„Prefix
+	 * pszFileExtName		[in]	è¦ä¸Šä¼ çš„ä»æ–‡ä»¶çš„æ‰©å±•å
+	 * pszFileID			[out]	ä¸Šä¼ çš„ä»æ–‡ä»¶ID
 	 *
-	 * ·µ»ØÖµ£º
-	 * enumSuccess_FDFS£ºÉÏ´«³É¹¦
-	 * enumInvalidParameters_FDFS£ºÎŞĞ§µÄ²ÎÊı
-	 * enumFailure_FDFS£ºÉÏ´«Ê§°Ü
+	 * è¿”å›å€¼ï¼š
+	 * enumSuccess_FDFSï¼šä¸Šä¼ æˆåŠŸ
+	 * enumInvalidParameters_FDFSï¼šæ— æ•ˆçš„å‚æ•°
+	 * enumFailure_FDFSï¼šä¸Šä¼ å¤±è´¥
 	 */
 	UINT32 __stdcall FDFSC_UploadSlaveFileByID(const BYTE* pbyFileBuff, UINT32 nFileSize,
 		const TCHAR* pszMasterGroupName, const TCHAR* pszMasterFileName,
@@ -269,152 +269,152 @@ extern "C" {
 		TCHAR* pszFileID);
 
 	/**
-	 * ÏÂÔØÎÄ¼ş
+	 * ä¸‹è½½æ–‡ä»¶
 	 *
-	 * ²ÎÊı£º
-	 * pszGroupName			[in]	ÒªÏÂÔØµÄÎÄ¼şËùÔÚ×éµÄ×éÃû
-	 * pszRemoteFileName	[in]	ÒªÏÂÔØµÄÎÄ¼şµÄÎÄ¼şÃû
-	 * pbyFileBuff			[out]	ÏÂÔØµÄÎÄ¼şµØÖ·
-	 * nFileSize			[out]	ÏÂÔØµÄÎÄ¼ş´óĞ¡
+	 * å‚æ•°ï¼š
+	 * pszGroupName			[in]	è¦ä¸‹è½½çš„æ–‡ä»¶æ‰€åœ¨ç»„çš„ç»„å
+	 * pszRemoteFileName	[in]	è¦ä¸‹è½½çš„æ–‡ä»¶çš„æ–‡ä»¶å
+	 * pbyFileBuff			[out]	ä¸‹è½½çš„æ–‡ä»¶åœ°å€
+	 * nFileSize			[out]	ä¸‹è½½çš„æ–‡ä»¶å¤§å°
 	 *
-	 * ·µ»ØÖµ£º
-	 * enumSuccess_FDFS£ºÏÂÔØ³É¹¦
-	 * enumInvalidParameters_FDFS£ºÎŞĞ§µÄ²ÎÊı
-	 * enumFailure_FDFS£ºÏÂÔØÊ§°Ü
+	 * è¿”å›å€¼ï¼š
+	 * enumSuccess_FDFSï¼šä¸‹è½½æˆåŠŸ
+	 * enumInvalidParameters_FDFSï¼šæ— æ•ˆçš„å‚æ•°
+	 * enumFailure_FDFSï¼šä¸‹è½½å¤±è´¥
 	 */
 	UINT32 __stdcall FDFSC_DownloadFile(const TCHAR* pszGroupName, const TCHAR* pszRemoteFileName,
 		BYTE* pbyFileBuff, UINT32* nFileSize);
 
 	/**
-	 * ÏÂÔØÎÄ¼ş
+	 * ä¸‹è½½æ–‡ä»¶
 	 *
-	 * ²ÎÊı£º
-	 * pszFileID			[in]	ÒªÏÂÔØµÄÎÄ¼şµÄID
-	 * pbyFileBuff			[out]	ÏÂÔØµÄÎÄ¼şµØÖ·
-	 * nFileSize			[out]	ÏÂÔØµÄÎÄ¼ş´óĞ¡
+	 * å‚æ•°ï¼š
+	 * pszFileID			[in]	è¦ä¸‹è½½çš„æ–‡ä»¶çš„ID
+	 * pbyFileBuff			[out]	ä¸‹è½½çš„æ–‡ä»¶åœ°å€
+	 * nFileSize			[out]	ä¸‹è½½çš„æ–‡ä»¶å¤§å°
 	 *
-	 * ·µ»ØÖµ£º
-	 * enumSuccess_FDFS£ºÏÂÔØ³É¹¦
-	 * enumInvalidParameters_FDFS£ºÎŞĞ§µÄ²ÎÊı
-	 * enumFailure_FDFS£ºÏÂÔØÊ§°Ü
+	 * è¿”å›å€¼ï¼š
+	 * enumSuccess_FDFSï¼šä¸‹è½½æˆåŠŸ
+	 * enumInvalidParameters_FDFSï¼šæ— æ•ˆçš„å‚æ•°
+	 * enumFailure_FDFSï¼šä¸‹è½½å¤±è´¥
 	 */
 	UINT32 __stdcall FDFSC_DownloadFileByID(const TCHAR* pszFileID,
 		BYTE* pbyFileBuff, UINT32* nFileSize);
 
 	/**
-	 * ÏÂÔØÎÄ¼ş
+	 * ä¸‹è½½æ–‡ä»¶
 	 *
-	 * ²ÎÊı£º
-	 * pszTrackerIPList		[in]	TrackerµÄIPÁĞ±í
-	 * pszFileID			[in]	ÒªÏÂÔØµÄÎÄ¼şµÄID
-	 * pbyFileBuff			[out]	ÏÂÔØµÄÎÄ¼şµØÖ·
-	 * nFileSize			[out]	ÏÂÔØµÄÎÄ¼ş´óĞ¡
+	 * å‚æ•°ï¼š
+	 * pszTrackerIPList		[in]	Trackerçš„IPåˆ—è¡¨
+	 * pszFileID			[in]	è¦ä¸‹è½½çš„æ–‡ä»¶çš„ID
+	 * pbyFileBuff			[out]	ä¸‹è½½çš„æ–‡ä»¶åœ°å€
+	 * nFileSize			[out]	ä¸‹è½½çš„æ–‡ä»¶å¤§å°
 	 *
-	 * ·µ»ØÖµ£º
-	 * enumSuccess_FDFS£ºÏÂÔØ³É¹¦
-	 * enumInvalidParameters_FDFS£ºÎŞĞ§µÄ²ÎÊı
-	 * enumFailure_FDFS£ºÏÂÔØÊ§°Ü
+	 * è¿”å›å€¼ï¼š
+	 * enumSuccess_FDFSï¼šä¸‹è½½æˆåŠŸ
+	 * enumInvalidParameters_FDFSï¼šæ— æ•ˆçš„å‚æ•°
+	 * enumFailure_FDFSï¼šä¸‹è½½å¤±è´¥
 	 *
-	 * ±¸×¢
-	 * Î´³õÊ¼»¯¾Í¿ÉÒÔµ÷ÓÃ
+	 * å¤‡æ³¨
+	 * æœªåˆå§‹åŒ–å°±å¯ä»¥è°ƒç”¨
 	 */
 	UINT32 __stdcall FDFSC_DownloadFileByIDEx(const TCHAR* pszTrackerIPList, const TCHAR* pszFileID,
 		BYTE* pbyFileBuff, UINT32* nFileSize);
 
 	/**
-	 * É¾³ıÎÄ¼ş
+	 * åˆ é™¤æ–‡ä»¶
 	 *
-	 * ²ÎÊı£º
-	 * pszGroupName			[in]	ÒªÉ¾³ıµÄÎÄ¼şËùÔÚ×éµÄ×éÃû
-	 * pszRemoteFileName	[in]	ÒªÉ¾³ıµÄÎÄ¼şµÄÎÄ¼şÃû
+	 * å‚æ•°ï¼š
+	 * pszGroupName			[in]	è¦åˆ é™¤çš„æ–‡ä»¶æ‰€åœ¨ç»„çš„ç»„å
+	 * pszRemoteFileName	[in]	è¦åˆ é™¤çš„æ–‡ä»¶çš„æ–‡ä»¶å
 	 *
-	 * ·µ»ØÖµ£º
-	 * enumSuccess_FDFS£ºÉ¾³ı³É¹¦
-	 * enumInvalidParameters_FDFS£ºÎŞĞ§µÄ²ÎÊı
-	 * enumFailure_FDFS£ºÉ¾³ıÊ§°Ü
+	 * è¿”å›å€¼ï¼š
+	 * enumSuccess_FDFSï¼šåˆ é™¤æˆåŠŸ
+	 * enumInvalidParameters_FDFSï¼šæ— æ•ˆçš„å‚æ•°
+	 * enumFailure_FDFSï¼šåˆ é™¤å¤±è´¥
 	 */
 	UINT32 __stdcall FDFSC_DeleteFile(const TCHAR* pszGroupName, const TCHAR* pszRemoteFileName);
 
 	/**
-	 * É¾³ıÎÄ¼ş
+	 * åˆ é™¤æ–‡ä»¶
 	 *
-	 * ²ÎÊı£º
-	 * pszFileID			[in]	ÒªÉ¾³ıµÄÎÄ¼şID
+	 * å‚æ•°ï¼š
+	 * pszFileID			[in]	è¦åˆ é™¤çš„æ–‡ä»¶ID
 	 *
-	 * ·µ»ØÖµ£º
-	 * enumSuccess_FDFS£ºÉ¾³ı³É¹¦
-	 * enumInvalidParameters_FDFS£ºÎŞĞ§µÄ²ÎÊı
-	 * enumFailure_FDFS£ºÉ¾³ıÊ§°Ü
+	 * è¿”å›å€¼ï¼š
+	 * enumSuccess_FDFSï¼šåˆ é™¤æˆåŠŸ
+	 * enumInvalidParameters_FDFSï¼šæ— æ•ˆçš„å‚æ•°
+	 * enumFailure_FDFSï¼šåˆ é™¤å¤±è´¥
 	 */
 	UINT32 __stdcall FDFSC_DeleteFileByID(const TCHAR* pszFileID);
 
 	/**
-	 * É¾³ıÎÄ¼ş
+	 * åˆ é™¤æ–‡ä»¶
 	 *
-	 * ²ÎÊı£º
-	 * pszTrackerIPList		[in]	ÖÆ¶¨TrackerµÄIPµØÖ·ÁĞ±í
-	 * pszFileID			[in]	ÒªÉ¾³ıµÄÎÄ¼şID
+	 * å‚æ•°ï¼š
+	 * pszTrackerIPList		[in]	åˆ¶å®šTrackerçš„IPåœ°å€åˆ—è¡¨
+	 * pszFileID			[in]	è¦åˆ é™¤çš„æ–‡ä»¶ID
 	 *
-	 * ·µ»ØÖµ£º
-	 * enumSuccess_FDFS£ºÉ¾³ı³É¹¦
-	 * enumInvalidParameters_FDFS£ºÎŞĞ§µÄ²ÎÊı
-	 * enumFailure_FDFS£ºÉ¾³ıÊ§°Ü
+	 * è¿”å›å€¼ï¼š
+	 * enumSuccess_FDFSï¼šåˆ é™¤æˆåŠŸ
+	 * enumInvalidParameters_FDFSï¼šæ— æ•ˆçš„å‚æ•°
+	 * enumFailure_FDFSï¼šåˆ é™¤å¤±è´¥
 	 *
-	 * ±¸×¢
-	 * Î´³õÊ¼»¯¾Í¿ÉÒÔµ÷ÓÃ
+	 * å¤‡æ³¨
+	 * æœªåˆå§‹åŒ–å°±å¯ä»¥è°ƒç”¨
 	 */
 	UINT32 __stdcall FDFSC_DeleteFileByIDEx(const TCHAR* pszTrackerIPList, const TCHAR* pszFileID);
 
 	/**
-	 * ²éÑ¯GroupĞÅÏ¢
+	 * æŸ¥è¯¢Groupä¿¡æ¯
 	 *
-	 * ²ÎÊı£º
-	 * pTrackerAddr			[in]	²éÑ¯µÄTracker·şÎñÆ÷µØÖ·
-	 * pStat				[in,out]	FDFSGroupStat½á¹¹ÌåÊı×éÓÃÓÚ·µ»Ø²éÑ¯½á¹û
-	 * nLen					[in]	Êı×é³¤¶È,È¡FDFS_MAX_GROUPS¼´¿É
-	 * pnStatCount			[out]	ÓÃÓÚ·µ»Ø²éÑ¯½á¹ûµÄFDFSGroupStatÊıÁ¿
+	 * å‚æ•°ï¼š
+	 * pTrackerAddr			[in]	æŸ¥è¯¢çš„TrackeræœåŠ¡å™¨åœ°å€
+	 * pStat				[in,out]	FDFSGroupStatç»“æ„ä½“æ•°ç»„ç”¨äºè¿”å›æŸ¥è¯¢ç»“æœ
+	 * nLen					[in]	æ•°ç»„é•¿åº¦,å–FDFS_MAX_GROUPSå³å¯
+	 * pnStatCount			[out]	ç”¨äºè¿”å›æŸ¥è¯¢ç»“æœçš„FDFSGroupStatæ•°é‡
 	 *
-	 * ·µ»ØÖµ£º
-	 * enumSuccess_FDFS£º²éÑ¯³É¹¦
-	 * enumInvalidParameters_FDFS£ºÎŞĞ§µÄ²ÎÊı
-	 * enumFailure_FDFS£º²éÑ¯Ê§°Ü
-	 * enumNetworkError_FDFS£ºÍøÂç´íÎó
-	 * enumNotInit_FDFS£ºÎ´³õÊ¼»¯³É¹¦
+	 * è¿”å›å€¼ï¼š
+	 * enumSuccess_FDFSï¼šæŸ¥è¯¢æˆåŠŸ
+	 * enumInvalidParameters_FDFSï¼šæ— æ•ˆçš„å‚æ•°
+	 * enumFailure_FDFSï¼šæŸ¥è¯¢å¤±è´¥
+	 * enumNetworkError_FDFSï¼šç½‘ç»œé”™è¯¯
+	 * enumNotInit_FDFSï¼šæœªåˆå§‹åŒ–æˆåŠŸ
 	 */
 	UINT32 __stdcall FDFSC_TrackerListGroups(ServerAddress* pTrackerAddr, FDFSGroupStat* pStat, UINT32 nLen, UINT32* pnStatCount);
 
 	/**
-	 * ²éÑ¯GroupÄÚStorage·şÎñÆ÷ĞÅÏ¢
+	 * æŸ¥è¯¢Groupå†…StorageæœåŠ¡å™¨ä¿¡æ¯
 	 *
-	 * ²ÎÊı£º
-	 * pTrackerAddr			[in]	²éÑ¯µÄTracker·şÎñÆ÷µØÖ·
-	 * pszGroupName			[in]	²éÑ¯µÄ×éÃû
-	 * pStat				[in,out]	FDFSGroupStat½á¹¹ÌåÊı×éÓÃÓÚ·µ»Ø²éÑ¯½á¹û
-	 * nLen					[in]	Êı×é³¤¶ÈÎªFDFS_MAX_GROUPS
-	 * pnStatCount			[out]	ÓÃÓÚ·µ»Ø²éÑ¯½á¹ûµÄFDFSGroupStatÊıÁ¿
+	 * å‚æ•°ï¼š
+	 * pTrackerAddr			[in]	æŸ¥è¯¢çš„TrackeræœåŠ¡å™¨åœ°å€
+	 * pszGroupName			[in]	æŸ¥è¯¢çš„ç»„å
+	 * pStat				[in,out]	FDFSGroupStatç»“æ„ä½“æ•°ç»„ç”¨äºè¿”å›æŸ¥è¯¢ç»“æœ
+	 * nLen					[in]	æ•°ç»„é•¿åº¦ä¸ºFDFS_MAX_GROUPS
+	 * pnStatCount			[out]	ç”¨äºè¿”å›æŸ¥è¯¢ç»“æœçš„FDFSGroupStatæ•°é‡
 	 *
-	 * ·µ»ØÖµ£º
-	 * enumSuccess_FDFS£º²éÑ¯³É¹¦
-	 * enumInvalidParameters_FDFS£ºÎŞĞ§µÄ²ÎÊı
-	 * enumFailure_FDFS£º²éÑ¯Ê§°Ü
-	 * enumNetworkError_FDFS£ºÍøÂç´íÎó
-	 * enumNotInit_FDFS£ºÎ´³õÊ¼»¯³É¹¦
+	 * è¿”å›å€¼ï¼š
+	 * enumSuccess_FDFSï¼šæŸ¥è¯¢æˆåŠŸ
+	 * enumInvalidParameters_FDFSï¼šæ— æ•ˆçš„å‚æ•°
+	 * enumFailure_FDFSï¼šæŸ¥è¯¢å¤±è´¥
+	 * enumNetworkError_FDFSï¼šç½‘ç»œé”™è¯¯
+	 * enumNotInit_FDFSï¼šæœªåˆå§‹åŒ–æˆåŠŸ
 	 */
 	UINT32 __stdcall FDFSC_TrackerListStorages(ServerAddress* pTrackerAddr, TCHAR* pszGroupName, FDFSStorageStat* pStat, UINT32 nLen, UINT32* pnStatCount);
 
 	/**
-	 * ¼ì²éÍ¬×éµÄTracker»ñÈ¡µ½µÄStorageÊÇ·ñÏàÍ¬
+	 * æ£€æŸ¥åŒç»„çš„Trackerè·å–åˆ°çš„Storageæ˜¯å¦ç›¸åŒ
 	 *
-	 * ²ÎÊı£º
-	 * pszTrackerIPList		[in]	ÖÆ¶¨TrackerµÄIPµØÖ·ÁĞ±í
+	 * å‚æ•°ï¼š
+	 * pszTrackerIPList		[in]	åˆ¶å®šTrackerçš„IPåœ°å€åˆ—è¡¨
 	 *
-	 * ·µ»ØÖµ£º
-	 * enumSuccess_FDFS£ºÅäÖÃÏàÍ¬
-	 * enumInvalidParameters_FDFS£ºÎŞĞ§µÄ²ÎÊı
-	 * enumFailure_FDFS£º¼ì²éÊ§°Ü
+	 * è¿”å›å€¼ï¼š
+	 * enumSuccess_FDFSï¼šé…ç½®ç›¸åŒ
+	 * enumInvalidParameters_FDFSï¼šæ— æ•ˆçš„å‚æ•°
+	 * enumFailure_FDFSï¼šæ£€æŸ¥å¤±è´¥
 	 *
-	 * ±¸×¢
-	 * Î´³õÊ¼»¯¾Í¿ÉÒÔµ÷ÓÃ
+	 * å¤‡æ³¨
+	 * æœªåˆå§‹åŒ–å°±å¯ä»¥è°ƒç”¨
 	 */
 	UINT32 __stdcall FDFSC_CheckConfiguration(const TCHAR* pszTrackerIPList);
 

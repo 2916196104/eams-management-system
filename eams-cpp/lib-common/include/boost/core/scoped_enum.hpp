@@ -1,4 +1,4 @@
-//  scoped_enum.hpp  ---------------------------------------------------------//
+﻿//  scoped_enum.hpp  ---------------------------------------------------------//
 
 //  Copyright Beman Dawes, 2009
 //  Copyright (C) 2011-2012 Vicente J. Botet Escriba

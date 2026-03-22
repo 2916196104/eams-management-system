@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -23,29 +23,29 @@
 #include "JWTUtil.h"
 
 /**
- * ×Ô¶¨ÒåÊÚÈ¨ÊµÌåÊı¾İÊµÌå
+ * è‡ªå®šä¹‰æˆæƒå®ä½“æ•°æ®å®ä½“
  */
 class CustomerAuthorizeObject : public oatpp::web::server::handler::AuthorizationObject
 {
 private:
-	// ¸ºÔØÊı¾İ¼ÇÂ¼ÊµÌå
+	// è´Ÿè½½æ•°æ®è®°å½•å®ä½“
 	PayloadDTO payload;
 public:
-	// ¹¹Ôì³õ³õÊ¼»¯
+	// æ„é€ åˆåˆå§‹åŒ–
 	CustomerAuthorizeObject(PayloadDTO payload);
-	// »ñÈ¡¸ºÔØÊı¾İ¶ÔÏó
+	// è·å–è´Ÿè½½æ•°æ®å¯¹è±¡
 	const PayloadDTO& getPayload();
 };
 
 /**
- * ×Ô¶¨ÒåÊÚÈ¨´¦ÀíÆ÷
+ * è‡ªå®šä¹‰æˆæƒå¤„ç†å™¨
  */
 class CustomerAuthorizeHandler : public oatpp::web::server::handler::BearerAuthorizationHandler
 {
 public:
-	// ¹¹Ôì³õÊ¼»¯¹«Ô¿¶ÁÈ¡
+	// æ„é€ åˆå§‹åŒ–å…¬é’¥è¯»å–
 	CustomerAuthorizeHandler();
-	// ÊÚÈ¨Âß¼­
+	// æˆæƒé€»è¾‘
 	std::shared_ptr<AuthorizationObject> authorize(const oatpp::String& token) override;
 };
 

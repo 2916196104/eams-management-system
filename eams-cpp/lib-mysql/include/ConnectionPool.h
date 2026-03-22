@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
  
@@ -28,46 +28,46 @@
 using namespace std;
 using namespace sql;
 /**
- * ¶¨ÒåÒ»¸öÊı¾İ¿âÁ¬½Ó³ØÀà
+ * å®šä¹‰ä¸€ä¸ªæ•°æ®åº“è¿æ¥æ± ç±»
  */
 class ConnPool final
 {
 public:
-	// ¹¹Ôì³õÊ¼»¯
+	// æ„é€ åˆå§‹åŒ–
 	ConnPool(string url, string user, string password, int maxSize);
-	// Îö¹¹ÊÍ·ÅÄÚ´æ
+	// ææ„é‡Šæ”¾å†…å­˜
 	~ConnPool();
-	// »ñÈ¡Êı¾İ¿âÁ¬½Ó
+	// è·å–æ•°æ®åº“è¿æ¥
 	Connection* GetConnection();
-	// ½«Êı¾İ¿âÁ¬½Ó·Å»Øµ½Á¬½Ó³ØµÄÈİÆ÷ÖĞ
+	// å°†æ•°æ®åº“è¿æ¥æ”¾å›åˆ°è¿æ¥æ± çš„å®¹å™¨ä¸­
 	void ReleaseConnection(Connection* conn);
-	// »ñÈ¡µ±Ç°Á¬½Ó³Ø´óĞ¡
+	// è·å–å½“å‰è¿æ¥æ± å¤§å°
 	int getPoolSize();
 private:
-	// µ±Ç°ÒÑ½¨Á¢µÄÊı¾İ¿âÁ¬½ÓÊıÁ¿
+	// å½“å‰å·²å»ºç«‹çš„æ•°æ®åº“è¿æ¥æ•°é‡
 	int curSize;
-	// Á¬½Ó³Ø¶¨ÒåµÄ×î´óÊı¾İ¿âÁ¬½ÓÊı
+	// è¿æ¥æ± å®šä¹‰çš„æœ€å¤§æ•°æ®åº“è¿æ¥æ•°
 	int maxSize;
-	// ÓÃ»§Ãû
+	// ç”¨æˆ·å
 	string username;
-	// ÃÜÂë
+	// å¯†ç 
 	string password;
-	// Á¬½ÓµØÖ·£ºÈçtcp://localhost:3306/db
+	// è¿æ¥åœ°å€ï¼šå¦‚tcp://localhost:3306/db
 	string url;
-	// Á¬½ÓÇı¶¯¶ÔÏó
+	// è¿æ¥é©±åŠ¨å¯¹è±¡
 	Driver* driver;
-	// Á¬½Ó³ØÈİÆ÷
+	// è¿æ¥æ± å®¹å™¨
 	list<Connection*> connList;
-	// Ïß³ÌËø
+	// çº¿ç¨‹é”
 	mutex lock;
 	
-	// ´´½¨Ò»¸öÁ¬½Ó
+	// åˆ›å»ºä¸€ä¸ªè¿æ¥
 	Connection* CreateConnection();
-	// ³õÊ¼»¯Êı¾İ¿âÁ¬½Ó³Ø
+	// åˆå§‹åŒ–æ•°æ®åº“è¿æ¥æ± 
 	void InitConnection(int iInitialSize);
-	// Ïú»ÙÊı¾İ¿âÁ¬½Ó¶ÔÏó
+	// é”€æ¯æ•°æ®åº“è¿æ¥å¯¹è±¡
 	void DestoryConnection(Connection* conn);
-	// Ïú»ÙÊı¾İ¿âÁ¬½Ó³Ø
+	// é”€æ¯æ•°æ®åº“è¿æ¥æ± 
 	void DestoryConnPool();
 };
 

@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright 2010 Beman Dawes
 
 Copyright 2019-2020 Glen Joseph Fernandes

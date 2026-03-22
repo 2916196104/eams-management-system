@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -23,10 +23,10 @@
 #include "AliSmsResult.h"
 
 /**
- * ÊéĞ´Ò»¸ö¶ÌĞÅ·¢ËÍ×é¼ş
- * ×¢Òâ£º
- * 1¡¢´Ë×é¼ş²»Ö§³ÖWindowsÆ½Ì¨£¬ÒªÊ¹ÓÃ´Ë×é¼şÇëÔÚLinux»·¾³ÏÂÃæÊ¹ÓÃ
- * 2¡¢Ê¹ÓÃµÄÊ±ºòĞèÒª¶¨ÒåAliKeyConfigÀàÏà¹Ø³ÉÔ±±äÁ¿ºÍ³ÉÔ±º¯Êı£¬ÓÃÓÚÖ¸¶¨akºÍskÏà¹ØÖµ
+ * ä¹¦å†™ä¸€ä¸ªçŸ­ä¿¡å‘é€ç»„ä»¶
+ * æ³¨æ„ï¼š
+ * 1ã€æ­¤ç»„ä»¶ä¸æ”¯æŒWindowså¹³å°ï¼Œè¦ä½¿ç”¨æ­¤ç»„ä»¶è¯·åœ¨Linuxç¯å¢ƒä¸‹é¢ä½¿ç”¨
+ * 2ã€ä½¿ç”¨çš„æ—¶å€™éœ€è¦å®šä¹‰AliKeyConfigç±»ç›¸å…³æˆå‘˜å˜é‡å’Œæˆå‘˜å‡½æ•°ï¼Œç”¨äºæŒ‡å®šakå’Œskç›¸å…³å€¼
  */
 class AliSmsSender
 {
@@ -36,23 +36,23 @@ public:
 	// FullName:  AliSmsSender::AliSmsSender
 	// Access:    public 
 	// Returns:   
-	// Description: ¹¹Ôì³õÊ¼»¯
-	// Parameter: const std::string& keyfilename keyÅäÖÃÎÄ¼şÃû³Æ
-	// Parameter: const std::string& prefix ÅäÖÃ¶ÁÈ¡Ç°×º
+	// Description: æ„é€ åˆå§‹åŒ–
+	// Parameter: const std::string& keyfilename keyé…ç½®æ–‡ä»¶åç§°
+	// Parameter: const std::string& prefix é…ç½®è¯»å–å‰ç¼€
 	//************************************
 	AliSmsSender(const std::string& keyfilename = "key-config.yaml", const std::string& prefix = "aliyun.sms");
-	// Îö¹¹
+	// ææ„
 	~AliSmsSender();
 	//************************************
 	// Method:    sendSms
 	// FullName:  AliSmsSender::sendSms
 	// Access:    public 
-	// Returns:   std::shared_ptr<AliSmsResult> ·¢ËÍ½á¹û
-	// Description: ·¢ËÍµ¥ÌõĞÅÏ¢
-	// Parameter: const std::string& phoneNumber ÊÖ»úºÅÂë
-	// Parameter: const std::string& signName Ç©ÃûÃû³Æ¡£Èç£º°¢ÀïÔÆ¶ÌĞÅ²âÊÔ
-	// Parameter: const std::string& templateCode ¶ÌĞÅÄ£°åCODE¡£Èç£ºSMS_15******
-	// Parameter: const std::string& templateParams Ä£°å²ÎÊıÖµ£¬jsonÊı¾İ¸ñÊ½¡£Èç£º{"code":"996007"}
+	// Returns:   std::shared_ptr<AliSmsResult> å‘é€ç»“æœ
+	// Description: å‘é€å•æ¡ä¿¡æ¯
+	// Parameter: const std::string& phoneNumber æ‰‹æœºå·ç 
+	// Parameter: const std::string& signName ç­¾ååç§°ã€‚å¦‚ï¼šé˜¿é‡Œäº‘çŸ­ä¿¡æµ‹è¯•
+	// Parameter: const std::string& templateCode çŸ­ä¿¡æ¨¡æ¿CODEã€‚å¦‚ï¼šSMS_15******
+	// Parameter: const std::string& templateParams æ¨¡æ¿å‚æ•°å€¼ï¼Œjsonæ•°æ®æ ¼å¼ã€‚å¦‚ï¼š{"code":"996007"}
 	//************************************
 	std::shared_ptr<AliSmsResult> sendSms(
 		const std::string& phoneNumber,
@@ -64,13 +64,13 @@ public:
 	// FullName:  AliSmsSender::sendSmsBatch
 	// Access:    public 
 	// Returns:   std::shared_ptr<AliSmsResult>
-	// Description: ÅúÁ¿·¢ËÍ¶ÌĞÅ£¬¸Ã½Ó¿Úµ¥´Î×î¶àÖ§³Ö100¸öºÅÂë¡£×¢ÒâÅúÁ¿·¢ËÍËùÓĞ²ÎÊı¸ñÊ½¶¼ÊÇjson¸ñÊ½×Ö·û´®
-	// Parameter: const std::string & phoneNumbers ÊÖ»úºÅÂëÁĞ±í¡£Èç£º["132xxxxxxx","159xxxxxxx"]
-	// Parameter: const std::string & signNames ¶ÌĞÅÇ©ÃûÃû³Æ£¬¶ÌĞÅÇ©ÃûµÄ¸öÊı±ØĞëÓëÊÖ»úºÅÂëµÄ¸öÊıÏàÍ¬¡¢ÄÚÈİÒ»Ò»¶ÔÓ¦¡£
-	//												 Èç£º["Ç©Ãû1","Ç©Ãû2"]
-	// Parameter: const std::string & templateCode ¶ÌĞÅÄ£°åCODE¡£Èç£ºSMS_15******
-	// Parameter: const std::string & templateParams ¶ÌĞÅÄ£°å±äÁ¿¶ÔÓ¦µÄÊµ¼ÊÖµ£¬Ä£°å±äÁ¿ÖµµÄ¸öÊı±ØĞëÓëÊÖ»úºÅÂë¡¢Ç©ÃûµÄ¸öÊıÏàÍ¬¡¢ÄÚÈİÒ»Ò»¶ÔÓ¦£¬±íÊ¾ÏòÖ¸¶¨ÊÖ»úºÅÂëÖĞ·¢¶ÔÓ¦Ç©ÃûµÄ¶ÌĞÅ£¬ÇÒ¶ÌĞÅÄ£°åÖĞµÄ±äÁ¿²ÎÊıÌæ»»Îª¶ÔÓ¦µÄÖµ¡£
-	//												 Èç£º[{"code":"996007"},{"code":"857857"}]
+	// Description: æ‰¹é‡å‘é€çŸ­ä¿¡ï¼Œè¯¥æ¥å£å•æ¬¡æœ€å¤šæ”¯æŒ100ä¸ªå·ç ã€‚æ³¨æ„æ‰¹é‡å‘é€æ‰€æœ‰å‚æ•°æ ¼å¼éƒ½æ˜¯jsonæ ¼å¼å­—ç¬¦ä¸²
+	// Parameter: const std::string & phoneNumbers æ‰‹æœºå·ç åˆ—è¡¨ã€‚å¦‚ï¼š["132xxxxxxx","159xxxxxxx"]
+	// Parameter: const std::string & signNames çŸ­ä¿¡ç­¾ååç§°ï¼ŒçŸ­ä¿¡ç­¾åçš„ä¸ªæ•°å¿…é¡»ä¸æ‰‹æœºå·ç çš„ä¸ªæ•°ç›¸åŒã€å†…å®¹ä¸€ä¸€å¯¹åº”ã€‚
+	//												 å¦‚ï¼š["ç­¾å1","ç­¾å2"]
+	// Parameter: const std::string & templateCode çŸ­ä¿¡æ¨¡æ¿CODEã€‚å¦‚ï¼šSMS_15******
+	// Parameter: const std::string & templateParams çŸ­ä¿¡æ¨¡æ¿å˜é‡å¯¹åº”çš„å®é™…å€¼ï¼Œæ¨¡æ¿å˜é‡å€¼çš„ä¸ªæ•°å¿…é¡»ä¸æ‰‹æœºå·ç ã€ç­¾åçš„ä¸ªæ•°ç›¸åŒã€å†…å®¹ä¸€ä¸€å¯¹åº”ï¼Œè¡¨ç¤ºå‘æŒ‡å®šæ‰‹æœºå·ç ä¸­å‘å¯¹åº”ç­¾åçš„çŸ­ä¿¡ï¼Œä¸”çŸ­ä¿¡æ¨¡æ¿ä¸­çš„å˜é‡å‚æ•°æ›¿æ¢ä¸ºå¯¹åº”çš„å€¼ã€‚
+	//												 å¦‚ï¼š[{"code":"996007"},{"code":"857857"}]
 	//************************************
 	std::shared_ptr<AliSmsResult> sendSmsBatch(
 		const std::string& phoneNumbers,

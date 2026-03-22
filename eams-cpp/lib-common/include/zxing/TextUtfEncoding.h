@@ -1,4 +1,4 @@
-/*
+﻿/*
 * Copyright 2016 Nu-book Inc.
 */
 // SPDX-License-Identifier: Apache-2.0

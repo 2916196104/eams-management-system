@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -24,97 +24,97 @@
 #include "BaseDO.h"
 
 /**
- * ¶¨ÒåÒ»¸ö»ù´¡µÄDAOÀà£¬·½±ã¹ÜÀí£¬ºóĞø¶¨ÒåDAO¶¼ĞèÒª¼Ì³ĞËü
+ * å®šä¹‰ä¸€ä¸ªåŸºç¡€çš„DAOç±»ï¼Œæ–¹ä¾¿ç®¡ç†ï¼Œåç»­å®šä¹‰DAOéƒ½éœ€è¦ç»§æ‰¿å®ƒ
  */
 class BaseDAO
 {
 private:
-	// ÊÇ·ñ×Ô¶¯ÊÍ·ÅSQLSession
+	// æ˜¯å¦è‡ªåŠ¨é‡Šæ”¾SQLSession
 	bool isAutoRelease;
 protected:
-	// ¶¨ÒåÒ»¸öSqlSession
+	// å®šä¹‰ä¸€ä¸ªSqlSession
 	SqlSession* sqlSession;
 	/**
-	 * ×Ö¶ÎÓòÊı¾İÌáÈ¡
-	 * @param DOField* field ×Ö¶ÎÓò¶ÔÏó
-	 * @param SqlParams* params ²ÎÊı¶ÔÏó
-	 * @return ·µ»Øtrue±íÊ¾´Ë×Ö¶ÎÓòĞèÒª´¦ÀíÊı¾İ£¬·µ»Øfalse±íÊ¾´Ë×Ö¶ÎÓò²»ĞèÒª´¦ÀíÊı¾İ
+	 * å­—æ®µåŸŸæ•°æ®æå–
+	 * @param DOField* field å­—æ®µåŸŸå¯¹è±¡
+	 * @param SqlParams* params å‚æ•°å¯¹è±¡
+	 * @return è¿”å›trueè¡¨ç¤ºæ­¤å­—æ®µåŸŸéœ€è¦å¤„ç†æ•°æ®ï¼Œè¿”å›falseè¡¨ç¤ºæ­¤å­—æ®µåŸŸä¸éœ€è¦å¤„ç†æ•°æ®
 	 */
 	bool extractFieldValue(DOField* field, SqlParams* params);
 	/**
-	 * ×Ö¶ÎÓòÊı¾İÌáÈ¡£¬Îª¿ÕµÄÊı¾İÉèÖÃÎªNULL£¬²¢¼ì²é·Ç¿ÕÊı¾İÊÇ·ñÎªNULL
-	 * @param DOField* field ×Ö¶ÎÓò¶ÔÏó
-	 * @param SqlParams* params ²ÎÊı¶ÔÏó
+	 * å­—æ®µåŸŸæ•°æ®æå–ï¼Œä¸ºç©ºçš„æ•°æ®è®¾ç½®ä¸ºNULLï¼Œå¹¶æ£€æŸ¥éç©ºæ•°æ®æ˜¯å¦ä¸ºNULL
+	 * @param DOField* field å­—æ®µåŸŸå¯¹è±¡
+	 * @param SqlParams* params å‚æ•°å¯¹è±¡
 	 */
 	void extractFieldValueWithNul(DOField* field, SqlParams* params);
 public:
 	BaseDAO();
 	virtual ~BaseDAO();
-	// »ñÈ¡SqlSession
+	// è·å–SqlSession
 	SqlSession* getSqlSession();
-	// ÉèÖÃSqlSession
+	// è®¾ç½®SqlSession
 	void setSqlSession(SqlSession* session);
-	// ÉèÖÃÊÇ·ñ×Ô¶¯ÊÍ·ÅSqlSession
+	// è®¾ç½®æ˜¯å¦è‡ªåŠ¨é‡Šæ”¾SqlSession
 	void setAutoRelease(bool release);
 	/**
-	 * ²åÈëÊı¾İ,Ö÷¼üÎª×ÔÔö
-	 * @param const BaseDO& bd Êı¾İ¶ÔÏó
-	 * @return ·µ»Ø×ÔÔöÖ÷¼ü
+	 * æ’å…¥æ•°æ®,ä¸»é”®ä¸ºè‡ªå¢
+	 * @param const BaseDO& bd æ•°æ®å¯¹è±¡
+	 * @return è¿”å›è‡ªå¢ä¸»é”®
 	 */
 	uint64_t insertAutoPk(const BaseDO& bd);
 	/**
-	 * ÅúÁ¿²åÈëÊı¾İ,Ö÷¼üÎª×ÔÔö
-	 * @param const std::list<T>& bdList Êı¾İ¶ÔÏóÁĞ±í
-	 * @param int batchSize ²åÈëÅú´ÎÊıÁ¿£¬¸ù¾İÊı¾İÁ¿×ÔĞĞÉèÖÃ£¬Ä¬ÈÏ1000
-	 * @return Ó°ÏìĞĞÊı
+	 * æ‰¹é‡æ’å…¥æ•°æ®,ä¸»é”®ä¸ºè‡ªå¢
+	 * @param const std::list<T>& bdList æ•°æ®å¯¹è±¡åˆ—è¡¨
+	 * @param int batchSize æ’å…¥æ‰¹æ¬¡æ•°é‡ï¼Œæ ¹æ®æ•°æ®é‡è‡ªè¡Œè®¾ç½®ï¼Œé»˜è®¤1000
+	 * @return å½±å“è¡Œæ•°
 	 */
 	template<typename T>
 	int insertAutoPkBatch(const std::list<T>& bdList, int batchSize = 1000);
 	/**
-	 * ²åÈëÊı¾İ,Ö÷¼üÎª·Ç×ÔÔö
-	 * @param const BaseDO& bd Êı¾İ¶ÔÏó
-	 * @return Ó°ÏìĞĞÊı
+	 * æ’å…¥æ•°æ®,ä¸»é”®ä¸ºéè‡ªå¢
+	 * @param const BaseDO& bd æ•°æ®å¯¹è±¡
+	 * @return å½±å“è¡Œæ•°
 	 */
 	int insert(const BaseDO& bd);
 	/**
-	 * ÅúÁ¿²åÈëÊı¾İ,Ö÷¼üÎª·Ç×ÔÔö
-	 * @param const std::list<T>& bdList Êı¾İ¶ÔÏóÁĞ±í
-	 * @param int batchSize ²åÈëÅú´ÎÊıÁ¿£¬¸ù¾İÊı¾İÁ¿×ÔĞĞÉèÖÃ£¬Ä¬ÈÏ1000
-	 * @return Ó°ÏìĞĞÊı
+	 * æ‰¹é‡æ’å…¥æ•°æ®,ä¸»é”®ä¸ºéè‡ªå¢
+	 * @param const std::list<T>& bdList æ•°æ®å¯¹è±¡åˆ—è¡¨
+	 * @param int batchSize æ’å…¥æ‰¹æ¬¡æ•°é‡ï¼Œæ ¹æ®æ•°æ®é‡è‡ªè¡Œè®¾ç½®ï¼Œé»˜è®¤1000
+	 * @return å½±å“è¡Œæ•°
 	 */
 	template<typename T>
 	int insertBatch(const std::list<T>& bdList, int batchSize = 1000);
 	/**
-	 * ĞŞ¸ÄÊı¾İ£¬¸üĞÂÌõ¼şÎªÖ÷¼ü
-	 * @param const BaseDO& bd Êı¾İ¶ÔÏó
-	 * @return Ó°ÏìĞĞÊı
+	 * ä¿®æ”¹æ•°æ®ï¼Œæ›´æ–°æ¡ä»¶ä¸ºä¸»é”®
+	 * @param const BaseDO& bd æ•°æ®å¯¹è±¡
+	 * @return å½±å“è¡Œæ•°
 	 */
 	int update(const BaseDO& bd);
 	/**
-	 * ĞŞ¸ÄÊı¾İ£¬Ö¸¶¨¸üĞÂÌõ¼şÊı¾İ
-	 * @param const BaseDO& bd ¸üĞÂÊı¾İ¶ÔÏó
-	 * @param const std::string& where ¸üĞÂÌõ¼ş£¬Èç£º(name='test' AND sex='ÄĞ') OR id=1
-	 * @return Ó°ÏìĞĞÊı
+	 * ä¿®æ”¹æ•°æ®ï¼ŒæŒ‡å®šæ›´æ–°æ¡ä»¶æ•°æ®
+	 * @param const BaseDO& bd æ›´æ–°æ•°æ®å¯¹è±¡
+	 * @param const std::string& where æ›´æ–°æ¡ä»¶ï¼Œå¦‚ï¼š(name='test' AND sex='ç”·') OR id=1
+	 * @return å½±å“è¡Œæ•°
 	 */
 	int update(const BaseDO& bd, const std::string& where);
 	/**
-	 * ÅúÁ¿ĞŞ¸ÄÊı¾İ£¬¸üĞÂÌõ¼şÎªÖ÷¼ü
-	 * @param const std::list<T>& bdList Êı¾İ¶ÔÏóÁĞ±í
-	 * @return Ó°ÏìĞĞÊı
+	 * æ‰¹é‡ä¿®æ”¹æ•°æ®ï¼Œæ›´æ–°æ¡ä»¶ä¸ºä¸»é”®
+	 * @param const std::list<T>& bdList æ•°æ®å¯¹è±¡åˆ—è¡¨
+	 * @return å½±å“è¡Œæ•°
 	 */
 	template<typename T>
 	int updateBatch(const std::list<T>& bdList);
 	/**
-	 * É¾³ıÊı¾İ£¬¸ù¾İÖ÷¼üÉ¾³ı
-	 * @param const std::string& id Ö÷¼üÖµ
-	 * @return Ó°ÏìĞĞÊı
+	 * åˆ é™¤æ•°æ®ï¼Œæ ¹æ®ä¸»é”®åˆ é™¤
+	 * @param const std::string& id ä¸»é”®å€¼
+	 * @return å½±å“è¡Œæ•°
 	 */
 	template<typename T>
 	int deleteById(const std::string& id);
 	/**
-	 * ÅúÁ¿É¾³ıÊı¾İ£¬¸ù¾İÖ÷¼üÉ¾³ı
-	 * @param const std::list<std::string>& ids Ö÷¼üÖµÁĞ±í
-	 * @return Ó°ÏìĞĞÊı
+	 * æ‰¹é‡åˆ é™¤æ•°æ®ï¼Œæ ¹æ®ä¸»é”®åˆ é™¤
+	 * @param const std::list<std::string>& ids ä¸»é”®å€¼åˆ—è¡¨
+	 * @return å½±å“è¡Œæ•°
 	 */
 	template<typename T>
 	int deleteByIds(const std::list<std::string>& ids);
@@ -123,11 +123,11 @@ public:
 template<typename T>
 int BaseDAO::insertAutoPkBatch(const std::list<T>& bdList, int batchSize /*= 1000*/)
 {
-	// ¼ì²âTÊÇ·ñ¼Ì³Ğ×ÔBaseDO
+	// æ£€æµ‹Tæ˜¯å¦ç»§æ‰¿è‡ªBaseDO
 	static_assert(std::is_base_of<BaseDO, T>::value, "T must be derived from BaseDO");
-	// ¿ªÆôÊÂÎñ
+	// å¼€å¯äº‹åŠ¡
 	sqlSession->beginTransaction();
-	// ¹¹½¨ÁĞÊı¾İ
+	// æ„å»ºåˆ—æ•°æ®
 	std::ostringstream col;
 	col << " (";
 	auto& oneBd = bdList.front();
@@ -139,7 +139,7 @@ int BaseDAO::insertAutoPkBatch(const std::list<T>& bdList, int batchSize /*= 100
 		col << field->getColumn();
 	}
 	col << " )";
-	// ¹¹½¨ÖµÊı¾İ
+	// æ„å»ºå€¼æ•°æ®
 	SqlParams params;
 	std::ostringstream val;
 	int current = 0;
@@ -149,7 +149,7 @@ int BaseDAO::insertAutoPkBatch(const std::list<T>& bdList, int batchSize /*= 100
 	{
 		for (auto& bd : bdList)
 		{
-			// Æ´½ÓÊı¾İ×Ö¶Î
+			// æ‹¼æ¥æ•°æ®å­—æ®µ
 			if (!first) val << ",";
 			else first = false;
 			bool valfirst = true;
@@ -166,15 +166,15 @@ int BaseDAO::insertAutoPkBatch(const std::list<T>& bdList, int batchSize /*= 100
 			}
 			val << " ) ";
 			current++;
-			// ´ïµ½Åú´ÎÈİÁ¿»ò×îºóÒ»¸öÊı¾İ
+			// è¾¾åˆ°æ‰¹æ¬¡å®¹é‡æˆ–æœ€åä¸€ä¸ªæ•°æ®
 			if (current % batchSize == 0 || current >= bdList.size())
 			{
-				// Ö´ĞĞÊı¾İ²åÈë
+				// æ‰§è¡Œæ•°æ®æ’å…¥
 				std::ostringstream sql;
 				sql << "INSERT INTO " << bd.getTable();
 				sql << col.str() << " VALUES " << val.str();
 				rows += sqlSession->executeUpdate(sql.str(), params);
-				// ÖØÖÃÆ´½ÓÊı¾İ
+				// é‡ç½®æ‹¼æ¥æ•°æ®
 				val = std::ostringstream();
 				params.clear();
 				first = true;
@@ -183,17 +183,17 @@ int BaseDAO::insertAutoPkBatch(const std::list<T>& bdList, int batchSize /*= 100
 	}
 	catch (...)
 	{
-		// »Ø¹öÊÂÎñ
+		// å›æ»šäº‹åŠ¡
 		sqlSession->rollbackTransaction();
 		throw;
 	}
-	// Ìá½»ÊÂÎñ
+	// æäº¤äº‹åŠ¡
 	if (rows == bdList.size())
 	{
 		sqlSession->commitTransaction();
 		return rows;
 	}
-	// »Ø¹öÊÂÎñ
+	// å›æ»šäº‹åŠ¡
 	sqlSession->rollbackTransaction();
 	return 0;
 }
@@ -201,23 +201,23 @@ int BaseDAO::insertAutoPkBatch(const std::list<T>& bdList, int batchSize /*= 100
 template<typename T>
 int BaseDAO::insertBatch(const std::list<T>& bdList, int batchSize /*= 1000*/)
 {
-	// ¼ì²âTÊÇ·ñ¼Ì³Ğ×ÔBaseDO
+	// æ£€æµ‹Tæ˜¯å¦ç»§æ‰¿è‡ªBaseDO
 	static_assert(std::is_base_of<BaseDO, T>::value, "T must be derived from BaseDO");
-	// ¿ªÆôÊÂÎñ
+	// å¼€å¯äº‹åŠ¡
 	sqlSession->beginTransaction();
-	// ¹¹½¨ÁĞÊı¾İ
+	// æ„å»ºåˆ—æ•°æ®
 	auto& oneBd = bdList.front();
 	std::ostringstream col;
 	col << " ( ";
-	// Ìí¼ÓÖ÷¼üÁĞ
+	// æ·»åŠ ä¸»é”®åˆ—
 	col << oneBd.getPrimaryField()->getColumn();
-	// Ìí¼ÓÆÕÍ¨ÁĞ
+	// æ·»åŠ æ™®é€šåˆ—
 	for (auto& field : oneBd.getFields())
 	{
 		col << ", " << field->getColumn();
 	}
 	col << " )";
-	// ¹¹½¨ÖµÊı¾İ
+	// æ„å»ºå€¼æ•°æ®
 	SqlParams params;
 	std::ostringstream val;
 	int current = 0;
@@ -227,16 +227,16 @@ int BaseDAO::insertBatch(const std::list<T>& bdList, int batchSize /*= 1000*/)
 	{
 		for (auto& bd : bdList)
 		{
-			// Æ´½ÓÊı¾İ·Ö¸ô·û
+			// æ‹¼æ¥æ•°æ®åˆ†éš”ç¬¦
 			if (!first) val << ",";
 			else first = false;
-			// Èç¹ûÖ÷¼üÎª¿Õ
+			// å¦‚æœä¸»é”®ä¸ºç©º
 			if (!bd.getPrimaryField()->get())
 				throw std::runtime_error("Primary field is null.");
-			// Ö÷¼üÁĞÖµ
+			// ä¸»é”®åˆ—å€¼
 			extractFieldValueWithNul(bd.getPrimaryField(), &params);
 			val << "( ?";
-			// ÆÕÍ¨ÁĞÖµ
+			// æ™®é€šåˆ—å€¼
 			for (auto field : bd.getFields())
 			{
 				extractFieldValueWithNul(field, &params);
@@ -244,15 +244,15 @@ int BaseDAO::insertBatch(const std::list<T>& bdList, int batchSize /*= 1000*/)
 			}
 			val << " ) ";
 			current++;
-			// ´ïµ½Åú´ÎÈİÁ¿»ò×îºóÒ»¸öÊı¾İ
+			// è¾¾åˆ°æ‰¹æ¬¡å®¹é‡æˆ–æœ€åä¸€ä¸ªæ•°æ®
 			if (current % batchSize == 0 || current >= bdList.size())
 			{
-				// Ö´ĞĞÊı¾İ²åÈë
+				// æ‰§è¡Œæ•°æ®æ’å…¥
 				std::ostringstream sql;
 				sql << "INSERT INTO " << bd.getTable();
 				sql << col.str() << " VALUES " << val.str();
 				rows += sqlSession->executeUpdate(sql.str(), params);
-				// ÖØÖÃÆ´½ÓÊı¾İ
+				// é‡ç½®æ‹¼æ¥æ•°æ®
 				val = std::ostringstream();
 				params.clear();
 				first = true;
@@ -261,17 +261,17 @@ int BaseDAO::insertBatch(const std::list<T>& bdList, int batchSize /*= 1000*/)
 	}
 	catch (...)
 	{
-		// »Ø¹öÊÂÎñ
+		// å›æ»šäº‹åŠ¡
 		sqlSession->rollbackTransaction();
 		throw;
 	}
-	// Ìá½»ÊÂÎñ
+	// æäº¤äº‹åŠ¡
 	if (rows == bdList.size())
 	{
 		sqlSession->commitTransaction();
 		return rows;
 	}
-	// »Ø¹öÊÂÎñ
+	// å›æ»šäº‹åŠ¡
 	sqlSession->rollbackTransaction();
 	return 0;
 }
@@ -279,24 +279,24 @@ int BaseDAO::insertBatch(const std::list<T>& bdList, int batchSize /*= 1000*/)
 template<typename T>
 int BaseDAO::updateBatch(const std::list<T>& bdList)
 {
-	// ¼ì²âTÊÇ·ñ¼Ì³Ğ×ÔBaseDO
+	// æ£€æµ‹Tæ˜¯å¦ç»§æ‰¿è‡ªBaseDO
 	static_assert(std::is_base_of<BaseDO, T>::value, "T must be derived from BaseDO");
-	// ¿ªÆôÊÂÎñ
+	// å¼€å¯äº‹åŠ¡
 	sqlSession->beginTransaction();
-	// ´´½¨SQLÓï¾ä
+	// åˆ›å»ºSQLè¯­å¥
 	SqlParams params;
 	int rows = 0;
 	try
 	{
 		for (auto& bd : bdList)
 		{
-			// Èç¹ûÖ÷¼üÎª¿Õ
+			// å¦‚æœä¸»é”®ä¸ºç©º
 			if (!bd.getPrimaryField()->get())
 				throw std::runtime_error("Primary field is null.");
-			// ¹¹½¨¸üĞÂSQL
+			// æ„å»ºæ›´æ–°SQL
 			std::ostringstream sql;
 			sql << "UPDATE " << bd.getTable() << " SET ";
-			// ´¦Àí¸üĞÂÊı¾İ²¿·Ö
+			// å¤„ç†æ›´æ–°æ•°æ®éƒ¨åˆ†
 			bool isFirst = true;
 			for (auto field : bd.getFields())
 			{
@@ -307,28 +307,28 @@ int BaseDAO::updateBatch(const std::list<T>& bdList)
 					sql << field->getColumn() << " = ?";
 				}
 			}
-			// ¹¹½¨¸üĞÂÌõ¼ş
+			// æ„å»ºæ›´æ–°æ¡ä»¶
 			extractFieldValue(bd.getPrimaryField(), &params);
 			sql << " WHERE " << bd.getPrimaryField()->getColumn() << " = ?";
 
-			// Ö´ĞĞÊı¾İ¸üĞÂ
+			// æ‰§è¡Œæ•°æ®æ›´æ–°
 			rows += sqlSession->executeUpdate(sql.str(), params);
 			params.clear();
 		}
 	}
 	catch (...)
 	{
-		// »Ø¹öÊÂÎñ
+		// å›æ»šäº‹åŠ¡
 		sqlSession->rollbackTransaction();
 		throw;
 	}
-	// Ìá½»ÊÂÎñ
+	// æäº¤äº‹åŠ¡
 	if (rows == bdList.size())
 	{
 		sqlSession->commitTransaction();
 		return rows;
 	}
-	// »Ø¹öÊÂÎñ
+	// å›æ»šäº‹åŠ¡
 	sqlSession->rollbackTransaction();
 	return 0;
 }
@@ -336,22 +336,22 @@ int BaseDAO::updateBatch(const std::list<T>& bdList)
 template<typename T>
 int BaseDAO::deleteById(const std::string& id)
 {
-	// ¼ì²âTÊÇ·ñ¼Ì³Ğ×ÔBaseDO
+	// æ£€æµ‹Tæ˜¯å¦ç»§æ‰¿è‡ªBaseDO
 	static_assert(std::is_base_of<BaseDO, T>::value, "T must be derived from BaseDO");
-	// ¹¹½¨É¾³ıÓï¾äÓë²ÎÊı
+	// æ„å»ºåˆ é™¤è¯­å¥ä¸å‚æ•°
 	T bd;
 	std::ostringstream sql;
 	sql << "DELETE FROM " << bd.getTable() << " WHERE " << bd.getPrimaryField()->getColumn() << " = ?";
-	// Ö´ĞĞÉ¾³ı
+	// æ‰§è¡Œåˆ é™¤
 	return sqlSession->executeUpdate(sql.str(), "%s", id);
 }
 
 template<typename T>
 int BaseDAO::deleteByIds(const std::list<std::string>& ids)
 {
-	// ¼ì²âTÊÇ·ñ¼Ì³Ğ×ÔBaseDO
+	// æ£€æµ‹Tæ˜¯å¦ç»§æ‰¿è‡ªBaseDO
 	static_assert(std::is_base_of<BaseDO, T>::value, "T must be derived from BaseDO");
-	// ¹¹½¨É¾³ıÓï¾äÓë²ÎÊı
+	// æ„å»ºåˆ é™¤è¯­å¥ä¸å‚æ•°
 	T bd;
 	SqlParams params;
 	std::ostringstream sql;
@@ -365,7 +365,7 @@ int BaseDAO::deleteByIds(const std::list<std::string>& ids)
 		params.push_back(SqlParam("s", std::make_shared<std::string>(*it)));
 	}
 	sql << ")";
-	// Ö´ĞĞÉ¾³ı
+	// æ‰§è¡Œåˆ é™¤
 	return sqlSession->executeUpdate(sql.str(), params);
 }
 

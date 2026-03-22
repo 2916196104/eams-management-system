@@ -1,4 +1,4 @@
-#ifndef CORE_MEMORY_HPP
+﻿#ifndef CORE_MEMORY_HPP
 #define CORE_MEMORY_HPP
 
 #include <stdexcept>

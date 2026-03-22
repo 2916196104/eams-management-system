@@ -1,4 +1,4 @@
-#ifndef BOOST_CORE_IS_SAME_HPP_INCLUDED
+﻿#ifndef BOOST_CORE_IS_SAME_HPP_INCLUDED
 #define BOOST_CORE_IS_SAME_HPP_INCLUDED
 
 // MS compatible compilers support #pragma once

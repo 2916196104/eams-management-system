@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
@@ -24,10 +24,10 @@
 
 std::string SimpleDateTimeFormat::format(const std::string& fmt /*= "%Y-%m-%d %H:%M:%S"*/)
 {
-	// »ñÈ¡µ±Ç°Ê±¼ä
+	// è·å–å½“å‰æ—¶é—´
 	auto now = std::chrono::system_clock::now();
 	
-	// ¸ñÊ½Ê±¼ä
+	// æ ¼å¼æ—¶é—´
 	std::stringstream ss;
 	auto tNow = std::chrono::system_clock::to_time_t(now);
 	ss << std::put_time(std::localtime(&tNow), fmt.c_str());
@@ -36,19 +36,19 @@ std::string SimpleDateTimeFormat::format(const std::string& fmt /*= "%Y-%m-%d %H
 
 std::string SimpleDateTimeFormat::formatWithMilli(const std::string& fmt /*= "%Y-%m-%d %H:%M:%S"*/, const std::string msDelim /*= " "*/)
 {
-	// »ñÈ¡µ±Ç°Ê±¼ä
+	// è·å–å½“å‰æ—¶é—´
 	auto now = std::chrono::system_clock::now();
 	
-	// ¸ñÊ½»¯Ê±¼ä
+	// æ ¼å¼åŒ–æ—¶é—´
 	std::stringstream ss;
 	auto tNow = std::chrono::system_clock::to_time_t(now);
 	ss << std::put_time(std::localtime(&tNow), fmt.c_str());
 
-	// »ñÈ¡µ±Ç°Ê±¼äµÄÃëÊı
+	// è·å–å½“å‰æ—¶é—´çš„ç§’æ•°
 	auto tSeconds = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch());
-	// »ñÈ¡µ±Ç°Ê±¼äµÄºÁÃë
+	// è·å–å½“å‰æ—¶é—´çš„æ¯«ç§’
 	auto tMilli = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch());
-	// ×÷²îÇó³öºÁÃëÊı
+	// ä½œå·®æ±‚å‡ºæ¯«ç§’æ•°
 	auto ms = tMilli - tSeconds;
 	ss << msDelim << std::setfill('0') << std::setw(3) << ms.count();
 	return ss.str();

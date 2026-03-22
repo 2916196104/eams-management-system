@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
  
  @Author: awei
@@ -31,24 +31,24 @@
 vector<string> StringUtil::split(const string& str, const string& delim)
 {
 	vector<string> res;
-	//¿Õ×Ö·û´¦Àí
+	//ç©ºå­—ç¬¦å¤„ç†
 	if ("" == str) return res;
 
-	//×Ö·û´®´ÓstringÀàĞÍ×ª»»Îªchar*ÀàĞÍ
+	//å­—ç¬¦ä¸²ä»stringç±»å‹è½¬æ¢ä¸ºchar*ç±»å‹
 	char* source = new char[str.length() + 1];
 	SCPY(source, str.length() + 1, str);
 	char* d = new char[delim.length() + 1];
 	SCPY(d, delim.length() + 1, delim);
 
-	//²ğ·Ö×Ö·û´®Âß¼­
+	//æ‹†åˆ†å­—ç¬¦ä¸²é€»è¾‘
 	char* nextToken = NULL;
 	char* strToken = STOK(source, d, &nextToken);
 	while (strToken) {
-		//·Ö¸îµÃµ½µÄ×Ö·û´®×ª»»ÎªstringÀàĞÍ
+		//åˆ†å‰²å¾—åˆ°çš„å­—ç¬¦ä¸²è½¬æ¢ä¸ºstringç±»å‹
 		string s = strToken;
-		//´æÈë½á¹ûÊı×é
+		//å­˜å…¥ç»“æœæ•°ç»„
 		res.push_back(s);
-		//¼ÌĞø·Ö¸ô
+		//ç»§ç»­åˆ†éš”
 		strToken = STOK(NULL, d, &nextToken);
 	}
 	delete[] source;

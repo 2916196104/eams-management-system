@@ -1,4 +1,4 @@
-//  This code is based on Timer and Chrono code. Thanks to authors:
+﻿//  This code is based on Timer and Chrono code. Thanks to authors:
 //
 //  Boost.Timer:
 //  Copyright Beman Dawes 1994-2007, 2011

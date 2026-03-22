@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -115,14 +115,14 @@ if (obj) { \
 	obj = NULL; \
 }
 
-// ¶¨ÒåÒ»¸ö¿ÕÖ¸Õë¼ì²éºê£¬Îª¿ÕÖ¸ÕëÊÇÅ×³öÒì³£
+// å®šä¹‰ä¸€ä¸ªç©ºæŒ‡é’ˆæ£€æŸ¥å®ï¼Œä¸ºç©ºæŒ‡é’ˆæ˜¯æŠ›å‡ºå¼‚å¸¸
 #define NULL_PTR_CHECK(__ptr__, __message__) \
 if (!__ptr__) { \
 	throw std::runtime_error(__message__); \
 }
 
 /**
- * ¶¨ÒåÒ»¸öSQLÌî³ä²ÎÊı¶ÔÏó
+ * å®šä¹‰ä¸€ä¸ªSQLå¡«å……å‚æ•°å¯¹è±¡
  */
 class SqlParam
 {
@@ -131,58 +131,58 @@ public:
 		this->key = key;
 		this->value = value;
 	}
-	// Êı¾İÀàĞÍÕ¼Î»·û
+	// æ•°æ®ç±»å‹å ä½ç¬¦
 	std::string key;
-	// ¶ÔÓ¦µÄÊı¾İ
+	// å¯¹åº”çš„æ•°æ®
 	shared_ptr<void> value;
 };
-// ¶¨ÒåÒ»¸öSQLÌî³ä²ÎÊıÊı¾İ¼¯ÀàĞÍ
+// å®šä¹‰ä¸€ä¸ªSQLå¡«å……å‚æ•°æ•°æ®é›†ç±»å‹
 typedef std::vector<SqlParam> SqlParams;
 
 /**
- * ¶¨ÒåÒ»¸öSQLÌî³ä²ÎÊıÊı¾İ¼¯Ìí¼ÓÊı¾İºê
- * @param __PARAMS__: ´æ´¢²ÎÊıÊı¾İ¼¯¶ÔÏó
- * @param __PARAM_KEY__: ÊıÁ¿ÀàĞÍÕ¼Î»·û£¬Èç£º"i"¡¢"s"¡¢"d"¡¢"b"¡¢"dt"¡¢"nul"¡¢"bi"¡¢"ull"¡¢"ll"¡¢"ui"
- * @param __VAL_TYPE__: Êı¾İÀàĞÍ£¬Èç£ºint32_t¡¢uint32_t¡¢int64_t¡¢uint64_t¡¢std::string¡¢double¡¢bool
- * @param __VAL_VAL__: ²ÎÊıÖµ
+ * å®šä¹‰ä¸€ä¸ªSQLå¡«å……å‚æ•°æ•°æ®é›†æ·»åŠ æ•°æ®å®
+ * @param __PARAMS__: å­˜å‚¨å‚æ•°æ•°æ®é›†å¯¹è±¡
+ * @param __PARAM_KEY__: æ•°é‡ç±»å‹å ä½ç¬¦ï¼Œå¦‚ï¼š"i"ã€"s"ã€"d"ã€"b"ã€"dt"ã€"nul"ã€"bi"ã€"ull"ã€"ll"ã€"ui"
+ * @param __VAL_TYPE__: æ•°æ®ç±»å‹ï¼Œå¦‚ï¼šint32_tã€uint32_tã€int64_tã€uint64_tã€std::stringã€doubleã€bool
+ * @param __VAL_VAL__: å‚æ•°å€¼
  */
 #define SQLPARAMS_PUSH(__PARAMS__, __PARAM_KEY__, __VAL_TYPE__, __VAL_VAL__) \
 __PARAMS__.emplace_back(SqlParam(__PARAM_KEY__, std::make_shared<__VAL_TYPE__>(__VAL_VAL__)))
 
 /**
- * ¶¨ÒåÒ»¸öSQLÌî³ä²ÎÊıÊı¾İ¼¯Ìí¼ÓÊı¾İºê
- * @param __PARAMS__: ´æ´¢²ÎÊıÊı¾İ¼¯¶ÔÏó
- * @param __PARAM_KEY__: ÊıÁ¿ÀàĞÍÕ¼Î»·û£¬Èç£º"i"¡¢"s"¡¢"d"¡¢"b"¡¢"dt"¡¢"nul"¡¢"bi"¡¢"ull"¡¢"ll"¡¢"ui"
- * @param __VAL_TYPE__: Êı¾İÀàĞÍ£¬Èç£ºint32_t¡¢uint32_t¡¢int64_t¡¢uint64_t¡¢std::string¡¢double¡¢bool
- * @param __VAL_PTR__: ²ÎÊıÖµÖ¸Õë
+ * å®šä¹‰ä¸€ä¸ªSQLå¡«å……å‚æ•°æ•°æ®é›†æ·»åŠ æ•°æ®å®
+ * @param __PARAMS__: å­˜å‚¨å‚æ•°æ•°æ®é›†å¯¹è±¡
+ * @param __PARAM_KEY__: æ•°é‡ç±»å‹å ä½ç¬¦ï¼Œå¦‚ï¼š"i"ã€"s"ã€"d"ã€"b"ã€"dt"ã€"nul"ã€"bi"ã€"ull"ã€"ll"ã€"ui"
+ * @param __VAL_TYPE__: æ•°æ®ç±»å‹ï¼Œå¦‚ï¼šint32_tã€uint32_tã€int64_tã€uint64_tã€std::stringã€doubleã€bool
+ * @param __VAL_PTR__: å‚æ•°å€¼æŒ‡é’ˆ
  */
 #define SQLPARAMS_PUSH_PTR(__PARAMS__, __PARAM_KEY__, __VAL_TYPE__, __VAL_PTR__) \
 __PARAMS__.emplace_back(SqlParam(__PARAM_KEY__, std::shared_ptr<__VAL_TYPE__>(__VAL_PTR__)))
 
 /**
- * ¶¨ÒåÒ»¸öÊı¾İ¿â²Ù×÷¹¤¾ßÀà
- * ²Î¿¼Á´½Ó£º
+ * å®šä¹‰ä¸€ä¸ªæ•°æ®åº“æ“ä½œå·¥å…·ç±»
+ * å‚è€ƒé“¾æ¥ï¼š
  * https://dev.mysql.com/doc/connector-cpp/1.1/en/connector-cpp-apps.html
  * https://dev.mysql.com/doc/dev/connector-cpp/latest/jdbc_example.html
  */
 class SqlSession final
 {
 private:
-	// Êı¾İ¿âÁ¬½Ó¶ÔÏó
+	// æ•°æ®åº“è¿æ¥å¯¹è±¡
 	Connection* conn;
-	// PreparedStatement¶ÔÏó
+	// PreparedStatementå¯¹è±¡
 	PreparedStatement* pstmt;
-	// Statement¶ÔÏó
+	// Statementå¯¹è±¡
 	Statement* stmt;
-	// ½á¹û¼¯¶ÔÏó
+	// ç»“æœé›†å¯¹è±¡
 	ResultSet* res;
-	// ÊÍ·ÅPreparedStatement¶ÔÏó
+	// é‡Šæ”¾PreparedStatementå¯¹è±¡
 	void releasePreparedStatement();
-	// ÊÍ·ÅStatement¶ÔÏó
+	// é‡Šæ”¾Statementå¯¹è±¡
 	void releaseStatement();
-	// ÊÍ·Å½á¹û¼¯¶ÔÏó
+	// é‡Šæ”¾ç»“æœé›†å¯¹è±¡
 	void releaseResultSet();
-	// Ö´ĞĞÊı¾İ¸üĞÂ²Ù×÷
+	// æ‰§è¡Œæ•°æ®æ›´æ–°æ“ä½œ
 	int update(const string& sql, const char* fmt, va_list args);
 public:
 	SqlSession();
@@ -192,9 +192,9 @@ public:
 	// Method:    execute
 	// FullName:  SqlSession::execute
 	// Access:    public 
-	// Returns:   ²Ù×÷³É¹¦·µ»Øtrue£¬·ñÔò·µ»Øfalse
-	// Description: Ö´ĞĞSQLÓï¾ä£¬Ò»°ãÓÃÓÚDDL
-	// Parameter: const string& sql SQLÓï¾ä
+	// Returns:   æ“ä½œæˆåŠŸè¿”å›trueï¼Œå¦åˆ™è¿”å›false
+	// Description: æ‰§è¡ŒSQLè¯­å¥ï¼Œä¸€èˆ¬ç”¨äºDDL
+	// Parameter: const string& sql SQLè¯­å¥
 	//************************************
 	bool execute(const string& sql);
 
@@ -202,11 +202,11 @@ public:
 	// Method:    executeUpdate
 	// FullName:  SqlSession::executeUpdate
 	// Access:    public 
-	// Returns:   Ó°ÏìÊı¾İĞĞÊı
-	// Description: ¸üĞÂÊı¾İ£¬Ò»°ãÓÃÓÚDML
-	// Parameter: const string& sql sqlÓï¾ä
-	// Parameter: const char* fmt ¿É±ä²ÎÊı¸ñÊ½×Ö·û´®,Èç:%s%i%bi%b%d%dt%n
-	// Parameter: ... ¿É±ä²ÎÊı
+	// Returns:   å½±å“æ•°æ®è¡Œæ•°
+	// Description: æ›´æ–°æ•°æ®ï¼Œä¸€èˆ¬ç”¨äºDML
+	// Parameter: const string& sql sqlè¯­å¥
+	// Parameter: const char* fmt å¯å˜å‚æ•°æ ¼å¼å­—ç¬¦ä¸²,å¦‚:%s%i%bi%b%d%dt%n
+	// Parameter: ... å¯å˜å‚æ•°
 	//************************************
 	int executeUpdate(const string& sql, const char* fmt, ...);
 
@@ -214,9 +214,9 @@ public:
 	// Method:    executeUpdate
 	// FullName:  SqlSession::executeUpdate
 	// Access:    public 
-	// Returns:   Ó°ÏìÊı¾İĞĞÊı
-	// Description: ¸üĞÂÊı¾İ£¬Ò»°ãÓÃÓÚDML
-	// Parameter: const string& sql sqlÓï¾ä
+	// Returns:   å½±å“æ•°æ®è¡Œæ•°
+	// Description: æ›´æ–°æ•°æ®ï¼Œä¸€èˆ¬ç”¨äºDML
+	// Parameter: const string& sql sqlè¯­å¥
 	//************************************
 	int executeUpdate(const string& sql);
 
@@ -224,10 +224,10 @@ public:
 	// Method:    executeUpdate
 	// FullName:  SqlSession::executeUpdate
 	// Access:    public 
-	// Returns:   Ó°ÏìÊı¾İĞĞÊı
-	// Description: ¸üĞÂÊı¾İ£¬Ò»°ãÓÃDML
-	// Parameter: const string& sql sqlÓï¾ä
-	// Parameter: const SqlParams& params SQLÓï¾äÌî³ä²ÎÊı
+	// Returns:   å½±å“æ•°æ®è¡Œæ•°
+	// Description: æ›´æ–°æ•°æ®ï¼Œä¸€èˆ¬ç”¨DML
+	// Parameter: const string& sql sqlè¯­å¥
+	// Parameter: const SqlParams& params SQLè¯­å¥å¡«å……å‚æ•°
 	//************************************
 	int executeUpdate(const string& sql, const SqlParams& params);
 
@@ -235,11 +235,11 @@ public:
 	// Method:    executeInsert
 	// FullName:  SqlSession::executeInsert
 	// Access:    public 
-	// Returns:   ·µ»Ø×Ô¶¯Ôö³¤IDÖµ
-	// Description: ²åÈëÊı¾İ£¬ÓÃÓÚÊı¾İ¿âÖ÷¼ü×ÔÔöµÄÊı¾İ±í£¬Ö÷¼ü·Ç×ÔÔöÇëÊ¹ÓÃexecuteUpdate
-	// Parameter: const string& sql sqlÓï¾ä
-	// Parameter: const char* fmt ¿É±ä²ÎÊı¸ñÊ½×Ö·û´®,Èç:%s%i%bi%b%d%dt%n
-	// Parameter: ... ¿É±ä²ÎÊı
+	// Returns:   è¿”å›è‡ªåŠ¨å¢é•¿IDå€¼
+	// Description: æ’å…¥æ•°æ®ï¼Œç”¨äºæ•°æ®åº“ä¸»é”®è‡ªå¢çš„æ•°æ®è¡¨ï¼Œä¸»é”®éè‡ªå¢è¯·ä½¿ç”¨executeUpdate
+	// Parameter: const string& sql sqlè¯­å¥
+	// Parameter: const char* fmt å¯å˜å‚æ•°æ ¼å¼å­—ç¬¦ä¸²,å¦‚:%s%i%bi%b%d%dt%n
+	// Parameter: ... å¯å˜å‚æ•°
 	//************************************
 	uint64_t executeInsert(const string& sql, const char* fmt, ...);
 
@@ -247,9 +247,9 @@ public:
 	// Method:    executeInsert
 	// FullName:  SqlSession::executeInsert
 	// Access:    public 
-	// Returns:   ·µ»Ø×Ô¶¯Ôö³¤IDÖµ
-	// Description: ²åÈëÊı¾İ£¬ÓÃÓÚÊı¾İ¿âÖ÷¼ü×ÔÔöµÄÊı¾İ±í£¬Ö÷¼ü·Ç×ÔÔöÇëÊ¹ÓÃexecuteUpdate
-	// Parameter: const string& sql sqlÓï¾ä
+	// Returns:   è¿”å›è‡ªåŠ¨å¢é•¿IDå€¼
+	// Description: æ’å…¥æ•°æ®ï¼Œç”¨äºæ•°æ®åº“ä¸»é”®è‡ªå¢çš„æ•°æ®è¡¨ï¼Œä¸»é”®éè‡ªå¢è¯·ä½¿ç”¨executeUpdate
+	// Parameter: const string& sql sqlè¯­å¥
 	//************************************
 	uint64_t executeInsert(const string& sql);
 
@@ -257,10 +257,10 @@ public:
 	// Method:    executeInsert
 	// FullName:  SqlSession::executeInsert
 	// Access:    public 
-	// Returns:   ·µ»Ø×Ô¶¯Ôö³¤IDÖµ
-	// Description: ²åÈëÊı¾İ£¬ÓÃÓÚÊı¾İ¿âÖ÷¼ü×ÔÔöµÄÊı¾İ±í£¬Ö÷¼ü·Ç×ÔÔöÇëÊ¹ÓÃexecuteUpdate
-	// Parameter: const string& sql sqlÓï¾ä
-	// Parameter: const SqlParams& params SQLÓï¾äÌî³ä²ÎÊı
+	// Returns:   è¿”å›è‡ªåŠ¨å¢é•¿IDå€¼
+	// Description: æ’å…¥æ•°æ®ï¼Œç”¨äºæ•°æ®åº“ä¸»é”®è‡ªå¢çš„æ•°æ®è¡¨ï¼Œä¸»é”®éè‡ªå¢è¯·ä½¿ç”¨executeUpdate
+	// Parameter: const string& sql sqlè¯­å¥
+	// Parameter: const SqlParams& params SQLè¯­å¥å¡«å……å‚æ•°
 	//************************************
 	uint64_t executeInsert(const string& sql, const SqlParams& params);
 
@@ -268,11 +268,11 @@ public:
 	// Method:    executeQueryNumerical
 	// FullName:  SqlSession::executeQueryNumerical
 	// Access:    public 
-	// Returns:   uint64_t ÕûĞÍÊı×Ö
-	// Description: ²éÑ¯Ò»¸öÕûĞÍÊı×Ö£¬±ÈÈç²éÑ¯count¡¢maxÕâÀàÊı¾İ
-	// Parameter: const string& sql SQLÓï¾ä
-	// Parameter: const char* fmt ¿É±ä²ÎÊı¸ñÊ½×Ö·û´®,Èç:%s%i%bi%b%d%dt%n
-	// Parameter: ... ¿É±ä²ÎÊı
+	// Returns:   uint64_t æ•´å‹æ•°å­—
+	// Description: æŸ¥è¯¢ä¸€ä¸ªæ•´å‹æ•°å­—ï¼Œæ¯”å¦‚æŸ¥è¯¢countã€maxè¿™ç±»æ•°æ®
+	// Parameter: const string& sql SQLè¯­å¥
+	// Parameter: const char* fmt å¯å˜å‚æ•°æ ¼å¼å­—ç¬¦ä¸²,å¦‚:%s%i%bi%b%d%dt%n
+	// Parameter: ... å¯å˜å‚æ•°
 	//************************************
 	uint64_t executeQueryNumerical(const string& sql, const char* fmt, ...);
 
@@ -280,9 +280,9 @@ public:
 	// Method:    executeQueryNumerical
 	// FullName:  SqlSession::executeQueryNumerical
 	// Access:    public 
-	// Returns:   uint64_t ÕûĞÍÊı×Ö
-	// Description: ²éÑ¯Ò»¸öÕûĞÍÊı×Ö£¬±ÈÈç²éÑ¯count¡¢maxÕâÀàÊı¾İ
-	// Parameter: const string& sql SQLÓï¾ä
+	// Returns:   uint64_t æ•´å‹æ•°å­—
+	// Description: æŸ¥è¯¢ä¸€ä¸ªæ•´å‹æ•°å­—ï¼Œæ¯”å¦‚æŸ¥è¯¢countã€maxè¿™ç±»æ•°æ®
+	// Parameter: const string& sql SQLè¯­å¥
 	//************************************
 	uint64_t executeQueryNumerical(const string& sql);
 
@@ -290,10 +290,10 @@ public:
 	// Method:    executeQueryNumerical
 	// FullName:  SqlSession::executeQueryNumerical
 	// Access:    public 
-	// Returns:   uint64_t ÕûĞÍÊı×Ö
-	// Description: ²éÑ¯Ò»¸öÕûĞÍÊı×Ö£¬±ÈÈç²éÑ¯count¡¢maxÕâÀàÊı¾İ
-	// Parameter: const string& sql SQLÓï¾ä
-	// Parameter: const SqlParams& params SQLÓï¾äÌî³ä²ÎÊı
+	// Returns:   uint64_t æ•´å‹æ•°å­—
+	// Description: æŸ¥è¯¢ä¸€ä¸ªæ•´å‹æ•°å­—ï¼Œæ¯”å¦‚æŸ¥è¯¢countã€maxè¿™ç±»æ•°æ®
+	// Parameter: const string& sql SQLè¯­å¥
+	// Parameter: const SqlParams& params SQLè¯­å¥å¡«å……å‚æ•°
 	//************************************
 	uint64_t executeQueryNumerical(const string& sql, const SqlParams& params);
 
@@ -301,12 +301,12 @@ public:
 	// Method:      executeQueryOne
 	// FullName:    SqlSession::executeQueryOne
 	// Access:      public 
-	// Description: ²éÑ¯µ¥¸öÊı¾İ
-	// Returns:     ·µ»Ø²éÑ¯½á¹û£¬Èç¹û²éÑ¯Óï¾ä²é³ö¶à¸ö½á¹û·µ»Ø¿Õ¶ÔÏó
-	// Parameter:   const string& sql SQLÓï¾ä
-	// Parameter:   const M& mapper ²éÑ¯½á¹ûÆ¥Åä´¦Àí
-	// Parameter:   const char* fmt ¿É±ä²ÎÊı¸ñÊ½×Ö·û´®,Èç:%s%i%bi%b%d%dt%n
-	// Parameter:   ... ¿É±ä²ÎÊı
+	// Description: æŸ¥è¯¢å•ä¸ªæ•°æ®
+	// Returns:     è¿”å›æŸ¥è¯¢ç»“æœï¼Œå¦‚æœæŸ¥è¯¢è¯­å¥æŸ¥å‡ºå¤šä¸ªç»“æœè¿”å›ç©ºå¯¹è±¡
+	// Parameter:   const string& sql SQLè¯­å¥
+	// Parameter:   const M& mapper æŸ¥è¯¢ç»“æœåŒ¹é…å¤„ç†
+	// Parameter:   const char* fmt å¯å˜å‚æ•°æ ¼å¼å­—ç¬¦ä¸²,å¦‚:%s%i%bi%b%d%dt%n
+	// Parameter:   ... å¯å˜å‚æ•°
 	//************************************
 	template<class T, typename M = Mapper<T>>
 	T executeQueryOne(const string& sql, const M& mapper, const char* fmt, ...) {
@@ -314,29 +314,29 @@ public:
 		try
 		{
 			NULL_PTR_CHECK(conn, "connection is null");
-			//1 »ñÈ¡prepareStatement¶ÔÏó
+			//1 è·å–prepareStatementå¯¹è±¡
 			pstmt = conn->prepareStatement(sql);
-			//2 ´¦Àí²ÎÊı
+			//2 å¤„ç†å‚æ•°
 			SQL_ARG_EXEC_2(pstmt, fmt);
-			//3 Ö´ĞĞ²éÑ¯
+			//3 æ‰§è¡ŒæŸ¥è¯¢
 			res = pstmt->executeQuery();
-			//4 ´¦Àí²éÑ¯½á¹û
-			//4.1 ÅĞ¶Ï½á¹ûÊÇ·ñÊÇÒ»ÌõÊı¾İ
+			//4 å¤„ç†æŸ¥è¯¢ç»“æœ
+			//4.1 åˆ¤æ–­ç»“æœæ˜¯å¦æ˜¯ä¸€æ¡æ•°æ®
 			if (res->rowsCount() > 1)
 			{
 				throw std::runtime_error("except 1 but query " + std::to_string(res->rowsCount()));
 			}
-			//4.2 »ñÈ¡½á¹û
+			//4.2 è·å–ç»“æœ
 			if (res->next()) {
 				result = mapper.mapper(res);
 			}
-			//5 ÊÍ·Å×ÊÔ´
+			//5 é‡Šæ”¾èµ„æº
 			releaseResultSet();
 			releasePreparedStatement();
 		}
 		catch (const std::exception& e)
 		{
-			//5 ÊÍ·Å×ÊÔ´
+			//5 é‡Šæ”¾èµ„æº
 			releaseResultSet();
 			releasePreparedStatement();
 			cerr << "ExecuteQuery Exception. " << e.what() << endl;
@@ -348,10 +348,10 @@ public:
 	// Method:      executeQueryOne
 	// FullName:    SqlSession::executeQueryOne
 	// Access:      public 
-	// Description: ²éÑ¯µ¥¸öÊı¾İ
-	// Returns:     ·µ»Ø²éÑ¯½á¹û£¬Èç¹û²éÑ¯Óï¾ä²é³ö¶à¸ö½á¹û·µ»Ø¿Õ¶ÔÏó
-	// Parameter:   const string& sql SQLÓï¾ä
-	// Parameter:   const M& mapper ²éÑ¯½á¹ûÆ¥Åä´¦Àí
+	// Description: æŸ¥è¯¢å•ä¸ªæ•°æ®
+	// Returns:     è¿”å›æŸ¥è¯¢ç»“æœï¼Œå¦‚æœæŸ¥è¯¢è¯­å¥æŸ¥å‡ºå¤šä¸ªç»“æœè¿”å›ç©ºå¯¹è±¡
+	// Parameter:   const string& sql SQLè¯­å¥
+	// Parameter:   const M& mapper æŸ¥è¯¢ç»“æœåŒ¹é…å¤„ç†
 	//************************************
 	template<class T, typename M = Mapper<T>>
 	T executeQueryOne(const string& sql, const M& mapper) {
@@ -362,11 +362,11 @@ public:
 	// Method:      executeQueryOne
 	// FullName:    SqlSession::executeQueryOne
 	// Access:      public 
-	// Description: ²éÑ¯µ¥¸öÊı¾İ
-	// Returns:     ·µ»Ø²éÑ¯½á¹û£¬Èç¹û²éÑ¯Óï¾ä²é³ö¶à¸ö½á¹û·µ»Ø¿Õ¶ÔÏó
-	// Parameter:   const string& sql SQLÓï¾ä
-	// Parameter:   const M& mapper ²éÑ¯½á¹ûÆ¥Åä´¦Àí
-	// Parameter:   const SqlParams& params SQLÓï¾äÌî³ä²ÎÊı
+	// Description: æŸ¥è¯¢å•ä¸ªæ•°æ®
+	// Returns:     è¿”å›æŸ¥è¯¢ç»“æœï¼Œå¦‚æœæŸ¥è¯¢è¯­å¥æŸ¥å‡ºå¤šä¸ªç»“æœè¿”å›ç©ºå¯¹è±¡
+	// Parameter:   const string& sql SQLè¯­å¥
+	// Parameter:   const M& mapper æŸ¥è¯¢ç»“æœåŒ¹é…å¤„ç†
+	// Parameter:   const SqlParams& params SQLè¯­å¥å¡«å……å‚æ•°
 	//************************************
 	template<class T, typename M = Mapper<T>>
 	T executeQueryOne(const string& sql, const M& mapper, const SqlParams& params) {
@@ -374,29 +374,29 @@ public:
 		try
 		{
 			NULL_PTR_CHECK(conn, "connection is null");
-			//1 »ñÈ¡prepareStatement¶ÔÏó
+			//1 è·å–prepareStatementå¯¹è±¡
 			pstmt = conn->prepareStatement(sql);
-			//2 ´¦Àí²ÎÊı
+			//2 å¤„ç†å‚æ•°
 			SQL_ARG_EXEC_3(params, pstmt);
-			//3 Ö´ĞĞ²éÑ¯
+			//3 æ‰§è¡ŒæŸ¥è¯¢
 			res = pstmt->executeQuery();
-			//4 ´¦Àí²éÑ¯½á¹û
-			//4.1 ÅĞ¶Ï½á¹ûÊÇ·ñÊÇÒ»ÌõÊı¾İ
+			//4 å¤„ç†æŸ¥è¯¢ç»“æœ
+			//4.1 åˆ¤æ–­ç»“æœæ˜¯å¦æ˜¯ä¸€æ¡æ•°æ®
 			if (res->rowsCount() > 1)
 			{
 				throw std::runtime_error("except 1 but query " + std::to_string(res->rowsCount()));
 			}
-			//4.2 »ñÈ¡½á¹û
+			//4.2 è·å–ç»“æœ
 			if (res->next()) {
 				result = mapper.mapper(res);
 			}
-			//5 ÊÍ·Å×ÊÔ´
+			//5 é‡Šæ”¾èµ„æº
 			releaseResultSet();
 			releasePreparedStatement();
 		}
 		catch (const std::exception& e)
 		{
-			//5 ÊÍ·Å×ÊÔ´
+			//5 é‡Šæ”¾èµ„æº
 			releaseResultSet();
 			releasePreparedStatement();
 			cerr << "ExecuteQuery Exception. " << e.what() << endl;
@@ -408,12 +408,12 @@ public:
 	// Method:    executeQuery
 	// FullName:  SqlSession::executeQuery
 	// Access:    public 
-	// Returns:   ²éÑ¯½á¹û¼¯ºÏ
-	// Description: Ö´ĞĞ²éÑ¯
-	// Parameter: const string& sql SQLÓï¾ä
-	// Parameter: const M& mapper ²éÑ¯½á¹ûÆ¥Åä´¦Àí
-	// Parameter: const char* fmt ¿É±ä²ÎÊı¸ñÊ½×Ö·û´®,Èç:%s%i%bi%b%d%dt%n
-	// Parameter: ... ¿É±ä²ÎÊı
+	// Returns:   æŸ¥è¯¢ç»“æœé›†åˆ
+	// Description: æ‰§è¡ŒæŸ¥è¯¢
+	// Parameter: const string& sql SQLè¯­å¥
+	// Parameter: const M& mapper æŸ¥è¯¢ç»“æœåŒ¹é…å¤„ç†
+	// Parameter: const char* fmt å¯å˜å‚æ•°æ ¼å¼å­—ç¬¦ä¸²,å¦‚:%s%i%bi%b%d%dt%n
+	// Parameter: ... å¯å˜å‚æ•°
 	//************************************
 	template<class T, typename M = Mapper<T>>
 	std::list<T> executeQuery(const string& sql, const M& mapper, const char* fmt, ...) {
@@ -421,23 +421,23 @@ public:
 		try
 		{
 			NULL_PTR_CHECK(conn, "connection is null");
-			//1 »ñÈ¡prepareStatement¶ÔÏó
+			//1 è·å–prepareStatementå¯¹è±¡
 			pstmt = conn->prepareStatement(sql);
-			//2 ´¦Àí²ÎÊı
+			//2 å¤„ç†å‚æ•°
 			SQL_ARG_EXEC_2(pstmt, fmt);
-			//3 Ö´ĞĞ²éÑ¯
+			//3 æ‰§è¡ŒæŸ¥è¯¢
 			res = pstmt->executeQuery();
-			//4 ´¦Àí²éÑ¯½á¹û
+			//4 å¤„ç†æŸ¥è¯¢ç»“æœ
 			while (res->next()) {
 				list.push_back(mapper.mapper(res));
 			}
-			//5 ÊÍ·Å×ÊÔ´
+			//5 é‡Šæ”¾èµ„æº
 			releaseResultSet();
 			releasePreparedStatement();
 		}
 		catch (const std::exception& e)
 		{
-			//5 ÊÍ·Å×ÊÔ´
+			//5 é‡Šæ”¾èµ„æº
 			releaseResultSet();
 			releasePreparedStatement();
 			cerr << "ExecuteQuery Exception. " << e.what() << endl;
@@ -449,10 +449,10 @@ public:
 	// Method:    executeQuery
 	// FullName:  SqlSession::executeQuery
 	// Access:    public 
-	// Returns:   ²éÑ¯½á¹û¼¯ºÏ
-	// Description: Ö´ĞĞ²éÑ¯
-	// Parameter: const string& sql SQLÓï¾ä
-	// Parameter: const M& mapper ²éÑ¯½á¹ûÆ¥Åä´¦Àí
+	// Returns:   æŸ¥è¯¢ç»“æœé›†åˆ
+	// Description: æ‰§è¡ŒæŸ¥è¯¢
+	// Parameter: const string& sql SQLè¯­å¥
+	// Parameter: const M& mapper æŸ¥è¯¢ç»“æœåŒ¹é…å¤„ç†
 	//************************************
 	template<class T, typename M = Mapper<T>>
 	std::list<T> executeQuery(const string& sql, const M& mapper) {
@@ -463,11 +463,11 @@ public:
 	// Method:    executeQuery
 	// FullName:  SqlSession::executeQuery
 	// Access:    public 
-	// Returns:   ²éÑ¯½á¹û¼¯ºÏ
-	// Description: Ö´ĞĞ²éÑ¯
-	// Parameter: const string& sql SQLÓï¾ä
-	// Parameter: const M& mapper ²éÑ¯½á¹ûÆ¥Åä´¦Àí
-	// Parameter: const SqlParams& params SQLÓï¾äÌî³ä²ÎÊı
+	// Returns:   æŸ¥è¯¢ç»“æœé›†åˆ
+	// Description: æ‰§è¡ŒæŸ¥è¯¢
+	// Parameter: const string& sql SQLè¯­å¥
+	// Parameter: const M& mapper æŸ¥è¯¢ç»“æœåŒ¹é…å¤„ç†
+	// Parameter: const SqlParams& params SQLè¯­å¥å¡«å……å‚æ•°
 	//************************************
 	template<class T, typename M = Mapper<T>>
 	std::list<T> executeQuery(const string& sql, const M& mapper, const SqlParams& params) {
@@ -475,23 +475,23 @@ public:
 		try
 		{
 			NULL_PTR_CHECK(conn, "connection is null");
-			//1 »ñÈ¡prepareStatement¶ÔÏó
+			//1 è·å–prepareStatementå¯¹è±¡
 			pstmt = conn->prepareStatement(sql);
-			//2 ´¦Àí²ÎÊı
+			//2 å¤„ç†å‚æ•°
 			SQL_ARG_EXEC_3(params, pstmt);
-			//3 Ö´ĞĞ²éÑ¯
+			//3 æ‰§è¡ŒæŸ¥è¯¢
 			res = pstmt->executeQuery();
-			//4 ´¦Àí²éÑ¯½á¹û
+			//4 å¤„ç†æŸ¥è¯¢ç»“æœ
 			while (res->next()) {
 				list.push_back(mapper.mapper(res));
 			}
-			//5 ÊÍ·Å×ÊÔ´
+			//5 é‡Šæ”¾èµ„æº
 			releaseResultSet();
 			releasePreparedStatement();
 		}
 		catch (const std::exception& e)
 		{
-			//5 ÊÍ·Å×ÊÔ´
+			//5 é‡Šæ”¾èµ„æº
 			releaseResultSet();
 			releasePreparedStatement();
 			cerr << "ExecuteQuery Exception. " << e.what() << endl;
@@ -499,19 +499,19 @@ public:
 		return list;
 	}
 
-	// ÉèÖÃÁ¬½Ó±àÂë
+	// è®¾ç½®è¿æ¥ç¼–ç 
 	bool setCharset(const std::string& charset);
 
-	// Æô¶¯ÊÂÎñ
+	// å¯åŠ¨äº‹åŠ¡
 	void beginTransaction();
 
-	// Ìá½»ÊÂÎñ
+	// æäº¤äº‹åŠ¡
 	void commitTransaction();
 
-	// ÊÂÎñ»Ø¹ö
+	// äº‹åŠ¡å›æ»š
 	void rollbackTransaction();
 
-	// »ñÈ¡Á¬½Ó¶ÔÏó
+	// è·å–è¿æ¥å¯¹è±¡
 	Connection* getConnection() { return this->conn; }
 };
 #endif // !_SQL_SESSION_

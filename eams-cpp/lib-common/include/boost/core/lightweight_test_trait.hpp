@@ -1,4 +1,4 @@
-#ifndef BOOST_CORE_LIGHTWEIGHT_TEST_TRAIT_HPP
+﻿#ifndef BOOST_CORE_LIGHTWEIGHT_TEST_TRAIT_HPP
 #define BOOST_CORE_LIGHTWEIGHT_TEST_TRAIT_HPP
 
 // MS compatible compilers support #pragma once

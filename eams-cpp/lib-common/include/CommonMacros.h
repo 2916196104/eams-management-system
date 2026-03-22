@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
  
@@ -31,14 +31,14 @@
 #define MAX_DIR_LEN 512
 
 #ifdef LINUX
-// ¼ì²éÎÄ¼þ¼Ð·ÃÎÊÐÔ
+// æ£€æŸ¥æ–‡ä»¶å¤¹è®¿é—®æ€§
 #define ACCESS(fileName, accessMode) access(fileName, accessMode)
-// ´´½¨ÎÄ¼þ¼Ð
+// åˆ›å»ºæ–‡ä»¶å¤¹
 #define MKDIR(path) mkdir(path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH)
 #else
-// ¼ì²éÎÄ¼þ¼Ð·ÃÎÊÐÔ
+// æ£€æŸ¥æ–‡ä»¶å¤¹è®¿é—®æ€§
 #define ACCESS(fileName, accessMode) _access(fileName, accessMode)
-// ´´½¨ÎÄ¼þ¼Ð
+// åˆ›å»ºæ–‡ä»¶å¤¹
 #define MKDIR(path) _mkdir(path)
 #endif
 

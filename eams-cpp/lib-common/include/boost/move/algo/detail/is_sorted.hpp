@@ -1,4 +1,4 @@
-#ifndef BOOST_MOVE_DETAIL_IS_SORTED_HPP
+﻿#ifndef BOOST_MOVE_DETAIL_IS_SORTED_HPP
 #define BOOST_MOVE_DETAIL_IS_SORTED_HPP
 ///////////////////////////////////////////////////////////////////////////////
 //

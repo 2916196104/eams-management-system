@@ -1,4 +1,4 @@
-#ifndef _LOCKED_LIST_H
+﻿#ifndef _LOCKED_LIST_H
 #define _LOCKED_LIST_H
 
 #include "fc_list.h"

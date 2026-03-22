@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef _STUDENTDTO_H_
 #define _STUDENTDTO_H_
@@ -8,7 +8,7 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /*
-	学生数据传输对象
+	瀛︾敓鏁版嵁浼犺緭瀵硅薄
  */
 class StudentDTO : public oatpp::DTO {
   DTO_INIT(StudentDTO, DTO);

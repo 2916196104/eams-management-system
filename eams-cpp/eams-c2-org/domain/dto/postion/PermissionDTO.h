@@ -1,5 +1,5 @@
-#pragma once
-#include "../../GlobalInclude.h"   // ¿ÉÄÜÒÑ¾­°üº¬ÁË±ØÒªµÄ oatpp Í·ÎÄ¼ş
+ï»¿#pragma once
+#include "../../GlobalInclude.h"   // å¯èƒ½å·²ç»åŒ…å«äº†å¿…è¦çš„ oatpp å¤´æ–‡ä»¶
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 class PermissionDTO : public oatpp::DTO {
@@ -7,7 +7,7 @@ class PermissionDTO : public oatpp::DTO {
         DTO_FIELD(Int32, id);
     DTO_FIELD(String, code);
     DTO_FIELD(String, name);
-    // ÆäËû×Ö¶Î...
+    // å…¶ä»–å­—æ®µ...
 };
 
 #include OATPP_CODEGEN_END(DTO)

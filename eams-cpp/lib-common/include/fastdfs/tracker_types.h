@@ -1,4 +1,4 @@
-/**
+﻿/**
 * Copyright (C) 2008 Happy Fish / YuQing
 *
 * FastDFS may be copied only under the terms of the GNU General

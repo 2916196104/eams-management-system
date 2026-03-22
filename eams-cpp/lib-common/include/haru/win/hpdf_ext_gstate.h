@@ -1,4 +1,4 @@
-/*
+﻿/*
  * << Haru Free PDF Library >> -- hpdf_ext_gstate.h
  *
  * URL: http://libharu.org

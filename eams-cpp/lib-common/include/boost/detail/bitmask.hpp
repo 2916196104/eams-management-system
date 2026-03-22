@@ -1,4 +1,4 @@
-//  boost/detail/bitmask.hpp  ------------------------------------------------//
+﻿//  boost/detail/bitmask.hpp  ------------------------------------------------//
 
 //  Copyright Beman Dawes 2006
 

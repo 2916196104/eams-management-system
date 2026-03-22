@@ -1,22 +1,22 @@
-#pragma once
+ï»¿#pragma once
 #include "../../GlobalInclude.h"
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 class PositionDataPermissionQueryDTO : public oatpp::DTO {
 	DTO_INIT(PositionDataPermissionQueryDTO, DTO);
-        DTO_FIELD(Int32, positionId) = 1;    // µ¥¸öÖ°Î»ID
+        DTO_FIELD(Int32, positionId) = 1;    // å•ä¸ªèŒä½ID
     DTO_FIELD(Int32, page) = 1;
-    DTO_FIELD(Int32, size) = 30;          // Ä¬ÈÏ30Ìõ/Ò³
+    DTO_FIELD(Int32, size) = 30;          // é»˜è®¤30æ¡/é¡µ
 
     DTO_FIELD_INFO(positionId) {
-        info->description = "Ö°Î»ID";
+        info->description = "èŒä½ID";
         info->required = true;
     }
     DTO_FIELD_INFO(page) {
-        info->description = "µ±Ç°Ò³Âë£¬´Ó1¿ªÊ¼";
+        info->description = "å½“å‰é¡µç ï¼Œä»1å¼€å§‹";
     }
     DTO_FIELD_INFO(size) {
-        info->description = "Ã¿Ò³¼ÇÂ¼Êı";
+        info->description = "æ¯é¡µè®°å½•æ•°";
     }
 };
 

@@ -1,4 +1,4 @@
-// Copyright (C) 2007, 2008 Steven Watanabe, Joseph Gauterin, Niels Dekker
+﻿// Copyright (C) 2007, 2008 Steven Watanabe, Joseph Gauterin, Niels Dekker
 //
 // Distributed under the Boost Software License, Version 1.0. (See
 // accompanying file LICENSE_1_0.txt or copy at

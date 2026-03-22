@@ -1,4 +1,4 @@
-#ifndef __CHG_ADVICE_H_
+﻿#ifndef __CHG_ADVICE_H_
 #define __CHG_ADVICE_H_
 
 #include "../NacosString.h"

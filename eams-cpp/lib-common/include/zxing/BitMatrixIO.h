@@ -1,4 +1,4 @@
-/*
+﻿/*
 * Copyright 2017 Huy Cuong Nguyen
 * Copyright 2017 Axel Waggershauser
 */

@@ -1,4 +1,4 @@
-//  (C) Copyright 2009-2011 Frederic Bron, Robert Stewart, Steven Watanabe & Roman Perepelitsa.
+﻿//  (C) Copyright 2009-2011 Frederic Bron, Robert Stewart, Steven Watanabe & Roman Perepelitsa.
 //
 //  Use, modification and distribution are subject to the Boost Software License,
 //  Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at

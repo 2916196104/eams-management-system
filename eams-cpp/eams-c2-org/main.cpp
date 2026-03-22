@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
@@ -29,15 +29,15 @@
 #endif
 
 /**
- * ·şÎñÆ÷²ÎÊı½âÎö
- * ×¢Òâ£º
- * ²ÎÊıÖĞÊı¾İĞèÒªÂú×ãÒ»¶¨µÄ¸ñÊ½£¬Èç£ºsp=8090¡¢sn=feign-cpp-sample
- * Ç°×ºÓëÕæÊµÖµÖ®¼äÊ¹ÓÃ=·Ö¸ô
+ * æœåŠ¡å™¨å‚æ•°è§£æ
+ * æ³¨æ„ï¼š
+ * å‚æ•°ä¸­æ•°æ®éœ€è¦æ»¡è¶³ä¸€å®šçš„æ ¼å¼ï¼Œå¦‚ï¼šsp=8090ã€sn=feign-cpp-sample
+ * å‰ç¼€ä¸çœŸå®å€¼ä¹‹é—´ä½¿ç”¨=åˆ†éš”
  */
 void parseServerArgs(int argc, char* argv[]) {
-	// ·şÎñÆ÷¶Ë¿Ú
+	// æœåŠ¡å™¨ç«¯å£
 	std::string serverPort = "8090";
-	// Êı¾İ¿âÁ¬½ÓĞÅÏ¢
+	// æ•°æ®åº“è¿æ¥ä¿¡æ¯
 	std::string dbUsername = "";
 	std::string dbPassword = "";
 	std::string dbName = "";
@@ -45,28 +45,28 @@ void parseServerArgs(int argc, char* argv[]) {
 	int dbPort = -1;
 	int dbMax = -1;
 #ifdef LINUX
-	// NacosÅäÖÃ²ÎÊı
+	// Nacosé…ç½®å‚æ•°
 	std::string nacosAddr = "";
 	std::string nacosNs = "";
 	std::string serviceName = "";
 	std::string regIp = "";
 #endif
 
-	// ¿ªÊ¼½âÎö
+	// å¼€å§‹è§£æ
 	int currIndex = 1;
 	int setDbParamNum = 0;
 	while (currIndex < argc)
 	{
-		// ²ğ·Ö×Ö·û´®
+		// æ‹†åˆ†å­—ç¬¦ä¸²
 		auto args = StringUtil::split(argv[currIndex], "=");
-		// ÅĞ¶Ï²ÎÊıÊÇ·ñºÏ·¨
+		// åˆ¤æ–­å‚æ•°æ˜¯å¦åˆæ³•
 		if (args.size() != 2)
 		{
 			cout << "arg: " << argv[currIndex] << ", format error." << endl;
 			exit(1);
 		}
 
-		// ¸ù¾İ²ÎÊıÇ°×º¶Ô²»Í¬ÊôĞÔ¸³Öµ
+		// æ ¹æ®å‚æ•°å‰ç¼€å¯¹ä¸åŒå±æ€§èµ‹å€¼
 		std::string prefix = args[0];
 		std::string val = args[1];
 		if (prefix == "sp") serverPort = val;
@@ -102,36 +102,36 @@ void parseServerArgs(int argc, char* argv[]) {
 		else if (prefix == "sn") serviceName = val;
 		else if (prefix == "ip") regIp = val;
 #endif
-		// ¸üĞÂË÷Òı
+		// æ›´æ–°ç´¢å¼•
 		currIndex++;
 	}
 
-	// ´ÓÅäÖÃÖĞ»ñÈ¡Êı¾İ¿âÅäÖÃ
+	// ä»é…ç½®ä¸­è·å–æ•°æ®åº“é…ç½®
 	if (setDbParamNum < 5)
 	{
 #ifdef LINUX
-		// »ñÈ¡NacosÖĞµÄÊı¾İ¿âÅäÖÃ
+		// è·å–Nacosä¸­çš„æ•°æ®åº“é…ç½®
 		NacosClient nacosClient(nacosAddr, nacosNs);
 		YAML::Node node = nacosClient.getConfig("data-source.yaml");
 #else
-		// »ñÈ¡ÅäÖÃÎÄ¼şÖĞµÄÊı¾İ¿âÅäÖÃ
+		// è·å–é…ç½®æ–‡ä»¶ä¸­çš„æ•°æ®åº“é…ç½®
 		YAML::Node node = YAML::LoadFile("./conf/data-source.yaml");
 #endif
-		// ½âÎöÅäÖÃĞÅÏ¢
+		// è§£æé…ç½®ä¿¡æ¯
 		YamlHelper yaml;
 		std::string dbUrl = yaml.getString(&node, "spring.datasource.url");
 		if (dbUrl != "")
 		{
-			// ½âÎöÊı¾İ¿âÁ¬½Ó×Ö·û´®
+			// è§£ææ•°æ®åº“è¿æ¥å­—ç¬¦ä¸²
 			yaml.parseDbConnUrl(dbUrl, &dbHost, &dbPort, &dbName);
-			// »ñÈ¡Êı¾İ¿âÓÃ»§ÃûºÍÃÜÂë
+			// è·å–æ•°æ®åº“ç”¨æˆ·åå’Œå¯†ç 
 			dbUsername = dbUsername == "" ? yaml.getString(&node, "spring.datasource.username") : dbUsername;
 			dbPassword = dbPassword == "" ? yaml.getString(&node, "spring.datasource.password") : dbPassword;
 			dbMax = dbMax == -1 ? atoi(yaml.getString(&node, "spring.datasource.druid.max-active").c_str()) : dbMax;
 		}
 	}
 
-	// ¼ÇÂ¼·şÎñÆ÷ÅäÖÃµ½ÄÚ´æÖĞ·½±ãÊ¹ÓÃ
+	// è®°å½•æœåŠ¡å™¨é…ç½®åˆ°å†…å­˜ä¸­æ–¹ä¾¿ä½¿ç”¨
 	ServerInfo::getInstance().setServerPort(serverPort);
 	ServerInfo::getInstance().setDbUsername(dbUsername);
 	ServerInfo::getInstance().setDbPassword(dbPassword);
@@ -148,11 +148,11 @@ void parseServerArgs(int argc, char* argv[]) {
 }
 
 int main(int argc, char* argv[]) {
-	// ·şÎñÆ÷²ÎÊı³õÊ¼»¯
+	// æœåŠ¡å™¨å‚æ•°åˆå§‹åŒ–
 	parseServerArgs(argc, argv);
 
 #ifndef _RELEASE_DOC_
-	// ³õÊ¼Êı¾İ¿âÁ¬½Ó
+	// åˆå§‹æ•°æ®åº“è¿æ¥
 	bool initConnPool = DbInit::initDbPool(DBConfig(
 		ServerInfo::getInstance().getDbUsername(),
 		ServerInfo::getInstance().getDbPassword(),
@@ -164,12 +164,12 @@ int main(int argc, char* argv[]) {
 #endif
 
 #ifdef LINUX
-	// ´´½¨Nacos¿Í»§¶Ë¶ÔÏó
+	// åˆ›å»ºNacoså®¢æˆ·ç«¯å¯¹è±¡
 	NacosClient nacosClient(
 		ServerInfo::getInstance().getNacosAddr(),
 		ServerInfo::getInstance().getNacosNs());
 
-	// ×¢²á·şÎñ
+	// æ³¨å†ŒæœåŠ¡
 	if (!ServerInfo::getInstance().getServiceName().empty() && !ServerInfo::getInstance().getRegIp().empty())
 	{
 		nacosClient.registerInstance(
@@ -179,7 +179,7 @@ int main(int argc, char* argv[]) {
 	}
 #endif
 
-	// Æô¶¯HTTP·şÎñÆ÷
+	// å¯åŠ¨HTTPæœåŠ¡å™¨
 	HttpServer::startServer(ServerInfo::getInstance().getServerPort(),
 		[=](Endpoints* doc, HttpRouter* router) {
 			Router(doc, router).initRouter();
@@ -189,12 +189,12 @@ int main(int argc, char* argv[]) {
 		});
 
 #ifndef _RELEASE_DOC_
-	// ÊÍ·ÅÊı¾İ¿âÁ¬½Ó
+	// é‡Šæ”¾æ•°æ®åº“è¿æ¥
 	DbInit::releasePool();
 #endif
 
 #ifdef LINUX
-	// ·´×¢²á·şÎñ
+	// åæ³¨å†ŒæœåŠ¡
 	if (!ServerInfo::getInstance().getServiceName().empty() && !ServerInfo::getInstance().getRegIp().empty())
 	{
 		nacosClient.deregisterInstance(

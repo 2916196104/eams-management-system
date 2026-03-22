@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
@@ -29,7 +29,7 @@
 #endif
 
 
-//×ª»»»º³åÇø´óĞ¡¶¨ÒåÎª1KB
+//è½¬æ¢ç¼“å†²åŒºå¤§å°å®šä¹‰ä¸º1KB
 #define CONVERT_BUFF_SIZE 1024
 
 std::string CharsetConvertHepler::unicodeToUtf8(const std::wstring& wstr)
@@ -93,11 +93,11 @@ std::string CharsetConvertHepler::unicodeToAnsi(const std::wstring& wstr)
 	err = wcstombs_s(&countConverted, mbString, CONVERT_BUFF_SIZE, src, _TRUNCATE);
 	if (err == EILSEQ)
 	{
-		std::cout << "×Ö·û´®ÖĞ´æÔÚ±àÂë´íÎó" << std::endl;
+		std::cout << "å­—ç¬¦ä¸²ä¸­å­˜åœ¨ç¼–ç é”™è¯¯" << std::endl;
 	}
 	else if (err == STRUNCATE)
 	{
-		std::cout << "»º´æÇø²»×ã£¬×Ö·û´®¹ı³¤" << std::endl;
+		std::cout << "ç¼“å­˜åŒºä¸è¶³ï¼Œå­—ç¬¦ä¸²è¿‡é•¿" << std::endl;
 		ret = mbString;
 	}
 	else
@@ -137,11 +137,11 @@ std::wstring CharsetConvertHepler::ansiToUnicode(const std::string& str)
 	err = mbstowcs_s(&countConverted, wcstr, CONVERT_BUFF_SIZE, src, _TRUNCATE);
 	if (err == EILSEQ)
 	{
-		std::cout << "×Ö·û´®ÖĞ´æÔÚ±àÂë´íÎó" << std::endl;
+		std::cout << "å­—ç¬¦ä¸²ä¸­å­˜åœ¨ç¼–ç é”™è¯¯" << std::endl;
 	}
 	else if (err == STRUNCATE)
 	{
-		std::cout << "»º´æÇø²»×ã£¬×Ö·û´®¹ı³¤" << std::endl;
+		std::cout << "ç¼“å­˜åŒºä¸è¶³ï¼Œå­—ç¬¦ä¸²è¿‡é•¿" << std::endl;
 		ret = wcstr;
 	}
 	else

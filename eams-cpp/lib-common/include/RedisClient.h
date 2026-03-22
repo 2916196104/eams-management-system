@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -28,12 +28,12 @@ using namespace std;
 using namespace sw::redis;
 
 /**
- * Redis¿Í»§¶Ë
+ * Rediså®¢æˆ·ç«¯
  */
 class RedisClient
 {
 private:
-	// RedisÁ¬½Ó¶ÔÏó
+	// Redisè¿æ¥å¯¹è±¡
 	shared_ptr<Redis> m_redis;
 public:
 	//************************************
@@ -41,21 +41,21 @@ public:
 	// FullName:  RedisClient::RedisClient
 	// Access:    public 
 	// Returns:   
-	// Description: ¹¹Ôì³õÊ¼»¯
-	// Parameter: const string & host RedisÖ÷»úµØÖ·
-	// Parameter: int port Redis·şÎñÆ÷¶Ë¿Ú
-	// Parameter: const string & password Redis·şÎñÆ÷ÃÜÂë,Ä¬ÈÏÃ»ÓĞÃÜÂë
-	// Parameter: int db Ñ¡ÔñµÄÊı¾İ¿â£¬Ä¬ÈÏÖµ0
-	// Parameter: int max Êı¾İ¿â×î´óÁ¬½ÓÊı£¬Ä¬ÈÏÎª10
+	// Description: æ„é€ åˆå§‹åŒ–
+	// Parameter: const string & host Redisä¸»æœºåœ°å€
+	// Parameter: int port RedisæœåŠ¡å™¨ç«¯å£
+	// Parameter: const string & password RedisæœåŠ¡å™¨å¯†ç ,é»˜è®¤æ²¡æœ‰å¯†ç 
+	// Parameter: int db é€‰æ‹©çš„æ•°æ®åº“ï¼Œé»˜è®¤å€¼0
+	// Parameter: int max æ•°æ®åº“æœ€å¤§è¿æ¥æ•°ï¼Œé»˜è®¤ä¸º10
 	//************************************
 	RedisClient(const string& host, int port, const string& password = "", int db = 0, int max = 10);
 	//************************************
 	// Method:    execute
 	// FullName:  RedisClient::execute
 	// Access:    public 
-	// Returns:   T ·µ»ØÖµÀàĞÍ
-	// Description: Ö´ĞĞRedis²Ù×÷
-	// Parameter: std::function<T<Redis*>> callfun ²Ù×÷Âß¼­º¯Êı£¬ËùÓĞ²Ù×÷Âß¼­º¯ÊıÔÚÕâÀïĞ´
+	// Returns:   T è¿”å›å€¼ç±»å‹
+	// Description: æ‰§è¡ŒRedisæ“ä½œ
+	// Parameter: std::function<T<Redis*>> callfun æ“ä½œé€»è¾‘å‡½æ•°ï¼Œæ‰€æœ‰æ“ä½œé€»è¾‘å‡½æ•°åœ¨è¿™é‡Œå†™
 	//************************************
 	template<class T>
 	T execute(std::function<T(Redis*)> callfun)

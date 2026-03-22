@@ -1,4 +1,4 @@
-#ifndef BOOST_CORE_QUICK_EXIT_HPP_INCLUDED
+﻿#ifndef BOOST_CORE_QUICK_EXIT_HPP_INCLUDED
 #define BOOST_CORE_QUICK_EXIT_HPP_INCLUDED
 
 // MS compatible compilers support #pragma once

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -33,31 +33,31 @@
 #include "zxing/BitMatrix.h"
 
 class PdfComponent;
-// ¶¨ÒåÒ»¸öÄ£°åäÖÈ¾º¯Êı
+// å®šä¹‰ä¸€ä¸ªæ¨¡æ¿æ¸²æŸ“å‡½æ•°
 using PdfTplRenderCf = void(*)(YAML::Node*, PdfComponent*, void* realData);
 
 /**
- * ÊéĞ´Ò»¸öPDF×é¼ş£¬ÓÃÓÚ·â×°libharu¿â³£ÓÃ²Ù×÷
- * ×¢Òâ£ºlibharu×ø±êÏµÊÇÔ­µãÔÚ×óÏÂ½Ç²»ÊÇ×óÉÏ½Ç
+ * ä¹¦å†™ä¸€ä¸ªPDFç»„ä»¶ï¼Œç”¨äºå°è£…libharuåº“å¸¸ç”¨æ“ä½œ
+ * æ³¨æ„ï¼šlibharuåæ ‡ç³»æ˜¯åŸç‚¹åœ¨å·¦ä¸‹è§’ä¸æ˜¯å·¦ä¸Šè§’
  */
 class PdfComponent final
 {
 private:
-	// ±ê¼ÇÊÇ·ñÊ¹ÓÃÊ¹ÓÃÁË±àÂëÆ÷
+	// æ ‡è®°æ˜¯å¦ä½¿ç”¨ä½¿ç”¨äº†ç¼–ç å™¨
 	bool isUseCnsEncoding;
 	bool isUseCntEncoding;
 	bool isUseUtfEncoding;
-	// ÎÄµµ¾ä±ú
+	// æ–‡æ¡£å¥æŸ„
 	HPDF_Doc _doc;
-	// µ±Ç°Ò³Ãæ¾ä±ú
+	// å½“å‰é¡µé¢å¥æŸ„
 	HPDF_Page _currPage;
-	// µ±Ç°Ò³Ãæ×ÖÌå
+	// å½“å‰é¡µé¢å­—ä½“
 	HPDF_Font _currFont;
-	// µ±Ç°Ò³Ãæ×ÖÌå´óĞ¡
+	// å½“å‰é¡µé¢å­—ä½“å¤§å°
 	HPDF_REAL _currFontSize;
-	// ¼ÇÂ¼×¢²áµÄäÖÈ¾Ä£°å
+	// è®°å½•æ³¨å†Œçš„æ¸²æŸ“æ¨¡æ¿
 	static std::map<std::string, PdfTplRenderCf> tplRender;
-	// Éú³ÉÍ¼ĞÎÂë
+	// ç”Ÿæˆå›¾å½¢ç 
 	static ZXing::Matrix<uint8_t> genPictureCode(const int& w, const int& h, const std::string& text, const std::string& type, const int& margin, const int& eccLevel);
 public:
 	//************************************
@@ -65,36 +65,36 @@ public:
 	// FullName:  PdfComponent::registerTplRender
 	// Access:    public static 
 	// Returns:   void
-	// Description: ×¢²áäÖÈ¾Ä£°å
-	// Parameter: const std::string& tplName Ä£°åÃû³Æ
-	// Parameter: PdfTplRenderCf cf äÖÈ¾»Øµ÷º¯Êı
+	// Description: æ³¨å†Œæ¸²æŸ“æ¨¡æ¿
+	// Parameter: const std::string& tplName æ¨¡æ¿åç§°
+	// Parameter: PdfTplRenderCf cf æ¸²æŸ“å›è°ƒå‡½æ•°
 	//************************************
 	static void registerTplRender(const std::string& tplName, PdfTplRenderCf cf);
-	// ¹¹Ôì³õÊ¼»¯
+	// æ„é€ åˆå§‹åŒ–
 	PdfComponent();
-	// Îö¹¹ÊÍ·Å×ÊÔ´
+	// ææ„é‡Šæ”¾èµ„æº
 	~PdfComponent();
-	// »ñÈ¡ÎÄµµ¾ä±ú
+	// è·å–æ–‡æ¡£å¥æŸ„
 	HPDF_Doc getDoc() const;
-	// »ñÈ¡µ±Ç°Ò³Ãæ¾ä±ú
+	// è·å–å½“å‰é¡µé¢å¥æŸ„
 	HPDF_Page getCurrPage() const;
-	// »ñÈ¡µ±Ç°Ò³Ãæ¿í¶È
+	// è·å–å½“å‰é¡µé¢å®½åº¦
 	HPDF_REAL getCurrPageWidth() const;
-	// »ñÈ¡µ±Ç°Ò³Ãæ¸ß¶È
+	// è·å–å½“å‰é¡µé¢é«˜åº¦
 	HPDF_REAL getCurrPageHeight() const;
-	// ÉèÖÃµ±Ç°Ò³Ãæ×ÖÌåºÍ´óĞ¡
+	// è®¾ç½®å½“å‰é¡µé¢å­—ä½“å’Œå¤§å°
 	void setCurrPageFontAndSize(HPDF_Font font, HPDF_REAL size);
-	// ÉèÖÃµ±Ç°Ò³Ãæ×ÖÌå
+	// è®¾ç½®å½“å‰é¡µé¢å­—ä½“
 	void setCurrPageFont(HPDF_Font font);
-	// ÉèÖÃµ±Ç°Ò³Ãæ×ÖÌå´óĞ¡
+	// è®¾ç½®å½“å‰é¡µé¢å­—ä½“å¤§å°
 	void setCurrPageFontSize(HPDF_REAL size);
 	//************************************
 	// Method:    getBase14Font
 	// FullName:  PdfComponent::getBase14Font
 	// Access:    public 
 	// Returns:   HPDF_Font
-	// Description: »ñÈ¡PDFÄÚÖÃPBase14×ÖÌå¾ä±ú£¬¸ü¶à²Î¿¼£ºhttps://github.com/libharu/libharu/wiki/Fonts
-	// Parameter: const std::string& name ×ÖÌåÃû³Æ
+	// Description: è·å–PDFå†…ç½®PBase14å­—ä½“å¥æŸ„ï¼Œæ›´å¤šå‚è€ƒï¼šhttps://github.com/libharu/libharu/wiki/Fonts
+	// Parameter: const std::string& name å­—ä½“åç§°
 	//************************************
 	HPDF_Font getBase14Font(const std::string& name);
 	//************************************
@@ -102,9 +102,9 @@ public:
 	// FullName:  PdfComponent::getCnSFont
 	// Access:    public 
 	// Returns:   HPDF_Font
-	// Description: »ñÈ¡HaruÄÚÖÃÖĞÎÄ¼òÌå×ÖÌå¾ä±ú
-	// Parameter: const std::string& name ×ÖÌåÃû³Æ£¬Ä¿Ç°Ö§³Ö£ºSimSun, SimHei
-	// Parameter: bool isVertical ÊÇ·ñ×İÏòÏÔÊ¾
+	// Description: è·å–Haruå†…ç½®ä¸­æ–‡ç®€ä½“å­—ä½“å¥æŸ„
+	// Parameter: const std::string& name å­—ä½“åç§°ï¼Œç›®å‰æ”¯æŒï¼šSimSun, SimHei
+	// Parameter: bool isVertical æ˜¯å¦çºµå‘æ˜¾ç¤º
 	//************************************
 	HPDF_Font getCnSFont(const std::string& name, bool isVertical = false);
 	//************************************
@@ -112,8 +112,8 @@ public:
 	// FullName:  PdfComponent::getCnTFont
 	// Access:    public 
 	// Returns:   HPDF_Font
-	// Description: »ñÈ¡HaruÄÚÖÃÖĞÎÄ·±Ìå×ÖÌå¾ä±ú£¬Ä¿Ç°Ö»Ö§³ÖÒ»ÖÖ£ºMingLiU
-	// Parameter: bool isVertical ÊÇ·ñ×İÏòÏÔÊ¾
+	// Description: è·å–Haruå†…ç½®ä¸­æ–‡ç¹ä½“å­—ä½“å¥æŸ„ï¼Œç›®å‰åªæ”¯æŒä¸€ç§ï¼šMingLiU
+	// Parameter: bool isVertical æ˜¯å¦çºµå‘æ˜¾ç¤º
 	//************************************
 	HPDF_Font getCnTFont(bool isVertical = false);
 	//************************************
@@ -121,31 +121,31 @@ public:
 	// FullName:  PdfComponent::getTtFont
 	// Access:    public 
 	// Returns:   HPDF_Font
-	// Description: »ñÈ¡TTF×ÖÌå
-	// Parameter: const std::string& fontPath ×ÖÌåÎÄ¼şÈ«Â·¾¶
-	// Parameter: const std::string& encoding ±àÂëÃû³Æ£¬Ä¬ÈÏÎªCP1252
+	// Description: è·å–TTFå­—ä½“
+	// Parameter: const std::string& fontPath å­—ä½“æ–‡ä»¶å…¨è·¯å¾„
+	// Parameter: const std::string& encoding ç¼–ç åç§°ï¼Œé»˜è®¤ä¸ºCP1252
 	//************************************
 	HPDF_Font getTtFont(const std::string& fontPath, const std::string& encoding = "CP1252");
 	//************************************
 	// Method:      getNewPage
 	// FullName:    PdfComponent::getNewPage
 	// Access:      public 
-	// Returns:     HPDF_Page ĞÂÒ³ÃæµÄÒıÓÃ
-	// Parameter:   HPDF_Font font ×ÖÌå
-	// Parameter:   HPDF_REAL size ×ÖÌå´óĞ¡£¬Ä¬ÈÏ20
-	// Parameter:   HPDF_PageSizes pageSize Ò³Ãæ´óĞ¡£¬Ä¬ÈÏA4
-	// Parameter:   HPDF_PageDirection direction Ò³Ãæ·½Ïò£¬Ä¬ÈÏ×İÏò
-	// Description: »ñÈ¡Ò»¸öĞÂµÄÒ³Ãæ
+	// Returns:     HPDF_Page æ–°é¡µé¢çš„å¼•ç”¨
+	// Parameter:   HPDF_Font font å­—ä½“
+	// Parameter:   HPDF_REAL size å­—ä½“å¤§å°ï¼Œé»˜è®¤20
+	// Parameter:   HPDF_PageSizes pageSize é¡µé¢å¤§å°ï¼Œé»˜è®¤A4
+	// Parameter:   HPDF_PageDirection direction é¡µé¢æ–¹å‘ï¼Œé»˜è®¤çºµå‘
+	// Description: è·å–ä¸€ä¸ªæ–°çš„é¡µé¢
 	//************************************
 	HPDF_Page getNewPage(HPDF_Font font, HPDF_REAL size = 20, HPDF_PageSizes pageSize = HPDF_PageSizes::HPDF_PAGE_SIZE_A4, HPDF_PageDirection direction = HPDF_PageDirection::HPDF_PAGE_PORTRAIT);
 	//************************************
 	// Method:    getNewPage
 	// FullName:  PdfComponent::getNewPage
 	// Access:    public 
-	// Returns:   HPDF_Page ĞÂÒ³ÃæµÄÒıÓÃ
-	// Parameter: HPDF_PageSizes pageSize Ò³Ãæ´óĞ¡£¬Ä¬ÈÏA4
-	// Parameter: HPDF_PageDirection direction Ò³Ãæ·½Ïò£¬Ä¬ÈÏ×İÏò
-	// Description: »ñÈ¡Ò»¸öĞÂµÄÒ³Ãæ£¨ĞÂÒ³ÃæµÄÄ¬ÈÏ×ÖÌåÊÇÖĞÎÄ¼òÌå£¬´óĞ¡20ºÅ£©
+	// Returns:   HPDF_Page æ–°é¡µé¢çš„å¼•ç”¨
+	// Parameter: HPDF_PageSizes pageSize é¡µé¢å¤§å°ï¼Œé»˜è®¤A4
+	// Parameter: HPDF_PageDirection direction é¡µé¢æ–¹å‘ï¼Œé»˜è®¤çºµå‘
+	// Description: è·å–ä¸€ä¸ªæ–°çš„é¡µé¢ï¼ˆæ–°é¡µé¢çš„é»˜è®¤å­—ä½“æ˜¯ä¸­æ–‡ç®€ä½“ï¼Œå¤§å°20å·ï¼‰
 	//************************************
 	HPDF_Page getNewPage(HPDF_PageSizes pageSize = HPDF_PageSizes::HPDF_PAGE_SIZE_A4, HPDF_PageDirection direction = HPDF_PageDirection::HPDF_PAGE_PORTRAIT);
 	//************************************
@@ -153,11 +153,11 @@ public:
 	// FullName:  PdfComponent::drawText
 	// Access:    public 
 	// Returns:   void
-	// Description: »æÖÆÎÄ×Ö
-	// Parameter: const std::string& text ÎÄ×ÖÄÚÈİ
-	// Parameter: HPDF_REAL posx x×ø±ê
-	// Parameter: HPDF_REAL posy y×ø±ê
-	// Parameter: HPDF_Page page Ò³Ãæ¾ä±ú£¬Ä¬ÈÏÖµÎªµ±Ç°Ò³Ãæ¾ä±ú
+	// Description: ç»˜åˆ¶æ–‡å­—
+	// Parameter: const std::string& text æ–‡å­—å†…å®¹
+	// Parameter: HPDF_REAL posx xåæ ‡
+	// Parameter: HPDF_REAL posy yåæ ‡
+	// Parameter: HPDF_Page page é¡µé¢å¥æŸ„ï¼Œé»˜è®¤å€¼ä¸ºå½“å‰é¡µé¢å¥æŸ„
 	//************************************
 	void drawText(const std::string& text, HPDF_REAL posx, HPDF_REAL posy, HPDF_Page page = 0);
 	//************************************
@@ -165,9 +165,9 @@ public:
 	// FullName:  PdfComponent::drawTextCenter
 	// Access:    public 
 	// Returns:   void
-	// Description: »æÖÆÎÄ×Ö£¬ÎÄ×ÖÔÚÒ³ÃæÖĞ¾ÓÖĞÏÔÊ¾
-	// Parameter: const std::string& text ÎÄ×ÖÄÚÈİ
-	// Parameter: HPDF_Page page Ò³Ãæ¾ä±ú£¬Ä¬ÈÏÖµÎªµ±Ç°Ò³Ãæ¾ä±ú
+	// Description: ç»˜åˆ¶æ–‡å­—ï¼Œæ–‡å­—åœ¨é¡µé¢ä¸­å±…ä¸­æ˜¾ç¤º
+	// Parameter: const std::string& text æ–‡å­—å†…å®¹
+	// Parameter: HPDF_Page page é¡µé¢å¥æŸ„ï¼Œé»˜è®¤å€¼ä¸ºå½“å‰é¡µé¢å¥æŸ„
 	//************************************
 	void drawTextCenter(const std::string& text, HPDF_Page page = 0);
 	//************************************
@@ -175,10 +175,10 @@ public:
 	// FullName:  PdfComponent::drawTextCenterH
 	// Access:    public 
 	// Returns:   void
-	// Description: »æÖÆÎÄ×Ö£¬ÈÃÎÄ×ÖË®Æ½¾ÓÖĞÏÔÊ¾
-	// Parameter: const std::string& text ÎÄ×ÖÄÚÈİ
-	// Parameter: HPDF_REAL posy y×ø±ê
-	// Parameter: HPDF_Page page Ò³Ãæ¾ä±ú£¬Ä¬ÈÏÖµÎªµ±Ç°Ò³Ãæ¾ä±ú
+	// Description: ç»˜åˆ¶æ–‡å­—ï¼Œè®©æ–‡å­—æ°´å¹³å±…ä¸­æ˜¾ç¤º
+	// Parameter: const std::string& text æ–‡å­—å†…å®¹
+	// Parameter: HPDF_REAL posy yåæ ‡
+	// Parameter: HPDF_Page page é¡µé¢å¥æŸ„ï¼Œé»˜è®¤å€¼ä¸ºå½“å‰é¡µé¢å¥æŸ„
 	//************************************
 	void drawTextCenterH(const std::string& text, HPDF_REAL posy, HPDF_Page page = 0);
 	//************************************
@@ -186,10 +186,10 @@ public:
 	// FullName:  PdfComponent::drawTextCenterV
 	// Access:    public 
 	// Returns:   void
-	// Description: »æÖÆÎÄ×Ö£¬ÈÃÎÄ×Ö´¹Ö±¾ÓÖĞÏÔÊ¾
-	// Parameter: const std::string& text ÎÄ×ÖÄÚÈİ
-	// Parameter: HPDF_REAL posx x×ø±ê
-	// Parameter: HPDF_Page page Ò³Ãæ¾ä±ú£¬Ä¬ÈÏÖµÎªµ±Ç°Ò³Ãæ¾ä±ú
+	// Description: ç»˜åˆ¶æ–‡å­—ï¼Œè®©æ–‡å­—å‚ç›´å±…ä¸­æ˜¾ç¤º
+	// Parameter: const std::string& text æ–‡å­—å†…å®¹
+	// Parameter: HPDF_REAL posx xåæ ‡
+	// Parameter: HPDF_Page page é¡µé¢å¥æŸ„ï¼Œé»˜è®¤å€¼ä¸ºå½“å‰é¡µé¢å¥æŸ„
 	//************************************
 	void drawTextCenterV(const std::string& text, HPDF_REAL posx, HPDF_Page page = 0);
 	//************************************
@@ -197,13 +197,13 @@ public:
 	// FullName:    PdfComponent::drawImage
 	// Access:      public 
 	// Returns:     void
-	// Parameter:   HPDF_Image image Í¼Æ¬¾ä±ú
-	// Parameter:   HPDF_REAL x x×ø±ê
-	// Parameter:   HPDF_REAL y y×ø±ê
-	// Parameter:   HPDF_REAL w »æÖÆ¿í¶È
-	// Parameter:   HPDF_REAL h »æÖÆ¸ß¶È
-	// Parameter:   HPDF_Page page Ò³Ãæ¾ä±ú£¬Ä¬ÈÏÖµÎªµ±Ç°Ò³Ãæ¾ä±ú
-	// Description: »æÖÆÍ¼Æ¬
+	// Parameter:   HPDF_Image image å›¾ç‰‡å¥æŸ„
+	// Parameter:   HPDF_REAL x xåæ ‡
+	// Parameter:   HPDF_REAL y yåæ ‡
+	// Parameter:   HPDF_REAL w ç»˜åˆ¶å®½åº¦
+	// Parameter:   HPDF_REAL h ç»˜åˆ¶é«˜åº¦
+	// Parameter:   HPDF_Page page é¡µé¢å¥æŸ„ï¼Œé»˜è®¤å€¼ä¸ºå½“å‰é¡µé¢å¥æŸ„
+	// Description: ç»˜åˆ¶å›¾ç‰‡
 	//************************************
 	void drawImage(HPDF_Image image, HPDF_REAL x, HPDF_REAL y, HPDF_REAL w, HPDF_REAL h, HPDF_Page page = 0);
 	//************************************
@@ -212,10 +212,10 @@ public:
 	// Access:      public 
 	// Returns:     void
 	// Parameter:   HPDF_Image image
-	// Parameter:   HPDF_REAL x x×ø±ê
-	// Parameter:   HPDF_REAL y y×ø±ê
-	// Parameter:   HPDF_Page page Ò³Ãæ¾ä±ú£¬Ä¬ÈÏÖµÎªµ±Ç°Ò³Ãæ¾ä±ú
-	// Description: »æÖÆÍ¼Æ¬£¬»æÖÆÍ¼Æ¬´óĞ¡ÎªÔ­Í¼Æ¬µÄ´óĞ¡
+	// Parameter:   HPDF_REAL x xåæ ‡
+	// Parameter:   HPDF_REAL y yåæ ‡
+	// Parameter:   HPDF_Page page é¡µé¢å¥æŸ„ï¼Œé»˜è®¤å€¼ä¸ºå½“å‰é¡µé¢å¥æŸ„
+	// Description: ç»˜åˆ¶å›¾ç‰‡ï¼Œç»˜åˆ¶å›¾ç‰‡å¤§å°ä¸ºåŸå›¾ç‰‡çš„å¤§å°
 	//************************************
 	void drawImage(HPDF_Image image, HPDF_REAL x, HPDF_REAL y, HPDF_Page page = 0);
 	//************************************
@@ -223,27 +223,27 @@ public:
 	// FullName:  PdfComponent::drawWithTemplate
 	// Access:    public 
 	// Returns:   void
-	// Description: Í¨¹ıÄ£°å»æÖÆ
-	// Parameter: const std::string& tplPath Ä£°åÅäÖÃÎÄ¼ş
-	// Parameter: const std::string& tplName Ä£°åÃû³Æ
-	// Parameter: void* realData ÊµÊ±ÔËĞĞÊı¾İ£¬ÓÃÓÚ´«µİ¶¯Ì¬Êı¾İ
+	// Description: é€šè¿‡æ¨¡æ¿ç»˜åˆ¶
+	// Parameter: const std::string& tplPath æ¨¡æ¿é…ç½®æ–‡ä»¶
+	// Parameter: const std::string& tplName æ¨¡æ¿åç§°
+	// Parameter: void* realData å®æ—¶è¿è¡Œæ•°æ®ï¼Œç”¨äºä¼ é€’åŠ¨æ€æ•°æ®
 	//************************************
 	void drawWithTemplate(const std::string& tplPath, const std::string& tplName, void* realData);
 	//************************************
 	// Method:    saveDocToFile
 	// FullName:  PdfComponent::saveDocToFile
 	// Access:    public 
-	// Returns:   bool ±£´æ³É¹¦·µ»Øtrue
-	// Description: ±£´æÎÄµµµ½ÎÄ¼ş
-	// Parameter: const std::string& fullPath ÎÄ¼şÈ«Â·¾¶
+	// Returns:   bool ä¿å­˜æˆåŠŸè¿”å›true
+	// Description: ä¿å­˜æ–‡æ¡£åˆ°æ–‡ä»¶
+	// Parameter: const std::string& fullPath æ–‡ä»¶å…¨è·¯å¾„
 	//************************************
 	bool saveDocToFile(const std::string& fullPath);
 	//************************************
 	// Method:      saveDocToMem
 	// FullName:    PdfComponent::saveDocToMem
 	// Access:      public 
-	// Returns:     std::vector<HPDF_BYTE> ·µ»Ø»º´æ½á¹û£¬½á¹û¿ÉÒÔÊ¹ÓÃreinterpret_cast×ª»»³Éconst char*£¬Èç£ºconst char* charData = reinterpret_cast<const char*>(data.data());
-	// Description: ±£´æÎÄµµµ½ÄÚ´æ
+	// Returns:     std::vector<HPDF_BYTE> è¿”å›ç¼“å­˜ç»“æœï¼Œç»“æœå¯ä»¥ä½¿ç”¨reinterpret_castè½¬æ¢æˆconst char*ï¼Œå¦‚ï¼šconst char* charData = reinterpret_cast<const char*>(data.data());
+	// Description: ä¿å­˜æ–‡æ¡£åˆ°å†…å­˜
 	//************************************
 	std::vector<HPDF_BYTE> saveDocToMem();
 	//************************************
@@ -251,14 +251,14 @@ public:
 	// FullName:    PdfComponent::genPictureCodeToFile
 	// Access:      public 
 	// Returns:     bool
-	// Parameter:   const std::string& savePath ±£´æÂ·¾¶
-	// Parameter:   const int& w Í¼Æ¬¿í¶È
-	// Parameter:   const int& h Í¼Æ¬¸ß¶È
-	// Parameter:   const std::string& text Í¼Æ¬ÖĞµÄÎÄ±¾ĞÅÏ¢
-	// Parameter:   const std::string& type Í¼ÂëÀàĞÍ
-	// Parameter:   const int& margin ¼ä¾à£¬Ä¬ÈÏÖµ10
-	// Parameter:   const int& eccLevel eccµÈ¼¶0-10£¬Ä¬ÈÏ0
-	// Description: Éú³ÉÍ¼ĞÎÂë²¢´æ´¢µ½Ö¸¶¨ÎÄ¼şÖĞ
+	// Parameter:   const std::string& savePath ä¿å­˜è·¯å¾„
+	// Parameter:   const int& w å›¾ç‰‡å®½åº¦
+	// Parameter:   const int& h å›¾ç‰‡é«˜åº¦
+	// Parameter:   const std::string& text å›¾ç‰‡ä¸­çš„æ–‡æœ¬ä¿¡æ¯
+	// Parameter:   const std::string& type å›¾ç ç±»å‹
+	// Parameter:   const int& margin é—´è·ï¼Œé»˜è®¤å€¼10
+	// Parameter:   const int& eccLevel eccç­‰çº§0-10ï¼Œé»˜è®¤0
+	// Description: ç”Ÿæˆå›¾å½¢ç å¹¶å­˜å‚¨åˆ°æŒ‡å®šæ–‡ä»¶ä¸­
 	//************************************
 	static bool genPictureCodeToFile(const std::string& savePath, const int& w, const int& h, const std::string& text, const std::string& type, const int& margin = 10, const int& eccLevel = 0);
 };

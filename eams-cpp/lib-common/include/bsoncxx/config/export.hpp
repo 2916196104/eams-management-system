@@ -1,4 +1,4 @@
-
+﻿
 #ifndef BSONCXX_API_H
 #define BSONCXX_API_H
 

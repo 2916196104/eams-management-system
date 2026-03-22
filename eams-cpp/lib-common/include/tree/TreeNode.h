@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -24,34 +24,34 @@
 #include <memory>
 using namespace std;
 /**
- * ÓÃÀ´¶¨ÒåÒ»¸öÊ÷ĞÎ½ÚµãµÄÊı¾İ
+ * ç”¨æ¥å®šä¹‰ä¸€ä¸ªæ ‘å½¢èŠ‚ç‚¹çš„æ•°æ®
  */
 class TreeNode
 {
 private:
 	/**
-	 * ½ÚµãID
+	 * èŠ‚ç‚¹ID
 	 */
 	string __id;
 	/**
-	 * ½Úµã¸¸½ÚµãID
+	 * èŠ‚ç‚¹çˆ¶èŠ‚ç‚¹ID
 	 */
 	string __pid;
 	/**
-	 * ½ÚµãÉî¶È
+	 * èŠ‚ç‚¹æ·±åº¦
 	 */
 	int __depth;
 	/**
-	 * ½Úµã°üº¬µÄ×Ó½Úµã
+	 * èŠ‚ç‚¹åŒ…å«çš„å­èŠ‚ç‚¹
 	 */
 	list<shared_ptr<TreeNode>> __children;
 public:
-	// Ìí¼Ó×Ó½Úµã£¬Èç¹û×ÓÀàĞèÒª¹ÜÀíÌí¼Ó×Ó½Úµã²Ù×÷¿ÉÒÔÍ¨¹ıÖØĞ´´Ëº¯ÊıÊµÏÖ
+	// æ·»åŠ å­èŠ‚ç‚¹ï¼Œå¦‚æœå­ç±»éœ€è¦ç®¡ç†æ·»åŠ å­èŠ‚ç‚¹æ“ä½œå¯ä»¥é€šè¿‡é‡å†™æ­¤å‡½æ•°å®ç°
 	virtual void addChild(shared_ptr<TreeNode> child)
 	{
 		__children.push_back(child);
 	}
-	// ³õÊ¼»¯¹¹Ôì
+	// åˆå§‹åŒ–æ„é€ 
 	TreeNode()
 	{
 		_id("");

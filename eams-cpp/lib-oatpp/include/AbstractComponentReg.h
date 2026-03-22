@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -22,7 +22,7 @@
 #include "oatpp/core/macro/component.hpp"
 
 /**
- * ¶¨Òå×é¼ş×¢²á¸¸ÀàÓÃÓÚÔÚÍâ²¿À©Õ¹×¢²á
+ * å®šä¹‰ç»„ä»¶æ³¨å†Œçˆ¶ç±»ç”¨äºåœ¨å¤–éƒ¨æ‰©å±•æ³¨å†Œ
  */
 class AbstractComponentReg
 {

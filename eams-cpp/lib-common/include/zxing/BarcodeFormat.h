@@ -1,4 +1,4 @@
-/*
+﻿/*
 * Copyright 2016 Nu-book Inc.
 * Copyright 2016 ZXing authors
 */

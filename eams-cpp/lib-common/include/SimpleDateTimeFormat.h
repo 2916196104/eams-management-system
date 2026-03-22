@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -22,8 +22,8 @@
 #include <string>
 
 /**
- * ¶¨ÒåÒ»¸ö¼òµ¥µÄÊ±¼ä¸ñÊ½¹¤¾ßÀà
- * ²Î¿¼£ºhttps://zh.cppreference.com/w/cpp/io/manip/put_time
+ * å®šä¹‰ä¸€ä¸ªç®€å•çš„æ—¶é—´æ ¼å¼å·¥å…·ç±»
+ * å‚è€ƒï¼šhttps://zh.cppreference.com/w/cpp/io/manip/put_time
  */
 class SimpleDateTimeFormat final
 {
@@ -32,9 +32,9 @@ public:
 	// Method:    format
 	// FullName:  SimpleDateTimeFormat::format
 	// Access:    public static 
-	// Returns:   std::string ·µ»Ø¸ñÊ½»¯ºóµÄ×Ö·û´®
-	// Description: »ñÈ¡µ±Ç°Ê±¼ä¸ñÊ½×Ö·û´®
-	// Parameter: const std::string & fmt ¸ñÊ½×Ö·û´®£¬Ä¬ÈÏÖµ%Y-%m-%d %H:%M:%S£¨¶ÔÓ¦¸ñÊ½Èç£º2023-01-01 01:01:01£©
+	// Returns:   std::string è¿”å›æ ¼å¼åŒ–åçš„å­—ç¬¦ä¸²
+	// Description: è·å–å½“å‰æ—¶é—´æ ¼å¼å­—ç¬¦ä¸²
+	// Parameter: const std::string & fmt æ ¼å¼å­—ç¬¦ä¸²ï¼Œé»˜è®¤å€¼%Y-%m-%d %H:%M:%Sï¼ˆå¯¹åº”æ ¼å¼å¦‚ï¼š2023-01-01 01:01:01ï¼‰
 	//************************************
 	static std::string format(const std::string& fmt = "%Y-%m-%d %H:%M:%S");
 
@@ -42,10 +42,10 @@ public:
 	// Method:    formatWithMilli
 	// FullName:  SimpleDateTimeFormat::formatWithMilli
 	// Access:    public static 
-	// Returns:   std::string ·µ»Ø¸ñÊ½»¯ºóµÄ×Ö·û´®
-	// Description: »ñÈ¡µ±Ç°Ê±¼ä¸ñÊ½×Ö·û´®£¬´øºÁÃëÊ±¼ä»ñÈ¡
-	// Parameter: const std::string & fmt ¸ñÊ½×Ö·û´®£¬Ä¬ÈÏÖµ%Y-%m-%d %H:%M:%S£¨¶ÔÓ¦¸ñÊ½Èç£º2023-01-01 01:01:01£©
-	// Parameter: const std::string msDelim ºÁÃëÓëÇ°²¿·ÖµÄ·Ö¸î·û£¬Ä¬ÈÏÊÇ¿Õ¸ñ
+	// Returns:   std::string è¿”å›æ ¼å¼åŒ–åçš„å­—ç¬¦ä¸²
+	// Description: è·å–å½“å‰æ—¶é—´æ ¼å¼å­—ç¬¦ä¸²ï¼Œå¸¦æ¯«ç§’æ—¶é—´è·å–
+	// Parameter: const std::string & fmt æ ¼å¼å­—ç¬¦ä¸²ï¼Œé»˜è®¤å€¼%Y-%m-%d %H:%M:%Sï¼ˆå¯¹åº”æ ¼å¼å¦‚ï¼š2023-01-01 01:01:01ï¼‰
+	// Parameter: const std::string msDelim æ¯«ç§’ä¸å‰éƒ¨åˆ†çš„åˆ†å‰²ç¬¦ï¼Œé»˜è®¤æ˜¯ç©ºæ ¼
 	//************************************
 	static std::string formatWithMilli(const std::string& fmt = "%Y-%m-%d %H:%M:%S", const std::string msDelim = " ");
 };

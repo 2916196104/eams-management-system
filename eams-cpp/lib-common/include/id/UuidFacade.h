@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -24,20 +24,20 @@
 #include "stduuid/uuid.h"
 
 /**
- * ·â×°Ò»¸öÉú³ÉUUIDµÄÃÅÃæÀà
- * ¿âÁ´½Ó£ºhttps://github.com/mariusbancila/stduuid
+ * å°è£…ä¸€ä¸ªç”ŸæˆUUIDçš„é—¨é¢ç±»
+ * åº“é“¾æ¥ï¼šhttps://github.com/mariusbancila/stduuid
  */
 class UuidFacade final
 {
 private:
-	// Ê¹ÓÃÉú³ÉÆ÷ÀàĞÍ 0 random 1 system
+	// ä½¿ç”¨ç”Ÿæˆå™¨ç±»å‹ 0 random 1 system
 	int type;
-	// ÉùÃ÷UUIDÉú³ÉÆ÷
+	// å£°æ˜UUIDç”Ÿæˆå™¨
 	uuids::uuid_random_generator* random_gen;
 #ifdef UUID_SYSTEM_GENERATOR
 	uuids::uuid_system_generator* system_gen;
 #endif
-	// ³õÊ¼»¯
+	// åˆå§‹åŒ–
 	void init();
 public:
 	//************************************
@@ -45,11 +45,11 @@ public:
 	// FullName:    UuidFacade::UuidFacade
 	// Access:      public 
 	// Returns:     
-	// Parameter:   int type Ê¹ÓÃÉú³ÉÆ÷ÀàĞÍ£¬0 random 1 system
-	// Description: ¹¹Ôì³õÊ¼»¯
+	// Parameter:   int type ä½¿ç”¨ç”Ÿæˆå™¨ç±»å‹ï¼Œ0 random 1 system
+	// Description: æ„é€ åˆå§‹åŒ–
 	//************************************
 	UuidFacade(int type);
-	// ¸ù¾İÏµÍ³ÀàĞÍ×Ô¶¯Ñ¡ÔñÉú³ÉÆ÷
+	// æ ¹æ®ç³»ç»Ÿç±»å‹è‡ªåŠ¨é€‰æ‹©ç”Ÿæˆå™¨
 	UuidFacade();
 	~UuidFacade();
 
@@ -57,9 +57,9 @@ public:
 	// Method:      genUuid
 	// FullName:    UuidFacade::genUuid
 	// Access:      public 
-	// Returns:     std::string Éú³ÉÊ§°Ü·µ»Ø¿Õ×Ö·û´®
-	// Parameter:   bool isRemDelimiter ÊÇ·ñÈ¥³ı·Ö¸ô·û-, Ä¬ÈÏÈ¥³ı
-	// Description: Éú³ÉÒ»¸öUUID
+	// Returns:     std::string ç”Ÿæˆå¤±è´¥è¿”å›ç©ºå­—ç¬¦ä¸²
+	// Parameter:   bool isRemDelimiter æ˜¯å¦å»é™¤åˆ†éš”ç¬¦-, é»˜è®¤å»é™¤
+	// Description: ç”Ÿæˆä¸€ä¸ªUUID
 	//************************************
 	std::string genUuid(bool isRemDelimiter = true);
 };

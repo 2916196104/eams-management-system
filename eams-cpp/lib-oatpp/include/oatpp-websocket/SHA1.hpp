@@ -1,4 +1,4 @@
-// [intaken src] https://github.com/vog/sha1
+﻿// [intaken src] https://github.com/vog/sha1
 /*
      sha1.hpp - header of
  

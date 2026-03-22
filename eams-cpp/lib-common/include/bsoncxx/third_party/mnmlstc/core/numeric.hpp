@@ -1,4 +1,4 @@
-#ifndef CORE_NUMERIC_HPP
+﻿#ifndef CORE_NUMERIC_HPP
 #define CORE_NUMERIC_HPP
 
 #include <numeric>

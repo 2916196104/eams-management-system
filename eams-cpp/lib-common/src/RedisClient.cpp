@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
@@ -23,7 +23,7 @@
 
 RedisClient::RedisClient(const string& host, int port, const string& password /*= ""*/, int db /*= 0*/, int max /*= 10*/)
 {
-	// ¶¨ÒåÁ¬½ÓĞÅÏ¢
+	// å®šä¹‰è¿æ¥ä¿¡æ¯
 	ConnectionOptions co;
 	co.host = host;
 	co.port = port;
@@ -31,12 +31,12 @@ RedisClient::RedisClient(const string& host, int port, const string& password /*
 	if (password != "")
 		co.password = password;
 
-	// ¶¨ÒåÁ¬½Ó³ØĞÅÏ¢
+	// å®šä¹‰è¿æ¥æ± ä¿¡æ¯
 	ConnectionPoolOptions po;
 	po.size = max;
 	po.wait_timeout = std::chrono::milliseconds(12);
 
-	// ¶¨ÒåÁ¬½Ó¶ÔÏó
+	// å®šä¹‰è¿æ¥å¯¹è±¡
 	m_redis = make_shared<Redis>(co, po);
 }
 

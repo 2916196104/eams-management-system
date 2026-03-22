@@ -1,4 +1,4 @@
-/* Define to 1 if you have the <dlfcn.h> header file. */
+﻿/* Define to 1 if you have the <dlfcn.h> header file. */
 /* #undef LIBHPDF_HAVE_DLFCN_H */
 
 /* Define to 1 if you have the <inttypes.h> header file. */

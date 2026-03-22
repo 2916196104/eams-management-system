@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -28,12 +28,12 @@ using namespace oatpp::web::server::api;
 using namespace oatpp::web::server;
 
 /**
- * Æô¶¯HttpServerÈë¿Ú
+ * å¯åŠ¨HttpServerå…¥å£
  */
 class HttpServer
 {
 private:
-	// ³õÊ¼»¯·şÎñÆ÷
+	// åˆå§‹åŒ–æœåŠ¡å™¨
 	static void initServer(string port, string host, function<void(Endpoints*, HttpRouter*)> bindRouterFun, function<void(std::shared_ptr<AbstractComponentReg>*)> otherComponentRegCall);
 public:
 	//************************************
@@ -41,11 +41,11 @@ public:
 	// FullName:  HttpServer::startServer
 	// Access:    public static 
 	// Returns:   int
-	// Description: Æô¶¯HTTP·şÎñÆ÷
-	// Parameter: string port °ó¶¨¶Ë¿Ú
-	// Parameter: function<void(Endpoints*, HttpRouter*)> bindRouterFun ³õÊ¼»¯Â·ÓÉ»Øµ÷
-	// Parameter: function<void(std::shared_ptr<AbstractComponentReg>*> otherComponentRegCall Èç¹û»¹ĞèÒªÔÚÍâ²¿×¢²á×é¼ş¿ÉÒÔÍ¨¹ı¸Ã»Øµ÷Ö´ĞĞ×é¼ş×¢²á£¬Ä¬ÈÏÎªnullptr
-	// Parameter: string host °ó¶¨µØÖ·£¬Ä¬ÈÏÖµ0.0.0.0
+	// Description: å¯åŠ¨HTTPæœåŠ¡å™¨
+	// Parameter: string port ç»‘å®šç«¯å£
+	// Parameter: function<void(Endpoints*, HttpRouter*)> bindRouterFun åˆå§‹åŒ–è·¯ç”±å›è°ƒ
+	// Parameter: function<void(std::shared_ptr<AbstractComponentReg>*> otherComponentRegCall å¦‚æœè¿˜éœ€è¦åœ¨å¤–éƒ¨æ³¨å†Œç»„ä»¶å¯ä»¥é€šè¿‡è¯¥å›è°ƒæ‰§è¡Œç»„ä»¶æ³¨å†Œï¼Œé»˜è®¤ä¸ºnullptr
+	// Parameter: string host ç»‘å®šåœ°å€ï¼Œé»˜è®¤å€¼0.0.0.0
 	//************************************
 	static void startServer(string port, function<void(Endpoints*, HttpRouter*)> bindRouterFun, function<void(std::shared_ptr<AbstractComponentReg>*)> otherComponentRegCall = nullptr, string host = "0.0.0.0");
 };

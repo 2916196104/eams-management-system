@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -37,32 +37,32 @@ using bsoncxx::builder::stream::close_document;
 using bsoncxx::builder::stream::finalize;
 
 /**
- * MongoDB¿Í»§¶Ë
+ * MongoDBå®¢æˆ·ç«¯
  */
 class MongoClient
 {
 private:
-	// ÓÃ»§Ãû
+	// ç”¨æˆ·å
 	string m_username;
-	// ÃÜÂë
+	// å¯†ç 
 	string m_password;
-	// MongoDB·şÎñÆ÷µØÖ·
+	// MongoDBæœåŠ¡å™¨åœ°å€
 	string m_host;
-	// Êı¾İ¿â
+	// æ•°æ®åº“
 	string m_db;
-	// MongoDB·şÎñÆ÷¶Ë¿Ú
+	// MongoDBæœåŠ¡å™¨ç«¯å£
 	string m_port;
-	// ×î´óÁ¬½ÓÊı
+	// æœ€å¤§è¿æ¥æ•°
 	int m_max = 25;
-	// ×îĞ¡Á¬½ÓÊı¾İ
+	// æœ€å°è¿æ¥æ•°æ®
 	int m_min = 25;
-	// ±ê¼ÇÊÇ·ñÒÑ¾­³õÊ¼»¯
+	// æ ‡è®°æ˜¯å¦å·²ç»åˆå§‹åŒ–
 	bool isInit;
-	// ¸ºÔğ¹¹ÔìºÍÎö¹¹Á¬½ÓÇı¶¯µÄÊµÀı¶ÔÏó
+	// è´Ÿè´£æ„é€ å’Œææ„è¿æ¥é©±åŠ¨çš„å®ä¾‹å¯¹è±¡
 	static mongocxx::instance m_inst;
-	// Á¬½Ó³Ø¶ÔÏó
+	// è¿æ¥æ± å¯¹è±¡
 	shared_ptr<mongocxx::pool> m_pool;
-	// ³õÊ¼»¯Á¬½Ó³Ø
+	// åˆå§‹åŒ–è¿æ¥æ± 
 	bool initPool();
 public:
 	//************************************
@@ -70,12 +70,12 @@ public:
 	// FullName:  MongoClient::MongoClient
 	// Access:    public 
 	// Returns:   
-	// Description: ¹¹Ôì³õÊ¼»¯
-	// Parameter: const string & username ÓÃ»§Ãû
-	// Parameter: const string & password ÃÜÂë
-	// Parameter: const string & host ·şÎñÆ÷µØÖ·
-	// Parameter: const string & db Êı¾İ¿â
-	// Parameter: const string & port ·şÎñÆ÷¶Ë¿Ú£¬Ä¬ÈÏÖµ27017
+	// Description: æ„é€ åˆå§‹åŒ–
+	// Parameter: const string & username ç”¨æˆ·å
+	// Parameter: const string & password å¯†ç 
+	// Parameter: const string & host æœåŠ¡å™¨åœ°å€
+	// Parameter: const string & db æ•°æ®åº“
+	// Parameter: const string & port æœåŠ¡å™¨ç«¯å£ï¼Œé»˜è®¤å€¼27017
 	//************************************
 	MongoClient(const string& username, const string& password, const string& host, const string& db, const string& port = "27017");
 	//************************************
@@ -83,22 +83,22 @@ public:
 	// FullName:  MongoClient::MongoClient
 	// Access:    public 
 	// Returns:   
-	// Description: ¹¹Ôì³õÊ¼»¯
-	// Parameter: const string & uri Á¬½ÓµØÖ·£¬¸ñÊ½Îª£ºmongodb://ÕËºÅ:ÃÜÂë@Ö÷»úµØÖ·:¶Ë¿Ú/Êı¾İ¿âÃû³Æ
+	// Description: æ„é€ åˆå§‹åŒ–
+	// Parameter: const string & uri è¿æ¥åœ°å€ï¼Œæ ¼å¼ä¸ºï¼šmongodb://è´¦å·:å¯†ç @ä¸»æœºåœ°å€:ç«¯å£/æ•°æ®åº“åç§°
 	//************************************
 	explicit MongoClient(const string& uri);
-	// ÉèÖÃ×î´óÁ¬½ÓÊı
+	// è®¾ç½®æœ€å¤§è¿æ¥æ•°
 	void setMax(int max);
-	// ÉèÖÃ×îĞ¡Á¬½ÓÊı
+	// è®¾ç½®æœ€å°è¿æ¥æ•°
 	void setMin(int min);
 	//************************************
 	// Method:    execute
 	// FullName:  MongoClient::execute
 	// Access:    public 
 	// Returns:   bool
-	// Description: ¶¨ÒåÒ»¸öÖ´ĞĞ·½·¨£¬ÓÃÓÚÖ§³Ö²Ù×÷À©Õ¹
-	// Parameter: const string & collectionName ¼¯ºÏÃû³Æ
-	// Parameter: std::function<void mongocxx::collection*> callfun À©Õ¹Ö´ĞĞ»Øµ÷º¯Êı
+	// Description: å®šä¹‰ä¸€ä¸ªæ‰§è¡Œæ–¹æ³•ï¼Œç”¨äºæ”¯æŒæ“ä½œæ‰©å±•
+	// Parameter: const string & collectionName é›†åˆåç§°
+	// Parameter: std::function<void mongocxx::collection*> callfun æ‰©å±•æ‰§è¡Œå›è°ƒå‡½æ•°
 	//************************************
 	bool execute(const string& collectionName, std::function<void(mongocxx::collection*)> callfun);
 	//************************************
@@ -106,19 +106,19 @@ public:
 	// FullName:  MongoClient::addOne
 	// Access:    public 
 	// Returns:   bsoncxx::types::bson_value::view
-	// Description: Ìí¼ÓÒ»ÌõÊı¾İ
-	// Parameter: const string & collectionName ¼¯ºÏÃû³Æ
-	// Parameter: const bsoncxx::document::view & document ÎÄµµ¶ÔÏó
+	// Description: æ·»åŠ ä¸€æ¡æ•°æ®
+	// Parameter: const string & collectionName é›†åˆåç§°
+	// Parameter: const bsoncxx::document::view & document æ–‡æ¡£å¯¹è±¡
 	//************************************
 	bsoncxx::types::bson_value::view addOne(const string& collectionName, const bsoncxx::document::view& document);
 	//************************************
 	// Method:    addMultiple
 	// FullName:  MongoClient::addMultiple
 	// Access:    public 
-	// Returns:   int32_t ²åÈëÊı¾İÌõÊı
-	// Description: Ìí¼Ó¶àÌõÊı¾İ
-	// Parameter: const string & collectionName ¼¯ºÏÃû³Æ
-	// Parameter: const std::vector<bsoncxx::document::value> & documents ÎÄµµ¶ÔÏóÁĞ±í
+	// Returns:   int32_t æ’å…¥æ•°æ®æ¡æ•°
+	// Description: æ·»åŠ å¤šæ¡æ•°æ®
+	// Parameter: const string & collectionName é›†åˆåç§°
+	// Parameter: const std::vector<bsoncxx::document::value> & documents æ–‡æ¡£å¯¹è±¡åˆ—è¡¨
 	//************************************
 	int32_t addMultiple(const string& collectionName, const std::vector<bsoncxx::document::value>& documents);
 };

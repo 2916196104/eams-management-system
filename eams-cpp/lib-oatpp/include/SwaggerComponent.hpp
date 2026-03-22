@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -24,24 +24,24 @@
 #include "oatpp-swagger/Resources.hpp"
 #include "oatpp/core/macro/component.hpp"
 
-//¶¨ÒåSwagger-UI×ÊÔ´Â·¾¶
+//å®šä¹‰Swagger-UIèµ„æºè·¯å¾„
 #ifndef OATPP_SWAGGER_RES_PATH
 #define OATPP_SWAGGER_RES_PATH "../lib-oatpp/include/oatpp-swagger/res"
 #endif
 
-//¶¨Òå·şÎñÃû³Æ
+//å®šä¹‰æœåŠ¡åç§°
 #ifndef OATPP_SWAGGER_SERVICE_NAME
 #define OATPP_SWAGGER_SERVICE_NAME "arch demo for windows"
 #endif
 
 /**
- * ¶¨ÒåÒ»¸öSwagger×é¼ş
- * ×é¼ş·ÃÎÊµØÖ·£ºhttp://host:port/swagger/ui
+ * å®šä¹‰ä¸€ä¸ªSwaggerç»„ä»¶
+ * ç»„ä»¶è®¿é—®åœ°å€ï¼šhttp://host:port/swagger/ui
  */
 class SwaggerComponent
 {
 	/*
-	 * Í¨ÓÃAPIÎÄµµĞÅÏ¢
+	 * é€šç”¨APIæ–‡æ¡£ä¿¡æ¯
 	 */
 	OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::swagger::DocumentInfo>, swaggerDocumentInfo)([] {
 		auto ss = oatpp::swagger::SecurityScheme::createShared();
@@ -66,8 +66,8 @@ class SwaggerComponent
 		}());
 
 	/*
-	 * Swagger-Ui×ÊÔ´Â·¾¶
-	 * È·±£Ö¸¶¨oatpp-swagger/resÎÄ¼ş¼ĞµÄÕıÈ·ÍêÕûÂ·¾¶
+	 * Swagger-Uièµ„æºè·¯å¾„
+	 * ç¡®ä¿æŒ‡å®šoatpp-swagger/resæ–‡ä»¶å¤¹çš„æ­£ç¡®å®Œæ•´è·¯å¾„
 	 */
 	OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::swagger::Resources>, swaggerResources)([] {
 		return oatpp::swagger::Resources::loadResources(OATPP_SWAGGER_RES_PATH);

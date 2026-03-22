@@ -1,4 +1,4 @@
-#ifndef BOOST_CORE_REF_HPP
+﻿#ifndef BOOST_CORE_REF_HPP
 #define BOOST_CORE_REF_HPP
 
 // MS compatible compilers support #pragma once

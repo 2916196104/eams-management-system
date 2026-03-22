@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
  
@@ -30,22 +30,22 @@ using namespace nacos;
 #include "yaml-cpp/yaml.h"
 
 /**
- * ¶¨ÒåÒ»¸öNacos¿Í»§¶Ë£¬ÓÃÓÚ·â×°Nacos³£ÓÃ²Ù×÷
- * ×¢Òâ£ºNacosÄ¿Ç°²»Ö§³ÖWindows°æ±¾£¬
- * ËùÒÔÔÚWindowsÏÂÃæÊ¹ÓÃNacosÅäÖÃÆäÊµ¾ÍÊÇ¶ÁÈ¡±¾µØÅäÖÃÎÄ¼ş£¬²¢ÇÒ²»Ö§³ÖWindows·şÎñ×¢²á¹¦ÄÜ
+ * å®šä¹‰ä¸€ä¸ªNacoså®¢æˆ·ç«¯ï¼Œç”¨äºå°è£…Nacoså¸¸ç”¨æ“ä½œ
+ * æ³¨æ„ï¼šNacosç›®å‰ä¸æ”¯æŒWindowsç‰ˆæœ¬ï¼Œ
+ * æ‰€ä»¥åœ¨Windowsä¸‹é¢ä½¿ç”¨Nacosé…ç½®å…¶å®å°±æ˜¯è¯»å–æœ¬åœ°é…ç½®æ–‡ä»¶ï¼Œå¹¶ä¸”ä¸æ”¯æŒWindowsæœåŠ¡æ³¨å†ŒåŠŸèƒ½
  */
 class NacosClient
 {
 private:
-	//·şÎñÆ÷µØÖ·
+	//æœåŠ¡å™¨åœ°å€
 	string m_address;
-	//ÃüÃû¿Õ¼ä
+	//å‘½åç©ºé—´
 	string m_namespace;
 
 #ifdef USE_NACOS
-	//µ±Ç°ÃüÃû·şÎñ
+	//å½“å‰å‘½åæœåŠ¡
 	NamingService* namingSvc;
-	//×¢²áÊµÀıID
+	//æ³¨å†Œå®ä¾‹ID
 	std::string instanceId;
 #endif
 public:
@@ -54,13 +54,13 @@ public:
 	// FullName:  NacosClient::NacosClient
 	// Access:    public 
 	// Returns:   
-	// Description: ¹¹Ôì³õÊ¼»¯
-	// Parameter: const string& address ·şÎñÆ÷µØÖ·£¬Èç£º39.99.114.126:8848
-	// Parameter: const string& namespaceId ÃüÃû¿Õ¼ä£¬Èç£º1653f775-4782-46ad-9cd2-b60155a574c6
+	// Description: æ„é€ åˆå§‹åŒ–
+	// Parameter: const string& address æœåŠ¡å™¨åœ°å€ï¼Œå¦‚ï¼š39.99.114.126:8848
+	// Parameter: const string& namespaceId å‘½åç©ºé—´ï¼Œå¦‚ï¼š1653f775-4782-46ad-9cd2-b60155a574c6
 	//************************************
 	NacosClient(const string& address, const string& namespaceId);
 	
-	// Îö¹¹ÊÍ·Å×ÊÔ´
+	// ææ„é‡Šæ”¾èµ„æº
 	~NacosClient();
 
 	//************************************
@@ -68,9 +68,9 @@ public:
 	// FullName:  NacosClient::getConfig
 	// Access:    public 
 	// Returns:   std::string
-	// Description: »ñÈ¡yamlÅäÖÃ
-	// Parameter: const string& dataId ÅäÖÃID
-	// Parameter: const string& groupName ·Ö×éÃû³Æ£¬Ä¬ÈÏÖµ£ºDEFAULT_GROUP
+	// Description: è·å–yamlé…ç½®
+	// Parameter: const string& dataId é…ç½®ID
+	// Parameter: const string& groupName åˆ†ç»„åç§°ï¼Œé»˜è®¤å€¼ï¼šDEFAULT_GROUP
 	//************************************
 	YAML::Node getConfig(const string& dataId, const string& groupName = "DEFAULT_GROUP");
 
@@ -79,9 +79,9 @@ public:
 	// FullName:  NacosClient::getConfigText
 	// Access:    public 
 	// Returns:   std::string
-	// Description: »ñÈ¡ÎÄ±¾ÅäÖÃ
-	// Parameter: const string & dataId ÅäÖÃID
-	// Parameter: const string & groupName ·Ö×éÃû³Æ£¬Ä¬ÈÏÖµ£ºDEFAULT_GROUP
+	// Description: è·å–æ–‡æœ¬é…ç½®
+	// Parameter: const string & dataId é…ç½®ID
+	// Parameter: const string & groupName åˆ†ç»„åç§°ï¼Œé»˜è®¤å€¼ï¼šDEFAULT_GROUP
 	//************************************
 	std::string getConfigText(const string& dataId, const string& groupName = "DEFAULT_GROUP");
 
@@ -89,13 +89,13 @@ public:
 	// Method:    registerInstance
 	// FullName:  NacosClient::registerInstance
 	// Access:    public 
-	// Returns:   bool ×¢²á³É¹¦·µ»Øtrue
-	// Description: ×¢²á·şÎñ
-	// Parameter: const string & ip ×¢²á·şÎñIPµØÖ·
-	// Parameter: int port ×¢²á·şÎñ¶Ë¿Ú
-	// Parameter: const string & serviceName ×¢²á·şÎñÃû³Æ
-	// Parameter: const string & groupName ·Ö×éÃû³Æ£¬Ä¬ÈÏÖµ£ºDEFAULT_GROUP
-	// Parameter: const string & clusterName ¼¯ÈºÃû³Æ£¬Ä¬ÈÏÖµ£ºDEFAULT
+	// Returns:   bool æ³¨å†ŒæˆåŠŸè¿”å›true
+	// Description: æ³¨å†ŒæœåŠ¡
+	// Parameter: const string & ip æ³¨å†ŒæœåŠ¡IPåœ°å€
+	// Parameter: int port æ³¨å†ŒæœåŠ¡ç«¯å£
+	// Parameter: const string & serviceName æ³¨å†ŒæœåŠ¡åç§°
+	// Parameter: const string & groupName åˆ†ç»„åç§°ï¼Œé»˜è®¤å€¼ï¼šDEFAULT_GROUP
+	// Parameter: const string & clusterName é›†ç¾¤åç§°ï¼Œé»˜è®¤å€¼ï¼šDEFAULT
 	//************************************
 	bool registerInstance(const string& ip, int port, const string& serviceName, const string& groupName = "DEFAULT_GROUP", const string& clusterName = "DEFAULT");
 	
@@ -103,13 +103,13 @@ public:
 	// Method:    deregisterInstance
 	// FullName:  NacosClient::deregisterInstance
 	// Access:    public 
-	// Returns:   bool ·´×¢²á³É¹¦·µ»Øtrue
-	// Description: ·´×¢²á·şÎñ
-	// Parameter: const string & ip ×¢²á·şÎñIPµØÖ·
-	// Parameter: int port ×¢²á·şÎñ¶Ë¿Ú
-	// Parameter: const string & serviceName ×¢²á·şÎñÃû³Æ
-	// Parameter: const string & groupName ·Ö×éÃû³Æ£¬Ä¬ÈÏÖµ£ºDEFAULT_GROUP
-	// Parameter: const string & clusterName ¼¯ÈºÃû³Æ£¬Ä¬ÈÏÖµ£ºDEFAULT
+	// Returns:   bool åæ³¨å†ŒæˆåŠŸè¿”å›true
+	// Description: åæ³¨å†ŒæœåŠ¡
+	// Parameter: const string & ip æ³¨å†ŒæœåŠ¡IPåœ°å€
+	// Parameter: int port æ³¨å†ŒæœåŠ¡ç«¯å£
+	// Parameter: const string & serviceName æ³¨å†ŒæœåŠ¡åç§°
+	// Parameter: const string & groupName åˆ†ç»„åç§°ï¼Œé»˜è®¤å€¼ï¼šDEFAULT_GROUP
+	// Parameter: const string & clusterName é›†ç¾¤åç§°ï¼Œé»˜è®¤å€¼ï¼šDEFAULT
 	//************************************
 	bool deregisterInstance(const string& ip, int port, const string& serviceName, const string& groupName = "DEFAULT_GROUP", const string& clusterName = "DEFAULT");
 };

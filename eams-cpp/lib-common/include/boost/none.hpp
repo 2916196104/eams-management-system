@@ -1,4 +1,4 @@
-// Copyright (C) 2003, Fernando Luis Cacciola Carballal.
+﻿// Copyright (C) 2003, Fernando Luis Cacciola Carballal.
 // Copyright (C) 2014, 2015 Andrzej Krzemienski.
 //
 // Distributed under the Boost Software License, Version 1.0.

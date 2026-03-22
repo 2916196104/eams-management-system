@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
@@ -121,7 +121,7 @@ EmailSender::EmailSender(const std::string& smtp_server,
 	const std::string& from_name /*= "No-Reply"*/,
 	const std::string& charset/* = "gb2312"*/)
 {
-	// ³õÊ¼»¯ÉèÖÃ
+	// åˆå§‹åŒ–è®¾ç½®
 	m_smtp_url = "smtp://" + smtp_server + ':' + std::to_string(smtp_port);
 	m_from = std::make_pair(from_email, from_name);
 	m_password = password;
@@ -217,7 +217,7 @@ bool EmailSender::send()
 		}
 		curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
 
-		// ×¼±¸ÏûÏ¢ÄÚÈİ
+		// å‡†å¤‡æ¶ˆæ¯å†…å®¹
 		std::stringstream stream;
 		stream.str(generateMimeMessage().c_str());
 		stream.flush();
@@ -301,10 +301,10 @@ std::string EmailSender::generateMimeMessage()
 {
 #ifdef LINUX
 	std::string message;
-	// ·¢ËÍÈË
+	// å‘é€äºº
 	message += "From: ";
 	message += m_from.second + '<' + m_from.first + '>' + "\r\n";
-	// ½ÓÊÕÈË
+	// æ¥æ”¶äºº
 	message += "To: ";
 	for (int i = 0; i < m_recvs.size(); i++)
 	{
@@ -313,7 +313,7 @@ std::string EmailSender::generateMimeMessage()
 			message += ',';
 	}
 	message += "\r\n";
-	// ³­ËÍÈË
+	// æŠ„é€äºº
 	if (!m_ccs.empty())
 	{
 		message += "Cc: ";
@@ -325,20 +325,20 @@ std::string EmailSender::generateMimeMessage()
 		}
 		message += "\r\n";
 	}
-	// Ö÷Ìâ
+	// ä¸»é¢˜
 	message += "Subject: ";
 	message += m_email_subject;
 	message += "\r\nMime-Version: 1.0";
 	message += "\r\nContent-Type: multipart/mixed;boundary=\"simple boundary\"";
 	message += "\r\n";
-	// ÄÚÈİ
+	// å†…å®¹
 	message += "\r\n--simple boundary";
 	message += "\r\nContent-Type: text/html;charset=" + getCharset();
 	message += "\r\nContent-Transfer-Encoding: 7bit";
-	message += "\r\n\r\n"; // ×¢Òâ£ºÄÚÈİºÍÃèÊöĞÅÏ¢Ö®¼ä±ØĞëÒªÓĞÒ»¸ö¿ÕĞĞ²»È»»áÔÚÍøÒ×ÓÊÏä³öÏÖÎŞÄÚÈİbug
+	message += "\r\n\r\n"; // æ³¨æ„ï¼šå†…å®¹å’Œæè¿°ä¿¡æ¯ä¹‹é—´å¿…é¡»è¦æœ‰ä¸€ä¸ªç©ºè¡Œä¸ç„¶ä¼šåœ¨ç½‘æ˜“é‚®ç®±å‡ºç°æ— å†…å®¹bug
 	message += m_email_body;
 	message += "\r\n\r\n";
-	// ¸½¼ş
+	// é™„ä»¶
 	if (!m_attachments.empty())
 	{
 		std::string filename = "";
@@ -404,7 +404,7 @@ void EmailSender::getFileName(const std::string& path, std::string& filename)
 void EmailSender::getFileContentType(const std::string& path, std::string& contentType)
 {
 #ifdef LINUX
-	// »ñÈ¡ÎÄ¼şºó×º
+	// è·å–æ–‡ä»¶åç¼€
 	std::string suffix = "";
 	auto p = path.find_last_of('.');
 	if (p != std::string::npos)
@@ -412,7 +412,7 @@ void EmailSender::getFileContentType(const std::string& path, std::string& conte
 		p += 1;
 		suffix = path.substr(p, path.length() - p);
 	}
-	// ¸ù¾İºó×ºÉèÖÃcontentType
+	// æ ¹æ®åç¼€è®¾ç½®contentType
 	if (suffix == "txt") contentType = "plain/text;";
 	else if (suffix == "xml") contentType = "text/xml;";
 	else if (suffix == "html") contentType = "text/html;";

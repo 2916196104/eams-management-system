@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
@@ -32,14 +32,14 @@ cout << "maxSize:" << config.poolMaxSize << endl
 
 bool DbInit::initDbPool(DBConfig config)
 {
-	// ÅÐ¶ÏÁ¬½Ó²ÎÊýÊÇ·ñÕýÈ·
+	// åˆ¤æ–­è¿žæŽ¥å‚æ•°æ˜¯å¦æ­£ç¡®
 	if (config.host.empty() || config.user.empty() || config.pass.empty() || config.db.empty() || config.port < 1)
 	{
 		INFO_CONN_FAIL(config);
 		return false;
 	}
 
-	// Á¬½Ó³Ø×î´óÁ¬½ÓÊý²»ÄÜÐ¡ÓÚ1
+	// è¿žæŽ¥æ± æœ€å¤§è¿žæŽ¥æ•°ä¸èƒ½å°äºŽ1
 	config.poolMaxSize = config.poolMaxSize < 1 ? 5 : config.poolMaxSize;
 
 	releasePool();
@@ -47,7 +47,7 @@ bool DbInit::initDbPool(DBConfig config)
 	ss << "tcp://" << config.host << ":" << config.port << "/" << config.db;
 	connPool = new ConnPool(ss.str(), config.user, config.pass, config.poolMaxSize);
 
-	// ¼ì²éµ±Ç°Á¬½Ó³ØÖÐµÄÁ¬½Ó¶ÔÏóÊýÊÇ·ñÎª0
+	// æ£€æŸ¥å½“å‰è¿žæŽ¥æ± ä¸­çš„è¿žæŽ¥å¯¹è±¡æ•°æ˜¯å¦ä¸º0
 	if (connPool->getPoolSize())
 	{
 		cout << "mysql connection pool init finish." << endl;

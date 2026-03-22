@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -23,7 +23,7 @@
 #include <vector>
 
 /**
- * ipµØÖ·¹¤¾ßÀà
+ * ipåœ°å€å·¥å…·ç±»
  */
 class IpUtil
 {
@@ -32,9 +32,9 @@ public:
 	// Method:    getLocalIpAddress
 	// FullName:  IpUtil::getLocalIpAddress
 	// Access:    public static 
-	// Returns:   size_t ·µ»ØipµØÖ·Êı
-	// Description: »ñÈ¡ipµØÖ·ÁĞ±í
-	// Parameter: std::vector<std::string> * addresses ´æ´¢ipµØÖ·µÄÈİÆ÷
+	// Returns:   size_t è¿”å›ipåœ°å€æ•°
+	// Description: è·å–ipåœ°å€åˆ—è¡¨
+	// Parameter: std::vector<std::string> * addresses å­˜å‚¨ipåœ°å€çš„å®¹å™¨
 	//************************************
 	static size_t getLocalIpAddress(std::vector<std::string>* addresses);
 };

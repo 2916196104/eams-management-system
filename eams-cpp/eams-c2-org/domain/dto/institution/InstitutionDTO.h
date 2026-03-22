@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef _INSTITUTIONDTO_H_
 #define _INSTITUTIONDTO_H_
@@ -8,7 +8,7 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /*
-	机构数据传输对象
+	鏈烘瀯鏁版嵁浼犺緭瀵硅薄
  */
 class InstitutionDTO : public oatpp::DTO {
   DTO_INIT(InstitutionDTO, DTO);

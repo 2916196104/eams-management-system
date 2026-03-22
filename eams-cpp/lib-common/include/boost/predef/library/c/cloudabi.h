@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2017 James E. King III
  *
  * Distributed under the Boost Software License, Version 1.0.

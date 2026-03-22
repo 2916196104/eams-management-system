@@ -1,4 +1,4 @@
-/*
+﻿/*
    Copyright (c) Marshall Clow 2012-2012.
 
    Distributed under the Boost Software License, Version 1.0. (See accompanying

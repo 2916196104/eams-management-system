@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
@@ -32,12 +32,12 @@ using namespace ZXing;
 
 std::map<std::string, PdfTplRenderCf> PdfComponent::tplRender;
 
-// Í¼ÂëÔÚÏßÔ¤ÀÀ https://zxing-cpp.github.io/zxing-cpp/demo_writer.html
+// å›¾ç åœ¨çº¿é¢„è§ˆ https://zxing-cpp.github.io/zxing-cpp/demo_writer.html
 ZXing::Matrix<uint8_t> PdfComponent::genPictureCode(const int& w, const int& h, const std::string& text, const std::string& type, const int& margin, const int& eccLevel)
 {
-	// ¸ñÊ½»¯ÀàĞÍ
+	// æ ¼å¼åŒ–ç±»å‹
 	BarcodeFormat format = BarcodeFormatFromString(type);
-	// Éú³ÉÍ¼ĞÎÂë
+	// ç”Ÿæˆå›¾å½¢ç 
 	auto writer = MultiFormatWriter(format)
 		.setMargin(margin)
 		.setEncoding(CharacterSet::UTF8)
@@ -54,8 +54,8 @@ void PdfComponent::registerTplRender(const std::string& tplName, PdfTplRenderCf 
 PdfComponent::PdfComponent()
 {
 	/**
-	 * Òì³£´¦Àíº¯Êı£¬Ïà¹Ø´íÎóÂë¶¨ÒåÔÚhpdf_error.hÖĞ
-	 * ´íÎóÂëĞÅÏ¢²Î¿¼£ºhttps://github.com/libharu/libharu/wiki/Error-handling
+	 * å¼‚å¸¸å¤„ç†å‡½æ•°ï¼Œç›¸å…³é”™è¯¯ç å®šä¹‰åœ¨hpdf_error.hä¸­
+	 * é”™è¯¯ç ä¿¡æ¯å‚è€ƒï¼šhttps://github.com/libharu/libharu/wiki/Error-handling
 	 */
 	auto fun = [](HPDF_STATUS error_no, HPDF_STATUS detail_no, void* user_data) {
 		printf("ERROR: error_no=%04X, detail_no=%d\n", (unsigned int)error_no, (int)detail_no);
@@ -70,7 +70,7 @@ PdfComponent::PdfComponent()
 	_currPage = 0;
 	_currFontSize = 20;
 	_currFont = 0;
-	// ±ê¼ÇÊÇ·ñÊ¹ÓÃÊ¹ÓÃÁË±àÂëÆ÷
+	// æ ‡è®°æ˜¯å¦ä½¿ç”¨ä½¿ç”¨äº†ç¼–ç å™¨
 	isUseCnsEncoding = false;
 	isUseCntEncoding = false;
 	isUseUtfEncoding = false;
@@ -167,13 +167,13 @@ HPDF_Font PdfComponent::getTtFont(const std::string& fontPath, const std::string
 
 HPDF_Page PdfComponent::getNewPage(HPDF_Font font, HPDF_REAL size /*= 20*/, HPDF_PageSizes pageSize /*= HPDF_PageSizes::HPDF_PAGE_SIZE_A4*/, HPDF_PageDirection direction /*= HPDF_PageDirection::HPDF_PAGE_PORTRAIT*/)
 {
-	// Ìí¼ÓÒ»¸öÒ³Ãæ
+	// æ·»åŠ ä¸€ä¸ªé¡µé¢
 	_currPage = HPDF_AddPage(_doc);
-	// ÉèÖÃ×ÖÌå
+	// è®¾ç½®å­—ä½“
 	setCurrPageFontAndSize(font, size);
-	// ÉèÖÃÒ³Ãæ
+	// è®¾ç½®é¡µé¢
 	HPDF_Page_SetSize(_currPage, pageSize, direction);
-	// ·µ»ØÒ³ÃæÒıÓÃ
+	// è¿”å›é¡µé¢å¼•ç”¨
 	return _currPage;
 }
 
@@ -226,22 +226,22 @@ void PdfComponent::drawImage(HPDF_Image image, HPDF_REAL x, HPDF_REAL y, HPDF_RE
 {
 	if (!page) page = _currPage;
 	if (!page) return;
-	// »æÖÆÍ¼Æ¬
+	// ç»˜åˆ¶å›¾ç‰‡
 	HPDF_Page_DrawImage(page, image, x, y, w, h);
 }
 
 void PdfComponent::drawImage(HPDF_Image image, HPDF_REAL x, HPDF_REAL y, HPDF_Page page /*= 0*/)
 {
-	// »ñÈ¡Í¼Æ¬´óĞ¡
+	// è·å–å›¾ç‰‡å¤§å°
 	HPDF_REAL iw = HPDF_Image_GetWidth(image) * 1.f;
 	HPDF_REAL ih = HPDF_Image_GetHeight(image) * 1.f;
-	// »æÖÆÍ¼Æ¬
+	// ç»˜åˆ¶å›¾ç‰‡
 	drawImage(image, x, y, iw, ih, page);
 }
 
 void PdfComponent::drawWithTemplate(const std::string& tplPath, const std::string& tplName, void* realData)
 {
-	// ÅĞ¶ÏÊÇ·ñ´æÔÚ×¢²áÄ£°å
+	// åˆ¤æ–­æ˜¯å¦å­˜åœ¨æ³¨å†Œæ¨¡æ¿
 	auto itCf = tplRender.find(tplName);
 	if (itCf == tplRender.end())
 	{
@@ -249,9 +249,9 @@ void PdfComponent::drawWithTemplate(const std::string& tplPath, const std::strin
 	}
 	try
 	{
-		// ¼ÓÔØÄ£°åÅäÖÃÎÄ¼ş
+		// åŠ è½½æ¨¡æ¿é…ç½®æ–‡ä»¶
 		auto tmplConf = YAML::LoadFile(tplPath);
-		// Ö´ĞĞäÖÈ¾
+		// æ‰§è¡Œæ¸²æŸ“
 		itCf->second(&tmplConf, this, realData);
 	}
 	catch (const std::exception& ex)
@@ -276,14 +276,14 @@ bool PdfComponent::saveDocToFile(const std::string& fullPath)
 
 std::vector<HPDF_BYTE> PdfComponent::saveDocToMem()
 {
-	// ±£´æÊı¾İµ½Á÷
+	// ä¿å­˜æ•°æ®åˆ°æµ
 	HPDF_SaveToStream(_doc);
 
-	// »ñÈ¡Êı¾İ´óĞ¡
+	// è·å–æ•°æ®å¤§å°
 	auto size = HPDF_GetStreamSize(_doc);
 	if (!size) return {};
 
-	// ½«Á÷ÖĞµÄÊı¾İ´æ´¢µ½¼¯ºÏÖĞ
+	// å°†æµä¸­çš„æ•°æ®å­˜å‚¨åˆ°é›†åˆä¸­
 	std::vector<HPDF_BYTE> buffvec;
 	HPDF_ResetStream(_doc);
 	for (;;) {
@@ -296,7 +296,7 @@ std::vector<HPDF_BYTE> PdfComponent::saveDocToMem()
 			buffvec.emplace_back(buf[i]);
 	}
 
-	// ·µ»Ø»º´æÌá¹©¸øµ÷ÓÃÕßÊ¹ÓÃ
+	// è¿”å›ç¼“å­˜æä¾›ç»™è°ƒç”¨è€…ä½¿ç”¨
 	return buffvec;
 }
 
@@ -304,11 +304,11 @@ bool PdfComponent::genPictureCodeToFile(const std::string& savePath, const int& 
 {
 	try
 	{
-		// ²úÉúÍ¼ÂëÊı¾İ
+		// äº§ç”Ÿå›¾ç æ•°æ®
 		auto bitmap = genPictureCode(w, h, text, type, margin, eccLevel);
-		// ±£´æµ½ÎÄ¼ş
+		// ä¿å­˜åˆ°æ–‡ä»¶
 		int success = stbi_write_jpg(savePath.c_str(), bitmap.width(), bitmap.height(), 1, bitmap.data(), 0);
-		// Èç¹û±£´æ³É¹¦
+		// å¦‚æœä¿å­˜æˆåŠŸ
 		if (success) return true;
 	}
 	catch (const std::exception& e)

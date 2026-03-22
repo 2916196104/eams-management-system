@@ -1,4 +1,4 @@
-/*
+﻿/*
 * Copyright 2018 Axel Waggershauser
 */
 // SPDX-License-Identifier: Apache-2.0

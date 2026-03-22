@@ -1,4 +1,4 @@
-#ifndef CORE_TYPE_TRAITS_HPP
+﻿#ifndef CORE_TYPE_TRAITS_HPP
 #define CORE_TYPE_TRAITS_HPP
 
 #include <type_traits>

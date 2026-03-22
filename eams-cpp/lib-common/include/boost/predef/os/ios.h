@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright Franz Detro 2014
 Copyright Rene Rivera 2015
 Distributed under the Boost Software License, Version 1.0.

@@ -1,4 +1,4 @@
-#ifndef MCL_MD5_H
+﻿#ifndef MCL_MD5_H
 #define MCL_MD5_H
 #include <stdio.h>
 

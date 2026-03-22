@@ -1,4 +1,4 @@
-/*	$OpenBSD: bcrypt.c,v 1.31 2014/03/22 23:02:03 tedu Exp $	*/
+﻿/*	$OpenBSD: bcrypt.c,v 1.31 2014/03/22 23:02:03 tedu Exp $	*/
 
 /*
  * Copyright (c) 1997 Niels Provos <provos@umich.edu>

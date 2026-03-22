@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
@@ -40,7 +40,7 @@ if (__VAR_SERVER__ == NULL) { \
 
 #include <atlstr.h>
 
-//³¬¹ı5MµÄÎÄ¼ş²»×ö´¦Àí
+//è¶…è¿‡5Mçš„æ–‡ä»¶ä¸åšå¤„ç†
 BYTE byFileBuff[5 * 1024 * 1024];
 
 #endif
@@ -48,10 +48,10 @@ BYTE byFileBuff[5 * 1024 * 1024];
 void FastDfsClient::init()
 {
 #ifdef LINUX
-	// ³õÊ¼»¯ÈÕÖ¾
+	// åˆå§‹åŒ–æ—¥å¿—
 	log_init();
 	g_log_context.log_level = m_nLevelLog;
-	// ³õÊ¼»¯fastfds¿Í»§¶Ë
+	// åˆå§‹åŒ–fastfdså®¢æˆ·ç«¯
 	int result = -1;
 	if (m_configPath != "")
 		result = fdfs_client_init(m_configPath.c_str());
@@ -111,7 +111,7 @@ void FastDfsClient::init()
 
 bool FastDfsClient::checkOrCreateDir(const std::string& fileName)
 {
-	//ÅĞ¶ÏÄ¿Â¼ÊÇ·ñ´æÔÚ£¬²»´æÔÚ´´½¨Ä¿Â¼
+	//åˆ¤æ–­ç›®å½•æ˜¯å¦å­˜åœ¨ï¼Œä¸å­˜åœ¨åˆ›å»ºç›®å½•
 	auto dir = fileName.substr(0, fileName.find_last_of("/") + 1);
 	const size_t dirLen = dir.length();
 	if (dirLen > MAX_DIR_LEN)
@@ -120,7 +120,7 @@ bool FastDfsClient::checkOrCreateDir(const std::string& fileName)
 		return false;
 	}
 
-	//Ñ­»·´´½¨Ä¿Â¼
+	//å¾ªç¯åˆ›å»ºç›®å½•
 	char tmpDirPath[MAX_DIR_LEN] = { 0 };
 	for (size_t i = 0; i < dirLen; i++)
 	{
@@ -144,13 +144,13 @@ bool FastDfsClient::checkOrCreateDir(const std::string& fileName)
 
 FastDfsClient::FastDfsClient(const std::string& fdsConfig, bool isPath /*= true*/, int logLevel /*= 3*/)
 {
-	//³õÊ¼»¯³ÉÔ±±äÁ¿
+	//åˆå§‹åŒ–æˆå‘˜å˜é‡
 	if (isPath)
 		m_configPath = fdsConfig;
 	else
 		m_configContent = fdsConfig;
 	m_nLevelLog = logLevel;
-	//ºô½Ğ³õÊ¼»¯
+	//å‘¼å«åˆå§‹åŒ–
 	this->init();
 }
 
@@ -164,11 +164,11 @@ FastDfsClient::~FastDfsClient()
 
 FastDfsClient::FastDfsClient(std::string serverAddr, unsigned int port /*= 22122*/)
 {
-	//³õÊ¼»¯³ÉÔ±±äÁ¿
+	//åˆå§‹åŒ–æˆå‘˜å˜é‡
 	this->serverAddr = serverAddr;
 	this->port = port;
 	this->isInit = false;
-	//ºô½Ğ³õÊ¼»¯
+	//å‘¼å«åˆå§‹åŒ–
 	this->init();
 }
 
@@ -176,27 +176,27 @@ FastDfsClient::FastDfsClient(std::string serverAddr, unsigned int port /*= 22122
 
 std::string FastDfsClient::uploadFile(const std::string& fileName)
 {
-	// Á¬½ÓÊÇ·ñ³õÊ¼»¯³É¹¦
+	// è¿æ¥æ˜¯å¦åˆå§‹åŒ–æˆåŠŸ
 	if (!this->isInit)
 	{
 		std::cerr << "Not initialize succeed" << std::endl;
 		return "";
 	}
 
-	// »ñÈ¡ÎÄ¼şÀ©Õ¹Ãû
+	// è·å–æ–‡ä»¶æ‰©å±•å
 	std::string extName = fileName.substr(fileName.find_last_of(".") + 1);
 
 #ifdef LINUX
 
-	// »ñÈ¡Á¬½Ó
+	// è·å–è¿æ¥
 	DFS_GET_CONN(result, pTrackerServer, "");
 
-	// ÉèÖÃÉÏ´«²ÎÊı
+	// è®¾ç½®ä¸Šä¼ å‚æ•°
 	char group_name[FDFS_GROUP_NAME_MAX_LEN + 1];
 	char remote_filename[256];
 	int store_path_index;
 
-	// ²éÑ¯´æ´¢·şÎñÆ÷
+	// æŸ¥è¯¢å­˜å‚¨æœåŠ¡å™¨
 	ConnectionInfo storageServer;
 	ConnectionInfo* pStorageServer;
 	if ((result = tracker_query_storage_store(pTrackerServer, \
@@ -209,16 +209,16 @@ std::string FastDfsClient::uploadFile(const std::string& fileName)
 		return "";
 	}
 
-	// Ö´ĞĞÉÏ´«
+	// æ‰§è¡Œä¸Šä¼ 
 	result = storage_upload_by_filename1(pTrackerServer, \
 		& storageServer, store_path_index, \
 		fileName.c_str(), NULL, \
 		NULL, 0, group_name, remote_filename);
 
-	// ¹Ø±ÕÁ¬½Ó
+	// å…³é—­è¿æ¥
 	tracker_close_connection_ex(pTrackerServer, true);
 
-	// ÅĞ¶Ï½á¹û
+	// åˆ¤æ–­ç»“æœ
 	if (result == 0)
 	{
 		string fieldName = remote_filename;
@@ -233,7 +233,7 @@ std::string FastDfsClient::uploadFile(const std::string& fileName)
 	}
 
 #else
-	//ÅĞ¶ÏÊÇ·ñÄÜ¹»´ò¿ªÎÄ¼ş
+	//åˆ¤æ–­æ˜¯å¦èƒ½å¤Ÿæ‰“å¼€æ–‡ä»¶
 	fsRead.open(fileName.c_str(), std::ios::in | std::ios::binary);
 	if (!fsRead)
 	{
@@ -241,7 +241,7 @@ std::string FastDfsClient::uploadFile(const std::string& fileName)
 		return "";
 	}
 
-	//¶ÁÈ¡ÎÄ¼ş
+	//è¯»å–æ–‡ä»¶
 	fsRead.seekg(0, std::ios::end);
 	size_t size = static_cast<size_t>(fsRead.tellg());
 	fsRead.seekg(0, std::ios::beg);
@@ -249,13 +249,13 @@ std::string FastDfsClient::uploadFile(const std::string& fileName)
 	fsRead.read(buff, size);
 	fsRead.close();
 
-	//¶¨ÒåÉÏ´«²ÎÊı
+	//å®šä¹‰ä¸Šä¼ å‚æ•°
 	BYTE byGroupName[FDFS_GROUP_NAME_MAX_LEN + 1];
 	BYTE byRemoteFileName[FDFS_REMOTE_FILE_NAME_MAX_LEN + 1];
 	BYTE byFileExtName[10];
 	memcpy(byFileExtName, extName.c_str(), extName.length() + 1);
 
-	//×é×°ÉÏ´«ÎÄ¼şÊı¾İ
+	//ç»„è£…ä¸Šä¼ æ–‡ä»¶æ•°æ®
 	BYTE* byFile = new BYTE[size];
 	for (size_t i = 0; i < size; i++)
 	{
@@ -263,7 +263,7 @@ std::string FastDfsClient::uploadFile(const std::string& fileName)
 	}
 	delete[] buff;
 
-	//Ö´ĞĞÎÄ¼şÉÏ´«
+	//æ‰§è¡Œæ–‡ä»¶ä¸Šä¼ 
 	std::string remoteFileld = "";
 	UINT32 nRet = m_func_UploadFile(byFile, static_cast<UINT32>(size), byFileExtName, byGroupName, byRemoteFileName);
 	delete[] byFile;
@@ -283,22 +283,22 @@ std::string FastDfsClient::uploadFile(const std::string& fileName)
 
 std::string FastDfsClient::uploadFile(const char* buff, size_t size, const std::string& extName /*= ""*/)
 {
-	// Á¬½ÓÊÇ·ñ³õÊ¼»¯³É¹¦
+	// è¿æ¥æ˜¯å¦åˆå§‹åŒ–æˆåŠŸ
 	if (!this->isInit)
 	{
 		std::cerr << "Not initialize succeed" << std::endl;
 		return "";
 	}
 #ifdef LINUX
-	// »ñÈ¡Á¬½Ó
+	// è·å–è¿æ¥
 	DFS_GET_CONN(result, pTrackerServer, "");
 
-	// ÉèÖÃÉÏ´«²ÎÊı
+	// è®¾ç½®ä¸Šä¼ å‚æ•°
 	char group_name[FDFS_GROUP_NAME_MAX_LEN + 1];
 	char remote_filename[256];
 	int store_path_index;
 
-	// ²éÑ¯´æ´¢·şÎñÆ÷
+	// æŸ¥è¯¢å­˜å‚¨æœåŠ¡å™¨
 	ConnectionInfo storageServer;
 	ConnectionInfo* pStorageServer;
 	if ((result = tracker_query_storage_store(pTrackerServer, \
@@ -311,16 +311,16 @@ std::string FastDfsClient::uploadFile(const char* buff, size_t size, const std::
 		return "";
 	}
 
-	// Ö´ĞĞÉÏ´«
+	// æ‰§è¡Œä¸Šä¼ 
 	result = storage_upload_by_filebuff1(pTrackerServer, \
 		& storageServer, store_path_index, \
 		buff, size, extName.c_str(), \
 		NULL, 0, group_name, remote_filename);
 
-	// ¹Ø±ÕÁ¬½Ó
+	// å…³é—­è¿æ¥
 	tracker_close_connection_ex(pTrackerServer, true);
 
-	// ÅĞ¶Ï½á¹û
+	// åˆ¤æ–­ç»“æœ
 	if (result == 0)
 	{
 		string fieldName = remote_filename;
@@ -334,20 +334,20 @@ std::string FastDfsClient::uploadFile(const char* buff, size_t size, const std::
 		return "";
 	}
 #else
-	//¶¨ÒåÉÏ´«²ÎÊı
+	//å®šä¹‰ä¸Šä¼ å‚æ•°
 	BYTE byGroupName[FDFS_GROUP_NAME_MAX_LEN + 1];
 	BYTE byRemoteFileName[FDFS_REMOTE_FILE_NAME_MAX_LEN + 1];
 	BYTE byFileExtName[10];
 	memcpy(byFileExtName, extName.c_str(), extName.length() + 1);
 
-	//×é×°ÉÏ´«ÎÄ¼şÊı¾İ
+	//ç»„è£…ä¸Šä¼ æ–‡ä»¶æ•°æ®
 	BYTE* byFile = new BYTE[size];
 	for (size_t i = 0; i < size; i++)
 	{
 		byFile[i] = buff[i];
 	}
 
-	//Ö´ĞĞÎÄ¼şÉÏ´«
+	//æ‰§è¡Œæ–‡ä»¶ä¸Šä¼ 
 	std::string remoteFileld = "";
 	UINT32 nRet = m_func_UploadFile(byFile, static_cast<UINT32>(size), byFileExtName, byGroupName, byRemoteFileName);
 	delete[] byFile;
@@ -367,30 +367,30 @@ std::string FastDfsClient::uploadFile(const char* buff, size_t size, const std::
 
 std::string FastDfsClient::downloadFile(const std::string& fieldName, std::string* savePath)
 {
-	//Á¬½ÓÊÇ·ñ³õÊ¼»¯³É¹¦
+	//è¿æ¥æ˜¯å¦åˆå§‹åŒ–æˆåŠŸ
 	if (!this->isInit)
 	{
 		std::cerr << "Not initialize succeed" << std::endl;
 		return "";
 	}
 
-	//¹¹½¨±£´æÂ·¾¶
+	//æ„å»ºä¿å­˜è·¯å¾„
 	StringUtil::replace(savePath, "\\", "/");
 	stringstream ss;
 	ss << savePath->c_str() << "/" << fieldName;
 	std::string fileName = ss.str();
 
-	//ÅĞ¶ÏÎÄ¼ş¼ĞÓë´´½¨
+	//åˆ¤æ–­æ–‡ä»¶å¤¹ä¸åˆ›å»º
 	if (!checkOrCreateDir(fileName)) {
 		return "";
 	}
 
 #ifdef LINUX
 
-	// »ñÈ¡Á¬½Ó
+	// è·å–è¿æ¥
 	DFS_GET_CONN(result, pTrackerServer, "");
 
-	// ¿ªÊ¼ÏÂÔØ
+	// å¼€å§‹ä¸‹è½½
 	int64_t file_size = 0;
 	int64_t file_offset = 0;
 	int64_t download_bytes = 0;
@@ -400,10 +400,10 @@ std::string FastDfsClient::downloadFile(const std::string& fieldName, std::strin
 		file_offset, download_bytes, \
 		& local_filename, NULL, &file_size);
 
-	// ¹Ø±ÕÁ¬½Ó
+	// å…³é—­è¿æ¥
 	tracker_close_connection_ex(pTrackerServer, true);
 
-	// ÅĞ¶Ï½á¹û
+	// åˆ¤æ–­ç»“æœ
 	if (result != 0)
 	{
 		logErrorEx(&g_log_context, "download file fail, " \
@@ -412,16 +412,16 @@ std::string FastDfsClient::downloadFile(const std::string& fieldName, std::strin
 		return "";
 	}
 
-	// ·µ»ØÎÄ¼şÃû
+	// è¿”å›æ–‡ä»¶å
 	return fileName;
 #else
 
-	//¶¨Òå·½·¨µ÷ÓÃ²ÎÊı
+	//å®šä¹‰æ–¹æ³•è°ƒç”¨å‚æ•°
 	TCHAR szFileID[260] = { 0 };
 	UINT32 nFileSize = 0;
 	_tcscpy_s(szFileID, CA2T(fieldName.c_str()));
 
-	//ÏÂÔØÎÄ¼ş
+	//ä¸‹è½½æ–‡ä»¶
 	UINT32 nRet = m_func_DownloadFileByID(reinterpret_cast<BYTE*>(szFileID), byFileBuff, &nFileSize);
 	if (nRet != enumSuccess_FDFS)
 	{
@@ -429,7 +429,7 @@ std::string FastDfsClient::downloadFile(const std::string& fieldName, std::strin
 		return "";
 	}
 
-	//±£´æÎÄ¼ş
+	//ä¿å­˜æ–‡ä»¶
 	fsWrite.open(fileName, std::ios::out | std::ios::binary);
 	char* buff = new char[nFileSize];
 	for (size_t i = 0; i < nFileSize; i++)
@@ -440,14 +440,14 @@ std::string FastDfsClient::downloadFile(const std::string& fieldName, std::strin
 	fsWrite.close();
 	delete[] buff;
 
-	//·µ»ØÎÄ¼şÃû
+	//è¿”å›æ–‡ä»¶å
 	return fileName;
 #endif
 }
 
 bool FastDfsClient::deleteFile(const std::string& fieldName)
 {
-	//Á¬½ÓÊÇ·ñ³õÊ¼»¯³É¹¦
+	//è¿æ¥æ˜¯å¦åˆå§‹åŒ–æˆåŠŸ
 	if (!this->isInit)
 	{
 		std::cerr << "Not initialize succeed" << std::endl;
@@ -456,16 +456,16 @@ bool FastDfsClient::deleteFile(const std::string& fieldName)
 
 #ifdef LINUX
 
-	// »ñÈ¡Á¬½Ó
+	// è·å–è¿æ¥
 	DFS_GET_CONN(result, pTrackerServer, false);
 
-	// É¾³ıÎÄ¼ş
+	// åˆ é™¤æ–‡ä»¶
 	result = storage_delete_file1(pTrackerServer, NULL, fieldName.c_str());
 
-	// ¹Ø±ÕÁ¬½Ó
+	// å…³é—­è¿æ¥
 	tracker_close_connection_ex(pTrackerServer, true);
 
-	// ÅĞ¶Ï½á¹û
+	// åˆ¤æ–­ç»“æœ
 	if (result != 0)
 	{
 		logErrorEx(&g_log_context, "delete file fail, " \
@@ -474,15 +474,15 @@ bool FastDfsClient::deleteFile(const std::string& fieldName)
 		return false;
 	}
 
-	// ·µ»ØÉ¾³ı³É¹¦
+	// è¿”å›åˆ é™¤æˆåŠŸ
 	return true;
 #else
 
-	//¶¨Òå·½·¨µ÷ÓÃ²ÎÊı
+	//å®šä¹‰æ–¹æ³•è°ƒç”¨å‚æ•°
 	TCHAR szFileID[260] = { 0 };
 	_tcscpy_s(szFileID, CA2T(fieldName.c_str()));
 
-	//É¾³ıÎÄ¼ş
+	//åˆ é™¤æ–‡ä»¶
 	UINT32 nRet = m_func_DeleteFileByID(reinterpret_cast<BYTE*>(szFileID));
 	if (nRet != enumSuccess_FDFS)
 	{

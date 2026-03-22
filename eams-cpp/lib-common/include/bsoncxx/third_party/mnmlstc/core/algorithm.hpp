@@ -1,4 +1,4 @@
-#ifndef CORE_ALGORITHM_HPP
+﻿#ifndef CORE_ALGORITHM_HPP
 #define CORE_ALGORITHM_HPP
 
 #include <algorithm>

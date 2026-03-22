@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2010 Vicente J. Botet Escriba
  * Copyright 2015-2018 Andrey Semashev
  *

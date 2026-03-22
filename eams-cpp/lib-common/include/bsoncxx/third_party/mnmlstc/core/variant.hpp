@@ -1,4 +1,4 @@
-#ifndef CORE_VARIANT_HPP
+﻿#ifndef CORE_VARIANT_HPP
 #define CORE_VARIANT_HPP
 
 #include <bsoncxx/third_party/mnmlstc/core/type_traits.hpp>

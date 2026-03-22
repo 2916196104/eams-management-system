@@ -1,4 +1,4 @@
-#ifndef __UTIL_N_COMS_H_
+﻿#ifndef __UTIL_N_COMS_H_
 #define __UTIL_N_COMS_H_
 
 #include "../NacosString.h"

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2020, Michael Grunder <michael dot grunder at gmail dot com>
  *
  * All rights reserved.

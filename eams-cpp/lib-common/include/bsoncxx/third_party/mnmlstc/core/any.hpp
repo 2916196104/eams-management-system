@@ -1,4 +1,4 @@
-#ifndef CORE_ANY_HPP
+﻿#ifndef CORE_ANY_HPP
 #define CORE_ANY_HPP
 
 #include <stdexcept>

@@ -1,5 +1,5 @@
-//
-//  Created by Дмитрий Бахвалов on 13.07.15.
+﻿//
+//  Created by 袛屑懈褌褉懈泄 袘邪褏胁邪谢芯胁 on 13.07.15.
 //  Copyright (c) 2015 Dmitry Bakhvalov. All rights reserved.
 //
 

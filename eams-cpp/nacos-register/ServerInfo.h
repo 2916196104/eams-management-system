@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
  
@@ -22,21 +22,21 @@
 #include "Macros.h"
 #include <string>
 /**
- * ·şÎñÆ÷ĞÅÏ¢ÊµÌå£¬ÓÃÓÚ¼ÇÂ¼µ±Ç°·şÎñÆ÷Á¬½Ó·şÎñ»ò×ÔÉí·şÎñĞÅÏ¢
+ * æœåŠ¡å™¨ä¿¡æ¯å®ä½“ï¼Œç”¨äºè®°å½•å½“å‰æœåŠ¡å™¨è¿æ¥æœåŠ¡æˆ–è‡ªèº«æœåŠ¡ä¿¡æ¯
  */
 class ServerInfo
 {
 private:
-	// ³ÉÔ±³õÊ¼»¯
+	// æˆå‘˜åˆå§‹åŒ–
 	void init() {}
-	// ¶¨Òåµ¥Àı
+	// å®šä¹‰å•ä¾‹
 	DECLARE_INSTANCE(ServerInfo);
-	// ·şÎñÆ÷¶Ë¿Ú
+	// æœåŠ¡å™¨ç«¯å£
 	CC_SYNTHESIZE(std::string, serverPort, ServerPort);
-	// NacosÅäÖÃ²ÎÊı
+	// Nacosé…ç½®å‚æ•°
 	CC_SYNTHESIZE(std::string, nacosAddr, NacosAddr);
 	CC_SYNTHESIZE(std::string, nacosNs, NacosNs);
-	// ×¢²á·şÎñÅäÖÃID
+	// æ³¨å†ŒæœåŠ¡é…ç½®ID
 	CC_SYNTHESIZE(std::string, nacosRegFileID, NacosRegFileID);
 };
 #endif // _SEVERCONFIGINFO_H_

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -23,7 +23,7 @@
 #include "TreeNodeMapper.h"
 
 /**
- * Ê÷ĞÎÊı¾İ¹¤¾ßÀà£¬ÓÃÓÚ½«¸¸×Ó¹ØÏµµÄÁĞ±íÊı¾İ×ª»»³ÉÊ÷ĞÎÊı¾İ
+ * æ ‘å½¢æ•°æ®å·¥å…·ç±»ï¼Œç”¨äºå°†çˆ¶å­å…³ç³»çš„åˆ—è¡¨æ•°æ®è½¬æ¢æˆæ ‘å½¢æ•°æ®
  */
 class TreeUtil
 {
@@ -31,13 +31,13 @@ private:
 	static void findChildNodes(TreeNode* parentNode, list<shared_ptr<TreeNode>>* nodes)
 	{
 		for (shared_ptr<TreeNode> child : *nodes) {
-			// ÕÒµ½¸¸½ÚµãµÄ×Ó½Úµã
+			// æ‰¾åˆ°çˆ¶èŠ‚ç‚¹çš„å­èŠ‚ç‚¹
 			if (parentNode->_id() == child->_pid()) {
-				// ÉèÖÃ×Ó½ÚµãµÄÏà¹Ø²ã´ÎÊı¾İ
+				// è®¾ç½®å­èŠ‚ç‚¹çš„ç›¸å…³å±‚æ¬¡æ•°æ®
 				child->_depth(parentNode->_depth() + 1);
-				// ½«×Ó½ÚµãÌí¼Óµ½¸¸½ÚµãµÄ×Ó½Úµã¼¯ºÏÖĞ
+				// å°†å­èŠ‚ç‚¹æ·»åŠ åˆ°çˆ¶èŠ‚ç‚¹çš„å­èŠ‚ç‚¹é›†åˆä¸­
 				parentNode->addChild(child);
-				// ²éÕÒ×Ó½Úµã°üº¬µÄ×Ó½Úµã
+				// æŸ¥æ‰¾å­èŠ‚ç‚¹åŒ…å«çš„å­èŠ‚ç‚¹
 				findChildNodes(child.get(), nodes);
 			}
 		}
@@ -47,28 +47,28 @@ public:
 	// Method:    listToTree
 	// FullName:  TreeUtil::listToTree
 	// Access:    public static 
-	// Returns:   ·µ»Ø×ª»»ºóµÄÊı¾İ
-	// Description: ½«ĞĞÊı¾İ×ª»»³ÉÊ÷ĞÎÊı¾İ
-	// Parameter: const list<T> & dataList ´ı×ª»»µÄĞĞÊı¾İ
-	// Parameter: const M & mapper ĞĞÊı¾İÓë½ÚµãÊı¾İ×Ö¶ÎÆ¥ÅäÆ÷
+	// Returns:   è¿”å›è½¬æ¢åçš„æ•°æ®
+	// Description: å°†è¡Œæ•°æ®è½¬æ¢æˆæ ‘å½¢æ•°æ®
+	// Parameter: const list<T> & dataList å¾…è½¬æ¢çš„è¡Œæ•°æ®
+	// Parameter: const M & mapper è¡Œæ•°æ®ä¸èŠ‚ç‚¹æ•°æ®å­—æ®µåŒ¹é…å™¨
 	//************************************
 	template<typename T, typename M = TreeNodeMapper<T>>
 	static list<shared_ptr<TreeNode>> listToTree(const list<T>& dataList, const M& mapper)
 	{
-		// °Ñ¼¯ºÏÖĞµÄÊı¾İ×ª»»Îª½ÚµãÊı¾İ
+		// æŠŠé›†åˆä¸­çš„æ•°æ®è½¬æ¢ä¸ºèŠ‚ç‚¹æ•°æ®
 		list<shared_ptr<TreeNode>> nodes;
 		for (T row : dataList) {
 			shared_ptr<TreeNode> node = mapper.objectMapper(row);
 			nodes.push_back(node);
 		}
-		// ¹¹½¨Ò»¸ö¾ßÓĞ²ã´Î½á¹¹µÄÊ÷
+		// æ„å»ºä¸€ä¸ªå…·æœ‰å±‚æ¬¡ç»“æ„çš„æ ‘
 		list<shared_ptr<TreeNode>> tree;
-		// Ñ­»·»ñÈ¡¸ù½Úµã
+		// å¾ªç¯è·å–æ ¹èŠ‚ç‚¹
 		for (shared_ptr<TreeNode> node : nodes) {
 			if ("" == node->_pid()) {
 				node->_depth(0);
 				tree.push_back(node);
-				// ²éÕÒ×Ó½Úµã
+				// æŸ¥æ‰¾å­èŠ‚ç‚¹
 				findChildNodes(node.get(), &nodes);
 			}
 		}

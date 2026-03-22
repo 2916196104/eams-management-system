@@ -1,4 +1,4 @@
-/***************************************************************************
+﻿/***************************************************************************
  *
  * Project         _____    __   ____   _      _
  *                (  _  )  /__\ (_  _)_| |_  _| |_
@@ -6,7 +6,7 @@
  *                (_____)(__)(__)(__)  |_|    |_|
  *
  *
- * Copyright 2018-present, Benedikt-Alexander Mokroß <github@bamkrs.de>
+ * Copyright 2018-present, Benedikt-Alexander Mokro脽 <github@bamkrs.de>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

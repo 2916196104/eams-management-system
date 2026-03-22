@@ -1,4 +1,4 @@
-#ifndef BOOST_MOVE_DETAIL_PLACEMENT_NEW_HPP
+﻿#ifndef BOOST_MOVE_DETAIL_PLACEMENT_NEW_HPP
 #define BOOST_MOVE_DETAIL_PLACEMENT_NEW_HPP
 ///////////////////////////////////////////////////////////////////////////////
 //

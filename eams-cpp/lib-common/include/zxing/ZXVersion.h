@@ -1,4 +1,4 @@
-/*
+﻿/*
 * Copyright 2019 Nu-book Inc.
 * Copyright 2023 Axel Waggershauser
 */

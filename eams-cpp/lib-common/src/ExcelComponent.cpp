@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
@@ -26,13 +26,13 @@
 
 void ExcelComponent::createSheet(const std::string& sheetname)
 {
-	// Èç¹û´æÔÚsheetÄÇÃ´É¾³ısheet
+	// å¦‚æœå­˜åœ¨sheeté‚£ä¹ˆåˆ é™¤sheet
 	if (wb.contains(sheetname))
 	{
 		sheet = wb.sheet_by_title(sheetname);
 		wb.remove_sheet(sheet);
 	}
-	// ´´½¨sheet
+	// åˆ›å»ºsheet
 	sheet = wb.create_sheet();
 	sheet.title(sheetname);
 }
@@ -67,7 +67,7 @@ void ExcelComponent::readLineByLine(xlnt::worksheet* source, std::vector<std::ve
 
 ExcelComponent::ExcelComponent()
 {
-	// ³õÊ¼»¯¹¤×÷±¡
+	// åˆå§‹åŒ–å·¥ä½œè–„
 	clearWorkbook();
 }
 
@@ -84,7 +84,7 @@ void ExcelComponent::setColWidth(double colWidth)
 void ExcelComponent::clearWorkbook()
 {
 	this->wb = wb.empty();
-	// É¾³ıÄ¬ÈÏ¹¤×÷±í
+	// åˆ é™¤é»˜è®¤å·¥ä½œè¡¨
 	if (wb.contains("Sheet1"))
 	{
 		wb.remove_sheet(wb.active_sheet());
@@ -98,16 +98,16 @@ void ExcelComponent::loadFile(const std::string& filename)
 
 void ExcelComponent::setRowProperties(int row)
 {
-	//ÉèÖÃĞĞ¸ß¶È
+	//è®¾ç½®è¡Œé«˜åº¦
 	sheet.row_properties(row).custom_height = true;
 	sheet.row_properties(row).height = rowHeight;
 }
 
 void ExcelComponent::setCellValue(int row, int col, const std::string& value)
 {
-	//ÉèÖÃµ¥Ôª¸ñÖµ
+	//è®¾ç½®å•å…ƒæ ¼å€¼
 	sheet.cell(xlnt::cell_reference(col, row)).value(value);
-	//ÉèÖÃÁĞ¿í¶È
+	//è®¾ç½®åˆ—å®½åº¦
 	sheet.column_properties(col).custom_width = true;
 	sheet.column_properties(col).width = colWidth;
 }
@@ -122,13 +122,13 @@ void ExcelComponent::addHeader(const std::vector<std::string>& header)
 
 void ExcelComponent::writeVectorToFile(const std::string& filename, const std::string& sheetname, std::function<void(ExcelComponent*)> fillData)
 {
-	// ´´½¨Ò³Ç©
+	// åˆ›å»ºé¡µç­¾
 	createSheet(sheetname);
 
-	// Ìî³äÊı¾İ
+	// å¡«å……æ•°æ®
 	fillData(this);
 
-	//ÅĞ¶ÏÄ¿Â¼ÊÇ·ñ´æÔÚ£¬²»´æÔÚ´´½¨Ä¿Â¼
+	//åˆ¤æ–­ç›®å½•æ˜¯å¦å­˜åœ¨ï¼Œä¸å­˜åœ¨åˆ›å»ºç›®å½•
 	auto dir = filename.substr(0, filename.find_last_of("/") + 1);
 	const size_t dirLen = dir.length();
 	if (dirLen > MAX_DIR_LEN)
@@ -153,7 +153,7 @@ void ExcelComponent::writeVectorToFile(const std::string& filename, const std::s
 		}
 	}
 
-	//±£´æµ½ÎÄ¼ş
+	//ä¿å­˜åˆ°æ–‡ä»¶
 	wb.save(filename);
 }
 
@@ -167,17 +167,17 @@ void ExcelComponent::writeVectorToFile(const std::string& filename, const std::s
 
 std::vector<std::uint8_t> ExcelComponent::writeVectorToBuff(const std::string& sheetname, std::function<void(ExcelComponent*)> fillData)
 {
-	// ´´½¨Ò³Ç©
+	// åˆ›å»ºé¡µç­¾
 	createSheet(sheetname);
 
-	// Ìî³äÊı¾İ
+	// å¡«å……æ•°æ®
 	fillData(this);
 
-	// ±£´æµ½»º´æÖĞ
+	// ä¿å­˜åˆ°ç¼“å­˜ä¸­
 	std::vector<std::uint8_t> buff;
 	wb.save(buff);
 
-	// ·µ»Ø»º´æÌá¹©¸øµ÷ÓÃÕßÊ¹ÓÃ
+	// è¿”å›ç¼“å­˜æä¾›ç»™è°ƒç”¨è€…ä½¿ç”¨
 	return buff;
 }
 
@@ -191,7 +191,7 @@ std::vector<std::uint8_t> ExcelComponent::writeVectorToBuff(const std::string& s
 
 void ExcelComponent::read(const std::string& filename, const std::string& sheetname, std::function<void(xlnt::worksheet*)> parseData)
 {
-	// ¶¨ÒåÒ»¸öÁÙÊ±µÄ¹¤×÷±í£¬²¢¼ÓÔØÎÄ¼ş
+	// å®šä¹‰ä¸€ä¸ªä¸´æ—¶çš„å·¥ä½œè¡¨ï¼Œå¹¶åŠ è½½æ–‡ä»¶
 	auto tmpWb = xlnt::workbook();
 	try
 	{
@@ -203,21 +203,21 @@ void ExcelComponent::read(const std::string& filename, const std::string& sheetn
 		return;
 	}
 
-	// ÅĞ¶ÏÊÇ·ñ´æÔÚÖ¸¶¨Ò³Ç©
+	// åˆ¤æ–­æ˜¯å¦å­˜åœ¨æŒ‡å®šé¡µç­¾
 	if (!tmpWb.contains(sheetname))
 	{
 		std::cout << __FILE__ << " " << __LINE__ << ": read sheet fail(" << CharsetConvertHepler::utf8ToAnsi(sheetname) << " is not contain)" << std::endl;
 		return;
 	}
 
-	// ½âÎöÊı¾İ
+	// è§£ææ•°æ®
 	auto sheet = tmpWb.sheet_by_title(sheetname);
 	parseData(&sheet);
 }
 
 void ExcelComponent::read(const char* data, size_t size, const std::string& sheetname, std::function<void(xlnt::worksheet*)> parseData)
 {
-	// ¶¨ÒåÒ»¸öÁÙÊ±µÄ¹¤×÷±í£¬²¢¼ÓÔØÎÄ¼ş
+	// å®šä¹‰ä¸€ä¸ªä¸´æ—¶çš„å·¥ä½œè¡¨ï¼Œå¹¶åŠ è½½æ–‡ä»¶
 	auto tmpWb = xlnt::workbook();
 	try
 	{
@@ -231,43 +231,43 @@ void ExcelComponent::read(const char* data, size_t size, const std::string& shee
 		return;
 	}
 
-	// ÅĞ¶ÏÊÇ·ñ´æÔÚÖ¸¶¨Ò³Ç©
+	// åˆ¤æ–­æ˜¯å¦å­˜åœ¨æŒ‡å®šé¡µç­¾
 	if (!tmpWb.contains(sheetname))
 	{
 		std::cout << __FILE__ << " " << __LINE__ << ": read sheet fail(" << CharsetConvertHepler::utf8ToAnsi(sheetname) << " is not contain)" << std::endl;
 		return;
 	}
 
-	// ½âÎöÊı¾İ
+	// è§£ææ•°æ®
 	auto sheet = tmpWb.sheet_by_title(sheetname);
 	parseData(&sheet);
 }
 
 std::vector<std::vector<std::string>> ExcelComponent::readIntoVector(const std::string& filename, const std::string& sheetname)
 {
-	// ¶¨ÒåÒ»¸ö·µ»Ø½á¹ûµÄ¶şÎ¬±í
+	// å®šä¹‰ä¸€ä¸ªè¿”å›ç»“æœçš„äºŒç»´è¡¨
 	std::vector<std::vector<std::string>> result;
 
-	// ÖğĞĞ¶ÁÈ¡Êı¾İ
+	// é€è¡Œè¯»å–æ•°æ®
 	read(filename, sheetname, [&result](xlnt::worksheet* sheet) {
 		readLineByLine(sheet, &result);
 		});
 
-	// ·µ»Ø¶ÁÈ¡½á¹û
+	// è¿”å›è¯»å–ç»“æœ
 	return result;
 }
 
 std::vector<std::vector<std::string>> ExcelComponent::readIntoVector(const char* data, size_t size, const std::string& sheetname)
 {
-	// ¶¨ÒåÒ»¸ö·µ»Ø½á¹ûµÄ¶şÎ¬±í
+	// å®šä¹‰ä¸€ä¸ªè¿”å›ç»“æœçš„äºŒç»´è¡¨
 	std::vector<std::vector<std::string>> result;
 
-	// ÖğĞĞ¶ÁÈ¡Êı¾İ
+	// é€è¡Œè¯»å–æ•°æ®
 	read(data, size, sheetname, [&result](xlnt::worksheet* sheet) {
 		readLineByLine(sheet, &result);
 		});
 
-	// ·µ»Ø¶ÁÈ¡½á¹û
+	// è¿”å›è¯»å–ç»“æœ
 	return result;
 }
 

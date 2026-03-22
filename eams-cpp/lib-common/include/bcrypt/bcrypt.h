@@ -1,8 +1,8 @@
-#ifndef BCRYPT_H
+Ôªø#ifndef BCRYPT_H
 #define BCRYPT_H
 
 #include <string>
-// ø‚¿¥‘¥£∫https://github.com/hilch/Bcrypt.cpp
+// Â∫ìÊù•Ê∫êÔºöhttps://github.com/hilch/Bcrypt.cpp
 namespace bcrypt {
 
     std::string generateHash(const std::string & password , unsigned rounds = 10 );

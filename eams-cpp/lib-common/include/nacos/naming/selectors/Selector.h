@@ -1,4 +1,4 @@
-#ifndef __SELECTOR_H_
+﻿#ifndef __SELECTOR_H_
 #define __SELECTOR_H_
 
 #include <list>

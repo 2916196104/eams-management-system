@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright Ruslan Baratov 2017
 Copyright Rene Rivera 2017
 Distributed under the Boost Software License, Version 1.0.

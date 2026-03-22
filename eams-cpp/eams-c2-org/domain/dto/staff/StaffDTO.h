@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef _STAFFDTO_H_
 #define _STAFFDTO_H_
@@ -8,7 +8,7 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /*
-	员工数据传输对象
+	鍛樺伐鏁版嵁浼犺緭瀵硅薄
  */
 class StaffDTO : public oatpp::DTO {
   DTO_INIT(StaffDTO, DTO);

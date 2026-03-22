@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -31,43 +31,43 @@
 #include "SystemInterceptor.h"
 
 /**
- * ÔÚoatpp::base::EnvironmentÖĞ´´½¨ºÍ±£´æApplication×é¼ş£¬²¢Íê³É×é¼ş×¢²á
- * ×é¼ş³õÊ¼»¯µÄË³ĞòÊÇ´ÓÉÏµ½ÏÂ
+ * åœ¨oatpp::base::Environmentä¸­åˆ›å»ºå’Œä¿å­˜Applicationç»„ä»¶ï¼Œå¹¶å®Œæˆç»„ä»¶æ³¨å†Œ
+ * ç»„ä»¶åˆå§‹åŒ–çš„é¡ºåºæ˜¯ä»ä¸Šåˆ°ä¸‹
  */
 class AppComponent
 {
 public:
 #ifndef CLOSE_SWAGGER_DOC
-	// ´´½¨äÖÈ¾½Ó¿ÚÎÄµµµÄSwagger×é¼ş
+	// åˆ›å»ºæ¸²æŸ“æ¥å£æ–‡æ¡£çš„Swaggerç»„ä»¶
 	SwaggerComponent swaggerComponent;
 #endif
 
-	// ´´½¨Â·ÓÉ×é¼ş
+	// åˆ›å»ºè·¯ç”±ç»„ä»¶
 	OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::web::server::HttpRouter>, httpRouter)([] {
 		return oatpp::web::server::HttpRouter::createShared();
 		}());
-	// ´´½¨ObjectMapper×é¼şÒÔÔÚControllerµÄAPIÖĞĞòÁĞ»¯/·´ĞòÁĞ»¯DTO
+	// åˆ›å»ºObjectMapperç»„ä»¶ä»¥åœ¨Controllerçš„APIä¸­åºåˆ—åŒ–/ååºåˆ—åŒ–DTO
 	OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::data::mapping::ObjectMapper>, apiObjectMapper)([] {
 		auto objectMapper = oatpp::parser::json::mapping::ObjectMapper::createShared();
-		// ½ûÓÃÎ´Öª×Ö¶Î
+		// ç¦ç”¨æœªçŸ¥å­—æ®µ
 		objectMapper->getDeserializer()->getConfig()->allowUnknownFields = false;
-		// ²»ÏÂ·¢¿Õ×Ö¶Î
+		// ä¸ä¸‹å‘ç©ºå­—æ®µ
 		objectMapper->getSerializer()->getConfig()->includeNullFields = false;
 		return objectMapper;
 		}());
-	// ´´½¨Ê¹ÓÃRouter×é¼şÂ·ÓÉhttpÇëÇóµÄConnectionHandler×é¼ş
+	// åˆ›å»ºä½¿ç”¨Routerç»„ä»¶è·¯ç”±httpè¯·æ±‚çš„ConnectionHandlerç»„ä»¶
 	OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::network::ConnectionHandler>, httpConnectionHandler)("http", [] {
 		OATPP_COMPONENT(std::shared_ptr<oatpp::web::server::HttpRouter>, router);
 		OATPP_COMPONENT(std::shared_ptr<oatpp::data::mapping::ObjectMapper>, objectMapper);
-		// ´´½¨Ò»¸öÁ¬½Ó´¦ÀíÆ÷
+		// åˆ›å»ºä¸€ä¸ªè¿æ¥å¤„ç†å™¨
 		auto connectionHandler = oatpp::web::server::HttpConnectionHandler::createShared(router);
-		// Ìí¼ÓÍ¨ÓÃ´íÎó´¦ÀíÆ÷
+		// æ·»åŠ é€šç”¨é”™è¯¯å¤„ç†å™¨
 		connectionHandler->setErrorHandler(std::make_shared<ErrorHandler>(objectMapper));
-		// Ìí¼Ó¿çÓòÇëÇóÀ¹½ØÆ÷
+		// æ·»åŠ è·¨åŸŸè¯·æ±‚æ‹¦æˆªå™¨
 		connectionHandler->addRequestInterceptor(std::make_shared<CrosRequestInterceptor>());
-		// Ìí¼Ó¿çÓòÏìÓ¦À¹½ØÆ÷
+		// æ·»åŠ è·¨åŸŸå“åº”æ‹¦æˆªå™¨
 		connectionHandler->addResponseInterceptor(std::make_shared<CrosResponseInterceptor>());
-		// Ìí¼ÓĞ£ÑéÇëÇóÀ¹½ØÆ÷
+		// æ·»åŠ æ ¡éªŒè¯·æ±‚æ‹¦æˆªå™¨
 		connectionHandler->addRequestInterceptor(std::make_shared<CheckRequestInterceptor>(objectMapper));
 		return connectionHandler;
 		}());

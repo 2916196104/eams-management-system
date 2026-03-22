@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
  
@@ -23,43 +23,43 @@
 #include "ConnectionPool.h"
 
 /**
- * Êı¾İ¿âÅäÖÃ¶ÔÏó
+ * æ•°æ®åº“é…ç½®å¯¹è±¡
  */
 class DBConfig
 {
 public:
-	// ÓÃ»§Ãû
+	// ç”¨æˆ·å
 	string user = "";
-	// ÃÜÂë
+	// å¯†ç 
 	string pass = "";
-	// Êı¾İ¿âÃû
+	// æ•°æ®åº“å
 	string db = "";
-	// Ö÷»úIP
+	// ä¸»æœºIP
 	string host = "127.0.0.1";
-	// ·şÎñ¶Ë¶Ë¿Ú
+	// æœåŠ¡ç«¯ç«¯å£
 	int port = 3306;
-	// ×î´óÁ¬½ÓÊı
+	// æœ€å¤§è¿æ¥æ•°
 	int poolMaxSize = 25;
 	DBConfig() {}
 	DBConfig(string _user, string _pass, string _db, string _host, int _port, int _maxSize) :user(_user), pass(_pass), db(_db), host(_host), port(_port), poolMaxSize(_maxSize) {}
 };
 
 /**
- * Êı¾İ¿â³õÊ¼»¯
+ * æ•°æ®åº“åˆå§‹åŒ–
  */
 class DbInit final
 {
 private:
-	// µ¥Àı¶ÔÏó
+	// å•ä¾‹å¯¹è±¡
 	static ConnPool* connPool;
 public:
 	//************************************
 	// Method:    initDbPool
 	// FullName:  DbInit::initDbPool
 	// Access:    public static 
-	// Returns:   bool ÊÇ·ñ³õÊ¼»¯³É¹¦
-	// Description: ³õÊ¼»¯Á¬½Ó³Ø
-	// Parameter: DBConfig config Êı¾İ¿âÅäÖÃ¶ÔÏó
+	// Returns:   bool æ˜¯å¦åˆå§‹åŒ–æˆåŠŸ
+	// Description: åˆå§‹åŒ–è¿æ¥æ± 
+	// Parameter: DBConfig config æ•°æ®åº“é…ç½®å¯¹è±¡
 	//************************************
 	static bool initDbPool(DBConfig config);
 
@@ -68,7 +68,7 @@ public:
 	// FullName:  DbInit::getConnPool
 	// Access:    public static 
 	// Returns:   ConnPool*
-	// Description: »ñÈ¡Á¬½Ó³Ø¶ÔÏó
+	// Description: è·å–è¿æ¥æ± å¯¹è±¡
 	//************************************
 	static ConnPool* getConnPool();
 
@@ -77,7 +77,7 @@ public:
 	// FullName:  DbInit::releasePool
 	// Access:    public static 
 	// Returns:   void
-	// Description: ÊÍ·ÅÁ¬½Ó³Ø
+	// Description: é‡Šæ”¾è¿æ¥æ± 
 	//************************************
 	static void releasePool();
 };

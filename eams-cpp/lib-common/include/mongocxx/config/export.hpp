@@ -1,4 +1,4 @@
-
+﻿
 #ifndef MONGOCXX_API_H
 #define MONGOCXX_API_H
 

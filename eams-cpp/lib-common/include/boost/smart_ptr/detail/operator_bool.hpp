@@ -1,4 +1,4 @@
-//  This header intentionally has no include guards.
+﻿//  This header intentionally has no include guards.
 //
 //  Copyright (c) 2001-2009, 2012 Peter Dimov
 //

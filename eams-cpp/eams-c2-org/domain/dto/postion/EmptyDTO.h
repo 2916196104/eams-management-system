@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 #include "../../GlobalInclude.h"
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 class EmptyDTO : public oatpp::DTO {
     DTO_INIT(EmptyDTO, DTO)
-        // ÎŞ×Ö¶Î£¬ĞòÁĞ»¯ºóÎª {}
+        // æ— å­—æ®µï¼Œåºåˆ—åŒ–åä¸º {}
 };
 
 #include OATPP_CODEGEN_END(DTO)

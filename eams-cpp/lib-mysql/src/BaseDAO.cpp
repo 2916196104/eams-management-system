@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
@@ -23,7 +23,7 @@ bool BaseDAO::extractFieldValue(DOField* field, SqlParams* params)
 	void* val = field->get();
 	if (val)
 	{
-		// ´´½¨Ò»¸öÖÇÄÜÖ¸Õë£¬²¢ÐÞ¸ÄÉ¾³ýÖ¸Õëº¯ÊýÎª¿Õ£¬È»ºóÌí¼Óµ½²ÎÊýÁÐ±íÖÐ
+		// åˆ›å»ºä¸€ä¸ªæ™ºèƒ½æŒ‡é’ˆï¼Œå¹¶ä¿®æ”¹åˆ é™¤æŒ‡é’ˆå‡½æ•°ä¸ºç©ºï¼Œç„¶åŽæ·»åŠ åˆ°å‚æ•°åˆ—è¡¨ä¸­
 		params->emplace_back(SqlParam(field->getType(), std::shared_ptr<void>(val, [](void*) {})));
 		return true;
 	}
@@ -34,10 +34,10 @@ void BaseDAO::extractFieldValueWithNul(DOField* field, SqlParams* params)
 {
 	void* val = field->get();
 	if (val)
-		// ´´½¨Ò»¸öÖÇÄÜÖ¸Õë£¬²¢ÐÞ¸ÄÉ¾³ýÖ¸Õëº¯ÊýÎª¿Õ£¬È»ºóÌí¼Óµ½²ÎÊýÁÐ±íÖÐ
+		// åˆ›å»ºä¸€ä¸ªæ™ºèƒ½æŒ‡é’ˆï¼Œå¹¶ä¿®æ”¹åˆ é™¤æŒ‡é’ˆå‡½æ•°ä¸ºç©ºï¼Œç„¶åŽæ·»åŠ åˆ°å‚æ•°åˆ—è¡¨ä¸­
 		params->emplace_back(SqlParam(field->getType(), std::shared_ptr<void>(val, [](void*) {})));
 	else if (field->getIsNullable())
-		// ÉèÖÃÔÊÐíÎªNULL
+		// è®¾ç½®å…è®¸ä¸ºNULL
 		params->emplace_back(SqlParam("nul", std::make_shared<int>(1)));
 	else
 		throw std::runtime_error(string("Field(") + field->getColumn() + string(") value is null except not null."));
@@ -77,7 +77,7 @@ uint64_t BaseDAO::insertAutoPk(const BaseDO& bd)
 	std::ostringstream col;
 	std::ostringstream val;
 	val << ") VALUES (";
-	// Êý¾Ý×Ö¶Î½âÎö
+	// æ•°æ®å­—æ®µè§£æž
 	bool isFirst = true;
 	for (auto field : bd.getFields())
 	{
@@ -94,7 +94,7 @@ uint64_t BaseDAO::insertAutoPk(const BaseDO& bd)
 			val << "?";
 		}
 	}
-	// ¹¹ÔìSQL
+	// æž„é€ SQL
 	std::ostringstream sql;
 	sql << "INSERT INTO " << bd.getTable() << " (";
 	sql << col.str() << val.str() << " )";
@@ -103,18 +103,18 @@ uint64_t BaseDAO::insertAutoPk(const BaseDO& bd)
 
 int BaseDAO::insert(const BaseDO& bd)
 {
-	// Èç¹ûÖ÷¼üÎª¿Õ
+	// å¦‚æžœä¸»é”®ä¸ºç©º
 	if (!bd.getPrimaryField()->get())
 		throw std::runtime_error("Primary field is null.");
 	SqlParams params;
 	std::ostringstream col;
 	std::ostringstream val;
 	val << ") VALUES (";
-	// Ö÷¼ü×Ö¶Î
+	// ä¸»é”®å­—æ®µ
 	col << bd.getPrimaryField()->getColumn();
 	val << "?";
 	extractFieldValue(bd.getPrimaryField(), &params);
-	// ÆÕÍ¨×Ö¶Î
+	// æ™®é€šå­—æ®µ
 	for (auto field : bd.getFields())
 	{
 		if (extractFieldValue(field, &params))
@@ -123,7 +123,7 @@ int BaseDAO::insert(const BaseDO& bd)
 			val << " ,?";
 		}
 	}
-	// ¹¹ÔìSQL
+	// æž„é€ SQL
 	std::ostringstream sql;
 	sql << "INSERT INTO " << bd.getTable() << " (";
 	sql << col.str() << val.str() << " )";
@@ -132,13 +132,13 @@ int BaseDAO::insert(const BaseDO& bd)
 
 int BaseDAO::update(const BaseDO& bd)
 {
-	// Èç¹ûÖ÷¼üÎª¿Õ
+	// å¦‚æžœä¸»é”®ä¸ºç©º
 	if (!bd.getPrimaryField()->get())
 		throw std::runtime_error("Primary field is null.");
 	SqlParams params;
 	std::ostringstream sql;
 	sql << "UPDATE " << bd.getTable() << " SET ";
-	// ´¦Àí¸üÐÂÊý¾Ý²¿·Ö
+	// å¤„ç†æ›´æ–°æ•°æ®éƒ¨åˆ†
 	bool isFirst = true;
 	for (auto field : bd.getFields())
 	{
@@ -149,10 +149,10 @@ int BaseDAO::update(const BaseDO& bd)
 			sql << field->getColumn() << " = ?";
 		}
 	}
-	// ¹¹½¨¸üÐÂÌõ¼þ
+	// æž„å»ºæ›´æ–°æ¡ä»¶
 	extractFieldValue(bd.getPrimaryField(), &params);
 	sql << " WHERE " << bd.getPrimaryField()->getColumn() << " = ?";
-	// Ö´ÐÐ¸üÐÂ
+	// æ‰§è¡Œæ›´æ–°
 	return sqlSession->executeUpdate(sql.str(), params);
 }
 
@@ -161,7 +161,7 @@ int BaseDAO::update(const BaseDO& bd, const std::string& where)
 	SqlParams params;
 	std::ostringstream sql;
 	sql << "UPDATE " << bd.getTable() << " SET ";
-	// ¹¹½¨¸üÐÂÊý¾Ý²¿·Ö
+	// æž„å»ºæ›´æ–°æ•°æ®éƒ¨åˆ†
 	bool isFirst = true;
 	for (auto field : bd.getFields())
 	{
@@ -172,8 +172,8 @@ int BaseDAO::update(const BaseDO& bd, const std::string& where)
 			sql << field->getColumn() << " = ?";
 		}
 	}
-	// Æ´½Ó¸üÐÂÌõ¼þ
+	// æ‹¼æŽ¥æ›´æ–°æ¡ä»¶
 	sql << " WHERE " << where;
-	// Ö´ÐÐ¸üÐÂ
+	// æ‰§è¡Œæ›´æ–°
 	return sqlSession->executeUpdate(sql.str(), params);
 }

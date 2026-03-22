@@ -1,4 +1,4 @@
-#ifndef __NAM_SVC_H_
+﻿#ifndef __NAM_SVC_H_
 #define __NAM_SVC_H_
 
 #include <list>

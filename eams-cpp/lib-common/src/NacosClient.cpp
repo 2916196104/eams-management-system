@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  Copyright Zero One Star. All rights reserved.
  
  @Author: awei
@@ -24,7 +24,7 @@
 
 #ifdef USE_NACOS
 
-// ³õÊ¼»¯Nacos·şÎñÆ÷¶ÔÏó
+// åˆå§‹åŒ–NacosæœåŠ¡å™¨å¯¹è±¡
 #define NACOS_INIT(__SERVER_TYPE__, __VAR_NAME__, __CREATE_FUN__) \
 Properties props; \
 props[PropertyKeyConst::SERVER_ADDR] = m_address; \
@@ -33,7 +33,7 @@ INacosServiceFactory* factory = NacosFactoryFactory::getNacosFactory(props); \
 ResourceGuard<INacosServiceFactory> _guardFactory(factory); \
 __SERVER_TYPE__* __VAR_NAME__ = factory->__CREATE_FUN__();
 
-// ¶¨ÒåNacosÊµÀıÊôĞÔ
+// å®šä¹‰Nacoså®ä¾‹å±æ€§
 #define NACOS_INSTANCE_DECLARE(__VAR_NAME__) \
 Instance __VAR_NAME__; \
 __VAR_NAME__.ip = ip; \
@@ -104,17 +104,17 @@ std::string NacosClient::getConfigText(const string& dataId, const string& group
 
 #else
 	std::ifstream fsRead;
-	// ÅĞ¶ÏÊÇ·ñÄÜ¹»´ò¿ªÎÄ¼ş
+	// åˆ¤æ–­æ˜¯å¦èƒ½å¤Ÿæ‰“å¼€æ–‡ä»¶
 	fsRead.open(dataId.c_str());
 	if (!fsRead)
 	{
 		std::cout << "Can not open file: " << dataId << std::endl;
 		return "";
 	}
-	// ¶ÁÈ¡ÎÄ±¾
+	// è¯»å–æ–‡æœ¬
 	std::stringstream ss;
 	ss << fsRead.rdbuf();
-	// ¹Ø±ÕÎÄ¼ş
+	// å…³é—­æ–‡ä»¶
 	fsRead.close();
 	return ss.str();
 #endif

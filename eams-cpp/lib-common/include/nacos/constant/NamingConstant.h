@@ -1,4 +1,4 @@
-#ifndef __NAMING_CONSTANT_H_
+﻿#ifndef __NAMING_CONSTANT_H_
 #define __NAMING_CONSTANT_H_
 
 #include "../NacosString.h"

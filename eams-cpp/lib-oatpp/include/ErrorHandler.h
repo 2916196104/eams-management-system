@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -24,7 +24,7 @@
 #include "oatpp/web/protocol/http/outgoing/ResponseFactory.hpp"
 
 /**
- * ÉùÃ÷Ò»¸ö´íÎóĞÅÏ¢´¦ÀíÆ÷
+ * å£°æ˜ä¸€ä¸ªé”™è¯¯ä¿¡æ¯å¤„ç†å™¨
  */
 class ErrorHandler : public oatpp::web::server::handler::ErrorHandler
 {
@@ -35,9 +35,9 @@ private:
 private:
 	std::shared_ptr<oatpp::data::mapping::ObjectMapper> m_objectMapper;
 public:
-	// ¹¹ÔìµÄÊ±ºò´«ÈëÊı¾İĞòÁĞ»¯¶ÔÏó
+	// æ„é€ çš„æ—¶å€™ä¼ å…¥æ•°æ®åºåˆ—åŒ–å¯¹è±¡
 	ErrorHandler(const std::shared_ptr<oatpp::data::mapping::ObjectMapper>& objectMapper);
-	// ÏìÓ¦´íÎóĞÅÏ¢ÄÚÈİ
+	// å“åº”é”™è¯¯ä¿¡æ¯å†…å®¹
 	std::shared_ptr<OutgoingResponse> handleError(const Status& status, const oatpp::String& message, const Headers& headers) override;
 };
 

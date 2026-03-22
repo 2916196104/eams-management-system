@@ -1,4 +1,4 @@
-#ifndef __CLUSTER_H_
+﻿#ifndef __CLUSTER_H_
 #define __CLUSTER_H_
 
 #include <map>

@@ -1,4 +1,4 @@
-#ifndef __RND_SELECTOR_H_
+﻿#ifndef __RND_SELECTOR_H_
 #define __RND_SELECTOR_H_
 
 #include <list>

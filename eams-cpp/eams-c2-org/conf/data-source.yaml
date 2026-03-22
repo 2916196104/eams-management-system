@@ -6,9 +6,9 @@ spring:
     druid:
      max-active: 5
   redis:
-    host: 192.168.117.129
-    port: 6379
-    password: 123456
+    host: 8.163.61.213
+    port: 19642
+    password: Redis627#Xq98
   data:
     mongodb:
       uri: mongodb://admin:123456@192.168.117.129:27017/firstDb

@@ -1,4 +1,4 @@
-#ifndef CORE_STRING_HPP
+﻿#ifndef CORE_STRING_HPP
 #define CORE_STRING_HPP
 
 #include <initializer_list>

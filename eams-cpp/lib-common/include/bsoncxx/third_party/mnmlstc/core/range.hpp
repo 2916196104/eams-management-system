@@ -1,4 +1,4 @@
-#ifndef CORE_RANGE_HPP
+﻿#ifndef CORE_RANGE_HPP
 #define CORE_RANGE_HPP
 
 #include <iterator>

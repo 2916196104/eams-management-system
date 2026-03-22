@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
  
@@ -52,31 +52,31 @@ typedef UINT32(__stdcall* func_CheckConfiguration)(const TCHAR* pszTrackerIPList
 #endif
 
 /**
- * FastDFSÎÄ¼şÉÏ´«ÏÂÔØ¿Í»§¶Ë
+ * FastDFSæ–‡ä»¶ä¸Šä¼ ä¸‹è½½å®¢æˆ·ç«¯
  */
 class FastDfsClient
 {
 private:
-	//ÊÇ·ñ³õÊ¼»¯³É¹¦
+	//æ˜¯å¦åˆå§‹åŒ–æˆåŠŸ
 	bool isInit;
-	//ÎÄ¼şÁ÷³ÉÔ±¶ÔÏó
+	//æ–‡ä»¶æµæˆå‘˜å¯¹è±¡
 	std::ifstream fsRead;
 	std::ofstream fsWrite;
 
 #ifdef LINUX
 
-	//ÅäÖÃÎÄ¼şÂ·¾¶
+	//é…ç½®æ–‡ä»¶è·¯å¾„
 	std::string m_configPath;
-	//ÅäÖÃÎÄ¼şÄÚÈİ
+	//é…ç½®æ–‡ä»¶å†…å®¹
 	std::string m_configContent;
-	//ÈÕÖ¾µÈ¼¶
+	//æ—¥å¿—ç­‰çº§
 	int	m_nLevelLog;
 
 #else
 
-	//·şÎñÆ÷µØÖ·
+	//æœåŠ¡å™¨åœ°å€
 	std::string serverAddr;
-	//·şÎñÆ÷¶Ë¿Ú
+	//æœåŠ¡å™¨ç«¯å£
 	unsigned int port;
 	
 #pragma region Define dynamic library function 
@@ -98,9 +98,9 @@ private:
 #pragma endregion
 
 #endif
-	//³õÊ¼»¯
+	//åˆå§‹åŒ–
 	void init();
-	//ÅĞ¶Ï»ò´´½¨ÎÄ¼ş¼Ğ
+	//åˆ¤æ–­æˆ–åˆ›å»ºæ–‡ä»¶å¤¹
 	bool checkOrCreateDir(const std::string& fileName);
 public:
 #ifdef LINUX
@@ -109,11 +109,11 @@ public:
 	// FullName:  FastDfsClient::FastDfsClient
 	// Access:    public 
 	// Returns:   
-	// Description: ¹¹Ôì³õÊ¼»¯
-	// Parameter: const std::string& fdsConfig ÅäÖÃĞÅÏ¢
-	// ¿ÉÒÔÊÇÅäÖÃÎÄ¼şÂ·¾¶£¨Èç:/etc/fdfs/client.conf£©£¬Ò²¿ÉÒÔÊÇÍ¨¹ı¶ÁÈ¡ÅäÖÃÎÄ¼ş»ñÈ¡³öÀ´µÄÅäÖÃĞÅÏ¢
-	// Parameter: bool isPath ±ê¼ÇfdsConfigÊÇ·ñÎªÅäÖÃÎÄ¼şÂ·¾¶£¬Ä¬ÈÏÖµÎªtrue£¨±íÊ¾ÊÇÅäÖÃÎÄ¼ş£©
-	// Parameter: int logLevel ÈÕÖ¾¼¶±ğ£¬²ÉÓÃµÄÊÇunixÈÕÖ¾µÈ¼¶£¬Ä¬ÈÏ3
+	// Description: æ„é€ åˆå§‹åŒ–
+	// Parameter: const std::string& fdsConfig é…ç½®ä¿¡æ¯
+	// å¯ä»¥æ˜¯é…ç½®æ–‡ä»¶è·¯å¾„ï¼ˆå¦‚:/etc/fdfs/client.confï¼‰ï¼Œä¹Ÿå¯ä»¥æ˜¯é€šè¿‡è¯»å–é…ç½®æ–‡ä»¶è·å–å‡ºæ¥çš„é…ç½®ä¿¡æ¯
+	// Parameter: bool isPath æ ‡è®°fdsConfigæ˜¯å¦ä¸ºé…ç½®æ–‡ä»¶è·¯å¾„ï¼Œé»˜è®¤å€¼ä¸ºtrueï¼ˆè¡¨ç¤ºæ˜¯é…ç½®æ–‡ä»¶ï¼‰
+	// Parameter: int logLevel æ—¥å¿—çº§åˆ«ï¼Œé‡‡ç”¨çš„æ˜¯unixæ—¥å¿—ç­‰çº§ï¼Œé»˜è®¤3
 	//  0: LOG_EMERG
 	//	1: LOG_ALERT
 	//	2: LOG_CRIT
@@ -124,7 +124,7 @@ public:
 	//	7: LOG_DEBUG
 	//************************************
 	FastDfsClient(const std::string& fdsConfig, bool isPath = true, int logLevel = 3);
-	// Îö¹¹ÊÍ·Å×ÊÔ´
+	// ææ„é‡Šæ”¾èµ„æº
 	~FastDfsClient();
 #else
 	//************************************
@@ -132,9 +132,9 @@ public:
 	// FullName:  FastDfsClient::FastDfsClient
 	// Access:    public 
 	// Returns:   
-	// Description: ¹¹Ôì³õÊ¼»¯
-	// Parameter: std::string serverAddr fastdfs·şÎñÆ÷µØÖ·
-	// Parameter: unsigned int port ·şÎñÆ÷¶Ë¿Ú£¬Ä¬ÈÏ22122
+	// Description: æ„é€ åˆå§‹åŒ–
+	// Parameter: std::string serverAddr fastdfsæœåŠ¡å™¨åœ°å€
+	// Parameter: unsigned int port æœåŠ¡å™¨ç«¯å£ï¼Œé»˜è®¤22122
 	//************************************
 	explicit FastDfsClient(std::string serverAddr, unsigned int port = 22122);
 #endif
@@ -143,9 +143,9 @@ public:
 	// Method:    uploadFile
 	// FullName:  FastDfsClient::uploadFile
 	// Access:    public 
-	// Returns:   std::string ÉÏ´«³É¹¦·µ»Øfastdfs´æ´¢µÄÎÄ¼şÃû£¬°üº¬£º×éÃû+ÎÄ¼şÃû£¬ÉÏ´«Ê§°Ü·µ»Ø¿Õ×Ö·û´®
-	// Description: ÉÏ´«ÎÄ¼ş
-	// Parameter: const std::string & fileName °üº¬Â·¾¶µÄÉÏ´«ÎÄ¼şÃû
+	// Returns:   std::string ä¸Šä¼ æˆåŠŸè¿”å›fastdfså­˜å‚¨çš„æ–‡ä»¶åï¼ŒåŒ…å«ï¼šç»„å+æ–‡ä»¶åï¼Œä¸Šä¼ å¤±è´¥è¿”å›ç©ºå­—ç¬¦ä¸²
+	// Description: ä¸Šä¼ æ–‡ä»¶
+	// Parameter: const std::string & fileName åŒ…å«è·¯å¾„çš„ä¸Šä¼ æ–‡ä»¶å
 	//************************************
 	std::string uploadFile(const std::string& fileName);
 
@@ -153,11 +153,11 @@ public:
 	// Method:    uploadFile
 	// FullName:  FastDfsClient::uploadFile
 	// Access:    public 
-	// Returns:   std::string ÉÏ´«³É¹¦·µ»Øfastdfs´æ´¢µÄÎÄ¼şÃû£¬°üº¬£º×éÃû+ÎÄ¼şÃû£¬ÉÏ´«Ê§°Ü·µ»Ø¿Õ×Ö·û´®
-	// Description: ÉÏ´«ÎÄ¼ş
-	// Parameter: const char * buff ÎÄ¼ş¶ş½øÖÆ×Ö½ÚÊı¾İ
-	// Parameter: size_t size ÎÄ¼ş´óĞ¡
-	// Parameter: const std::string& extName ÎÄ¼şºó×ºÃû
+	// Returns:   std::string ä¸Šä¼ æˆåŠŸè¿”å›fastdfså­˜å‚¨çš„æ–‡ä»¶åï¼ŒåŒ…å«ï¼šç»„å+æ–‡ä»¶åï¼Œä¸Šä¼ å¤±è´¥è¿”å›ç©ºå­—ç¬¦ä¸²
+	// Description: ä¸Šä¼ æ–‡ä»¶
+	// Parameter: const char * buff æ–‡ä»¶äºŒè¿›åˆ¶å­—èŠ‚æ•°æ®
+	// Parameter: size_t size æ–‡ä»¶å¤§å°
+	// Parameter: const std::string& extName æ–‡ä»¶åç¼€å
 	//************************************
 	std::string uploadFile(const char* buff, size_t size, const std::string& extName = "");
 	
@@ -165,10 +165,10 @@ public:
 	// Method:    downloadFile
 	// FullName:  FastDfsClient::downloadFile
 	// Access:    public 
-	// Returns:   std::string ·µ»Ø°üº¬Â·¾¶µÄÎÄ¼şÃû
-	// Description: ÏÂÔØÎÄ¼ş
-	// Parameter: const std::string & fieldName fastdfs¶ÔÓ¦µÄÎÄ¼şÃû£¬°üº¬£º×éÃû+ÎÄ¼şÃû
-	// Parameter: std::string * savePath ±£´æÎÄ¼ş¸ùÄ¿Â¼£¬ÒªÇó×Ö·û´®½áÎ²²»´ø//»ò\
+	// Returns:   std::string è¿”å›åŒ…å«è·¯å¾„çš„æ–‡ä»¶å
+	// Description: ä¸‹è½½æ–‡ä»¶
+	// Parameter: const std::string & fieldName fastdfså¯¹åº”çš„æ–‡ä»¶åï¼ŒåŒ…å«ï¼šç»„å+æ–‡ä»¶å
+	// Parameter: std::string * savePath ä¿å­˜æ–‡ä»¶æ ¹ç›®å½•ï¼Œè¦æ±‚å­—ç¬¦ä¸²ç»“å°¾ä¸å¸¦//æˆ–\
 	//************************************
 	std::string downloadFile(const std::string& fieldName, std::string* savePath);
 
@@ -176,9 +176,9 @@ public:
 	// Method:    deleteFile
 	// FullName:  FastDfsClient::deleteFile
 	// Access:    public 
-	// Returns:   bool É¾³ı³É¹¦·µ»Øtrue
-	// Description: É¾³ıÎÄ¼ş
-	// Parameter: const std::string & fieldName fastdfs¶ÔÓ¦µÄÎÄ¼şÃû£¬°üº¬£º×éÃû+ÎÄ¼şÃû
+	// Returns:   bool åˆ é™¤æˆåŠŸè¿”å›true
+	// Description: åˆ é™¤æ–‡ä»¶
+	// Parameter: const std::string & fieldName fastdfså¯¹åº”çš„æ–‡ä»¶åï¼ŒåŒ…å«ï¼šç»„å+æ–‡ä»¶å
 	//************************************
 	bool deleteFile(const std::string& fieldName);
 };

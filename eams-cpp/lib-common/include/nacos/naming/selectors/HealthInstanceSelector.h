@@ -1,4 +1,4 @@
-#ifndef __HEALTH_INST_SELECTOR_H_
+﻿#ifndef __HEALTH_INST_SELECTOR_H_
 #define __HEALTH_INST_SELECTOR_H_
 
 #include <list>

@@ -1,4 +1,4 @@
-#ifndef CORE_UTILITY_HPP
+﻿#ifndef CORE_UTILITY_HPP
 #define CORE_UTILITY_HPP
 
 #include <functional>

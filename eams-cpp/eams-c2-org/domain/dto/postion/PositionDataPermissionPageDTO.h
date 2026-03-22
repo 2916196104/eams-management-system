@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "../../GlobalInclude.h"
 #include "PositionDataDTO.h"
 #include "DataPermissionItemDTO.h" 
@@ -9,7 +9,7 @@
 
 class PositionDataPermissionPageDTO : public oatpp::DTO {
 	DTO_INIT(PositionDataPermissionPageDTO, DTO);
-	DTO_FIELD(Int64, total);                                    // ×Ü¼ÇÂ¼Êý
+	DTO_FIELD(Int64, total);                                    // æ€»è®°å½•æ•°
 	DTO_FIELD(Vector<oatpp::Object<DataPermissionItemDTO>>, list);
 };
 
