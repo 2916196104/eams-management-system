@@ -165,3 +165,4 @@ if(UNIX)
 endif()
 # 在后面添加你的模块
 add_subdirectory ("eams-c5-stu-mobile")
+add_subdirectory ("ClassDetail")

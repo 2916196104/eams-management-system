@@ -11,6 +11,7 @@
 #include "domain/vo/home/class/ClassStudentVO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
+
 #define API_TAG ZH_WORDS_GETTER("c5.home.class.tag")
 
 
