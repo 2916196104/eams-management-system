@@ -134,6 +134,15 @@ description: 当用户要求在 bug 已经定位并修复后，记录排错经�
 - 验证方式：`Invoke-WebRequest http://localhost:3001/getting-started` 返回的 HTML 中包含 `i-lucide:download`、`i-lucide:rocket`、`i-lucide:life-buoy`、`i-lucide:arrow-left-right` 四个 icon class。
 - 后续约束：MDC 内容文件永远不能被 prettier 格式化；`.prettierignore` 中必须覆盖所有 nuxt content 目录；排查图标消失时，先看 HTML 源码中是否存在 icon 元素，而不是先查图标库配置。
 
+### `packages/vue-element-cui-nuxt` 的 `::demo-playground` 渲染失败事故（MDC 容器语法错误，2026-03）
+
+- 问题现象：多个组件文档页出现 `::demo-playground`、`title:`、`#preview`、`#code` 等原始文本直接渲染；浏览器 console 出现 `Hydration completed but contains mismatches` 与大量 hydration node mismatch 警告。
+- 实际根因：`demo-playground` 容器不是按 MDC 语法书写，典型错误包括：(1) 写成 `## ::demo-playground`（被当成标题）；(2) frontmatter 顺序错误（`title/description` 在前，`---` 在后）；(3) 容器开闭符不匹配。
+- 关键误导点：容易先怀疑 `DemoPlayground` 组件实现或 Nuxt 依赖兼容问题。实际上首个高价值线索是“正文出现 marker 裸文本 + hydration mismatch 同时出现”，应优先回查 markdown 容器语法。
+- 有效修复：将所有示例块统一为 `::demo-playground` + 紧跟 `---` frontmatter + `::` 闭合，并保持 `#preview` 与 `#code` 在容器内部；批量修改后抽样回归多个路由。
+- 验证方式：Chrome MCP 中满足三点即通过：(1) console 无 hydration mismatch 报错；(2) 页面正文不再出现 `::demo-playground/#preview/#code/title:` 裸文本；(3) demo 标题和描述（来自 frontmatter）正常渲染。
+- 后续约束：后续新增 demo 文档时，禁止使用 `## ::demo-playground`；禁止打乱 frontmatter 顺序；批量替换脚本只允许改目标容器片段，必须先抽样再全量，避免误改其他 `:::` 容器。
+
 ### `packages/vue-element-cui-nuxt` 的 Nuxt SSR i18n 版本冲突事故（pnpm 依赖提升）
 
 - 问题现象：`nuxt dev` 启动后所有页面返回 500 错误，错误信息为 `Error: (0, __vite_ssr_import_0__.registerMessageResolver) is not a function`。
