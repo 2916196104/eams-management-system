@@ -27,5 +27,5 @@ fastdfs:
   connection-pool-max-idle: 20
   connection-pool-max-total: 20
   connection-pool-min-idle: 2
-  nginx-servers: 172.24.13.57:8888
-  tracker-servers: 172.24.13.57:22122
+  nginx-servers: 172.23.204.112:8888
+  tracker-servers: 172.23.204.112:22122

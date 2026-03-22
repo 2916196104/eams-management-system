@@ -19,7 +19,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 @EnableSwagger2WebMvc
 public class SwaggerConfig {
     @Bean
-    Docket ClassManagerApi() {
-        return SwaggerCore.defaultDocketBuilder("班级管理模块", "com.zeroone.star.j5.classmanager.controller", "j5-classmanager");
+    Docket CoursePlanApi() {
+        return SwaggerCore.defaultDocketBuilder("班级管理模块", "com.zeroone.star.j5.classmanager", "j5-classmanager");
     }
 }

@@ -1,6 +1,11 @@
 # 工程简介
-API聚合项目，基于Knife4j，聚合项目API访问接口
 
+
+各位组员请注意：
+eams-j5-courseplan 才是课程计划模块，
+eams-j5-courseschedule 才是课程计划模块.
+
+API聚合项目，基于Knife4j，聚合项目API访问接口
 
 # 延伸阅读
 参考链接：

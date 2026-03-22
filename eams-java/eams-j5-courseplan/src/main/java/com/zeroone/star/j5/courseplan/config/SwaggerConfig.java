@@ -20,6 +20,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 public class SwaggerConfig {
     @Bean
     Docket CoursePlanApi() {
-        return SwaggerCore.defaultDocketBuilder("排课计划模块", "com.zeroone.star.j5.courseplan.controller", "j5-courseplan");
+        return SwaggerCore.defaultDocketBuilder("排课计划模块", "com.zeroone.star.j5.courseplan", "j5-courseplan");
     }
 }

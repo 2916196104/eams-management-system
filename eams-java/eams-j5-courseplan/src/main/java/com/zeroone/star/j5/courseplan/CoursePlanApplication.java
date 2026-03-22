@@ -1,7 +1,9 @@
 package com.zeroone.star.j5.courseplan;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * <p>
@@ -13,6 +15,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @version 1.0.0
  */
 @SpringBootApplication
+@MapperScan("com.zeroone.star.j5.courseplan.mapper")
+@ComponentScan(basePackages = {
+    "com.zeroone.star.j5.courseplan",
+    "com.zeroone.star.project"
+})
 public class CoursePlanApplication {
 
     public static void main(String[] args) {
