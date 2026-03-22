@@ -20,6 +20,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 public class SwaggerConfig {
     @Bean
     Docket StudentLeaveApi() {
-        return SwaggerCore.defaultDocketBuilder("学员请假模块", "com.zeroone.star.j5.studentleave.controller", "j5-studentleave");
+        return SwaggerCore.defaultDocketBuilder("学员请假模块", "com.zeroone.star.j5.studentleave.controller", "学员请假模块");
     }
 }
