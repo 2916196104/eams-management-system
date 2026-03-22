@@ -8,6 +8,7 @@
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/query/finishstudent/FinishStudentQuery.h"
 #include "domain/vo/finishstudent/FinishStudentVO.h"
+#include "service/finishstudent/FinishStudentService.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
 using namespace oatpp;
@@ -20,6 +21,7 @@ class FinishStudentController : public oatpp::web::server::api::ApiController
 	API_ACCESS_DECLARE(FinishStudentController);
 private:
 	//FinishStudentService m_finishStudentService;
+	FinishStudentService m_finishStudentService;
 public:
 	// 导出接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("finishstudent.interface.export-finish-student"), exportFinishStudent, Void, API_TAG);

@@ -8,7 +8,7 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * 家长账号DTO
+ * �ҳ��˺�DTO
  */
 class ParentAccountDTO : public oatpp::DTO
 {

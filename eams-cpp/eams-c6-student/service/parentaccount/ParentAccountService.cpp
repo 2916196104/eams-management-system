@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "ParentAccountService.h"
 
 ParentAccountPageDTO ParentAccountService::listParentAccount(const ParentAccountQuery::Wrapper& query)
@@ -11,5 +11,6 @@ ParentAccountPageDTO ParentAccountService::listParentAccount(const ParentAccount
 	if (count == 0) {
 		return pages;
 	}
+
 	return pages;
 }

@@ -15,7 +15,7 @@ using namespace oatpp;
 #define API_TAG ZH_WORDS_GETTER("parentaccount.api-tag")
 
 /**
- * å®¶é•¿è´¦å·æ§åˆ¶å™¨
+ * ¼Ò³¤ÕËºÅ¿ØÖÆÆ÷
  */
 class ParentAccountController : public oatpp::web::server::api::ApiController
 {
@@ -23,9 +23,9 @@ class ParentAccountController : public oatpp::web::server::api::ApiController
 private:
 	ParentAccountService m_parentAccountService;
 public:
-	// åˆ†é¡µæŸ¥è¯¢æ¥å£æè¿°
+	// ·ÖÒ³²éÑ¯½Ó¿ÚÃèÊö
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("parentaccount.interface.query-parent-account"), queryParentAccount, ParentAccountQuery, ParentAccountPageJsonVO::Wrapper, API_TAG);
-	// åˆ†é¡µæŸ¥è¯¢æ¥å£å¤„ç†
+	// ·ÖÒ³²éÑ¯½Ó¿Ú´¦Àí
 	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c6/parent-account/query", queryParentAccount, ParentAccountQuery, execQueryParentAccount(query));
 
 	ENDPOINT_INFO(parentAccountChange) {
