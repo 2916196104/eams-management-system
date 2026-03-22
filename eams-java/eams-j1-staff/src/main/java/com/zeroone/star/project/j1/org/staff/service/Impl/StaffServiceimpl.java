@@ -7,9 +7,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.zeroone.star.project.DO.StaffDO;
-import com.zeroone.star.project.DO.StaffOrginfoDO;
-import com.zeroone.star.project.DO.StaffPositionDO;
+import com.zeroone.star.project.DO.Staff;
+import com.zeroone.star.project.DO.StaffOrginfo;
+import com.zeroone.star.project.DO.StaffPosition;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j1.org.StaffDTO;
 import com.zeroone.star.project.dto.j1.org.StaffSetDTO;
@@ -26,12 +26,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class StaffServiceimpl extends ServiceImpl<StaffMapper, StaffDO> implements StaffService {
+public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements StaffService {
     // 新增注入关联表Mapper
     @Autowired
     private StaffOrginfoMapper staffOrginfoMapper;
@@ -45,42 +44,42 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, StaffDO> implemen
         PageHelper.startPage((int)pageNo,(int)pageSize);
 
         // 【改动1】迁移Mapper的wrapper到Service层
-        LambdaQueryWrapper<StaffDO> queryWrapper = new LambdaQueryWrapper<>();
+        LambdaQueryWrapper<Staff> queryWrapper = new LambdaQueryWrapper<>();
         if (condition.getName() != null && !condition.getName().isEmpty()) {
-            queryWrapper.like(StaffDO::getName, condition.getName());
+            queryWrapper.like(Staff::getName, condition.getName());
         }
         if (condition.getId() != null) {
-            queryWrapper.eq(StaffDO::getId, condition.getId());
+            queryWrapper.eq(Staff::getId, condition.getId());
         }
         if (condition.getAccount() != null) {
-            queryWrapper.eq(StaffDO::getMobile, condition.getAccount());
+            queryWrapper.eq(Staff::getMobile, condition.getAccount());
         }
         if (condition.getStatue() != null) {
-            queryWrapper.eq(StaffDO::getState, condition.getStatue());
+            queryWrapper.eq(Staff::getState, condition.getStatue());
         }
-        queryWrapper.eq(StaffDO::getDeleted, 0);
-        List<StaffDO> staff = staffMapper.selectList(queryWrapper); // 改用MP原生方法
+        queryWrapper.eq(Staff::getDeleted, 0);
+        List<Staff> staff = staffMapper.selectList(queryWrapper); // 改用MP原生方法
 
-        PageInfo<StaffDO> pageInfo = new PageInfo<>(staff);
+        PageInfo<Staff> pageInfo = new PageInfo<>(staff);
 
-        // 【改动2】分页列表关联机构/职位表，补充职位名称
+        // 分页列表关联机构/职位表，补充职位名称
         List<StaffVO> voList = staff.stream()
                 .map(staffDO -> {
                     StaffVO staffVO = new StaffVO();
                     BeanUtils.copyProperties(staffDO, staffVO);
 
                     // 新增：查机构表
-                    StaffOrginfoDO orgInfoDO = staffOrginfoMapper.selectOne(
-                            Wrappers.lambdaQuery(StaffOrginfoDO.class)
-                                    .eq(StaffOrginfoDO::getStaffId, staffDO.getId())
-                                    .eq(StaffOrginfoDO::getDeleted, 0)
+                    StaffOrginfo orgInfoDO = staffOrginfoMapper.selectOne(
+                            Wrappers.lambdaQuery(StaffOrginfo.class)
+                                    .eq(StaffOrginfo::getStaffId, staffDO.getId())
+                                    .eq(StaffOrginfo::getDeleted, 0)
                     );
                     if (orgInfoDO != null) {
                         staffVO.setOrgId(orgInfoDO.getOrgId());
                         staffVO.setPositionId(orgInfoDO.getPositionId());
                         // 新增：查职位名称
                         if (orgInfoDO.getPositionId() != null) {
-                            StaffPositionDO positionDO = staffPositionMapper.selectById(orgInfoDO.getPositionId());
+                            StaffPosition positionDO = staffPositionMapper.selectById(orgInfoDO.getPositionId());
                             if (positionDO != null) {
                                 staffVO.setPositionName(positionDO.getName()); // 补充职位名称
                             }
@@ -107,24 +106,24 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, StaffDO> implemen
             return JsonVO.fail("员工ID不能为空");
         }
 
-        // 【改动1】迁移Mapper的wrapper到Service层
-        LambdaQueryWrapper<StaffDO> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(StaffDO::getId, condition.getId())
-                .eq(StaffDO::getDeleted, 0);
-        StaffDO staffDO = staffMapper.selectOne(queryWrapper); // 改用MP原生方法
+        // 迁移Mapper的wrapper到Service层
+        LambdaQueryWrapper<Staff> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Staff::getId, condition.getId())
+                .eq(Staff::getDeleted, 0);
+        Staff staff = staffMapper.selectOne(queryWrapper); // 改用MP原生方法
 
-        if (staffDO == null) {
+        if (staff == null) {
             return JsonVO.fail("员工不存在");
         }
 
         StaffDetailsVO staffVO = new StaffDetailsVO();
-        BeanUtils.copyProperties(staffDO, staffVO);
+        BeanUtils.copyProperties(staff, staffVO);
 
         // 【改动2】关联机构表+职位表，补充完整信息
-        StaffOrginfoDO orgInfoDO = staffOrginfoMapper.selectOne(
-                Wrappers.lambdaQuery(StaffOrginfoDO.class)
-                        .eq(StaffOrginfoDO::getStaffId, staffDO.getId())
-                        .eq(StaffOrginfoDO::getDeleted, 0)
+        StaffOrginfo orgInfoDO = staffOrginfoMapper.selectOne(
+                Wrappers.lambdaQuery(StaffOrginfo.class)
+                        .eq(StaffOrginfo::getStaffId, staff.getId())
+                        .eq(StaffOrginfo::getDeleted, 0)
         );
         if (orgInfoDO != null) {
             // 补充机构表字段
@@ -136,7 +135,7 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, StaffDO> implemen
 
             // 补充职位名称
             if (orgInfoDO.getPositionId() != null) {
-                StaffPositionDO positionDO = staffPositionMapper.selectById(orgInfoDO.getPositionId());
+                StaffPosition positionDO = staffPositionMapper.selectById(orgInfoDO.getPositionId());
                 if (positionDO != null) {
                     staffVO.setPositionName(positionDO.getName());
                 }
@@ -162,16 +161,16 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, StaffDO> implemen
             return JsonVO.fail("性别不能为空");
         }
 
-        // 【新增1】校验职位ID合法性（如果传了职位ID）
+        // 校验职位ID合法性（如果传了职位ID）
         if (condition.getPositionId() != null) {
-            StaffPositionDO positionDO = staffPositionMapper.selectById(condition.getPositionId());
+            StaffPosition positionDO = staffPositionMapper.selectById(condition.getPositionId());
             if (positionDO == null) {
                 return JsonVO.fail("职位ID不存在，请选择合法职位");
             }
         }
 
-        // 【改动1】迁移Mapper的保存逻辑到Service层
-        StaffDO staff = new StaffDO();
+        // 迁移Mapper的保存逻辑到Service层
+        Staff staff = new Staff();
         BeanUtils.copyProperties(condition, staff);
         Long staffId;
         if (condition.getId() == null) {
@@ -179,23 +178,22 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, StaffDO> implemen
             this.staffMapper.insert(staff);
             staffId = staff.getId();
 
-            // 【新增2】同步新增机构表
-            StaffOrginfoDO orgInfoDO = new StaffOrginfoDO();
+            // 同步新增机构表
+            StaffOrginfo orgInfoDO = new StaffOrginfo();
             orgInfoDO.setStaffId(staffId);
             orgInfoDO.setOrgId(condition.getOrgId());
-            orgInfoDO.setGroupId(condition.getGroupId()); // 如果DTO有该字段
-            orgInfoDO.setComId(condition.getComId());     // 如果DTO有该字段
-            orgInfoDO.setDptId(condition.getDptId());     // 如果DTO有该字段
+            orgInfoDO.setGroupId(condition.getGroupId());
+            orgInfoDO.setComId(condition.getComId());
+            orgInfoDO.setDptId(condition.getDptId());
             orgInfoDO.setPositionId(condition.getPositionId());
-            orgInfoDO.setDeleted(0); // 未删除
+            orgInfoDO.setDeleted(0);
             staffOrginfoMapper.insert(orgInfoDO);
         } else {
             // 修改员工
             this.staffMapper.updateById(staff);
             staffId = staff.getId();
-
-            // 【新增3】同步更新机构表
-            StaffOrginfoDO orgInfoDO = new StaffOrginfoDO();
+            // 同步更新机构表
+            StaffOrginfo orgInfoDO = new StaffOrginfo();
             orgInfoDO.setStaffId(staffId);
             orgInfoDO.setOrgId(condition.getOrgId());
             orgInfoDO.setPositionId(condition.getPositionId());
@@ -203,8 +201,8 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, StaffDO> implemen
             orgInfoDO.setComId(condition.getComId());
             orgInfoDO.setDptId(condition.getDptId());
 
-            LambdaUpdateWrapper<StaffOrginfoDO> updateWrapper = new LambdaUpdateWrapper<>();
-            updateWrapper.eq(StaffOrginfoDO::getStaffId, staffId);
+            LambdaUpdateWrapper<StaffOrginfo> updateWrapper = new LambdaUpdateWrapper<>();
+            updateWrapper.eq(StaffOrginfo::getStaffId, staffId);
             staffOrginfoMapper.update(orgInfoDO, updateWrapper);
         }
 
@@ -217,17 +215,17 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, StaffDO> implemen
         }
 
         // 1. 逻辑删除员工主表
-        StaffDO staffDO = new StaffDO();
-        staffDO.setDeleted(1);
-        LambdaUpdateWrapper<StaffDO> staffWrapper = Wrappers.lambdaUpdate();
-        staffWrapper.in(StaffDO::getId, ids);
-        int staffDeleteCount = staffMapper.update(staffDO, staffWrapper);
+        Staff staff = new Staff();
+        staff.setDeleted(1);
+        LambdaUpdateWrapper<Staff> staffWrapper = Wrappers.lambdaUpdate();
+        staffWrapper.in(Staff::getId, ids);
+        int staffDeleteCount = staffMapper.update(staff, staffWrapper);
 
         // 2. 同步逻辑删除员工机构表
-        StaffOrginfoDO orgInfoDO = new StaffOrginfoDO();
+        StaffOrginfo orgInfoDO = new StaffOrginfo();
         orgInfoDO.setDeleted(1);
-        LambdaUpdateWrapper<StaffOrginfoDO> orgWrapper = Wrappers.lambdaUpdate();
-        orgWrapper.in(StaffOrginfoDO::getStaffId, ids);
+        LambdaUpdateWrapper<StaffOrginfo> orgWrapper = Wrappers.lambdaUpdate();
+        orgWrapper.in(StaffOrginfo::getStaffId, ids);
         staffOrginfoMapper.update(orgInfoDO, orgWrapper);
 
         if (staffDeleteCount == 0) {
@@ -238,7 +236,7 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, StaffDO> implemen
 
     @Override
     public JsonVO<Long> updateStaffStatus(StaffUpdateDTO condition) {
-        StaffDO staff = new StaffDO();
+        Staff staff = new Staff();
         List<Long> ids = condition.getIds();
         Integer status = condition.getStatus();
         if (ids == null || ids.isEmpty()) {
@@ -248,10 +246,10 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, StaffDO> implemen
             return JsonVO.fail("状态值不合法，只能是 0(离职) 或 1(在职)");
         }
 
-        LambdaUpdateWrapper<StaffDO> wrapper = Wrappers.lambdaUpdate();
-        wrapper.in(StaffDO::getId, ids)
-                .set(StaffDO::getState, status);
-        int updateCount = staffMapper.update(new StaffDO(), wrapper);
+        LambdaUpdateWrapper<Staff> wrapper = Wrappers.lambdaUpdate();
+        wrapper.in(Staff::getId, ids)
+                .set(Staff::getState, status);
+        int updateCount = staffMapper.update(new Staff(), wrapper);
 
         if (updateCount == 0) {
             return JsonVO.fail("更新失败：所选员工不存在或状态无需变更");
@@ -277,11 +275,11 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, StaffDO> implemen
         }
 
         // 2. 批量更新员工机构表的 positionId
-        StaffOrginfoDO orgInfoDO = new StaffOrginfoDO();
+        StaffOrginfo orgInfoDO = new StaffOrginfo();
         orgInfoDO.setPositionId(positionId); // 设置目标职位
 
-        LambdaUpdateWrapper<StaffOrginfoDO> wrapper = Wrappers.lambdaUpdate();
-        wrapper.in(StaffOrginfoDO::getStaffId, staffIds); // 批量匹配员工ID
+        LambdaUpdateWrapper<StaffOrginfo> wrapper = Wrappers.lambdaUpdate();
+        wrapper.in(StaffOrginfo::getStaffId, staffIds); // 批量匹配员工ID
 
         int updateCount = staffOrginfoMapper.update(orgInfoDO, wrapper);
 

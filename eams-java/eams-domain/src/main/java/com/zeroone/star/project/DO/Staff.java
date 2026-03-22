@@ -17,7 +17,7 @@ import org.hibernate.validator.constraints.Length;
 * @TableName staff
 */
 @Data
-public class StaffDO implements Serializable {
+public class Staff implements Serializable {
     /**
      *
      */

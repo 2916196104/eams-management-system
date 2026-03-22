@@ -1,6 +1,5 @@
 package com.zeroone.star.project.DO;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
 
@@ -16,7 +15,7 @@ import org.hibernate.validator.constraints.Length;
 * @TableName staff_orginfo
 */
 @Data
-public class StaffOrginfoDO implements Serializable {
+public class StaffOrginfo implements Serializable {
 
     /**
      * 主键
