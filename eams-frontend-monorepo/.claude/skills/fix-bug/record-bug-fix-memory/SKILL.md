@@ -435,7 +435,7 @@ description: 当用户要求在 bug 已经定位并修复后，记录排错经�
 
 **范围**：`eams-frontend-monorepo/scripts`  
 **时间**：2026-03  
-**关键词**：UTF-8 BOM、管道误用、git 钩子、`stderr`、`$LASTEXITCODE`
+**关键词**：UTF-8 BOM、管道误用、git 钩子、`stderr`、`$LASTEXITCODE`、`--no-ff`
 
 #### 问题现象
 
@@ -453,6 +453,11 @@ description: 当用户要求在 bug 已经定位并修复后，记录排错经�
 
 - 误以为「合并成功却未推远程」；需与产品对齐：末尾一次 `push` 还是每步 `push`。
 
+**历史图异常膨胀**
+
+- 批量合并脚本长期使用 `git merge --no-ff`，即使能快进也会强制新增合并节点。
+- 结果是分支图出现大量额外 merge commit，阅读和追溯变困难，且掩盖真实冲突点。
+
 #### 实际根因
 
 **编码与 PS5**
@@ -468,6 +473,11 @@ description: 当用户要求在 bug 已经定位并修复后，记录排错经�
 **管道与退出码**
 
 - **`$LASTEXITCODE`** 在管道后不能可靠代表 `git merge` 本身，与 `git push` 同理。
+
+**合并策略配置不当**
+
+- 在批量同步场景默认启用 `--no-ff`，属于策略滥用。
+- 该配置把「保留显式 merge 节点」从例外变成常态，导致提交图噪音过高。
 
 #### 关键误导点
 
@@ -491,6 +501,11 @@ description: 当用户要求在 bug 已经定位并修复后，记录排错经�
 - 若要求远程 **每步** 可见：在 `merge-all-branches-to-f1.ps1` 里**每次**合并成功后执行 `git push origin f1`。
 - 与 `merge-f1-to-all-branches.ps1`「每子分支合并后即 push」的策略对齐。
 
+**合并策略回归默认**
+
+- 从脚本中移除 `--no-ff`，恢复 `git merge --no-edit` 默认行为。
+- 让 Git 在可快进时直接快进，只有确实分叉时才产生合并节点。
+
 #### 验证方式
 
 - `Parser::ParseFile` 对 `.ps1` 无语法错误。
@@ -505,6 +520,7 @@ description: 当用户要求在 bug 已经定位并修复后，记录排错经�
 - 本仓库 **PowerShell + git** 自动化默认 **UTF-8 BOM**。
 - **禁止**对 `git merge` / `git push` 使用 `2>&1 |` 管道；与脚本内「push 无管道」注释一致。
 - 排错时若见钩子相关 `stderr` 文案，优先怀疑 **Stop + 管道**，而非真实合并失败。
+- 批量同步脚本默认使用普通 merge 行为，**禁止滥用 `--no-ff`**；若业务明确要求「绝不新增合并节点」，应改为 `--ff-only` 并接受失败即中止。
 
 **经验落点**
 
