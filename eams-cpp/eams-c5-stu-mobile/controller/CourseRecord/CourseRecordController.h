@@ -1,5 +1,4 @@
 #pragma once
-#include <oatpp-swagger/model.hpp>
 #ifndef COURSERECORDCONTROLLER_H
 #define COURSERECORDCONTROLLER_H
 
@@ -7,37 +6,42 @@
 #include "ServerInfo.h"
 #include "Macros.h"
 #include "domain/vo/BaseJsonVO.h"
-#include "domain/query/PageQuery.h"
+#include "domain/vo/CourseRecord/CourseRecordVO.h"
+#include "domain/query/CourseRecord/CourseRecordQuery.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
-/*
-	…œøŒº«¬ºøÿ÷∆∆˜
-*/
-class CourseRecordController : public oatpp::web::server::api::ApiController {
-	// ∂®“Âøÿ÷∆∆˜∑√Œ »Îø⁄
+#define API_TAG ZH_WORDS_GETTER("CourseRecord.tag")
+
+/**
+ * ‰∏äËØæËÆ∞ÂΩïÊéßÂà∂Âô®
+ */
+class CourseRecordController : public oatpp::web::server::api::ApiController
+{
 	API_ACCESS_DECLARE(CourseRecordController);
-public:// ∂®“ÂΩ”ø⁄
-	ENDPOINT_INFO(CourseRecord) {
-		info->summary = ZH_WORDS_GETTER("CourseRecord.summary");
-		//÷ß≥÷ ⁄»®
+public:
+	// Êü•ËØ¢‰∏äËØæËÆ∞ÂΩïÊé•Âè£ÊèèËø∞
+	ENDPOINT_INFO(queryCourseRecord) {
+		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("CourseRecord.summary"));
 		API_DEF_ADD_AUTH();
-
-		API_DEF_ADD_RSP_JSON(StringJsonVO::Wrapper);
+		API_DEF_ADD_TAG(API_TAG);
+		API_DEF_ADD_RSP_JSON_WRAPPER(CourseRecordPageJsonVO);
 		API_DEF_ADD_PAGE_PARAMS();
+		API_DEF_ADD_QUERY_PARAMS(UInt64, "student_id", ZH_WORDS_GETTER("CourseRecord.field.student_id"), 1, false);
+		API_DEF_ADD_QUERY_PARAMS(UInt64, "course_id", ZH_WORDS_GETTER("CourseRecord.field.course_id"), 1, false);
+	}
+	// Êü•ËØ¢‰∏äËØæËÆ∞ÂΩïÊé•Âè£Â§ÑÁêÜ
+	ENDPOINT(API_M_GET, "/course-record", queryCourseRecord, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
+		API_HANDLER_QUERY_PARAM(query, CourseRecordQuery, queryParams);
+		API_HANDLER_RESP_VO(execQueryCourseRecord(query));
 	}
 
-	ENDPOINT(API_M_GET, "/CourseRecord", CourseRecord, QUERIES(QueryParams,params), API_HANDLER_AUTH_PARAME){
-		// Ω‚Œˆ≤È—Ø≤Œ ˝
-		API_HANDLER_QUERY_PARAM(query, PageQuery, params);
-		// œÏ”¶Ω·π˚
-		API_HANDLER_RESP_VO(ExecuteCourseTest(query));
-		return createResponse(Status::CODE_200, "Hello World!");
-	}
-private:// ∂®“ÂΩ”ø⁄÷¥––∫Ø ˝
-	StringJsonVO::Wrapper ExecuteCourseTest(const PageQuery::Wrapper& query);
+private:
+	CourseRecordPageJsonVO::Wrapper execQueryCourseRecord(const CourseRecordQuery::Wrapper& query);
 };
+
+#undef API_TAG
 
 #include OATPP_CODEGEN_END(ApiController)
 
-#endif
+#endif // !COURSERECORDCONTROLLER_H

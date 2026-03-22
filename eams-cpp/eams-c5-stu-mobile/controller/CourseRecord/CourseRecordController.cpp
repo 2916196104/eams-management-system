@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include "CourseRecordController.h"
+#include "../../service/CourseRecord/CourseRecordService.h"
 
-StringJsonVO::Wrapper CourseRecordController::ExecuteCourseTest(const PageQuery::Wrapper& query) {
-	// 创建一个响应结果
-	auto vo = StringJsonVO::createShared();
-	vo->success(ZH_WORDS_GETTER("CourseRecord.resp"));
-	return vo;
+CourseRecordPageJsonVO::Wrapper CourseRecordController::execQueryCourseRecord(const CourseRecordQuery::Wrapper& query)
+{
+	auto result = CourseRecordService().listAll(query);
+	auto jvo = CourseRecordPageJsonVO::createShared();
+	jvo->success(result);
+	return jvo;
 }

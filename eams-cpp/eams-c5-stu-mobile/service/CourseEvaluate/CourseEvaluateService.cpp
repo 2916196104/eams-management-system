@@ -61,7 +61,7 @@ uint64_t CourseEvaluateService::saveData(const CourseEvaluateDTO::Wrapper& dto)
 	data.setAddTime(SimpleDateTimeFormat::format());
 	// 设置创建人
 	if (dto->getPayload())
-		data.setCreator(dto->getPayload()->getId());
+		data.setCreator(stoull(dto->getPayload()->getId()));
 	// 执行数据添加
 	CourseEvaluateDAO dao;
 	return dao.insert(data);

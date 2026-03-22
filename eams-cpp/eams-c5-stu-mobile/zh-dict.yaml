@@ -1,5 +1,6 @@
 ﻿CourseRecord:
  summary: 获取上课记录
+ tag: 上课记录
  resp: 操作成功
  field:
   id: 课节ID
@@ -33,12 +34,14 @@
 
 CourseEvaluate:
  summary: 评价课程
+ tag: 课程评价
+ get-summary: 获取课程评价列表
+ post-summary: 提交课程评价
  resp: 操作成功
  field:
   id: 评价ID
   student_id: 学生ID
   course_id: 课程ID
-  student_id: 学生ID
   order_id: 订单ID
   content: 评价内容
   score: 打分（1-5分）

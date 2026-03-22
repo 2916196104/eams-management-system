@@ -1,10 +1,10 @@
-#pragma once
+﻿#pragma once
 #ifndef _COURSE_EVALUATE_DO_H_
 #define _COURSE_EVALUATE_DO_H_
 
 #include "DoInclude.h"
 
-Class CourseEvaluateDO : public BaseDO{
+class CourseEvaluateDO : public BaseDO{
 	MYSQL_SYNTHESIZE(uint64_t, id, Id);
 //	所属课程
 MYSQL_SYNTHESIZE(uint64_t, courseId, CourseId);
@@ -33,7 +33,7 @@ MYSQL_SYNTHESIZE(string, courseName, CourseName);
 
 
 public:
-	CourseEvaluateDO() : BaseDO("course comment") {
+	CourseEvaluateDO() : BaseDO("course_comment") {
 		MYSQL_ADD_FIELD_PK("id", "bi", id);
 		MYSQL_ADD_FIELD("course_id", "bi", courseId);
 		MYSQL_ADD_FIELD("student_id", "bi", studentId);
@@ -48,7 +48,7 @@ public:
 		MYSQL_ADD_FIELD("deleted", "i", deleted);
 	}
 };
-typefdef std::shared_ptr<CourseEvaluateDO> PtrCourseEvaluateDO;
+typedef std::shared_ptr<CourseEvaluateDO> PtrCourseEvaluateDO;
 
 
 #endif // !_COURSE_EVALUATE_DO_H_
