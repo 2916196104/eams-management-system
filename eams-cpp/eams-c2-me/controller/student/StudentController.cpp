@@ -1,8 +1,18 @@
 #include "stdafx.h"
 #include "StudentController.h"
+#include "service/Student/StudentService.h"
 
-
-StringJsonVO::Wrapper StudentController::executeRemoveUser(const List<String>& ids)
+JsonVO<oatpp::Any>::Wrapper StudentController::executeRemoveUser(const IdQuery::Wrapper& query)
 {
-	return StringJsonVO::createShared();
+    //只需要返回状态就行
+    auto vo = JsonVO<oatpp::Any>::createShared();
+    StudentService serv;
+    //获取query中的id参数给serv，调用service的deleteStudent方法
+    bool ok = serv.deleteStudent(query->id.getValue(0));
+    if (ok)
+        vo->success(nullptr);
+    else
+        vo->fail(nullptr);
+    //根据逻辑值响应前端
+    return vo;
 }
