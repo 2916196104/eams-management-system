@@ -32,7 +32,7 @@
 #include OATPP_CODEGEN_BEGIN(ApiController)
 //课表模块控制器
 //定义接口分类标签，通过语言包宏获取
-#define SCHEDULE_TAG ZH_WORDS_GETTER("schedule.tag")
+#define API_TAG ZH_WORDS_GETTER("schedule.tag")
 class ScheduleController : public oatpp::web::server::api::ApiController
 {
     // 定义控制器访问入口
@@ -46,7 +46,7 @@ public:
         ZH_WORDS_GETTER("schedule.appointment.summary"),      // 接口标题
         addAppointment,                                      // 端点函数名
         StringJsonVO::Wrapper,                               // 响应数据类型
-        SCHEDULE_TAG                                              // Swagger 标签
+        API_TAG                                              // Swagger 标签
     );
     // 3.2 定义新增预约接口处理
     API_HANDLER_ENDPOINT_AUTH(
@@ -64,7 +64,7 @@ public:
         ZH_WORDS_GETTER("schedule.leave.summary"),
         addLeave,
         StringJsonVO::Wrapper,
-        SCHEDULE_TAG
+        API_TAG
     );
     // 3.2 定义新增请假接口处理
     API_HANDLER_ENDPOINT_AUTH(
