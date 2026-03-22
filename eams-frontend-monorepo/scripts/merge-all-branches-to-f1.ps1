@@ -32,19 +32,29 @@ if ($f1LocalExists) {
 
 $successList = [System.Collections.Generic.List[string]]::new()
 $failList    = [System.Collections.Generic.List[string]]::new()
-$f1PushFailed = $false
 
 foreach ($branch in $remoteBranches) {
     Write-Host "`n=======================================" -ForegroundColor DarkGray
     Write-Host "合并：$branch -> f1" -ForegroundColor Green
 
+    $mergeSucceeded = $false
+
     try {
-        # 确保远程子分支是最新的，使用 origin/<branch> 而非本地跟踪分支
         Write-Host "  正在合并 origin/$branch ..." -ForegroundColor Gray
         git merge "origin/$branch" --no-edit --no-ff 2>&1 | ForEach-Object { Write-Host "  $_" -ForegroundColor Gray }
 
         if ($LASTEXITCODE -ne 0) {
             throw "合并退出码 $LASTEXITCODE"
+        }
+
+        $mergeSucceeded = $true
+
+        # 每次合并成功后立即推送 f1（不使用管道，以便 $LASTEXITCODE 反映 git push 的真实结果）
+        Write-Host "  正在推送 f1 到远程..." -ForegroundColor Gray
+        git push origin f1
+
+        if ($LASTEXITCODE -ne 0) {
+            throw "推送失败，退出码 $LASTEXITCODE"
         }
 
         $successList.Add($branch)
@@ -53,18 +63,12 @@ foreach ($branch in $remoteBranches) {
         $failList.Add($branch)
         Write-Host "  冲突或失败：$_" -ForegroundColor Red
 
-        Write-Host "  正在中止合并..." -ForegroundColor Yellow
-        git merge --abort 2>$null
-    }
-}
-
-# 有成功合并时才推送 f1（不使用管道，以便 $LASTEXITCODE 反映 git push 的真实结果）
-if ($successList.Count -gt 0) {
-    Write-Host "`n正在推送 f1 到远程..." -ForegroundColor Cyan
-    git push origin f1
-    if ($LASTEXITCODE -ne 0) {
-        $f1PushFailed = $true
-        Write-Host "推送失败（退出码 $LASTEXITCODE）。本地 f1 已包含上述合并，请稍后手动执行：git push origin f1" -ForegroundColor Red
+        if ($mergeSucceeded) {
+            Write-Host "  说明：合并已在本地完成，但推送失败。可稍后执行：git push origin f1" -ForegroundColor Yellow
+        } else {
+            Write-Host "  正在中止合并..." -ForegroundColor Yellow
+            git merge --abort 2>$null
+        }
     }
 }
 
@@ -82,13 +86,9 @@ if ($successList.Count -gt 0) {
 if ($failList.Count -gt 0) {
     Write-Host "合并冲突或失败（共 $($failList.Count) 个）：" -ForegroundColor Red
     $failList | ForEach-Object { Write-Host "  [失败] $_" -ForegroundColor Red }
-    Write-Host "`n说明：上述分支因冲突等原因未合并，请手动处理后再合并。" -ForegroundColor Yellow
+    Write-Host "`n说明：失败分支可能因合并冲突被中止；若提示推送失败，请手动执行 git push origin f1。" -ForegroundColor Yellow
 } elseif ($remoteBranches.Count -eq 0) {
     Write-Host "未找到匹配的 origin/f1-* 子分支，未执行合并。" -ForegroundColor Yellow
-} elseif (-not $f1PushFailed) {
-    Write-Host "全部子分支均已成功合并到 f1。" -ForegroundColor Green
-}
-
-if ($f1PushFailed) {
-    Write-Host "`n说明：f1 推送未成功，远程可能仍落后于本地；处理网络/权限等问题后请执行 git push origin f1。" -ForegroundColor Yellow
+} else {
+    Write-Host "全部子分支均已成功合并到 f1 并推送。" -ForegroundColor Green
 }
