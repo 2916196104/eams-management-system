@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef _CLASS_STUDENT_VO_
-#define _CLASS_STUDENT_VO_
+#ifndef _CLASSDETAILVO_
+#define _CLASSDETAILVO_
 
 #include "../../../GlobalInclude.h"
 // 替换为适配class表的DTO头文件

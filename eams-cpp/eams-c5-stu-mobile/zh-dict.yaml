@@ -37,6 +37,43 @@
           counselor: 学生的顾问
     class:
       tag: 班级
+      ClassDetail:
+       id: 班级ID
+       summary: 获取班级详情
+       field:
+          id: 主键ID
+          name: 班级名称
+          course_id: 课程id
+          course_name: 课程名称
+          subject_id: 科目id
+          subject_name: 科目名称
+          teacher_id: 班主任id
+          teacher_name: 班主任姓名
+          student_count: 学员人数
+          start_date: 开始日期
+          expire_date: 过期日期
+          remark: 备注信息
+          creator: 创建人
+          editor: 编辑人
+          add_time: 添加时间
+          edit_time: 编辑时间
+          deleted: 删除标记
+          org_id: 创建者所属组织ID
+      ClassList:
+       id: 学生查询ID
+       summary: 获取班级列表
+       field:
+          id: 主键ID
+          name: 班级名称
+          course_id: 课程id
+          course_name: 课程名称
+          subject_id: 科目id
+          subject_name: 科目名称
+          teacher_id: 班主任id
+          teacher_name: 班主任姓名
+          student_count: 学员人数
+          start_date: 开始日期
+          expire_date: 过期日期
       classstudent:
         tag: 班级学员
         query-all:

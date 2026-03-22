@@ -1,6 +1,6 @@
 #pragma once
-#ifndef _CLASSDETAILCONTROLLER_H_
-#define _CLASSDETAILCONTROLLER_H_
+#ifndef _CLASSLISTCONTROLLER_H_
+#define _CLASSLISTCONTROLLER_H_
 
 
 #include "ApiHelper.h"
@@ -17,7 +17,7 @@
 // 0 定义API控制器使用宏
 #include OATPP_CODEGEN_BEGIN(ApiController) //<- Begin Codegen
 
-#define API_TAG ZH_WORDS_GETTER("ClassList.tag")
+#define API_TAG ZH_WORDS_GETTER("c5.home.class.tag")
 
 
 class ClassListController : public oatpp::web::server::api::ApiController // 1 继承控制器
@@ -29,8 +29,8 @@ public:
 
 	// 3.1 定义ID查询接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(
-		ZH_WORDS_GETTER("ClassList.summary"), GetClassDetailById, ClassListJsonVO::Wrapper, API_TAG,
-		API_DEF_ADD_QUERY_PARAMS(String, "id", ZH_WORDS_GETTER("ClassList.id"), "d934050a8bb373e8f8eed0bf7507ec17", true);
+		ZH_WORDS_GETTER("c5.home.class.ClassList.summary"), GetClassDetailById, ClassListJsonVO::Wrapper, API_TAG,
+		API_DEF_ADD_QUERY_PARAMS(String, "id", ZH_WORDS_GETTER("c5.home.class.ClassList.id"), "d934050a8bb373e8f8eed0bf7507ec17", true);
 	);
 	// 3.2 定义ID查询接口处理
 	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/home/class/classlist", GetClassDetailById, QUERY(String, id), execQueryById(id));
