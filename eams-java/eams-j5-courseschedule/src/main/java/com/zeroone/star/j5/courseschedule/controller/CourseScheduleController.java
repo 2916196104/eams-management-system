@@ -17,7 +17,8 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
-@RestController("j5/courseschedule")
+@RestController
+@RequestMapping("/j5/courseschedule")
 @Api(tags="课程表")
 public class CourseScheduleController implements CourseScheduleApis {
 
@@ -94,17 +95,14 @@ public class CourseScheduleController implements CourseScheduleApis {
     @ApiOperation("分页查询学员上课状态列表")
     @Override
     public JsonVO<PageDTO<Map<String, Object>>> queryStudentsStatusList(StudentStatusQuery studentStatusQuery) {
-        return JsonVO.success(lessonStudentService.queryStatusList(
-                studentStatusQuery.getKeyword(),
-                studentStatusQuery.getStatus(),
-                studentStatusQuery));
+        return JsonVO.success(lessonStudentService.queryStatusList(studentStatusQuery));
     }
 
 
     @PostMapping("batch-set-status")
     @ApiOperation("设置学员上课状态")
     @Override
-    public JsonVO<Integer> batchSetStatus(SetStudentsStatusDTO setStudentsStatusDTO) {
+    public JsonVO<Integer> batchSetStatus(@RequestBody SetStudentsStatusDTO setStudentsStatusDTO) {
         return JsonVO.success(lessonStudentService.batchSetStatus(
                 setStudentsStatusDTO.getLessonStudentIds(),
                 setStudentsStatusDTO.getStatus()));
@@ -113,7 +111,7 @@ public class CourseScheduleController implements CourseScheduleApis {
     @PostMapping("batch-restore")
     @ApiOperation("批量还原课程进度")
     @Override
-    public JsonVO<Integer> batchRestore(RollBackDTO rollBackDTO) {
+    public JsonVO<Integer> batchRestore(@RequestBody RollBackDTO rollBackDTO) {
         return JsonVO.success(lessonStudentService.rollbackCourseNum(
                 rollBackDTO.getLessonStudentIds()));
     }
@@ -122,7 +120,7 @@ public class CourseScheduleController implements CourseScheduleApis {
     @PutMapping("resume")
     @ApiOperation("停/复课")
     @Override
-    public JsonVO<Integer> resumeLesson(CoursePauseResumeDTO coursePauseResumeDTO) {
+    public JsonVO<Integer> resumeLesson(@RequestBody CoursePauseResumeDTO coursePauseResumeDTO) {
         return JsonVO.success(lessonStudentService.pauseOrResumeLesson(
                 coursePauseResumeDTO.getCourseIds(),
                 coursePauseResumeDTO.getIsResume()));

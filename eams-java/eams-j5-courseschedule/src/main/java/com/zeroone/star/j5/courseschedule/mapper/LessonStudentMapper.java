@@ -63,17 +63,16 @@ public interface LessonStudentMapper extends BaseMapper<LessonStudent> {
 
     /**
      * 根据课次ID批量更新签到状态（用于停/复课）
+     * 注意：仅更新sign_state，不更新sign_time，避免污染历史签到时间
      * @param lessonIds 课次ID列表
      * @param signState 目标签到状态
-     * @param signTime 签到时间
      * @return 更新行数
      */
     @Update("<script>" +
-            "UPDATE lesson_student SET sign_state = #{signState}, sign_time = #{signTime} " +
+            "UPDATE lesson_student SET sign_state = #{signState} " +
             "WHERE lesson_id IN " +
             "<foreach collection='lessonIds' item='id' open='(' separator=',' close=')'>#{id}</foreach>" +
             "</script>")
     int batchUpdateSignStateByLessonIds(@Param("lessonIds") List<Long> lessonIds,
-                                       @Param("signState") Integer signState,
-                                       @Param("signTime") LocalDateTime signTime);
+                                       @Param("signState") Integer signState);
 }

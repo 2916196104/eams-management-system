@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zeroone.star.j5.courseschedule.entity.LessonStudent;
 import com.zeroone.star.j5.courseschedule.entity.StudentCourse;
 import com.zeroone.star.j5.courseschedule.entity.StudentLessonCountLog;
+import com.zeroone.star.j5.courseschedule.mapper.LessonMapper;
 import com.zeroone.star.j5.courseschedule.mapper.LessonStudentMapper;
 import com.zeroone.star.j5.courseschedule.mapper.StudentCourseMapper;
 import com.zeroone.star.j5.courseschedule.mapper.StudentLessonCountLogMapper;
@@ -15,7 +16,7 @@ import com.zeroone.star.project.dto.j5.courseschedule.LessonCountLogQueryDTO;
 import com.zeroone.star.project.dto.j5.courseschedule.LessonSignSaveDTO;
 import com.zeroone.star.project.enums.LessonCountChangeStageEnum;
 import com.zeroone.star.project.enums.SignStateEnum;
-import com.zeroone.star.project.query.PageQuery;
+import com.zeroone.star.project.query.j5.courseschedule.StudentStatusQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class LessonStudentServiceImpl extends ServiceImpl<LessonStudentMapper, LessonStudent> implements ILessonStudentService {
@@ -34,16 +36,18 @@ public class LessonStudentServiceImpl extends ServiceImpl<LessonStudentMapper, L
     @Resource
     private StudentCourseMapper studentCourseMapper;
 
+    @Resource
+    private LessonMapper lessonMapper;
+
     @Override
-    public PageDTO<Map<String, Object>> queryStatusList(String keyword, String status, PageQuery query) {
+    public PageDTO<Map<String, Object>> queryStatusList(StudentStatusQuery query) {
         long pageIndex = query != null && query.getPageIndex() > 0 ? query.getPageIndex() : 1L;
         long pageSize = query != null && query.getPageSize() > 0 ? query.getPageSize() : 10L;
 
-        // 获取 courseId（从 query 对象中提取）
-        Long courseId = null;
-        if (query instanceof com.zeroone.star.project.query.j5.courseschedule.StudentStatusQuery) {
-            courseId = ((com.zeroone.star.project.query.j5.courseschedule.StudentStatusQuery) query).getCourseId();
-        }
+        // 从 query 对象中提取 courseId
+        Long courseId = query != null ? query.getCourseId() : null;
+        String keyword = query != null ? query.getKeyword() : null;
+        String status = query != null ? query.getStatus() : null;
 
         Page<Map<String, Object>> page = new Page<>(pageIndex, pageSize);
         IPage<Map<String, Object>> result = baseMapper.selectStudentStatusPage(page, courseId, keyword, status);
@@ -140,18 +144,38 @@ public class LessonStudentServiceImpl extends ServiceImpl<LessonStudentMapper, L
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Integer pauseOrResumeLesson(List<Long> lessonIds, Boolean isResume) {
         if (lessonIds == null || lessonIds.isEmpty()) {
             return 0;
         }
 
-        // isResume = true: 复课，设置为0(未签到)
-        // isResume = false: 停课，设置为4(旷课)
-        Integer targetState = Boolean.TRUE.equals(isResume)
+        // isResume = true: 复课，设置lesson.state=1(进行中)，学员签到状态=0(未签到)
+        // isResume = false: 停课，设置lesson.state=0(已停课)，学员签到状态=4(旷课)
+        Integer targetSignState = Boolean.TRUE.equals(isResume)
                 ? SignStateEnum.NONE.getCode()   // 0-未签到
                 : SignStateEnum.ABSENT.getCode();     // 4-旷课
 
-        return baseMapper.batchUpdateSignStateByLessonIds(lessonIds, targetState, LocalDateTime.now());
+        Integer targetLessonState = Boolean.TRUE.equals(isResume) ? 1 : 0;  // 1-进行中, 0-已停课
+
+        // 去重后的课次ID数量（应对重复ID入参）
+        List<Long> distinctLessonIds = lessonIds.stream().distinct().collect(Collectors.toList());
+        int distinctCount = distinctLessonIds.size();
+
+        // 第一步：更新课次状态，并校验影响行数
+        int lessonUpdatedRows = lessonMapper.batchToggleStatus(distinctLessonIds, targetLessonState);
+        if (lessonUpdatedRows != distinctCount) {
+            throw new RuntimeException("课次状态更新失败，预期更新" + distinctCount + "行，实际更新" + lessonUpdatedRows + "行");
+        }
+
+        // 第二步：更新学员签到状态（不更新sign_time，仅更新签到状态）
+        // 注意：一个课次可能有多名学员，所以 signUpdatedRows >= distinctCount 才算成功
+        int signUpdatedRows = baseMapper.batchUpdateSignStateByLessonIds(distinctLessonIds, targetSignState);
+        if (signUpdatedRows < distinctCount) {
+            throw new RuntimeException("学员签到状态更新失败，预期更新至少" + distinctCount + "行，实际更新" + signUpdatedRows + "行");
+        }
+
+        return distinctCount;
     }
 
     private void rollbackStudentCourseAndWriteLog(LessonStudent lessonStudent) {
@@ -190,14 +214,13 @@ public class LessonStudentServiceImpl extends ServiceImpl<LessonStudentMapper, L
     }
 
     private int resolveRollbackCount(LessonStudent lessonStudent) {
+        // 只使用 decLessonCount 进行还原，避免重复还原
+        // batchRestore 后 decLessonCount 会被置为 0，防止再次还原
         Integer decLessonCount = lessonStudent.getDecLessonCount();
         if (decLessonCount != null && decLessonCount > 0) {
             return decLessonCount;
         }
-        Integer lessonCount = lessonStudent.getLessonCount();
-        if (lessonCount != null && lessonCount > 0) {
-            return lessonCount;
-        }
+        // decLessonCount 为 0 或 null 时，不允许还原（防止重复还原）
         return 0;
     }
 
