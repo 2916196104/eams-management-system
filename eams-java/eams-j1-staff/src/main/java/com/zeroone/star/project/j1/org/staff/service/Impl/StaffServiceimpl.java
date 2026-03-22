@@ -7,6 +7,8 @@ import com.github.pagehelper.PageInfo;
 import com.zeroone.star.project.DO.StaffDO;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j1.org.StaffDTO;
+import com.zeroone.star.project.dto.j1.org.StaffSetDTO;
+import com.zeroone.star.project.dto.j1.org.StaffUpdateDTO;
 import com.zeroone.star.project.j1.org.staff.mapper.StaffMapper;
 import com.zeroone.star.project.j1.org.staff.service.StaffService;
 import com.zeroone.star.project.query.j1.org.StaffQuery;
@@ -80,4 +82,35 @@ StaffMapper staffMapper;
         }
         return JsonVO.success(staffMapper.saveStaff(condition));
     }
+
+    @Override
+    public JsonVO<Long> removeStaff(List<Long> ids) {
+        return  JsonVO.success(staffMapper.removeStaff(ids));
+    }
+
+    @Override
+    public JsonVO<Long> updateStaffStatus(StaffUpdateDTO condition) {
+        StaffDO staff = new StaffDO();
+        List<Long> ids = condition.getIds();
+        Integer status = condition.getStatus();
+        if (ids == null || ids.isEmpty()) {
+            return JsonVO.fail("请选择要操作的员工");
+        }
+        if (status == null || (status != 0 && status != 1)) {
+            return JsonVO.fail("状态值不合法，只能是 0(离职) 或 1(在职)");
+        }
+        Long count= staffMapper.updateStaffStatus(condition);
+
+        if (count == 0) {
+            return JsonVO.fail("更新失败：所选员工不存在或状态无需变更");
+        }
+        return JsonVO.success((long)count);
+    }
+
+    @Override
+    public JsonVO<Long> setStaff(StaffSetDTO condition) {
+        return null;
+    }
+
+
 }

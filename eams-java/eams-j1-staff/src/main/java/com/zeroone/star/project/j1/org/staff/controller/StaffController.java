@@ -3,6 +3,8 @@ package com.zeroone.star.project.j1.org.staff.controller;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j1.org.StaffDTO;
 import com.zeroone.star.project.dto.j1.org.ResetPasswordDTO;
+import com.zeroone.star.project.dto.j1.org.StaffSetDTO;
+import com.zeroone.star.project.dto.j1.org.StaffUpdateDTO;
 import com.zeroone.star.project.j1.org.staff.StaffMangerApis;
 import com.zeroone.star.project.j1.org.staff.service.StaffService;
 import com.zeroone.star.project.query.j1.org.StaffQuery;
@@ -61,21 +63,22 @@ public class StaffController implements StaffMangerApis {
 @DeleteMapping("/delete")
     @Override
     @ApiOperation("删除员工（支持批量）")
-    public JsonVO<List<Long>> removeStaff(@RequestBody List<Long> ids) {
-        return null;
+    public JsonVO<Long> removeStaff(@RequestBody List<Long> ids) {
+        return  staffService.removeStaff(ids);
     }
 
 @PostMapping("/set")
     @Override
     @ApiOperation("设置角色（支持批量）")
-    public JsonVO<List<Long>> setStaff(@RequestBody List<Long> ids) {
-        return null;
+    public JsonVO<Long> setStaff(@RequestBody StaffSetDTO condition) {
+        return staffService.setStaff(condition);
     }
-@PostMapping("/update")
+
+    @PostMapping("/update")
     @Override
     @ApiOperation("在职状态（支持批量）")
-    public JsonVO<List<Long>> updateStaffStatus(@RequestBody List<Long> ids) {
-        return null;
+    public JsonVO<Long> updateStaffStatus(@RequestBody StaffUpdateDTO condition) {
+        return staffService.updateStaffStatus(condition);
     }
     @PostMapping("/transferOrg")
     @ApiOperation("转出机构（支持批量）")

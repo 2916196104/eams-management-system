@@ -1,14 +1,18 @@
 package com.zeroone.star.project.j1.org.staff.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.zeroone.star.project.DO.StaffDO;
 import com.zeroone.star.project.dto.j1.org.StaffDTO;
 
+import com.zeroone.star.project.dto.j1.org.StaffUpdateDTO;
 import com.zeroone.star.project.query.j1.org.StaffQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j1.org.StaffVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
@@ -56,4 +60,23 @@ public interface StaffMapper extends BaseMapper<StaffDO> {
                 return staff.getId();
             }
     }
+
+   default Long  removeStaff(List<Long> ids){
+       long result = this.deleteBatchIds(ids);
+       return result;
+   }
+
+   default Long updateStaffStatus(StaffUpdateDTO condition){
+        StaffDO staff = new StaffDO();
+       List<Long> ids = condition.getIds();
+       Integer status = condition.getStatus();
+       BeanUtils.copyProperties(condition,staff);
+       // 2. 构建更新条件
+       LambdaUpdateWrapper<StaffDO> wrapper = Wrappers.lambdaUpdate();
+       wrapper.in(StaffDO::getId, ids) // 批量匹配ID
+               .set(StaffDO::getState, status); // 设置目标状态
+       // 3. 执行批量更新
+       int updateCount = this.update(new StaffDO(), wrapper);
+       return (long)updateCount;
+   }
 }
