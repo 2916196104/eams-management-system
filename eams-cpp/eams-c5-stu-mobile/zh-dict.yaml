@@ -432,3 +432,55 @@ credit_mall:
 
 
 
+CourseRecord:
+ summary: 获取上课记录
+ tag: 上课记录
+ resp: 操作成功
+ field:
+  id: 课节ID
+  student_id: 学生ID
+  title: 课节标题
+  sn: 第几节课
+  course_id: 课程ID
+  schedule_id: 编排计划ID
+  class_id: 班级ID
+  room_id: 教室ID
+  date: 上课日期
+  start_time: 开始时间
+  end_time: 结束时间
+  creator: 创建人
+  editor: 编辑者
+  add_time: 添加时间
+  edit_time: 修改时间
+  deleted: 删除标记
+  dec_count: 应扣课次数
+  remark: 备注
+  teach_type: 授课方式
+  on_trial: 是否开启试听
+  trial_result: 试听结果
+  state: 课次状态
+  close_time: 结课时间
+  close_operator: 结课人
+  teacher_id: 主讲人ID
+  bookable: 是否开放预约
+  school_id: 所属学校ID
+  org_id: 所属组织ID
+
+CourseEvaluate:
+ summary: 评价课程
+ get-summary: 获取课程评价列表
+ post-summary: 提交课程评价
+ resp: 操作成功
+ field:
+  id: 评价ID
+  student_id: 学生ID
+  course_id: 课程ID
+  order_id: 订单ID
+  content: 评价内容
+  score: 打分（1-5分）
+  state: 发布状态
+  creator: 创建人
+  editor: 编辑人
+  add_time: 添加时间
+  edit_time: 编辑时间
+  deleted: 删除标记

@@ -42,6 +42,8 @@
 #include "login/SendPassSMTP.h"
 #include "home/class/ClassDetailController.h"
 #include "home/class/ClassListController.h"
+#include "home/CourseRecord/CourseRecordController.h"
+#include "home/CourseEvaluate/CourseEvaluateController.h"
 
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
@@ -86,4 +88,6 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(SendPassSMTPControl);
 	ROUTER_SIMPLE_BIND(ClassDetailController);
 	ROUTER_SIMPLE_BIND(ClassListController);
+	ROUTER_SIMPLE_BIND(CourseRecordController);
+	ROUTER_SIMPLE_BIND(CourseEvaluateController);
 }
