@@ -1,5 +1,7 @@
 package com.zeroone.star.project.vo.j6.finance;
 
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.format.DateTimeFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -8,38 +10,49 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * 财务记录表
+ * Finance record export object.
  */
 @Data
-@ApiModel("财务记录数据对象")
+@ApiModel("Finance record object")
 public class FinanceRecordVo {
-    @ApiModelProperty(value = "财务记录id",example = "123456789")
+    @ExcelProperty("\u8d22\u52a1\u8bb0\u5f55ID")
+    @ApiModelProperty(value = "Finance record id", example = "123456789")
     private Long id;
 
-    @ApiModelProperty("款项类型")
+    @ExcelProperty("\u6b3e\u9879\u7c7b\u578b")
+    @ApiModelProperty("Fund item type")
     private Integer type;
 
-    @ApiModelProperty(value = "标题",required = true,example = "样例标题")
+    @ExcelProperty("\u6807\u9898")
+    @ApiModelProperty(value = "Title", required = true, example = "Example")
     private String title;
 
-    @ApiModelProperty(value = "金额,退款为负数",required = true,example = "10000")
+    @ExcelProperty("\u91d1\u989d")
+    @ApiModelProperty(value = "Amount", required = true, example = "10000")
     private BigDecimal amount;
 
-    @ApiModelProperty(value = "学生姓名",required = true,example = "张三")
+    @ExcelProperty("\u4ed8\u6b3e\u4eba")
+    @ApiModelProperty(value = "Payer name", example = "Zhang San")
     private String studentName;
 
-    @ApiModelProperty(value = "经办人id",required = true,example = "1145")
+    @ExcelProperty("\u7ecf\u529e\u4ebaID")
+    @ApiModelProperty(value = "Operator id", example = "1145")
     private Long operator;
 
-    @ApiModelProperty(value = "款项备注")
+    @ExcelProperty("\u6b3e\u9879\u5907\u6ce8")
+    @ApiModelProperty(value = "Remark")
     private String remark;
 
-    @ApiModelProperty(value = "认款状态",required = true,example = "0")
+    @ExcelProperty("\u8ba4\u6b3e\u72b6\u6001")
+    @ApiModelProperty(value = "Verify state", example = "0")
     private Integer verifyState;
 
-    @ApiModelProperty(value = "认款信息")
+    @ExcelProperty("\u8ba4\u6b3e\u4fe1\u606f")
+    @ApiModelProperty(value = "Verify remark")
     private String verifyRemark;
 
-    @ApiModelProperty("提交时间")
-    private LocalDateTime submit_time;
+    @ExcelProperty("\u63d0\u4ea4\u65f6\u95f4")
+    @DateTimeFormat("yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty("Submit time")
+    private LocalDateTime submitTime;
 }

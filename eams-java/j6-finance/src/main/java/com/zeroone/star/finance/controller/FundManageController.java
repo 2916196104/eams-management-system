@@ -3,90 +3,68 @@ package com.zeroone.star.finance.controller;
 import com.alibaba.excel.EasyExcel;
 import com.zeroone.star.finance.service.FundManageService;
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.vo.j6.finance.FinanceRecordVo;
 import com.zeroone.star.project.j6.finance.FundManageApis;
 import com.zeroone.star.project.query.j6.finance.FinanceRecordQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.project.vo.j6.finance.FinanceRecordVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RestController
 @RequestMapping("/j6/finance/fund")
-@Api(tags = "款项管理")
+@Api(tags = "Fund Manage")
 public class FundManageController implements FundManageApis {
+
+    private static final String EXPORT_NAME = "\u6b3e\u9879\u8bb0\u5f55\u8868";
 
     @Autowired
     private FundManageService fundManageService;
 
-    /**
-     * 获取款项列表（条件+分页）
-     *
-     * @param condition 查询条件
-     * @return 款项信息
-     */
     @GetMapping
-    @ApiOperation("获取款项列表（条件+分页）")
+    @ApiOperation("Query fund records")
     @Override
     public JsonVO<PageDTO<FinanceRecordVo>> queryPage(FinanceRecordQuery condition) {
         return null;
     }
 
-    /**
-     * 批量确认
-     *
-     * @param ids 财务记录id
-     * @return 修改款项信息
-     */
     @PutMapping("/confirm")
-    @ApiOperation("批量确认")
+    @ApiOperation("Confirm fund records")
     @Override
     public JsonVO<List<Long>> confirm(@RequestBody List<Long> ids) {
         return null;
     }
 
-    /**
-     * 批量拒绝
-     *
-     * @param ids 财务记录id
-     * @return 修改款项信息
-     */
     @PutMapping("/refuse")
-    @ApiOperation("批量拒绝")
+    @ApiOperation("Refuse fund records")
     @Override
     public JsonVO<List<Long>> refuse(@RequestBody List<Long> ids) {
         return null;
     }
 
-    /**
-     * 导出Excel（下载数据模板或报表）
-     * GET /api/excel/download
-     */
     @GetMapping("/download")
-    @ApiOperation("导出")
+    @ApiOperation("Export all fund records")
     @Override
     public void download(HttpServletResponse response) throws IOException {
-        // 1. 设置响应头
-        String fileName = URLEncoder.encode("用户列表", "UTF-8").replaceAll("\\+", "%20");
+        String fileName = URLEncoder.encode(EXPORT_NAME, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setCharacterEncoding("utf-8");
-        response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ".xlsx");
-        //todo
-        // 2. 准备数据
-        List<FinanceRecordVo> dataList = fundManageService.getFinanceRecords();
+        response.setHeader("Content-Disposition", "attachment;filename*=UTF-8''" + fileName + ".xlsx");
 
-        // 3. 使用EasyExcel写入数据并输出到响应流
+        List<FinanceRecordVo> dataList = fundManageService.getFinanceRecords();
         EasyExcel.write(response.getOutputStream(), FinanceRecordVo.class)
-                .sheet("项款记录表") // 设置Sheet名称
-                .doWrite(dataList); // 写入数据
+                .sheet(EXPORT_NAME)
+                .doWrite(dataList);
     }
 }

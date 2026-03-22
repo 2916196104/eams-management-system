@@ -1,11 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zeroone.star.finance.mapper.FundManageMapper">
 
-    <!-- 查询所有财务记录 -->
     <select id="findAll" resultType="com.zeroone.star.project.vo.j6.finance.FinanceRecordVo">
-        SELECT id, title, amount, operator, payer, remark, add_time, verify_state,
-        verify_staff, verify_time, verify_remark, org_id
-        FROM finance_records
+        SELECT
+            t1.id,
+            t1.item_type AS type,
+            t1.title,
+            t1.amount,
+            t2.name AS studentName,
+            t1.operator,
+            t1.remark,
+            t1.verify_state AS verifyState,
+            t1.verify_remark AS verifyRemark,
+            t1.add_time AS submitTime
+        FROM finance_record t1
+        LEFT JOIN student t2 ON t2.id = t1.payer
+        ORDER BY t1.id DESC
     </select>
-
 
 </mapper>
