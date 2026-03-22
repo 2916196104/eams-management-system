@@ -57,7 +57,7 @@ public class FundManageController implements FundManageApis {
     @ApiOperation("Export all fund records")
     @Override
     public void download(HttpServletResponse response) throws IOException {
-        String fileName = URLEncoder.encode(EXPORT_NAME, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
+        String fileName = URLEncoder.encode(EXPORT_NAME, String.valueOf(StandardCharsets.UTF_8)).replaceAll("\\+", "%20");
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setCharacterEncoding("utf-8");
         response.setHeader("Content-Disposition", "attachment;filename*=UTF-8''" + fileName + ".xlsx");
