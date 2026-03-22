@@ -18,26 +18,26 @@
 */
 #include "stdafx.h"
 #include "logincontroller.h"
-//#include "service/login/loginService.h"
+#include "service/login/loginService.h"
 //实现接口执行函数
 
 // 发送验证码
 SendResetCodeJsonVO::Wrapper loginController::executeSendResetCode(const SendResetCodeDTO::Wrapper& dto)
 {
-	/*loginService ls;
+	loginService ls;
 	auto vo = SendResetCodeJsonVO::createShared();
 	vo->success(ls.sendResetCode(dto));
-	return vo;*/
+	return vo;
 	return {};
 }
 
 // 修改密码
 UpdatePasswordJsonVO::Wrapper loginController::executeModifyPassword(const UpdatePasswordDTO::Wrapper& dto)
 {
-	//loginService ls;
-	//auto vo = UpdatePasswordJsonVO::createShared();
- //   vo->success(ls.resetPassword(dto));
-	//return vo;
+	loginService ls;
+	auto vo = UpdatePasswordJsonVO::createShared();
+    vo->success(ls.updatePassword(dto));
+	return vo;
 	return {};
 }
 
