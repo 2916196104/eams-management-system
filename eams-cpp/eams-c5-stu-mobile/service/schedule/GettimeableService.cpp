@@ -124,7 +124,16 @@ GetTimeablePageDTO::Wrapper GettimeableService::listAll(const GetTimeableQuery::
 			continue; // 优化：抛异常改为跳过，避免单条数据错误导致整体查询失败
 		}
 		//DO转换成DTO后面加的是查询需要的参数
-		ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub, date, Date);
+		ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub, id, Id);                // 课程ID
+		ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub, title, Title);          // 课程标题
+		ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub, sn, Sn);                // 课程序号
+		ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub, date, Date);            // 上课日期
+		ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub, start_time, Start_time);// 开始时间
+		ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub, end_time, End_time);    // 结束时间
+		ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub, teacher_id, Teacher_id);// 教师ID
+		ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub, schedule_id, Schedule_id);// 排课ID
+		ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub, teacher_name, TeacherName); // 教师姓名
+		ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub, sign_state, SignState); // 签到状态
 		pages->addData(dto);
 	}
 	return pages;
