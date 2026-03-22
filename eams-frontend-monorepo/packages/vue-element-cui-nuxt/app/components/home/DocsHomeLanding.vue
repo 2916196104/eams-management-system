@@ -8,7 +8,7 @@
 					class="inline-flex items-center gap-2 rounded-full border border-sky-200/80 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-900 dark:border-sky-900 dark:bg-sky-950/40 dark:text-sky-100"
 				>
 					<span class="h-2 w-2 rounded-full bg-sky-500" />
-					Vue Element CUI 文档重建中
+					Vue Element CUI 组件库文档
 				</div>
 
 				<div class="space-y-4">
