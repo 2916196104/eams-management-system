@@ -114,6 +114,17 @@ public:
 		executeModifyStudentStage(dto, authObject->getPayload())
 	);
 
+	// 删除跟进记录描述 
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("common.interface.delete-contact-record"), deleteContactRecord, StringJsonVO::Wrapper, API_TAG);
+	// 删除跟进记录处理
+	API_HANDLER_ENDPOINT_AUTH(
+		API_M_POST,
+		"/c3/common/contact-record/delete",
+		deleteContactRecord,
+		BODY_DTO(DeleteContactRecordDTO::Wrapper, dto),
+		executeDeleteContactRecord(dto)
+	);
+
 
 private:
 	
@@ -147,6 +158,11 @@ private:
 	// 3.3 修改数据
 	StringJsonVO::Wrapper executeModifyStudentStage(const StudentStageUpdateDTO::Wrapper& dto, const PayloadDTO& payload) {
 
+		return StringJsonVO::createShared();
+	}
+
+	// 删除跟进记录
+	StringJsonVO::Wrapper executeDeleteContactRecord(const DeleteContactRecordDTO::Wrapper& dto) {
 		return StringJsonVO::createShared();
 	}
 
