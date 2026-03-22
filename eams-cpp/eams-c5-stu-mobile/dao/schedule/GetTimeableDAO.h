@@ -26,9 +26,9 @@ public:
 	uint64_t count(const GetTimeableQuery::Wrapper& query);
 	// 分页查询数据
 	std::list<GetTimeableDO> selectWithPage(const GetTimeableQuery::Wrapper& query);
-	// 通过姓名查询数据
-	std::list<GetTimeableDO> selectByName(const string& name);
-	// 通过ID查询数据
-	PtrGetTimeableDO selectById(std::string id);
+	//// 通过姓名查询数据
+	//std::list<GetTimeableDO> selectByName(const string& name);
+	//// 通过ID查询数据
+	//PtrGetTimeableDO selectById(std::string id);
 };
 #endif // !_TIMEABLE_DAO_
