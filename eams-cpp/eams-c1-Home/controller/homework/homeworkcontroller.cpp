@@ -18,5 +18,19 @@
 */
 #include "stdafx.h"
 #include "homeworkcontroller.h"
-//实现接口执行函数
+HomeworkPageJsonVO::Wrapper HomeworkController::execQueryPage(const HomeworkQuery::Wrapper& query)
+{
+	return {};
+}
 
+HomeworkDetailJsonVO::Wrapper HomeworkController::execQueryDetail(const UInt64& id)
+{
+	return {};
+}
+
+HomeworkJsonVO::Wrapper HomeworkController::execHomeworkSubmit(const UInt32& studentId){
+	return {};
+}
+HomeworkJsonVO::Wrapper HomeworkController::execHomeworkDelete(const UInt32& homeworkId){
+	return {};
+}

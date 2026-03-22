@@ -28,6 +28,13 @@
 /**
  * 定义查询类
  */
+// 查询某个学生的成绩
+class ScoreQuery : public PageQuery
+{
+	DTO_INIT(ScoreQuery, PageQuery);
+	// 学生id
+	API_DTO_FIELD_REQUIRE(Int64, student_id, ZH_WORDS_GETTER("score.student_id"), true);
+};
 
 
 #include OATPP_CODEGEN_END(DTO)

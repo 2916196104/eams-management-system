@@ -45,6 +45,21 @@ class SettingJsonVO : public JsonVO<SettingDTO::Wrapper>
 	DTO_INIT(SettingJsonVO, JsonVO<SettingDTO::Wrapper>);
 };
 
+/**
+ * 积分礼品详情响应VO
+ */
+class GoodsDetailJsonVO : public JsonVO<GoodsDetailDTO::Wrapper>
+{
+	DTO_INIT(GoodsDetailJsonVO, JsonVO<GoodsDetailDTO::Wrapper>);
+};
+
+/**
+ * 兑换结果响应VO
+ */
+class ExchangeResultJsonVO : public JsonVO<ExchangeResultDTO::Wrapper>
+{
+	DTO_INIT(ExchangeResultJsonVO, JsonVO<ExchangeResultDTO::Wrapper>);
+};
 
 
 #include OATPP_CODEGEN_END(DTO)

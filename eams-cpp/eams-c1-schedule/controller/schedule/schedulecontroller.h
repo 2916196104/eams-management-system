@@ -26,7 +26,9 @@
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/query/PageQuery.h"
 #include "domain/dto/schedule/ScheduleDTO.h"
-
+#include "domain/query/schedule/ScheduleQuery.h"
+#include "domain/dto/schedule/ScheduleDTO.h"
+#include "domain/vo/schedule/ScheduleVO.h"
 #include OATPP_CODEGEN_BEGIN(ApiController)
 //课表模块控制器
 //定义接口分类标签，通过语言包宏获取
@@ -72,12 +74,53 @@ public:
         BODY_DTO(ScheduleLeaveDTO::Wrapper, dto),
         execAddLeave(dto, authObject->getPayload())
     );
+
+    // 生成 Swagger 文档
+    API_DEF_ENDPOINT_INFO_QUERY_AUTH(
+        ZH_WORDS_GETTER("schedule.query.summary"), // 接口标题
+        querySchedule,                             // 对应的 C++ 函数标识
+        ScheduleQuery,                             // 接口接收的参数类型
+        ListJsonVO<ScheduleVO::Wrapper>::Wrapper,  // 接口返回的数据类型
+        API_TAG                                    // 接口的分组标签
+    );
+
+    // 将 URL 和 C++ 函数绑定
+    API_HANDLER_ENDPOINT_QUERY_AUTH(
+        API_M_GET,                  // 请求方法：GET
+        "/schedule/query",          // 接口路径
+        querySchedule,              // C++ 函数标识
+        ScheduleQuery,              // Query 参数类型
+        execQuerySchedule(query, authObject->getPayload()) // 实际调用的函数
+    );
+
+    // 生成 Swagger 文档
+    API_DEF_ENDPOINT_INFO_AUTH(
+        ZH_WORDS_GETTER("schedule.signin.summary"),
+        signIn,
+        StringJsonVO::Wrapper, // 签到成功返回字符串提示
+        API_TAG
+    );
+
+    // 将 URL 和 C++ 函数绑定
+    API_HANDLER_ENDPOINT_AUTH(
+        API_M_POST,
+        "/schedule/sign-in",
+        signIn,
+        BODY_DTO(SignInDTO::Wrapper, dto), // 用 BODY_DTO 宏解析请求体里的 JSON
+        execSignIn(dto, authObject->getPayload())
+    );
 private: // 定义接口执行函数
     // 3.3 家长提交预约申请逻辑
     StringJsonVO::Wrapper execAddAppointment(const ScheduleAppointmentDTO::Wrapper& dto, const PayloadDTO& payload);
 
     // 3.3 家长提交请假申请逻辑
     StringJsonVO::Wrapper execAddLeave(const ScheduleLeaveDTO::Wrapper& dto, const PayloadDTO& payload);
+    
+    // 获取课表列表
+    ListJsonVO<ScheduleVO::Wrapper>::Wrapper execQuerySchedule(const ScheduleQuery::Wrapper& query, const PayloadDTO& payload);
+
+    // 学生签到
+    StringJsonVO::Wrapper execSignIn(const SignInDTO::Wrapper& dto, const PayloadDTO& payload);
 };
 
 #include OATPP_CODEGEN_END(ApiController)

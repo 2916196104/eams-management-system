@@ -1,0 +1,29 @@
+# 最大数据行数
+maxrow: 40
+# 行高度
+rowheight: 20
+# 列宽度
+colwidth: 100
+# 标题字体大小
+titlefontsize: 20
+# 内容字体大小
+contentfontsize: 10
+# 上边距
+top: 5
+# 左边距
+left: 50
+# 字段配置
+fields:
+ - id:
+    title: 编号
+    prop: id
+    colwidth: 200
+ - name:
+    title: 姓名
+    prop: name
+ - age:
+    title: 年龄
+    prop: age
+ - sex:
+    title: 性别
+    prop: sex

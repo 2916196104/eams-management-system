@@ -19,10 +19,11 @@
 #include "stdafx.h"
 #include "classcontroller.h"
 //实现接口执行函数
+/*
 classListJsonVO::Wrapper classController::execQueryClassList(const UInt32 &student_id) {
 	return {};
 }
-
+*/
 classInfoJsonVO::Wrapper classController::execQueryClassInfo(const UInt32 &class_id) {
 	return {};
 }
