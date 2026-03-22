@@ -1,6 +1,7 @@
 package com.zeroone.star.finance.controller;
 
 import com.alibaba.excel.EasyExcel;
+import com.zeroone.star.finance.service.FundManageService;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.vo.j6.finance.FinanceRecordVo;
 import com.zeroone.star.project.j6.finance.FundManageApis;
@@ -8,6 +9,7 @@ import com.zeroone.star.project.query.j6.finance.FinanceRecordQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +25,8 @@ import java.util.List;
 @Api(tags = "款项管理")
 public class FundManageController implements FundManageApis {
 
+    @Autowired
+    private FundManageService fundManageService;
 
     /**
      * 获取款项列表（条件+分页）
@@ -78,7 +82,7 @@ public class FundManageController implements FundManageApis {
         response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ".xlsx");
         //todo
         // 2. 准备数据
-        List<FinanceRecordVo> dataList = null;
+        List<FinanceRecordVo> dataList = fundManageService.getFinanceRecords();
 
         // 3. 使用EasyExcel写入数据并输出到响应流
         EasyExcel.write(response.getOutputStream(), FinanceRecordVo.class)

@@ -1,0 +1,11 @@
+<mapper namespace="com.zeroone.star.finance.mapper.FundManageMapper">
+
+    <!-- 查询所有财务记录 -->
+    <select id="findAll" resultType="com.zeroone.star.project.vo.j6.finance.FinanceRecordVo">
+        SELECT id, title, amount, operator, payer, remark, add_time, verify_state,
+        verify_staff, verify_time, verify_remark, org_id
+        FROM finance_records
+    </select>
+
+
+</mapper>
