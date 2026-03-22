@@ -1,10 +1,4 @@
 #pragma once
-/*
- Copyright Zero One Star. All rights reserved.
-
- @Author: awei
- @Date: 2026/03/22
-*/
 
 #ifndef _CARD_MAPPER_H_
 #define _CARD_MAPPER_H_
