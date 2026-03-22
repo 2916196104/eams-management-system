@@ -41,8 +41,9 @@ foreach ($branch in $remoteBranches) {
 
     try {
         Write-Host "  正在合并 origin/$branch ..." -ForegroundColor Gray
-        # 不使用管道，避免 $ErrorActionPreference=Stop 将 git 钩子的 stderr 信息误判为致命错误
-        git merge "origin/$branch" --no-edit --no-ff
+        # 采用默认 merge 策略：能 fast-forward 就 fast-forward，避免滥用 --no-ff 产生多余合并节点
+        # 同时不使用管道，避免 $ErrorActionPreference=Stop 将 git 钩子的 stderr 信息误判为致命错误
+        git merge "origin/$branch" --no-edit
 
         if ($LASTEXITCODE -ne 0) {
             throw "合并退出码 $LASTEXITCODE"
