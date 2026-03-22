@@ -1,8 +1,8 @@
 package com.zeroone.star.sys.service.impl;
 
 import com.zeroone.star.sys.entity.SysLog;
-import com.zeroone.star.sys.mapper.OptlogMapper;
-import com.zeroone.star.sys.service.OptlogService;
+import com.zeroone.star.sys.mapper.SysLogMapper;
+import com.zeroone.star.sys.service.SysLogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2026-03-15
  */
 @Service
-public class OptlogServiceImpl extends ServiceImpl<OptlogMapper, SysLog> implements OptlogService {
+public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> implements SysLogService {
 
 }

@@ -1,6 +1,6 @@
-package com.zeroone.star.sys.mapper.roleperm;
+package com.zeroone.star.sys.mapper;
 
-import com.zeroone.star.sys.entity.roleperm.SysUserRole;
+import com.zeroone.star.sys.entity.SysUserRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 

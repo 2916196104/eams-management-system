@@ -1,6 +1,6 @@
-package com.zeroone.star.sys.service.roleperm;
+package com.zeroone.star.sys.service;
 
-import com.zeroone.star.sys.entity.roleperm.Staff;
+import com.zeroone.star.sys.entity.Staff;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author isme
  * @since 2026-03-20
  */
-public interface IStaffService extends IService<Staff> {
+public interface StaffService extends IService<Staff> {
 
 }

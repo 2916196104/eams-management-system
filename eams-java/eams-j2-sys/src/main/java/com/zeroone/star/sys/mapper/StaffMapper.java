@@ -1,18 +1,18 @@
 package com.zeroone.star.sys.mapper;
 
-import com.zeroone.star.sys.entity.SysLog;
+import com.zeroone.star.sys.entity.Staff;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
- * 系统用户日志 Mapper 接口
+ * 教师员工表 Mapper 接口
  * </p>
  *
  * @author isme
- * @since 2026-03-15
+ * @since 2026-03-20
  */
 @Mapper
-public interface OptlogMapper extends BaseMapper<SysLog> {
+public interface StaffMapper extends BaseMapper<Staff> {
 
 }

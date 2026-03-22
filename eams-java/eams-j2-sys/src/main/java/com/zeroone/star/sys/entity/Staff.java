@@ -1,4 +1,4 @@
-package com.zeroone.star.sys.entity.roleperm;
+package com.zeroone.star.sys.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

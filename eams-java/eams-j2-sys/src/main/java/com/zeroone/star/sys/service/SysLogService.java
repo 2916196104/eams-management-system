@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author isme
  * @since 2026-03-15
  */
-public interface OptlogService extends IService<SysLog> {
+public interface SysLogService extends IService<SysLog> {
 
 }
