@@ -1,10 +1,10 @@
 <!-- 统计组件(控制版) -->
 <template>
-	<el-card class="statistics" :style="{ '--hover-color': hoverColor }">
+	<el-card class="statistics">
 		<div class="wrapper">
 			<!-- 左侧图标 -->
 			<div class="icon">
-				<img :src="peopleIcon" class="svg" />
+				<Icon :icon="iconName" class="svg" />
 			</div>
 			<!-- 右侧文字 -->
 			<div class="text-container">
@@ -18,7 +18,7 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import peopleIcon from "./people.svg";
+import { Icon } from "@iconify/vue";
 import { CountUp } from "countup.js";
 const countRef = ref(null);
 const { targetText, targetNumber } = defineProps({
@@ -31,13 +31,23 @@ const { targetText, targetNumber } = defineProps({
 		type: Number,
 		default: 1000,
 	},
-	// 图标颜色(未启用)
-	color: {
+	// 图标
+	iconName: {
 		type: String,
-		default: "black",
+		default: "mdi:account",
+	},
+	// 图标颜色
+	iconColor: {
+		type: String,
+		default: "red",
 	},
 	// 鼠标悬停时图标颜色
-	hoverColor: {
+	hoverIconColor: {
+		type: String,
+		default: "white",
+	},
+	// 鼠标悬停时背景颜色
+	hoverBgColor: {
 		type: String,
 		default: "red",
 	},
@@ -91,11 +101,16 @@ onMounted(() => {
 	border-radius: 8px;
 }
 .statistics:hover .icon {
-	background-color: var(--hover-color);
+	background-color: v-bind(hoverBgColor);
 }
 .statistics .svg {
 	width: 1em;
 	height: 1em;
+	transition: color 0.3s ease;
+	color: v-bind(iconColor);
+}
+.statistics .wrapper:hover .svg {
+	color: v-bind(hoverIconColor);
 }
 .statistics .text-container {
 	display: flex;
@@ -118,7 +133,7 @@ onMounted(() => {
 	line-height: 1;
 }
 /* 容器查询：当卡片小于一定宽度时 */
-@container (max-width: 245px) {
+@container (max-width: 215px) {
 	.statistics .text-container {
 		display: none;
 	}
@@ -126,8 +141,13 @@ onMounted(() => {
 		justify-content: center;
 	}
 	.statistics .wrapper:hover {
-		background-color: var(--hover-color);
+		background-color: v-bind(hoverBgColor);
 	}
+	/* 小卡片 hover 时图标变色 */
+	.statistics .wrapper:hover .svg {
+		color: v-bind(hoverIconColor);
+	}
+
 	/* 覆盖原来的 hover 效果 */
 	.statistics:hover .icon {
 		background-color: transparent;

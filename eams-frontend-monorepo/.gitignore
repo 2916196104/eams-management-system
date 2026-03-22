@@ -13,6 +13,8 @@ dist
 # Cache
 .cache
 .temp
+# ESLint flat config 缓存（eslint --cache）
+.eslintcache
 
 # Test coverage
 coverage
