@@ -39,7 +39,7 @@ class UserDO : public BaseDO
 public:
 	UserDO() : BaseDO("user")
 	{
-		MYSQL_ADD_FIELD_PK("id", "s", id);
+		MYSQL_ADD_FIELD_PK("id", "i", id);
 		MYSQL_ADD_FIELD("name", "s", name);
 		MYSQL_ADD_FIELD("wx_access_id", "i", wx_access_id);
 		MYSQL_ADD_FIELD("mobile", "s", mobile);
@@ -62,7 +62,7 @@ class ParentAccountQueryDO : public BaseDO
 public:
 	ParentAccountQueryDO() : BaseDO("parent_account")
 	{
-		MYSQL_ADD_FIELD_PK("user_id", "s", userId);
+		MYSQL_ADD_FIELD_PK("user_id", "i", userId);
 		MYSQL_ADD_FIELD("mobile", "s", mobile);
 		MYSQL_ADD_FIELD("name", "s", name);
 		MYSQL_ADD_FIELD("student_name", "s", studentName);
@@ -74,7 +74,7 @@ public:
 		MYSQL_ADD_FIELD("state", "i", state);
 	}
 
-	MYSQL_SYNTHESIZE(string, userId, UserId);
+	MYSQL_SYNTHESIZE(uint64_t, userId, UserId);
 	MYSQL_SYNTHESIZE(string, mobile, Mobile);
 	MYSQL_SYNTHESIZE(string, name, Name);
 	MYSQL_SYNTHESIZE(string, studentName, StudentName);

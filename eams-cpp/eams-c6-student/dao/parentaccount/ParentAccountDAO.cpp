@@ -4,7 +4,6 @@
 
 uint64_t ParentAccountDAO::countParentAccount(const ParentAccountQuery::Wrapper& query)
 {
-	return 0;
     string sql =
         "SELECT COUNT(1) "
         "FROM `user` u "

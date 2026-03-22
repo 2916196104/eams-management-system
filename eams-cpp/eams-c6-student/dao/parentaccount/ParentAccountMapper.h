@@ -15,7 +15,7 @@ public:
 	{
 		//auto data = make_shared<ParentAccountDO>();
 		ParentAccountQueryDO data;
-		data.setUserId(rs->getString(1));
+		data.setUserId(rs->getInt64(1));
 		data.setMobile(rs->getString(2));
 		data.setName(rs->getString(3));
 		data.setStudentName(rs->getString(4));
