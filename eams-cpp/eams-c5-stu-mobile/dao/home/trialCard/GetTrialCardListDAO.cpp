@@ -26,7 +26,7 @@ uint64_t GetTrialCardListDAO::count(const GetTrialCardListQuery::Wrapper& query)
     SqlParams params;
     std::string sql = "SELECT COUNT(DISTINCT ct.id) FROM course_trial ct \
                        LEFT JOIN course c ON ct.course_id = c.id  \
-                       WHERE ct.end_date > CURDATE() AND ct.id NOT IN ( \
+                       WHERE ct.state = TRUE AND ct.end_date > CURDATE() AND ct.id NOT IN ( \
                            SELECT ctr.trial_id FROM course_trial_record ctr ";
 
     sql += queryConditionBuilder(query, params);
@@ -50,7 +50,7 @@ std::list<GetTrialCardListDO> GetTrialCardListDAO::selectWithPage(const GetTrial
                               c.name AS courseName       \
         FROM course_trial ct \
         LEFT JOIN course c ON ct.course_id = c.id  \
-        WHERE ct.end_date > CURDATE() AND ct.id NOT IN(\
+        WHERE ct.state = TRUE AND ct.end_date > CURDATE() AND ct.id NOT IN(\
             SELECT ctr.trial_id FROM course_trial_record ctr" ;
 
     sql += queryConditionBuilder(query, params);
