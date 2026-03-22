@@ -11,5 +11,5 @@ public class StaffSetDTO {
     private List<Long> ids;
 
     @ApiModelProperty(value = "员工职位", example = "1")
-    private long position ;
+    private long positionId ;
 }

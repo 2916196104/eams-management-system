@@ -8,12 +8,14 @@ import java.io.Serializable;
 
 import java.util.Date;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 /**
 * 职位表
 * @TableName staff_position
 */
+@Data
 public class StaffPositionDO implements Serializable {
 
     /**
@@ -50,89 +52,5 @@ public class StaffPositionDO implements Serializable {
     @ApiModelProperty("编辑者")
     private Long editor;
 
-    /**
-    * 
-    */
-    private void setId(Long id){
-    this.id = id;
-    }
-
-    /**
-    * 职位名称
-    */
-    private void setName(String name){
-    this.name = name;
-    }
-
-    /**
-    * 添加时间
-    */
-    private void setAddTime(Date addTime){
-    this.addTime = addTime;
-    }
-
-    /**
-    * 编辑时间
-    */
-    private void setEditTime(Date editTime){
-    this.editTime = editTime;
-    }
-
-    /**
-    * 创建者
-    */
-    private void setCreator(Long creator){
-    this.creator = creator;
-    }
-
-    /**
-    * 编辑者
-    */
-    private void setEditor(Long editor){
-    this.editor = editor;
-    }
-
-
-    /**
-    * 
-    */
-    private Long getId(){
-    return this.id;
-    }
-
-    /**
-    * 职位名称
-    */
-    private String getName(){
-    return this.name;
-    }
-
-    /**
-    * 添加时间
-    */
-    private Date getAddTime(){
-    return this.addTime;
-    }
-
-    /**
-    * 编辑时间
-    */
-    private Date getEditTime(){
-    return this.editTime;
-    }
-
-    /**
-    * 创建者
-    */
-    private Long getCreator(){
-    return this.creator;
-    }
-
-    /**
-    * 编辑者
-    */
-    private Long getEditor(){
-    return this.editor;
-    }
 
 }
