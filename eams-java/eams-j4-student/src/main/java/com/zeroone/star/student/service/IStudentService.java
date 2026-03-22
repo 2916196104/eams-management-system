@@ -1,7 +1,11 @@
 package com.zeroone.star.student.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j4.student.ResponseDTO;
 import com.zeroone.star.project.dto.j4.student.StudentDTO;
+import com.zeroone.star.project.query.j4.student.CourseQuery;
+import com.zeroone.star.project.query.j4.student.StudentQuery;
 import com.zeroone.star.student.entity.Student;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,4 +45,9 @@ public interface IStudentService extends IService<Student> {
      * @return
      */
     byte[] exportOnlineStudent();
+
+
+    PageDTO<ResponseDTO> listall(StudentQuery condition);
+
+    PageDTO<StudentDTO> queryCourseStu(CourseQuery condition);
 }

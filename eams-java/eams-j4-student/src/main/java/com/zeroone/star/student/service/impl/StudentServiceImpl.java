@@ -1,19 +1,27 @@
 package com.zeroone.star.student.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.cloud.commons.lang.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zeroone.star.project.components.easyexcel.EasyExcelComponent;
 import com.zeroone.star.project.components.user.UserHolder;
+import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j4.student.ResponseDTO;
 import com.zeroone.star.project.dto.j4.student.StudentDTO;
+import com.zeroone.star.project.query.j4.student.CourseQuery;
+import com.zeroone.star.project.query.j4.student.StudentQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.student.config.RequestMetaUtil;
-import com.zeroone.star.student.entity.Student;
-import com.zeroone.star.student.entity.SysLog;
-import com.zeroone.star.student.entity.User;
+import com.zeroone.star.student.entity.*;
 import com.zeroone.star.project.vo.j4.student.StudentExportExcelVO;
 import com.zeroone.star.project.vo.j4.student.StudentImportExcelVO;
+import com.zeroone.star.student.mapper.ClassStudentMapper;
 import com.zeroone.star.student.mapper.StudentMapper;
 import com.zeroone.star.student.mapper.SysLogMapper;
 import com.zeroone.star.student.service.IStudentService;
@@ -33,6 +41,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -54,6 +63,9 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
 
     @Resource
     private HttpServletRequest httpRequest;
+
+    @Resource
+    private ClassStudentMapper classStudentMapper;
 
     // 注入框架自带的当前用户获取组件
     @Resource
@@ -328,4 +340,59 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     public byte[] exportOnlineStudent() {
         return new byte[0];
     }
+
+    @Override
+    public PageDTO<ResponseDTO> listall(StudentQuery condition) {
+        String name = condition.getName();
+        String status = condition.getStage();
+
+        // 1.构建分页查询对象
+        Page<Student> page = new Page<>(condition.getPageIndex(), condition.getPageSize());
+
+        // 2.分页查询
+        Page<Student> p = lambdaQuery()
+                .like(!StringUtils.isEmpty(name), Student::getName, name)
+                .eq(!StringUtils.isEmpty(status), Student::getStage, status)
+                .page(page);
+
+        // 3.封装成ResponsDTO
+        PageDTO<ResponseDTO> result = new PageDTO<>();
+
+        result.setTotal(p.getTotal());
+        result.setPages(p.getPages());
+        result.setPageIndex(condition.getPageIndex());
+        result.setPageSize(condition.getPageSize());
+
+        List<Student> records = p.getRecords();
+        List<ResponseDTO> responseDTOS = BeanUtil.copyToList(records, ResponseDTO.class);
+        result.setRows(responseDTOS);
+
+        return result;
+    }
+
+    @Override
+    public PageDTO<StudentDTO> queryCourseStu(CourseQuery condition) {
+        // 1. 构建分页查询对象
+        Page<ClassStudent> page = new Page<>(condition.getPageIndex(), condition.getPageSize());
+
+        // 2. 构建查询条件
+        QueryWrapper<ClassStudent> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("class_id", condition.getClassId());
+        Page<ClassStudent> classStudentPage = classStudentMapper.selectPage(page, queryWrapper);
+
+        // 3.封装成StudentDTO
+        PageDTO<StudentDTO> result = new PageDTO<>();
+        result.setTotal(classStudentPage.getTotal());
+        result.setPages(classStudentPage.getPages());
+        result.setPageIndex(condition.getPageIndex());
+        result.setPageSize(condition.getPageSize());
+
+        List<ClassStudent> records = classStudentPage.getRecords();
+        List<StudentDTO> responseDTOS = BeanUtil.copyToList(records, StudentDTO.class);
+        result.setRows(responseDTOS);
+
+        return result;
+    }
+
+
 }
