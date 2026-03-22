@@ -75,9 +75,36 @@ export default defineNuxtConfig({
 	},
 
 	icon: {
+		/** 默认会扫描本地安装的全部 iconify 集合（可达上百个），Nitro 打包阶段极易 OOM；站点仅使用 lucide */
+		serverBundle: {
+			collections: ["lucide"],
+		},
 		clientBundle: {
 			scan: true,
 			sizeLimitKb: 512,
+		},
+	},
+
+	/**
+	 * `node-server` 产物不依赖构建期全站静态化。预渲染会再拉起一套 nitro-prerender 进程并加载完整 SSR 包，
+	 * 在默认堆（及 8G 上限）下易 OOM。清空待渲染路由并关闭 crawl，使 `nuxt build` 只产出 SSR 服务包。
+	 * 若需要纯静态托管，可改用 `nuxi generate` 或在有足够内存的环境执行带预渲染的构建。
+	 */
+	nitro: {
+		externals: {
+			/**
+			 * Windows + pnpm workspace 下 nodeFileTrace 在当前文档站产物上会长期占用高 CPU/内存，
+			 * 先关闭 trace，避免 `nuxt build` 卡在 `Building Nuxt Nitro server` 阶段。
+			 */
+			trace: false,
+		},
+		prerender: {
+			crawlLinks: false,
+		},
+		hooks: {
+			"prerender:routes"(routes: Set<string>) {
+				routes.clear();
+			},
 		},
 	},
 });

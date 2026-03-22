@@ -38,7 +38,7 @@
 - https://github.com/plus-pro-components/plus-pro-components
 - https://github.com/qddidi/easyest
 
-## 01 <!-- TODO: 长期任务 --> 执行 `make-new-vue-element-cui` 这款 openspec 任务
+## 01 <!-- 已完成 --> 执行 `make-new-vue-element-cui` 这款 openspec 任务
 
 ## 02 <!-- 该任务已关闭 --> 执行 `improve-vue-element-cui-nuxt-docs-with-docus` 这款 openspec 任务
 
