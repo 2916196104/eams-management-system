@@ -39,7 +39,7 @@ public class AnnouncementDTO {
     @ApiModelProperty(value = "发布时间", example = "2026-03-17 10:00:00")
     private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "操作", example = "editor")
+    @ApiModelProperty(value = "操作", example = "1")
     private Long editor;
 
     @ApiModelProperty(value = "状态", example = "1")

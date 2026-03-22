@@ -53,6 +53,11 @@
         </dependency>
 
         <!-- 数据库相关 -->
+        <!--redis-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
         <!-- mp -->
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -90,7 +95,7 @@
                     <!-- 数据库连接信息配置 -->
                     <dbConfig>
                         <!-- 数据库主机地址 -->
-                        <host>192.168.149.134</host>
+                        <host>192.168.20.138</host>
                         <!-- 数据库端口 -->
                         <port>3306</port>
                         <!-- 数据库名称 -->
@@ -98,7 +103,7 @@
                         <!-- 数据库用户名 -->
                         <username>root</username>
                         <!-- 数据库密码 -->
-                        <password>123456</password>
+                        <password>root</password>
                     </dbConfig>
                     <!-- 生成代码输出根目录 -->
                     <outDir>${project.basedir}/src/main/java</outDir>
