@@ -1,4 +1,4 @@
-# merge-f1-to-all-branches.ps1
+﻿# merge-f1-to-all-branches.ps1
 # 批量将 f1 主分支内容合并到所有 f1 派生子分支
 # 遇到合并冲突时自动中止合并；合并成功但推送失败时会提示手动处理
 # 用法：powershell -ExecutionPolicy Bypass -File .\scripts\merge-f1-to-all-branches.ps1
