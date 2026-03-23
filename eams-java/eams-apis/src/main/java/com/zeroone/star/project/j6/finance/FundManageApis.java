@@ -2,7 +2,7 @@ package com.zeroone.star.project.j6.finance;
 
 import javax.servlet.http.HttpServletResponse;
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.vo.j6.finance.FinanceRecordVo;
+import com.zeroone.star.project.vo.j6.finance.FinanceRecordVO;
 import com.zeroone.star.project.query.j6.finance.FinanceRecordQuery;
 import com.zeroone.star.project.vo.JsonVO;
 
@@ -18,7 +18,7 @@ public interface FundManageApis {
      * @param condition 查询条件
      * @return 款项信息
      */
-    JsonVO<PageDTO<FinanceRecordVo>> queryPage(FinanceRecordQuery condition);
+    JsonVO<PageDTO<FinanceRecordVO>> queryPage(FinanceRecordQuery condition);
 
     /**
      * 批量确认
