@@ -1,16 +1,17 @@
 package com.zeroone.star.eamsj3class.service;
 
-import com.zeroone.star.eamsj3class.entity.Subject;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zeroone.star.eamsj3class.entity.CourseImage;
+
 
 /**
  * <p>
- * 科目 服务类
+ * 课程介绍图片 服务类
  * </p>
  *
  * @author heavydrink
  * @since 2026-03-23
  */
-public interface ISubjectService extends IService<Subject> {
+public interface ICourseImageService extends IService<CourseImage> {
 
 }

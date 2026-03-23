@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
  * 科目 服务实现类
  * </p>
  *
- * @author fish
- * @since 2026-03-17
+ * @author heavydrink
+ * @since 2026-03-23
  */
 @Service
 public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> implements ISubjectService {

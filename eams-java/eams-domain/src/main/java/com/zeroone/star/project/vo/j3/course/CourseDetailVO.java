@@ -3,6 +3,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * <p>
@@ -14,6 +15,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @ApiModel("课程详情VO")
 public class CourseDetailVO {
     @ApiModelProperty(value = "课程ID", example = "2")
@@ -36,8 +38,8 @@ public class CourseDetailVO {
     Integer lessonCount;
     @ApiModelProperty(value = "有效月数", example = "12")
     Integer expireMonths;
-    @ApiModelProperty(value = "课程类型", example = "一对一")
-    String lessonType;
+    @ApiModelProperty(value = "课程类型1 大课 ,2 小班课,3 1v1", example = "1")
+    Integer lessonType;
     @ApiModelProperty(value = "消课课酬", example = "0")
     String salary;
     @ApiModelProperty(value = "预约模式", example = "true")
@@ -57,7 +59,7 @@ public class CourseDetailVO {
     @ApiModelProperty(value = "详情介绍图集", example = "http://localhost:80/uploads/2026-03-10/48a6d934-b1ba-43b7-84a8-5e2ac20b9fc6.jpg")
     String images;
     @ApiModelProperty(value = "师资说明", example = "测试师资说明")
-    String teacher_info;
+    String teacherInfo;
     @ApiModelProperty(value = "服务说明", example = "测试服务说明")
-    String service_info;
+    String serviceInfo;
 }

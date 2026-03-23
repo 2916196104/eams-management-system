@@ -3,6 +3,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 /**
  * <p>
@@ -14,6 +17,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @ApiModel("分页展示课程信息DTO")
 public class CourseListVO {
     @ApiModelProperty(value = "课程ID", example = "2")
@@ -36,16 +40,16 @@ public class CourseListVO {
     String unitName;
     @ApiModelProperty(value = "关联数", example = "1")
     Integer linkCount;
-    @ApiModelProperty(value = "可预约", example = "true")
-    Boolean bookable;
-    @ApiModelProperty(value = "上架状态", example = "是")
+    @ApiModelProperty(value = "可预约", example = "开")
+    String bookable;
+    @ApiModelProperty(value = "上架状态", example = "上架中")
     String forSale;
     @ApiModelProperty(value = "库存", example = "100")
     Integer storage;
     @ApiModelProperty(value = "销售量", example = "0")
     Integer saleCount;
     @ApiModelProperty(value = "销售额", example = "0.00")
-    Integer saleAmount;
+    BigDecimal saleAmount;
     @ApiModelProperty(value = "销售截至", example = "2026-05-01")
     String closeDate;
     @ApiModelProperty(value = "课程状态", example = "启用")
