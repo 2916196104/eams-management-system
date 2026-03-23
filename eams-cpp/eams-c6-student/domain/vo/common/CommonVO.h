@@ -20,9 +20,23 @@ class FileJsonVO:public JsonVO<FileOnlyDTO::Wrapper>
 public:
     DTO_INIT(FileJsonVO, JsonVO<FileOnlyDTO::Wrapper>)
 };
+
 class CourseCountJsonVO : public JsonVO<CourseCountDTO::Wrapper> {
 public:
     DTO_INIT(CourseCountJsonVO, JsonVO<CourseCountDTO::Wrapper>)
 };
+
+
+
+
+
+/**
+ * 示例分页显示JsonVO，用于响应给客户端的Json对象
+ */
+class QueryFollowUprecordsJsonVO : public JsonVO<QueryFollowUprecordsDTO::Wrapper> {
+    DTO_INIT(QueryFollowUprecordsJsonVO, JsonVO<QueryFollowUprecordsDTO::Wrapper>);
+};
+
+
 #include OATPP_CODEGEN_END(DTO)
 #endif

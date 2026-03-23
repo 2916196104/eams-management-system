@@ -136,5 +136,102 @@ class DeleteContactRecordDTO : public oatpp::DTO {
 	API_DTO_FIELD_DEFAULT(List<Int64>, ids, "contact-record.field.ids");
 };
 
+
+
+
+
+
+
+/**
+ * 调整积分DTO
+ */
+class ModifyPointsDTO : public oatpp::DTO
+{
+	DTO_INIT(ModifyPointsDTO, DTO);
+	//id
+	API_DTO_FIELD_DEFAULT(Int32, id, ZH_WORDS_GETTER("common.field.student.id"));
+	// 调整积分数
+	API_DTO_FIELD_DEFAULT(String, modify_points, ZH_WORDS_GETTER("common.field.student.modify-points"));
+	// 调整原因
+	API_DTO_FIELD_DEFAULT(String, modify_reason, ZH_WORDS_GETTER("common.field.student.modify-reason"));
+	// 关联一个PayloadDTO负载数据对象
+	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
+public:
+
+};
+
+
+
+
+
+
+/**
+ * 添加跟进记录
+ */
+class AddFollowUpRecordDTO : public oatpp::DTO
+{
+	DTO_INIT(AddFollowUpRecordDTO, DTO);
+	//id
+	API_DTO_FIELD_DEFAULT(Int32, id, ZH_WORDS_GETTER("common.field.student.id"));
+	// 跟进阶段
+	API_DTO_FIELD_DEFAULT(String, follow_up_stage, ZH_WORDS_GETTER("common.field.student.follow-up-stage"));
+	//联系途径
+	API_DTO_FIELD_DEFAULT(String, contact_channel, ZH_WORDS_GETTER("common.field.student.contact-channel"));
+	//联系时间
+	API_DTO_FIELD_DEFAULT(String, contact_time, ZH_WORDS_GETTER("common.field.student.contact-time"));
+	//下次联系时间
+	API_DTO_FIELD_DEFAULT(String, next_contact_time, ZH_WORDS_GETTER("common.field.student.next-contact-time"));
+	//联系方式
+	API_DTO_FIELD_DEFAULT(String, contact_way, ZH_WORDS_GETTER("common.field.student.contact-way"));
+	//跟进内容
+	API_DTO_FIELD_DEFAULT(String, follow_up_content, ZH_WORDS_GETTER("common.field.student.follow-up-content"));
+
+	// 关联一个PayloadDTO负载数据对象
+	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
+public:
+
+};
+
+
+
+
+
+
+/**
+ * 查询跟进记录DTO
+ */
+class QueryDTO : public oatpp::DTO
+{
+	DTO_INIT(QueryDTO, DTO);
+	// 跟进时间
+	API_DTO_FIELD_DEFAULT(String, follow_up_time, ZH_WORDS_GETTER("common.field.student.follow-up-time"));
+	//跟进人
+	API_DTO_FIELD_DEFAULT(String, follow_up_person, ZH_WORDS_GETTER("common.field.student.follow-up-person"));
+	//客户
+	API_DTO_FIELD_DEFAULT(String, customer, ZH_WORDS_GETTER("common.field.student.customer"));
+	//阶段
+	API_DTO_FIELD_DEFAULT(String, follow_up_stage, ZH_WORDS_GETTER("common.field.student.follow-up-stage"));
+	//跟进方式
+	API_DTO_FIELD_DEFAULT(String, follow_up_way, ZH_WORDS_GETTER("common.field.student.follow-up-way"));
+	//下次跟进时间
+	API_DTO_FIELD_DEFAULT(String, next_follow_up_time, ZH_WORDS_GETTER("common.field.student.next-follow-up-time"));
+	//记录时间
+	API_DTO_FIELD_DEFAULT(String, record_time, ZH_WORDS_GETTER("common.field.student.record-time"));
+	//跟进内容
+	API_DTO_FIELD_DEFAULT(String, follow_up_content, ZH_WORDS_GETTER("common.field.student.follow-up-content"));
+
+
+	// 关联一个PayloadDTO负载数据对象
+	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
+public:
+
+};class QueryFollowUprecordsDTO : public PageDTO<QueryDTO::Wrapper>
+{
+	DTO_INIT(QueryFollowUprecordsDTO, PageDTO<QueryDTO::Wrapper>);
+};
+
+
+
+
 #include OATPP_CODEGEN_END(DTO)
 #endif
