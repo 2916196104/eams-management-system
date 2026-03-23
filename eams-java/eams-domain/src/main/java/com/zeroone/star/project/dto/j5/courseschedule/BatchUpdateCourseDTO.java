@@ -12,36 +12,26 @@ import java.util.List;
 @ApiModel("批量修改课次 DTO")
 public class BatchUpdateCourseDTO {
 
-    @ApiModelProperty(value = "需要修改的课表ID集合", required = true)
-    private List<Long> lessonIds;
+    @ApiModelProperty(value = "课程ID列表", required = true, example = "1,2,3")
+    private List<Long> updateIds;
 
-    @ApiModelProperty(value = "调整天数（-7到7）", example = "1")
-    private Integer dayOffset;
+    @ApiModelProperty(value = "增减天数", example = "1")
+    private Integer changeDays;
 
-
-    @ApiModelProperty(value = "新上课老师ID")
-    private Long teacherId;
-
-    @ApiModelProperty(value = "新上课老师名称")
-    private String teacherName;
-
-    @ApiModelProperty(value = "新助教ID")
-    private Long assistantId;
-
-    @ApiModelProperty(value = "新助教名称")
-    private String assistantName;
-
-    @ApiModelProperty(value = "新教室ID")
-    private Long classroomId;
-
-    @ApiModelProperty(value = "新教室名称")
-    private String classroomName;
-
-    @ApiModelProperty(value = "新开始时间")
+    @ApiModelProperty(value = "开始时间", example = "00:00:00")
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime startTime;
 
-    @ApiModelProperty(value = "新结束时间")
+    @ApiModelProperty(value = "结束时间", example = "23:59:59")
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime endTime;
+
+    @ApiModelProperty(value = "教室ID", example = "1")
+    private Long roomId;
+
+    @ApiModelProperty(value = "主讲老师id集合",example = "1,2")
+    private List<Long> teacherIds;
+
+    @ApiModelProperty(value = "助教老师id集合",example = "1,2")
+    private List<Long> assistantIds;
 }
