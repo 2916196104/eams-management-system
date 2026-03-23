@@ -4,15 +4,16 @@
 
 #include "BaseDAO.h"
 #include"domain/query/parentaccount/ParentAccountQuery.h"
+#include"domain/do/student/StudentDO.h"
 
 /**
- * 家长账号数据访问层
+ * ??????????????
  */
 class ParentAccountDAO : public BaseDAO
 {
 public:
 	uint64_t countParentAccount(const ParentAccountQuery::Wrapper& query);
-
+	list<ParentAccountQueryDO> listParentAccount(const ParentAccountQuery::Wrapper& query);
 };
 
 #endif // !_PARENT_ACCOUNT_DAO_H_

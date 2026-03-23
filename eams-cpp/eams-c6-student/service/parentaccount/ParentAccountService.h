@@ -5,8 +5,9 @@
 #include"domain/query/parentaccount/ParentAccountQuery.h"
 #include"domain/dto/parentaccount/ParentAccountDTO.h"
 #include"dao/parentaccount/ParentAccountDAO.h"
+#include"domain/do/student/StudentDO.h"
 /**
- * ¼Ò³¤ÕËºÅÒµÎñ²ã
+ * ï¿½Ò³ï¿½ï¿½Ëºï¿½Òµï¿½ï¿½ï¿½
  */
 class ParentAccountService
 {
@@ -15,5 +16,6 @@ private:
 public:
 	ParentAccountPageDTO listParentAccount(const ParentAccountQuery::Wrapper& query);
 };
+
 
 #endif // !_PARENT_ACCOUNT_SERVICE_H_

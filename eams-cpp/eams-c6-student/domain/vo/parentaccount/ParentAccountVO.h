@@ -10,9 +10,9 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * 瀹堕暱璐﹀彿鍒嗛〉鍒楄〃鍝嶅簲瀵硅薄
+ * 家长账号分页列表响应对象
  */
-using ParentAccountPageDTO = PageDTO<ParentAccountDTO::Wrapper>::Wrapper ;
+using ParentAccountPageDTO = PageDTO<ParentAccountQueryDTO::Wrapper>::Wrapper ;
 class ParentAccountPageJsonVO : public JsonVO<ParentAccountPageDTO>
 {
 	DTO_INIT(ParentAccountPageJsonVO, JsonVO<ParentAccountPageDTO>);
