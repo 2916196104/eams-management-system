@@ -32,7 +32,7 @@ public:
 	}
 
 	// 定义接口
-	ENDPOINT("GET", "/c5/schedule/appointment", appointment, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
+	ENDPOINT("POST", "/c5/schedule/appointment", appointment, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
 		// 解析查询参数为Query领域模型
 		API_HANDLER_QUERY_PARAM(query, AppointmentQuery, queryParams);
 		// 呼叫执行函数响应结果

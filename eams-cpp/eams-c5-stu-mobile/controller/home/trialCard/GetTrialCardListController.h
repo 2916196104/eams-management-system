@@ -20,7 +20,7 @@ public:
 		// 定义响应参数格式
 		API_DEF_ADD_RSP_JSON_WRAPPER(GetTrialCardListPageJsonVO);
 		// 定义标签
-		API_DEF_ADD_TAG("schedule");
+		API_DEF_ADD_TAG("home");
 		// 定义分页查询参数描述
 		API_DEF_ADD_PAGE_PARAMS();
 		// 定义其他查询参数描述

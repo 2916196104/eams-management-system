@@ -7,11 +7,15 @@
 
 class RegisterDAO : public BaseDAO
 {
+private:
+	// 利用雪花算法生成唯一ID
+	std::string generateSnowFlakeId();
+	// 获取当前时间
+	std::string getCurrentDateTime();
 public:
-	// 插入数据,主键为自增
-	//uint64_t insertAutoPk(const RegisterDO& bd);
-	// 查询数据，根据主键查询
-	PtrRegisterDO selectById(const std::string& id);
+	// 判断当前数据库中是否存在相同手机号的用户
+	bool isMobileExist(const std::string& mobile);
+	void insertUser(const PtrRegisterDO query);
 };
 
 #endif
