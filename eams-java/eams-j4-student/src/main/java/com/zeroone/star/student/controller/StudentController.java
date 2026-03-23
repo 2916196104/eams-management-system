@@ -10,7 +10,6 @@ import com.zeroone.star.project.query.j4.student.FollowUpQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.student.service.StudentService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
@@ -31,38 +30,44 @@ public class StudentController implements StudentApis {
 
     @Resource
     private StudentService studentService;
+
     @GetMapping("/follow-up/page")
     @ApiOperation("获取跟进记录列表（条件+分页）")
     @Override
-    public JsonVO<PageDTO<FollowUpDTO>> queryFollowUpPage(FollowUpQuery condition) {
-        // TODO: 调用 Service 层实现业务逻辑
-        // 模拟返回，实际需替换为 service.queryFollowUpPage(condition)
-        return null;
+    public JsonVO<PageDTO<FollowUpDTO>> queryFollowUpPage(@Validated FollowUpQuery condition) {
+        return JsonVO.success(studentService.queryFollowUpPage(condition));
     }
+
 
     @PostMapping("/follow-up")
     @ApiOperation("添加/修改跟进记录")
     @Override
-    public JsonVO<Long> saveFollowUp(@RequestBody FollowUpDTO followUpDTO) {
-        // TODO: 调用 Service 层实现业务逻辑
-        // 如果 followUpDTO.getId() != null 则更新，否则新增
-        return null;
+    public JsonVO<Long> saveFollowUp(@RequestBody @Validated FollowUpDTO followUpDTO) {
+        // 基本业务校验
+        if (followUpDTO.getStudentId() == null) return JsonVO.fail("学生ID不能为空");
+        if (followUpDTO.getContactTime() == null) return JsonVO.fail("联系时间不能为空");
+
+        Long id = studentService.saveFollowUp(followUpDTO);
+        return JsonVO.success(id);
     }
 
     @DeleteMapping("/follow-up/{id}")
     @ApiOperation("删除跟进记录（单个删除）")
     @Override
     public JsonVO<Long> deleteFollowUp(@PathVariable Long id) {
-        // TODO: 调用 Service 层实现业务逻辑
-        return null;
+        try {
+            return JsonVO.success(studentService.removeFollowUp(id));
+        } catch (Exception e) {
+            return JsonVO.fail("删除失败：" + e.getMessage());
+        }
     }
 
     @GetMapping("/follow-up/{id}")
     @ApiOperation("获取跟进记录详情")
     @Override
     public JsonVO<FollowUpDTO> getFollowUpDetail(@PathVariable Long id) {
-        // TODO: 调用 Service 层实现业务逻辑
-        return null;
+        FollowUpDTO detail = studentService.getFollowUpDetail(id);
+        return detail != null ? JsonVO.success(detail) : JsonVO.fail("记录不存在");
     }
 
 

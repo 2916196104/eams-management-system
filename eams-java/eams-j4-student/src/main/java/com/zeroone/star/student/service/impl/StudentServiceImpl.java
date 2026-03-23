@@ -1,5 +1,6 @@
 package com.zeroone.star.student.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -8,12 +9,16 @@ import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j4.student.ClassDTO;
 import com.zeroone.star.project.dto.j4.student.ClassStudentDTO;
 
+import com.zeroone.star.project.dto.j4.student.FollowUpDTO;
 import com.zeroone.star.project.query.j4.student.ClassQuery;
 
+import com.zeroone.star.project.query.j4.student.FollowUpQuery;
 import com.zeroone.star.project.vo.j4.student.ClassDetailVO;
 import com.zeroone.star.student.entity.ClassStudentDO;
+import com.zeroone.star.student.entity.ContactRecordDO;
 import com.zeroone.star.student.mapper.ClassMapper;
 import com.zeroone.star.student.mapper.ClassStudentMapper;
+import com.zeroone.star.student.mapper.ContactRecordMapper;
 import com.zeroone.star.student.service.StudentService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -134,6 +139,50 @@ public class StudentServiceImpl implements StudentService {
         if (vo.getPlannedStudentCount() != null) {
             dto.setMaxStudentCount(vo.getPlannedStudentCount());
         }
+        return dto;
+    }
+    @Resource
+    private ContactRecordMapper contactRecordMapper;
+
+    @Override
+    public PageDTO<FollowUpDTO> queryFollowUpPage(FollowUpQuery condition) {
+        // 1. 创建分页参数对象
+        Page<FollowUpDTO> pageParam = new Page<>(condition.getPageIndex(), condition.getPageSize());
+
+        // 2. 执行查询，返回 IPage
+        IPage<FollowUpDTO> iPage = contactRecordMapper.selectFollowUpPage(pageParam, condition);
+
+        // 3. 强转并转换成 PageDTO
+        return PageDTO.create((Page<FollowUpDTO>) iPage);
+    }
+
+    @Override
+    @Transactional
+    public Long saveFollowUp(FollowUpDTO dto) {
+        ContactRecordDO recordDO = new ContactRecordDO();
+        BeanUtil.copyProperties(dto, recordDO); // 使用文档提到的 BeanUtil
+
+        if (dto.getId() == null) {
+            recordDO.setAddTime(LocalDateTime.now());
+            contactRecordMapper.insert(recordDO);
+        } else {
+            contactRecordMapper.updateById(recordDO);
+        }
+        return recordDO.getId();
+    }
+
+    @Override
+    public Long removeFollowUp(Long id) {
+        contactRecordMapper.deleteById(id);
+        return id;
+    }
+
+    @Override
+    public FollowUpDTO getFollowUpDetail(Long id) {
+        ContactRecordDO recordDO = contactRecordMapper.selectById(id);
+        if (recordDO == null) return null;
+        FollowUpDTO dto = new FollowUpDTO();
+        BeanUtil.copyProperties(recordDO, dto);
         return dto;
     }
 }
