@@ -145,20 +145,6 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgDO> implements IOr
         return orgDO.getId();
     }
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean removeOrg(Long orgId) {
-        if (orgId == null) {
-            return false;
-        }
-
-        int childCount = baseMapper.countChildrenByOrgId(orgId);
-        if (childCount > 0) {
-            throw new RuntimeException("该机构存在子机构，不允许删除");
-        }
-
-        return removeById(orgId);
-    }
 
 
     /**
