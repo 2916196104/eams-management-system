@@ -160,6 +160,35 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgDO> implements IOr
         return removeById(orgId);
     }
 
+
+    /**
+     * 删除机构时多表查询校验是否有剩余员工
+     */
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean removeOrg(Long orgId) {
+        if (orgId == null) {
+            return false;
+        }
+
+        int childCount = baseMapper.countChildrenByOrgId(orgId);
+        if (childCount > 0) {
+            throw new RuntimeException("该机构存在子机构，不允许删除");
+        }
+
+        int staffCount = baseMapper.countStaffByOrgId(orgId);
+        if (staffCount > 0) {
+            throw new RuntimeException("该机构存在" + staffCount + "名员工，不允许删除");
+        }
+
+        return removeById(orgId);
+    }
+
+
+
+
+
     /**
      * 构建并更新路径
      */

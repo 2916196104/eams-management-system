@@ -69,4 +69,12 @@ public interface OrgMapper extends BaseMapper<OrgDO> {
      */
     @Select("SELECT name FROM org WHERE id = #{pid} AND deleted = 0")
     String selectParentNameById(@Param("pid") Long pid);
+
+    /**
+     * 统计机构下的员工数量
+     * @param orgId 机构ID
+     * @return 员工数量
+     */
+    @Select("SELECT COUNT(1) FROM staff WHERE org_id = #{orgId} AND deleted = 0")
+    int countStaffByOrgId(@Param("orgId") Long orgId);
 }
