@@ -15,6 +15,8 @@ import java.util.List;
  * @version 1.0.0
  */
 public interface IPositionService {
+    List<String> listNames(String name);
+
     PageDTO<PositionDTO> list(PositionQueryCondition condition);
 
     boolean save(PositionDTO dto);

@@ -39,6 +39,20 @@ public class PositionServiceImpl implements IPositionService {
     private UserHolder userHolder;
 
     @Override
+    public List<String> listNames(String name) {
+        LambdaQueryWrapper<Position> wrapper = new LambdaQueryWrapper<>();
+        wrapper.select(Position::getName);
+        if (name != null && !name.trim().isEmpty()) {
+            wrapper.like(Position::getName, name.trim());
+        }
+        wrapper.orderByDesc(Position::getId);
+        return positionMapper.selectList(wrapper).stream()
+                .map(Position::getName)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public PageDTO<PositionDTO> list(PositionQueryCondition condition) {
         LambdaQueryWrapper<Position> wrapper = new LambdaQueryWrapper<>();
         wrapper.select(Position::getId, Position::getName);

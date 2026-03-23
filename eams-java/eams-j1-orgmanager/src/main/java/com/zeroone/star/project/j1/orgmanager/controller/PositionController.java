@@ -3,10 +3,9 @@ package com.zeroone.star.project.j1.orgmanager.controller;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j1.orgmanager.PositionDTO;
-import com.zeroone.star.project.dto.j1.orgmanager.PositionSetDTO;
 import com.zeroone.star.project.j1.orgmanager.PositionApis;
 import com.zeroone.star.project.j1.orgmanager.service.IPositionService;
-import com.zeroone.star.project.j1.orgmanager.service.IStaffOrgInfoService;
+import com.zeroone.star.project.query.j1.orgmanager.PositionQueryCondition;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -22,10 +21,9 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.List;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import com.zeroone.star.project.query.j1.orgmanager.PositionQueryCondition;
+import java.util.List;
 
 /**
  * <p>
@@ -42,13 +40,21 @@ import com.zeroone.star.project.query.j1.orgmanager.PositionQueryCondition;
 public class PositionController implements PositionApis {
     @Resource
     private IPositionService positionService;
-    @Resource
-    private IStaffOrgInfoService staffOrgInfoService;
+
+    @Override
+    @GetMapping("/names")
+    @ApiOperation(value = "获取职位名称", notes = "用于下拉选择职位名称，可按名称模糊筛选")
+    @ApiOperationSupport(order = 1)
+    @ApiImplicitParam(name = "name", value = "职位名称", required = false, paramType = "query",
+            dataTypeClass = String.class, defaultValue = "")
+    public JsonVO<List<String>> listNames(String name) {
+        return JsonVO.success(positionService.listNames(name));
+    }
 
     @Override
     @GetMapping("/list")
     @ApiOperation(value = "职位列表", notes = "支持按职位名称模糊搜索，返回分页数据")
-    @ApiOperationSupport(order = 1)
+    @ApiOperationSupport(order = 2)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", required = false, paramType = "query",
                     dataTypeClass = Integer.class, defaultValue = "1"),
@@ -64,7 +70,7 @@ public class PositionController implements PositionApis {
     @Override
     @PostMapping("/save")
     @ApiOperation(value = "创建和修改职位", notes = "ID为空时新增，有ID时修改")
-    @ApiOperationSupport(order = 2)
+    @ApiOperationSupport(order = 3)
     public JsonVO<String> save(@Valid @RequestBody PositionDTO dto) {
         boolean result = positionService.save(dto);
         return result ? JsonVO.success(dto.getId() == null ? "创建职位成功" : "修改职位成功") : JsonVO.fail("操作失败");
@@ -73,19 +79,10 @@ public class PositionController implements PositionApis {
     @Override
     @PostMapping("/delete")
     @ApiOperation(value = "删除职位", notes = "支持批量删除，传职位ID列表")
-    @ApiOperationSupport(order = 3)
+    @ApiOperationSupport(order = 4)
     public JsonVO<String> delete(@ApiParam(value = "职位ID列表", required = true, example = "[1,2,3]")
                                  @RequestBody @NotEmpty(message = "职位ID列表不能为空") List<@NotNull(message = "职位ID不能为空") Long> ids) {
         boolean result = positionService.delete(ids);
         return result ? JsonVO.success(String.format("成功删除 %d 个职位", ids.size())) : JsonVO.fail("删除职位失败");
-    }
-
-    @Override
-    @PostMapping("/setStaffPosition")
-    @ApiOperation(value = "设置员工职位", notes = "为员工设置所属组织和职位")
-    @ApiOperationSupport(order = 4)
-    public JsonVO<String> setStaffPosition(@Valid @RequestBody PositionSetDTO dto) {
-        boolean result = staffOrgInfoService.setStaffPosition(dto);
-        return result ? JsonVO.success("设置员工职位成功") : JsonVO.fail("设置员工职位失败");
     }
 }

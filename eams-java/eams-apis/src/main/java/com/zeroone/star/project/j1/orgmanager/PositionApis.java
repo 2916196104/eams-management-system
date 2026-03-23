@@ -2,7 +2,6 @@ package com.zeroone.star.project.j1.orgmanager;
 
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j1.orgmanager.PositionDTO;
-import com.zeroone.star.project.dto.j1.orgmanager.PositionSetDTO;
 import com.zeroone.star.project.query.j1.orgmanager.PositionQueryCondition;
 import com.zeroone.star.project.vo.JsonVO;
 
@@ -17,6 +16,14 @@ import java.util.List;
  * @version 1.0.0
  */
 public interface PositionApis {
+    /**
+     * 获取职位名称
+     *
+     * @param name 职位名称，可选
+     * @return 职位名称列表
+     */
+    JsonVO<List<String>> listNames(String name);
+
     /**
      * 职位列表
      *
@@ -40,12 +47,4 @@ public interface PositionApis {
      * @return 操作结果
      */
     JsonVO<String> delete(List<Long> ids);
-
-    /**
-     * 设置员工职位
-     *
-     * @param dto 设置员工职位对象
-     * @return 操作结果
-     */
-    JsonVO<String> setStaffPosition(PositionSetDTO dto);
 }
