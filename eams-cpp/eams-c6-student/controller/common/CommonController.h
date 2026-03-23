@@ -200,7 +200,7 @@ private:
 	std::shared_ptr<OutgoingResponse> executeLoadStudentPicturebyPicturePath(const String& picturePath){
 		return nullptr;
 	}
-<<<<<<< HEAD
+
 	CourseCountJsonVO::Wrapper executeGetCourseCountData(const String& id) {
 		return CourseCountJsonVO::createShared();
 	}
@@ -223,7 +223,6 @@ private:
 	StringJsonVO::Wrapper executeDeleteContactRecord(const DeleteContactRecordDTO::Wrapper& dto) {
 		return StringJsonVO::createShared();
 	}
-=======
 
 
 	// 3.3 调整积分接口执行函数
@@ -236,7 +235,7 @@ private:
 	
 	// 查询跟进记录
 	QueryFollowUprecordsJsonVO::Wrapper execQueryFollowUprecords(const FollowUprecordsQuery::Wrapper& query);
->>>>>>> c6-a-luo
+
 
 
 
