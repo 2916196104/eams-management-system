@@ -68,7 +68,7 @@ private:	//定义接口执行函数
 	ListJsonVO<String>::Wrapper execEndBoard(const List<String>& ids);
 
 	// ========== 新增：函数声明（完全抄原有格式） ==========
-	ListJsonVO<String>::Wrapper execGetAnnouncementList(const PayloadDTO& payload);
+	ListJsonVO<String>::Wrapper execGetBoardList(const BoardQuery::Wrapper& query);
 	GetBoardDetailJsonVO::Wrapper execGetBoardDetail(const oatpp::String& boardId, const oatpp::String& boardTitle, const oatpp::String& boardType);
 
 };

@@ -6,8 +6,12 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-//公告管理视图类
 
+
+
+class GetBoardDetailJsonVO : public JsonVO<GetBoardDetailDTO::Wrapper> {
+	DTO_INIT(GetBoardDetailJsonVO, JsonVO<GetBoardDetailDTO::Wrapper>);
+};
 /**
  * 定义一个公告信息分页显示JsonVO对象，用于响应给客户端
  */
@@ -16,9 +20,6 @@ class BoardPageJsonVO : public JsonVO<BoardPageDTO::Wrapper>
 	DTO_INIT(BoardPageJsonVO, JsonVO<BoardPageDTO::Wrapper>);
 };
 
-class GetBoardDetailJsonVO : public JsonVO<GetBoardDetailDTO::Wrapper> {
-	DTO_INIT(GetBoardDetailJsonVO, JsonVO<GetBoardDetailDTO::Wrapper>);
-};
 
 #include OATPP_CODEGEN_END(DTO)
 
