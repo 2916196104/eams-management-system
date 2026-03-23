@@ -81,7 +81,7 @@ public:
 
 		API_HANDLER_RESP_VO(exePayFees(dto));
 	}
-	// 学员退费1
+	// 学员退费
 	ENDPOINT_INFO(refund) {
 		API_DEF_ADD_AUTH();//添加权限认证
 		API_DEF_ADD_TAG(API_TAG);//将接口添加到分组
