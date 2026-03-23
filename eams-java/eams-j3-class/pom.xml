@@ -86,13 +86,15 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.zeroone.star.sample.EamsJ3ClassApplication</mainClass>
+                    <mainClass>com.homework.eamsj3class.EamsJ3ClassApplication</mainClass>
                 </configuration>
             </plugin>
             <plugin>
@@ -102,15 +104,15 @@
                     <!-- 数据库连接信息配置 -->
                     <dbConfig>
                         <!-- 数据库主机地址 -->
-                        <host>172.18.147.211</host>
+                        <host>192.168.230.12</host>
                         <!-- 数据库端口 -->
                         <port>3306</port>
                         <!-- 数据库名称 -->
-                        <dbname>test</dbname>
+                        <dbname>zo_eams</dbname>
                         <!-- 数据库用户名 -->
                         <username>root</username>
                         <!-- 数据库密码 -->
-                        <password>root</password>
+                        <password>123</password>
                     </dbConfig>
                     <!-- 生成代码输出根目录 -->
                     <outDir>${project.basedir}/src/main/java</outDir>
@@ -118,4 +120,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
