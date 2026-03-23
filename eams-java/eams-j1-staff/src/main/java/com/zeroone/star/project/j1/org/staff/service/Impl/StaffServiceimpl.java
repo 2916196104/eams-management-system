@@ -10,6 +10,7 @@ import com.github.pagehelper.PageInfo;
 import com.zeroone.star.project.DO.Staff;
 import com.zeroone.star.project.DO.StaffOrginfo;
 import com.zeroone.star.project.DO.StaffPosition;
+import com.zeroone.star.project.components.user.UserHolder;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j1.org.StaffDTO;
 import com.zeroone.star.project.dto.j1.org.StaffSetDTO;
@@ -26,6 +27,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,13 +38,16 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
     private StaffOrginfoMapper staffOrginfoMapper;
     @Autowired
     private StaffPositionMapper staffPositionMapper;
-@Autowired StaffMapper staffMapper;
+@Autowired
+private StaffMapper staffMapper;
+@Resource
+private UserHolder userHolder;
+
     @Override
     public JsonVO<PageDTO<StaffVO>> queryPage(StaffQuery condition) {
         long pageNo = condition.getPageIndex();
         long pageSize = condition.getPageSize();
         PageHelper.startPage((int)pageNo,(int)pageSize);
-
         // 【改动1】迁移Mapper的wrapper到Service层
         LambdaQueryWrapper<Staff> queryWrapper = new LambdaQueryWrapper<>();
         if (condition.getName() != null && !condition.getName().isEmpty()) {
@@ -75,7 +80,7 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
                                     .eq(StaffOrginfo::getDeleted, 0)
                     );
                     if (orgInfoDO != null) {
-                        staffVO.setOrgId(orgInfoDO.getOrgId());
+                        staffVO.setOrgId(userHolder.getCurrentOrgId());
                         staffVO.setPositionId(orgInfoDO.getPositionId());
                         // 新增：查职位名称
                         if (orgInfoDO.getPositionId() != null) {
@@ -127,7 +132,7 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
         );
         if (orgInfoDO != null) {
             // 补充机构表字段
-            staffVO.setOrgId(orgInfoDO.getOrgId());
+            staffVO.setOrgId(userHolder.getCurrentOrgId());
             staffVO.setGroupId(orgInfoDO.getGroupId());
             staffVO.setComId(orgInfoDO.getComId());
             staffVO.setDptId(orgInfoDO.getDptId());
@@ -154,7 +159,7 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
         if(condition.getMobile() == null||condition.getMobile().equals("")){
             return JsonVO.fail("账号不能为空");
         }
-        if(condition.getOrgId() == null){
+        if(userHolder.getCurrentOrgId() == null){
             return JsonVO.fail("机构不能为空");
         }
         if(condition.getGender() == null){
@@ -181,7 +186,7 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
             // 同步新增机构表
             StaffOrginfo orgInfoDO = new StaffOrginfo();
             orgInfoDO.setStaffId(staffId);
-            orgInfoDO.setOrgId(condition.getOrgId());
+            orgInfoDO.setOrgId(userHolder.getCurrentOrgId());
             orgInfoDO.setGroupId(condition.getGroupId());
             orgInfoDO.setComId(condition.getComId());
             orgInfoDO.setDptId(condition.getDptId());
@@ -195,7 +200,7 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
             // 同步更新机构表
             StaffOrginfo orgInfoDO = new StaffOrginfo();
             orgInfoDO.setStaffId(staffId);
-            orgInfoDO.setOrgId(condition.getOrgId());
+            orgInfoDO.setOrgId(userHolder.getCurrentOrgId());
             orgInfoDO.setPositionId(condition.getPositionId());
             orgInfoDO.setGroupId(condition.getGroupId());
             orgInfoDO.setComId(condition.getComId());
