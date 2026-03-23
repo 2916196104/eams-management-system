@@ -14,10 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("j5/edu/courseStudent")
 @Api(tags="随课生")
 public class CourseStudentController implements CourseStudentApis {
+
+
     @Override
     @ApiOperation("添加随课生")
     @PostMapping
+    /**
+     *
+     * @Param
+     * @return
+     */
     public JsonVO<Long> saveCourseStudent(@RequestBody CourseStudentDTO courseStudentDTO) {
         return null;
     }
+
 }
