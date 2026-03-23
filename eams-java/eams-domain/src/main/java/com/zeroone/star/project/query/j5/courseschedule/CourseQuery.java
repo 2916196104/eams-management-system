@@ -1,6 +1,7 @@
 package com.zeroone.star.project.query.j5.courseschedule;
 
 import com.zeroone.star.project.query.PageQuery;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -12,6 +13,11 @@ public class CourseQuery extends PageQuery {
     private String teacherName;    // 老师名称
     private String subjectName;    // 科目名称
     private String classroomName;  // 教室名称
+
+    @ApiModelProperty(value = "当前登录用户ID", required = true)
+    private Long userId;
+
+
 
     // 视图参数
     private LocalDate startDate;   // 视图起始日期
