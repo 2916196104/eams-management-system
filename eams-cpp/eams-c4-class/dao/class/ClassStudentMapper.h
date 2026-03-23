@@ -3,7 +3,7 @@
 #define _CLASS_STUDENT_MAPPER_H_
 
 #include "Mapper.h"
-#include "domain/do/class/ClassStudentDO.h"
+#include "domain/do/ClassStudentDO.h"
 
 class UInt64Mapper : public Mapper<uint64_t>
 {

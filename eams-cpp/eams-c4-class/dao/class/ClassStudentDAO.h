@@ -3,7 +3,7 @@
 #define _CLASS_STUDENT_DAO_H_
 
 #include "BaseDAO.h"
-#include "domain/do/class/ClassStudentDO.h"
+#include "domain/do/ClassStudentDO.h"
 #include "domain/query/class/ClassStudentQuery.h"
 
 class ClassStudentDAO : public BaseDAO
