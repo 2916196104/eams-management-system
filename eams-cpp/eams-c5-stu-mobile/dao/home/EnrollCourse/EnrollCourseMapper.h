@@ -13,9 +13,9 @@ public:
 		EnrollCourseDO data;
         data.setId(resultSet->getUInt64(1)); 
 
-        data.setStudentId(resultSet->getInt(2));
-        data.setCourseId(resultSet->getInt(3));
-        data.setSubjectId(resultSet->getInt(4));
+        data.setStudentId(resultSet->getUInt64(2));
+        data.setCourseId(resultSet->getUInt64(3));
+        data.setSubjectId(resultSet->getUInt64(4));
 
         data.setStartDate(resultSet->getString(5));
         data.setExpireDate(resultSet->getString(6));

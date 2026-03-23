@@ -11,9 +11,9 @@ class EnrollCourseDO : public BaseDO
     MYSQL_SYNTHESIZE(uint64_t, id, Id);
 
     
-    MYSQL_SYNTHESIZE(int, studentId, StudentId);
-    MYSQL_SYNTHESIZE(int, courseId, CourseId);
-    MYSQL_SYNTHESIZE(int, subjectId, SubjectId);
+    MYSQL_SYNTHESIZE(uint64_t, studentId, StudentId);
+    MYSQL_SYNTHESIZE(uint64_t, courseId, CourseId);
+    MYSQL_SYNTHESIZE(uint64_t, subjectId, SubjectId);
 
    
     MYSQL_SYNTHESIZE(string, startDate, StartDate);
@@ -60,12 +60,12 @@ public:
     EnrollCourseDO() : BaseDO("student_course")
     {
         
-        MYSQL_ADD_FIELD_PK("id", "i", id);
+        MYSQL_ADD_FIELD_PK("id", "ull", id);
 
        
-        MYSQL_ADD_FIELD("student_id", "i", studentId);
-        MYSQL_ADD_FIELD("course_id", "i", courseId);
-        MYSQL_ADD_FIELD("subject_id", "i", subjectId);
+        MYSQL_ADD_FIELD("student_id", "ull", studentId);
+        MYSQL_ADD_FIELD("course_id", "ull", courseId);
+        MYSQL_ADD_FIELD("subject_id", "ull", subjectId);
 
         MYSQL_ADD_FIELD("start_date", "s", startDate);
         MYSQL_ADD_FIELD("expire_date", "s", expireDate);
@@ -89,12 +89,12 @@ public:
         MYSQL_ADD_FIELD("priority", "i", priority);
         MYSQL_ADD_FIELD("from_trial", "i", fromTrial);
 
-        MYSQL_ADD_FIELD("operater", "i", operater);
-        MYSQL_ADD_FIELD("creator", "i", creator);
+        MYSQL_ADD_FIELD("operater", "ull", operater);
+        MYSQL_ADD_FIELD("creator", "ull", creator);
         MYSQL_ADD_FIELD("add_time", "s", addTime);
-        MYSQL_ADD_FIELD("editor", "i", editor);
+        MYSQL_ADD_FIELD("editor", "ull", editor);
         MYSQL_ADD_FIELD("edit_time", "s", editTime);
-        MYSQL_ADD_FIELD("org_id", "i", orgId);
+        MYSQL_ADD_FIELD("org_id", "ull", orgId);
 
         MYSQL_ADD_FIELD("course_name", "s", coursename);
         MYSQL_ADD_FIELD("subject_name", "s", subjectname);

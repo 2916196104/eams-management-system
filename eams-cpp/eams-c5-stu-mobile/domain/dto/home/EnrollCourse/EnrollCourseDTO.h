@@ -13,18 +13,18 @@ class EnrollCourseDTO : public oatpp::DTO
 {
 	DTO_INIT(EnrollCourseDTO, DTO);
 
-	DTO_FIELD(Int32, id);
+	DTO_FIELD(UInt64, id);
 	DTO_FIELD_INFO(id) {
 		info->description = ZH_WORDS_GETTER("EnrollCourse.field.id");
 	}
 
-	DTO_FIELD(Int32, student_id);
+	DTO_FIELD(UInt64, student_id);
 	DTO_FIELD_INFO(student_id) {
 		info->description = ZH_WORDS_GETTER("EnrollCourse.field.student_id");
 	}
 
 
-	DTO_FIELD(Int32, course_id);
+	DTO_FIELD(UInt64, course_id);
 	DTO_FIELD_INFO(course_id) {
 		info->description = ZH_WORDS_GETTER("EnrollCourse.field.course_id");
 	}
@@ -35,7 +35,7 @@ class EnrollCourseDTO : public oatpp::DTO
 		info->description = ZH_WORDS_GETTER("EnrollCourse.field.course_name");
 	}
 
-	DTO_FIELD(Int32, subject_id);
+	DTO_FIELD(UInt64, subject_id);
 	DTO_FIELD_INFO(subject_id) {
 		info->description = ZH_WORDS_GETTER("EnrollCourse.field.subject_id");
 	}
@@ -95,7 +95,7 @@ class EnrollCourseDTO : public oatpp::DTO
 		info->description = ZH_WORDS_GETTER("EnrollCourse.field.paid_amount");
 	}
 
-	DTO_FIELD(Boolean, pay_off);
+	DTO_FIELD(Int32, pay_off);
 	DTO_FIELD_INFO(pay_off) {
 		info->description = ZH_WORDS_GETTER("EnrollCourse.field.pay_off");
 	}
@@ -125,22 +125,22 @@ class EnrollCourseDTO : public oatpp::DTO
 		info->description = ZH_WORDS_GETTER("EnrollCourse.field.edit_time");
 	}
 
-	DTO_FIELD(Boolean, deleted);
+	DTO_FIELD(Int32, deleted);
 	DTO_FIELD_INFO(deleted) {
 		info->description = ZH_WORDS_GETTER("EnrollCourse.field.deleted");
 	}
 
-	DTO_FIELD(Boolean, verify_state);
+	DTO_FIELD(Int32, verify_state);
 	DTO_FIELD_INFO(verify_state) {
 		info->description = ZH_WORDS_GETTER("EnrollCourse.field.verify_state");
 	}
 
-	DTO_FIELD(Boolean, warning_times);
+	DTO_FIELD(Int32, warning_times);
 	DTO_FIELD_INFO(warning_times) {
 		info->description = ZH_WORDS_GETTER("EnrollCourse.field.warning_times");
 	}
 
-	DTO_FIELD(Boolean, priority);
+	DTO_FIELD(Int32, priority);
 	DTO_FIELD_INFO(priority) {
 		info->description = ZH_WORDS_GETTER("EnrollCourse.field.priority");
 	}
@@ -150,7 +150,7 @@ class EnrollCourseDTO : public oatpp::DTO
 		info->description = ZH_WORDS_GETTER("EnrollCourse.field.unit_price");
 	}
 
-	DTO_FIELD(Boolean, from_trial);
+	DTO_FIELD(Int32, from_trial);
 	DTO_FIELD_INFO(from_trial) {
 		info->description = ZH_WORDS_GETTER("EnrollCourse.field.from_trial");
 	}
