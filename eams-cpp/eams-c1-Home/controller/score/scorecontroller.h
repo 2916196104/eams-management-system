@@ -24,8 +24,8 @@
 #include "ServerInfo.h"
 #include "Macros.h"
 #include "domain/vo/BaseJsonVO.h"
-#include "domain/query/score/scorequery.h"
-#include "domain/vo/score/scoreVO.h"
+#include "domain/query/score/ScoreQuery.h"
+#include "domain/vo/score/ScoreVO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
 #define API_TAG ZH_WORDS_GETTER("score.tag")
