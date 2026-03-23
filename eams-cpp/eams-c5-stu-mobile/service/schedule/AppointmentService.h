@@ -9,7 +9,7 @@
 class AppointmentService
 {
 public:
-	AppointmentDTO::Wrapper insert(const AppointmentQuery::Wrapper& query);
+	ResultStatus insert(const AppointmentQuery::Wrapper& query);
 };
 
 #endif // !_APPOINTMENTSERVICE_H_

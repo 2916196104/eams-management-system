@@ -2,13 +2,10 @@
 #include "AppointmentService.h"
 #include "domain/dto/schedule/AppointmentDTO.h"
 
-AppointmentDTO::Wrapper AppointmentService::insert(const AppointmentQuery::Wrapper& query)
+ResultStatus AppointmentService::insert(const AppointmentQuery::Wrapper& query)
 {
 	AppointmentDAO dao;
-	AppointmentDTO::Wrapper dto = AppointmentDTO::createShared();
-	PtrAppointmentDO ptrdo = dao.insertAppointment(query);
-	auto &appoinmtentDO = *ptrdo;
-	ZO_STAR_DOMAIN_DO_TO_DTO(dto, appoinmtentDO, id, Id, courseId, CourseId, lessonId, LessonId,
-		studentId, StudentId, addTime, AddTime, counselorId, CounselorId);
-	return dto;
+	std::string msg = dao.insertAppointment(query);
+	if (msg == "success") return ResultStatus(msg, 200);
+	else return ResultStatus(msg, 400);
 }

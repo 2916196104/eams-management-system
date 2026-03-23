@@ -19,7 +19,7 @@ class AppointmentDO : public BaseDO
 	// Ñ§Éú¹ËÎÊid
 	MYSQL_SYNTHESIZE(string, counselorId, CounselorId);
 public:
-	AppointmentDO() : BaseDO("Appointment")
+	AppointmentDO() : BaseDO("appointment")
 	{
 		MYSQL_ADD_FIELD_PK("id", "s", id);
 		MYSQL_ADD_FIELD("lesson_id", "s", lessonId);

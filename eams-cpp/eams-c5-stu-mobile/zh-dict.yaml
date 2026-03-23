@@ -43,3 +43,4 @@ schedule:
     endTime: "结束时间"
     team: "班级"
     counselorId: "顾问ID"
+    errmsg: "参数为空"

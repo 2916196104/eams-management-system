@@ -50,7 +50,7 @@ std::string AppointmentDAO::getLessonId(const AppointmentQuery::Wrapper& query)
 	return std::to_string(lessonId);
 }
 
-PtrAppointmentDO AppointmentDAO::insertAppointment(const AppointmentQuery::Wrapper& query)
+std::string AppointmentDAO::insertAppointment(const AppointmentQuery::Wrapper& query)
 {
 	string id = generateSnowFlakeId();
 	string lessonId = getLessonId(query);
@@ -62,25 +62,23 @@ PtrAppointmentDO AppointmentDAO::insertAppointment(const AppointmentQuery::Wrapp
 	SqlParams params;
 	// 预约id
 	if (id.size()) SQLPARAMS_PUSH(params, "s", std::string, id);
+	else return ZH_WORDS_GETTER("schedule.appointment.errmsg");
 	// 试听课次id
 	if (lessonId.size()) SQLPARAMS_PUSH(params, "s", std::string, lessonId);
+	else return ZH_WORDS_GETTER("schedule.appointment.errmsg");
 	// 学生id
 	if (query->studentId) SQLPARAMS_PUSH(params, "s", std::string, query->studentId.getValue(""));
+	else return ZH_WORDS_GETTER("schedule.appointment.errmsg");
 	// 预约时间
 	if(currentDateTime.size()) SQLPARAMS_PUSH(params, "s", std::string, currentDateTime);
+	else return ZH_WORDS_GETTER("schedule.appointment.errmsg");
 	// 预约课程id
 	if (query->courseId) SQLPARAMS_PUSH(params, "s", std::string,query->courseId.getValue(""));
+	else return ZH_WORDS_GETTER("schedule.appointment.errmsg");
 	// 顾问id
 	if (counselorId.size()) SQLPARAMS_PUSH(params, "s", std::string, counselorId);
+	else return ZH_WORDS_GETTER("schedule.appointment.errmsg");
 
 	sqlSession->executeUpdate(sql.str(), params);
-
-	PtrAppointmentDO ptrdo = std::make_shared<AppointmentDO>();
-	ptrdo->setId(id);
-	ptrdo->setLessonId(lessonId);
-	ptrdo->setStudentId(query->studentId.getValue(""));
-	ptrdo->setAddTime(currentDateTime);
-	ptrdo->setCourseId(query->courseId.getValue(""));
-	ptrdo->setCounselorId(counselorId);
-	return ptrdo;
+	return "success";
 }

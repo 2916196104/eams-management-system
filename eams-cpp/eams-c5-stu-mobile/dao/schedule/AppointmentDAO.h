@@ -18,7 +18,7 @@ private:
 	// 获取当前时间
 	std::string getCurrentDateTime();
 public:
-	PtrAppointmentDO insertAppointment(const AppointmentQuery::Wrapper& query);
+	std::string insertAppointment(const AppointmentQuery::Wrapper& query);
 };
 
 #endif // !_APPOINTMENTDAO_H_
