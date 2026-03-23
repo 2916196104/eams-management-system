@@ -34,14 +34,18 @@ class ReviewRecordDTO : public oatpp::DTO
 	DTO_INIT(ReviewRecordDTO, oatpp::DTO);
 	// 唯一标识
 	API_DTO_FIELD_DEFAULT(UInt64, id, ZH_WORDS_GETTER("review_records.id"));
-	// 评价人
-	API_DTO_FIELD_DEFAULT(String, creator_name, ZH_WORDS_GETTER("review_records.creator_name"));
-	// 评价内容
-	API_DTO_FIELD_DEFAULT(String, content, ZH_WORDS_GETTER("review_records.content"));
-	// 评分星级
+	// 课程id
+	API_DTO_FIELD_DEFAULT(Int64, lesson_id, ZH_WORDS_GETTER("review_records.lesson_id"))
+	// 课程名称
+	API_DTO_FIELD_DEFAULT(String, lesson_title, ZH_WORDS_GETTER("review_records.lesson_title"))
+	// 评语老师
+    API_DTO_FIELD_DEFAULT(Int64, evaluate_teacher, ZH_WORDS_GETTER("review_records.evaluate_teacher"));
+	// 老师评语
+    API_DTO_FIELD_DEFAULT(String, evaluation, ZH_WORDS_GETTER("review_records.evaluation"));
+	// 老师评分
 	API_DTO_FIELD_DEFAULT(Int8, score, ZH_WORDS_GETTER("review_records.score"));
 	// 评价时间
-	API_DTO_FIELD_DEFAULT(String, add_time, ZH_WORDS_GETTER("review_records.add_time"));
+	API_DTO_FIELD_DEFAULT(String, evaluate_time, ZH_WORDS_GETTER("review_records.evaluate_time"));
 };
 
 // 点评记录分页DTO
