@@ -23,6 +23,16 @@ std::string RegisterDAO::getCurrentDateTime() {
 	return oss.str();
 }
 
+bool RegisterDAO::isMobileExist(const std::string& mobile)
+{
+	std::stringstream sql;
+	sql << "SELECT COUNT(*) FROM user WHERE mobile = ?";
+	SqlParams params;
+	if (mobile.size()) SQLPARAMS_PUSH(params, "s", std::string, mobile);
+	auto res = sqlSession->executeQueryNumerical(sql.str(), params);
+	return res == 0 ? false : true;
+}
+
 void RegisterDAO::insertUser(const PtrRegisterDO pdo)
 {
 	std::string id = generateSnowFlakeId();

@@ -19,10 +19,12 @@ void RegisterService::insert(RegisterQuery::Wrapper query)
 
 std::string RegisterService::validate(const RegisterQuery::Wrapper query)
 {
-	if (!checkPassword(query->password.getValue(""))) return ZH_WORDS_GETTER("login.register.field.password.errmsg");
-	if (!checkMobile(query->mobile.getValue(""))) return ZH_WORDS_GETTER("login.register.field.mobile.errmsg");
+	if (!checkPassword(query->password.getValue(""))) return ZH_WORDS_GETTER("login.register.field.password.errMsg");
+	if (!checkMobile(query->mobile.getValue(""))) return ZH_WORDS_GETTER("login.register.field.telephoneNumber.errMsg");
 	if (!checkVertificationCode(std::to_string(query->vertificationCode.getValue(1))))
-		return ZH_WORDS_GETTER("login.register.field.vertificationCode.errmsg");
+		return ZH_WORDS_GETTER("login.register.field.vertificationCode.errMsg");
+	if (RegisterDAO().isMobileExist(query->mobile.getValue(""))) 
+        return ZH_WORDS_GETTER("login.register.field.telephoneNumber.errMsgExist");
 	return "success";
 }
 // ¼ÓÃÜÃÜÂë

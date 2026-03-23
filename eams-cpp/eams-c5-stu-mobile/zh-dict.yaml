@@ -21,6 +21,7 @@ login:
       telephoneNumber:      
         info: "手机号"
         errMsg: "手机号格式有误"
+        errMsgExist: "当前手机号已被注册"
       vertificationCode:    
         info: "验证码"
         errMsg: "验证码有误"

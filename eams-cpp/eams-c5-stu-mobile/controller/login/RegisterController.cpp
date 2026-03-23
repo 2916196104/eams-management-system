@@ -7,7 +7,6 @@ NoDataJsonVO::Wrapper RegisterController::executeRegister(const RegisterQuery::W
 	NoDataJsonVO::Wrapper jvo = NoDataJsonVO::createShared();
 	
 	std::string msg = RegisterService().validate(query);
-
 	if (msg == "success")
 	{
 		RegisterService().insert(query);
