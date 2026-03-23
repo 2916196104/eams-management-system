@@ -1,0 +1,29 @@
+package com.zeroone.star.student.service;
+
+import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j4.student.ClassDTO;
+import com.zeroone.star.project.dto.j4.student.ClassStudentDTO;
+import com.zeroone.star.project.query.j4.student.ClassQuery;
+
+import java.util.List;
+
+/**
+ * 学员管理 Service 接口
+ */
+public interface StudentService {
+
+    /**
+     * 分页查询班级列表
+     */
+    PageDTO<ClassDTO> queryClassPage(ClassQuery condition);
+
+    /**
+     * 加入班级
+     */
+    Long joinClass(ClassStudentDTO dto);
+
+    /**
+     * 退出班级
+     */
+    List<Long> quitClass(Long classId, Long studentId);
+}

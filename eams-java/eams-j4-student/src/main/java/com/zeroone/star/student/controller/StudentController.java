@@ -8,12 +8,16 @@ import com.zeroone.star.project.j4.student.StudentApis;
 import com.zeroone.star.project.query.j4.student.ClassQuery;
 import com.zeroone.star.project.query.j4.student.FollowUpQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.student.service.StudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
+import org.springframework.validation.annotation.Validated;
 import java.util.List;
 
 /**
@@ -24,6 +28,9 @@ import java.util.List;
 @RequestMapping("/j4/student")
 @Api(tags = "学员管理")
 public class StudentController implements StudentApis {
+
+    @Resource
+    private StudentService studentService;
     @GetMapping("/follow-up/page")
     @ApiOperation("获取跟进记录列表（条件+分页）")
     @Override
@@ -62,27 +69,50 @@ public class StudentController implements StudentApis {
     @Override
     @GetMapping("/page")
     @ApiOperation("获取班级列表（条件 + 分页）")
-    public JsonVO<PageDTO<ClassDTO>> queryClassPage(ClassQuery condition) {
-        // TODO: 调用 Service 层实现业务逻辑
-        return null;
+    public JsonVO<PageDTO<ClassDTO>> queryClassPage(@Validated ClassQuery condition) {
+        try {
+            PageDTO<ClassDTO> result = studentService.queryClassPage(condition);
+            return JsonVO.success(result);
+        } catch (Exception e) {
+            return JsonVO.fail(e.getMessage());
+        }
     }
 
     @Override
     @PostMapping("/join")
     @ApiOperation("加入班级")
-    public JsonVO<Long> joinClass(@RequestBody ClassStudentDTO dto) {
-        // TODO: 调用 Service 层实现业务逻辑
-        return null;
+    public JsonVO<Long> joinClass(@RequestBody @Validated ClassStudentDTO dto) {
+        try {
+            if (dto.getClassId() == null) {
+                return JsonVO.fail("班级ID不能为空");
+            }
+            if (dto.getStudentId() == null) {
+                return JsonVO.fail("学生ID不能为空");
+            }
+            Long result = studentService.joinClass(dto);
+            return JsonVO.success(result);
+        } catch (IllegalArgumentException e) {
+            return JsonVO.fail(e.getMessage());
+        } catch (Exception e) {
+            return JsonVO.fail("加入班级失败：" + e.getMessage());
+        }
     }
 
     @Override
     @DeleteMapping("/quit")
     @ApiOperation("退出班级")
     public JsonVO<List<Long>> quitClass(
-            @ApiParam(value = "班级ID", required = true, example = "2008418408985583620") @RequestParam Long classId,
-            @ApiParam(value = "学生ID", required = true, example = "2008418408985583617") @RequestParam Long studentId) {
-        // TODO: 调用 Service 层
-        // 模拟返回删除成功的记录 ID
-        return null;
+            @ApiParam(value = "班级 ID", required = true, example = "2008418408985583620")
+            @RequestParam @NotNull(message = "班级ID不能为空") Long classId,
+            @ApiParam(value = "学生 ID", required = true, example = "2008418408985583617")
+            @RequestParam @NotNull(message = "学生ID不能为空") Long studentId) {
+        try {
+            List<Long> result = studentService.quitClass(classId, studentId);
+            return JsonVO.success(result);
+        } catch (IllegalArgumentException e) {
+            return JsonVO.fail(e.getMessage());
+        } catch (Exception e) {
+            return JsonVO.fail("退出班级失败：" + e.getMessage());
+        }
     }
 }
