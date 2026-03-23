@@ -34,4 +34,6 @@ public class UserDTO {
      * 用户拥有角色列表
      */
     private List<String> roles;
+
+    private Long orgId;
 }

@@ -37,11 +37,16 @@
         <module>eams-gateway</module>
         <module>eams-login</module>
         <module>eams-doc</module>
+        <module>eams-j1-console</module>
+        <module>eams-j1-institution</module>
+        <module>eams-j1-orgmanager</module>
         <module>eams-j1-staff</module>
     </modules>
     <properties>
         <!-- 项目版本号 -->
         <revision>1.0.0-SNAPSHOT</revision>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
     <dependencyManagement>
         <dependencies>
