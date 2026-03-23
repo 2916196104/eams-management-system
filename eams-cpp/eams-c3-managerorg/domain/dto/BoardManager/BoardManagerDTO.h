@@ -14,7 +14,7 @@ class BoardManagerDTO : public oatpp::DTO
 };
 
 
-//定义一个添加用户信息的数据传输模型
+//定义一个添加公告信息的数据传输模型
 class BoardAddDTO : public oatpp::DTO
 {
 	DTO_INIT(BoardAddDTO, DTO);
@@ -56,6 +56,27 @@ class GetBoardDetailDTO : public oatpp::DTO
 		info->description = ZH_WORDS_GETTER("board.field.boardStatus");
 	}
 
+};
+
+class BoardDTO : public BoardAddDTO
+{
+	DTO_INIT(BoardDTO, BoardAddDTO);
+	// 公告状态
+	API_DTO_FIELD_REQUIRE(String, boardStatus, ZH_WORDS_GETTER("board.field.boardStatus"), true);
+	// 公告发布者名称
+	API_DTO_FIELD_REQUIRE(String, boardPublisherName, ZH_WORDS_GETTER("board.field.boardPublisherName"), true);
+	// 公告发布者id
+	API_DTO_FIELD_REQUIRE(String, boardPublisherId, ZH_WORDS_GETTER("board.field.boardPublisherId"), false);
+	// 公告发布时间
+	API_DTO_FIELD_REQUIRE(String, boardTime, ZH_WORDS_GETTER("board.field.boardTime"), true);
+};
+
+/**
+ * 定义一个公告信息分页传输对象
+ */
+class BoardPageDTO : public PageDTO<BoardDTO::Wrapper>
+{
+	DTO_INIT(BoardPageDTO, PageDTO<BoardDTO::Wrapper>);
 };
 
 #include OATPP_CODEGEN_END(DTO)
