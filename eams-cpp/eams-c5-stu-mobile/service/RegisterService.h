@@ -8,9 +8,19 @@
 
 class RegisterService
 {
+private:
+	// 加密密码
+	std::string encrpyPassword(std::string password);
+	// 校验手机号
+	bool checkMobile(std::string mobile);
+	// 校验密码
+	bool checkPassword(std::string password);
+	// 校验验证码
+	bool checkVertificationCode(std::string vertificationCode);
 public:
-	// 通过id查找数据
-	RegisterDTO::Wrapper getById(std::string id);
+	void insert(const RegisterQuery::Wrapper query);
+	// 数据校验,如果有错误，返回错误提示
+	std::string validate(const RegisterQuery::Wrapper query);
 };
 
 #endif

@@ -1,16 +1,69 @@
 #include "stdafx.h"
 #include "RegisterService.h"
 #include "dao/register/RegisterDAO.h"
+#include "../lib-common/include/bcrypt/bcrypt.h"
 #include "Macros.h"
 
-RegisterDTO::Wrapper RegisterService::getById(std::string id)
+void RegisterService::insert(RegisterQuery::Wrapper query)
 {
-	RegisterDAO dao;
-	auto registerDO = dao.selectById(id);
-	if (!registerDO) return nullptr;
+    RegisterDAO dao;
+    PtrRegisterDO pdo = std::make_shared<RegisterDO>();
 
-	auto dto = RegisterDTO::createShared();
-	ZO_STAR_DOMAIN_DO_TO_DTO_1(dto, registerDO,
-		id, Id, name, Name, telephoneNumber, TelephoneNumber, password, Password);
-	return dto;
+    std::string pwd = encrpyPassword(query->password.getValue(""));
+    pdo->setPassword(pwd);
+    pdo->setMobile(query->mobile.getValue(""));
+    pdo->setName(query->name.getValue(""));
+
+    dao.insertUser(pdo);
+}
+
+std::string RegisterService::validate(const RegisterQuery::Wrapper query)
+{
+	if (!checkPassword(query->password.getValue(""))) return ZH_WORDS_GETTER("login.register.field.password.errmsg");
+	if (!checkMobile(query->mobile.getValue(""))) return ZH_WORDS_GETTER("login.register.field.mobile.errmsg");
+	if (!checkVertificationCode(std::to_string(query->vertificationCode.getValue(1))))
+		return ZH_WORDS_GETTER("login.register.field.vertificationCode.errmsg");
+	return "success";
+}
+// 加密密码
+std::string RegisterService::encrpyPassword(std::string password)
+{
+    return bcrypt::generateHash(password);
+}
+
+// 校验手机号
+bool RegisterService::checkMobile(std::string mobile)
+{
+    if (mobile.length() != 11) return false;
+
+    for (char c : mobile) 
+    {
+        if (!std::isdigit(c)) return false;
+    }
+    return true;
+}
+
+// 校验密码
+bool RegisterService::checkPassword(std::string password)
+{
+    if (password.length() < 8) return false;
+
+    // 是否包含数字
+    bool hasDigit = false;  
+    // 是否包含字母
+    bool hasLetter = false; 
+
+    for (char c : password) 
+    {
+        if (std::isdigit(c)) hasDigit = true;
+        else if (std::isalpha(c)) hasLetter = true;
+    }
+
+    return hasDigit && hasLetter;
+}
+
+// 校验验证码
+bool RegisterService::checkVertificationCode(std::string vertificationCode)
+{
+	return true;
 }

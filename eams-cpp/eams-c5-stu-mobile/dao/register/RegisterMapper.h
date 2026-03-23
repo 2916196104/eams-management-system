@@ -15,14 +15,9 @@ public:
 	{
 		RegisterDO bd;
 		bd.setId(res->getString("id"));
-		bd.setTelephoneNumber(res->getString("mobile"));
+		bd.setMobile(res->getString("mobile"));
 		bd.setName(res->getString("name"));
 		bd.setPassword(res->getString("password"));
-		bd.setStatus(res->getInt("state"));
-		bd.setCreateBy(res->getString("creator"));
-		bd.setCreateTime(res->getString("add_time"));
-		bd.setLatestLoginTime(res->getString("latest_login_time"));
-		bd.setLatestLoginIp(res->getString("latest_login_ip"));
 		return bd;
 	}
 };
@@ -37,14 +32,9 @@ public:
 	{
 		auto bd = std::make_shared<RegisterDO>();
 		bd->setId(res->getString("id"));
-		bd->setTelephoneNumber(res->getString("mobile"));
+		bd->setMobile(res->getString("mobile"));
 		bd->setName(res->getString("name"));
 		bd->setPassword(res->getString("password"));
-		bd->setStatus(res->getInt("state"));
-		bd->setCreateBy(res->getString("creator"));
-		bd->setCreateTime(res->getString("add_time"));
-		bd->setLatestLoginTime(res->getString("latest_login_time"));
-		bd->setLatestLoginIp(res->getString("latest_login_ip"));
 		return bd;
 	}
 };
