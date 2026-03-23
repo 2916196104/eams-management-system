@@ -6,3 +6,12 @@ redeemcredit:
     credit_id: 要兑换的礼品的id
     student_id: 学生id
     school_id: 学校id
+    redeem_count: 兑换数量
+    stock_count: 库存数量
+  request-failure:
+    failure1: 该礼品不可兑换
+    failure2: 礼品数量不足
+    failure3: 积分不足
+  remark: 兑换礼品
+  reason: 积分商城兑换礼品
+  num: 数量

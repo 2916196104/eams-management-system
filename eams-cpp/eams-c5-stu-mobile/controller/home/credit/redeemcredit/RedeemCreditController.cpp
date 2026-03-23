@@ -1,6 +1,6 @@
 
 #include "RedeemCreditController.h"
-
+#include "service/home/credit/redeemcredit/RedeemCreditService.h"
 
 StringJsonVO::Wrapper RedeemCreditController::execRedeemCredit(const RedeemCreditDTO::Wrapper& dto, const PayloadDTO& payload)
 {
@@ -8,9 +8,9 @@ StringJsonVO::Wrapper RedeemCreditController::execRedeemCredit(const RedeemCredi
 
 
 	dto->setPayload(&payload);
+	std::string res = RedeemCreditService().saveData(dto);
 
-
-	jvo->success(ZH_WORDS_GETTER("redeemcredit.request-success"));
+	jvo->success(res);
 	return jvo;
 
 }
