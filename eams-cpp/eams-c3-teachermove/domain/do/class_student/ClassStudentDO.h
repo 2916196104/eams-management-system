@@ -21,7 +21,7 @@
 #include "SqlHelper.h"
 
 /**
- * Áè≠Á∫ßÂ≠¶ÂëòË°® DOÔºàÂØπÂ∫î class_student Ë°®Ôºâ
+ * ∞‡º∂—ß‘±±Ì DO£®∂‘”¶ class_student ±Ì£©
  */
 class ClassStudentDO : public BaseDO
 {
@@ -39,15 +39,20 @@ public:
 public:
 	ClassStudentDO() : BaseDO("class_student")
 	{
+		// ÷˜º¸
 		MYSQL_ADD_FIELD_PK("id", "ull", id);
-		MYSQL_ADD_FIELD_NULLABLE("class_id", "ll", classId, false);
-		MYSQL_ADD_FIELD_NULLABLE("student_id", "ll", studentId, false);
-		MYSQL_ADD_FIELD("add_time", "dt", addTime);
-		MYSQL_ADD_FIELD("creator", "ll", creator);
-		MYSQL_ADD_FIELD("reason", "i", reason);
-		MYSQL_ADD_FIELD("deleted", "b", deleted);
-		MYSQL_ADD_FIELD("remark", "s", remark);
-		MYSQL_ADD_FIELD_NULLABLE("consume_course_id", "ll", consumeCourseId, false);
+
+		// ---------------- ±ÿÃÓ◊÷∂Œ (NOT NULL) ----------------
+		MYSQL_ADD_FIELD("class_id", "ll", classId);
+		MYSQL_ADD_FIELD("student_id", "ll", studentId);
+		MYSQL_ADD_FIELD("consume_course_id", "ll", consumeCourseId);
+
+		// ---------------- —°ÃÓ◊÷∂Œ (NULLABLE) ----------------
+		MYSQL_ADD_FIELD_NULLABLE("add_time", "dt", addTime, true);
+		MYSQL_ADD_FIELD_NULLABLE("creator", "ll", creator, true);
+		MYSQL_ADD_FIELD_NULLABLE("reason", "i", reason, true);
+		MYSQL_ADD_FIELD_NULLABLE("deleted", "b", deleted, true);
+		MYSQL_ADD_FIELD_NULLABLE("remark", "s", remark, true);
 	}
 };
 
