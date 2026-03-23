@@ -11,7 +11,7 @@
         <result property="maxStudentCount" column="planned_student_count"/>
     </resultMap>
 
-    <select id="selectClassPageByStudentId" resultMap="ClassVOMap">
+    <select id="selectClassPageByStudentId" resultMap="ClassDetailVOMap">
         SELECT
         c.id AS class_id,
         c.name AS class_name,
