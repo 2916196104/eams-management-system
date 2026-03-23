@@ -20,7 +20,6 @@
 #ifndef _SAMPLE_DAO_
 #define _SAMPLE_DAO_
 #include "BaseDAO.h"
-#include "../../domain/do/common/CommonDO.h"
 
 
 #endif // !_SAMPLE_DAO_
