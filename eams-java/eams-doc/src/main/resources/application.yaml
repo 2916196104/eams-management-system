@@ -22,3 +22,7 @@ knife4j:
         serviceName: ${sn.login}
         namespaceId: ${nacos.namespace}
         location: /v2/api-docs?group=login
+      - name: 班级管理服务
+        serviceName: ${sn.classmanager}
+        namespaceId: ${nacos.namespace}
+        location: /v2/api-docs?group=classmanager

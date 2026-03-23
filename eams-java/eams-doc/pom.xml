@@ -37,7 +37,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.zeroone.star.doc.DocApplication</mainClass>
+                    <mainClass>com.zeroone.star.j5.sample.DocApplication</mainClass>
                 </configuration>
             </plugin>
             <plugin>
