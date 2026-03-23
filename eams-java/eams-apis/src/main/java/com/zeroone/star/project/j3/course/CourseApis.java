@@ -1,9 +1,20 @@
 package com.zeroone.star.project.j3.course;
 
 import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j3.course.AddCourseDTO;
+import com.zeroone.star.project.dto.j3.course.SubjectDTO;
+import com.zeroone.star.project.query.j3.course.CourseListQuery;
+import com.zeroone.star.project.query.j3.course.SubjectQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.project.vo.j3.course.CourseDetailVO;
+import com.zeroone.star.project.vo.j3.course.CourseListVO;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**

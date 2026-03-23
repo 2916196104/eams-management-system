@@ -2,10 +2,14 @@ package com.zeroone.star.eamsj3class.controller;
 
 import com.zeroone.star.eamsj3class.service.ISubjectService;
 import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j3.course.AddCourseDTO;
 import com.zeroone.star.project.dto.j3.course.SubjectDTO;
 import com.zeroone.star.project.j3.course.CourseApis;
+import com.zeroone.star.project.query.j3.course.CourseListQuery;
 import com.zeroone.star.project.query.j3.course.SubjectQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.project.vo.j3.course.CourseDetailVO;
+import com.zeroone.star.project.vo.j3.course.CourseListVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -32,6 +36,35 @@ public class CourseController implements CourseApis {
     @Resource
     private ISubjectService subjectService;
 
+
+
+    @GetMapping("/query-courses-list")
+    @ApiOperation("获取课程列表（条件 + 分页）")
+    @Override
+    public JsonVO<PageDTO<CourseListVO>> queryCourseList(CourseListQuery courseListQuery) {
+        return null;
+    }
+
+    @GetMapping("/query-one-course/{courseId}")
+    @Override
+    @ApiOperation("获取课程详情")
+    public JsonVO<CourseDetailVO> queryCourseDetail(@PathVariable Long courseId) {
+        return null;
+    }
+
+    @PostMapping("/add-course")
+    @ApiOperation("保存课程")
+    @Override
+    public JsonVO<String> addCourse(@RequestBody AddCourseDTO addCourseDTO) {
+        return null;
+    }
+
+    @DeleteMapping("/delete-courses")
+    @Override
+    @ApiOperation("删除课程（支持批量删除）")
+    public JsonVO<String> deleteCourses(@RequestBody List<String> courseIds) {
+        return null;
+    }
     @GetMapping("query-subject-list")
     @Override
     @ApiOperation("获取科目列表（条件 + 分页）")

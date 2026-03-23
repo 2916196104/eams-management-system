@@ -1,13 +1,8 @@
 package com.zeroone.star.project.j3.notice;
 
-import com.zeroone.star.project.dto.j3.noticsetting.NoticeSettingDTO;
-import com.zeroone.star.project.dto.j3.noticsetting.PageDTO;
-import com.zeroone.star.project.query.j3.noticesetting.NoticeSettingQuery;
+import com.zeroone.star.project.dto.j3.notice.NoticeSettingDTO;
+import com.zeroone.star.project.query.j3.notice.NoticeSettingQuery;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.vo.j3.system.NoticeSettingDetailVO;
-import com.zeroone.star.project.vo.j3.system.NoticeSettingListVO;
-
-import java.util.List;
 
 /**
  * <p>

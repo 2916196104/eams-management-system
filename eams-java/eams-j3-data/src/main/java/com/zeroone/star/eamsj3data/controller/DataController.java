@@ -15,25 +15,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("j3/data")
+@RequestMapping("j3/statis")
 @Api(tags = "学评教，课时统计")
 public class DataController implements DataApis {
     @Override
-    @GetMapping
+    @GetMapping("/lessonStatis")
     @ApiOperation("学评教统计")
     public JsonVO<PageDTO<TeachEvaluationDTO>> queryTeachEvaluation(TeachEvaluationQuery query) {
         return null;
     }
 
     @Override
-    @GetMapping("sort")
+    @GetMapping("/sort")
     @ApiOperation("学评教统计排序")
     public JsonVO<PageDTO<TeachEvaluationDTO>> queryTeachEvaluationBySort(TeachEvaluationQuery query) {
         return null;
     }
 
     @Override
-    @GetMapping("class-hour-stats")
+    @GetMapping("/class-hour-stats")
     @ApiOperation("课时统计")
     public JsonVO<PageDTO<ClassHourStatsDTO>> queryClassHourStats(ClassHourStatsQuery query) {
         return null;
