@@ -12,6 +12,9 @@ import org.yaml.snakeyaml.util.UriEncoder;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+//测试用添加了导入的一个类
+import java.util.ArrayList;
+
 /**
  * <p>
  * 描述：获取登录用户信息
@@ -54,6 +57,7 @@ public class UserHolder {
 //        userJsonObject = new JSONObject();
 //        userJsonObject.putOnce("id", 1);
 //        userJsonObject.putOnce("user_name", "王麻子");
+//        userJsonObject.putOnce("org_id", 1);
 //        ArrayList<Object> roles = new ArrayList<>();
 //        roles.add("ROLE_ADMIN");
 //        userJsonObject.putOnce("authorities", roles);
@@ -64,8 +68,67 @@ public class UserHolder {
                 .username(userJsonObject.getStr("user_name"))
                 .isEnabled(Convert.toByte(1))
                 .roles(Convert.toList(String.class, userJsonObject.get("authorities")))
+                .orgId(Convert.toLong(userJsonObject.get("org_id")))
                 .build();
     }
+
+    /**
+     * 获取当前用户ID
+     */
+    public Long getCurrentUserId() {
+        try {
+            JSONObject userJson = getCurrentUserJson();
+            if (userJson != null) {
+                return Convert.toLong(userJson.get("id"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /**
+     * 获取当前用户所属机构ID
+     */
+    public Long getCurrentOrgId() {
+        try {
+            JSONObject userJson = getCurrentUserJson();
+            if (userJson != null) {
+                return Convert.toLong(userJson.get("org_id"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 获取当前用户JSON对象
+     */
+    private JSONObject getCurrentUserJson() throws Exception {
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (servletRequestAttributes == null) {
+            return null;
+        }
+        HttpServletRequest request = servletRequestAttributes.getRequest();
+        String userStr = request.getHeader("user");
+        if (userStr == null) {
+            String token = request.getHeader("Authorization");
+            if (!StringUtils.hasText(token)) {
+                return null;
+            }
+            String realToken = token.replace("Bearer ", "");
+            userStr = jwtComponent.defaultRsaVerify(realToken);
+        } else {
+            userStr = UriEncoder.decode(userStr);
+        }
+        if (StringUtils.hasText(userStr)) {
+            return new JSONObject(userStr);
+        }
+        return null;
+    }
+
 
     /**
      * 从请求头中获取当前请求的token
