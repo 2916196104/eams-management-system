@@ -126,7 +126,7 @@ public class CourseScheduleController implements CourseScheduleApis {
 
     @Override
     @GetMapping("/evaluation/list")
-    @ApiOperation("获取获取课后点评列表（条件+分页）")
+    @ApiOperation("获取课后点评列表（条件+分页）")
     public JsonVO<PageDTO<EvaluationVO>> queryPage(@RequestBody EvaluationQuery condition) {
         return null;
     }
