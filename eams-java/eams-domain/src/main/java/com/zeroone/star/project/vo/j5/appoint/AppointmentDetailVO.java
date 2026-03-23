@@ -3,12 +3,16 @@ package com.zeroone.star.project.vo.j5.appoint;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
 /**
+ * <p>
  * 预约课程详情信息弹窗 VO
+ * </p>
+ *
+ * @author makise
+ * @since 2026/3/23
  */
 @Data
-@ApiModel(value = "CourseDetailVO", description = "课程详情弹窗信息")
+@ApiModel(value = "AppointmentDetailVO", description = "课程详情弹窗信息")
 public class AppointmentDetailVO {
 
     @ApiModelProperty(value = "标题", example = "钢琴入门课")

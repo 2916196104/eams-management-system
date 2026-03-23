@@ -9,7 +9,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * 预约查询对象
+ * <p>
+ * 预约列查询条件对象
+ * </p>
+ *
+ * @author makise
+ * @since 2026/3/23
  */
 @Data
 public class AppointmentQuery extends PageQuery {
