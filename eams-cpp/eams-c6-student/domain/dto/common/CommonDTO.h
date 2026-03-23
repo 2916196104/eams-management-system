@@ -120,9 +120,9 @@ public:
 /**
  * 查询跟进记录DTO
  */
-class QuereyDTO : public oatpp::DTO
+class QueryDTO : public oatpp::DTO
 {
-	DTO_INIT(QuereyDTO, DTO);
+	DTO_INIT(QueryDTO, DTO);
 	// 跟进时间
 	API_DTO_FIELD_DEFAULT(String, follow_up_time, ZH_WORDS_GETTER("common.field.student.follow-up-time"));
 	//跟进人
@@ -145,9 +145,9 @@ class QuereyDTO : public oatpp::DTO
 	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
 public:
 
-};class QuereyFollowUprecordsDTO : public PageDTO<QuereyDTO::Wrapper>
+};class QueryFollowUprecordsDTO : public PageDTO<QueryDTO::Wrapper>
 {
-	DTO_INIT(QuereyFollowUprecordsDTO, PageDTO<QuereyDTO::Wrapper>);
+	DTO_INIT(QueryFollowUprecordsDTO, PageDTO<QueryDTO::Wrapper>);
 };
 
 

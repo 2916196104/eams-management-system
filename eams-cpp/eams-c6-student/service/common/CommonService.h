@@ -13,37 +13,6 @@
 
 
 
-/**
- * 调整积分服务层
- */
-class AdjustPointsService
-{
-public:
-	// 修改数据
-	bool updateData(const ModifyPointsDTO::Wrapper& dto);
-};
-
-
-
-
-
-/**
- * 添加跟进记录服务层
- */
-class AddFollowUpRecordService
-{
-public:
-	// 修改数据
-	bool updateData(const AddFollowUpRecordDTO::Wrapper& dto);
-};
-
-
-
-
-
-
-
-
 
 
 

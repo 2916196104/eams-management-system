@@ -66,6 +66,6 @@ QueryFollowUprecordsJsonVO::Wrapper CommonController::execQueryFollowUprecords(c
 	//auto result = SampleService().listAll(query);
 	// ÏìÓ¦½á¹û
 	auto jvo = QueryFollowUprecordsJsonVO::createShared();
-	jvo->success(QuereyFollowUprecordsDTO::createShared());
+	jvo->success(QueryFollowUprecordsDTO::createShared());
 	return jvo;
 }

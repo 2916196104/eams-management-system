@@ -27,8 +27,8 @@ public:
 /**
  * 示例分页显示JsonVO，用于响应给客户端的Json对象
  */
-class QueryFollowUprecordsJsonVO : public JsonVO<QuereyFollowUprecordsDTO::Wrapper> {
-    DTO_INIT(QueryFollowUprecordsJsonVO, JsonVO<QuereyFollowUprecordsDTO::Wrapper>);
+class QueryFollowUprecordsJsonVO : public JsonVO<QueryFollowUprecordsDTO::Wrapper> {
+    DTO_INIT(QueryFollowUprecordsJsonVO, JsonVO<QueryFollowUprecordsDTO::Wrapper>);
 };
 
 #include OATPP_CODEGEN_END(DTO)
