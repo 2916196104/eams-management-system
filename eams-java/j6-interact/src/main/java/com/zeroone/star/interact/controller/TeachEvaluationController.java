@@ -8,6 +8,7 @@ import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,7 @@ public class TeachEvaluationController implements TeachEvaluationApis {
     @Override
     @GetMapping
     @ApiOperation("获取学生点评列表（条件+分页）")
-    public JsonVO<PageDTO<TeachEvaluationDTO>> queryPage(TeachEvaluationQuery condition) {
+    public JsonVO<PageDTO<TeachEvaluationDTO>> queryPage(@RequestBody TeachEvaluationQuery condition) {
         return null;
     }
 }

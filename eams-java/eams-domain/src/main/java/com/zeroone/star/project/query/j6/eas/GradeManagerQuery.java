@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * 年级查询对象
+ * 年级列表查询对象
  */
 @Data
 public class GradeManagerQuery extends PageQuery {

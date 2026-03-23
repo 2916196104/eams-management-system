@@ -1,5 +1,6 @@
 package com.zeroone.star.project.vo.j6.finance;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import java.math.BigDecimal;
@@ -8,6 +9,7 @@ import java.math.BigDecimal;
  * 消课课酬导出对象
  */
 @Data
+@ApiModel("消课课酬导出对象")
 public class ClassConsumptionFeeVO {
 
     @ApiModelProperty(value = "老师姓名", example = "张三")

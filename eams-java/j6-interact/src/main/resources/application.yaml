@@ -6,6 +6,3 @@ spring:
 
 seata:
   enabled: false
-
-sp:
-  sample: 9001

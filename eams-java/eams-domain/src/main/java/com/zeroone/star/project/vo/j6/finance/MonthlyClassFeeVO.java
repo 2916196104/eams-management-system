@@ -1,5 +1,6 @@
 package com.zeroone.star.project.vo.j6.finance;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
  * 月课时费导出对象
  */
 @Data
+@ApiModel("月课时费导出对象")
 public class MonthlyClassFeeVO {
 
 
