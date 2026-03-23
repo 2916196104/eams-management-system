@@ -11,6 +11,9 @@ common:
   enrollstudentCourse: 学员报名课程
   studentstage: 获取学员阶段
   delete-contact-record: 删除跟进记录
+  modify-student-points: 调整学员积分
+  add-follow-up-record: 添加跟进记录
+  query-follow-up-records: 获取跟进记录
  field:
   contact-record:
    ids: 跟进记录 ID 列表
@@ -39,6 +42,23 @@ common:
    accurate-enter-time: 精确入学时间
    note: 备注
    course-progress: 课次进度
+   follow-up-stage: 跟进阶段
+   follow-up-person: 跟进人
+   startdate: 开始日期
+   enddate: 结束日期
+   follow-up-time: 跟进时间
+   customer: 客户
+   follow-up-way: 跟进方式
+   next-follow-up-time: 下次跟进时间
+   record-time: 记录时间
+   follow-up-content: 跟进内容
+   lost-stage: 丢失阶段
+   contact-channel: 联系途径
+   contact-time: 联系时间
+   next-contact-time: 下次联系时间
+   contact-way: 联系方式
+   modify-points: 调整积分数
+   modify-reason: 调整原因
   registration-record:
    id: 报名记录ID
    add-time: 添加时间
