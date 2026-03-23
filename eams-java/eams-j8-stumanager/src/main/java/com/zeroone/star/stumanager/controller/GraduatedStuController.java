@@ -6,7 +6,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,16 +25,6 @@ public class GraduatedStuController implements GraduatedStuApis {
     @Override
     public void exportGraduatedStudents(HttpServletResponse response) {
         // 导出功能实现
-    }
-
-    /**
-     * 下载导入模板
-     */
-    @GetMapping("/download-template")
-    @ApiOperation(value = "下载导入模板", notes = "下载结业学员导入模板Excel文件")
-    @Override
-    public void downloadImportTemplate(HttpServletResponse response) {
-        // 下载模板实现
     }
 
     /**

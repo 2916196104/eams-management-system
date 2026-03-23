@@ -25,7 +25,7 @@ public class ProspectiveStuController implements ProspectiveStuApis {
     @Resource
     private EasyExcelComponent excel;
 
-    @ApiOperation("导出意向学员")
+    @ApiOperation("导出意向学员Excel")
     @PostMapping("/export")
     @Override
     public ResponseEntity<byte[]> exportProspectiveStu(@ApiParam(value = "导出意向学员的id列表", example = "[1, 2, 3]", required = true) @RequestBody List<Long> ids) {

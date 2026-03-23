@@ -21,13 +21,6 @@ public interface GraduatedStuApis {
     @ApiOperation(value = "导出结业学员列表", notes = "导出Excel格式的结业学员列表")
     void exportGraduatedStudents(HttpServletResponse response);
 
-    /**
-     * 下载导入模板
-     *
-     * @param response HTTP响应
-     */
-    @ApiOperation(value = "下载导入模板", notes = "下载结业学员导入模板Excel文件")
-    void downloadImportTemplate(HttpServletResponse response);
 
     /**
      * 导入结业学员
