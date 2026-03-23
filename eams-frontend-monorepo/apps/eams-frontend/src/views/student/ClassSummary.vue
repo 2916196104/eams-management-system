@@ -5,23 +5,28 @@
 				<div class="filter-area">
 					<div class="filter-item">
 						<label class="filter-label">学员姓名:</label>
-						<el-input v-model="filters.studentName" placeholder="请输入学员姓名" clearable class="filter-input" />
+						<el-input v-model="filters.name" placeholder="请输入学员姓名" clearable class="filter-input" />
 					</div>
 					<div class="filter-item">
 						<label class="filter-label">分校区:</label>
-						<el-select v-model="filters.campus" placeholder="请选择分校区" clearable class="filter-input">
-							<el-option label="主校区" value="main" />
-							<el-option label="一分校" value="branch1" />
-							<el-option label="二分校" value="branch2" />
+						<el-select v-model="filters.campusId" placeholder="请选择分校区" clearable class="filter-input">
+							<el-option
+								v-for="(item, index) in campusList"
+								:key="item.id || index"
+								:label="item.name || '未知校区'"
+								:value="item.id || ''"
+							/>
 						</el-select>
 					</div>
 					<div class="filter-item">
 						<label class="filter-label">课程:</label>
-						<el-select v-model="filters.course" placeholder="请选择课程" clearable class="filter-input">
-							<el-option label="少儿编程" value="kids" />
-							<el-option label="Python" value="python" />
-							<el-option label="Java" value="java" />
-							<el-option label="C++" value="cpp" />
+						<el-select v-model="filters.courseId" placeholder="请选择课程" clearable class="filter-input">
+							<el-option
+								v-for="(item, index) in courseList"
+								:key="item.id || index"
+								:label="item.name || '未知课程'"
+								:value="item.id || ''"
+							/>
 						</el-select>
 					</div>
 					<div class="filter-buttons">
@@ -62,45 +67,53 @@ import { ElMessage } from "element-plus";
 import { CircleClose, Menu, Printer, RefreshRight, Search } from "@element-plus/icons-vue";
 import MyTable from "@/components/mytable/MyTable.vue";
 import { createPageDTO, type MyTableAttr, type MyTableColumn, type PageDTO } from "@/components/mytable/type";
+import { getClassSummaryPage, getCampusList, getCourseListForClassSummary } from "@/apis/student";
+import type { ClassSummaryItemDTO, CampusItemDTO, CourseItemDTO } from "@/apis/student/type";
 
 const filters = reactive({
-	studentName: "",
-	campus: "",
-	course: "",
+	advisorId: "",
+	name: "",
+	phone: "",
+	status: "",
+	studentId: "",
+	campusId: "",
+	courseId: "",
 });
+
+const campusList = ref<CampusItemDTO[]>([]);
+const courseList = ref<CourseItemDTO[]>([]);
 
 const tableAttr: MyTableAttr = {
 	"row-key": "id",
 	border: true,
-	striped: true,
+	stripe: true,
 	"highlight-current-row": true,
 };
 
 const tableColumns: MyTableColumn[] = [
-	{ prop: "studentName", label: "学员姓名", "min-width": 120 },
-	{ prop: "campus", label: "分校区", "min-width": 100 },
-	{ prop: "course", label: "课程", "min-width": 120 },
-	{ prop: "classRecord", label: "上课记录", "min-width": 180, "show-overflow-tooltip": true },
-	{ prop: "totalHours", label: "总课时", width: 100, align: "center" },
-	{ prop: "completedHours", label: "已上课时", width: 100, align: "center" },
-	{ prop: "sickLeave", label: "病假", width: 80, align: "center" },
-	{ prop: "personalLeave", label: "事假", width: 80, align: "center" },
+	{ prop: "courseName", label: "课程名称", "min-width": 150 },
+	{ prop: "subjectName", label: "科目名称", "min-width": 120 },
+	{ prop: "totalCount", label: "总数量", width: "100px", align: "center" },
+	{ prop: "completeCount", label: "已完成数量", width: "120px", align: "center" },
+	{ prop: "remainingCount", label: "剩余数量", width: "100px", align: "center" },
+	{ prop: "remainingAmount", label: "剩余金额", width: "120px", align: "center" },
+	{ prop: "unitPrice", label: "单价", width: "100px", align: "center" },
+	{ prop: "expireDate", label: "过期日期", width: "150px", align: "center" },
 ];
 
 const pageIndex = ref(1);
 const pageSize = ref(20);
-const pageData = ref(createPageDTO<Record<string, any>>());
-const selectedRows = ref<Record<string, any>[]>([]);
+const pageData = ref(createPageDTO<ClassSummaryItemDTO>());
+const selectedRows = ref<ClassSummaryItemDTO[]>([]);
 
 const displayPageData = computed(() => {
 	return pageData.value;
 });
 
-function getCellClass(prop: string, row: Record<string, any>) {
-	if (prop === "totalHours") return "cell-total";
-	if (prop === "completedHours") return "cell-completed";
-	if (prop === "sickLeave") return "cell-sick";
-	if (prop === "personalLeave") return "cell-personal";
+function getCellClass(prop: string, _row: ClassSummaryItemDTO) {
+	if (prop === "totalCount") return "cell-total";
+	if (prop === "completeCount") return "cell-completed";
+	if (prop === "remainingCount") return "cell-remaining";
 	return "";
 }
 
@@ -111,9 +124,13 @@ function handleSearch() {
 
 function handleReset() {
 	Object.assign(filters, {
-		studentName: "",
-		campus: "",
-		course: "",
+		advisorId: "",
+		name: "",
+		phone: "",
+		status: "",
+		studentId: "",
+		campusId: "",
+		courseId: "",
 	});
 	pageIndex.value = 1;
 	loadData();
@@ -131,38 +148,66 @@ function handleCustomSort() {
 	ElMessage.info("自定义排序功能待接入");
 }
 
-function handlePageChange(data: PageDTO<Record<string, any>>) {
+function handlePageChange(data: PageDTO<ClassSummaryItemDTO>) {
 	pageIndex.value = data.pageIndex;
 	pageSize.value = data.pageSize;
 	loadData();
 }
 
-function handleSelectionChange(rows: Record<string, any>[]) {
+function handleSelectionChange(rows: ClassSummaryItemDTO[]) {
 	selectedRows.value = rows;
 }
 
+// 加载数据
 async function loadData() {
-	const mockData = Array.from({ length: 20 }, (_, i) => ({
-		id: i + 1,
-		studentName: `学员${i + 1}`,
-		campus: i % 3 === 0 ? "主校区" : i % 3 === 1 ? "一分校" : "二分校",
-		course: i % 4 === 0 ? "少儿编程" : i % 4 === 1 ? "Python" : i % 4 === 2 ? "Java" : "C++",
-		classRecord: `上课记录 ${i + 1}`,
-		totalHours: Math.floor(Math.random() * 100) + 20,
-		completedHours: Math.floor(Math.random() * 80) + 10,
-		sickLeave: Math.floor(Math.random() * 5),
-		personalLeave: Math.floor(Math.random() * 5),
-	}));
+	try {
+		const res = await getClassSummaryPage({
+			pageIndex: pageIndex.value,
+			pageSize: pageSize.value,
+			advisorId: filters.advisorId,
+			name: filters.name,
+			phone: filters.phone,
+			status: filters.status,
+			studentId: filters.studentId,
+			campusId: filters.campusId,
+			courseId: filters.courseId,
+		});
+		if (res.data) {
+			pageData.value = res.data;
+		}
+	} catch (error) {
+		console.error("加载数据失败:", error);
+		ElMessage.error("加载数据失败");
+	}
+}
 
-	pageData.value = createPageDTO({
-		pageIndex: pageIndex.value,
-		pageSize: pageSize.value,
-		total: 127,
-		rows: mockData,
-	});
+async function loadCampusList() {
+	try {
+		const res = await getCampusList();
+		if (res.data) {
+			campusList.value = res.data;
+		}
+	} catch (error) {
+		console.error("加载分校区列表失败:", error);
+		ElMessage.error("加载分校区列表失败");
+	}
+}
+
+async function loadCourseList() {
+	try {
+		const res = await getCourseListForClassSummary();
+		if (res.data) {
+			courseList.value = res.data;
+		}
+	} catch (error) {
+		console.error("加载课程列表失败:", error);
+		ElMessage.error("加载课程列表失败");
+	}
 }
 
 onMounted(() => {
+	loadCampusList();
+	loadCourseList();
 	loadData();
 });
 </script>
@@ -227,21 +272,18 @@ onMounted(() => {
 }
 
 :deep(.cell-total) {
-	color: #409EFF;
+	color: #409eff;
 	font-weight: bold;
 }
 
 :deep(.cell-completed) {
-	color: #67C23A;
+	color: #67c23a;
 	font-weight: bold;
 }
 
-:deep(.cell-sick) {
-	color: #E6A23C;
-}
-
-:deep(.cell-personal) {
-	color: #F56C6C;
+:deep(.cell-remaining) {
+	color: #f56c6c;
+	font-weight: bold;
 }
 
 @media (max-width: 1200px) {

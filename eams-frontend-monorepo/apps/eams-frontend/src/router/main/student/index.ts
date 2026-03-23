@@ -1,6 +1,6 @@
 const routes = [
 	{
-		path: "/class-summary",
+		path: "/student/classSummary",
 		name: "classSummary",
 		meta: {
 			label: "课时汇总",
@@ -8,7 +8,7 @@ const routes = [
 		component: () => import("@/views/student/ClassSummary.vue"),
 	},
 	{
-		path: "/signup-record",
+		path: "/student/signupRecord",
 		name: "signupRecord",
 		meta: {
 			label: "报名记录",
@@ -16,7 +16,7 @@ const routes = [
 		component: () => import("@/views/student/SignupRecord.vue"),
 	},
 	{
-		path: "/follow-record",
+		path: "/student/followRecord",
 		name: "followRecord",
 		meta: {
 			label: "跟进记录",
