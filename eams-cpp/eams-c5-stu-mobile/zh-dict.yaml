@@ -17,6 +17,7 @@ LessonComment:
     evaluation: 老师评语
     evaluate_time: 评语时间
     evaluate_teacher: 评语老师
+    evaluate_teacher_id: 评语老师id
     consume_course_id: 实际消费课程
     consume_student_course_id: 消费课程与学生关联表ID
     counselor: 学生的顾问

@@ -57,27 +57,27 @@ public:
     LessonCommentDO() : BaseDO("lesson_student")
     {
        
-        MYSQL_ADD_FIELD_PK("id", "l", id);
+        MYSQL_ADD_FIELD_PK("id", "ull", id);
 
-        MYSQL_ADD_FIELD("lesson_id", "l", lessonId);
+        MYSQL_ADD_FIELD("lesson_id", "ull", lessonId);
         MYSQL_ADD_FIELD("class_id", "i", classId);
-        MYSQL_ADD_FIELD("student_id", "l", studentId);
+        MYSQL_ADD_FIELD("student_id", "ull", studentId);
         MYSQL_ADD_FIELD("dec_lesson_count", "i", decLessonCount);
         MYSQL_ADD_FIELD("lesson_count", "i", lessonCount);
-        MYSQL_ADD_FIELD("teacher_id", "l", teacherId);
+        MYSQL_ADD_FIELD("teacher_id", "ull", teacherId);
         MYSQL_ADD_FIELD("sign_time", "s", signTime);
         MYSQL_ADD_FIELD("sign_type", "i", signType);
         MYSQL_ADD_FIELD("sign_state", "i", signState);
         MYSQL_ADD_FIELD("score", "i", score);
         MYSQL_ADD_FIELD("evaluation", "s", evaluation);
         MYSQL_ADD_FIELD("evaluate_time", "s", evaluateTime);
-        MYSQL_ADD_FIELD("evaluate_teacher_id", "l", evaluateTeacherId);
+        MYSQL_ADD_FIELD("evaluate_teacher_id", "ull", evaluateTeacherId);
         MYSQL_ADD_FIELD("evaluate_teacher", "s", evaluateTeacher);
-        MYSQL_ADD_FIELD("consume_course_id", "l", consumeCourseId);
-        MYSQL_ADD_FIELD("consume_student_course_id", "l", consumeStudentCourseId);
-        MYSQL_ADD_FIELD("counselor", "l", counselor);
+        MYSQL_ADD_FIELD("consume_course_id", "ull", consumeCourseId);
+        MYSQL_ADD_FIELD("consume_student_course_id", "ull", consumeStudentCourseId);
+        MYSQL_ADD_FIELD("counselor", "ull", counselor);
         MYSQL_ADD_FIELD("add_time", "s", addTime);
-        MYSQL_ADD_FIELD("org_id", "l", orgId);
+        MYSQL_ADD_FIELD("org_id", "ull", orgId);
     }
 };
 typedef std::shared_ptr<LessonCommentDO> PtrLessonCommentDO;
