@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -37,6 +38,11 @@ public class ContactRecord implements Serializable {
      * 进展阶段
      */
     private Integer stage;
+
+    /**
+     * 创建时间
+     */
+    private LocalDateTime addTime;
 
     /**
      * 删除标记
