@@ -278,47 +278,6 @@ const menus = reactive([
 		path: "/sample/attendanceManagement",
 		text: "弹窗点名管理",
 	},
-	{
-		id: 18,
-		text: "财务动态页面",
-		children: [
-			{
-				id: 1801,
-				path: "/finance/paymentManagement",
-				text: "款项管理",
-			},
-			{
-				id: 1802,
-				path: "/finance/financeRecord",
-				text: "月课时费",
-			},
-			{
-				id: 1803,
-				path: "/finance/courseReward",
-				text: "消课课酬",
-			},
-			{
-				id: 1804,
-				path: "/finance/requestManagement",
-				text: "请款管理",
-			},
-			{
-				id: 1805,
-				path: "/statis/saleStatis",
-				text: "销售统计",
-			},
-		],
-	},
-	{
-		id: 19,
-		text: "数据动态页面",
-		children: [
-			{
-				id: 1901,
-				path: "/statis/saleStatis",
-				text: "销售统计",
-			},
-		],
-	},
+
 ]);
 </script>
