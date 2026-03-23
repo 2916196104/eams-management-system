@@ -24,7 +24,7 @@ class GetTrialCardListDO : public BaseDO
 	// 结束时间
 	MYSQL_SYNTHESIZE(string, endTime, EndTime);
 public:
-	GetTrialCardListDO() : BaseDO("GetTrialCardList")
+	GetTrialCardListDO() : BaseDO("course_trial")
 	{
 		// 这里的第一个参数必须是数据库真实的列名
 		MYSQL_ADD_FIELD_PK("id", "s", id);
