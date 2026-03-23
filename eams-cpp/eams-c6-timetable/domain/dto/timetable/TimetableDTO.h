@@ -11,11 +11,11 @@ class LeaveDTO :public oatpp::DTO
 {
     DTO_INIT(LeaveDTO, DTO);
     //课程ID
-    API_DTO_FIELD_DEFAULT(UInt64, lessonId, ZH_WORDS_GETTER("timetable.filed.leave.lesson-id"), true, "")
+    API_DTO_FIELD_DEFAULT(String, lessonId, ZH_WORDS_GETTER("timetable.filed.leave.lesson-id"), true, "")
         //请假原因
         API_DTO_FIELD_DEFAULT(String, reason, ZH_WORDS_GETTER("timetable.filed.leave.reason"))
         //请假学员ID
-        API_DTO_FIELD_DEFAULT(UInt64, studentId, ZH_WORDS_GETTER("timetable.filed.leave.student-id"))
+        API_DTO_FIELD_DEFAULT(String, studentId, ZH_WORDS_GETTER("timetable.filed.leave.student-id"))
 };
 /*
 预约传输对象
@@ -24,7 +24,7 @@ class ReserveDTO : public oatpp::DTO
 {
     DTO_INIT(ReserveDTO, DTO);
     //课程ID
-    API_DTO_FIELD_DEFAULT(UInt64, lessonId, ZH_WORDS_GETTER("timetable.filed.reserve.lesson-id"), true, "")
+    API_DTO_FIELD_DEFAULT(String, lessonId, ZH_WORDS_GETTER("timetable.filed.reserve.lesson-id"), true, "")
 
 };
 
@@ -36,7 +36,7 @@ class TimetableItemDTO : public oatpp::DTO
     DTO_INIT(TimetableItemDTO, DTO);
 
     // 课程ID
-    API_DTO_FIELD_DEFAULT(UInt64, lessonId, ZH_WORDS_GETTER("timetable.filed.item.lesson-id"));
+    API_DTO_FIELD_DEFAULT(String, lessonId, ZH_WORDS_GETTER("timetable.filed.item.lesson-id"));
     // 课程标题
     API_DTO_FIELD_DEFAULT(String, title, ZH_WORDS_GETTER("timetable.filed.item.title")); 
     // 班级名称
@@ -85,7 +85,7 @@ class TimetableSignDTO : public oatpp::DTO
     DTO_INIT(TimetableSignDTO, DTO);
 
     // 课程ID
-    API_DTO_FIELD_DEFAULT(UInt64, lessonId, ZH_WORDS_GETTER("timetable.field.lesson-id"));
+    API_DTO_FIELD_DEFAULT(String, lessonId, ZH_WORDS_GETTER("timetable.field.lesson-id"));
     // 签到方式
     API_DTO_FIELD_DEFAULT(Int32, signType, ZH_WORDS_GETTER("timetable.sign.sign-type"));
 };
