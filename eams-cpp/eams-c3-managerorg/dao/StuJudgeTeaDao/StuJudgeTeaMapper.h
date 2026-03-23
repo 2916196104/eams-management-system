@@ -24,7 +24,7 @@ public:
 		data.setContent(resultSet->getString(8));
 		data.setAddTime(resultSet->getString(9));
 		data.setStudentId(resultSet->getUInt64(10));
-		data.setAnonymity(resultSet->getBoolean(11));
+		data.setAnonymity(resultSet->getInt(11));
 		data.setOrgId(resultSet->getUInt64(12));
 		return data;
 	}

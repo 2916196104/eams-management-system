@@ -29,7 +29,7 @@ class StuJudgeTeaDO : public BaseDO
 	// 学生编号
 	MYSQL_SYNTHESIZE(uint64_t, student_id, StudentId);
 	// 是否匿名
-	MYSQL_SYNTHESIZE(bool, anonymity, Anonymity);
+	MYSQL_SYNTHESIZE(int, anonymity, Anonymity);
 	// 老师所属组织编号
 	MYSQL_SYNTHESIZE(uint64_t, org_id, OrgId);
 public:

@@ -24,7 +24,7 @@ std::string StuJudgeTeaDao::queryConditionBuilder(const StuJudgeTeaQuery::Wrappe
 	if (query->anonymity) {
 
 		sqlCondition << " AND `anonymity`=?";
-		SQLPARAMS_PUSH(params, "i", bool, query->anonymity.getValue(0));
+		SQLPARAMS_PUSH(params, "i", int, query->anonymity.getValue(0));
 	}
 	if (query->startEvaluateTime) {
 

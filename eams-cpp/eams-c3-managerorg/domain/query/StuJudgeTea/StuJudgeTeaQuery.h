@@ -23,7 +23,7 @@ class StuJudgeTeaQuery : public PageQuery
     // 5. 最低综合评分（筛选条件，非必传）
     //API_DTO_FIELD_DEFAULT(UInt32, minComprehensiveScore, ZH_WORDS_GETTER("StuJudgeTeaDTO.minComprehensiveScore"));
     // 6. 是否匿名
-    API_DTO_FIELD_DEFAULT(Boolean, anonymity, ZH_WORDS_GETTER("StuJudgeTeaDTO.anonymity"));
+    API_DTO_FIELD_DEFAULT(Int32, anonymity, ZH_WORDS_GETTER("StuJudgeTeaDTO.anonymity"));
 };
 
 #include OATPP_CODEGEN_END(DTO)
