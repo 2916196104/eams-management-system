@@ -17,18 +17,16 @@ public:
 	// 3.1 定义查询接口描述
 	ENDPOINT_INFO(appointment) {
 		// 定义接口标题
-		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("c5.schedule.appointment.info"));
+		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("schedule.appointment.info"));
 		// 定义默认授权参数（可选定义，如果定义了，下面ENDPOINT里面需要加入API_HANDLER_AUTH_PARAME）
 		API_DEF_ADD_AUTH();
-		// 定义响应参数格式
-		API_DEF_ADD_RSP_JSON_WRAPPER(AppointmentPageJsonVO);
 		// 定义标签
 		API_DEF_ADD_TAG("schedule");
-		// 定义分页查询参数描述
-		API_DEF_ADD_PAGE_PARAMS();
 		// 定义其他查询参数描述
-		API_DEF_ADD_QUERY_PARAMS(String, "appointmentID", ZH_WORDS_GETTER("c5.schedule.appointment.id"), "", true);
-		API_DEF_ADD_QUERY_PARAMS(String, "studentID", ZH_WORDS_GETTER("c5.student.id"), "", true);
+		API_DEF_ADD_QUERY_PARAMS(String, "courseId", ZH_WORDS_GETTER("schedule.appointment.courseId"), "", true);
+		API_DEF_ADD_QUERY_PARAMS(String, "studentId", ZH_WORDS_GETTER("student.id"), "", true);
+		API_DEF_ADD_QUERY_PARAMS(String, "date", ZH_WORDS_GETTER("schedule.appointment.date"), "", true);
+
 	}
 
 	// 定义接口
@@ -36,11 +34,11 @@ public:
 		// 解析查询参数为Query领域模型
 		API_HANDLER_QUERY_PARAM(query, AppointmentQuery, queryParams);
 		// 呼叫执行函数响应结果
-		API_HANDLER_RESP_VO(executeAppointment(query));
+		return createDtoResponse(Status::CODE_200, executeAppointment(query));
 	}
 
 private:
-	AppointmentPageJsonVO::Wrapper executeAppointment(const AppointmentQuery::Wrapper& dto);
+	AppointmentJsonVO::Wrapper executeAppointment(const AppointmentQuery::Wrapper& query);
 };
 
 #include OATPP_CODEGEN_END(ApiController)

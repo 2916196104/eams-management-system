@@ -17,12 +17,12 @@ class RegisterQuery : public PageQuery
 	// id
 	DTO_FIELD(String, id);
 	DTO_FIELD_INFO(id) {
-		info->description = ZH_WORDS_GETTER("c5.register.field.id");
+		info->description = ZH_WORDS_GETTER("register.field.id");
 	}
 	// ÐÕÃû
 	DTO_FIELD(String, name);
 	DTO_FIELD_INFO(name) {
-		info->description = ZH_WORDS_GETTER("c5.register.field.name.info");
+		info->description = ZH_WORDS_GETTER("register.field.name.info");
 	}
 };
 

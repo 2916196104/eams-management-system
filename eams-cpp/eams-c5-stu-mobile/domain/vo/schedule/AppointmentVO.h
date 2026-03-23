@@ -7,17 +7,17 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-class AppointmentJsonVO : JsonVO<AppointmentDTO::Wrapper>
+class AppointmentJsonVO : public JsonVO<AppointmentDTO::Wrapper>
 {
 public:
 	DTO_INIT(AppointmentJsonVO, JsonVO<AppointmentDTO::Wrapper>);
 };
 
-class AppointmentPageJsonVO : JsonVO<AppointmentPageDTO::Wrapper>
-{
-public:
-	DTO_INIT(AppointmentPageJsonVO, JsonVO<AppointmentPageDTO::Wrapper>);
-};
+//class AppointmentPageJsonVO : JsonVO<AppointmentPageDTO::Wrapper>
+//{
+//public:
+//	DTO_INIT(AppointmentPageJsonVO, JsonVO<AppointmentPageDTO::Wrapper>);
+//};
 
 #include OATPP_CODEGEN_END(DTO)
 

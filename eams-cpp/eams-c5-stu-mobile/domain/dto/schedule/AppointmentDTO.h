@@ -10,40 +10,35 @@ class AppointmentAddDTO : public oatpp::DTO
 	DTO_INIT(AppointmentAddDTO, DTO);
 
 	// 课程名称
-	DTO_FIELD(String, name);
-	DTO_FIELD_INFO(name) {
-		info->description = ZH_WORDS_GETTER("c5.schedule.appointment.name");
+	DTO_FIELD(String, courseId);
+	DTO_FIELD_INFO(courseId) {
+		info->description = ZH_WORDS_GETTER("schedule.appointment.courseId");
 	};
 
-	// 教师
-	DTO_FIELD(String, teacher);
-	DTO_FIELD_INFO(teacher) {
-		info->description = ZH_WORDS_GETTER("c5.schedule.appointment.teacher");
+	// 试听课次id
+	DTO_FIELD(String, lessonId);
+	DTO_FIELD_INFO(lessonId) {
+		info->description = ZH_WORDS_GETTER("schedule.appointment.lessonId");
 	};
 
-	// 教室
-	DTO_FIELD(String, classroom);
-	DTO_FIELD_INFO(classroom) {
-		info->description = ZH_WORDS_GETTER("c5.schedule.appointment.classroom");
+	// 学生id
+	DTO_FIELD(String, studentId);
+	DTO_FIELD_INFO(studentId) {
+		info->description = ZH_WORDS_GETTER("student.id");
 	};
 
-	// 开始时间
-	DTO_FIELD(String, startTime);
-	DTO_FIELD_INFO(startTime) {
-		info->description = ZH_WORDS_GETTER("c5.schedule.appointment.startTime");
+	// 预约时间
+	DTO_FIELD(String, addTime);
+	DTO_FIELD_INFO(addTime) {
+		info->description = ZH_WORDS_GETTER("schedule.appointment.addTime");
 	};
 
-	// 结束时间
-	DTO_FIELD(String, endTime);
-	DTO_FIELD_INFO(endTime) {
-		info->description = ZH_WORDS_GETTER("c5.schedule.appointment.endTime");
+	// 顾问id
+	DTO_FIELD(String, counselorId);
+	DTO_FIELD_INFO(counselorId) {
+		info->description = ZH_WORDS_GETTER("schedule.appointment.counselorId");
 	}
 
-	// 班级(class是个关键字没法用)
-	DTO_FIELD(String, team);
-	DTO_FIELD_INFO(team) {
-		info->description = ZH_WORDS_GETTER("c5.schedule.appointment.team");
-	}
 
 	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
 };
@@ -51,17 +46,17 @@ class AppointmentAddDTO : public oatpp::DTO
 class AppointmentDTO : public AppointmentAddDTO
 {
 	DTO_INIT(AppointmentDTO, AppointmentAddDTO);
-	// 预约ID
+
 	DTO_FIELD(String, id);
 	DTO_FIELD_INFO(id) {
 		info->description = ZH_WORDS_GETTER("schedule.appointment.id");
 	};
 };
 
-class AppointmentPageDTO : public PageDTO<AppointmentDTO::Wrapper>
-{
-	DTO_INIT(AppointmentPageDTO, PageDTO<AppointmentDTO::Wrapper>);
-};
+//class AppointmentPageDTO : public PageDTO<AppointmentDTO::Wrapper>
+//{
+//	DTO_INIT(AppointmentPageDTO, PageDTO<AppointmentDTO::Wrapper>);
+//};
 
 #include OATPP_CODEGEN_END(DTO)
 
