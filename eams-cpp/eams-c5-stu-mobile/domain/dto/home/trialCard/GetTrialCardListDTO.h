@@ -12,32 +12,34 @@ class GetTrialCardListAddDTO : public oatpp::DTO
 	DTO_FIELD(String, name); // 试用卡名称
 	DTO_FIELD_INFO(name)
 	{
-		info->description = ZH_WORDS_GETTER("c5.home.trialCard.name");
+		info->description = ZH_WORDS_GETTER("home.trialCard.name");
 	}
 		
 	DTO_FIELD(String, courseName); // 试用卡课程名称
 	DTO_FIELD_INFO(courseName)
 	{
-		info->description = ZH_WORDS_GETTER("c5.home.trialCard.courseName");
+		info->description = ZH_WORDS_GETTER("home.trialCard.courseName");
 	}
 
 	DTO_FIELD(Int32, lessonCount); // 试用卡课时
 	DTO_FIELD_INFO(lessonCount)
 	{
-		info->description = ZH_WORDS_GETTER("c5.home.trialCard.lessonCount");
+		info->description = ZH_WORDS_GETTER("home.trialCard.lessonCount");
 	}
 
 	DTO_FIELD(Int32, remainingQuantity); // 试用卡剩余数量
 	DTO_FIELD_INFO(remainingQuantity)
 	{
-		info->description = ZH_WORDS_GETTER("c5.home.trialCard.remainingQuantity");
+		info->description = ZH_WORDS_GETTER("home.trialCard.remainingQuantity");
 	}
 
-	DTO_FIELD(String, endData); // 试用卡截止时间
-	DTO_FIELD_INFO(endData)
+	DTO_FIELD(String, endTime); // 试用卡截止时间
+	DTO_FIELD_INFO(endTime)
 	{
-		info->description = ZH_WORDS_GETTER("c5.home.trialCard.endData");
+		info->description = ZH_WORDS_GETTER("home.trialCard.endTime");
 	}
+	// 关联一个PayloadDTO负载数据对象
+	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
 };
 
 class GetTrialCardListDTO : public GetTrialCardListAddDTO
@@ -47,13 +49,13 @@ class GetTrialCardListDTO : public GetTrialCardListAddDTO
 	DTO_FIELD(String, id); // 试用卡id
 	DTO_FIELD_INFO(id)
 	{
-		info->description = ZH_WORDS_GETTER("c5.student.id");
+		info->description = ZH_WORDS_GETTER("student.id");
 	}
 };
 
-class GetTrialCardLIstPageDTO : PageDTO<GetTrialCardListDTO::Wrapper>
+class GetTrialCardListPageDTO : public PageDTO<GetTrialCardListDTO::Wrapper>
 {
-	DTO_INIT(GetTrialCardLIstPageDTO, PageDTO<GetTrialCardListDTO::Wrapper>)
+	DTO_INIT(GetTrialCardListPageDTO, PageDTO<GetTrialCardListDTO::Wrapper>)
 };
 
 #include OATPP_CODEGEN_END(DTO)
