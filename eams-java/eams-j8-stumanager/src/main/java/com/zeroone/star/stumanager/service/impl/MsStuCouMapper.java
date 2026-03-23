@@ -1,46 +1,83 @@
 package com.zeroone.star.stumanager.service.impl;
 
-import com.zeroone.star.project.dto.j8.SaveStu.StuSignCourseDTO;
-import com.zeroone.star.project.vo.j8.StuSignCourse.StuSignCourseVO;
+import com.zeroone.star.project.dto.j8.StuSignCourse.*;
+import com.zeroone.star.stumanager.entity.Staff;
 import com.zeroone.star.stumanager.entity.StudentCourse;
 import org.mapstruct.Mapper;
 
-import java.util.List;
-
 /**
- * StudentCourse领域模型类型转换
+ * <p>
+ * 描述：StudentCourse对应MapStruct映射接口
+ * </p>
+ * <p>版权：&copy;01星球</p>
+ * <p>地址：01星球总部</p>
+ * @author tsfmn
+ * @version 1.0.0
  */
+//注入到spring容器
 @Mapper(componentModel = "spring")
 public interface MsStuCouMapper {
-
-
     /**
-     * DO映射DTO
-     * @param studentCourse 实体
-     * @return DTO
+     * DO映射DTO（StudentCourse）
+     * @param entity 实体
+     * @return StuSignCourseDTO
      */
-    StuSignCourseDTO StuSignCourseToStuSignCourseDTO(StudentCourse studentCourse);
+    StuSignCourseDTO studentCourseToStuSignCourseDto(StudentCourse entity);
 
     /**
-     * DTO映射实体
-     * @param stuSignCourseDTO DTO
+     * addDTO映射实体（StudentCourse）
+     * @param dto StuSignCourseAddDTO
      * @return 实体
      */
-    StudentCourse StuSignCourseDTOToStuSignCourse(StuSignCourseDTO stuSignCourseDTO);
-
-
-    /**
-     * DTO映射VO
-     * @param stuSignCourseDTO DTO
-     * @return VO
-     */
-    StuSignCourseVO StuSignCourseDTOToStuSignCourseVO(StuSignCourseDTO stuSignCourseDTO);
+    StudentCourse addDtoToStudentCourse(StuSignCourseAddDTO dto);
 
     /**
-     * VO映射DTO
-     * @param stuSignCourseVO VO
-     * @return DTO
+     * DTO映射实体（StudentCourse）
+     * @param dto StuSignCourseDTO
+     * @return 实体
      */
-    StuSignCourseDTO StuSignCourseVOToStuSignCourseDTO(StuSignCourseVO stuSignCourseVO);
+    StudentCourse stuSignCourseDtoToStudentCourse(StuSignCourseDTO dto);
 
+    /**
+     * DO映射DTO（Staff）
+     * @param entity 实体
+     * @return StuChooseStaffDTO
+     */
+    StuChooseStaffDTO staffToStuChooseStaffDto(Staff entity);
+
+    /**
+     * addDTO映射实体（Staff）
+     * @param dto StuChooseStaffAddDTO
+     * @return 实体
+     */
+    Staff addDtoToStaff(StuChooseStaffAddDTO dto);
+
+    /**
+     * DTO映射实体（Staff）
+     * @param dto StuChooseStaffDTO
+     * @return 实体
+     */
+    Staff stuChooseStaffDtoToStaff(StuChooseStaffDTO dto);
+
+    // ============ 新增 StuChooseCourseDTO/AddDTO 映射方法 ============
+    /**
+     * 实体映射DTO（StudentCourse -> StuChooseCourseDTO）
+     * @param entity 学生课程实体
+     * @return 课程选择DTO
+     */
+    StuChooseCourseDTO studentCourseToStuChooseCourseDto(StudentCourse entity);
+
+    /**
+     * AddDTO映射实体（StuChooseCourseAddDTO -> StudentCourse）
+     * @param dto 课程选择新增DTO
+     * @return 学生课程实体
+     */
+    StudentCourse stuChooseCourseAddDtoToStudentCourse(StuChooseCourseAddDTO dto);
+
+    /**
+     * DTO映射实体（StuChooseCourseDTO -> StudentCourse）
+     * @param dto 课程选择DTO
+     * @return 学生课程实体
+     */
+    StudentCourse stuChooseCourseDtoToStudentCourse(StuChooseCourseDTO dto);
 }
