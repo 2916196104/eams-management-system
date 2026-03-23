@@ -19,8 +19,7 @@ uint64_t ScoreDAO::count(const ScoreQuery::Wrapper &query)
 
     if (query->student_id) {
         sql += " AND student_id = ?";
-        int64_t sId = *query->student_id;
-        SQLPARAMS_PUSH(params, "ll", int64_t, sId);
+        SQLPARAMS_PUSH(params, "ll", int64_t, query->student_id.getValue(1));
     }
 
     try {
@@ -62,25 +61,18 @@ std::list<PtrScoreViewDO> ScoreDAO::selectByQuery(const ScoreQuery::Wrapper &que
         SqlParams params;
         if (query->student_id) {
             sql += " AND gr.student_id = ?";
-            int64_t sId = *query->student_id;
-            SQLPARAMS_PUSH(params, "ll", int64_t, sId);
-            //SQLPARAMS_PUSH(params, "ll", int64_t, query->student_id);
+            SQLPARAMS_PUSH(params, "ll", int64_t, query->student_id.getValue(1));
         } else {
             std::cerr << "[ScoreDAO::selectByQuery] : 缺少查询参数" << std::endl;
-            return std::list<PtrScoreViewDO>(); // 缺少查询参数时，返回nullptr
+            return std::list<PtrScoreViewDO>(); // 缺少查询参数时，返回空列表
         }
         // 加上排序
         sql += " ORDER BY gr.add_time DESC";
         // 构造分页参数
         if (query->pageIndex && query->pageSize) {
-            // 在计算 offset 之前
-            //uint64_t pIndex = query->pageIndex ? *query->pageIndex : 1;
-            //uint64_t pSize = query->pageSize ? *query->pageSize : 10;
-            //uint64_t offset = (pIndex - 1) * pSize;
-            uint64_t offset = (query->pageIndex - 1) * query->pageSize;
+            uint64_t offset = (query->pageIndex.getValue(1) - 1) * query->pageSize.getValue(10);
             sql += " LIMIT ? OFFSET ?";
-            //SQLPARAMS_PUSH(params, "ull", uint64_t, pSize);
-            SQLPARAMS_PUSH(params, "ull", uint64_t, query->pageSize);
+            SQLPARAMS_PUSH(params, "ull", uint64_t, query->pageSize.getValue(10));
             SQLPARAMS_PUSH(params, "ull", uint64_t, offset);
         } else {
             std::cerr << "[ScoreDAO::selectByQuery] : 缺少分页参数" << std::endl;
@@ -90,11 +82,11 @@ std::list<PtrScoreViewDO> ScoreDAO::selectByQuery(const ScoreQuery::Wrapper &que
         auto result = session->executeQuery<PtrScoreViewDO>(sql, ScoreViewMapper(), params);
         if (result.empty()) {
             std::cerr << "[ScoreDAO::selectByQuery] : 查询结果为空或查询异常" << std::endl;
-            return std::list<PtrScoreViewDO>(); // 查询结果为空或查询异常时，返回nullptr
+            return std::list<PtrScoreViewDO>(); // 查询结果为空或查询异常时，返回空列表
         }
         return result;
     } catch (const std::exception &e) {
         std::cerr << "[ScoreDAO::selectByQuery] : 异常" << e.what() << std::endl;
-        return std::list<PtrScoreViewDO>(); // 异常时，返回nullptr
+        return std::list<PtrScoreViewDO>(); // 异常时，返回空列表
     }
 }

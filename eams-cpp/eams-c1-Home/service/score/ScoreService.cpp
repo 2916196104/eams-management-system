@@ -17,11 +17,8 @@ ScorePageDTO::Wrapper ScoreService::listAll(const ScoreQuery::Wrapper& query)
     int64_t total = dao.count(query);
     page->total = total;
     page->calcPages();
-    //uint64_t pIndex = query->pageIndex ? *query->pageIndex : 1;
-    //uint64_t pSize = query->pageSize ? *query->pageSize : 10;
-    //uint64_t offset = (pIndex - 1) * pSize;
 
-    uint64_t offset = (query->pageIndex - 1) * query->pageSize;
+    uint64_t offset = (query->pageIndex.getValue(1) - 1) * query->pageSize.getValue(10);
     if (total == 0 || offset >= total) {    // 没有记录或者当前页没有记录(没这一页)
         page->rows = oatpp::List<ScoreDTO::Wrapper>::createShared();
         return page;    // 直接返回
