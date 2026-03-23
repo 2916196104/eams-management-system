@@ -8,6 +8,7 @@ import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j5.courseschedule.CourseDetailVO;
 import com.zeroone.star.project.vo.j5.courseschedule.CourseListVO;
 import com.zeroone.star.project.vo.j5.courseschedule.EvaluationVO;
+import com.zeroone.star.project.vo.j5.courseschedule.LessonCalendarVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -15,14 +16,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-@RestController("j5/courseschedule")
+@RestController
+@RequestMapping("j5/courseschedule")
 @Api(tags="课程表")
 public class CourseScheduleController implements CourseScheduleApis {
 
     @GetMapping("/calendar")
     @ApiOperation("获取课表日历（条件）")
     @Override
-    public JsonVO<List<LessonDTO>> queryCalendar(CourseQuery condition) {
+    public JsonVO<List<LessonCalendarVO>> queryCalendar(CourseQuery condition) {
         return null;
     }
 

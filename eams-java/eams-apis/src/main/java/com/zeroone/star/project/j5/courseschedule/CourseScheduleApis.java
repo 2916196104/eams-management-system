@@ -7,13 +7,14 @@ import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j5.courseschedule.CourseDetailVO;
 import com.zeroone.star.project.vo.j5.courseschedule.CourseListVO;
 import com.zeroone.star.project.vo.j5.courseschedule.EvaluationVO;
+import com.zeroone.star.project.vo.j5.courseschedule.LessonCalendarVO;
 
 
 import java.util.List;
 import java.util.Map;
 
 public interface CourseScheduleApis {
-    JsonVO<List<LessonDTO>> queryCalendar(CourseQuery condition);
+    JsonVO<List<LessonCalendarVO>> queryCalendar(CourseQuery condition);
 
     JsonVO<PageDTO<CourseListVO>> queryCourseList(CourseListQuery courseListQuery);
 

@@ -36,7 +36,7 @@ public class AppointController implements AppointmentApis {
         return null;
     }
 
-    @GetMapping
+    @GetMapping("/list")
     @ApiOperation("获取预约列表（条件+分页）")
     @Override
     public JsonVO<PageDTO<AppointmentDTO>> queryPage(AppointmentQuery appointmentQuery) {

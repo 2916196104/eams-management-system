@@ -23,7 +23,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("j5/classManager")
+@RequestMapping("j5/class-manager")
 @Api(tags = "班级管理")
 public class ClassManagerController implements ClassStudentApis {
     @GetMapping("/class-options")

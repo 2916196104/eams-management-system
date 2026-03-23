@@ -1,13 +1,12 @@
 package com.zeroone.star.project.vo.j5.courseplan;
 
-import com.zeroone.star.project.dto.j5.schedule.LessonScheduleSettingDTO;
-import com.zeroone.star.project.dto.j5.schedule.ScheduleSaveDTO;
+import com.zeroone.star.project.dto.j5.courseschedule.LessonScheduleSettingDTO;
+import com.zeroone.star.project.dto.j5.courseschedule.ScheduleSaveDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /*
