@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zeroone.star.project.query.PageQuery;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,16 +22,20 @@ import java.util.List;
 public class AppointmentQuery extends PageQuery {
 
     @ApiModelProperty(value = "学生名称列表(支持多选)", example = "[张三, 李四, 小名]")
+    @Size(max = 5, message = "一次最多只能查询5个学生")
     private List<String> studentNames;
 
     @ApiModelProperty(value = "课程名称列表(支持多选)", example = "[英文, 数学]")
+    @Size(max = 5, message = "一次最多只能查询5门课程")
     private List<String> courseNames;
 
     @ApiModelProperty(value = "开始日期", example = "2026-03-01")
     @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
     @ApiModelProperty(value = "结束日期", example = "2026-03-15")
     @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 }
