@@ -16,11 +16,11 @@
  * **Do not edit the file manually.**
  */
 export default {
-	"login.get_login_current_user": ["GET", "/login/current-user"],
-	"login.get_login_get_menus": ["GET", "/login/get-menus"],
-	"login.post_login_auth_login": ["POST", "/login/auth-login"],
-	"article.get_article": ["GET", "/article"],
-	"article.post_article": ["POST", "/article"],
-	"article.put_article": ["PUT", "/article"],
-	"article.delete_article_id": ["DELETE", "/article/{id}"],
+  'login.get_login_current_user': ['GET', '/login/current-user'],
+  'login.get_login_get_menus': ['GET', '/login/get-menus'],
+  'login.post_login_auth_login': ['POST', '/login/auth-login'],
+  'article.get_article': ['GET', '/article'],
+  'article.post_article': ['POST', '/article'],
+  'article.put_article': ['PUT', '/article'],
+  'article.delete_article_id': ['DELETE', '/article/{id}']
 };

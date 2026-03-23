@@ -14,918 +14,918 @@
  *
  * **Do not edit the file manually.**
  */
-import type { Alova, AlovaMethodCreateConfig, AlovaGenerics, Method } from "alova";
-import type { $$userConfigMap, alovaInstance } from ".";
-import type apiDefinitions from "./apiDefinitions";
+import type { Alova, AlovaMethodCreateConfig, AlovaGenerics, Method } from 'alova';
+import type { $$userConfigMap, alovaInstance } from './index';
+import type apiDefinitions from './apiDefinitions';
 
 type CollapsedAlova = typeof alovaInstance;
 type UserMethodConfigMap = typeof $$userConfigMap;
 
 type Alova2MethodConfig<Responded> =
-	CollapsedAlova extends Alova<
-		AlovaGenerics<
-			any,
-			any,
-			infer RequestConfig,
-			infer Response,
-			infer ResponseHeader,
-			infer L1Cache,
-			infer L2Cache,
-			infer SE
-		>
-	>
-		? Omit<
-				AlovaMethodCreateConfig<
-					AlovaGenerics<Responded, any, RequestConfig, Response, ResponseHeader, L1Cache, L2Cache, SE>,
-					any,
-					Responded
-				>,
-				"params"
-			>
-		: never;
+  CollapsedAlova extends Alova<
+    AlovaGenerics<
+      any,
+      any,
+      infer RequestConfig,
+      infer Response,
+      infer ResponseHeader,
+      infer L1Cache,
+      infer L2Cache,
+      infer SE
+    >
+  >
+    ? Omit<
+        AlovaMethodCreateConfig<
+          AlovaGenerics<Responded, any, RequestConfig, Response, ResponseHeader, L1Cache, L2Cache, SE>,
+          any,
+          Responded
+        >,
+        'params'
+      >
+    : never;
 
 // Extract the return type of transform function that define in $$userConfigMap, if it not exists, use the default type.
 type ExtractUserDefinedTransformed<
-	DefinitionKey extends keyof typeof apiDefinitions,
-	Default,
+  DefinitionKey extends keyof typeof apiDefinitions,
+  Default
 > = DefinitionKey extends keyof UserMethodConfigMap
-	? UserMethodConfigMap[DefinitionKey]["transform"] extends (...args: any[]) => any
-		? Awaited<ReturnType<UserMethodConfigMap[DefinitionKey]["transform"]>>
-		: Default
-	: Default;
+  ? UserMethodConfigMap[DefinitionKey]['transform'] extends (...args: any[]) => any
+    ? Awaited<ReturnType<UserMethodConfigMap[DefinitionKey]['transform']>>
+    : Default
+  : Default;
 type Alova2Method<
-	Responded,
-	DefinitionKey extends keyof typeof apiDefinitions,
-	CurrentConfig extends Alova2MethodConfig<any>,
+  Responded,
+  DefinitionKey extends keyof typeof apiDefinitions,
+  CurrentConfig extends Alova2MethodConfig<any>
 > =
-	CollapsedAlova extends Alova<
-		AlovaGenerics<
-			any,
-			any,
-			infer RequestConfig,
-			infer Response,
-			infer ResponseHeader,
-			infer L1Cache,
-			infer L2Cache,
-			infer SE
-		>
-	>
-		? Method<
-				AlovaGenerics<
-					CurrentConfig extends undefined
-						? ExtractUserDefinedTransformed<DefinitionKey, Responded>
-						: CurrentConfig["transform"] extends (...args: any[]) => any
-							? Awaited<ReturnType<CurrentConfig["transform"]>>
-							: ExtractUserDefinedTransformed<DefinitionKey, Responded>,
-					any,
-					RequestConfig,
-					Response,
-					ResponseHeader,
-					L1Cache,
-					L2Cache,
-					SE
-				>
-			>
-		: never;
+  CollapsedAlova extends Alova<
+    AlovaGenerics<
+      any,
+      any,
+      infer RequestConfig,
+      infer Response,
+      infer ResponseHeader,
+      infer L1Cache,
+      infer L2Cache,
+      infer SE
+    >
+  >
+    ? Method<
+        AlovaGenerics<
+          CurrentConfig extends undefined
+            ? ExtractUserDefinedTransformed<DefinitionKey, Responded>
+            : CurrentConfig['transform'] extends (...args: any[]) => any
+              ? Awaited<ReturnType<CurrentConfig['transform']>>
+              : ExtractUserDefinedTransformed<DefinitionKey, Responded>,
+          any,
+          RequestConfig,
+          Response,
+          ResponseHeader,
+          L1Cache,
+          L2Cache,
+          SE
+        >
+      >
+    : never;
 
 export interface Menu_item {
-	/**
-	 * 唯一编号
-	 * ---
-	 */
-	id: string;
-	/**
-	 * 菜单名称
-	 * ---
-	 */
-	text: string;
-	/**
-	 * 菜单图标
-	 * ---
-	 */
-	icon: string;
-	/**
-	 * 父编号
-	 * ---
-	 */
-	pid?: string;
-	/**
-	 * 子菜单
-	 * ---
-	 */
-	children?: Array<{
-		/**
-		 * 唯一编号
-		 * ---
-		 */
-		id: string;
-		/**
-		 * 菜单名称
-		 * ---
-		 */
-		text: string;
-		/**
-		 * 菜单图标
-		 * ---
-		 */
-		icon: string;
-		/**
-		 * 父编号
-		 * ---
-		 */
-		pid?: string;
-		/**
-		 * 子菜单
-		 * ---
-		 */
-		children?: object[];
-	}>;
+  /**
+   * 唯一编号
+   * ---
+   */
+  id: string;
+  /**
+   * 菜单名称
+   * ---
+   */
+  text: string;
+  /**
+   * 菜单图标
+   * ---
+   */
+  icon: string;
+  /**
+   * 父编号
+   * ---
+   */
+  pid?: string;
+  /**
+   * 子菜单
+   * ---
+   */
+  children?: Array<{
+    /**
+     * 唯一编号
+     * ---
+     */
+    id: string;
+    /**
+     * 菜单名称
+     * ---
+     */
+    text: string;
+    /**
+     * 菜单图标
+     * ---
+     */
+    icon: string;
+    /**
+     * 父编号
+     * ---
+     */
+    pid?: string;
+    /**
+     * 子菜单
+     * ---
+     */
+    children?: object[];
+  }>;
 }
 declare global {
-	interface Apis {
-		login: {
-			/**
-			 * ---
-			 *
-			 * [GET] 获取当前用户
-			 *
-			 * **path:** /login/current-user
-			 *
-			 * ---
-			 *
-			 * **Response**
-			 * ```ts
-			 * type Response = {
-			 *   // [title] 状态码
-			 *   code: number
-			 *   // [title] 提示信息
-			 *   message: string
-			 *   // [title] 数据
-			 *   data?: {
-			 *     // [title] 唯一标识
-			 *     id: string
-			 *     // [title] 用户名
-			 *     username: string
-			 *     // [title] 头像地址
-			 *     avatar: string
-			 *     // [title] 是否启用
-			 *     isEnabled: number
-			 *     // [title] 角色列表
-			 *     // [items] start
-			 *     // [items] end
-			 *     roles: string[]
-			 *   }
-			 * }
-			 * ```
-			 */
-			get_login_current_user<
-				Config extends Alova2MethodConfig<{
-					/**
-					 * 状态码
-					 * ---
-					 */
-					code: number;
-					/**
-					 * 提示信息
-					 * ---
-					 */
-					message: string;
-					/**
-					 * 数据
-					 * ---
-					 */
-					data?: {
-						/**
-						 * 唯一标识
-						 * ---
-						 */
-						id: string;
-						/**
-						 * 用户名
-						 * ---
-						 */
-						username: string;
-						/**
-						 * 头像地址
-						 * ---
-						 */
-						avatar: string;
-						/**
-						 * 是否启用
-						 * ---
-						 */
-						isEnabled: number;
-						/**
-						 * 角色列表
-						 * ---
-						 */
-						roles: string[];
-					};
-				}>,
-			>(
-				config?: Config,
-			): Alova2Method<
-				{
-					/**
-					 * 状态码
-					 * ---
-					 */
-					code: number;
-					/**
-					 * 提示信息
-					 * ---
-					 */
-					message: string;
-					/**
-					 * 数据
-					 * ---
-					 */
-					data?: {
-						/**
-						 * 唯一标识
-						 * ---
-						 */
-						id: string;
-						/**
-						 * 用户名
-						 * ---
-						 */
-						username: string;
-						/**
-						 * 头像地址
-						 * ---
-						 */
-						avatar: string;
-						/**
-						 * 是否启用
-						 * ---
-						 */
-						isEnabled: number;
-						/**
-						 * 角色列表
-						 * ---
-						 */
-						roles: string[];
-					};
-				},
-				"login.get_login_current_user",
-				Config
-			>;
-			/**
-			 * ---
-			 *
-			 * [GET] 获取当前用户的菜单
-			 *
-			 * **path:** /login/get-menus
-			 *
-			 * ---
-			 *
-			 * **Response**
-			 * ```ts
-			 * type Response = {
-			 *   // [title] 状态码
-			 *   code: number
-			 *   // [title] 提示信息
-			 *   message: string
-			 *   // [title] 数据
-			 *   // [items] start
-			 *   // [items] end
-			 *   data?: Array<{
-			 *     // [title] 唯一编号
-			 *     id: string
-			 *     // [title] 菜单名称
-			 *     text: string
-			 *     // [title] 菜单图标
-			 *     icon: string
-			 *     // [title] 父编号
-			 *     pid?: string
-			 *     // [title] 子菜单
-			 *     // [items] start
-			 *     // [items] end
-			 *     children?: Array<{
-			 *       // [title] 唯一编号
-			 *       id: string
-			 *       // [title] 菜单名称
-			 *       text: string
-			 *       // [title] 菜单图标
-			 *       icon: string
-			 *       // [title] 父编号
-			 *       pid?: string
-			 *       // [title] 子菜单
-			 *       // [items] start
-			 *       // [items] end
-			 *       children?: object[]
-			 *     }>
-			 *   }>
-			 * }
-			 * ```
-			 */
-			get_login_get_menus<
-				Config extends Alova2MethodConfig<{
-					/**
-					 * 状态码
-					 * ---
-					 */
-					code: number;
-					/**
-					 * 提示信息
-					 * ---
-					 */
-					message: string;
-					/**
-					 * 数据
-					 * ---
-					 */
-					data?: Menu_item[];
-				}>,
-			>(
-				config?: Config,
-			): Alova2Method<
-				{
-					/**
-					 * 状态码
-					 * ---
-					 */
-					code: number;
-					/**
-					 * 提示信息
-					 * ---
-					 */
-					message: string;
-					/**
-					 * 数据
-					 * ---
-					 */
-					data?: Menu_item[];
-				},
-				"login.get_login_get_menus",
-				Config
-			>;
-			/**
-			 * ---
-			 *
-			 * [POST] 登录接口
-			 *
-			 * **path:** /login/auth-login
-			 *
-			 * ---
-			 *
-			 * **RequestBody**
-			 * ```ts
-			 * type RequestBody = {
-			 *   username: string
-			 *   password: string
-			 *   code?: string
-			 * }
-			 * ```
-			 *
-			 * ---
-			 *
-			 * **Response**
-			 * ```ts
-			 * type Response = {
-			 *   // [title] 状态码
-			 *   code: number
-			 *   // [title] 提示信息
-			 *   message: string
-			 *   // [title] 数据
-			 *   data?: {
-			 *     // [title] 刷新凭证
-			 *     refreshToken: string
-			 *     // [title] 凭证
-			 *     token: string
-			 *     // [title] 凭证头
-			 *     tokenHead: string
-			 *   }
-			 * }
-			 * ```
-			 */
-			post_login_auth_login<
-				Config extends Alova2MethodConfig<{
-					/**
-					 * 状态码
-					 * ---
-					 */
-					code: number;
-					/**
-					 * 提示信息
-					 * ---
-					 */
-					message: string;
-					/**
-					 * 数据
-					 * ---
-					 */
-					data?: {
-						/**
-						 * 刷新凭证
-						 * ---
-						 */
-						refreshToken: string;
-						/**
-						 * 凭证
-						 * ---
-						 */
-						token: string;
-						/**
-						 * 凭证头
-						 * ---
-						 */
-						tokenHead: string;
-					};
-				}> & {
-					data: {
-						username: string;
-						password: string;
-						code?: string;
-					};
-				},
-			>(
-				config: Config,
-			): Alova2Method<
-				{
-					/**
-					 * 状态码
-					 * ---
-					 */
-					code: number;
-					/**
-					 * 提示信息
-					 * ---
-					 */
-					message: string;
-					/**
-					 * 数据
-					 * ---
-					 */
-					data?: {
-						/**
-						 * 刷新凭证
-						 * ---
-						 */
-						refreshToken: string;
-						/**
-						 * 凭证
-						 * ---
-						 */
-						token: string;
-						/**
-						 * 凭证头
-						 * ---
-						 */
-						tokenHead: string;
-					};
-				},
-				"login.post_login_auth_login",
-				Config
-			>;
-		};
-		article: {
-			/**
-			 * ---
-			 *
-			 * [GET] 获取文章列表
-			 *
-			 * **path:** /article
-			 *
-			 * ---
-			 *
-			 * **Query Parameters**
-			 * ```ts
-			 * type QueryParameters = {
-			 *   // 页码
-			 *   pageIndex?: number
-			 *   // 每页数据条数
-			 *   pageSize?: number
-			 *   // 标题
-			 *   title?: string
-			 * }
-			 * ```
-			 *
-			 * ---
-			 *
-			 * **Response**
-			 * ```ts
-			 * type Response = {
-			 *   // 状态码
-			 *   code: number
-			 *   // 提示信息
-			 *   message: string
-			 *   // 数据
-			 *   data: {
-			 *     // 页码
-			 *     pageIndex: number
-			 *     // 每页数据条数
-			 *     pageSize: number
-			 *     // 数据总数
-			 *     total: number
-			 *     // 总页数
-			 *     pages: number
-			 *     // 当前页数据
-			 *     // [items] start
-			 *     // [items] end
-			 *     rows: Array<{
-			 *       // 唯一标识
-			 *       id: string
-			 *       // 标题
-			 *       title: string
-			 *       // 关键词
-			 *       keywords: string
-			 *       // 摘要
-			 *       summary: string
-			 *       // 内容
-			 *       content: string
-			 *       // 发布日期
-			 *       date: string
-			 *     }>
-			 *   }
-			 * }
-			 * ```
-			 */
-			get_article<
-				Config extends Alova2MethodConfig<{
-					/**
-					 * 状态码
-					 */
-					code: number;
-					/**
-					 * 提示信息
-					 */
-					message: string;
-					/**
-					 * 数据
-					 */
-					data: {
-						/**
-						 * 页码
-						 */
-						pageIndex: number;
-						/**
-						 * 每页数据条数
-						 */
-						pageSize: number;
-						/**
-						 * 数据总数
-						 */
-						total: number;
-						/**
-						 * 总页数
-						 */
-						pages: number;
-						/**
-						 * 当前页数据
-						 */
-						rows: Array<{
-							/**
-							 * 唯一标识
-							 */
-							id: string;
-							/**
-							 * 标题
-							 */
-							title: string;
-							/**
-							 * 关键词
-							 */
-							keywords: string;
-							/**
-							 * 摘要
-							 */
-							summary: string;
-							/**
-							 * 内容
-							 */
-							content: string;
-							/**
-							 * 发布日期
-							 */
-							date: string;
-						}>;
-					};
-				}> & {
-					params: {
-						/**
-						 * 页码
-						 */
-						pageIndex?: number;
-						/**
-						 * 每页数据条数
-						 */
-						pageSize?: number;
-						/**
-						 * 标题
-						 */
-						title?: string;
-					};
-				},
-			>(
-				config: Config,
-			): Alova2Method<
-				{
-					/**
-					 * 状态码
-					 */
-					code: number;
-					/**
-					 * 提示信息
-					 */
-					message: string;
-					/**
-					 * 数据
-					 */
-					data: {
-						/**
-						 * 页码
-						 */
-						pageIndex: number;
-						/**
-						 * 每页数据条数
-						 */
-						pageSize: number;
-						/**
-						 * 数据总数
-						 */
-						total: number;
-						/**
-						 * 总页数
-						 */
-						pages: number;
-						/**
-						 * 当前页数据
-						 */
-						rows: Array<{
-							/**
-							 * 唯一标识
-							 */
-							id: string;
-							/**
-							 * 标题
-							 */
-							title: string;
-							/**
-							 * 关键词
-							 */
-							keywords: string;
-							/**
-							 * 摘要
-							 */
-							summary: string;
-							/**
-							 * 内容
-							 */
-							content: string;
-							/**
-							 * 发布日期
-							 */
-							date: string;
-						}>;
-					};
-				},
-				"article.get_article",
-				Config
-			>;
-			/**
-			 * ---
-			 *
-			 * [POST] 新增文章
-			 *
-			 * **path:** /article
-			 *
-			 * ---
-			 *
-			 * **RequestBody**
-			 * ```ts
-			 * type RequestBody = {
-			 *   // 标题
-			 *   title: string
-			 *   // 关键字
-			 *   keywords: string
-			 *   // 摘要
-			 *   summary: string
-			 *   // 内容
-			 *   content: string
-			 * }
-			 * ```
-			 *
-			 * ---
-			 *
-			 * **Response**
-			 * ```ts
-			 * type Response = {
-			 *   code: number
-			 *   message: string
-			 *   data: string
-			 * }
-			 * ```
-			 */
-			post_article<
-				Config extends Alova2MethodConfig<{
-					code: number;
-					message: string;
-					data: string;
-				}> & {
-					data: {
-						/**
-						 * 标题
-						 */
-						title: string;
-						/**
-						 * 关键字
-						 */
-						keywords: string;
-						/**
-						 * 摘要
-						 */
-						summary: string;
-						/**
-						 * 内容
-						 */
-						content: string;
-					};
-				},
-			>(
-				config: Config,
-			): Alova2Method<
-				{
-					code: number;
-					message: string;
-					data: string;
-				},
-				"article.post_article",
-				Config
-			>;
-			/**
-			 * ---
-			 *
-			 * [PUT] 修改文章
-			 *
-			 * **path:** /article
-			 *
-			 * ---
-			 *
-			 * **RequestBody**
-			 * ```ts
-			 * type RequestBody = {
-			 *   // 唯一标识
-			 *   id: string
-			 *   // 标题
-			 *   title: string
-			 *   // 关键字
-			 *   keywords?: string
-			 *   // 摘要
-			 *   summary?: string
-			 *   // 内容
-			 *   content?: string
-			 * }
-			 * ```
-			 *
-			 * ---
-			 *
-			 * **Response**
-			 * ```ts
-			 * type Response = {
-			 *   // 状态码
-			 *   code: number
-			 *   // 提示信息
-			 *   message: string
-			 *   // 唯一标识
-			 *   data: string
-			 * }
-			 * ```
-			 */
-			put_article<
-				Config extends Alova2MethodConfig<{
-					/**
-					 * 状态码
-					 */
-					code: number;
-					/**
-					 * 提示信息
-					 */
-					message: string;
-					/**
-					 * 唯一标识
-					 */
-					data: string;
-				}> & {
-					data: {
-						/**
-						 * 唯一标识
-						 */
-						id: string;
-						/**
-						 * 标题
-						 */
-						title: string;
-						/**
-						 * 关键字
-						 */
-						keywords?: string;
-						/**
-						 * 摘要
-						 */
-						summary?: string;
-						/**
-						 * 内容
-						 */
-						content?: string;
-					};
-				},
-			>(
-				config: Config,
-			): Alova2Method<
-				{
-					/**
-					 * 状态码
-					 */
-					code: number;
-					/**
-					 * 提示信息
-					 */
-					message: string;
-					/**
-					 * 唯一标识
-					 */
-					data: string;
-				},
-				"article.put_article",
-				Config
-			>;
-			/**
-			 * ---
-			 *
-			 * [DELETE] 删除文章
-			 *
-			 * **path:** /article/{id}
-			 *
-			 * ---
-			 *
-			 * **Path Parameters**
-			 * ```ts
-			 * type PathParameters = {
-			 *   // 唯一标识
-			 *   id: string
-			 * }
-			 * ```
-			 *
-			 * ---
-			 *
-			 * **Response**
-			 * ```ts
-			 * type Response = {
-			 *   // 状态码
-			 *   code: number
-			 *   // 提示信息
-			 *   message: string
-			 *   // 唯一标识
-			 *   data: string
-			 * }
-			 * ```
-			 */
-			delete_article_id<
-				Config extends Alova2MethodConfig<{
-					/**
-					 * 状态码
-					 */
-					code: number;
-					/**
-					 * 提示信息
-					 */
-					message: string;
-					/**
-					 * 唯一标识
-					 */
-					data: string;
-				}> & {
-					pathParams: {
-						/**
-						 * 唯一标识
-						 */
-						id: string;
-					};
-				},
-			>(
-				config: Config,
-			): Alova2Method<
-				{
-					/**
-					 * 状态码
-					 */
-					code: number;
-					/**
-					 * 提示信息
-					 */
-					message: string;
-					/**
-					 * 唯一标识
-					 */
-					data: string;
-				},
-				"article.delete_article_id",
-				Config
-			>;
-		};
-	}
+  interface Apis {
+    login: {
+      /**
+       * ---
+       *
+       * [GET] 获取当前用户
+       *
+       * **path:** /login/current-user
+       *
+       * ---
+       *
+       * **Response**
+       * ```ts
+       * type Response = {
+       *   // [title] 状态码
+       *   code: number
+       *   // [title] 提示信息
+       *   message: string
+       *   // [title] 数据
+       *   data?: {
+       *     // [title] 唯一标识
+       *     id: string
+       *     // [title] 用户名
+       *     username: string
+       *     // [title] 头像地址
+       *     avatar: string
+       *     // [title] 是否启用
+       *     isEnabled: number
+       *     // [title] 角色列表
+       *     // [items] start
+       *     // [items] end
+       *     roles: string[]
+       *   }
+       * }
+       * ```
+       */
+      get_login_current_user<
+        Config extends Alova2MethodConfig<{
+          /**
+           * 状态码
+           * ---
+           */
+          code: number;
+          /**
+           * 提示信息
+           * ---
+           */
+          message: string;
+          /**
+           * 数据
+           * ---
+           */
+          data?: {
+            /**
+             * 唯一标识
+             * ---
+             */
+            id: string;
+            /**
+             * 用户名
+             * ---
+             */
+            username: string;
+            /**
+             * 头像地址
+             * ---
+             */
+            avatar: string;
+            /**
+             * 是否启用
+             * ---
+             */
+            isEnabled: number;
+            /**
+             * 角色列表
+             * ---
+             */
+            roles: string[];
+          };
+        }>
+      >(
+        config?: Config
+      ): Alova2Method<
+        {
+          /**
+           * 状态码
+           * ---
+           */
+          code: number;
+          /**
+           * 提示信息
+           * ---
+           */
+          message: string;
+          /**
+           * 数据
+           * ---
+           */
+          data?: {
+            /**
+             * 唯一标识
+             * ---
+             */
+            id: string;
+            /**
+             * 用户名
+             * ---
+             */
+            username: string;
+            /**
+             * 头像地址
+             * ---
+             */
+            avatar: string;
+            /**
+             * 是否启用
+             * ---
+             */
+            isEnabled: number;
+            /**
+             * 角色列表
+             * ---
+             */
+            roles: string[];
+          };
+        },
+        'login.get_login_current_user',
+        Config
+      >;
+      /**
+       * ---
+       *
+       * [GET] 获取当前用户的菜单
+       *
+       * **path:** /login/get-menus
+       *
+       * ---
+       *
+       * **Response**
+       * ```ts
+       * type Response = {
+       *   // [title] 状态码
+       *   code: number
+       *   // [title] 提示信息
+       *   message: string
+       *   // [title] 数据
+       *   // [items] start
+       *   // [items] end
+       *   data?: Array<{
+       *     // [title] 唯一编号
+       *     id: string
+       *     // [title] 菜单名称
+       *     text: string
+       *     // [title] 菜单图标
+       *     icon: string
+       *     // [title] 父编号
+       *     pid?: string
+       *     // [title] 子菜单
+       *     // [items] start
+       *     // [items] end
+       *     children?: Array<{
+       *       // [title] 唯一编号
+       *       id: string
+       *       // [title] 菜单名称
+       *       text: string
+       *       // [title] 菜单图标
+       *       icon: string
+       *       // [title] 父编号
+       *       pid?: string
+       *       // [title] 子菜单
+       *       // [items] start
+       *       // [items] end
+       *       children?: object[]
+       *     }>
+       *   }>
+       * }
+       * ```
+       */
+      get_login_get_menus<
+        Config extends Alova2MethodConfig<{
+          /**
+           * 状态码
+           * ---
+           */
+          code: number;
+          /**
+           * 提示信息
+           * ---
+           */
+          message: string;
+          /**
+           * 数据
+           * ---
+           */
+          data?: Menu_item[];
+        }>
+      >(
+        config?: Config
+      ): Alova2Method<
+        {
+          /**
+           * 状态码
+           * ---
+           */
+          code: number;
+          /**
+           * 提示信息
+           * ---
+           */
+          message: string;
+          /**
+           * 数据
+           * ---
+           */
+          data?: Menu_item[];
+        },
+        'login.get_login_get_menus',
+        Config
+      >;
+      /**
+       * ---
+       *
+       * [POST] 登录接口
+       *
+       * **path:** /login/auth-login
+       *
+       * ---
+       *
+       * **RequestBody**
+       * ```ts
+       * type RequestBody = {
+       *   username: string
+       *   password: string
+       *   code?: string
+       * }
+       * ```
+       *
+       * ---
+       *
+       * **Response**
+       * ```ts
+       * type Response = {
+       *   // [title] 状态码
+       *   code: number
+       *   // [title] 提示信息
+       *   message: string
+       *   // [title] 数据
+       *   data?: {
+       *     // [title] 刷新凭证
+       *     refreshToken: string
+       *     // [title] 凭证
+       *     token: string
+       *     // [title] 凭证头
+       *     tokenHead: string
+       *   }
+       * }
+       * ```
+       */
+      post_login_auth_login<
+        Config extends Alova2MethodConfig<{
+          /**
+           * 状态码
+           * ---
+           */
+          code: number;
+          /**
+           * 提示信息
+           * ---
+           */
+          message: string;
+          /**
+           * 数据
+           * ---
+           */
+          data?: {
+            /**
+             * 刷新凭证
+             * ---
+             */
+            refreshToken: string;
+            /**
+             * 凭证
+             * ---
+             */
+            token: string;
+            /**
+             * 凭证头
+             * ---
+             */
+            tokenHead: string;
+          };
+        }> & {
+          data: {
+            username: string;
+            password: string;
+            code?: string;
+          };
+        }
+      >(
+        config: Config
+      ): Alova2Method<
+        {
+          /**
+           * 状态码
+           * ---
+           */
+          code: number;
+          /**
+           * 提示信息
+           * ---
+           */
+          message: string;
+          /**
+           * 数据
+           * ---
+           */
+          data?: {
+            /**
+             * 刷新凭证
+             * ---
+             */
+            refreshToken: string;
+            /**
+             * 凭证
+             * ---
+             */
+            token: string;
+            /**
+             * 凭证头
+             * ---
+             */
+            tokenHead: string;
+          };
+        },
+        'login.post_login_auth_login',
+        Config
+      >;
+    };
+    article: {
+      /**
+       * ---
+       *
+       * [GET] 获取文章列表
+       *
+       * **path:** /article
+       *
+       * ---
+       *
+       * **Query Parameters**
+       * ```ts
+       * type QueryParameters = {
+       *   // 页码
+       *   pageIndex?: number
+       *   // 每页数据条数
+       *   pageSize?: number
+       *   // 标题
+       *   title?: string
+       * }
+       * ```
+       *
+       * ---
+       *
+       * **Response**
+       * ```ts
+       * type Response = {
+       *   // 状态码
+       *   code: number
+       *   // 提示信息
+       *   message: string
+       *   // 数据
+       *   data: {
+       *     // 页码
+       *     pageIndex: number
+       *     // 每页数据条数
+       *     pageSize: number
+       *     // 数据总数
+       *     total: number
+       *     // 总页数
+       *     pages: number
+       *     // 当前页数据
+       *     // [items] start
+       *     // [items] end
+       *     rows: Array<{
+       *       // 唯一标识
+       *       id: string
+       *       // 标题
+       *       title: string
+       *       // 关键词
+       *       keywords: string
+       *       // 摘要
+       *       summary: string
+       *       // 内容
+       *       content: string
+       *       // 发布日期
+       *       date: string
+       *     }>
+       *   }
+       * }
+       * ```
+       */
+      get_article<
+        Config extends Alova2MethodConfig<{
+          /**
+           * 状态码
+           */
+          code: number;
+          /**
+           * 提示信息
+           */
+          message: string;
+          /**
+           * 数据
+           */
+          data: {
+            /**
+             * 页码
+             */
+            pageIndex: number;
+            /**
+             * 每页数据条数
+             */
+            pageSize: number;
+            /**
+             * 数据总数
+             */
+            total: number;
+            /**
+             * 总页数
+             */
+            pages: number;
+            /**
+             * 当前页数据
+             */
+            rows: Array<{
+              /**
+               * 唯一标识
+               */
+              id: string;
+              /**
+               * 标题
+               */
+              title: string;
+              /**
+               * 关键词
+               */
+              keywords: string;
+              /**
+               * 摘要
+               */
+              summary: string;
+              /**
+               * 内容
+               */
+              content: string;
+              /**
+               * 发布日期
+               */
+              date: string;
+            }>;
+          };
+        }> & {
+          params: {
+            /**
+             * 页码
+             */
+            pageIndex?: number;
+            /**
+             * 每页数据条数
+             */
+            pageSize?: number;
+            /**
+             * 标题
+             */
+            title?: string;
+          };
+        }
+      >(
+        config: Config
+      ): Alova2Method<
+        {
+          /**
+           * 状态码
+           */
+          code: number;
+          /**
+           * 提示信息
+           */
+          message: string;
+          /**
+           * 数据
+           */
+          data: {
+            /**
+             * 页码
+             */
+            pageIndex: number;
+            /**
+             * 每页数据条数
+             */
+            pageSize: number;
+            /**
+             * 数据总数
+             */
+            total: number;
+            /**
+             * 总页数
+             */
+            pages: number;
+            /**
+             * 当前页数据
+             */
+            rows: Array<{
+              /**
+               * 唯一标识
+               */
+              id: string;
+              /**
+               * 标题
+               */
+              title: string;
+              /**
+               * 关键词
+               */
+              keywords: string;
+              /**
+               * 摘要
+               */
+              summary: string;
+              /**
+               * 内容
+               */
+              content: string;
+              /**
+               * 发布日期
+               */
+              date: string;
+            }>;
+          };
+        },
+        'article.get_article',
+        Config
+      >;
+      /**
+       * ---
+       *
+       * [POST] 新增文章
+       *
+       * **path:** /article
+       *
+       * ---
+       *
+       * **RequestBody**
+       * ```ts
+       * type RequestBody = {
+       *   // 标题
+       *   title: string
+       *   // 关键字
+       *   keywords: string
+       *   // 摘要
+       *   summary: string
+       *   // 内容
+       *   content: string
+       * }
+       * ```
+       *
+       * ---
+       *
+       * **Response**
+       * ```ts
+       * type Response = {
+       *   code: number
+       *   message: string
+       *   data: string
+       * }
+       * ```
+       */
+      post_article<
+        Config extends Alova2MethodConfig<{
+          code: number;
+          message: string;
+          data: string;
+        }> & {
+          data: {
+            /**
+             * 标题
+             */
+            title: string;
+            /**
+             * 关键字
+             */
+            keywords: string;
+            /**
+             * 摘要
+             */
+            summary: string;
+            /**
+             * 内容
+             */
+            content: string;
+          };
+        }
+      >(
+        config: Config
+      ): Alova2Method<
+        {
+          code: number;
+          message: string;
+          data: string;
+        },
+        'article.post_article',
+        Config
+      >;
+      /**
+       * ---
+       *
+       * [PUT] 修改文章
+       *
+       * **path:** /article
+       *
+       * ---
+       *
+       * **RequestBody**
+       * ```ts
+       * type RequestBody = {
+       *   // 唯一标识
+       *   id: string
+       *   // 标题
+       *   title: string
+       *   // 关键字
+       *   keywords?: string
+       *   // 摘要
+       *   summary?: string
+       *   // 内容
+       *   content?: string
+       * }
+       * ```
+       *
+       * ---
+       *
+       * **Response**
+       * ```ts
+       * type Response = {
+       *   // 状态码
+       *   code: number
+       *   // 提示信息
+       *   message: string
+       *   // 唯一标识
+       *   data: string
+       * }
+       * ```
+       */
+      put_article<
+        Config extends Alova2MethodConfig<{
+          /**
+           * 状态码
+           */
+          code: number;
+          /**
+           * 提示信息
+           */
+          message: string;
+          /**
+           * 唯一标识
+           */
+          data: string;
+        }> & {
+          data: {
+            /**
+             * 唯一标识
+             */
+            id: string;
+            /**
+             * 标题
+             */
+            title: string;
+            /**
+             * 关键字
+             */
+            keywords?: string;
+            /**
+             * 摘要
+             */
+            summary?: string;
+            /**
+             * 内容
+             */
+            content?: string;
+          };
+        }
+      >(
+        config: Config
+      ): Alova2Method<
+        {
+          /**
+           * 状态码
+           */
+          code: number;
+          /**
+           * 提示信息
+           */
+          message: string;
+          /**
+           * 唯一标识
+           */
+          data: string;
+        },
+        'article.put_article',
+        Config
+      >;
+      /**
+       * ---
+       *
+       * [DELETE] 删除文章
+       *
+       * **path:** /article/{id}
+       *
+       * ---
+       *
+       * **Path Parameters**
+       * ```ts
+       * type PathParameters = {
+       *   // 唯一标识
+       *   id: string
+       * }
+       * ```
+       *
+       * ---
+       *
+       * **Response**
+       * ```ts
+       * type Response = {
+       *   // 状态码
+       *   code: number
+       *   // 提示信息
+       *   message: string
+       *   // 唯一标识
+       *   data: string
+       * }
+       * ```
+       */
+      delete_article_id<
+        Config extends Alova2MethodConfig<{
+          /**
+           * 状态码
+           */
+          code: number;
+          /**
+           * 提示信息
+           */
+          message: string;
+          /**
+           * 唯一标识
+           */
+          data: string;
+        }> & {
+          pathParams: {
+            /**
+             * 唯一标识
+             */
+            id: string;
+          };
+        }
+      >(
+        config: Config
+      ): Alova2Method<
+        {
+          /**
+           * 状态码
+           */
+          code: number;
+          /**
+           * 提示信息
+           */
+          message: string;
+          /**
+           * 唯一标识
+           */
+          data: string;
+        },
+        'article.delete_article_id',
+        Config
+      >;
+    };
+  }
 
-	var Apis: Apis;
+  var Apis: Apis;
 }
