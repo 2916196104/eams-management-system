@@ -7,50 +7,50 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 消课记录展示对象
+ * Lesson count record view object.
  */
 @Data
-@ApiModel("消课记录展示对象")
+@ApiModel("Lesson count record view object")
 public class LessonCountRecordVO {
-    @ApiModelProperty(value = "记录ID", example = "1")
+    @ApiModelProperty(value = "Record ID", example = "1")
     private Long id;
 
-    @ApiModelProperty(value = "学员ID", example = "1")
+    @ApiModelProperty(value = "Student ID", example = "1")
     private Long studentId;
 
-    @ApiModelProperty(value = "学员姓名", example = "张三")
+    @ApiModelProperty(value = "Student name", example = "Zhang San")
     private String studentName;
 
-    @ApiModelProperty(value = "课程ID", example = "1001")
+    @ApiModelProperty(value = "Course ID", example = "1001")
     private Long courseId;
 
-    @ApiModelProperty(value = "课程名称", example = "数学提高班")
+    @ApiModelProperty(value = "Course name", example = "Math Advanced")
     private String courseName;
 
-    @ApiModelProperty(value = "课次ID", example = "2001")
+    @ApiModelProperty(value = "Lesson ID", example = "2001")
     private Long lessonId;
 
-    @ApiModelProperty(value = "课次标题", example = "第1课时")
+    @ApiModelProperty(value = "Lesson title", example = "Lesson 1")
     private String lessonTitle;
 
-    @ApiModelProperty(value = "变更课次", example = "-1")
+    @ApiModelProperty(value = "Changed lesson count", example = "-1")
     private Integer changeCount;
 
-    @ApiModelProperty(value = "剩余课次", example = "19")
+    @ApiModelProperty(value = "Remaining lesson count", example = "19")
     private Integer remainingCount;
 
-    @ApiModelProperty(value = "操作人ID", example = "10")
+    @ApiModelProperty(value = "Operator ID", example = "10")
     private Long staffId;
 
-    @ApiModelProperty(value = "操作人姓名", example = "李老师")
+    @ApiModelProperty(value = "Operator name", example = "Li Teacher")
     private String staffName;
 
-    @ApiModelProperty(value = "变更阶段", example = "1")
+    @ApiModelProperty(value = "Stage", example = "1")
     private Integer stage;
 
-    @ApiModelProperty(value = "变更时间", example = "2026-03-15T10:00:00")
+    @ApiModelProperty(value = "Change time", example = "2026-03-15T10:00:00")
     private LocalDateTime addTime;
 
-    @ApiModelProperty(value = "备注", example = "正常消课")
+    @ApiModelProperty(value = "Remark", example = "normal lesson deduction")
     private String remark;
 }

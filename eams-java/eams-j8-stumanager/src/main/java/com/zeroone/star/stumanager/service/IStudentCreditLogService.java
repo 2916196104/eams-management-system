@@ -1,16 +1,14 @@
 package com.zeroone.star.stumanager.service;
 
-import com.zeroone.star.stumanager.entity.StudentCreditLog;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j8.stumanager.common.AdjustPointsDTO;
+import com.zeroone.star.project.query.j8.stumanager.common.PointsRecordQuery;
+import com.zeroone.star.project.vo.j8.stumanager.common.PointsRecordVO;
+import com.zeroone.star.stumanager.entity.StudentCreditLog;
 
-/**
- * <p>
- * 学生积分变动记录 服务类
- * </p>
- *
- * @author dabidai
- * @since 2026-03-14
- */
 public interface IStudentCreditLogService extends IService<StudentCreditLog> {
+    PageDTO<PointsRecordVO> queryPointsRecords(PointsRecordQuery query);
 
+    boolean adjustPoints(AdjustPointsDTO dto);
 }
