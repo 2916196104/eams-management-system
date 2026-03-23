@@ -3,15 +3,15 @@
 #include "../../domain/vo/backhomework/backhomeworkVO.h"
 
 
-GetHomeworkListPageJsonVO::Wrapper Homework::execGetHomeworkList(const String& id) {
+GetHomeworkListPageJsonVO::Wrapper Homework::execGetHomeworkList(const GetHomeworkListQuery::Wrapper& query) {
 	return {};
 }
 
-GetHomeworkDetailJsonVO::Wrapper Homework::execGetHomeworkDetail() {
+GetHomeworkDetailJsonVO::Wrapper Homework::execGetHomeworkDetail(const string& id) {
 	return {};
 }
 
-SaveHomeworkJsonVO::Wrapper Homework::execSaveHomework() {
+SaveHomeworkJsonVO::Wrapper Homework::execSaveHomework(const string& id) {
 	return {};
 }
 
