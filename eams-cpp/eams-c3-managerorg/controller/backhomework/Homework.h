@@ -34,9 +34,8 @@ public:		//定义接口
 		API_DEF_ADD_QUERY_PARAMS(String, "publisher", ZH_WORDS_GETTER("homework.gethomeworklist.publisher"), "publisher", false);  //查询作业的发布者
 );
 	//定义查询作业列表（条件+分页）处理，GetHomeworkList
-	API_HANDLER_ENDPOINT_AUTH("GET", "org/backhomework/get-homework-list", GetHomeworkList, QUERY(String, title), execGetHomeworkList(title));
-	//API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c3/GetHomeworkList", GetHomeworkList, QUERIES(QueryParams, GetHomeworkListQuery),
-	//API_HANDLER_QUERY_PARAM(query, SampleQuery, queryParams); return execExportSample(query););
+	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "org/backhomework/get-homework-list", GetHomeworkList, QUERIES(QueryParams, queryParams),
+		API_HANDLER_QUERY_PARAM(query, GetHomeworkListQuery, queryParams); API_HANDLER_RESP_VO(execGetHomeworkList(query)););
 
 
 	//定义获取作业详情描述
@@ -48,7 +47,7 @@ public:		//定义接口
 		API_DEF_ADD_QUERY_PARAMS(String, "title", ZH_WORDS_GETTER("homework.gethomeworkdetail.title"), "title", true);              //查询作业的标题
 	);
 	//定义获取作业描述处理，GetHomeworkDetail
-	API_HANDLER_ENDPOINT_AUTH("GET", "org/backhomework/get-homework-detail", GetHomeworkDetail, QUERY(String, classname), execGetHomeworkDetail());
+	API_HANDLER_ENDPOINT_AUTH("GET", "org/backhomework/get-homework-detail", GetHomeworkDetail, QUERY(String, id), execGetHomeworkDetail(id));
 
 
 	//定义保存作业描述，SaveHomework
@@ -58,7 +57,7 @@ public:		//定义接口
 		API_DEF_ADD_QUERY_PARAMS(String, "id", ZH_WORDS_GETTER("homework.savehomework.id"), "123456", true);
 	);
 	//定义保存作业处理，SaveHomework
-	API_HANDLER_ENDPOINT_AUTH("POST", "org/backhomework/save-homework", SaveHomework, QUERY(String, id), execSaveHomework());
+	API_HANDLER_ENDPOINT_AUTH("POST", "org/backhomework/save-homework", SaveHomework, QUERY(String, id), execSaveHomework(id));
 
 	// 删除作业
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("Homework.delHomework"), DeleteHomework, ListJsonVO<String>::Wrapper, API_TAG);
@@ -66,11 +65,11 @@ public:		//定义接口
 
 private:	//定义接口执行函数
 	// 执行函数：作业列表
-	GetHomeworkListPageJsonVO::Wrapper execGetHomeworkList(const String& id);
+	GetHomeworkListPageJsonVO::Wrapper execGetHomeworkList(const GetHomeworkListQuery::Wrapper& query);
 
-	GetHomeworkDetailJsonVO::Wrapper execGetHomeworkDetail();
+	GetHomeworkDetailJsonVO::Wrapper execGetHomeworkDetail(const string& id);
 
-	SaveHomeworkJsonVO::Wrapper execSaveHomework();
+	SaveHomeworkJsonVO::Wrapper execSaveHomework(const string& id);
 	// 删除作业
 	ListJsonVO<String>::Wrapper executeDelHomework(const DeleteHomework::Wrapper& dto);
 
