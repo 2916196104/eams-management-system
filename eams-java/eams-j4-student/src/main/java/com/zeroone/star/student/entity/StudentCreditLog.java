@@ -1,5 +1,7 @@
 package com.zeroone.star.student.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -14,7 +16,8 @@ public class StudentCreditLog {
     /**
      * 主键
      */
-    private int id;
+    @TableId(type = IdType.AUTO)
+    private Long id;
     /**
      * 学生id
      */
@@ -34,7 +37,7 @@ public class StudentCreditLog {
     /**
      * 变动类型
      */
-    private int change_yype;
+    private int change_type;
     /**
      * 变动时间
      */

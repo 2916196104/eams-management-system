@@ -1,5 +1,7 @@
 package com.zeroone.star.student.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -9,6 +11,7 @@ import java.time.LocalDateTime;
  */
 @Data
 public class StudentLessonCountLog {
+    @TableId(type = IdType.AUTO)
     private int id;
 
     private int studentId;
@@ -28,4 +31,6 @@ public class StudentLessonCountLog {
     private int staff_id;
 
     private int stage;
+
+    private int staffId;
 }
