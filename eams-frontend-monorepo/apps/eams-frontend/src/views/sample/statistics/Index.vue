@@ -16,5 +16,5 @@
 </template>
 <script setup lang="ts">
 // 引入组件和类型
-import statistics from "@/components/statistics/statistics.vue";
+import statistics from "@/components/statistics/Statistics.vue";
 </script>
