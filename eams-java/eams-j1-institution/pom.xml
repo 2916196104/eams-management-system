@@ -87,6 +87,7 @@
             <plugin>
                 <groupId>com.zeroone.star</groupId>
                 <artifactId>mp-code-generator-plugin</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
                 <configuration>
                     <!-- 数据库连接信息配置 -->
                     <dbConfig>
