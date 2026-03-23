@@ -67,7 +67,7 @@ public class StudentController implements StudentApis {
 
 
     @Override
-    @GetMapping("/page")
+    @GetMapping("/class/page")
     @ApiOperation("获取班级列表（条件 + 分页）")
     public JsonVO<PageDTO<ClassDTO>> queryClassPage(@Validated ClassQuery condition) {
         try {
@@ -79,7 +79,7 @@ public class StudentController implements StudentApis {
     }
 
     @Override
-    @PostMapping("/join")
+    @PostMapping("/class/join")
     @ApiOperation("加入班级")
     public JsonVO<Long> joinClass(@RequestBody @Validated ClassStudentDTO dto) {
         try {
@@ -99,7 +99,7 @@ public class StudentController implements StudentApis {
     }
 
     @Override
-    @DeleteMapping("/quit")
+    @DeleteMapping("/class/quit")
     @ApiOperation("退出班级")
     public JsonVO<List<Long>> quitClass(
             @ApiParam(value = "班级 ID", required = true, example = "2008418408985583620")
