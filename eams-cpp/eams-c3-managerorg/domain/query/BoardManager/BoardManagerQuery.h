@@ -6,23 +6,23 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/*¹«¸æ¹ÜÀí²éÑ¯Àà*/
+/*å…¬å‘Šç®¡ç†æŸ¥è¯¢ç±»*/
 
 
 /**
- * ¶¨ÒåÒ»¸ö²éÑ¯¹«¸æµÄÊı¾İ´«ÊäÄ£ĞÍ
+ * å®šä¹‰ä¸€ä¸ªæŸ¥è¯¢å…¬å‘Šçš„æ•°æ®ä¼ è¾“æ¨¡å‹
  */
 class BoardQuery : public PageQuery
 {
-	// ¶¨Òå³õÊ¼»¯
+	// å®šä¹‰åˆå§‹åŒ–
 	DTO_INIT(BoardQuery, PageQuery);
-	// ¹«¸æ±êÌâ
+	// å…¬å‘Šæ ‡é¢˜
 	API_DTO_FIELD_DEFAULT(String, boardTitle, ZH_WORDS_GETTER("board.field.boardTitle"));
-	// ¹«¸æ·¢²¼ÕßÃû³Æ
+	// å…¬å‘Šå‘å¸ƒè€…åç§°
 	API_DTO_FIELD_DEFAULT(String, boardPublisherName, ZH_WORDS_GETTER("board.field.boardPublisherName"));
-	// ¹«¸æ·¢²¼Õßid
+	// å…¬å‘Šå‘å¸ƒè€…id
 	API_DTO_FIELD_DEFAULT(String, boardPublisherId, ZH_WORDS_GETTER("board.field.boardPublisherId"));
-	// ¹«¸æÀàĞÍ
+	// å…¬å‘Šç±»å‹
 	API_DTO_FIELD_DEFAULT(Int8, boardType, ZH_WORDS_GETTER("board.field.boardType"));
 };
 
