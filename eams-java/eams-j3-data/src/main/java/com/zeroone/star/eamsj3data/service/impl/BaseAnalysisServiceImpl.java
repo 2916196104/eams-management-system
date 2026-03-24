@@ -14,7 +14,6 @@ import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -178,8 +177,21 @@ public class BaseAnalysisServiceImpl implements IBaseAnalysisService {
      * @return 大于 0 表示当前记录更晚
      */
     private int compareAddTime(ContactRecord current, ContactRecord latest) {
-        return Comparator
-                .comparing(ContactRecord::getAddTime, Comparator.nullsFirst(LocalDateTime::compareTo))
-                .compare(current, latest);
+        LocalDateTime currentAddTime = current.getAddTime();
+        LocalDateTime latestAddTime = latest.getAddTime();
+
+        // 两个时间都为空：一样，返回 0
+        if (currentAddTime == null && latestAddTime == null) {
+            return 0;
+        }
+        // 当前为空：当前更早，返回 -1
+        if (currentAddTime == null) {
+            return -1;
+        }
+        // 已保存的为空：当前更新，返回 1
+        if (latestAddTime == null) {
+            return 1;
+        }
+        return currentAddTime.compareTo(latestAddTime);
     }
 }
