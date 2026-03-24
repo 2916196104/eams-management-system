@@ -12,6 +12,7 @@ RegistrationRecordPageDTO::Wrapper RegistrationService::listAll(const Registrati
     // 2. 获取数据总数
     RegistrationDAO dao;
     int64_t total = dao.count(query);
+    page->total = total;
     page->calcPages();
     uint64_t offset = (query->pageIndex.getValue(1) - 1) * query->pageSize.getValue(10);
     page->rows = oatpp::List<RegistrationRecordDTO::Wrapper>::createShared();

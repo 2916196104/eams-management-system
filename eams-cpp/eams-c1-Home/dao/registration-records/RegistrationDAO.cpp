@@ -8,7 +8,7 @@ uint64_t RegistrationDAO::count(const RegistrationRecordQuery::Wrapper& query)
     if (!session) {
         return 0;
     }
-    std::string sql = "SELECT COUNT(*) AS total FROM `student_course` WHERE 1=1";
+    std::string sql = "SELECT COUNT(*) AS total FROM `student_course` sc WHERE sc.deleted = 0 AND 1=1";
     SqlParams params;
     if (query->student_id) {
         sql += " AND student_id = ?";
