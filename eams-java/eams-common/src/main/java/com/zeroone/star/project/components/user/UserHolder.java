@@ -72,62 +72,6 @@ public class UserHolder {
                 .build();
     }
 
-    /**
-     * 获取当前用户ID
-     */
-    public Long getCurrentUserId() {
-        try {
-            JSONObject userJson = getCurrentUserJson();
-            if (userJson != null) {
-                return Convert.toLong(userJson.get("id"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
-    /**
-     * 获取当前用户所属机构ID
-     */
-    public Long getCurrentOrgId() {
-        try {
-            JSONObject userJson = getCurrentUserJson();
-            if (userJson != null) {
-                return Convert.toLong(userJson.get("org_id"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * 获取当前用户JSON对象
-     */
-    private JSONObject getCurrentUserJson() throws Exception {
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if (servletRequestAttributes == null) {
-            return null;
-        }
-        HttpServletRequest request = servletRequestAttributes.getRequest();
-        String userStr = request.getHeader("user");
-        if (userStr == null) {
-            String token = request.getHeader("Authorization");
-            if (!StringUtils.hasText(token)) {
-                return null;
-            }
-            String realToken = token.replace("Bearer ", "");
-            userStr = jwtComponent.defaultRsaVerify(realToken);
-        } else {
-            userStr = UriEncoder.decode(userStr);
-        }
-        if (StringUtils.hasText(userStr)) {
-            return new JSONObject(userStr);
-        }
-        return null;
-    }
 
 
     /**

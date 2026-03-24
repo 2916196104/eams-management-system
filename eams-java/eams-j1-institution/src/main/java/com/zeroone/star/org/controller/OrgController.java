@@ -1,6 +1,7 @@
 package com.zeroone.star.org.controller;
 
 import com.zeroone.star.org.service.IOrgService;
+import com.zeroone.star.project.components.user.UserDTO;
 import com.zeroone.star.project.components.user.UserHolder;
 import com.zeroone.star.project.dto.j1.org.OrgSaveDTO;
 import com.zeroone.star.project.j1.org.OrgApi;
@@ -75,8 +76,9 @@ public class OrgController implements OrgApi {
     @Override
     public JsonVO<String> saveOrg(@Valid OrgSaveDTO saveDTO) {
         try {
-            Long operatorId = userHolder.getCurrentUserId();
-            Long operatorOrgId = userHolder.getCurrentOrgId();
+            UserDTO currentUser = userHolder.getCurrentUser();
+            Long operatorId = currentUser != null ? Long.valueOf(currentUser.getId()) : null;
+            Long operatorOrgId = currentUser != null ? currentUser.getOrgId() : null;
 
             if (operatorId == null) {
                 log.warn("无法获取当前用户ID，使用默认值");
@@ -108,9 +110,9 @@ public class OrgController implements OrgApi {
                 return JsonVO.create(false, ResultStatus.PARAMS_INVALID.getCode(), "机构ID不能为空");
             }
 
-            Long operatorId = userHolder.getCurrentUserId();
-            Long operatorOrgId = userHolder.getCurrentOrgId();
-            log.info("删除机构: orgId={}, 操作人ID={}, 操作人所属机构ID={}", orgId, operatorId, operatorOrgId);
+            UserDTO currentUser = userHolder.getCurrentUser();
+            Long operatorId = currentUser != null ? Long.valueOf(currentUser.getId()) : null;
+            Long operatorOrgId = currentUser != null ? currentUser.getOrgId() : null;
 
             boolean result = orgService.removeOrg(orgId);
             if (result) {
