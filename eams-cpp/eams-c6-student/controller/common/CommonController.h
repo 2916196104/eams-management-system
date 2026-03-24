@@ -149,6 +149,48 @@ public:
 		API_HANDLER_RESP_VO(execQueryFollowUprecords(addQuery));
 	}
 
+	// 获取班级列表
+	ENDPOINT_INFO(querygetClassList) {
+		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("getClassList.getClassList"));
+		API_DEF_ADD_AUTH();
+		API_DEF_ADD_RSP_JSON_WRAPPER(getClassListPageJsonVO);
+		API_DEF_ADD_TAG(API_TAG);
+		API_DEF_ADD_PAGE_PARAMS();
+	}
+	// 获取班级列表
+	ENDPOINT(API_M_GET, "/getClassList", querygetClassList, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
+		API_HANDLER_QUERY_PARAM(userQuery, getClassListQuery, queryParams);
+		API_HANDLER_RESP_VO(execQuerygetClassList(userQuery));
+	}
+	//课程统计
+	ENDPOINT_INFO(querygetCourseStatistics) {
+		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("getCourseStatistics.getCourseStatistics"));
+		API_DEF_ADD_AUTH();
+		API_DEF_ADD_RSP_JSON_WRAPPER(getCourseStatisticsPageJsonVO);
+		API_DEF_ADD_TAG(API_TAG);
+		API_DEF_ADD_PAGE_PARAMS();
+	}
+	//课程统计
+	ENDPOINT(API_M_GET, "/getCourseStatistics", querygetCourseStatistics, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
+		API_HANDLER_QUERY_PARAM(userQuery, getCourseStatisticsQuery, queryParams);
+		API_HANDLER_RESP_VO(execQuerygetCourseStatistics(userQuery));
+	}
+	//加入班级
+	ENDPOINT_INFO(queryJoinclass) {
+		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("JoinClass.getClass"));
+		API_DEF_ADD_AUTH();
+		API_DEF_ADD_RSP_JSON_WRAPPER(JoinclassPageJsonVO);
+		API_DEF_ADD_TAG(API_TAG);
+		API_DEF_ADD_PAGE_PARAMS();
+	}
+	//加入班级
+	ENDPOINT(API_M_GET, "/Joinclass_select", queryJoinclass, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
+		API_HANDLER_QUERY_PARAM(userQuery, JoinclassQuery, queryParams);
+		API_HANDLER_RESP_VO(execQueryJoinclass(userQuery));
+	}
+	//加入班级
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("JoinClass.JoinClass"), addJoinclass, StringJsonVO::Wrapper, API_TAG);
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/Joinclass_update", addJoinclass, BODY_DTO(JoinclassAddDTO::Wrapper, dto), execAddJoinclass(dto, authObject->getPayload()));
 
 private:
 	StudentJsonVO::Wrapper executeGetStudentById(const String& id) {
@@ -192,6 +234,27 @@ private:
 	StringJsonVO::Wrapper execAddFollowUpRecord(const AddFollowUpRecordDTO::Wrapper& dto, const PayloadDTO& payload);
 	// 查询跟进记录
 	QueryFollowUprecordsJsonVO::Wrapper execQueryFollowUprecords(const FollowUprecordsQuery::Wrapper& query);
+
+	// 获取班级列表
+	getClassListPageJsonVO::Wrapper execQuerygetClassList(const getClassListQuery::Wrapper& query)
+	{
+		return {};
+	}
+	//课程统计
+	getCourseStatisticsPageJsonVO::Wrapper execQuerygetCourseStatistics(const getCourseStatisticsQuery::Wrapper& query)
+	{
+		return {};
+	}
+	//加入班级
+	JoinclassPageJsonVO::Wrapper execQueryJoinclass(const JoinclassQuery::Wrapper& query)
+	{
+		return {};
+	}
+	//加入班级
+	StringJsonVO::Wrapper execAddJoinclass(const JoinclassAddDTO::Wrapper& dto, const PayloadDTO& payload)
+	{
+		return{};
+	}
 };
 
 #undef API_TAG
