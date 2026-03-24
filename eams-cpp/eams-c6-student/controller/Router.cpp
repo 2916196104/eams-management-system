@@ -54,4 +54,5 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(ParentAccountController);
 	ROUTER_SIMPLE_BIND(IntendedStudentController);
 	ROUTER_SIMPLE_BIND(OnlineStudentController);
+
 }

@@ -1,4 +1,4 @@
-ï»¿#pragma once
+#pragma once
 #ifndef CommonDTO_h
 #define CommonDTO_h
 #include"../../GlobalInclude.h"
@@ -55,7 +55,7 @@ class RegistrationPageDTO : public PageDTO<RegistrationDTO::Wrapper> {
 };
 class FileOnlyDTO :public oatpp::DTO {
 	DTO_INIT(FileOnlyDTO, DTO);
-    //API_DTO_FIELD_DEFAULT(oatpp::swagger::Binary, file, ZH_WORDS_GETTER("common.field.file.file"),true);å¤šå‡ºç¬¬å››ä¸ªå‚æ•°å¯¼è‡´ç¼–è¯‘é”™è¯¯
+    //API_DTO_FIELD_DEFAULT(oatpp::swagger::Binary, file, ZH_WORDS_GETTER("common.field.file.file"),true);¶à³öµÚËÄ¸ö²ÎÊıµ¼ÖÂ±àÒë´íÎó
 	API_DTO_FIELD_REQUIRE(oatpp::swagger::Binary, file, ZH_WORDS_GETTER("common.field.file.file"), true);
 };
 class CourseCountDTO :public oatpp::DTO {
@@ -89,27 +89,27 @@ class RegistrationApplyDTO : public oatpp::DTO {
 
 	DTO_INIT(RegistrationApplyDTO, DTO);
 
-	// å­¦ç”Ÿå§“å
+	// Ñ§ÉúĞÕÃû
 	API_DTO_FIELD_DEFAULT(String, studentName, ZH_WORDS_GETTER("common.field.student.name"));
-	// é€‰æ‹©è¯¾ç¨‹
+	// Ñ¡Ôñ¿Î³Ì
 	API_DTO_FIELD_DEFAULT(String, course, ZH_WORDS_GETTER("common.field.registration.course"));
-	// æŠ¥åç±»å‹
+	// ±¨ÃûÀàĞÍ
 	API_DTO_FIELD_DEFAULT(String, subject, ZH_WORDS_GETTER("common.field.registration.subject"));
-	// å¼€å§‹æ—¥æœŸ
+	// ¿ªÊ¼ÈÕÆÚ
 	API_DTO_FIELD_DEFAULT(String, beginTime, ZH_WORDS_GETTER("common.field.registration.begin-time"));
-	// æœ‰æ•ˆæœŸè‡³
+	// ÓĞĞ§ÆÚÖÁ
 	API_DTO_FIELD_DEFAULT(String, endTime, ZH_WORDS_GETTER("common.field.registration.end-time"));
-	// è´­ä¹°è¯¾æ—¶æ•°
+	// ¹ºÂò¿ÎÊ±Êı
 	API_DTO_FIELD_DEFAULT(Int32, buyCount, ZH_WORDS_GETTER("common.field.registration.by-count"));
-	//è¯¾ç¨‹é‡‘é¢
+	//¿Î³Ì½ğ¶î
 	API_DTO_FIELD_DEFAULT(Int32, coursePrice, ZH_WORDS_GETTER("common.field.registration.course-price"));
-	// å®æ”¶é‡‘é¢ (ç”¨äºæ ¡éªŒä½™é¢)
+	// ÊµÊÕ½ğ¶î (ÓÃÓÚĞ£ÑéÓà¶î)
 	API_DTO_FIELD_DEFAULT(Int32, realityPrice, ZH_WORDS_GETTER("common.field.registration.reality-price"));
-	//ä¼˜æƒ é‡‘é¢
+	//ÓÅ»İ½ğ¶î
 	API_DTO_FIELD_DEFAULT(Int32, salePrice, ZH_WORDS_GETTER("common.field.registration.sale-price"));
-	// æ”¶æ¬¾ç»æ‰‹äºº
+	// ÊÕ¿î¾­ÊÖÈË
 	API_DTO_FIELD_DEFAULT(String, handler, "common.field.registration.price-people");
-	// å¤‡æ³¨
+	// ±¸×¢
 	API_DTO_FIELD_DEFAULT(String, note, ZH_WORDS_GETTER("common.field.student.note"));
 
 };
@@ -118,17 +118,117 @@ class RegistrationApplyDTO : public oatpp::DTO {
 class StudentStageUpdateDTO : public oatpp::DTO {
 	DTO_INIT(StudentStageUpdateDTO, DTO);
 
-	// å­¦å‘˜IDåˆ—è¡¨ (å¤šé€‰é¡¹)
+	// Ñ§Ô± ID ÁĞ±í (¶àÑ¡Ïî)
 	API_DTO_FIELD_DEFAULT(List<String>, ids, ZH_WORDS_GETTER("common.field.student.id"));
 
-	// ç›®æ ‡é˜¶æ®µï¼š1-æ„å‘
+	// Ä¿±ê½×¶Î£º1-ÒâÏò
 	API_DTO_FIELD_DEFAULT(Int32, stage1, ZH_WORDS_GETTER("common.field.student.stage"));
+
+};
+
+/**
+ * É¾³ı¸ú½ø¼ÇÂ¼ÇëÇó DTO
+ */
+class DeleteContactRecordDTO : public oatpp::DTO {
+	DTO_INIT(DeleteContactRecordDTO, DTO);
+
+	// ¸ú½ø¼ÇÂ¼ ID ÁĞ±í
+	API_DTO_FIELD_DEFAULT(List<Int64>, ids, "contact-record.field.ids");
+};
+
+
+
+
+
+
+
+/**
+ * µ÷Õû»ı·ÖDTO
+ */
+class ModifyPointsDTO : public oatpp::DTO
+{
+	DTO_INIT(ModifyPointsDTO, DTO);
+	//id
+	API_DTO_FIELD_DEFAULT(Int32, id, ZH_WORDS_GETTER("common.field.student.id"));
+	// µ÷Õû»ı·ÖÊı
+	API_DTO_FIELD_DEFAULT(String, modify_points, ZH_WORDS_GETTER("common.field.student.modify-points"));
+	// µ÷ÕûÔ­Òò
+	API_DTO_FIELD_DEFAULT(String, modify_reason, ZH_WORDS_GETTER("common.field.student.modify-reason"));
+	// ¹ØÁªÒ»¸öPayloadDTO¸ºÔØÊı¾İ¶ÔÏó
+	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
+public:
 
 };
 
 
 
 
+
+
+/**
+ * Ìí¼Ó¸ú½ø¼ÇÂ¼
+ */
+class AddFollowUpRecordDTO : public oatpp::DTO
+{
+	DTO_INIT(AddFollowUpRecordDTO, DTO);
+	//id
+	API_DTO_FIELD_DEFAULT(Int32, id, ZH_WORDS_GETTER("common.field.student.id"));
+	// ¸ú½ø½×¶Î
+	API_DTO_FIELD_DEFAULT(String, follow_up_stage, ZH_WORDS_GETTER("common.field.student.follow-up-stage"));
+	//ÁªÏµÍ¾¾¶
+	API_DTO_FIELD_DEFAULT(String, contact_channel, ZH_WORDS_GETTER("common.field.student.contact-channel"));
+	//ÁªÏµÊ±¼ä
+	API_DTO_FIELD_DEFAULT(String, contact_time, ZH_WORDS_GETTER("common.field.student.contact-time"));
+	//ÏÂ´ÎÁªÏµÊ±¼ä
+	API_DTO_FIELD_DEFAULT(String, next_contact_time, ZH_WORDS_GETTER("common.field.student.next-contact-time"));
+	//ÁªÏµ·½Ê½
+	API_DTO_FIELD_DEFAULT(String, contact_way, ZH_WORDS_GETTER("common.field.student.contact-way"));
+	//¸ú½øÄÚÈİ
+	API_DTO_FIELD_DEFAULT(String, follow_up_content, ZH_WORDS_GETTER("common.field.student.follow-up-content"));
+
+	// ¹ØÁªÒ»¸öPayloadDTO¸ºÔØÊı¾İ¶ÔÏó
+	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
+public:
+
+};
+
+
+
+
+
+
+/**
+ * ²éÑ¯¸ú½ø¼ÇÂ¼DTO
+ */
+class QueryDTO : public oatpp::DTO
+{
+	DTO_INIT(QueryDTO, DTO);
+	// ¸ú½øÊ±¼ä
+	API_DTO_FIELD_DEFAULT(String, follow_up_time, ZH_WORDS_GETTER("common.field.student.follow-up-time"));
+	//¸ú½øÈË
+	API_DTO_FIELD_DEFAULT(String, follow_up_person, ZH_WORDS_GETTER("common.field.student.follow-up-person"));
+	//¿Í»§
+	API_DTO_FIELD_DEFAULT(String, customer, ZH_WORDS_GETTER("common.field.student.customer"));
+	//½×¶Î
+	API_DTO_FIELD_DEFAULT(String, follow_up_stage, ZH_WORDS_GETTER("common.field.student.follow-up-stage"));
+	//¸ú½ø·½Ê½
+	API_DTO_FIELD_DEFAULT(String, follow_up_way, ZH_WORDS_GETTER("common.field.student.follow-up-way"));
+	//ÏÂ´Î¸ú½øÊ±¼ä
+	API_DTO_FIELD_DEFAULT(String, next_follow_up_time, ZH_WORDS_GETTER("common.field.student.next-follow-up-time"));
+	//¼ÇÂ¼Ê±¼ä
+	API_DTO_FIELD_DEFAULT(String, record_time, ZH_WORDS_GETTER("common.field.student.record-time"));
+	//¸ú½øÄÚÈİ
+	API_DTO_FIELD_DEFAULT(String, follow_up_content, ZH_WORDS_GETTER("common.field.student.follow-up-content"));
+
+
+	// ¹ØÁªÒ»¸öPayloadDTO¸ºÔØÊı¾İ¶ÔÏó
+	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
+public:
+
+};class QueryFollowUprecordsDTO : public PageDTO<QueryDTO::Wrapper>
+{
+	DTO_INIT(QueryFollowUprecordsDTO, PageDTO<QueryDTO::Wrapper>);
+};
 
 
 

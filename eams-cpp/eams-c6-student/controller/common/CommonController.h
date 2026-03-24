@@ -98,6 +98,74 @@ public:
 		executeModifyStudentStage(dto, authObject->getPayload())
 	);
 
+	// 删除跟进记录描述 
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("common.interface.delete-contact-record"), deleteContactRecord, StringJsonVO::Wrapper, API_TAG);
+	// 删除跟进记录处理
+	API_HANDLER_ENDPOINT_AUTH(
+		API_M_POST,
+		"/c3/common/contact-record/delete",
+		deleteContactRecord,
+		BODY_DTO(DeleteContactRecordDTO::Wrapper, dto),
+		executeDeleteContactRecord(dto)
+	);
+
+
+
+
+
+
+
+
+
+
+
+	// 3.1 定义调整积分接口描述
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("common.interface.modify-student-points"), modifySample, StringJsonVO::Wrapper, API_TAG);
+	// 3.2 定义调整积分接口处理
+	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "/modify-points", modifySample, BODY_DTO(ModifyPointsDTO::Wrapper, dto), execModifyPoints(dto, authObject->getPayload()));
+
+
+
+
+
+	// 3.1 定义添加跟进记录接口描述
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("common.interface.add-follow-up-record"), addSample, StringJsonVO::Wrapper, API_TAG);
+	// 3.2 定义添加跟进记录接口处理
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/add-follow-up-record", addSample, BODY_DTO(AddFollowUpRecordDTO::Wrapper, dto), execAddFollowUpRecord(dto, authObject->getPayload()));
+
+
+
+
+
+
+
+	// 3.1 定义查询跟进记录接口描述
+	ENDPOINT_INFO(querySample) {
+		// 定义接口标题
+		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("common.interface.query-follow-up-records"));
+		// 定义默认授权参数（可选定义，如果定义了，下面ENDPOINT里面需要加入API_HANDLER_AUTH_PARAME）
+		API_DEF_ADD_AUTH();
+		// 定义响应参数格式
+		API_DEF_ADD_RSP_JSON_WRAPPER(QueryFollowUprecordsJsonVO);
+		// 定义标签
+		API_DEF_ADD_TAG(API_TAG);
+		// 定义分页查询参数描述
+		API_DEF_ADD_PAGE_PARAMS();
+		// 定义其他查询参数描述
+		API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("sample.field.name"), "zhang san", false);
+		API_DEF_ADD_QUERY_PARAMS(String, "follow_up_stage", ZH_WORDS_GETTER("common.field.student.follow-up-stage"), ZH_WORDS_GETTER("common.field.student.lost-stage"), false);
+		API_DEF_ADD_QUERY_PARAMS(String, "follow_up_person", ZH_WORDS_GETTER("common.field.student.follow-up-person"), "li shi", false);
+		API_DEF_ADD_QUERY_PARAMS(String, "startdate", ZH_WORDS_GETTER("common.field.student.startdate"), "2021-3-20", false);
+		API_DEF_ADD_QUERY_PARAMS(String, "enddate", ZH_WORDS_GETTER("common.field.student.enddate"), "2026-03-20", false);
+	}
+	// 3.2 定义查询跟进记录接口处理
+	ENDPOINT(API_M_GET, "/query-follow-up-records", querySample, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
+		// 解析查询参数为Query领域模型
+		API_HANDLER_QUERY_PARAM(addQuery, FollowUprecordsQuery, queryParams);
+		// 呼叫执行函数响应结果
+		API_HANDLER_RESP_VO(execQueryFollowUprecords(addQuery));
+	}
+
 
 private:
 	StudentJsonVO::Wrapper executeGetStudentById(const String& id){
@@ -126,6 +194,28 @@ private:
 
 		return StringJsonVO::createShared();
 	}
+
+	// 删除跟进记录
+	StringJsonVO::Wrapper executeDeleteContactRecord(const DeleteContactRecordDTO::Wrapper& dto) {
+		return StringJsonVO::createShared();
+	}
+
+
+	// 3.3 调整积分接口执行函数
+	StringJsonVO::Wrapper execModifyPoints(const ModifyPointsDTO::Wrapper& dto, const PayloadDTO& payload);
+
+
+	// 3.3 添加跟进记录
+	StringJsonVO::Wrapper execAddFollowUpRecord(const AddFollowUpRecordDTO::Wrapper& dto, const PayloadDTO& payload);
+
+	
+	// 查询跟进记录
+	QueryFollowUprecordsJsonVO::Wrapper execQueryFollowUprecords(const FollowUprecordsQuery::Wrapper& query);
+
+
+
+
+
 };
 
 #undef API_TAG

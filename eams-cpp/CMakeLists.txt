@@ -1,21 +1,21 @@
-ï»¿# CMakeList.txt: é¡¶å±‚ CMake é¡¹ç›®æ–‡ä»¶ï¼Œåœ¨æ­¤å¤„æ‰§è¡Œå…¨å±€é…ç½®
-# å¹¶åŒ…å«å­é¡¹ç›®ã€‚
+# CMakeList.txt: ¶¥²ã CMake ÏîÄ¿ÎÄ¼ş£¬ÔÚ´Ë´¦Ö´ĞĞÈ«¾ÖÅäÖÃ
+# ²¢°üº¬×ÓÏîÄ¿¡£
 #
 cmake_minimum_required (VERSION 3.8)
 
-# æŒ‡å®šå·¥ç¨‹å
+# Ö¸¶¨¹¤³ÌÃû
 project ("zero-one-eams")
 
-# è®¾ç½®å®‰è£…ç›®å½•å‰ç¼€
+# ÉèÖÃ°²×°Ä¿Â¼Ç°×º
 if(NOT WIN32)
 	set (CMAKE_INSTALL_PREFIX "../install/${PROJECT_NAME}" CACHE PATH "install path prefix" FORCE )
 endif()
 
-# C++æ ‡å‡†
+# C++±ê×¼
 set (CMAKE_CXX_STANDARD 17)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# åˆ¤æ–­æ„å»ºç±»å‹
+# ÅĞ¶Ï¹¹½¨ÀàĞÍ
 if ((NOT CMAKE_BUILD_TYPE) 
 	OR (CMAKE_BUILD_TYPE STREQUAL "") 
 	OR (CMAKE_BUILD_TYPE STREQUAL "Release")
@@ -25,7 +25,7 @@ else()
 	set (ZO_BT "d")
 endif()
 
-# æ ¹æ®å¹³å°è®¾ç½®ä¸€äº›å˜é‡å
+# ¸ù¾İÆ½Ì¨ÉèÖÃÒ»Ğ©±äÁ¿Ãû
 if (CMAKE_SIZEOF_VOID_P EQUAL 8)
 	message (STATUS "Platform is x64")
 	set(ZO_LB_NAME "lib64")
@@ -43,7 +43,7 @@ else()
 	set(ZO_DY_DIR ${PROJECT_SOURCE_DIR}/lib-dy/${ZO_LB_NAME}/debug)
 endif()
 
-# æ·»åŠ å…¬ç”¨å®å®šä¹‰
+# Ìí¼Ó¹«ÓÃºê¶¨Òå
 if (ZO_BT STREQUAL "r")
 	add_definitions(-DOATPP_DISABLE_ENV_OBJECT_COUNTERS)
 endif()
@@ -62,27 +62,27 @@ else()
 	add_definitions(-DUUID_SYSTEM_GENERATOR)
 endif()
 
-# åœ¨camke .. çš„æ—¶å€™ä¼šè¾“å‡ºæç¤ºç›®å½•è·¯å¾„
+# ÔÚcamke .. µÄÊ±ºò»áÊä³öÌáÊ¾Ä¿Â¼Â·¾¶
 message (STATUS "Prefix dir is ${CMAKE_INSTALL_PREFIX}")
 message (STATUS "Binary dir is ${PROJECT_BINARY_DIR}")
 message (STATUS "Source dir is ${PROJECT_SOURCE_DIR}")
 
-# åˆ¤æ–­æ˜¯å¦æ˜¯Ubuntuç³»ç»Ÿ
+# ÅĞ¶ÏÊÇ·ñÊÇUbuntuÏµÍ³
 option (IS_UBUNTU "is ubuntu" OFF)
 cmake_host_system_information(RESULT PRETTY_NAME QUERY OS_VERSION)
 if (${PRETTY_NAME} MATCHES "Ubuntu")
 	option (IS_UBUNTU "is ubuntu" ON)
 endif()
 
-# Liunxç¯å¢ƒåº“ä¾èµ–æ£€æŸ¥
+# Liunx»·¾³¿âÒÀÀµ¼ì²é
 if (NOT WIN32)
-	# æ£€æŸ¥OpenSSLåº“æ˜¯å¦å­˜åœ¨
+	# ¼ì²éOpenSSL¿âÊÇ·ñ´æÔÚ
 	find_package (OpenSSL REQUIRED)
 	if (OPENSSL_FOUND)
 	  include_directories (${OPENSSL_INCLUDE_DIRS})
 	  message (STATUS "OpenSSL Found!")
 	endif()
-	# æ£€æŸ¥CURLåº“æ˜¯å¦å­˜åœ¨
+	# ¼ì²éCURL¿âÊÇ·ñ´æÔÚ
 	find_package (CURL REQUIRED)
 	if (CURL_FOUND)
 	  include_directories (${CURL_INCLUDE_DIRS})
@@ -90,12 +90,12 @@ if (NOT WIN32)
 	endif()
 endif()
 
-# å…³é—­Swaggeræ–‡æ¡£
+# ¹Ø±ÕSwaggerÎÄµµ
 if (DEFINED CLOSE_SWAGGER_DOC)
 	add_definitions(-DCLOSE_SWAGGER_DOC)
 endif()
 
-# è®¾ç½®é€‰é¡¹å¼€å…³
+# ÉèÖÃÑ¡Ïî¿ª¹Ø
 option (USE_XLNT "use xlnt" ON)
 option (USE_DFS "use fastdfs" ON)
 option (USE_YML "use yaml" ON)
@@ -110,8 +110,8 @@ if (NOT WIN32)
 endif()
 option (USE_PDF "use libharu pdf" ON)
 
-# é€‰é¡¹å®å®šä¹‰
-# ä¸ºäº†ä¿è¯æ’é™¤åç¼–è¯‘é€šè¿‡ï¼Œåœ¨å•ç‹¬ä½¿ç”¨è¿™äº›åº“çš„åœ°æ–¹åŠ ä¸Šå¯¹åº”çš„å®å®šä¹‰
+# Ñ¡Ïîºê¶¨Òå
+# ÎªÁË±£Ö¤ÅÅ³ıºó±àÒëÍ¨¹ı£¬ÔÚµ¥¶ÀÊ¹ÓÃÕâĞ©¿âµÄµØ·½¼ÓÉÏ¶ÔÓ¦µÄºê¶¨Òå
 if (USE_XLNT)
 	add_definitions(-DUSE_XLNT)
 endif()
@@ -140,7 +140,7 @@ if (USE_PDF)
 	add_definitions(-DUSE_PDF)
 endif()
 
-# å®šä¹‰ä¸€ä¸ªé¢„ç¼–è¯‘æ ‡å¤´å®
+# ¶¨ÒåÒ»¸öÔ¤±àÒë±êÍ·ºê
 MACRO(ADD_MSVC_PRECOMPILED_HEADER PrecompiledHeader PrecompiledSource SourcesVar)
   IF(MSVC)
     GET_FILENAME_COMPONENT(PrecompiledBasename ${PrecompiledHeader} NAME_WE)
@@ -156,13 +156,13 @@ MACRO(ADD_MSVC_PRECOMPILED_HEADER PrecompiledHeader PrecompiledSource SourcesVar
   ENDIF(MSVC)
 ENDMACRO(ADD_MSVC_PRECOMPILED_HEADER)
 
-# åŒ…å«å­é¡¹ç›®
+# °üº¬×ÓÏîÄ¿
 add_subdirectory ("lib-oatpp")
 add_subdirectory ("lib-mysql")
 add_subdirectory ("lib-common")
 if(UNIX)
 	add_subdirectory ("nacos-register")
 endif()
-# åœ¨åé¢æ·»åŠ ä½ çš„æ¨¡å—   
+# ÔÚºóÃæÌí¼ÓÄãµÄÄ£¿é   
 add_subdirectory("eams-c6-timetable")
 add_subdirectory("eams-c6-student")

@@ -1,62 +1,62 @@
-#pragma once
+ï»¿#pragma once
 #ifndef STUDENTDO_H
 #define STUDENTDO_H 
 #include "../DoInclude.h"
 class StaffDO : public BaseDO {
 public:
-	// Ö°¹¤id
+	// èŒå·¥id
 	MYSQL_SYNTHESIZE(long long, id, Id);
-	// Ö°¹¤ĞÕÃû
+	// èŒå·¥å§“å
 	MYSQL_SYNTHESIZE(string, name, Name);
-	// ÊÖ»úºÅ
+	// æ‰‹æœºå·
 	MYSQL_SYNTHESIZE(string, mobile, Mobile);
-	// Î¢ĞÅµÇÂ¼id
+	// å¾®ä¿¡ç™»å½•id
 	MYSQL_SYNTHESIZE(int, wxAccessId, WxAccessId);
 	// email
 	MYSQL_SYNTHESIZE(string, email, Email);
-	//ÉúÈÕ
+	//ç”Ÿæ—¥
     MYSQL_SYNTHESIZE(string, birthday, BirthDay);
-	//ĞÔ±ğ
+	//æ€§åˆ«
     MYSQL_SYNTHESIZE(int, sex, Sex);
-	//Éí·İÖ¤
+	//èº«ä»½è¯
     MYSQL_SYNTHESIZE(string, idCard, IdCard);
-	//±ÏÒµÑ§Ğ£
+	//æ¯•ä¸šå­¦æ ¡
     MYSQL_SYNTHESIZE(string, school, School);
-	//Ñ§Àú
+	//å­¦å†
     MYSQL_SYNTHESIZE(int, degree, Degree);
-	//±¸×¢
+	//å¤‡æ³¨
     MYSQL_SYNTHESIZE(string, remark, Remark);
-	//ÔÚÖ°×´Ì¬
+	//åœ¨èŒçŠ¶æ€
     MYSQL_SYNTHESIZE(int, state, State);
-	//ÊÇ·ñÊÇ¹ÜÀíÕß
+	//æ˜¯å¦æ˜¯ç®¡ç†è€…
     MYSQL_SYNTHESIZE(int, isManager, IsManager);
-	//Í·Ïñ
+	//å¤´åƒ
     MYSQL_SYNTHESIZE(string, headImg, HeadImg);
-	//ÈëÖ°ÈÕÆÚ
+	//å…¥èŒæ—¥æœŸ
     MYSQL_SYNTHESIZE(string, hireDate, HireDate);
-	//ÀëÖ°ÈÕÆÚ
+	//ç¦»èŒæ—¥æœŸ
 	MYSQL_SYNTHESIZE(string, fireData, FireDate);
-	//½éÉÜ
+	//ä»‹ç»
     MYSQL_SYNTHESIZE(string, introduction, Introduction);
-	//´´½¨Ê±¼ä
+	//åˆ›å»ºæ—¶é—´
 	MYSQL_SYNTHESIZE(string, addTime, AddTime);
-	//±à¼­Ê±¼ä
+	//ç¼–è¾‘æ—¶é—´
     MYSQL_SYNTHESIZE(string, editTime, EditTime);
-	//´´½¨ÈË
+	//åˆ›å»ºäºº
     MYSQL_SYNTHESIZE(string, creator, Creator);
-	//±à¼­ÈË
+	//ç¼–è¾‘äºº
     MYSQL_SYNTHESIZE(string, editor, Editor);
-	//ÊÇ·ñÉ¾³ı
+	//æ˜¯å¦åˆ é™¤
     MYSQL_SYNTHESIZE(int, deleted, Deleted);
-	//ÃÜÂë
+	//å¯†ç 
 	MYSQL_SYNTHESIZE(string, password, Password);
-	//¿ÎÊ±·Ñ
+	//è¯¾æ—¶è´¹
     MYSQL_SYNTHESIZE(int, classFee, ClassFee);
-	//Öú½Ì·Ñ
+	//åŠ©æ•™è´¹
     MYSQL_SYNTHESIZE(int, assistantFee, AssistantFee);
-	//staffËùÊô×éÖ¯id
+	//staffæ‰€å±ç»„ç»‡id
     MYSQL_SYNTHESIZE(long long, orgId, OrgId);
-	//ÊÇ·ñÄÚ²¿ÈËÔ±
+	//æ˜¯å¦å†…éƒ¨äººå‘˜
     MYSQL_SYNTHESIZE(int, isInner, IsInner);
 public:
 	StaffDO() : BaseDO("staff")
@@ -89,6 +89,89 @@ public:
         MYSQL_ADD_FIELD("orgId", "i", orgId);
         MYSQL_ADD_FIELD("isInner", "i", isInner);
 	}
+};
+
+class UserDO : public BaseDO
+{
+	MYSQL_SYNTHESIZE(uint64_t, id, Id);//id` bigint unsigned NOT NULL COMMENT 'ç”¨æˆ·ä¸»é”®',
+
+	MYSQL_SYNTHESIZE(string, name, Name);//`name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'å®¶é•¿å§“å',
+
+	MYSQL_SYNTHESIZE(int, wx_access_id, Wx_access_id);//`wx_access_id` int DEFAULT NULL COMMENT 'å¾®ä¿¡id',
+
+	MYSQL_SYNTHESIZE(string, mobile, Mobile);//`mobile` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'æ‰‹æœºå·è´¦å·',
+
+	MYSQL_SYNTHESIZE(string, email, Email);//`email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'email',
+
+	MYSQL_SYNTHESIZE(int, state, State);	//`state` tinyint(1) DEFAULT '1' COMMENT 'è´¦å·çŠ¶æ€'
+
+	MYSQL_SYNTHESIZE(string, password, Password);//`password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'å¯†ç ',
+
+	MYSQL_SYNTHESIZE(int, login_times, Login_times);//`login_times` int DEFAULT '0' COMMENT 'ç™»å½•æ¬¡æ•°',
+
+	MYSQL_SYNTHESIZE(string, latest_login_time, Latest_login_time);//`latest_login_time` datetime DEFAULT NULL COMMENT 'ä¸Šæ¬¡ç™»å½•æ—¶é—´',
+
+	MYSQL_SYNTHESIZE(string, latest_login_ip, Latest_login_ip);//`latest_login_ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'ä¸Šæ¬¡ç™»å½•ip',
+
+	MYSQL_SYNTHESIZE(string, add_time, Add_time);//`add_time` datetime DEFAULT NULL COMMENT 'åŠ å…¥æ—¶é—´',
+
+	MYSQL_SYNTHESIZE(string, remark, Remark);//`remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'å¤‡æ³¨',
+
+	MYSQL_SYNTHESIZE(uint64_t, creator, Creator);//`creator` bigint DEFAULT NULL COMMENT 'æ·»åŠ è€…',
+
+	MYSQL_SYNTHESIZE(uint64_t, school_id, School_id);//`school_id` bigint DEFAULT NULL COMMENT 'æ‰€å±å­¦æ ¡id',
+
+	MYSQL_SYNTHESIZE(uint64_t, org_id, Org_id);//`org_id` bigint DEFAULT NULL COMMENT 'åˆ›å»ºè€…æ‰€å±ç»„ç»‡ID',
+
+
+public:
+	UserDO() : BaseDO("user")
+	{
+		MYSQL_ADD_FIELD_PK("id", "i", id);
+		MYSQL_ADD_FIELD("name", "s", name);
+		MYSQL_ADD_FIELD("wx_access_id", "i", wx_access_id);
+		MYSQL_ADD_FIELD("mobile", "s", mobile);
+		MYSQL_ADD_FIELD("email", "s", email);
+		MYSQL_ADD_FIELD("state", "i", state);
+		MYSQL_ADD_FIELD("password", "s", password);
+		MYSQL_ADD_FIELD("login_times", "i", login_times);
+		MYSQL_ADD_FIELD("latest_login_time", "s", latest_login_time);
+		MYSQL_ADD_FIELD("latest_login_ip", "s", latest_login_ip);
+		MYSQL_ADD_FIELD("add_time", "s", add_time);
+		MYSQL_ADD_FIELD("remark", "s", remark);
+		MYSQL_ADD_FIELD("creator", "s", creator);
+		MYSQL_ADD_FIELD("school_id", "s", school_id);
+		MYSQL_ADD_FIELD("org_id", "s", org_id);
+
+	}
+};
+class ParentAccountQueryDO : public BaseDO
+{
+public:
+	ParentAccountQueryDO() : BaseDO("parent_account")
+	{
+		MYSQL_ADD_FIELD_PK("user_id", "i", userId);
+		MYSQL_ADD_FIELD("mobile", "s", mobile);
+		MYSQL_ADD_FIELD("name", "s", name);
+		MYSQL_ADD_FIELD("student_name", "s", studentName);
+		MYSQL_ADD_FIELD("wx_name", "s", wxName);
+		MYSQL_ADD_FIELD("login_times", "i", loginTimes);
+		MYSQL_ADD_FIELD("latest_login_time", "s", latestLoginTime);
+		MYSQL_ADD_FIELD("latest_login_ip", "s", latestLoginIp);
+		MYSQL_ADD_FIELD("add_time", "s", addTime);
+		MYSQL_ADD_FIELD("state", "i", state);
+	}
+
+	MYSQL_SYNTHESIZE(uint64_t, userId, UserId);
+	MYSQL_SYNTHESIZE(string, mobile, Mobile);
+	MYSQL_SYNTHESIZE(string, name, Name);
+	MYSQL_SYNTHESIZE(string, studentName, StudentName);
+	MYSQL_SYNTHESIZE(string, wxName, WxName);
+	MYSQL_SYNTHESIZE(int32_t, loginTimes, LoginTimes);
+	MYSQL_SYNTHESIZE(string, latestLoginTime, LatestLoginTime);
+	MYSQL_SYNTHESIZE(string, latestLoginIp, LatestLoginIp);
+	MYSQL_SYNTHESIZE(string, addTime, AddTime);
+	MYSQL_SYNTHESIZE(int32_t, state, State);
 };
 typedef std::shared_ptr<StaffDO> PtrStaffDO;
 

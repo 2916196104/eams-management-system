@@ -8,11 +8,11 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * 家长账号DTO
+ * ??????DTO
  */
-class ParentAccountDTO : public oatpp::DTO
+class ParentAccountQueryDTO : public oatpp::DTO
 {
-	DTO_INIT(ParentAccountDTO, DTO);
+	DTO_INIT(ParentAccountQueryDTO, DTO);
 
 	API_DTO_FIELD_DEFAULT(Int64, userId, ZH_WORDS_GETTER("parentaccount.field.parent.user-id"));
 	API_DTO_FIELD_DEFAULT(String, mobile, ZH_WORDS_GETTER("parentaccount.field.parent.mobile"));
