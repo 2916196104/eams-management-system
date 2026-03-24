@@ -110,11 +110,13 @@ int SqlSession::executeUpdate(const string& sql)
 
 int SqlSession::executeUpdate(const string& sql, const SqlParams& params)
 {
+
 	try
 	{
 		NULL_PTR_CHECK(conn, "connection is null");
 		//1 获取prepareStatement对象
 		pstmt = conn->prepareStatement(sql);
+		
 		//2 处理参数
 		SQL_ARG_EXEC_3(params, pstmt);
 		//3 执行数据操作
