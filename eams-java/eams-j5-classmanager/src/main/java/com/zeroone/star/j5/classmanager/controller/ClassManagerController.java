@@ -1,8 +1,10 @@
 package com.zeroone.star.j5.classmanager.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zeroone.star.j5.classmanager.service.ClassStudentService;
 import com.zeroone.star.project.dto.j5.classmanager.ClassDTO;
 import com.zeroone.star.project.dto.j5.classmanager.ClassStudentDTO;
+import com.zeroone.star.project.dto.j5.classmanager.TransClassStudentDTO;
 import com.zeroone.star.project.j5.classmanager.ClassStudentApis;
 import com.zeroone.star.project.query.j5.classmanager.ClassOptionsQuery;
 import com.zeroone.star.project.query.j5.classmanager.ClassPageQuery;
@@ -14,6 +16,7 @@ import com.zeroone.star.project.vo.j5.classmanager.ClassStudentVO;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -26,6 +29,9 @@ import java.util.List;
 @RequestMapping("j5/class-manager")
 @Api(tags = "班级管理")
 public class ClassManagerController implements ClassStudentApis {
+    @Resource
+    private ClassStudentService classStudentService;
+
     @GetMapping("/class-options")
     @ApiOperation(value = "获取班级下拉选项", notes = "获取所有班级的下拉选项，用于表单选择")
     public JsonVO<Page<ClassOptionsVO>> queryClassOptions(ClassOptionsQuery classOptionsQuery) {
@@ -165,9 +171,9 @@ public class ClassManagerController implements ClassStudentApis {
             @ApiImplicitParam(name = "classId", value = "班级ID", required = true, example = "1", dataType = "int")
     })
     @Override
-    public JsonVO<Integer> addClassStudent(List<Integer> studentIds, int classId) {
-
-        return null;
+    public JsonVO<Integer> addClassStudent(@RequestBody ClassStudentDTO classStudentDTO) {
+        Integer addClassStudentNum = classStudentService.addClassStudent(classStudentDTO.getStudentIds(), classStudentDTO.getClassId());
+        return JsonVO.success(addClassStudentNum);
     }
 
     @DeleteMapping("class-student")
@@ -177,15 +183,18 @@ public class ClassManagerController implements ClassStudentApis {
             @ApiImplicitParam(name = "classId", value = "班级ID", required = true, example = "1", dataType = "int")
     })
     @Override
-    public JsonVO<Integer> removeClassStudent(List<Integer> studentIds, int classId) {
-        return null;
+    public JsonVO<Integer> removeClassStudent(@RequestBody ClassStudentDTO classStudentDTO) {
+        Integer deleteClassStudentNum = classStudentService.batchDeleteClassStudent(classStudentDTO.getStudentIds(), classStudentDTO.getClassId());
+        return JsonVO.success(deleteClassStudentNum);
     }
 
     @PutMapping("/class-student")
     @Override
     @ApiOperation("批量调班，将多个学员从一个班级调到另一个班级")
-    public JsonVO<Integer> transferClassBatch(List<ClassStudentDTO> classStudentDTOs, int targetClassId) {
-        return null;
+    public JsonVO<Integer> transferClassBatch(@RequestBody TransClassStudentDTO transClassStudentDTO) {
+        Integer transferClassBatchNum = classStudentService.batchTransClassStudents
+                (transClassStudentDTO.getStudentIds(),transClassStudentDTO.getClassId(), transClassStudentDTO.getTargetClassId());
+        return JsonVO.success(transferClassBatchNum);
     }
 
 }

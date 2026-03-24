@@ -3,6 +3,7 @@ package com.zeroone.star.project.j5.classmanager;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zeroone.star.project.dto.j5.classmanager.ClassDTO;
 import com.zeroone.star.project.dto.j5.classmanager.ClassStudentDTO;
+import com.zeroone.star.project.dto.j5.classmanager.TransClassStudentDTO;
 import com.zeroone.star.project.query.j5.classmanager.ClassOptionsQuery;
 import com.zeroone.star.project.query.j5.classmanager.ClassPageQuery;
 import com.zeroone.star.project.query.j5.classmanager.ClassStudentQuery;
@@ -22,11 +23,11 @@ public interface ClassStudentApis {
     JsonVO<Page<ClassStudentVO>> pageStudent(Long classId, ClassStudentQuery query);
 
 
-    JsonVO<Integer> addClassStudent(List<Integer> studentIds, int classId);
+    JsonVO<Integer> addClassStudent(ClassStudentDTO classStudentDTO);
 
-    JsonVO<Integer> removeClassStudent(List<Integer> studentIds, int classId);
+    JsonVO<Integer> removeClassStudent(ClassStudentDTO classStudentDTO);
 
-    JsonVO<Integer> transferClassBatch(List<ClassStudentDTO> classStudentDTOs, int targetClassId);
+    JsonVO<Integer> transferClassBatch(TransClassStudentDTO transClassStudentDTO);
 
 
     //保存班级
