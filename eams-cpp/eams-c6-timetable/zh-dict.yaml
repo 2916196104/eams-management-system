@@ -17,6 +17,8 @@ timetable:
 
   query:
    query-date: "查询日期"
+   year: "年份"
+   month: "月份"
    total: "课表总节数"
    lesson-list: "课程列表"
 

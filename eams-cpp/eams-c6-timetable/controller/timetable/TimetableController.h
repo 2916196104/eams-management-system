@@ -20,7 +20,7 @@ public:
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(
 		ZH_WORDS_GETTER("timetable.interface.query-lesson"),
 		queryTimetable,
-		TimetableQuery,
+		TimetableDayQuery,
 		TimetableVO::Wrapper,
 		API_TAG
 	);
@@ -30,7 +30,7 @@ public:
 		API_M_GET,
 		"/c6/timetable/query",
 		queryTimetable,
-		TimetableQuery,
+		TimetableDayQuery,
 		executeQuery(query)
 	);
 
@@ -94,7 +94,7 @@ private:
 	// 执行请假业务
 	StringJsonVO::Wrapper TimetableController::executeLeave(const LeaveDTO::Wrapper& dto);
 	// 执行按日期查询课表业务
-	TimetableVO::Wrapper executeQuery(const TimetableQuery::Wrapper& query);
+	TimetableVO::Wrapper executeQuery(const TimetableDayQuery::Wrapper& query);
 	// 执行签到业务
 	TimetableSignVO::Wrapper executeSign(const TimetableSignDTO::Wrapper& dto);
 

@@ -12,7 +12,7 @@ StringJsonVO::Wrapper TimetableController::executeLeave(const LeaveDTO::Wrapper&
 	return StringJsonVO::Wrapper();
 }
 
-TimetableVO::Wrapper TimetableController::executeQuery(const TimetableQuery::Wrapper& query)
+TimetableVO::Wrapper TimetableController::executeQuery(const TimetableDayQuery::Wrapper& query)
 {
 	return TimetableVO::Wrapper();
 }
