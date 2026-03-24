@@ -21,6 +21,14 @@ routes.push(
 		name: "Error",
 		component: () => import("../views/status/500.vue"),
 	},
+	{
+  path: '/test-editable-form',
+  name: 'EditableFormTest',
+  component: () => import('../views/test/EditableFormTest.vue'),
+  meta: {
+    title: '可修改表单测试'
+  }
+}
 );
 
 // 读取login模块路由
