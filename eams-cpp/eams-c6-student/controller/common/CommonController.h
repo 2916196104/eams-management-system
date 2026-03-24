@@ -144,7 +144,7 @@ private:
 		}
 		//2.从数据库中的student_coruse表中查找是否有studentId、courseId、subjectId，没有的话返回错误
 		PreparedStatement* pstmt = conn->prepareStatement(
-			"SELECT pay_off, amount,pay_amount FROM student_course WHERE student_id = ? AND course_id = ? AND subject_id = ?"
+			"SELECT pay_off, amount,paid_amount FROM student_course WHERE student_id = ? AND course_id = ? AND subject_id = ?"
 		);
 		pstmt->setInt(1, dto->studentId);   // 学生ID
 		pstmt->setInt(2, dto->courseId);    // 课程ID
@@ -162,7 +162,7 @@ private:
 			return vo;
 		}
 		double amount = res->getDouble("amount");    // 总金额
-		double paidAmount = res->getDouble("pay_amount"); // 已支付金额
+		double paidAmount = res->getDouble("paid_amount"); // 已支付金额
 		int  payOff = res->getInt("pay_off");//是否付清
 		//3.查看是否已付清，已付清返回"已付清"
 		if (payOff == 1) {
@@ -188,8 +188,7 @@ private:
 		paidAmount += dto->payAmount;
 		if (paidAmount == amount) payOff = 1;
 		pstmt = conn->prepareStatement(
-			"UPDATE student_course SET payAmount = ?, pay_off = ?"
-			"WHERE student_did = ? AND course_id = ? AND subject_id = ?"
+			"UPDATE student_course SET paid_amount = ?, pay_off = ? WHERE student_id = ? AND course_id = ? AND subject_id = ?"
 		);
 		pstmt->setDouble(1, paidAmount);
 		pstmt->setInt(2, payOff);
