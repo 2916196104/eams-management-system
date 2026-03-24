@@ -47,6 +47,8 @@ class RegistrationRecordDTO : public oatpp::DTO
 	API_DTO_FIELD_DEFAULT(Int64, course_id, ZH_WORDS_GETTER("registration-records.course_id"));
 	// 课程名称
 	API_DTO_FIELD_DEFAULT(String, course_name, ZH_WORDS_GETTER("registration-records.course_name"));
+	// 科目id
+	API_DTO_FIELD_DEFAULT(Int64, subject_id, ZH_WORDS_GETTER("registration-records.subject_id"))
 	// 科目名称
 	API_DTO_FIELD_DEFAULT(String, subject_name, ZH_WORDS_GETTER("registration-records.subject_name"));
 	// 报名时间
@@ -59,12 +61,12 @@ class RegistrationRecordDTO : public oatpp::DTO
 	API_DTO_FIELD_DEFAULT(Float64, paid_amount, ZH_WORDS_GETTER("registration-records.paid_amount"));
 	// 总课次
 	API_DTO_FIELD_DEFAULT(Int32, count_lesson_total, ZH_WORDS_GETTER("registration-records.count_lesson_total"));
-	// 剩余课次
-	API_DTO_FIELD_DEFAULT(Int32, count_lesson_remaining, ZH_WORDS_GETTER("registration-records.count_lesson_remaining"));
+	// 已上课次
+    API_DTO_FIELD_DEFAULT(Int32, count_lesson_complete, ZH_WORDS_GETTER("registration-records.count_lesson_complete"));
 	// 报名类型
-	API_DTO_FIELD_DEFAULT(String, type, ZH_WORDS_GETTER("registration-records.type"));
+	API_DTO_FIELD_DEFAULT(Int8, lesson_type, ZH_WORDS_GETTER("registration-records.lesson_type"));
 	// 审核状态
-	API_DTO_FIELD_DEFAULT(String, verify_state, ZH_WORDS_GETTER("registration-records.verify_state"));
+	API_DTO_FIELD_DEFAULT(Int8, verify_state, ZH_WORDS_GETTER("registration-records.verify_state"));
 	// 是否已过期标记
 	API_DTO_FIELD_DEFAULT(Boolean, expired, ZH_WORDS_GETTER("registration-records.expired"));
 
