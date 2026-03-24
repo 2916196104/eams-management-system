@@ -1,6 +1,12 @@
 import { queryOrgTree, type OrgNode } from "@/apis/org/employeeManage";
 
 export type SalaryMode = "非底薪模式" | "底薪模式";
+export interface LessonFeeSetting {
+	id: string;
+	duration: string;
+	lessonFee: number;
+	assistFee: number;
+}
 
 export interface SalaryRow {
 	id: string;
@@ -9,10 +15,12 @@ export interface SalaryRow {
 	orgId: string;
 	salaryMode: SalaryMode;
 	baseSalary: number;
+	targetLessonCount: number;
 	trialLessonPay: number;
 	lessonDuration: string;
 	lessonBonus: number;
 	performancePay: number;
+	lessonFeeSettings: LessonFeeSetting[];
 }
 
 export interface SalaryQuery {
@@ -25,10 +33,12 @@ export interface SalaryUpdatePayload {
 	id: string;
 	salaryMode: SalaryMode;
 	baseSalary: number;
+	targetLessonCount: number;
 	trialLessonPay: number;
 	lessonDuration: string;
 	lessonBonus: number;
 	performancePay: number;
+	lessonFeeSettings: LessonFeeSetting[];
 }
 
 const orgIds = ["org-root-lf", "org-hn", "org-zxx", "org-jsj", "org-zhs", "org-art", "org-301", "org-km", "org-zico", "org-admin", "org-teach", "org-sale", "org-jswx", "org-jsnj"];
@@ -39,10 +49,19 @@ const salaryDb: SalaryRow[] = Array.from({ length: 54 }).map((_, i) => ({
 	orgId: orgIds[i % orgIds.length],
 	salaryMode: i % 5 === 0 ? "底薪模式" : "非底薪模式",
 	baseSalary: i % 5 === 0 ? 10000 + (i % 3) * 5000 : 0,
+	targetLessonCount: i % 5 === 0 ? 80 + (i % 4) * 10 : 0,
 	trialLessonPay: i % 7 === 0 ? 180 : i % 3 === 0 ? 90 : 60,
 	lessonDuration: i % 3 === 0 ? "90分钟" : "60分钟",
 	lessonBonus: i % 5 === 0 ? 200 + i : i % 6 === 0 ? 1000 : i % 4,
 	performancePay: i % 5 === 0 ? 100 + i : i % 2,
+	lessonFeeSettings: [
+		{
+			id: `fee-${i + 1}-1`,
+			duration: i % 3 === 0 ? "90分钟" : "60分钟",
+			lessonFee: i % 7 === 0 ? 180 : 90,
+			assistFee: i % 5 === 0 ? 20 : 0,
+		},
+	],
 }));
 
 function wait<T>(data: T, ms = 280) {

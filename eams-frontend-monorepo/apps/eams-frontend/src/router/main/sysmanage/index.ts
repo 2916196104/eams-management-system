@@ -16,6 +16,14 @@ const routes = [
 		component: () => import("@/views/org/salary/Index.vue"),
 	},
 	{
+		path: "/org/org-manage",
+		name: "OrgManage",
+		meta: {
+			label: "组织管理",
+		},
+		component: () => import("@/views/org/orgManage/Index.vue"),
+	},
+	{
 		path: "/un-1",
 		name: "UN1",
 		meta: {

@@ -45,36 +45,62 @@
 			</el-col>
 		</el-row>
 
-		<el-dialog v-model="editVisible" title="修改薪资设置" width="620px">
-			<el-form ref="editFormRef" :model="editForm" :rules="rules" label-width="110px">
-				<el-form-item label="老师姓名">
-					<el-input :model-value="editingRow?.teacherName || ''" disabled />
+		<el-dialog v-model="editVisible" title="薪资设置" width="1020px">
+			<el-form ref="editFormRef" :model="editForm" :rules="rules" label-width="120px">
+				<el-form-item label="员工姓名">
+					<div class="name-text">{{ editingRow?.teacherName || "" }}</div>
 				</el-form-item>
 				<el-form-item label="薪资模式" prop="salaryMode" required>
-					<el-select v-model="editForm.salaryMode" class="full-width">
-						<el-option label="非底薪模式" value="非底薪模式" />
-						<el-option label="底薪模式" value="底薪模式" />
-					</el-select>
+					<el-radio-group v-model="editForm.salaryMode">
+						<el-radio label="非底薪模式">非底薪模式</el-radio>
+						<el-radio label="底薪模式">底薪模式</el-radio>
+					</el-radio-group>
 				</el-form-item>
-				<el-form-item label="底薪" prop="baseSalary" required>
-					<el-input-number v-model="editForm.baseSalary" :min="0" :step="100" class="full-width" />
-				</el-form-item>
-				<el-form-item label="试听课时薪资" prop="trialLessonPay" required>
-					<el-input-number v-model="editForm.trialLessonPay" :min="0" :step="10" class="full-width" />
-				</el-form-item>
-				<el-form-item label="课时时长" prop="lessonDuration" required>
-					<el-select v-model="editForm.lessonDuration" class="full-width">
-						<el-option label="60分钟" value="60分钟" />
-						<el-option label="90分钟" value="90分钟" />
-						<el-option label="120分钟" value="120分钟" />
-					</el-select>
-				</el-form-item>
-				<el-form-item label="课时提成" prop="lessonBonus" required>
-					<el-input-number v-model="editForm.lessonBonus" :min="0" :step="10" class="full-width" />
-				</el-form-item>
-				<el-form-item label="绩效薪资" prop="performancePay" required>
-					<el-input-number v-model="editForm.performancePay" :min="0" :step="10" class="full-width" />
-				</el-form-item>
+
+				<div v-if="editForm.salaryMode === '底薪模式'" class="base-salary-block">
+					<el-form-item label="底薪" prop="baseSalary" required>
+						<el-input-number v-model="editForm.baseSalary" :min="0" :step="100" class="full-width" />
+						<span class="unit-text">元/月</span>
+					</el-form-item>
+					<el-form-item label="达标课时数" prop="targetLessonCount" required>
+						<el-input-number v-model="editForm.targetLessonCount" :min="0" :step="10" class="full-width" />
+					</el-form-item>
+					<div class="desc-text">若开启系统配置老师上课数达标后才有课时费，则上完达标课时数后才统计课时费。</div>
+				</div>
+
+				<div class="section-title-wrap">
+					<div class="line"></div>
+					<div class="section-title">课时费设置</div>
+					<div class="line"></div>
+					<el-button class="add-btn" @click="handleAddFeeRow">添加</el-button>
+				</div>
+
+				<el-table :data="editForm.lessonFeeSettings" border empty-text="暂无数据">
+					<el-table-column label="课时时长(分钟)" min-width="180">
+						<template #default="scope">
+							<el-select v-model="scope.row.duration" placeholder="请选择">
+								<el-option label="60分钟" value="60分钟" />
+								<el-option label="90分钟" value="90分钟" />
+								<el-option label="120分钟" value="120分钟" />
+							</el-select>
+						</template>
+					</el-table-column>
+					<el-table-column label="课时费(元)" min-width="160">
+						<template #default="scope">
+							<el-input-number v-model="scope.row.lessonFee" :min="0" :step="10" class="full-width" />
+						</template>
+					</el-table-column>
+					<el-table-column label="助教费(元)" min-width="160">
+						<template #default="scope">
+							<el-input-number v-model="scope.row.assistFee" :min="0" :step="10" class="full-width" />
+						</template>
+					</el-table-column>
+					<el-table-column label="操作" width="100">
+						<template #default="scope">
+							<el-button link type="danger" @click="handleRemoveFeeRow(scope.$index)">删除</el-button>
+						</template>
+					</el-table-column>
+				</el-table>
 			</el-form>
 			<template #footer>
 				<el-button @click="handleCancelEdit">取消</el-button>
@@ -89,7 +115,7 @@ import { onMounted, ref } from "vue";
 import { ElMessage, type FormInstance, type FormRules } from "element-plus";
 import OrgTreePanel from "@/components/org/employee/OrgTreePanel.vue";
 import { useSalarySettingsStore } from "@/stores/org/salarySettings";
-import type { SalaryRow, SalaryUpdatePayload } from "@/apis/org/salarySettings";
+import type { LessonFeeSetting, SalaryRow, SalaryUpdatePayload } from "@/apis/org/salarySettings";
 
 const store = useSalarySettingsStore();
 const editVisible = ref(false);
@@ -100,15 +126,18 @@ const editForm = ref<SalaryUpdatePayload>({
 	id: "",
 	salaryMode: "非底薪模式",
 	baseSalary: 0,
+	targetLessonCount: 0,
 	trialLessonPay: 0,
 	lessonDuration: "60分钟",
 	lessonBonus: 0,
 	performancePay: 0,
+	lessonFeeSettings: [],
 });
 
 const rules: FormRules = {
 	salaryMode: [{ required: true, message: "请选择薪资模式", trigger: "change" }],
 	baseSalary: [{ required: true, message: "请输入底薪", trigger: "change" }],
+	targetLessonCount: [{ required: true, message: "请输入达标课时数", trigger: "change" }],
 	trialLessonPay: [{ required: true, message: "请输入试听课时薪资", trigger: "change" }],
 	lessonDuration: [{ required: true, message: "请选择课时时长", trigger: "change" }],
 	lessonBonus: [{ required: true, message: "请输入课时提成", trigger: "change" }],
@@ -137,10 +166,12 @@ function openEdit(row: SalaryRow) {
 		id: row.id,
 		salaryMode: row.salaryMode,
 		baseSalary: row.baseSalary,
+		targetLessonCount: row.targetLessonCount,
 		trialLessonPay: row.trialLessonPay,
 		lessonDuration: row.lessonDuration,
 		lessonBonus: row.lessonBonus,
 		performancePay: row.performancePay,
+		lessonFeeSettings: row.lessonFeeSettings.map((i) => ({ ...i })),
 	};
 	restoreDraft(row.id);
 	editVisible.value = true;
@@ -181,6 +212,11 @@ function clearDraft(id: string) {
 
 async function handleSubmitEdit() {
 	try {
+		const firstFee = editForm.value.lessonFeeSettings[0];
+		if (!firstFee) return ElMessage.warning("请至少添加一条课时费设置");
+		editForm.value.lessonDuration = firstFee.duration;
+		editForm.value.trialLessonPay = firstFee.lessonFee;
+		editForm.value.lessonBonus = firstFee.assistFee;
 		await editFormRef.value?.validate();
 		await store.updateRow(editForm.value);
 		if (editingRow.value) clearDraft(editingRow.value.id);
@@ -189,6 +225,20 @@ async function handleSubmitEdit() {
 	} catch (e: any) {
 		ElMessage.error(e?.message || "修改失败");
 	}
+}
+
+function handleAddFeeRow() {
+	const row: LessonFeeSetting = {
+		id: `tmp-${Date.now()}`,
+		duration: "60分钟",
+		lessonFee: 0,
+		assistFee: 0,
+	};
+	editForm.value.lessonFeeSettings.push(row);
+}
+
+function handleRemoveFeeRow(index: number) {
+	editForm.value.lessonFeeSettings.splice(index, 1);
 }
 </script>
 
@@ -214,6 +264,49 @@ async function handleSubmitEdit() {
 
 .full-width {
 	width: 100%;
+}
+
+.name-text {
+	font-size: 24px;
+	font-weight: 500;
+	color: #606266;
+}
+
+.unit-text {
+	margin-left: 10px;
+	color: #909399;
+}
+
+.base-salary-block {
+	padding: 0 0 8px;
+}
+
+.desc-text {
+	margin: -6px 0 12px 120px;
+	color: #909399;
+	font-size: 13px;
+}
+
+.section-title-wrap {
+	display: flex;
+	align-items: center;
+	margin: 14px 0 10px;
+}
+
+.line {
+	flex: 1;
+	height: 1px;
+	background: #ebeef5;
+}
+
+.section-title {
+	margin: 0 20px;
+	color: #606266;
+	font-size: 24px;
+}
+
+.add-btn {
+	margin-left: 16px;
 }
 </style>
 
