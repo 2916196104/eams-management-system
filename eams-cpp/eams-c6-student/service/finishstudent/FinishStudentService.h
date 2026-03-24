@@ -1,13 +1,10 @@
-                                              #pragma once
+#pragma once
 #ifndef _FINISH_STUDENT_SERVICE_H_
 #define _FINISH_STUDENT_SERVICE_H_
 
 #include "ApiHelper.h"
 #include "dao/finishstudent/FinishStudentDAO.h"
 
-/**
- * 结业学员业务�?
- */
 class FinishStudentService
 {
 private:
