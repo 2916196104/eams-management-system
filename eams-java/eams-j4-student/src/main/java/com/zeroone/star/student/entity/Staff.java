@@ -1,158 +1,156 @@
 package com.zeroone.star.student.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
- * 教师员工表 DO
- * 类名首字母大写，字段名与数据库完全一致
- * 对应数据库表：staff
+ * <p>
+ * 教师员工表
+ * </p>
+ *
+ *
  */
-@Data
-@TableName("staff") // 表名与数据库一致
+@Getter
+@Setter
 public class Staff implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 主键（数据库字段：id）
-     */
-    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
-     * 姓名（数据库字段：name）
+     * 姓名
      */
     private String name;
 
     /**
-     * 手机号（数据库字段：mobile）
+     * 手机号
      */
     private String mobile;
 
     /**
-     * 微信登录id（数据库字段：wx_access_id）
+     * 微信登录id
      */
-    private Long wx_access_id;
+    private Long wxAccessId;
 
     /**
-     * EMAIL（数据库字段：email）
+     * EMAIL
      */
     private String email;
 
     /**
-     * 生日（数据库字段：birthday）
+     * 生日
      */
-    private Date birthday;
+    private LocalDate birthday;
 
     /**
-     * 性别（数据库字段：gender）
+     * 性别
      */
     private Integer gender;
 
     /**
-     * 身份证（数据库字段：id_card）
+     * 身份证
      */
-    private String id_card;
+    private String idCard;
 
     /**
-     * 毕业学校（数据库字段：school）
+     * 毕业学校
      */
     private String school;
 
     /**
-     * 学历（数据库字段：degree）
+     * 学历
      */
     private Integer degree;
 
     /**
-     * 备注（数据库字段：remark）
+     * 备注
      */
     private String remark;
 
     /**
-     * 在职状态（数据库字段：state）
+     * 在职状态
      */
     private Integer state;
 
     /**
-     * 是否是管理者（数据库字段：is_manager）
+     * 是否是管理者
      */
-    private Integer is_manager;
+    private Boolean isManager;
 
     /**
-     * 头像（数据库字段：head_img）
+     * 头像
      */
-    private String head_img;
+    private String headImg;
 
     /**
-     * 入职日期（数据库字段：hire_date）
+     * 入职日期
      */
-    private Date hire_date;
+    private LocalDate hireDate;
 
     /**
-     * 离职日期（数据库字段：fire_date）
+     * 离职日期
      */
-    private Date fire_date;
+    private LocalDate fireDate;
 
     /**
-     * 介绍（数据库字段：intro）
+     * 介绍
      */
     private String intro;
 
     /**
-     * 创建时间（数据库字段：add_time）
+     * 创建时间
      */
-    private Date add_time;
+    private LocalDateTime addTime;
 
     /**
-     * 编辑时间（数据库字段：edit_time）
+     * 编辑时间
      */
-    private Date edit_time;
+    private LocalDateTime editTime;
 
     /**
-     * 创建人（数据库字段：creator）
+     * 创建人
      */
     private Long creator;
 
     /**
-     * 编辑人（数据库字段：editor）
+     * 编辑人
      */
     private Long editor;
 
     /**
-     * 是否删除（数据库字段：deleted）
+     * 是否删除
      */
-    @TableLogic
-    private Integer deleted;
+    private Boolean deleted;
 
     /**
-     * 密码（数据库字段：password）
+     * 密码
      */
     private String password;
 
     /**
-     * 课时费（数据库字段：class_fee）
+     * 课时费
      */
-    private BigDecimal class_fee;
+    private BigDecimal classFee;
 
     /**
-     * 助教费（数据库字段：assistant_fee）
+     * 助教费
      */
-    private BigDecimal assistant_fee;
+    private BigDecimal assistantFee;
 
     /**
-     * STAFF所属组织ID（数据库字段：org_id）
+     * STAFF所属组织ID
      */
-    private Long org_id;
+    private Long orgId;
 
     /**
-     * 是否内部人员（数据库字段：is_inner）
+     * 是否内部人员
      */
-    private Integer is_inner;
+    private Boolean isInner;
+
+
 }

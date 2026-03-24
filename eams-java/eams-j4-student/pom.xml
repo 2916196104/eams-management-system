@@ -73,6 +73,12 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
         </dependency>
+        <!-- PageHelper分页插件核心依赖 -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.4.7</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -90,18 +96,20 @@
                     <!-- 数据库连接信息配置 -->
                     <dbConfig>
                         <!-- 数据库主机地址 -->
-                        <host>192.168.188.131</host>
+                        <host>127.0.0.1</host>
                         <!-- 数据库端口 -->
                         <port>3306</port>
                         <!-- 数据库名称 -->
-                        <dbname>test</dbname>
+                        <dbname>zo_eams</dbname>
                         <!-- 数据库用户名 -->
                         <username>root</username>
                         <!-- 数据库密码 -->
-                        <password>qwerty</password>
+                        <password>123456</password>
+                        <driverClassName>com.mysql.cj.jdbc.Driver</driverClassName>
                     </dbConfig>
                     <!-- 生成代码输出根目录 -->
                     <outDir>${project.basedir}/src/main/java</outDir>
+
                 </configuration>
             </plugin>
         </plugins>

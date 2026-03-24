@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+
 /**
  * <p>
  * 描述：全局异常捕获处理
@@ -93,5 +94,18 @@ public class GlobalExceptionHandler {
             msg = "参数值缺失";
         }
         return JsonVO.create("[" + field + "]" + msg, ResultStatus.PARAMS_INVALID);
+    }
+    @ExceptionHandler(RuntimeException.class)
+    public JsonVO<?> handleBusinessRuntimeException(RuntimeException e) {
+        String msg = e.getMessage();
+        if (msg.startsWith("[BUSINESS_ERROR]")) {
+            String businessMsg = msg.replace("[BUSINESS_ERROR]", "");
+            System.out.println("业务异常：" + businessMsg);
+            return JsonVO.create(null, ResultStatus.FAIL.getCode(), businessMsg);
+        }
+        // 系统异常（SERVER_ERROR 9994）
+        System.out.println("系统异常：" + e.getMessage());
+        e.printStackTrace(); // 打印完整异常堆栈（便于调试）
+        return JsonVO.create(null, ResultStatus.SERVER_ERROR.getCode(), ResultStatus.SERVER_ERROR.getMessage());
     }
 }
