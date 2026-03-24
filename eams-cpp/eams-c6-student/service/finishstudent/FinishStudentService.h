@@ -1,4 +1,4 @@
-#pragma once
+                                              #pragma once
 #ifndef _FINISH_STUDENT_SERVICE_H_
 #define _FINISH_STUDENT_SERVICE_H_
 
@@ -6,14 +6,14 @@
 #include "dao/finishstudent/FinishStudentDAO.h"
 
 /**
- * 缁撲笟瀛﹀憳涓氬姟灞?
+ * 结业学员业务�?
  */
 class FinishStudentService
 {
 private:
 	FinishStudentDAO m_finishStudentDAO;
 public:
-	std::list<FinishStudentDTO::Wrapper> listFinishStudentByIds(const oatpp::List<oatpp::String>& ids);
+	std::list<FinishStudentDTO::Wrapper> listFinishStudentByIds(const oatpp::List<oatpp::UInt64>& ids);
 	int importFinishStudent(const std::list<FinishStudentDTO::Wrapper>& rows);
 };
 

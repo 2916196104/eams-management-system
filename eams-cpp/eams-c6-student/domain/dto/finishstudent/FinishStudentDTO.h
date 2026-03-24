@@ -32,6 +32,12 @@ class FinishStudentDTO : public oatpp::DTO
 //	API_DTO_FIELD_DEFAULT(String, graduationReason, ZH_WORDS_GETTER("finish_student.graduationReason"));
 };
 
+class FinishStudentImportDTO : public oatpp::DTO
+{
+	DTO_INIT(FinishStudentImportDTO, DTO);
+	API_DTO_FIELD_REQUIRE(oatpp::swagger::Binary, excel, ZH_WORDS_GETTER("intendedstudent.field.excel"), true);
+};
+
 #include OATPP_CODEGEN_END(DTO)
 
 #endif // !_FINISH_STUDENT_DTO_H_
