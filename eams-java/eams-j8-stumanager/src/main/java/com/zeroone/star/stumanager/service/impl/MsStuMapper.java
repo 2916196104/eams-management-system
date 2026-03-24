@@ -1,8 +1,8 @@
 package com.zeroone.star.stumanager.service.impl;
 
+import com.zeroone.star.project.dto.j8.SaveStu.ChangeStuStageDTO;
 import com.zeroone.star.project.dto.j8.SaveStu.SaveStuAddDTO;
 import com.zeroone.star.project.dto.j8.SaveStu.SaveStuDTO;
-import com.zeroone.star.project.vo.j8.SaveStu.StuSaveVO;
 import com.zeroone.star.stumanager.entity.Student;
 import org.mapstruct.Mapper;
 
@@ -39,4 +39,17 @@ public interface MsStuMapper {
      */
     Student toStudent(SaveStuAddDTO saveStuAddDTO);
 
+    /**
+     * DTO 转 DO（新增用，无ID）
+     * @param changeStuStageDTO 新增传输对象
+     * @return Student
+     */
+    Student stuStageDTOToStudent(ChangeStuStageDTO changeStuStageDTO);
+
+    /**
+     * DO 转 DTO（新增用，无ID）
+     * @param student 新增传输对象
+     * @return Student
+     */
+    ChangeStuStageDTO StudentToStuStageDTO(Student student);
 }

@@ -2,9 +2,8 @@ package com.zeroone.star.project.dto.j8.StuSignCourse;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
+
 
 import javax.validation.constraints.NotBlank;
 
@@ -17,9 +16,7 @@ import javax.validation.constraints.NotBlank;
  * @author tsfmn
  * @version 1.0.0
  */
-@Getter
-@Setter
-@ToString
+@Data
 @ApiModel("经手人新增数据传输对象")
 public class StuChooseStaffAddDTO {
     @ApiModelProperty(value = "员工姓名", example = "张三")
@@ -28,5 +25,5 @@ public class StuChooseStaffAddDTO {
 
     @ApiModelProperty(value = "职位名称", example = "课程顾问")
     @NotBlank(message = "职位名称不能为空")
-    private String position;
+    private String remark;
 }

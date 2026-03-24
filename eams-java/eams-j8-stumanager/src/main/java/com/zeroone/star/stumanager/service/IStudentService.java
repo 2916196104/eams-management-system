@@ -1,5 +1,6 @@
 package com.zeroone.star.stumanager.service;
 
+import com.zeroone.star.project.dto.j8.SaveStu.ChangeStuStageDTO;
 import com.zeroone.star.project.dto.j8.SaveStu.SaveStuAddDTO;
 import com.zeroone.star.project.dto.j8.SaveStu.SaveStuDTO;
 import com.zeroone.star.project.vo.JsonVO;
@@ -25,7 +26,7 @@ public interface IStudentService extends IService<Student> {
     JsonVO<SaveStuDTO> saveStudent(@Valid SaveStuDTO saveStuDTO);
 
     @ApiOperation("修改学员状态")
-    JsonVO<SaveStuDTO> updateStudentStage(@Valid SaveStuDTO saveStuDTO);
+    JsonVO<ChangeStuStageDTO> updateStudentStage(@Valid ChangeStuStageDTO changeStuStageDTO);
 
     @ApiOperation("获取亲属关系字典")
     JsonVO<List<DictVO>> listFamilyRel();

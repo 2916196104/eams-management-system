@@ -1,22 +1,19 @@
 package com.zeroone.star.stumanager.service.impl;
 
 import com.alibaba.cloud.commons.lang.StringUtils;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.dto.j8.SaveStu.SaveStuAddDTO;
-import com.zeroone.star.project.dto.j8.SaveStu.SaveStuDTO;
 import com.zeroone.star.project.dto.j8.StuSignCourse.*;
 import com.zeroone.star.project.query.j8.StuSignCourseQuery.CourseQuery;
 import com.zeroone.star.project.query.j8.StuSignCourseQuery.StaffQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.stumanager.entity.Course;
 import com.zeroone.star.stumanager.entity.Staff;
 import com.zeroone.star.stumanager.entity.StudentCourse;
+import com.zeroone.star.stumanager.mapper.CourseMapper;
 import com.zeroone.star.stumanager.mapper.StaffMapper;
 import com.zeroone.star.stumanager.mapper.StudentCourseMapper;
-import com.zeroone.star.stumanager.mapper.StudentMapper;
 import com.zeroone.star.stumanager.service.IStudentCourseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -25,7 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -45,20 +44,23 @@ public class StudentCourseServiceImpl extends ServiceImpl<StudentCourseMapper, S
     StaffMapper staffMapper;
 
     @Resource
+    CourseMapper courseMapper;
+
+    @Resource
     MsStuCouMapper msStuCouMapper;
 
 
     /**
      * 学生课程报名接口实现
      *
-     * @param stuSignCourseAddDTO 报名签单新增DTO（含前端传入的学生ID、课程ID等参数）
+     * @param stuSignCourseDTO 报名签单新增DTO（含前端传入的学生ID、课程ID等参数）
      * @return 包含报名结果的JSON响应对象
      */
     @Override
     @Transactional(rollbackFor = Exception.class) // 事务控制，异常回滚
-    public JsonVO<StuSignCourseDTO> enrollCourse(@Valid StuSignCourseAddDTO stuSignCourseAddDTO) {
+    public JsonVO<StuSignCourseDTO> enrollCourse(StuSignCourseDTO stuSignCourseDTO) {
         // 1. DTO转换为实体对象
-        StudentCourse studentCourse = msStuCouMapper.addDtoToStudentCourse(stuSignCourseAddDTO);
+        StudentCourse studentCourse = msStuCouMapper.addDtoToStudentCourse(stuSignCourseDTO);
 
         // 2. 补充业务字段（前端未传但实体需要的字段）
         studentCourse.setAddTime(LocalDateTime.now()); // 创建时间
@@ -82,23 +84,23 @@ public class StudentCourseServiceImpl extends ServiceImpl<StudentCourseMapper, S
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public JsonVO<PageDTO<StuChooseCourseDTO>> listCourseSelect(CourseQuery query) {
+    public JsonVO<PageDTO<StuChooseCourseDTO>> CourseSelect(CourseQuery query) {
         // 1. 构建分页对象（页码、页大小）
-        Page<StudentCourse> page = new Page<>(query.getPageIndex(), query.getPageSize());
+        Page<Course> page = new Page<>(query.getPageIndex(), query.getPageSize());
 
         // 2. 构建查询条件：课程名称模糊搜索 + 排序
-        QueryWrapper<StudentCourse> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<Course> queryWrapper = new QueryWrapper<>();
         // 课程名称模糊查询
-        queryWrapper.like(!StringUtils.isEmpty(query.getCourseName()), "course_name", query.getCourseName());
+        queryWrapper.like(!StringUtils.isEmpty(query.getCourseName()), "name", query.getCourseName());
         // 排序：优先按更新时间/创建时间降序，再按ID降序
-        queryWrapper.orderBy(true, false, "IFNULL(`update_time`,`create_time`)");
+        queryWrapper.orderBy(true, false, "IFNULL(edit_time, add_time)");
         queryWrapper.orderBy(true, false, "id");
 
         // 3. 执行分页查询
-        Page<StudentCourse> pageResult = studentCourseMapper.selectPage(page, queryWrapper);
+        Page<Course> pageResult = courseMapper.selectPage(page, queryWrapper);
 
         // 4. 转换为DTO并封装为JsonVO
-        PageDTO<StuChooseCourseDTO> pageDTO = PageDTO.create(pageResult, msStuCouMapper::studentCourseToStuChooseCourseDto);
+        PageDTO<StuChooseCourseDTO> pageDTO = PageDTO.create(pageResult, msStuCouMapper::courseToStuChooseCourseDto);
         // 返回完整分页对象
         return JsonVO.success(pageDTO);
     }
@@ -110,7 +112,7 @@ public class StudentCourseServiceImpl extends ServiceImpl<StudentCourseMapper, S
      */
     @Override
     @Transactional(rollbackFor = Exception.class) // 事务控制，异常回滚
-    public JsonVO<PageDTO<StuChooseStaffDTO>> listStaffSelect(StaffQuery query) {
+    public JsonVO<PageDTO<StuChooseStaffDTO>> StaffSelect(StaffQuery query) {
         // 1. 构建分页对象（页码、页大小）
         Page<Staff> page = new Page<>(query.getPageIndex(), query.getPageSize());
 
@@ -119,10 +121,10 @@ public class StudentCourseServiceImpl extends ServiceImpl<StudentCourseMapper, S
         // 员工姓名模糊查询（非空才拼接条件）
         queryWrapper.like(!StringUtils.isEmpty(query.getName()), "name", query.getName());
         // 排序：优先按更新时间/创建时间降序，再按ID降序（适配Staff表字段）
-        queryWrapper.orderBy(true, false, "IFNULL(`update_time`,`create_time`)");
+        queryWrapper.orderBy(true, false, "IFNULL(edit_time, add_time)");
         queryWrapper.orderBy(true, false, "id");
 
-        // 3. 执行分页查询（baseMapper为StaffMapper，需继承BaseMapper<Staff>）
+        // 3. 执行分页查询
         Page<Staff> pageResult = staffMapper.selectPage(page,queryWrapper);
 
         // 4. 转换为DTO并封装为JsonVO
@@ -133,4 +135,5 @@ public class StudentCourseServiceImpl extends ServiceImpl<StudentCourseMapper, S
         // 返回完整分页对象
         return JsonVO.success(pageDTO);
     }
+
 }

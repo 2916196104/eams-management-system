@@ -26,12 +26,12 @@ public interface IStudentCourseService extends IService<StudentCourse> {
 
 
     @ApiOperation("学员报名课程")
-    JsonVO<StuSignCourseDTO> enrollCourse(@Valid StuSignCourseAddDTO stuSignCourseAddDTO);
+    JsonVO<StuSignCourseDTO> enrollCourse(StuSignCourseDTO stuSignCourseDTO);
 
-    @ApiOperation("获取课程选择列表")
-    JsonVO<PageDTO<StuChooseCourseDTO>> listCourseSelect(CourseQuery query);
+    @ApiOperation("获取分页选择课程信息")
+    JsonVO<PageDTO<StuChooseCourseDTO>> CourseSelect(CourseQuery query);
 
-    @ApiOperation("获取经手人选择列表")
-    JsonVO<PageDTO<StuChooseStaffDTO>> listStaffSelect(StaffQuery query);
+    @ApiOperation("获取分页经手人信息")
+    JsonVO<PageDTO<StuChooseStaffDTO>> StaffSelect(StaffQuery query);
 
 }

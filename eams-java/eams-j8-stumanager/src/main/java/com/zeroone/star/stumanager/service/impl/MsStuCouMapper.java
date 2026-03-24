@@ -1,6 +1,7 @@
 package com.zeroone.star.stumanager.service.impl;
 
 import com.zeroone.star.project.dto.j8.StuSignCourse.*;
+import com.zeroone.star.stumanager.entity.Course;
 import com.zeroone.star.stumanager.entity.Staff;
 import com.zeroone.star.stumanager.entity.StudentCourse;
 import org.mapstruct.Mapper;
@@ -59,25 +60,25 @@ public interface MsStuCouMapper {
      */
     Staff stuChooseStaffDtoToStaff(StuChooseStaffDTO dto);
 
-    // ============ 新增 StuChooseCourseDTO/AddDTO 映射方法 ============
+    // ============ StuChooseCourseDTO/AddDTO 映射方法 ============
     /**
-     * 实体映射DTO（StudentCourse -> StuChooseCourseDTO）
+     * 实体映射DTO（Course -> StuChooseCourseDTO）
      * @param entity 学生课程实体
      * @return 课程选择DTO
      */
-    StuChooseCourseDTO studentCourseToStuChooseCourseDto(StudentCourse entity);
+    StuChooseCourseDTO courseToStuChooseCourseDto(Course entity);
 
     /**
-     * AddDTO映射实体（StuChooseCourseAddDTO -> StudentCourse）
+     * AddDTO映射实体（StuChooseCourseAddDTO -> Course）
      * @param dto 课程选择新增DTO
      * @return 学生课程实体
      */
-    StudentCourse stuChooseCourseAddDtoToStudentCourse(StuChooseCourseAddDTO dto);
+    Course stuChooseCourseAddDtoToCourse(StuChooseCourseAddDTO dto);
 
     /**
-     * DTO映射实体（StuChooseCourseDTO -> StudentCourse）
+     * DTO映射实体（StuChooseCourseDTO -> Course）
      * @param dto 课程选择DTO
      * @return 学生课程实体
      */
-    StudentCourse stuChooseCourseDtoToStudentCourse(StuChooseCourseDTO dto);
+    Course stuChooseCourseDtoToCourse(StuChooseCourseDTO dto);
 }

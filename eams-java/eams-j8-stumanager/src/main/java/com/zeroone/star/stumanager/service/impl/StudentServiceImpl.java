@@ -1,5 +1,6 @@
 package com.zeroone.star.stumanager.service.impl;
 
+import com.zeroone.star.project.dto.j8.SaveStu.ChangeStuStageDTO;
 import com.zeroone.star.project.dto.j8.SaveStu.SaveStuAddDTO;
 import com.zeroone.star.project.dto.j8.SaveStu.SaveStuDTO;
 import com.zeroone.star.project.vo.JsonVO;
@@ -73,16 +74,16 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     }
 
     @Override
-    public JsonVO<SaveStuDTO> updateStudentStage(@Valid SaveStuDTO saveStuDTO) {
+    public JsonVO<ChangeStuStageDTO> updateStudentStage(@Valid ChangeStuStageDTO changeStuStageDTO) {
         // 1. 先查学员是否存在
-        Student student = studentMapper.selectById(saveStuDTO.getId());
+        Student student = studentMapper.selectById(changeStuStageDTO.getId());
         if (student == null) {
             return JsonVO.fail("学员不存在");
         }
         // 当前状态
         Integer currentStage = student.getStage();
         // 目标状态
-        Integer targetStage = saveStuDTO.getStage();
+        Integer targetStage = changeStuStageDTO.getStage();
 
         // 2. 设置新状态
         student.setStage(targetStage);
@@ -92,7 +93,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         boolean success = updateById(student);
 
         if (success) {
-            SaveStuDTO resultDTO = msStuMapper.toSaveStuDTO(student);
+            ChangeStuStageDTO resultDTO = msStuMapper.StudentToStuStageDTO(student);
             return JsonVO.success(resultDTO);
         } else {
             return JsonVO.fail("状态转换失败");

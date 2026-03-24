@@ -39,19 +39,19 @@ public class MyBaitsInit {
         };
     }
 
-    /**
-     * 配置分页插件（适配MySQL，若为其他数据库可调整DbType）
-     */
-    @Bean
-    public MybatisPlusInterceptor mybatisPlusInterceptor() {
-        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-        // 分页拦截器（指定数据库类型，避免分页语法兼容问题）
-        PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor(DbType.MYSQL);
-        // 可选配置：设置最大单页限制数量，默认500条，-1不受限
-        paginationInnerInterceptor.setMaxLimit(-1L);
-        // 可选配置：溢出总页数后是否进行处理（true=返回最后一页，false=返回空）
-        paginationInnerInterceptor.setOverflow(true);
-        interceptor.addInnerInterceptor(paginationInnerInterceptor);
-        return interceptor;
-    }
+//    /**
+//     * 配置分页插件（适配MySQL，若为其他数据库可调整DbType）
+//     */
+//    @Bean
+//    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+//        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+//        // 分页拦截器（指定数据库类型，避免分页语法兼容问题）
+//        PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor(DbType.MYSQL);
+//        // 可选配置：设置最大单页限制数量，默认500条，-1不受限
+//        paginationInnerInterceptor.setMaxLimit(-1L);
+//        // 可选配置：溢出总页数后是否进行处理（true=返回最后一页，false=返回空）
+//        paginationInnerInterceptor.setOverflow(true);
+//        interceptor.addInnerInterceptor(paginationInnerInterceptor);
+//        return interceptor;
+//    }
 }

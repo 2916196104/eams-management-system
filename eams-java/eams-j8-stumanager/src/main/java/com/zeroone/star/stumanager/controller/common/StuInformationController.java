@@ -1,7 +1,7 @@
 package com.zeroone.star.stumanager.controller.common;
 
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.dto.j8.SaveStu.SaveStuAddDTO;
+import com.zeroone.star.project.dto.j8.SaveStu.ChangeStuStageDTO;
 import com.zeroone.star.project.dto.j8.SaveStu.SaveStuDTO;
 import com.zeroone.star.project.dto.j8.StuSignCourse.*;
 import com.zeroone.star.project.j8.stumanager.common.StuInformationApis;
@@ -9,7 +9,6 @@ import com.zeroone.star.project.query.j8.StuSignCourseQuery.CourseQuery;
 import com.zeroone.star.project.query.j8.StuSignCourseQuery.StaffQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j8.SaveStu.DictVO;
-import com.zeroone.star.stumanager.entity.Staff;
 import com.zeroone.star.stumanager.service.IStudentCourseService;
 import com.zeroone.star.stumanager.service.IStudentService;
 import io.swagger.annotations.Api;
@@ -18,8 +17,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,11 +40,6 @@ public class StuInformationController implements StuInformationApis {
     @Resource
     private IStudentCourseService studentCourseService;
 
-    // 学生状态（不放在实体DO，只放在业务层）
-    private static final Integer STAGE_INTENTION = 0;   // 意向学员
-    private static final Integer STAGE_STUDYING = 1;    // 在学学员
-    private static final Integer STAGE_FINISH = 2;      // 结业学员
-
 
     /**
      * 修改学生信息（适配模板风格）
@@ -61,10 +53,12 @@ public class StuInformationController implements StuInformationApis {
         return studentService.saveStudent(saveStuDTO);
     }
 
+    @PostMapping("/save-student/update-stage")
+    @ApiOperation("修改学生状态")
     @Override
-    public JsonVO<SaveStuDTO> updateStudentStage(@Validated @RequestBody SaveStuDTO saveStuDTO) {
+    public JsonVO<ChangeStuStageDTO> updateStudentStage(@Validated @RequestBody ChangeStuStageDTO changeStuStageDTO) {
 
-        return studentService.updateStudentStage(saveStuDTO);
+        return studentService.updateStudentStage(changeStuStageDTO);
     }
 
     /**
@@ -73,25 +67,25 @@ public class StuInformationController implements StuInformationApis {
     @PostMapping("/enroll-course")
     @ApiOperation(value = "学员报名课程")
     @Override
-    public JsonVO<StuSignCourseDTO> enrollCourse(@Valid @RequestBody StuSignCourseAddDTO stuSignCourseAddDTO) {
-        return studentCourseService.enrollCourse(stuSignCourseAddDTO);
+    public JsonVO<StuSignCourseDTO> enrollCourse(@RequestBody StuSignCourseDTO stuSignCourseDTO) {
+        return studentCourseService.enrollCourse(stuSignCourseDTO);
     }
 
 
     @GetMapping("/enroll-course/select-course")
-    @ApiOperation("获取课程选择列表（分页+模糊查询）")
+    @ApiOperation("获取分页选择课程信息")
     @Override
-    public JsonVO<PageDTO<StuChooseCourseDTO>> listCourseSelect(CourseQuery courseQuery) {
-        // 直接调用service实现
-        return studentCourseService.listCourseSelect(courseQuery);
+    public JsonVO<PageDTO<StuChooseCourseDTO>> CourseSelect(CourseQuery courseQuery) {
+
+        return studentCourseService.CourseSelect(courseQuery);
     }
 
     @GetMapping("/enroll-course/select-staff")
-    @ApiOperation("获取经手人选择列表")
+    @ApiOperation("获取分页经手人信息")
     @Override
-    public JsonVO<PageDTO<StuChooseStaffDTO>> listStaffSelect(StaffQuery query) {
+    public JsonVO<PageDTO<StuChooseStaffDTO>> StaffSelect(StaffQuery query) {
         // 直接调用service实现
-        return studentCourseService.listStaffSelect(query);
+        return studentCourseService.StaffSelect(query);
     }
 
     @GetMapping("/dict/family-relation")
@@ -108,7 +102,7 @@ public class StuInformationController implements StuInformationApis {
     }
 
     @GetMapping("/dict/source")
-    @ApiOperation("获取来源/加入方式字典列表")
+    @ApiOperation("获取来源字典列表")
     @Override
     public JsonVO<List<DictVO>> listJoinWayDict() {
         return studentService.listJoinWayDict();

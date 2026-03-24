@@ -35,6 +35,10 @@ public class StuSignCourseAddDTO {
     @ApiModelProperty(value = "收款经手人ID", example = "1")
     private Long operator;
 
+    @NotNull(message = "必须选择科目")
+    @ApiModelProperty(value = "科目ID", required = true, example = "1")
+    private Long subjectId;
+
     @NotBlank(message = "请选择报名类型")
     @ApiModelProperty(value = "报名类型", required = true, example = "新签还是续签")
     private String enrollType;
@@ -44,8 +48,7 @@ public class StuSignCourseAddDTO {
     private LocalDate startDate;
 
     @NotNull(message = "有效期至不能为空")
-    @Future(message = "有效期必须是未来时间")
-    @ApiModelProperty(value = "有效期至", required = true, example = "2025-01-01")
+    @ApiModelProperty(value = "有效期至", required = true, example = "2026-12-31")
     private LocalDate expireDate;
 
     @NotNull(message = "购买课时数不能为空")
