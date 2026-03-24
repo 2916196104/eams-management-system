@@ -1,34 +1,32 @@
 package com.zeroone.star.stumanager.controller.common;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j8.stumanager.SaveStu.SaveStuAddDTO;
 import com.zeroone.star.project.dto.j8.stumanager.SaveStu.SaveStuDTO;
+import com.zeroone.star.project.dto.j8.stumanager.StudentHeadImgDTO;
 import com.zeroone.star.project.dto.j8.stumanager.common.StuSignCourseDTO;
-import com.zeroone.star.project.dto.j8.stumanager.StudentAvatarDTO;
 import com.zeroone.star.project.j8.stumanager.common.StuInformationApis;
 import com.zeroone.star.project.query.j8.stumanager.StudentQuery;
 import com.zeroone.star.project.query.j8.stumanager.common.StudentCourseQuery;
 import com.zeroone.star.project.query.j8.stumanager.common.StudentListQuery;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.vo.j8.stumanager.StudentAvatarVO;
 import com.zeroone.star.project.vo.j8.stumanager.StudentCourseVO;
 import com.zeroone.star.project.vo.j8.stumanager.StudentListVO;
 import com.zeroone.star.project.vo.j8.stumanager.StudentVO;
 import com.zeroone.star.stumanager.entity.Student;
+import com.zeroone.star.stumanager.mapper.StudentMapper;
 import com.zeroone.star.stumanager.service.IStudentCourseService;
 import com.zeroone.star.stumanager.service.IStudentService;
 import com.zeroone.star.stumanager.service.impl.MsStuCouMapper;
 import com.zeroone.star.stumanager.service.impl.MsStuMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
 
 /**
  * 学员信息
@@ -49,6 +47,9 @@ public class StuInformationController implements StuInformationApis {
 
     @Resource
     MsStuCouMapper msStuCouMapper;
+
+    @Resource
+    StudentMapper studentMapper;
 
     //保存学员控制器
     @PostMapping("/save-student")
@@ -80,7 +81,7 @@ public class StuInformationController implements StuInformationApis {
         return JsonVO.success(stuSignCourseDTO);
     }
 
-    @Override
+    /*@Override
     @GetMapping("/get-studentDetail")
     @ApiOperation(value = "查询学员详细信息")
     public JsonVO<StudentVO> getStudentDetail(StudentQuery query) {
@@ -100,23 +101,45 @@ public class StuInformationController implements StuInformationApis {
         StudentVO studentVO=new StudentVO();
         BeanUtils.copyProperties(student,studentVO);
         return JsonVO.success(studentVO);
+    }*/
+
+    @Override
+    @GetMapping("/get-studentDetail")
+    @ApiOperation(value = "查询学员详细信息")
+    public JsonVO<StudentVO> getStudentDetail(StudentQuery query) {
+        if (query == null || query.getId() == null) {
+            return JsonVO.fail("学员ID不能为空");
+        }
+        StudentVO studentVO = studentMapper.getStudentDetailsById(query.getId());
+        if(studentVO == null){
+            return JsonVO.fail("未找到该学生信息");
+        }
+        LocalDate birthDay = studentVO.getBirthday();
+        LocalDate now = LocalDate.now();
+        int age = now.getYear() - birthDay.getYear();
+        // 如果今年生日还没过，年龄 -1
+        if (birthDay.plusYears(age).isAfter(now)) {
+            age--;
+        }
+        studentVO.setAge(age);
+        return JsonVO.success(studentVO);
     }
 
     @Override
-    @PutMapping("/update-studentAvatar")
+    @PutMapping("/update-studentHeadImg")
     @ApiOperation(value = "修改学员头像")
-    public JsonVO<StudentAvatarVO> updateStudentAvatar(@Validated @RequestBody StudentAvatarDTO studentAvatarDTO ) {
+    public JsonVO<String> updateStudentHeadImg(@Validated @RequestBody StudentHeadImgDTO studentHeadImgDTO ) {
         LambdaUpdateWrapper<Student> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.eq(Student::getId,studentAvatarDTO.getStudentId());
-        updateWrapper.set(Student::getHeadImg,studentAvatarDTO.getAvatarUrl());//Student:headImg
+        updateWrapper.eq(Student::getId,studentHeadImgDTO.getId());
+        updateWrapper.set(Student::getHeadImg,studentHeadImgDTO.getId());//Student:headImg
         boolean success = iStudentService.update(updateWrapper);
         if(!success){
             return JsonVO.fail("修改头像失败");
         }
-        StudentAvatarVO studentAvatarVO=new StudentAvatarVO();
-        studentAvatarVO.setStudentId(studentAvatarDTO.getStudentId());
-        studentAvatarVO.setAvatarUrl(studentAvatarDTO.getAvatarUrl());
-        return JsonVO.success(studentAvatarVO);
+//        StudentHeadImgVO studentHeadImgVO=new StudentHeadImgVO();
+//        studentHeadImgVO.setId(studentHeadImgDTO.getId());
+//        studentHeadImgVO.setHeadImg(studentHeadImgDTO.getHeadImg());
+        return JsonVO.success("修改头像成功");
     }
 
     @GetMapping("/query-studentlist")

@@ -3,13 +3,12 @@ package com.zeroone.star.project.j8.stumanager.common;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j8.stumanager.SaveStu.SaveStuAddDTO;
 import com.zeroone.star.project.dto.j8.stumanager.SaveStu.SaveStuDTO;
+import com.zeroone.star.project.dto.j8.stumanager.StudentHeadImgDTO;
 import com.zeroone.star.project.dto.j8.stumanager.common.StuSignCourseDTO;
-import com.zeroone.star.project.dto.j8.stumanager.StudentAvatarDTO;
 import com.zeroone.star.project.query.j8.stumanager.StudentQuery;
 import com.zeroone.star.project.query.j8.stumanager.common.StudentCourseQuery;
 import com.zeroone.star.project.query.j8.stumanager.common.StudentListQuery;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.vo.j8.stumanager.StudentAvatarVO;
 import com.zeroone.star.project.vo.j8.stumanager.StudentCourseVO;
 import com.zeroone.star.project.vo.j8.stumanager.StudentListVO;
 import com.zeroone.star.project.vo.j8.stumanager.StudentVO;
@@ -31,7 +30,7 @@ public interface StuInformationApis {
     JsonVO<StudentVO> getStudentDetail(StudentQuery query);
 
     @ApiOperation("修改学员头像")
-    JsonVO<StudentAvatarVO> updateStudentAvatar(StudentAvatarDTO studentAvatarDTO);
+    JsonVO<String> updateStudentHeadImg(StudentHeadImgDTO studentHeadImgDTO);
 
     /**
      * 分页 + 条件 查询学员列表

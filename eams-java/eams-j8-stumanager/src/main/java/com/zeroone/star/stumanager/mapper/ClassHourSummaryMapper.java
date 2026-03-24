@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 @Mapper
-public interface ClassHourSummaryMapper extends BaseMapper<ClassHourSummaryVO> {
+public interface ClassHourSummaryMapper {
     Page<ClassHourSummaryVO> pageList(
             Page<ClassHourSummaryVO> page,
             @Param("query") ClassHourSummaryQuery query

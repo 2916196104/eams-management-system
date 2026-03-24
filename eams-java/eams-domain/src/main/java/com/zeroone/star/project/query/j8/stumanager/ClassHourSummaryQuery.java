@@ -12,9 +12,6 @@ public class ClassHourSummaryQuery extends PageQuery {
     @ApiModelProperty(value = "学员姓名", example = "小明")
     private String name;
 
-    @ApiModelProperty(value = "分校ID", example = "1001")
-    private Long schoolId;
-
-    @ApiModelProperty(value = "班级名称", example = "高三(1)班")
-    private String className;
+    @ApiModelProperty(value = "课程", example = "S18的课程")
+    private String courseId;
 }
