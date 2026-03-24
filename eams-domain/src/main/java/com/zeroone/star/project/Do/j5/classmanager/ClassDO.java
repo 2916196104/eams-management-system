@@ -1,4 +1,4 @@
-package com.zeroone.star.project.Do.j5.classes;
+package com.zeroone.star.project.Do.j5.classmanager;
 
 import io.github.classgraph.json.Id;
 import io.swagger.annotations.ApiModelProperty;

@@ -1,7 +1,7 @@
 package com.zeroone.star.classes.service;
 
-import com.zeroone.star.classes.entity.Class;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zeroone.star.project.Do.j5.classmanager.ClassDO;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author 阿伟
  * @since 2026-03-19
  */
-public interface IClassService extends IService<Class> {
+public interface IClassService extends IService<ClassDO> {
 
 }

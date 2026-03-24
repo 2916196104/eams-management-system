@@ -1,7 +1,7 @@
 package com.zeroone.star.classes.mapper;
 
-import com.zeroone.star.classes.entity.Class;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.zeroone.star.project.Do.j5.classmanager.ClassDO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -13,6 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2026-03-19
  */
 @Mapper
-public interface ClassMapper extends BaseMapper<Class> {
+public interface ClassManagerMapper extends BaseMapper<ClassDO> {
 
 }

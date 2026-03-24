@@ -2,13 +2,12 @@ package com.zeroone.star.classes.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zeroone.star.project.Do.j5.classes.student.Student;
-import com.zeroone.star.project.j5.classes.ClassApis;
-import com.zeroone.star.project.query.j5.classes.ClassPageQuery;
-import com.zeroone.star.project.query.j5.student.StudentQuery;
+import com.zeroone.star.project.j5.classmanger.ClassStudentApis;
+import com.zeroone.star.project.query.j5.classmanager.ClassPageQuery;
+import com.zeroone.star.project.query.j5.classmanager.ClassStudentQuery;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.vo.j5.classes.ClassDetailVO;
-import com.zeroone.star.project.vo.j5.student.StudentVo;
+import com.zeroone.star.project.vo.j5.classmanager.ClassListVO;
+import com.zeroone.star.project.vo.j5.classmanager.ClassStudentVo;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,9 +20,9 @@ import org.springframework.web.bind.annotation.*;
  * @since 2026-03-19
  */
 @RestController
-@RequestMapping("/j5/class")
+@RequestMapping("/j5/class-manager")
 @Api(tags = "班级管理")
-public class ClassController implements ClassApis {
+public class ClassManagerController implements ClassStudentApis {
     @PostMapping("/page")
     @ApiOperation(value = "条件分页查询班级（支持按名称模糊查询）",
             notes = "根据班级名称、课程名称、班主任姓名、教室名称、年级名称进行分页查询，每页默认30条")
@@ -43,11 +42,11 @@ public class ClassController implements ClassApis {
             @ApiResponse(code = 404, message = "Not Found")
     })
     @Override
-    public JsonVO<Page<ClassDetailVO>> pageClass(
+    public JsonVO<Page<ClassListVO>> pageClass(
             @ModelAttribute ClassPageQuery queryDTO
     ) {
         // 实际业务中需调用 service 进行关联查询，此处模拟返回
-        Page<ClassDetailVO> pageInfo = new Page<>();
+        Page<ClassListVO> pageInfo = new Page<>();
         pageInfo.setTotal(58L);
         // 设置列表数据（略）
         return JsonVO.success(pageInfo);
@@ -70,12 +69,12 @@ public class ClassController implements ClassApis {
             @ApiResponse(code = 404, message = "班级不存在")
     })
     @Override
-    public JsonVO<ClassDetailVO> getClassDetail(
+    public JsonVO<ClassListVO> getClassDetail(
             @PathVariable("id") Long id
     ) {
         // 实际业务中调用 service 查询班级详情并组装关联名称
         // 此处模拟返回
-        ClassDetailVO detail = new ClassDetailVO();
+        ClassListVO detail = new ClassListVO();
         detail.setId(id);
         detail.setName("三年二班");
         detail.setCourseId(5L);
@@ -108,13 +107,13 @@ public class ClassController implements ClassApis {
             @ApiResponse(code = 404, message = "班级不存在")
     })
     @Override
-    public JsonVO<Page<StudentVo>> pageStudent(
+    public JsonVO<Page<ClassStudentVo>> pageStudent(
             @PathVariable("classId") Long classId,
-            @ModelAttribute StudentQuery queryDTO
+            @ModelAttribute ClassStudentQuery queryDTO
     ) {
         // 实际业务中需根据 classId 和 queryDTO 条件查询学员
         // 模拟返回
-        Page<StudentVo> pageInfo = new Page<>();
+        Page<ClassStudentVo> pageInfo = new Page<>();
         pageInfo.setTotal(30L);
         // 设置学员列表（略）
         return JsonVO.success(pageInfo);

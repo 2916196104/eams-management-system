@@ -1,15 +1,17 @@
-package com.zeroone.star.project.vo.j5.student;
+package com.zeroone.star.project.Do.j5.classmanager.student;
 
+import io.github.classgraph.json.Id;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
 import java.time.LocalDateTime;
 
 @Data
-
 @ApiModel(description = "学员实体")
-public class StudentVo {
+public class Student {
 
+    @Id
     @ApiModelProperty(value = "学员ID", example = "1")
     private Long id;
 
@@ -21,7 +23,6 @@ public class StudentVo {
 
     @ApiModelProperty(value = "所属班级ID", example = "5")
     private Long classId;
-
     @ApiModelProperty(value = "性别 1男 2女", example = "1")
     private Integer gender;
 

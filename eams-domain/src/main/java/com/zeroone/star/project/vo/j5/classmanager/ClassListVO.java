@@ -1,4 +1,4 @@
-package com.zeroone.star.project.vo.j5.classes;
+package com.zeroone.star.project.vo.j5.classmanger;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Data
 @ApiModel(description = "班级详情VO")
-public class ClassDetailVO {
+public class ClassListVO {
 
     @ApiModelProperty(value = "主键", example = "1")
     private Long id;

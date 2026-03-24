@@ -1,7 +1,7 @@
 package com.zeroone.star.classes.service.impl;
 
-import com.zeroone.star.classes.entity.Class;
-import com.zeroone.star.classes.mapper.ClassMapper;
+
+import com.zeroone.star.classes.mapper.ClassManagerMapper;
 import com.zeroone.star.classes.service.IClassService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2026-03-19
  */
 @Service
-public class ClassServiceImpl extends ServiceImpl<ClassMapper, Class> implements IClassService {
+public class ClassServiceImpl  implements IClassService {
 
 }
