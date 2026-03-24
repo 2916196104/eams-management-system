@@ -160,7 +160,7 @@ public class ClassScheduleController implements ClassScheduleApis {
                                                    @NotNull @RequestParam Long studentId,
                                                    @RequestParam(required = false) LocalDate beginTime,
                                                    @RequestParam(required = false) LocalDate endTime) {
-        return null;
+        return JsonVO.success(null);
     }
 
 }

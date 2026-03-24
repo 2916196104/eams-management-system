@@ -23,20 +23,20 @@ public class RegistryRecordsController implements RegistryRecordsApis {
     @ApiOperation("获取报名记录（条件+分页）")
     @Override
     public JsonVO<PageDTO<RegistryRecordsDTO>> queryRegistryRecords(RegistryRecordsQuery condition) {
-        return null;
+        return JsonVO.success(null);
     }
 
     @PutMapping("/modify-refund/{id}")
     @ApiOperation("退费")
     @Override
     public JsonVO<String> modifyRefund(@RequestBody RefundDTO dto, @PathVariable Long id) {
-        return null;
+        return JsonVO.success(null);
     }
 
     @PutMapping("/modify-payOverdue/{id}")
     @ApiOperation("缴纳欠费")
     @Override
     public JsonVO<String> modifyPayOverdue(@RequestBody PayOverdueDTO dto, @PathVariable Long id) {
-        return null;
+        return JsonVO.success(null);
     }
 }

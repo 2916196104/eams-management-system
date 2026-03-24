@@ -57,7 +57,7 @@ public class StuInformationController implements StuInformationApis {
     public JsonVO<SaveStuDTO> saveStudent(@Validated @RequestBody SaveStuDTO stuSaveDTO) {
         JsonVO<SaveStuDTO> jsonVO = new JsonVO<>();
         jsonVO.setData(stuSaveDTO);
-        return jsonVO;
+        return JsonVO.success(stuSaveDTO);
     }
 
     //切换学生状态
@@ -67,7 +67,7 @@ public class StuInformationController implements StuInformationApis {
     public JsonVO<SaveStuAddDTO> setStudentStage(@Validated @RequestBody SaveStuAddDTO saveStuAddDTO) {
         JsonVO<SaveStuAddDTO> jsonVO = new JsonVO<>();
         jsonVO.setData(saveStuAddDTO);
-        return jsonVO;
+        return JsonVO.success(saveStuAddDTO);
     }
 
     //报名课程
@@ -77,7 +77,7 @@ public class StuInformationController implements StuInformationApis {
     public JsonVO<StuSignCourseDTO> enrollCourse(@Validated @RequestBody StuSignCourseDTO stuSignCourseDTO) {
         JsonVO<StuSignCourseDTO> jsonVO = new JsonVO<>();
         jsonVO.setData(stuSignCourseDTO);
-        return jsonVO;
+        return JsonVO.success(stuSignCourseDTO);
     }
 
     @Override
@@ -123,12 +123,13 @@ public class StuInformationController implements StuInformationApis {
     @ApiOperation(value = "获取学员列表")
     @Override
     public JsonVO<PageDTO<StudentListVO>> queryStudents(StudentListQuery query) {
-        return null;
+        PageDTO<StudentListVO> pageDTO = new PageDTO<>();
+        return JsonVO.success(pageDTO);
     }
     @GetMapping("/query-listByCourse")
     @ApiOperation(value = "获取学员课程数据列表")
     @Override
     public JsonVO<PageDTO<StudentCourseVO>> queryStudentsByCourse(StudentCourseQuery condition) {
-        return null;
+        return JsonVO.success(null);
     }
 }
