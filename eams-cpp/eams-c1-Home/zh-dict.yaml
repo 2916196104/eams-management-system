@@ -55,6 +55,7 @@ listening-card:
        editor: 编辑人
        editorName: 编辑人姓名
        editTime: 编辑时间
+       recordCount: 领取记录数
       # 试听卡使用规则
       rule:
        id: 规则ID

@@ -112,6 +112,7 @@ public:
 typedef std::shared_ptr<CardDO> PtrCardDO;
 
 /*
+*	设置DDL
 	CREATE TABLE `setting_option` (
 	  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
 	  `setting_id` bigint NOT NULL COMMENT '组id',
@@ -124,20 +125,6 @@ typedef std::shared_ptr<CardDO> PtrCardDO;
 	  PRIMARY KEY (`id`) USING BTREE,
 	  UNIQUE KEY `code` (`code`) USING BTREE
 	) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统设置表';
-*/
-/*
-[
-	{
-		"id": 39,
-		"settingId": 1,
-		"name": "体验卡使用规则说明",
-		"code": "course_trial_help",
-		"value": "1. 每人每课程限领1张体验卡\n2. 体验卡有效期以领取后计算\n3. 体验卡仅限首次体验用户使用\n4. 需提前24小时预约课程\n5. 取消预约请至少提前2小时\n6. 体验课后当天报名可享受9折优惠",
-		"valueType": "str",
-		"info": null,
-		"sortNum": 0
-	}
-]
 */
 /* 
 	获取试听卡规则DO
