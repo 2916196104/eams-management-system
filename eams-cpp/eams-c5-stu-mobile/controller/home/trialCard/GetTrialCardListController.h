@@ -4,25 +4,38 @@
 
 #include "ApiHelper.h"
 #include "domain/vo/home/trialCard/GetTrialCardListVO.h"
+#include "domain/query/home/trialCard/GetTrialCardListQuery.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
-#define API_TAG ZH_WORDS_GETTER("c5.home.trialCard.tag")
+#define API_TAG ZH_WORDS_GETTER("home.trialCard.tag")
 
 
 class GetTrialCardListController : public oatpp::web::server::api::ApiController
 {
 	API_ACCESS_DECLARE(GetTrialCardListController);
 public:
-	// 定义ID查询接口描述
-	API_DEF_ENDPOINT_INFO_AUTH(
-		ZH_WORDS_GETTER("c5.home.trialCard.getTrialCardList.info"), getTrialCardList, GetTrialCardListPageJsonVO::Wrapper, API_TAG,
-		API_DEF_ADD_QUERY_PARAMS(String, "id", ZH_WORDS_GETTER("c5.student.id"); , "d934050a8bb373e8f8eed0bf7507ec17", true);
-	);
-	// 定义ID查询接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c5/home/trialCard/GetTrialCardList", 
-		getTrialCardList, QUERY(String, id), executeGetCardById(id));
+	ENDPOINT_INFO(getTrialCardList) {
+		// 定义接口标题
+		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("home.trialCard.getTrialCardList.info"));
+		// 定义默认授权参数（可选定义，如果定义了，下面ENDPOINT里面需要加入API_HANDLER_AUTH_PARAME）
+		API_DEF_ADD_AUTH();
+		// 定义标签
+		API_DEF_ADD_TAG(API_TAG);
+		// 定义响应参数格式
+		API_DEF_ADD_RSP_JSON_WRAPPER(GetTrialCardListPageJsonVO);
+		// 定义分页查询参数描述
+		API_DEF_ADD_PAGE_PARAMS();
+		// 定义其他查询参数描述
+		API_DEF_ADD_QUERY_PARAMS(String, "id", ZH_WORDS_GETTER("student.id"), "", true);
+	}
+	ENDPOINT("GET", "/c5/home/trialCard/GetTrialCardList", getTrialCardList, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
+		// 解析查询参数为Query领域模型
+		API_HANDLER_QUERY_PARAM(userQuery, GetTrialCardListQuery, queryParams);
+		// 呼叫执行函数响应结果
+		API_HANDLER_RESP_VO(executeGetCardList(userQuery));
+	}
 private:
-	GetTrialCardListPageJsonVO::Wrapper executeGetCardById(String id);
+	GetTrialCardListPageJsonVO::Wrapper executeGetCardList(const GetTrialCardListQuery::Wrapper& query);
 };
 
 #include OATPP_CODEGEN_END(ApiController)

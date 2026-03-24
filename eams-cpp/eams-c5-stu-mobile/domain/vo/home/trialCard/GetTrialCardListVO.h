@@ -12,9 +12,9 @@ class GetTrialCardListJsonVO : public JsonVO<GetTrialCardListDTO::Wrapper>
 	DTO_INIT(GetTrialCardListJsonVO, JsonVO<GetTrialCardListDTO::Wrapper>)
 };
 
-class GetTrialCardListPageJsonVO : JsonVO<GetTrialCardLIstPageDTO::Wrapper>
+class GetTrialCardListPageJsonVO :public JsonVO<GetTrialCardListPageDTO::Wrapper>
 {
-	DTO_INIT(GetTrialCardListPageJsonVO, JsonVO<GetTrialCardLIstPageDTO::Wrapper>)
+	DTO_INIT(GetTrialCardListPageJsonVO, JsonVO<GetTrialCardListPageDTO::Wrapper>)
 };
 
 #include OATPP_CODEGEN_END(DTO)

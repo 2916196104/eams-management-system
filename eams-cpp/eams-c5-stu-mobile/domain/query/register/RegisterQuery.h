@@ -4,25 +4,34 @@
 #define _REGISTER_QEURY_H_
 
 #include "../../GlobalInclude.h"
-#include "domain/query/PageQuery.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
  * 注册查询对象
  */
-class RegisterQuery : public PageQuery
+class RegisterQuery : public oatpp::DTO
 {
-	DTO_INIT(RegisterQuery, PageQuery);
-	// id
-	DTO_FIELD(String, id);
-	DTO_FIELD_INFO(id) {
-		info->description = ZH_WORDS_GETTER("c5.register.field.id");
+	DTO_INIT(RegisterQuery, DTO);
+	// 手机号
+	DTO_FIELD(String, mobile);
+	DTO_FIELD_INFO(mobile){
+		info->description = ZH_WORDS_GETTER("register.field.telephoneNumber.info");
+	}
+	// 验证码
+	DTO_FIELD(Int32, vertificationCode);
+	DTO_FIELD_INFO(vertificationCode) {
+		info->description = ZH_WORDS_GETTER("register.field.verificationCode.info");
 	}
 	// 姓名
 	DTO_FIELD(String, name);
 	DTO_FIELD_INFO(name) {
-		info->description = ZH_WORDS_GETTER("c5.register.field.name.info");
+		info->description = ZH_WORDS_GETTER("register.field.name.info");
+	}
+	// 密码
+	DTO_FIELD(String, password);
+	DTO_FIELD_INFO(password) {
+		info->description = ZH_WORDS_GETTER("register.field.password.info");
 	}
 };
 
