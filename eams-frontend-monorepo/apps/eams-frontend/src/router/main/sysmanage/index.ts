@@ -1,5 +1,13 @@
 const routes = [
 	{
+		path: "/org/employee-manage",
+		name: "EmployeeManage",
+		meta: {
+			label: "员工管理",
+		},
+		component: () => import("@/views/org/employee/Index.vue"),
+	},
+	{
 		path: "/un-1",
 		name: "UN1",
 		meta: {
