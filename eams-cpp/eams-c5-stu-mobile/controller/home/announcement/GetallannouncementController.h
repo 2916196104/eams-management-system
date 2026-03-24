@@ -4,8 +4,8 @@
 
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/query/PageQuery.h"
-#include "domain/query/home/announcement/GetallannouncementQuery.h"
-#include "domain/dto/home/announcement/GetannouncementDTO.h"
+#include "domain/query/home/announcement/AnnouncementQuery.h"
+#include "domain/dto/home/announcement/AnnouncementDTO.h"
 #include "domain/vo/home/announcement/GetannouncementVO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
@@ -31,15 +31,15 @@ public://定义接口
     //接口等待后期更改
     ENDPOINT(API_M_GET, "c5/home/announcement/all/get", Getallannouncement, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
         //解析查询参数
-        API_HANDLER_QUERY_PARAM(query, PageQuery, params);
+        API_HANDLER_QUERY_PARAM(query, AnnouncementQuery, params);
         //响应结果
         API_HANDLER_RESP_VO(executequerygetallannouncement(query));
 
     }
     // TODO - more endpoints here
 private://定义接口执行函数
-    //AnnouncementPageJsonVO::Wrapper executequerygetallannouncement(const PageQuery::Wrapper& query);
-    StringJsonVO::Wrapper executequerygetallannouncement(const PageQuery::Wrapper& query);
+    AnnouncementPageJsonVO::Wrapper executequerygetallannouncement(const AnnouncementQuery::Wrapper& query);
+    //StringJsonVO::Wrapper executequerygetallannouncement(const PageQuery::Wrapper& query);
 };
 #undef API_TAG
 #include OATPP_CODEGEN_END(ApiController)

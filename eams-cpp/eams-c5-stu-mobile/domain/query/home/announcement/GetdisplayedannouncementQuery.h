@@ -7,9 +7,9 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 // 类名修正+继承PageQuery，符合OATPP DTO规范
-class AnnouncementdisplayedQuery : public PageQuery
+class GetdisplayedannouncementQuery : public PageQuery
 {
-    DTO_INIT(AnnouncementdisplayedQuery, PageQuery); // 初始化宏匹配类名
+    DTO_INIT(GetdisplayedannouncementQuery, PageQuery); // 初始化宏匹配类名
 
     // ========== 适配homework表的查询字段 ==========
     // 1. 班级ID（核心查询字段，匹配homework表class_id）

@@ -6,7 +6,7 @@
 #include "../../GlobalInclude.h"
 // 替换为适配class_student表的DTO头文件
 //#include "../../../dto/home/class/ClassStudentDTO.h"
-#include"../../dto/schedule/TimeableDTO.h"
+#include"../../dto/schedule/GetTimeableDTO.h"
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 // 单条数据返回VO：适配ClassStudentDTO
@@ -14,9 +14,9 @@
 //class ClassStudentJsonVO : public JsonVO<ClassStudentDTO::Wrapper> {
 //    DTO_INIT(ClassStudentJsonVO, JsonVO<ClassStudentDTO::Wrapper>)
 //};
-class ScheduleTimeableJsonVO :public JsonVO<ScheduleTimeableDTO::Wrapper>
+class GetTimeableJsonVO :public JsonVO<GetTimeableDTO::Wrapper>
 {
-    DTO_INIT(ScheduleTimeableJsonVO, JsonVO<ScheduleTimeableDTO::Wrapper>)
+    DTO_INIT(GetTimeableJsonVO, JsonVO<GetTimeableDTO::Wrapper>)
 };
 
 // 分页数据返回VO：适配ClassStudentPageDTO
@@ -24,8 +24,8 @@ class ScheduleTimeableJsonVO :public JsonVO<ScheduleTimeableDTO::Wrapper>
 //class ClassStudentPageJsonVO : public JsonVO<ClassStudentPageDTO::Wrapper> {
 //    DTO_INIT(ClassStudentPageJsonVO, JsonVO<ClassStudentPageDTO::Wrapper>)
 //};
-class ScheduleTimeablePageJsonVO : public JsonVO<ScheduleTimeablePageDTO::Wrapper> {
-    DTO_INIT(ScheduleTimeablePageJsonVO, JsonVO<ScheduleTimeablePageDTO::Wrapper>)
+class GetTimeablePageJsonVO : public JsonVO<GetTimeablePageDTO::Wrapper> {
+    DTO_INIT(GetTimeablePageJsonVO, JsonVO<GetTimeablePageDTO::Wrapper>)
 };
 
 #include OATPP_CODEGEN_END(DTO)
