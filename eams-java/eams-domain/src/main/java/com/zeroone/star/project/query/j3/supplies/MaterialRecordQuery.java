@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.Pattern;
+
 /**
  * <p>
  * 描述：物料出入库记录分页查询条件
@@ -17,6 +19,8 @@ import lombok.EqualsAndHashCode;
 @Data
 @ApiModel("物料出入库记录查询对象")
 public class MaterialRecordQuery extends PageQuery {
+    @ApiModelProperty(value = "物料ID", example = "1")
+    private Long materialId;
 
     @ApiModelProperty(value = "涉及学生ID", example = "1")
     private Long studentId;
@@ -28,9 +32,11 @@ public class MaterialRecordQuery extends PageQuery {
     private Integer changeType;
 
     @ApiModelProperty(value = "开始日期，格式：yyyy-MM-dd", example = "2026-01-01")
+    @Pattern(regexp = "^$|\\d{4}-\\d{2}-\\d{2}$", message = "开始日期格式必须为yyyy-MM-dd")
     private String beginDate;
 
     @ApiModelProperty(value = "结束日期，格式：yyyy-MM-dd", example = "2026-01-31")
+    @Pattern(regexp = "^$|\\d{4}-\\d{2}-\\d{2}$", message = "结束日期格式必须为yyyy-MM-dd")
     private String endDate;
 }
 
