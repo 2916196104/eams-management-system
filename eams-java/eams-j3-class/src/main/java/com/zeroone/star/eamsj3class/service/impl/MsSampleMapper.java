@@ -2,7 +2,7 @@ package com.zeroone.star.eamsj3class.service.impl;
 
 import com.zeroone.star.eamsj3class.entity.Subject;
 import com.zeroone.star.project.dto.j3.course.CourseExportDTO;
-
+import com.zeroone.star.project.dto.j3.course.SubjectDTO;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -17,4 +17,9 @@ public interface MsSampleMapper {
     CourseExportDTO courseToCEDTO(CourseExportDTO course);
 
     List<CourseExportDTO> coursesToCEDTOs(List<CourseExportDTO> courses);
+
+    SubjectDTO subjectToDto(Subject entity);
+
+    Subject subjectDtoToDo(SubjectDTO dto);
+
 }

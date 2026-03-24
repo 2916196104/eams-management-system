@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * <p>
@@ -15,6 +16,7 @@ import lombok.Data;
  * @version 1.0.0
  */
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @ApiModel("课程列表查询参数")
 public class CourseListQuery extends PageQuery {

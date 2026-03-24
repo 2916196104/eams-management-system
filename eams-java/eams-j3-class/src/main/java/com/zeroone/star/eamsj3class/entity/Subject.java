@@ -67,7 +67,7 @@ public class Subject implements Serializable {
     /**
      * 删除标记
      */
-    private Boolean deleted;
+    private Integer deleted;
 
     /**
      * 排序值

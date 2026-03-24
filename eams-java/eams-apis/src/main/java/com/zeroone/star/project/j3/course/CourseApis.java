@@ -42,7 +42,7 @@ public interface CourseApis {
      * @param courseListQuery 查询参数
      * @return 查询结果
      */
-    JsonVO<PageDTO<SubjectDTO>> queryCourseList(SubjectQuery courseListQuery);
+    JsonVO<PageDTO<SubjectDTO>> querySubjectList(SubjectQuery courseListQuery);
     /**
      * 查询科目名称列表
      * @return 查询结果

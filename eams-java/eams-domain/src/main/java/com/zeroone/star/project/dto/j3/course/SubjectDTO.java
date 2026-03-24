@@ -4,9 +4,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
  * @version 1.0.0
  */
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @ApiModel("科目数据传输对象")
 @Validated
