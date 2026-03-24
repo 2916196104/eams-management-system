@@ -53,6 +53,8 @@ listening-card:
        state: 启用状态（1：启用，0：禁用）
        creator: 创建人
        editor: 编辑人
+       editorName: 编辑人姓名
+       editTime: 编辑时间
       # 试听卡使用规则
       rule:
        id: 规则ID

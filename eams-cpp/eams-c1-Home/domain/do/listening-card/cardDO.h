@@ -56,7 +56,9 @@ class CardDO : public BaseDO
 	MYSQL_SYNTHESIZE(unsigned long long, id, Id);
 	// 课程ID
 	MYSQL_SYNTHESIZE(unsigned long long, courseId, CourseId);
-	// 课程名称
+	// 课程名称（来自关联查询的字段，不直接存储在表中）
+	MYSQL_SYNTHESIZE(string, courseName, CourseName);
+	// 试听卡名称
 	MYSQL_SYNTHESIZE(string, title, Title);
 	// 发行数量
 	MYSQL_SYNTHESIZE(int, quantity, Quantity);
@@ -82,6 +84,10 @@ class CardDO : public BaseDO
 	MYSQL_SYNTHESIZE(bool, deleted, Deleted);
 	// 创建者所属组织ID
 	MYSQL_SYNTHESIZE(unsigned long long, orgId, OrgId);
+	// 编辑者名称（来自关联查询的字段，不直接存储在表中）
+	MYSQL_SYNTHESIZE(string, editorName, EditorName);
+	// 领取记录数（来自关联查询的字段，不直接存储在表中）
+	MYSQL_SYNTHESIZE(int, recordCount, RecordCount);
 public:
 	CardDO() : BaseDO("course_trial") {
 		MYSQL_ADD_FIELD_PK("id", "ull", id);

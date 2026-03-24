@@ -53,15 +53,15 @@ oatpp::List<cardDTO::Wrapper> CardService::getAvailableCardList()
         ZO_STAR_DOMAIN_DO_TO_DTO(dto, card,
             id, Id,
             courseId, CourseId,
+            courseName, CourseName,
             title, Title,
             quantity, Quantity,
-            remainingQuantity, RemainingQuantity,
             lessonCount, LessonCount,
             expireDays, ExpireDays,
             endDate, EndDate,
             state, State,
-            creator, Creator,
-            editor, Editor);
+            editTime, EditTime,
+            editorName, EditorName);
         list->push_back(dto);
     }
     return list;

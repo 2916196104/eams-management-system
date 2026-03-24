@@ -91,10 +91,14 @@ class cardDTO : public oatpp::DTO {
     API_DTO_FIELD_DEFAULT(String, endDate, ZH_WORDS_GETTER("listening-card.field.card.endDate"));
     // 启用状态（1：启用，0：禁用）
     API_DTO_FIELD_DEFAULT(Int8, state, ZH_WORDS_GETTER("listening-card.field.card.state"));
-    // 创建人
-    API_DTO_FIELD_DEFAULT(Int64, creator, ZH_WORDS_GETTER("listening-card.field.card.creator"));
-    // 编辑人
-    API_DTO_FIELD_DEFAULT(Int64, editor, ZH_WORDS_GETTER("listening-card.field.card.editor"));
+    //// 创建人
+    //API_DTO_FIELD_DEFAULT(Int64, creator, ZH_WORDS_GETTER("listening-card.field.card.creator"));
+    //// 编辑人
+    //API_DTO_FIELD_DEFAULT(Int64, editor, ZH_WORDS_GETTER("listening-card.field.card.editor"));
+	// 编辑时间 
+	API_DTO_FIELD_DEFAULT(String, editTime, ZH_WORDS_GETTER("listening-card.field.card.editTime"));
+	// 编辑者姓名
+	API_DTO_FIELD_DEFAULT(String, editorName, ZH_WORDS_GETTER("listening-card.field.card.editorName"));
 };
 
 /**
