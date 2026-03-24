@@ -118,7 +118,7 @@ public:
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("common.interface.delete-contact-record"), deleteContactRecord, StringJsonVO::Wrapper, API_TAG);
 	// 删除跟进记录处理
 	API_HANDLER_ENDPOINT_AUTH(
-		API_M_POST,
+		API_M_PUT,
 		"/c3/common/contact-record/delete",
 		deleteContactRecord,
 		BODY_DTO(DeleteContactRecordDTO::Wrapper, dto),
