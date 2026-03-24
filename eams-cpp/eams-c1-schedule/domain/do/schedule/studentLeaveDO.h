@@ -20,7 +20,7 @@ class StudentLeaveDO : public BaseDO {
         MYSQL_SYNTHESIZE(uint64_t, counselor, Counselor)       // 学生的顾问
         MYSQL_SYNTHESIZE(uint64_t, schoolId, SchoolId)         // 学生所属学校ID
 
-public:-
+public:
     StudentLeaveDO() : BaseDO("student_leave") {
         // 主键
         MYSQL_ADD_FIELD_PK("id", "ull", id);
