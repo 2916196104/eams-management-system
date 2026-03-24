@@ -18,13 +18,19 @@
 */
 #include "stdafx.h"
 #include "cardcontroller.h"
+#include "service/listening-card/CardService.h"
 //实现接口执行函数
 
 /*
 * 获取试听卡列表
 */
 cardListJsonVO::Wrapper cardController::executeCardListQuery() {
-	return {};
+	// 查询试听卡数据
+	auto result = CardService().getAvailableCardList();
+	// 构建返回结果
+	auto jvo = cardListJsonVO::createShared();
+	jvo->success(result);
+	return jvo;
 }
 /*
 * 获取试听卡使用规则
