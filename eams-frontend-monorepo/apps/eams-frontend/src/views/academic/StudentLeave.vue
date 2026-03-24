@@ -4,12 +4,8 @@
 			<div class="top-bar">
 				<div class="filter-area">
 					<div class="filter-item">
-						<label class="filter-label">学员姓名:</label>
-						<el-input v-model="filters.studentName" placeholder="请输入学员姓名" clearable class="filter-input" />
-					</div>
-					<div class="filter-item">
-						<label class="filter-label">任课老师:</label>
-						<el-input v-model="filters.teacherName" placeholder="请输入任课老师" clearable class="filter-input" />
+						<label class="filter-label">学生姓名/电话:</label>
+						<el-input v-model="filters.nameOrPhone" placeholder="请输入学生姓名或电话" clearable class="filter-input" />
 					</div>
 					<div class="filter-item">
 						<label class="filter-label">开始日期:</label>
@@ -46,6 +42,12 @@
 					<el-button :icon="Menu" circle @click="handleCustomSort" />
 				</div>
 			</div>
+			<div class="batch-actions">
+				<el-button @click="handleRevoke">
+					<el-icon><RefreshRight /></el-icon>
+					请假撤销
+				</el-button>
+			</div>
 			<my-table
 				:istabmultiple="true"
 				:tabattr="tableAttr"
@@ -55,18 +57,8 @@
 				@selection-change="handleSelectionChange"
 			>
 				<template #customercell="{ prop, row }">
-					<template v-if="['leaveTime', 'status'].includes(prop)">
+					<template v-if="['addTime', 'state'].includes(prop)">
 						<span :class="getCellClass(prop, row)">{{ row[prop] }}</span>
-					</template>
-					<template v-else-if="prop === 'leavePhotos'">
-						<el-image
-							v-if="row[prop] && row[prop].length > 0"
-							:src="row[prop][0]"
-							:preview-src-list="row[prop]"
-							:preview-teleported="true"
-							style="width: 50px; height: 50px"
-							fit="cover"
-						/>
 					</template>
 					<template v-else>
 						{{ row[prop] }}
@@ -79,16 +71,18 @@
 
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from "vue";
-import { ElMessage } from "element-plus";
+import { ElMessage, ElMessageBox } from "element-plus";
 import { CircleClose, Menu, Printer, RefreshRight, Search } from "@element-plus/icons-vue";
 import MyTable from "@/components/mytable/MyTable.vue";
 import { createPageDTO, type MyTableAttr, type MyTableColumn, type PageDTO } from "@/components/mytable/type";
-import { getStudentLeavePage } from "@/apis/academic";
+import { getStudentLeavePage, cancelStudentLeave } from "@/apis/academic";
 import type { StudentLeaveItemDTO } from "@/apis/academic/type";
 
 const filters = reactive({
-	studentName: "",
-	teacherName: "",
+	pageIndex: 1,
+	pageSize: 20,
+	nameOrPhone: "",
+	teacherId: undefined as number | undefined,
 	startDate: "",
 	endDate: "",
 });
@@ -102,13 +96,12 @@ const tableAttr: MyTableAttr = {
 
 const tableColumns: MyTableColumn[] = [
 	{ prop: "studentName", label: "学员姓名", "min-width": 120 },
-	{ prop: "phone", label: "电话", width: "130px" },
-	{ prop: "leaveLessons", label: "请假课次", "min-width": 200, "show-overflow-tooltip": true },
-	{ prop: "teacherName", label: "任课老师", "min-width": 100 },
-	{ prop: "leaveReason", label: "请假原因", "min-width": 150, "show-overflow-tooltip": true },
-	{ prop: "leaveTime", label: "请假时间", width: "160px", align: "center" },
-	{ prop: "leavePhotos", label: "请假照片", width: "100px", align: "center" },
-	{ prop: "status", label: "状态", width: "100px", align: "center" },
+	{ prop: "mobile", label: "电话", width: "130px", align: "center" },
+	{ prop: "courseInfo", label: "请假课次", "min-width": 200, "show-overflow-tooltip": true },
+	{ prop: "teacherNames", label: "任课老师", "min-width": 150, "show-overflow-tooltip": true },
+	{ prop: "reason", label: "请假原因", "min-width": 150, "show-overflow-tooltip": true },
+	{ prop: "addTime", label: "请假时间", width: "160px", align: "center" },
+	{ prop: "state", label: "请假状态", width: "100px", align: "center" },
 ];
 
 const pageIndex = ref(1);
@@ -121,8 +114,8 @@ const displayPageData = computed(() => {
 });
 
 function getCellClass(prop: string, _row: StudentLeaveItemDTO) {
-	if (prop === "leaveTime") return "cell-leave-time";
-	if (prop === "status") return "cell-status";
+	if (prop === "addTime") return "cell-add-time";
+	if (prop === "state") return "cell-state";
 	return "";
 }
 
@@ -133,12 +126,13 @@ function handleSearch() {
 
 function handleReset() {
 	Object.assign(filters, {
-		studentName: "",
-		teacherName: "",
+		pageIndex: 1,
+		pageSize: 20,
+		nameOrPhone: "",
+		teacherId: undefined,
 		startDate: "",
 		endDate: "",
 	});
-	pageIndex.value = 1;
 	loadData();
 }
 
@@ -164,18 +158,48 @@ function handleSelectionChange(rows: StudentLeaveItemDTO[]) {
 	selectedRows.value = rows;
 }
 
+async function handleRevoke() {
+	if (selectedRows.value.length === 0) {
+		ElMessage.warning("请先选择要撤销的请假记录");
+		return;
+	}
+	try {
+		await ElMessageBox.confirm(`确认撤销选中的 ${selectedRows.value.length} 条请假记录吗？`, "请假撤销确认", {
+			confirmButtonText: "确定",
+			cancelButtonText: "取消",
+			type: "warning",
+		});
+		const ids = selectedRows.value.map((row) => row.id).filter((id): id is number => id !== undefined);
+		await cancelStudentLeave(ids);
+		ElMessage.success("请假撤销成功");
+		loadData();
+	} catch (error) {
+		if (error === "cancel") {
+			return;
+		}
+		console.error("请假撤销失败:", error);
+		ElMessage.error("请假撤销失败");
+	}
+}
+
 async function loadData() {
 	try {
 		const res = await getStudentLeavePage({
 			pageIndex: pageIndex.value,
 			pageSize: pageSize.value,
-			studentName: filters.studentName,
-			teacherName: filters.teacherName,
+			nameOrPhone: filters.nameOrPhone,
+			teacherId: filters.teacherId,
 			startDate: filters.startDate,
 			endDate: filters.endDate,
 		});
 		if (res.data) {
-			pageData.value = res.data;
+			// 将数组包装成 PageDTO 格式
+			pageData.value = createPageDTO<StudentLeaveItemDTO>({
+				pageIndex: pageIndex.value,
+				pageSize: pageSize.value,
+				total: res.data.length,
+				rows: res.data,
+			});
 		}
 	} catch (error) {
 		console.error("加载数据失败:", error);
@@ -247,12 +271,18 @@ onMounted(() => {
 	gap: 10px;
 }
 
-:deep(.cell-leave-time) {
+.batch-actions {
+	display: flex;
+	gap: 12px;
+	margin-top: 12px;
+}
+
+:deep(.cell-add-time) {
 	color: #e6a23c;
 	font-weight: bold;
 }
 
-:deep(.cell-status) {
+:deep(.cell-state) {
 	color: #67c23a;
 	font-weight: bold;
 }

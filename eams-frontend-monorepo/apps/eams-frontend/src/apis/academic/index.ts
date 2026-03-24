@@ -1,7 +1,7 @@
 import { useHttp } from "@/plugins/http";
 import type { StudentLeaveQueryDTO, StudentLeaveItemDTO } from "./type";
-import type { PageDTO } from "@/components/mytable/type";
 
+const http = useHttp();
 const currBaseUrl = "/student";
 
 /**
@@ -9,6 +9,18 @@ const currBaseUrl = "/student";
  * @param params 查询参数
  */
 export const getStudentLeavePage = async (params: StudentLeaveQueryDTO) => {
-	const res = await http.get<PageDTO<StudentLeaveItemDTO>>(currBaseUrl + "/student-leave/page", params);
+	const res = await http.get<StudentLeaveItemDTO[]>(currBaseUrl + "/student-leave/list", params);
+	return res;
+};
+
+/**
+ * 撤销请假
+ * @param ids 请假 ID 列表
+ */
+export const cancelStudentLeave = async (ids: number[]) => {
+	const res = await http.put<{ code?: number; message?: string; data?: number }>(
+		currBaseUrl + "/student-leave/cancel",
+		ids,
+	);
 	return res;
 };
