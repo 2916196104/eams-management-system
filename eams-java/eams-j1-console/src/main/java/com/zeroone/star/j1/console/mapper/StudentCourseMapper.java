@@ -1,11 +1,7 @@
 package com.zeroone.star.j1.console.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zeroone.star.j1.console.entity.StudentCourseDO;
-import com.zeroone.star.project.dto.j1.enrollment.CourseEnrollmentDTO;
-import com.zeroone.star.project.dto.j1.enrollment.MonthlyEnrollmentDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -64,39 +60,5 @@ public interface StudentCourseMapper extends BaseMapper<StudentCourseDO> {
             "LIMIT #{limit}")
     List<Map<String, Object>> selectCourseEnrollmentAmountRank(@Param("limit") Integer limit);
 
-    /**
-     * 分页查询课程报名列表
-     * @param page 分页参数
-     * @param studentName 学员姓名
-     * @param studentPhone 学员手机号
-     * @param courseId 课程ID
-     * @param classId 班级ID
-     * @param status 报名状态
-     * @param startDate 开始日期
-     * @param endDate 结束日期
-     * @return 分页结果
-     */
-    IPage<CourseEnrollmentDTO> selectCourseEnrollmentPage(
-            Page<CourseEnrollmentDTO> page,
-            @Param("studentName") String studentName,
-            @Param("studentPhone") String studentPhone,
-            @Param("courseId") Long courseId,
-            @Param("classId") Long classId,
-            @Param("status") Integer status,
-            @Param("startDate") String startDate,
-            @Param("endDate") String endDate
-    );
 
-    /**
-     * 分页查询本月报名列表
-     * @param page 分页参数
-     * @param yearMonth 年月字符串
-     * @param courseId 课程ID
-     * @return 分页结果
-     */
-    IPage<MonthlyEnrollmentDTO> selectMonthlyEnrollmentPage(
-            Page<MonthlyEnrollmentDTO> page,
-            @Param("yearMonth") String yearMonth,
-            @Param("courseId") Long courseId
-    );
 }
