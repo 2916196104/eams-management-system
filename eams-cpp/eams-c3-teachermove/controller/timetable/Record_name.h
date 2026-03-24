@@ -45,7 +45,7 @@ public:		//定义接口
 
 	API_DEF_ENDPOINT_INFO_AUTH(
 		ZH_WORDS_GETTER("api.get-cs-stu-list.title"),
-		getStuList,
+		getCSStuList,
 		GetStuListJsonVO::Wrapper,
 		API_TAG,
 		API_DEF_ADD_QUERY_PARAMS(UInt64, "page_index", ZH_WORDS_GETTER("api.get-cs-stu-list.param.page-index"), 1, false);
@@ -55,7 +55,7 @@ public:		//定义接口
 	API_HANDLER_ENDPOINT_OPTION_AUTH(
 		API_M_GET,
 		"course/record-name/get-cs-stu-list",
-		getStuList,
+		getCSStuList,
 		QUERIES(QueryParams, queryParams),
 		API_HANDLER_QUERY_PARAM(query, GetStuListQuery, queryParams);
 		auto vo = execGetStuList(query);

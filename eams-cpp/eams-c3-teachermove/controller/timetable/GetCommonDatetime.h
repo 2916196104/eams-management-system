@@ -7,11 +7,10 @@
 #include "domain/query/timetable/GetCommonDatetimeQuery.h"
 #include "domain/vo/timetable/CommonDatetimeVO.h"
 
-#include "domain/GlobalInclude.h"
 #include "oatpp/web/server/api/ApiController.hpp"
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
-#define API_TAG ZH_WORDS_GETTER("api.tag1")
+#define API_TAG ZH_WORDS_GETTER("api.tag")
 
 class GetCommonDatetime : public oatpp::web::server::api::ApiController
 {
