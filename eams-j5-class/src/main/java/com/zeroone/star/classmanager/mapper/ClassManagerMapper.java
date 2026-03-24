@@ -1,4 +1,4 @@
-package com.zeroone.star.classes.mapper;
+package com.zeroone.star.classmanager.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zeroone.star.project.Do.j5.classmanager.ClassDO;

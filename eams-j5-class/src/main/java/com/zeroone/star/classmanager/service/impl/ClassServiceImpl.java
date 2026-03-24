@@ -1,10 +1,11 @@
-package com.zeroone.star.classes.service.impl;
+package com.zeroone.star.classmanager.service.impl;
 
 
-import com.zeroone.star.classes.mapper.ClassManagerMapper;
-import com.zeroone.star.classes.service.IClassService;
+import com.zeroone.star.classmanager.mapper.ClassManagerMapper;
+import com.zeroone.star.classmanager.service.IClassService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import com.zeroone.star.project.Do.j5.classmanager.ClassDO;
 
 /**
  * <p>
@@ -15,6 +16,6 @@ import org.springframework.stereotype.Service;
  * @since 2026-03-19
  */
 @Service
-public class ClassServiceImpl  implements IClassService {
+public class ClassServiceImpl extends ServiceImpl<ClassManagerMapper, ClassDO> implements IClassService {
 
 }

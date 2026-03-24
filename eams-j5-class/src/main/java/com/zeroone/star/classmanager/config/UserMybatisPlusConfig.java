@@ -1,4 +1,4 @@
-package com.zeroone.star.classes.config;
+package com.zeroone.star.classmanager.config;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;

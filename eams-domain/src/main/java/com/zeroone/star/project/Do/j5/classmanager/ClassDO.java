@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
-public class Class {
+public class ClassDO {
     @Id
     @ApiModelProperty(value = "主键", example = "1")
     private Long id;

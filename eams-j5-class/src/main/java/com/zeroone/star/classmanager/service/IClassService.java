@@ -1,4 +1,4 @@
-package com.zeroone.star.classes.service;
+package com.zeroone.star.classmanager.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zeroone.star.project.Do.j5.classmanager.ClassDO;

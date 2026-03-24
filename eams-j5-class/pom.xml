@@ -68,7 +68,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.zeroone.star.classes.ClassApplication</mainClass>
+                    <mainClass>com.zeroone.star.classmanager.ClassManagerApplication</mainClass>
                 </configuration>
             </plugin>
             <plugin>

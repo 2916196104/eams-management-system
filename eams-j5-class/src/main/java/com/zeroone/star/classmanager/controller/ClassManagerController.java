@@ -1,4 +1,4 @@
-package com.zeroone.star.classes.controller;
+package com.zeroone.star.classmanager.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

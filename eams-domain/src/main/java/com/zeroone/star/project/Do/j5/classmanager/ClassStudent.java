@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @ApiModel(description = "学员实体")
-public class Student {
+public class ClassStudent {
 
     @Id
     @ApiModelProperty(value = "学员ID", example = "1")

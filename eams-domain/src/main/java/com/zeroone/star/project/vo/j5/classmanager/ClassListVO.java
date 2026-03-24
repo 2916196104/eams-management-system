@@ -1,4 +1,4 @@
-package com.zeroone.star.project.vo.j5.classmanger;
+package com.zeroone.star.project.vo.j5.classmanager;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
