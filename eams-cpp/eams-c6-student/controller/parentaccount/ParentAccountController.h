@@ -1,18 +1,33 @@
 #pragma once
-#ifndef _PARENTACCOUNTCONTROLLER_H_
-#define _PARENTACCOUNTCONTROLLER_H_
+#ifndef _PARENT_ACCOUNT_CONTROLLER_H_
+#define _PARENT_ACCOUNT_CONTROLLER_H_
 
-#include "../../domain/GlobalInclude.h"
-#include "../../domain/vo/parentaccount/ParentAccountVO.h"
-#include "../../domain/dto/parentaccount/ParentAccountDTO.h"
+#include "ApiHelper.h"
+#include "Macros.h"
+#include "ServerInfo.h"
+#include "service/parentaccount/ParentAccountService.h"
+#include "domain/query/parentaccount/ParentAccountQuery.h"
+#include "domain/vo/parentaccount/ParentAccountVO.h"
+#include "domain/dto/parentaccount/ParentAccountDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
+using namespace oatpp;
+#define API_TAG ZH_WORDS_GETTER("parentaccount.api-tag")
 
+/**
+ * 家长账号控制器
+ */
 class ParentAccountController : public oatpp::web::server::api::ApiController
 {
 	API_ACCESS_DECLARE(ParentAccountController);
-
+private:
+	ParentAccountService m_parentAccountService;
 public:
+	// 分页查询接口描述
+	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("parentaccount.interface.query-parent-account"), queryParentAccount, ParentAccountQuery, ParentAccountPageJsonVO::Wrapper, API_TAG);
+	// 分页查询接口处理
+	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c6/parent-account/query", queryParentAccount, ParentAccountQuery, execQueryParentAccount(query));
+
 	ENDPOINT_INFO(parentAccountChange) {
 
 		info->summary = ZH_WORDS_GETTER("parentaccount.interface.modify-parent-account");
@@ -54,13 +69,14 @@ public:
 		BODY_DTO(Object<ParentPasswordChangeDTO>, dto),
 		excuteParentPasswordChange(dto)
 	);
-
-
 private:
+	ParentAccountPageJsonVO::Wrapper execQueryParentAccount(const ParentAccountQuery::Wrapper& query);
 	ParentAccountChangeJsonVO::Wrapper excuteParentAccountChange(const ParentAccountChangeDTO::Wrapper& dto);
 	ParentPasswordChangeJsonVO::Wrapper excuteParentPasswordChange(const ParentPasswordChangeDTO::Wrapper& dto);
+
 };
 
+#undef API_TAG
 #include OATPP_CODEGEN_END(ApiController)
 
-#endif
+#endif // !_PARENT_ACCOUNT_CONTROLLER_H_
