@@ -1,48 +1,47 @@
-#pragma once
+ï»¿#pragma once
 #include "domain/do/BaseDO.h"
 #include"lib-mysql/include/BaseDO.h"
 class RefundDO: public BaseDO {
-	uint64_t id; // Ö÷¼ü
-	uint64_t studentId; //Ñ§Éúid
-	uint64_t studentCourseId; //Ñ§Éú¿Î³Ì¹ØÁª±íid
-	uint64_t operator_; //ÍË·Ñ°ìÀíÈË
-	int refundLessonCount; // ÍË·Ñ¿ÎÊ±
-	std::string applyTime; // ÍË·Ñ·¢ÆğÊ±¼ä
-	std::string refundAmount; //ÍË·Ñ½ğ¶î ¸ºÊı
-	std::string remark; //ÍË·ÑËµÃ÷
-	std::string done_time; //ÍË·Ñ°ìÍêÊ±¼ä
-	int typeNum; //ÀàĞÍ
-	int verifyState; //ÍË¿î×´Ì¬
-	std::string verifyTime; //ÉóºËÊ±¼ä
-	uint64_t verifyStaff; //ÉóºËÈË
+	uint64_t id; // ä¸»é”®
+	uint64_t studentId; //å­¦ç”Ÿid
+	uint64_t studentCourseId; //å­¦ç”Ÿè¯¾ç¨‹å…³è”è¡¨id
+	uint64_t operator_; //é€€è´¹åŠç†äºº
+	int refundLessonCount; // é€€è´¹è¯¾æ—¶
+	std::string applyTime; // é€€è´¹å‘èµ·æ—¶é—´
+	double refundAmount; //é€€è´¹é‡‘é¢ è´Ÿæ•°
+	std::string remark; //é€€è´¹è¯´æ˜
+	std::string done_time; //é€€è´¹åŠå®Œæ—¶é—´
+	int typeNum; //ç±»å‹
+	int verifyState; //é€€æ¬¾çŠ¶æ€
+	std::string verifyTime; //å®¡æ ¸æ—¶é—´
+	uint64_t verifyStaff; //å®¡æ ¸äºº
 };
-class PayFeesDO : public BaseDO {
-	uint64_t id; //Ö÷¼ü
-	uint64_t studentId; //Ñ§Éúid
-	uint64_t courseId; //¿Î³Ìid
-	uint64_t subjectId; //¿ÆÄ¿id
-	std::string startDate; //¿ªÊ¼Ê±¼ä
-	std::string expireDate; //¹ıÆÚÊ±¼ä
-	std::string remark; //±¸×¢
-	uint64_t countLessonTotal; //¹ºÂò×Ü¿Î´Î
-	uint64_t countLessonComplete; //ÒÑÉÏ¿Î´Î
-	uint64_t countLessonRefund; //ÍË¿î´ÎÊı
-	std::string courseAmount; //Ì×²Í½ğ¶î
-	std::string discordAmount; //ÓÅ»İ½ğ¶î
-	std::string amount; //³É½»¡¢ºÏÔ¼½ğ¶î
-	std::string paidAmount; //Êµ¸¶½ğ¶î
-	int payOff; //ÊÇ·ñ¸¶Çå 0·ñ1ÊÇ
-	uint64_t operator_; //¾­ÊÖÈË
-	uint64_t creator; //´´½¨ÈË
-	std::string addTime; //Â¼ÈëÊ±¼ä
-	uint64_t editor; //±à¼­ÈË
-	std::string editTime; //±à¼­Ê±¼ä
-	int deleted; //É¾³ı±ê¼Ç
-	int verifyState; //ÉóºË×´Ì¬
-	int warningTimes; //²»×ãÊ±ÒÑÌáĞÑ´ÎÊı
-	int priority; //Ïû¿ÎÓÅÏÈ¼¶
-	std::string unitPrice; //µ¥¼Û
-	int fromTrial; //ÊÇ·ñÀ´×ÔÓÚÌåÑéÊ¹ÓÃ
-	uint64_t orgId; //±¨ÃûÀÏÊ¦ËùÊô×é³¤Id
-
+class StudentCourseDO : public BaseDO {
+	uint64_t id; //ä¸»é”®
+	uint64_t studentId; //å­¦ç”Ÿid
+	uint64_t courseId; //è¯¾ç¨‹id
+	uint64_t subjectId; //ç§‘ç›®id
+	std::string startDate; //å¼€å§‹æ—¶é—´
+	std::string expireDate; //è¿‡æœŸæ—¶é—´
+	std::string remark; //å¤‡æ³¨
+	uint64_t countLessonTotal; //è´­ä¹°æ€»è¯¾æ¬¡
+	uint64_t countLessonComplete; //å·²ä¸Šè¯¾æ¬¡
+	uint64_t countLessonRefund; //é€€æ¬¾æ¬¡æ•°
+	double courseAmount; //å¥—é¤é‡‘é¢
+	double discordAmount; //ä¼˜æƒ é‡‘é¢
+	double amount; //æˆäº¤ã€åˆçº¦é‡‘é¢
+	double paidAmount; //å®ä»˜é‡‘é¢
+	int payOff; //æ˜¯å¦ä»˜æ¸… 0å¦1æ˜¯
+	uint64_t operator_; //ç»æ‰‹äºº
+	uint64_t creator; //åˆ›å»ºäºº
+	std::string addTime; //å½•å…¥æ—¶é—´
+	uint64_t editor; //ç¼–è¾‘äºº
+	std::string editTime; //ç¼–è¾‘æ—¶é—´
+	int deleted; //åˆ é™¤æ ‡è®°
+	int verifyState; //å®¡æ ¸çŠ¶æ€
+	int warningTimes; //ä¸è¶³æ—¶å·²æé†’æ¬¡æ•°
+	int priority; //æ¶ˆè¯¾ä¼˜å…ˆçº§
+	double unitPrice; //å•ä»·
+	int fromTrial; //æ˜¯å¦æ¥è‡ªäºä½“éªŒä½¿ç”¨
+	uint64_t orgId; //æŠ¥åè€å¸ˆæ‰€å±ç»„é•¿Id
 };
