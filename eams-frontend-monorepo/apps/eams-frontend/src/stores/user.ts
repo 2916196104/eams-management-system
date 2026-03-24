@@ -2,6 +2,86 @@ import { defineStore } from "pinia";
 import type { Menu, Oauth2TokenDTO, UserInfo } from "@/apis/login/type";
 import { DataUpType, useHttp } from "@/plugins/http";
 
+// 前端临时补充的菜单项，用于在正式管理端左侧展示这 5 个页面。
+const tempMenus: Array<Menu> = [
+	{
+		id: "temp-finance",
+		text: "\u8d22\u52a1",
+		icon: "IconMenu",
+		children: [
+			{
+				id: "temp-finance-payment-management",
+				text: "\u6b3e\u9879\u7ba1\u7406",
+				icon: "IconMenu",
+				href: "/finance/paymentManagement",
+			},
+			{
+				id: "temp-finance-finance-record",
+				text: "\u6708\u8bfe\u65f6\u8d39",
+				icon: "IconMenu",
+				href: "/finance/financeRecord",
+			},
+			{
+				id: "temp-finance-course-reward",
+				text: "\u6d88\u8bfe\u8bfe\u916c",
+				icon: "IconMenu",
+				href: "/finance/courseReward",
+			},
+			{
+				id: "temp-finance-request-management",
+				text: "\u8bf7\u6b3e\u7ba1\u7406",
+				icon: "IconMenu",
+				href: "/finance/requestManagement",
+			},
+		],
+	},
+	{
+		id: "temp-data",
+		text: "\u6570\u636e",
+		icon: "IconMenu",
+		children: [
+			{
+				id: "temp-data-sale-stats",
+				text: "\u9500\u552e\u7edf\u8ba1",
+				icon: "IconMenu",
+				href: "/statis/saleStatis",
+			},
+		],
+	},
+];
+
+// 深拷贝菜单，避免直接修改后端返回的原始数据。
+function cloneMenu(menu: Menu): Menu {
+	return {
+		...menu,
+		children: (menu.children || []).map(cloneMenu),
+	};
+}
+
+// 合并后端菜单与前端临时菜单，尽量复用已有“财务/数据”分组。
+function mergeMenus(sourceMenus: Array<Menu> = []) {
+	const menus = sourceMenus.map(cloneMenu);
+
+	for (const tempGroup of tempMenus) {
+		const currentGroup = menus.find((item) => item.text === tempGroup.text);
+		if (!currentGroup) {
+			menus.push(cloneMenu(tempGroup));
+			continue;
+		}
+
+		const currentChildren = currentGroup.children || [];
+		for (const tempChild of tempGroup.children || []) {
+			const exists = currentChildren.some(
+				(item) => item.href === tempChild.href || item.text === tempChild.text,
+			);
+			if (!exists) currentChildren.push(cloneMenu(tempChild));
+		}
+		currentGroup.children = currentChildren;
+	}
+
+	return menus;
+}
+
 export const useUserStore = defineStore("user", {
 	state: () => ({
 		// 记录token
