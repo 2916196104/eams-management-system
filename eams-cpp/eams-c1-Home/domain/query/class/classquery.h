@@ -31,10 +31,13 @@
 class classQuery : public PageQuery
 {
 	DTO_INIT(classQuery, PageQuery);
+	// 班级id
+	API_DTO_FIELD_REQUIRE(UInt32, student_id, ZH_WORDS_GETTER("class.student.id"), true);
 	// 班级负责人id
-	API_DTO_FIELD_DEFAULT(UInt32, teacher_id, ZH_WORDS_GETTER("class.teacher_id"));
+	//API_DTO_FIELD_DEFAULT(UInt32, teacher_id, ZH_WORDS_GETTER("class.teacher_id"));
 	// 课程id
-	API_DTO_FIELD_REQUIRE(UInt32, course_id, ZH_WORDS_GETTER("class.course_id"), true);
+	//API_DTO_FIELD_REQUIRE(UInt32, course_id, ZH_WORDS_GETTER("class.course_id"), true);
+	
 };
 
 class classinfoQuery : public oatpp::DTO

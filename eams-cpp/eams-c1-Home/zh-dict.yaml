@@ -80,6 +80,7 @@ class:
   classroom_id: 教室id
   classroom_name: 教室名称
   remark: 排课备注
+  over_lesson_count: 完结课时数
   student_list: 学生列表
   student:
    id: 学生id

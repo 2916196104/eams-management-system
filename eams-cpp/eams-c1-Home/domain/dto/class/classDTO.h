@@ -31,15 +31,15 @@ class ClassDTO : public oatpp::DTO
 {
 	DTO_INIT(ClassDTO, DTO);
 	//主键id
-	API_DTO_FIELD_REQUIRE(UInt32, id, ZH_WORDS_GETTER("class.id"), true);
+	//API_DTO_FIELD_REQUIRE(UInt32, id, ZH_WORDS_GETTER("class.id"), true);
 	// 班级名
 	API_DTO_FIELD_REQUIRE(String, class_name, ZH_WORDS_GETTER("class.class_name"), true);
 	// 班级负责⼈id
-	API_DTO_FIELD_DEFAULT(UInt32, teacher_id, ZH_WORDS_GETTER("class.teacher_id"));
+	//API_DTO_FIELD_DEFAULT(UInt32, teacher_id, ZH_WORDS_GETTER("class.teacher_id"));
 	// 教师名称
 	API_DTO_FIELD_DEFAULT(String, teacher_name, ZH_WORDS_GETTER("class.teacher_name"));
 	// 课程id
-	API_DTO_FIELD_REQUIRE(UInt32, course_id, ZH_WORDS_GETTER("class.course_id"), true);
+	//API_DTO_FIELD_REQUIRE(UInt32, course_id, ZH_WORDS_GETTER("class.course_id"), true);
 	// 课程套餐课程名
 	API_DTO_FIELD_REQUIRE(String, course_name, ZH_WORDS_GETTER("class.course_name"), true);
 	// 计划开班日期
@@ -76,11 +76,13 @@ class ClassInfoDTO : public ClassDTO
 {
 	DTO_INIT(ClassInfoDTO, ClassDTO);
 	// 教室id
-	API_DTO_FIELD_DEFAULT(UInt32, classroom_id, ZH_WORDS_GETTER("class.classroom_id"));
+	//API_DTO_FIELD_DEFAULT(UInt32, classroom_id, ZH_WORDS_GETTER("class.classroom_id"));
 	// 教室名称
 	API_DTO_FIELD_DEFAULT(String, classroom_name, ZH_WORDS_GETTER("class.classroom_name"));
 	// 排课备注
 	API_DTO_FIELD_DEFAULT(String, remark, ZH_WORDS_GETTER("class.remark"));
+	// 完结课时数
+	API_DTO_FIELD_DEFAULT(UInt32, over_lesson_count, ZH_WORDS_GETTER("class.over_lesson_count"));
 };
 
 /*
@@ -90,11 +92,11 @@ class StudentDTO : public oatpp::DTO
 {
 	DTO_INIT(StudentDTO, DTO);
 	// 学生id
-	API_DTO_FIELD_REQUIRE(UInt32, id, ZH_WORDS_GETTER("class.student.id"), true);
+	//API_DTO_FIELD_REQUIRE(UInt32, id, ZH_WORDS_GETTER("class.student.id"), true);
 	// 学生姓名
 	API_DTO_FIELD_REQUIRE(String, name, ZH_WORDS_GETTER("class.student.name"), true);
 	// 学生性别
-	API_DTO_FIELD_DEFAULT(String, gender, ZH_WORDS_GETTER("class.student.gender"));
+	API_DTO_FIELD_DEFAULT(Boolean, gender, ZH_WORDS_GETTER("class.student.gender"));
 };
 
 /*

@@ -60,4 +60,5 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(cardController);
 	ROUTER_SIMPLE_BIND(bulletinController);
 	ROUTER_SIMPLE_BIND(HomeworkController);
+	cout << "test" << endl;
 }
