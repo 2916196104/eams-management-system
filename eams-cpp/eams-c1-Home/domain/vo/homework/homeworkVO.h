@@ -20,6 +20,7 @@
 #ifndef _HOMEWORKVO_H_
 #define _HOMEWORKVO_H_
 
+#include "domain/vo/BaseJsonVO.h"
 #include "../../GlobalInclude.h"
 #include "../../dto/homework/homeworkDTO.h"
 #include OATPP_CODEGEN_BEGIN(DTO)
@@ -32,9 +33,9 @@ class HomeworkPageJsonVO : public JsonVO<HomeworkPageDTO::Wrapper>
 	DTO_INIT(HomeworkPageJsonVO, JsonVO<HomeworkPageDTO::Wrapper>);
 };
 
-class HomeworkListJsonVO : public ListJsonVO<HomeworkDTO::Wrapper>
+class HomeworkListJsonVO : public JsonVO<oatpp::List<HomeworkDTO::Wrapper>>
 {
-	DTO_INIT(HomeworkListJsonVO, ListJsonVO<HomeworkDTO::Wrapper>);
+	DTO_INIT(HomeworkListJsonVO, JsonVO<oatpp::List<HomeworkDTO::Wrapper>>);
 };
 class HomeworkDetailJsonVO : public JsonVO<HomeworkDetailDTO::Wrapper>
 {
@@ -42,4 +43,4 @@ class HomeworkDetailJsonVO : public JsonVO<HomeworkDetailDTO::Wrapper>
 };
 #include OATPP_CODEGEN_END(DTO)
 
-#endif // !_HOMEWORKVO_H_
+#endif 
