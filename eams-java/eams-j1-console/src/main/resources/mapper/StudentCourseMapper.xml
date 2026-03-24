@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.j1.console.mapper.StudentCourseMapper">
+
+    <!-- 课程报名分页查询 -->
+    <select id="selectCourseEnrollmentPage" resultType="com.zeroone.star.project.dto.j1.enrollment.CourseEnrollmentDTO">
+        SELECT
+            sc.id,
+            s.name as studentName,
+            s.id as studentId,
+            c.name as courseName,
+            c.lesson_type as courseType,
+            cl.name as className,
+            sc.amount as actualAmount,
+            sc.verify_state as status,
+            sc.add_time as enrollmentTime,
+            sc.remark
+        FROM student_course sc
+        LEFT JOIN student s ON sc.student_id = s.id
+        LEFT JOIN course c ON sc.course_id = c.id
+        LEFT JOIN class cl ON sc.course_id = cl.course_id AND cl.deleted = 0
+        WHERE sc.deleted = 0
+        <if test="studentName != null and studentName != ''">
+            AND s.name LIKE CONCAT('%', #{studentName}, '%')
+        </if>
+        <if test="studentPhone != null and studentPhone != ''">
+            AND EXISTS (SELECT 1 FROM user u WHERE u.id = s.user_id AND u.mobile LIKE CONCAT('%', #{studentPhone}, '%'))
+        </if>
+        <if test="courseId != null">
+            AND sc.course_id = #{courseId}
+        </if>
+        <if test="classId != null">
+            AND cl.id = #{classId}
+        </if>
+        <if test="status != null">
+            AND sc.verify_state = #{status}
+        </if>
+        <if test="startDate != null and startDate != ''">
+            AND DATE(sc.add_time) &gt;= #{startDate}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND DATE(sc.add_time) &lt;= #{endDate}
+        </if>
+        ORDER BY sc.add_time DESC
+    </select>
+
+    <!-- 本月报名分页查询 -->
+    <select id="selectMonthlyEnrollmentPage" resultType="com.zeroone.star.project.dto.j1.enrollment.MonthlyEnrollmentDTO">
+        SELECT
+            sc.id,
+            s.id as studentId,
+            s.name as studentName,
+            c.id as courseId,
+            c.name as courseName,
+            cl.id as classId,
+            cl.name as className,
+            sc.add_time as enrollmentTime,
+            sc.verify_state as status,
+            sc.amount as fee,
+            sc.paid_amount as paidAmount,
+            sc.remark
+        FROM student_course sc
+        LEFT JOIN student s ON sc.student_id = s.id
+        LEFT JOIN course c ON sc.course_id = c.id
+        LEFT JOIN class cl ON sc.course_id = cl.course_id AND cl.deleted = 0
+        WHERE sc.deleted = 0
+        AND DATE_FORMAT(sc.add_time, '%Y-%m') = #{yearMonth}
+        <if test="courseId != null">
+            AND sc.course_id = #{courseId}
+        </if>
+        ORDER BY sc.add_time DESC
+    </select>
+
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.j1.console.mapper.CashoutMapper">
+
+    <!-- 请款分页查询 -->
+    <select id="selectCashoutPage" resultType="com.zeroone.star.project.dto.j1.console.MyPaymentRequestDTO">
+        SELECT
+            id,
+            title,
+            type,
+            amount,
+            payee_name as payeeName,
+            account,
+            info,
+            verify_state as verifyState,
+            verify_staff as verifyStaffId,
+            verify_time as verifyTime,
+            verify_remark as verifyRemark,
+            creator,
+            add_time as addTime
+        FROM cashout
+        WHERE deleted = 0
+        <if test="creator != null">
+            AND creator = #{creator}
+        </if>
+        <if test="verifyState != null">
+            AND verify_state = #{verifyState}
+        </if>
+        <if test="startDate != null and startDate != ''">
+            AND DATE(add_time) &gt;= #{startDate}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND DATE(add_time) &lt;= #{endDate}
+        </if>
+        ORDER BY add_time DESC
+    </select>
+
+</mapper>
