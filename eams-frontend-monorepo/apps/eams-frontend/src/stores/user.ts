@@ -3,34 +3,35 @@ import type { Menu, Oauth2TokenDTO, UserInfo } from "@/apis/login/type";
 import { DataUpType, useHttp } from "@/plugins/http";
 
 // 前端临时补充的菜单项，用于在正式管理端左侧展示这 5 个页面。
+// 图标统一改成 iconify 风格字符串，便于和后端存储格式保持一致。
 const tempMenus: Array<Menu> = [
 	{
 		id: "temp-finance",
 		text: "\u8d22\u52a1",
-		icon: "IconMenu",
+		icon: "ep/wallet-filled",
 		children: [
 			{
 				id: "temp-finance-payment-management",
 				text: "\u6b3e\u9879\u7ba1\u7406",
-				icon: "IconMenu",
+				icon: "ep/credit-card",
 				href: "/finance/paymentManagement",
 			},
 			{
 				id: "temp-finance-finance-record",
 				text: "\u6708\u8bfe\u65f6\u8d39",
-				icon: "IconMenu",
+				icon: "ep/calendar",
 				href: "/finance/financeRecord",
 			},
 			{
 				id: "temp-finance-course-reward",
 				text: "\u6d88\u8bfe\u8bfe\u916c",
-				icon: "IconMenu",
+				icon: "ep/coin",
 				href: "/finance/courseReward",
 			},
 			{
 				id: "temp-finance-request-management",
 				text: "\u8bf7\u6b3e\u7ba1\u7406",
-				icon: "IconMenu",
+				icon: "ep/document-checked",
 				href: "/finance/requestManagement",
 			},
 		],
@@ -38,12 +39,12 @@ const tempMenus: Array<Menu> = [
 	{
 		id: "temp-data",
 		text: "\u6570\u636e",
-		icon: "IconMenu",
+		icon: "ep/data-analysis",
 		children: [
 			{
 				id: "temp-data-sale-stats",
 				text: "\u9500\u552e\u7edf\u8ba1",
-				icon: "IconMenu",
+				icon: "ep/trend-charts",
 				href: "/statis/saleStatis",
 			},
 		],
@@ -84,11 +85,11 @@ function mergeMenus(sourceMenus: Array<Menu> = []) {
 
 export const useUserStore = defineStore("user", {
 	state: () => ({
-		// 记录token
+		// 记录 token
 		token: null as string | null,
-		// 记录refreshToken
+		// 记录 refreshToken
 		refreshToken: null as string | null,
-		// 保存一个标识信息，指示登陆后需要加载的初始化数据是否完成
+		// 指示登录后需要加载的初始化数据是否完成
 		loaded: false,
 		// 保存当前用户
 		user: null as UserInfo | null,
@@ -96,9 +97,9 @@ export const useUserStore = defineStore("user", {
 		menus: [] as Array<Menu>,
 	}),
 	getters: {
-		// 获取token
+		// 获取 token
 		getToken: (state) => state.token || localStorage.getItem("token"),
-		// 是否已加载
+		// 是否加载完成
 		isLoaded: (state) => state.loaded,
 		// 获取当前用户
 		getUser: (state) => state.user,
@@ -108,7 +109,6 @@ export const useUserStore = defineStore("user", {
 	actions: {
 		// 加载用户
 		async loadUser() {
-			// 发送获取当前用户信息请求
 			const data = await useHttp().get<UserInfo>("/login/current-user");
 			if (data.data) this.user = data.data;
 			if (!this.user?.avatar) {
@@ -120,19 +120,16 @@ export const useUserStore = defineStore("user", {
 		},
 		// 加载菜单
 		async loadMenus() {
-			// 发送获取菜单请求
 			const data = await useHttp().get<Array<Menu>>("/login/get-menus");
-			if (data.data) this.menus = data.data;
+			this.menus = mergeMenus(data.data || []);
 		},
 		// 加载刷新凭证
 		loadRefreshToken() {
 			if (!this.refreshToken) this.refreshToken = localStorage.getItem("refreshToken");
 		},
-		// 刷新token
+		// 刷新 token
 		async reloadToken() {
-			// 先加载刷新凭证
 			this.loadRefreshToken();
-			// 发送刷新凭证请求
 			const data = await useHttp().post<Oauth2TokenDTO>(
 				"/login/refresh-token",
 				{
@@ -143,14 +140,13 @@ export const useUserStore = defineStore("user", {
 					upType: DataUpType.form,
 				},
 			);
-			//设置Token相关属性
 			this.setToken(data.data);
 		},
 		// 设置是否加载完成
 		setLoaded(loaded: boolean) {
 			this.loaded = loaded;
 		},
-		// 设置token
+		// 设置 token
 		setToken(data: any) {
 			this.token = data.token;
 			this.refreshToken = data.refreshToken;
