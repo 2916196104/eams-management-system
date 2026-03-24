@@ -9,21 +9,42 @@
 					</div>
 					<div class="filter-item">
 						<label class="filter-label">开始日期:</label>
-						<el-date-picker v-model="filters.startDate" type="date" placeholder="请选择开始日期" clearable class="filter-input" format="YYYY-MM-DD" value-format="YYYY-MM-DD" />
+						<el-date-picker
+							v-model="filters.startTime"
+							type="date"
+							placeholder="请选择开始日期"
+							clearable
+							class="filter-input"
+							format="YYYY-MM-DD"
+							value-format="YYYY-MM-DD"
+						/>
 					</div>
 					<div class="filter-item">
 						<label class="filter-label">结束日期:</label>
-						<el-date-picker v-model="filters.endDate" type="date" placeholder="请选择结束日期" clearable class="filter-input" format="YYYY-MM-DD" value-format="YYYY-MM-DD" />
+						<el-date-picker
+							v-model="filters.endTime"
+							type="date"
+							placeholder="请选择结束日期"
+							clearable
+							class="filter-input"
+							format="YYYY-MM-DD"
+							value-format="YYYY-MM-DD"
+						/>
 					</div>
 					<div class="filter-item">
-						<label class="filter-label">课程:</label>
-						<el-select v-model="filters.course" placeholder="请选择课程" clearable class="filter-input">
-							<el-option v-for="(item, index) in courseList" :key="item.id || index" :label="item.name || '未知课程'" :value="item.id || ''" />
+						<label class="filter-label">课程名称:</label>
+						<el-select v-model="filters.courseName" placeholder="请选择课程" clearable class="filter-input">
+							<el-option
+								v-for="(item, index) in courseList"
+								:key="item.id || index"
+								:label="item.name || '未知课程'"
+								:value="item.id || ''"
+							/>
 						</el-select>
 					</div>
 					<div class="filter-item">
 						<label class="filter-label">经办人:</label>
-						<el-input v-model="filters.operator" placeholder="请输入经办人" clearable class="filter-input" />
+						<el-input v-model="filters.operatorName" placeholder="请输入经办人" clearable class="filter-input" />
 					</div>
 					<div class="filter-buttons">
 						<el-button :icon="Search" circle @click="handleSearch" />
@@ -56,7 +77,7 @@
 				@selection-change="handleSelectionChange"
 			>
 				<template #customercell="{ prop, row }">
-					<template v-if="['totalAmount', 'paidAmount', 'oweAmount'].includes(prop)">
+					<template v-if="['amount', 'remainingLessons', 'verifyState'].includes(prop)">
 						<span :class="getCellClass(prop, row)">{{ row[prop] }}</span>
 					</template>
 					<template v-else>
@@ -78,11 +99,13 @@ import { getSignupRecordPage, getCourseList, batchSignup, batchDelete, exportSig
 import type { SignupRecordItemDTO, CourseItemDTO, ExportSignupRecordRequest } from "@/apis/student/type";
 
 const filters = reactive({
+	callBackId: undefined,
+	changeType: undefined,
+	courseName: "",
+	endTime: "",
+	startTime: "",
 	studentName: "",
-	startDate: "",
-	endDate: "",
-	course: "",
-	operator: "",
+	operatorName: "",
 });
 
 // 课程列表
@@ -97,22 +120,16 @@ const tableAttr: MyTableAttr = {
 };
 // 报名记录表格列
 const tableColumns: MyTableColumn[] = [
-	{ prop: "signupDate", label: "报名日期", width: "150px", align: "center" },
+	{ prop: "addTime", label: "报名时间", width: "160px", align: "center" },
 	{ prop: "studentName", label: "学员", "min-width": 120 },
 	{ prop: "courseName", label: "课程", "min-width": 120 },
 	{ prop: "subjectName", label: "科目", "min-width": 100 },
 	{ prop: "operatorName", label: "经办人", "min-width": 100 },
-	{ prop: "confirmSignup", label: "确认报名", width: "100px", align: "center" },
-	{ prop: "receiptNo", label: "单据", width: "120px", align: "center" },
-	{ prop: "totalAmount", label: "总金额", width: "100px", align: "center" },
-	{ prop: "paidAmount", label: "实付金额", width: "100px", align: "center" },
-	{ prop: "oweAmount", label: "欠费", width: "100px", align: "center" },
-	{ prop: "upgradeDate", label: "升级日期", width: "120px", align: "center" },
-	{ prop: "validUntil", label: "有效期至", width: "120px", align: "center" },
-	{ prop: "auditStatus", label: "审核状态", width: "100px", align: "center" },
-	{ prop: "receiptStatus", label: "单据状态", width: "100px", align: "center" },
-	{ prop: "refundStatus", label: "退款状态", width: "100px", align: "center" },
-	{ prop: "refundRemark", label: "退费说明", "min-width": 150, "show-overflow-tooltip": true },
+	{ prop: "amount", label: "金额", width: "100px", align: "center" },
+	{ prop: "countLessonComplete", label: "已完成课时", width: "100px", align: "center" },
+	{ prop: "countLessonTotal", label: "总课时", width: "100px", align: "center" },
+	{ prop: "remainingLessons", label: "剩余课次", width: "100px", align: "center" },
+	{ prop: "verifyState", label: "审核状态", width: "100px", align: "center" },
 ];
 
 const pageIndex = ref(1);
@@ -126,9 +143,9 @@ const displayPageData = computed(() => {
 
 // 获取表格单元格类名
 function getCellClass(prop: string, _row: SignupRecordItemDTO) {
-	if (prop === "totalAmount") return "cell-total";
-	if (prop === "paidAmount") return "cell-paid";
-	if (prop === "oweAmount") return "cell-owe";
+	if (prop === "amount") return "cell-amount";
+	if (prop === "remainingLessons") return "cell-remaining";
+	if (prop === "verifyState") return "cell-verify-state";
 	return "";
 }
 
@@ -139,24 +156,26 @@ function handleSearch() {
 
 function handleReset() {
 	Object.assign(filters, {
+		callBackId: undefined,
+		changeType: undefined,
+		courseName: "",
+		endTime: "",
+		startTime: "",
 		studentName: "",
-		startDate: "",
-		endDate: "",
-		course: "",
-		operator: "",
+		operatorName: "",
 	});
 	pageIndex.value = 1;
 	loadData();
 }
-
+// 刷新数据
 function handleRefresh() {
 	loadData();
 }
-
+// 打印
 function handlePrint() {
 	ElMessage.info("打印功能待接入");
 }
-
+// 自定义排序
 function handleCustomSort() {
 	ElMessage.info("自定义排序功能待接入");
 }
@@ -165,10 +184,10 @@ async function handleExport() {
 	try {
 		const params: ExportSignupRecordRequest = {
 			studentName: filters.studentName,
-			startDate: filters.startDate,
-			endDate: filters.endDate,
-			course: filters.course,
-			operator: filters.operator,
+			startTime: filters.startTime,
+			endTime: filters.endTime,
+			courseName: filters.courseName,
+			operatorName: filters.operatorName,
 		};
 		const res = await exportSignupRecord(params);
 
@@ -209,7 +228,7 @@ async function handleBatchSignup() {
 			cancelButtonText: "取消",
 			type: "warning",
 		});
-		const ids = selectedRows.value.map((row) => row.id).filter((id): id is string => !!id);
+		const ids = selectedRows.value.map((row) => row.id).filter((id): id is number => id !== undefined);
 		await batchSignup({ ids });
 		ElMessage.success("批量报名成功");
 		loadData();
@@ -228,12 +247,16 @@ async function handleBatchDelete() {
 		return;
 	}
 	try {
-		await ElMessageBox.confirm(`确认删除选中的 ${selectedRows.value.length} 条记录吗？此操作不可恢复！`, "批量删除确认", {
-			confirmButtonText: "确定",
-			cancelButtonText: "取消",
-			type: "warning",
-		});
-		const ids = selectedRows.value.map((row) => row.id).filter((id): id is string => !!id);
+		await ElMessageBox.confirm(
+			`确认删除选中的 ${selectedRows.value.length} 条记录吗？此操作不可恢复！`,
+			"批量删除确认",
+			{
+				confirmButtonText: "确定",
+				cancelButtonText: "取消",
+				type: "warning",
+			},
+		);
+		const ids = selectedRows.value.map((row) => row.id).filter((id): id is number => id !== undefined);
 		await batchDelete({ ids });
 		ElMessage.success("批量删除成功");
 		loadData();
@@ -258,16 +281,19 @@ async function loadCourseList() {
 	}
 }
 
+// 加载数据
 async function loadData() {
 	try {
 		const res = await getSignupRecordPage({
 			pageIndex: pageIndex.value,
 			pageSize: pageSize.value,
+			callBackId: filters.callBackId,
+			changeType: filters.changeType,
+			courseName: filters.courseName,
+			endTime: filters.endTime,
+			startTime: filters.startTime,
 			studentName: filters.studentName,
-			startDate: filters.startDate,
-			endDate: filters.endDate,
-			course: filters.course,
-			operator: filters.operator,
+			operatorName: filters.operatorName,
 		});
 		if (res.data) {
 			pageData.value = res.data;
@@ -278,6 +304,7 @@ async function loadData() {
 	}
 }
 
+// 初始化加载数据
 onMounted(() => {
 	loadCourseList();
 	loadData();
@@ -349,18 +376,18 @@ onMounted(() => {
 	gap: 10px;
 }
 
-:deep(.cell-total) {
+:deep(.cell-amount) {
 	color: #409eff;
 	font-weight: bold;
 }
 
-:deep(.cell-paid) {
+:deep(.cell-remaining) {
 	color: #67c23a;
 	font-weight: bold;
 }
 
-:deep(.cell-owe) {
-	color: #f56c6c;
+:deep(.cell-verify-state) {
+	color: #e6a23c;
 	font-weight: bold;
 }
 
@@ -396,4 +423,3 @@ onMounted(() => {
 	}
 }
 </style>
-

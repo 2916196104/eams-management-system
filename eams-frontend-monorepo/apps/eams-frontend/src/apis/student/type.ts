@@ -30,10 +30,6 @@ export interface ClassSummaryQueryDTO {
 	status?: string;
 	/** 学员 ID */
 	studentId?: string;
-	/** 分校区 ID */
-	campusId?: string;
-	/** 课程 ID */
-	courseId?: string;
 }
 
 /**
@@ -66,58 +62,52 @@ export interface ClassSummaryItemDTO {
  * 报名记录查询参数
  */
 export interface SignupRecordQueryDTO {
-	/** 学员姓名 */
-	studentName?: string;
-	/** 开始日期 */
-	startDate?: string;
-	/** 结束日期 */
-	endDate?: string;
-	/** 课程 */
-	course?: string;
-	/** 经办人 */
-	operator?: string;
+	/** 回调 ID */
+	callBackId?: number;
+	/** 变更类型 */
+	changeType?: number;
+	/** 课程名称 */
+	courseName?: string;
+	/** 报名结束时间 */
+	endTime?: string;
 	/** 查询页码 */
 	pageIndex?: number;
 	/** 查询条数 */
 	pageSize?: number;
+	/** 报名开始时间 */
+	startTime?: string;
+	/** 学生姓名 */
+	studentName?: string;
+	/** 经办人 */
+	operatorName?: string;
 }
 
 /**
  * 报名记录数据项
  */
 export interface SignupRecordItemDTO {
-	/** 报名日期 */
-	signupDate?: string;
-	/** 学员 */
-	studentName?: string;
-	/** 课程 */
+	/** 报名 ID */
+	id?: number;
+	/** 报名时间 */
+	addTime?: string;
+	/** 金额 */
+	amount?: number;
+	/** 已完成课时数 */
+	countLessonComplete?: number;
+	/** 总课时数 */
+	countLessonTotal?: number;
+	/** 课程名称 */
 	courseName?: string;
-	/** 科目 */
-	subjectName?: string;
 	/** 经办人 */
 	operatorName?: string;
-	/** 确认报名 */
-	confirmSignup?: string;
-	/** 单据 */
-	receiptNo?: string;
-	/** 总金额 */
-	totalAmount?: number;
-	/** 实付金额 */
-	paidAmount?: number;
-	/** 欠费 */
-	oweAmount?: number;
-	/** 升级日期 */
-	upgradeDate?: string;
-	/** 有效期至 */
-	validUntil?: string;
+	/** 剩余课次 */
+	remainingLessons?: number;
+	/** 学生姓名 */
+	studentName?: string;
+	/** 科目名称 */
+	subjectName?: string;
 	/** 审核状态 */
-	auditStatus?: string;
-	/** 单据状态 */
-	receiptStatus?: string;
-	/** 退款状态 */
-	refundStatus?: string;
-	/** 退费说明 */
-	refundRemark?: string;
+	verifyState?: number;
 	/** 允许其他字段 */
 	[property: string]: any;
 }
@@ -127,7 +117,7 @@ export interface SignupRecordItemDTO {
  */
 export interface BatchSignupRequest {
 	/** 报名记录 ID 列表 */
-	ids: string[];
+	ids: number[];
 }
 
 /**
@@ -135,23 +125,23 @@ export interface BatchSignupRequest {
  */
 export interface BatchDeleteRequest {
 	/** 报名记录 ID 列表 */
-	ids: string[];
+	ids: number[];
 }
 
 /**
  * 导出报名记录请求参数
  */
 export interface ExportSignupRecordRequest {
-	/** 学员姓名 */
+	/** 学生姓名 */
 	studentName?: string;
-	/** 开始日期 */
-	startDate?: string;
-	/** 结束日期 */
-	endDate?: string;
-	/** 课程 */
-	course?: string;
+	/** 报名开始时间 */
+	startTime?: string;
+	/** 报名结束时间 */
+	endTime?: string;
+	/** 课程名称 */
+	courseName?: string;
 	/** 经办人 */
-	operator?: string;
+	operatorName?: string;
 }
 
 /**
@@ -172,42 +162,54 @@ export interface CampusItemDTO {
  * 跟进记录查询参数
  */
 export interface FollowRecordQueryDTO {
-	/** 学员姓名 */
-	studentName?: string;
-	/** 跟进阶段 */
-	stage?: string;
-	/** 跟进人 */
-	follower?: string;
-	/** 开始日期 */
-	startTime?: string;
+	/** 跟进人 ID/姓名 */
+	creator?: string;
 	/** 结束日期 */
 	endTime?: string;
+	/** 学员姓名或电话（模糊查询） */
+	keyword?: string;
 	/** 查询页码 */
 	pageIndex?: number;
 	/** 查询条数 */
 	pageSize?: number;
+	/** 进展阶段 */
+	stage?: number;
+	/** 开始日期 */
+	startTime?: string;
+	/** 学生 ID */
+	studentId?: number;
 }
 
 /**
  * 跟进记录数据项
  */
 export interface FollowRecordItemDTO {
-	/** 跟进时间 */
-	followTime?: string;
-	/** 跟进人 */
-	follower?: string;
-	/** 客户 */
-	customer?: string;
-	/** 阶段 */
-	stage?: string;
-	/** 跟进方式 */
-	followMethod?: string;
-	/** 下次跟进 */
-	nextFollow?: string;
-	/** 记录时间 */
-	recordTime?: string;
-	/** 跟进内容 */
-	followContent?: string;
+	/** 主键 ID */
+	id?: number;
+	/** 创建时间 */
+	addTime?: string;
+	/** 下次联系时间 */
+	contactNextTime?: string;
+	/** 联系电话 */
+	contactPhone?: string;
+	/** 联系时间 */
+	contactTime?: string;
+	/** 联系方式 (1:电话 2:微信 3:面谈 4:其他) */
+	contactType?: number;
+	/** 创建者/跟进人 ID */
+	creator?: number;
+	/** 跟进人姓名 */
+	creatorName?: string;
+	/** 跟进记录 */
+	info?: string;
+	/** 所属组织 ID */
+	orgId?: number;
+	/** 进展阶段 (1:潜在客户 2:意向客户 3:成交客户) */
+	stage?: number;
+	/** 学生 ID */
+	studentId?: number;
+	/** 学员姓名 */
+	studentName?: string;
 	/** 允许其他字段 */
 	[property: string]: any;
 }

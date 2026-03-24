@@ -4,8 +4,12 @@
 			<div class="top-bar">
 				<div class="filter-area">
 					<div class="filter-item">
-						<label class="filter-label">学员姓名:</label>
-						<el-input v-model="filters.studentName" placeholder="请输入学员姓名" clearable class="filter-input" />
+						<label class="filter-label">学员姓名或电话:</label>
+						<el-input v-model="filters.keyword" placeholder="请输入学员姓名或电话" clearable class="filter-input" />
+					</div>
+					<div class="filter-item">
+						<label class="filter-label">跟进人:</label>
+						<el-input v-model="filters.creator" placeholder="请输入跟进人 ID/姓名" clearable class="filter-input" />
 					</div>
 					<div class="filter-item">
 						<label class="filter-label">跟进阶段:</label>
@@ -14,13 +18,9 @@
 								v-for="(item, index) in stageList"
 								:key="item.id || index"
 								:label="item.name || '未知阶段'"
-								:value="item.id || ''"
+								:value="Number(item.id)"
 							/>
 						</el-select>
-					</div>
-					<div class="filter-item">
-						<label class="filter-label">跟进人:</label>
-						<el-input v-model="filters.follower" placeholder="请输入跟进人" clearable class="filter-input" />
 					</div>
 					<div class="filter-item">
 						<label class="filter-label">开始日期:</label>
@@ -66,8 +66,14 @@
 				@selection-change="handleSelectionChange"
 			>
 				<template #customercell="{ prop, row }">
-					<template v-if="['followTime', 'nextFollow', 'recordTime'].includes(prop)">
+					<template v-if="['contactTime', 'contactNextTime', 'addTime'].includes(prop)">
 						<span :class="getCellClass(prop, row)">{{ row[prop] }}</span>
+					</template>
+					<template v-else-if="prop === 'contactType'">
+						{{ getContactTypeLabel(row[prop]) }}
+					</template>
+					<template v-else-if="prop === 'stage'">
+						{{ getStageLabel(row[prop]) }}
 					</template>
 					<template v-else>
 						{{ row[prop] }}
@@ -88,9 +94,9 @@ import { getFollowRecordPage, getFollowStageList } from "@/apis/student";
 import type { FollowRecordItemDTO, FollowStageItemDTO } from "@/apis/student/type";
 
 const filters = reactive({
-	studentName: "",
-	stage: "",
-	follower: "",
+	keyword: "",
+	creator: "",
+	stage: undefined as number | undefined,
 	startTime: "",
 	endTime: "",
 });
@@ -105,14 +111,15 @@ const tableAttr: MyTableAttr = {
 };
 
 const tableColumns: MyTableColumn[] = [
-	{ prop: "followTime", label: "跟进时间", width: "160px", align: "center" },
-	{ prop: "follower", label: "跟进人", "min-width": 100 },
-	{ prop: "customer", label: "客户", "min-width": 120 },
+	{ prop: "contactTime", label: "联系时间", width: "160px", align: "center" },
+	{ prop: "creatorName", label: "跟进人", "min-width": 100 },
+	{ prop: "studentName", label: "学员", "min-width": 120 },
+	{ prop: "contactPhone", label: "联系电话", width: "130px", align: "center" },
 	{ prop: "stage", label: "阶段", "min-width": 120 },
-	{ prop: "followMethod", label: "跟进方式", "min-width": 100 },
-	{ prop: "nextFollow", label: "下次跟进", width: "160px", align: "center" },
-	{ prop: "recordTime", label: "记录时间", width: "160px", align: "center" },
-	{ prop: "followContent", label: "跟进内容", "min-width": 200, "show-overflow-tooltip": true },
+	{ prop: "contactType", label: "联系方式", "min-width": 100 },
+	{ prop: "contactNextTime", label: "下次联系", width: "160px", align: "center" },
+	{ prop: "addTime", label: "创建时间", width: "160px", align: "center" },
+	{ prop: "info", label: "跟进记录", "min-width": 200, "show-overflow-tooltip": true },
 ];
 
 const pageIndex = ref(1);
@@ -125,10 +132,33 @@ const displayPageData = computed(() => {
 });
 
 function getCellClass(prop: string, _row: FollowRecordItemDTO) {
-	if (prop === "followTime") return "cell-follow-time";
-	if (prop === "nextFollow") return "cell-next-follow";
-	if (prop === "recordTime") return "cell-record-time";
+	if (prop === "contactTime") return "cell-contact-time";
+	if (prop === "contactNextTime") return "cell-contact-next-time";
+	if (prop === "addTime") return "cell-add-time";
 	return "";
+}
+
+// 获取联系方式标签
+function getContactTypeLabel(type?: number) {
+	if (!type) return "";
+	const typeMap: Record<number, string> = {
+		1: "电话",
+		2: "微信",
+		3: "面谈",
+		4: "其他",
+	};
+	return typeMap[type] || "未知";
+}
+
+// 获取进展阶段标签
+function getStageLabel(stage?: number) {
+	if (!stage) return "";
+	const stageMap: Record<number, string> = {
+		1: "潜在客户",
+		2: "意向客户",
+		3: "成交客户",
+	};
+	return stageMap[stage] || "未知";
 }
 
 function handleSearch() {
@@ -138,9 +168,9 @@ function handleSearch() {
 
 function handleReset() {
 	Object.assign(filters, {
-		studentName: "",
-		stage: "",
-		follower: "",
+		keyword: "",
+		creator: "",
+		stage: undefined,
 		startTime: "",
 		endTime: "",
 	});
@@ -187,9 +217,9 @@ async function loadData() {
 		const res = await getFollowRecordPage({
 			pageIndex: pageIndex.value,
 			pageSize: pageSize.value,
-			studentName: filters.studentName,
+			keyword: filters.keyword,
+			creator: filters.creator,
 			stage: filters.stage,
-			follower: filters.follower,
 			startTime: filters.startTime,
 			endTime: filters.endTime,
 		});
@@ -267,17 +297,17 @@ onMounted(() => {
 	gap: 10px;
 }
 
-:deep(.cell-follow-time) {
+:deep(.cell-contact-time) {
 	color: #409eff;
 	font-weight: bold;
 }
 
-:deep(.cell-next-follow) {
+:deep(.cell-contact-next-time) {
 	color: #e6a23c;
 	font-weight: bold;
 }
 
-:deep(.cell-record-time) {
+:deep(.cell-add-time) {
 	color: #909399;
 }
 

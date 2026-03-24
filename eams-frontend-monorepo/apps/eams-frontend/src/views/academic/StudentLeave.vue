@@ -1,23 +1,39 @@
 <template>
-	<div class="class-summary-container">
-		<div class="class-summary-content">
+	<div class="student-leave-container">
+		<div class="student-leave-content">
 			<div class="top-bar">
 				<div class="filter-area">
 					<div class="filter-item">
 						<label class="filter-label">学员姓名:</label>
-						<el-input v-model="filters.name" placeholder="请输入学员姓名" clearable class="filter-input" />
+						<el-input v-model="filters.studentName" placeholder="请输入学员姓名" clearable class="filter-input" />
 					</div>
 					<div class="filter-item">
-						<label class="filter-label">电话:</label>
-						<el-input v-model="filters.phone" placeholder="请输入电话" clearable class="filter-input" />
+						<label class="filter-label">任课老师:</label>
+						<el-input v-model="filters.teacherName" placeholder="请输入任课老师" clearable class="filter-input" />
 					</div>
 					<div class="filter-item">
-						<label class="filter-label">状态:</label>
-						<el-select v-model="filters.status" placeholder="请选择状态" clearable class="filter-input">
-							<el-option label="有效" value="有效" />
-							<el-option label="无效" value="无效" />
-							<el-option label="过期" value="过期" />
-						</el-select>
+						<label class="filter-label">开始日期:</label>
+						<el-date-picker
+							v-model="filters.startDate"
+							type="date"
+							placeholder="请选择开始日期"
+							clearable
+							class="filter-input"
+							format="YYYY-MM-DD"
+							value-format="YYYY-MM-DD"
+						/>
+					</div>
+					<div class="filter-item">
+						<label class="filter-label">结束日期:</label>
+						<el-date-picker
+							v-model="filters.endDate"
+							type="date"
+							placeholder="请选择结束日期"
+							clearable
+							class="filter-input"
+							format="YYYY-MM-DD"
+							value-format="YYYY-MM-DD"
+						/>
 					</div>
 					<div class="filter-buttons">
 						<el-button :icon="Search" circle @click="handleSearch" />
@@ -39,8 +55,18 @@
 				@selection-change="handleSelectionChange"
 			>
 				<template #customercell="{ prop, row }">
-					<template v-if="['totalHours', 'completedHours', 'sickLeave', 'personalLeave'].includes(prop)">
+					<template v-if="['leaveTime', 'status'].includes(prop)">
 						<span :class="getCellClass(prop, row)">{{ row[prop] }}</span>
+					</template>
+					<template v-else-if="prop === 'leavePhotos'">
+						<el-image
+							v-if="row[prop] && row[prop].length > 0"
+							:src="row[prop][0]"
+							:preview-src-list="row[prop]"
+							:preview-teleported="true"
+							style="width: 50px; height: 50px"
+							fit="cover"
+						/>
 					</template>
 					<template v-else>
 						{{ row[prop] }}
@@ -57,15 +83,14 @@ import { ElMessage } from "element-plus";
 import { CircleClose, Menu, Printer, RefreshRight, Search } from "@element-plus/icons-vue";
 import MyTable from "@/components/mytable/MyTable.vue";
 import { createPageDTO, type MyTableAttr, type MyTableColumn, type PageDTO } from "@/components/mytable/type";
-import { getClassSummaryPage } from "@/apis/student";
-import type { ClassSummaryItemDTO } from "@/apis/student/type";
+import { getStudentLeavePage } from "@/apis/academic";
+import type { StudentLeaveItemDTO } from "@/apis/academic/type";
 
 const filters = reactive({
-	advisorId: "",
-	name: "",
-	phone: "",
-	status: "",
-	studentId: "",
+	studentName: "",
+	teacherName: "",
+	startDate: "",
+	endDate: "",
 });
 
 const tableAttr: MyTableAttr = {
@@ -76,29 +101,28 @@ const tableAttr: MyTableAttr = {
 };
 
 const tableColumns: MyTableColumn[] = [
-	{ prop: "courseName", label: "课程名称", "min-width": 150 },
-	{ prop: "subjectName", label: "科目名称", "min-width": 120 },
-	{ prop: "totalCount", label: "总数量", width: "100px", align: "center" },
-	{ prop: "completeCount", label: "已完成数量", width: "120px", align: "center" },
-	{ prop: "remainingCount", label: "剩余数量", width: "100px", align: "center" },
-	{ prop: "remainingAmount", label: "剩余金额", width: "120px", align: "center" },
-	{ prop: "unitPrice", label: "单价", width: "100px", align: "center" },
-	{ prop: "expireDate", label: "过期日期", width: "150px", align: "center" },
+	{ prop: "studentName", label: "学员姓名", "min-width": 120 },
+	{ prop: "phone", label: "电话", width: "130px" },
+	{ prop: "leaveLessons", label: "请假课次", "min-width": 200, "show-overflow-tooltip": true },
+	{ prop: "teacherName", label: "任课老师", "min-width": 100 },
+	{ prop: "leaveReason", label: "请假原因", "min-width": 150, "show-overflow-tooltip": true },
+	{ prop: "leaveTime", label: "请假时间", width: "160px", align: "center" },
+	{ prop: "leavePhotos", label: "请假照片", width: "100px", align: "center" },
+	{ prop: "status", label: "状态", width: "100px", align: "center" },
 ];
 
 const pageIndex = ref(1);
 const pageSize = ref(20);
-const pageData = ref(createPageDTO<ClassSummaryItemDTO>());
-const selectedRows = ref<ClassSummaryItemDTO[]>([]);
+const pageData = ref(createPageDTO<StudentLeaveItemDTO>());
+const selectedRows = ref<StudentLeaveItemDTO[]>([]);
 
 const displayPageData = computed(() => {
 	return pageData.value;
 });
 
-function getCellClass(prop: string, _row: ClassSummaryItemDTO) {
-	if (prop === "totalCount") return "cell-total";
-	if (prop === "completeCount") return "cell-completed";
-	if (prop === "remainingCount") return "cell-remaining";
+function getCellClass(prop: string, _row: StudentLeaveItemDTO) {
+	if (prop === "leaveTime") return "cell-leave-time";
+	if (prop === "status") return "cell-status";
 	return "";
 }
 
@@ -109,11 +133,10 @@ function handleSearch() {
 
 function handleReset() {
 	Object.assign(filters, {
-		advisorId: "",
-		name: "",
-		phone: "",
-		status: "",
-		studentId: "",
+		studentName: "",
+		teacherName: "",
+		startDate: "",
+		endDate: "",
 	});
 	pageIndex.value = 1;
 	loadData();
@@ -131,27 +154,25 @@ function handleCustomSort() {
 	ElMessage.info("自定义排序功能待接入");
 }
 
-function handlePageChange(data: PageDTO<ClassSummaryItemDTO>) {
+function handlePageChange(data: PageDTO<StudentLeaveItemDTO>) {
 	pageIndex.value = data.pageIndex;
 	pageSize.value = data.pageSize;
 	loadData();
 }
 
-function handleSelectionChange(rows: ClassSummaryItemDTO[]) {
+function handleSelectionChange(rows: StudentLeaveItemDTO[]) {
 	selectedRows.value = rows;
 }
 
-// 加载数据
 async function loadData() {
 	try {
-		const res = await getClassSummaryPage({
+		const res = await getStudentLeavePage({
 			pageIndex: pageIndex.value,
 			pageSize: pageSize.value,
-			advisorId: filters.advisorId,
-			name: filters.name,
-			phone: filters.phone,
-			status: filters.status,
-			studentId: filters.studentId,
+			studentName: filters.studentName,
+			teacherName: filters.teacherName,
+			startDate: filters.startDate,
+			endDate: filters.endDate,
 		});
 		if (res.data) {
 			pageData.value = res.data;
@@ -168,13 +189,13 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.class-summary-container {
+.student-leave-container {
 	padding: 16px;
 	height: calc(100vh - 32px);
 	overflow-y: auto;
 }
 
-.class-summary-content {
+.student-leave-content {
 	background: #fff;
 	border-radius: 6px;
 	padding: 16px;
@@ -226,18 +247,13 @@ onMounted(() => {
 	gap: 10px;
 }
 
-:deep(.cell-total) {
-	color: #409eff;
+:deep(.cell-leave-time) {
+	color: #e6a23c;
 	font-weight: bold;
 }
 
-:deep(.cell-completed) {
+:deep(.cell-status) {
 	color: #67c23a;
-	font-weight: bold;
-}
-
-:deep(.cell-remaining) {
-	color: #f56c6c;
 	font-weight: bold;
 }
 
