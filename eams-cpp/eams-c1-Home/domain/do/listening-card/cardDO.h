@@ -105,4 +105,68 @@ public:
 // 定义一个智能指针别名方便引用
 typedef std::shared_ptr<CardDO> PtrCardDO;
 
+/*
+	CREATE TABLE `setting_option` (
+	  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+	  `setting_id` bigint NOT NULL COMMENT '组id',
+	  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '名称',
+	  `code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '码',
+	  `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '值',
+	  `value_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'str' COMMENT '值数据类型',
+	  `info` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '说明',
+	  `sort_num` int DEFAULT '0' COMMENT '排序',
+	  PRIMARY KEY (`id`) USING BTREE,
+	  UNIQUE KEY `code` (`code`) USING BTREE
+	) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统设置表';
+*/
+/*
+[
+	{
+		"id": 39,
+		"settingId": 1,
+		"name": "体验卡使用规则说明",
+		"code": "course_trial_help",
+		"value": "1. 每人每课程限领1张体验卡\n2. 体验卡有效期以领取后计算\n3. 体验卡仅限首次体验用户使用\n4. 需提前24小时预约课程\n5. 取消预约请至少提前2小时\n6. 体验课后当天报名可享受9折优惠",
+		"valueType": "str",
+		"info": null,
+		"sortNum": 0
+	}
+]
+*/
+/* 
+	获取试听卡规则DO
+*/
+class CardRuleDO : public BaseDO
+{
+	// 规则ID
+	MYSQL_SYNTHESIZE(unsigned long long, id, Id);
+	// 规则组ID
+	MYSQL_SYNTHESIZE(unsigned long long, settingId, SettingId);
+	// 规则名称
+	MYSQL_SYNTHESIZE(string, name, Name);
+	// 规则码
+	MYSQL_SYNTHESIZE(string, code, Code);
+	// 规则值
+	MYSQL_SYNTHESIZE(string, value, Value);
+	// 规则值类型
+	MYSQL_SYNTHESIZE(string, valueType, ValueType);
+	// 规则说明
+	MYSQL_SYNTHESIZE(string, info, Info);
+	// 规则排序
+	MYSQL_SYNTHESIZE(int, sortNum, SortNum);
+public:
+	CardRuleDO() : BaseDO("setting_option") {
+		MYSQL_ADD_FIELD_PK("id", "ull", id);
+		MYSQL_ADD_FIELD_NULLABLE("setting_id", "ull", settingId, false);
+		MYSQL_ADD_FIELD("name", "s", name);
+		MYSQL_ADD_FIELD("code", "s", code);
+		MYSQL_ADD_FIELD_NULLABLE("value", "s", value, true);
+		MYSQL_ADD_FIELD_NULLABLE("value_type", "s", valueType, true);
+		MYSQL_ADD_FIELD_NULLABLE("info", "s", info, true);
+		MYSQL_ADD_FIELD_NULLABLE("sort_num", "i", sortNum, true);
+	}
+};
+// 定义一个智能指针别名方便引用
+typedef std::shared_ptr<CardRuleDO> PtrCardRuleDO;
+
 #endif // !_DO_INCLUDE_

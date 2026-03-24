@@ -3,7 +3,7 @@
 #include "dao/listening-card/CardDAO.h"
 #include "domain/dto/listening-card/cardDTO.h"
 #include "../../Macros.h"
- 
+
 
 /*
 
@@ -65,5 +65,62 @@ oatpp::List<cardDTO::Wrapper> CardService::getAvailableCardList()
         list->push_back(dto);
     }
     return list;
+}
+
+
+/*
+class CardRuleDO : public BaseDO
+{
+    // 规则ID
+    MYSQL_SYNTHESIZE(unsigned long long, id, Id);
+    // 规则组ID
+    MYSQL_SYNTHESIZE(unsigned long long, settingId, SettingId);
+    // 规则名称
+    MYSQL_SYNTHESIZE(string, name, Name);
+    // 规则码
+    MYSQL_SYNTHESIZE(string, code, Code);
+    // 规则值
+    MYSQL_SYNTHESIZE(string, value, Value);
+    // 规则值类型
+    MYSQL_SYNTHESIZE(string, valueType, ValueType);
+    // 规则说明
+    MYSQL_SYNTHESIZE(string, info, Info);
+    // 规则排序
+    MYSQL_SYNTHESIZE(int, sortNum, SortNum);
+public:
+    CardRuleDO() : BaseDO("setting_option") {
+        MYSQL_ADD_FIELD_PK("id", "ull", id);
+        MYSQL_ADD_FIELD_NULLABLE("setting_id", "ull", settingId, false);
+        MYSQL_ADD_FIELD("name", "s", name);
+        MYSQL_ADD_FIELD("code", "s", code);
+        MYSQL_ADD_FIELD_NULLABLE("value", "s", value, true);
+        MYSQL_ADD_FIELD_NULLABLE("value_type", "s", valueType, true);
+        MYSQL_ADD_FIELD_NULLABLE("info", "s", info, true);
+        MYSQL_ADD_FIELD_NULLABLE("sort_num", "i", sortNum, true);
+    }
+};
+*/
+cardRuleDTO::Wrapper CardService::getCardUsageRules()
+{
+    // 查询数据
+    CardRuleDAO dao;
+	auto res = dao.queryCardUsageRules();
+    // 没有查询到数据，返回空对象
+    if (!res) {
+        return cardRuleDTO::Wrapper();
+    }
+	// 查询到的数据转换为DTO对象
+	auto dto = cardRuleDTO::createShared();
+	ZO_STAR_DOMAIN_DO_TO_DTO_1(dto, res,
+        id, Id,
+        settingId, SettingId,
+        name, Name,
+        code, Code,
+        value, Value,
+        valueType, ValueType,
+        info, Info,
+		sortNum, SortNum
+    )
+	return dto;
 }
 

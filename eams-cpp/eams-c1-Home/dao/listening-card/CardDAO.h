@@ -15,4 +15,14 @@ public:
     std::list<CardDO> queryAvailableCards();
 };
 
+class CardRuleDAO : BaseDAO {
+public:
+    /*
+        获取试听卡使用规则
+        @return 返回试听卡使用规则字符串
+    */
+    PtrCardRuleDO queryCardUsageRules();
+};
+
+
 #endif // !_CARD_DAO_H_

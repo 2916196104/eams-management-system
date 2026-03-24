@@ -36,7 +36,12 @@ cardListJsonVO::Wrapper cardController::executeCardListQuery() {
 * 获取试听卡使用规则
 */
 cardRuleJsonVO::Wrapper cardController::executeCardRuleQuery() {
-	return {};
+	// 查询试听卡规则数据
+	auto result = CardService().getCardUsageRules();
+	// 构建返回结果
+	auto jvo = cardRuleJsonVO::createShared();
+	jvo->success(result);
+	return jvo;
 }
 
 ListeningCardListJsonVO::Wrapper cardController::execQueryCardList(const oatpp::String& userName)
