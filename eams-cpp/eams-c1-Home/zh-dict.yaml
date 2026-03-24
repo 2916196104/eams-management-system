@@ -13,6 +13,7 @@ bulletin:
     creator: 创建者
     editor: 编辑者
     deleted: 逻辑删除标识
+    student_id: 学生id
     id: 主键ID
     title: 标题
     cover: 封面图

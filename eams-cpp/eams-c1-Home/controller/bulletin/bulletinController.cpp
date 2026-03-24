@@ -1,38 +1,42 @@
-﻿/*
- Copyright Zero One Star. All rights reserved.
-
- @Author: awei
- @Date: 2026/03/08 21:19:14
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
-	  https://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-*/
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "bulletinController.h"
+#include"../../service/bulletin/bulletinService.h"
 //实现接口执行函数
-
 
 titleJsonVO::Wrapper bulletinController::executeQueryTitle()
 {
-	return {};
-}
+	//return {};
 
+
+	// 调用Service层获取最新公告
+	auto result = bulletinService().getLatest();
+
+	// 包装响应结果
+	auto jvo = titleJsonVO::createShared();
+	jvo->success(result);
+	return jvo;
+}
 
 listPageJsonVO::Wrapper bulletinController::executeQueryList(const PageQuery::Wrapper& query)
 {
-	return {};
+
+	//return {};
+	auto result = bulletinService().listAll(query);
+
+	// 包装响应结果
+	auto jvo = listPageJsonVO::createShared();
+	jvo->success(result);
+	return jvo;
 }
 
-redJsonVO::Wrapper bulletinController::executeQueryRed()
+redJsonVO::Wrapper bulletinController::executeQueryRed(const Int64& student_id)
 {
-	return {};
+	//return {};
+	// 调用Service层获取未读数
+	auto result = redService().getRed(student_id);
+
+	 //包装响应结果
+	auto jvo = redJsonVO::createShared();
+	jvo->success(result);
+	return jvo;
 }

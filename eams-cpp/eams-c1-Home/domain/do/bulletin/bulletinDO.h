@@ -56,7 +56,7 @@ public:
 	}
 };
 
-typedef std::shared_ptr<AdvertisementDO> ptrAdvertisementDO;
+typedef std::shared_ptr<bulletinDO> ptrbulletinDO;
 
 // 未读数实体类
 class redDO
@@ -86,6 +86,6 @@ public:
 	void setHomeworkCount(int32_t count) { homeworkCount = count; }
 };
 
-typedef std::shared_ptr<UnreadCountDO> ptrUnreadCountDO;
+typedef std::shared_ptr<redDO> ptrRedDO;
 
 #endif // !_BULLETINDO_H_
