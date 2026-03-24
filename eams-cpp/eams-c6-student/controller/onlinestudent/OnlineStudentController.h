@@ -63,7 +63,7 @@ public:
 	);
 	// 定义修改顾问接口处理
 	API_HANDLER_ENDPOINT_AUTH(
-		API_M_POST,														// POST 方法
+		API_M_PUT,														// PUT 方法
 		"/c6/student/online/counselor/modify",							// URL
 		modifyCounselor,												// 函数名
 		BODY_DTO(ModifyCounselorDTO::Wrapper, dto),						// 请求参数
