@@ -54,6 +54,7 @@ public class UserHolder {
 //        userJsonObject = new JSONObject();
 //        userJsonObject.putOnce("id", 1);
 //        userJsonObject.putOnce("user_name", "王麻子");
+//        userJsonObject.putOnce("org_id", 1);
 //        ArrayList<Object> roles = new ArrayList<>();
 //        roles.add("ROLE_ADMIN");
 //        userJsonObject.putOnce("authorities", roles);
@@ -62,6 +63,7 @@ public class UserHolder {
         return UserDTO.builder()
                 .id(Convert.toStr(userJsonObject.get("id")))
                 .username(userJsonObject.getStr("user_name"))
+                .orgId(Convert.toLong(userJsonObject.get("org_id")))
                 .isEnabled(Convert.toByte(1))
                 .roles(Convert.toList(String.class, userJsonObject.get("authorities")))
                 .build();
