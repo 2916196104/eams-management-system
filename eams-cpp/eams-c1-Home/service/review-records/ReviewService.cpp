@@ -21,6 +21,7 @@ ReviewRecordPageDTO::Wrapper ReviewService::listAll(const ReviewRecordQuery::Wra
     ReviewDAO dao;
 
     int64_t total = dao.count(query);
+    page->total = total;
     page->calcPages();
 
     uint64_t offset = (query->pageIndex.getValue(1) - 1) * query->pageSize.getValue(10);
