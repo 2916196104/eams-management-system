@@ -1,39 +1,127 @@
-#pragma once
-#ifndef _STUDENT_DO_H_
-#define _STUDENT_DO_H_
+﻿#pragma once
+#ifndef STUDENTDO_H
+#define STUDENTDO_H 
 #include "../DoInclude.h"
-#include"BaseDO.h"
+class StaffDO : public BaseDO {
+public:
+	// 职工id
+	MYSQL_SYNTHESIZE(long long, id, Id);
+	// 职工姓名
+	MYSQL_SYNTHESIZE(string, name, Name);
+	// 手机号
+	MYSQL_SYNTHESIZE(string, mobile, Mobile);
+	// 微信登录id
+	MYSQL_SYNTHESIZE(int, wxAccessId, WxAccessId);
+	// email
+	MYSQL_SYNTHESIZE(string, email, Email);
+	//生日
+	MYSQL_SYNTHESIZE(string, birthday, BirthDay);
+	//性别
+	MYSQL_SYNTHESIZE(int, sex, Sex);
+	//身份证
+	MYSQL_SYNTHESIZE(string, idCard, IdCard);
+	//毕业学校
+	MYSQL_SYNTHESIZE(string, school, School);
+	//学历
+	MYSQL_SYNTHESIZE(int, degree, Degree);
+	//备注
+	MYSQL_SYNTHESIZE(string, remark, Remark);
+	//在职状态
+	MYSQL_SYNTHESIZE(int, state, State);
+	//是否是管理者
+	MYSQL_SYNTHESIZE(int, isManager, IsManager);
+	//头像
+	MYSQL_SYNTHESIZE(string, headImg, HeadImg);
+	//入职日期
+	MYSQL_SYNTHESIZE(string, hireDate, HireDate);
+	//离职日期
+	MYSQL_SYNTHESIZE(string, fireDate, FireDate);
+	//介绍
+	MYSQL_SYNTHESIZE(string, introduction, Introduction);
+	//创建时间
+	MYSQL_SYNTHESIZE(string, addTime, AddTime);
+	//编辑时间
+	MYSQL_SYNTHESIZE(string, editTime, EditTime);
+	//创建人
+	MYSQL_SYNTHESIZE(string, creator, Creator);
+	//编辑人
+	MYSQL_SYNTHESIZE(string, editor, Editor);
+	//是否删除
+	MYSQL_SYNTHESIZE(int, deleted, Deleted);
+	//密码
+	MYSQL_SYNTHESIZE(string, password, Password);
+	//课时费
+	MYSQL_SYNTHESIZE(int, classFee, ClassFee);
+	//助教费
+	MYSQL_SYNTHESIZE(int, assistantFee, AssistantFee);
+	//staff所属组织id
+	MYSQL_SYNTHESIZE(long long, orgId, OrgId);
+	//是否内部人员
+	MYSQL_SYNTHESIZE(int, isInner, IsInner);
+public:
+	StaffDO() : BaseDO("staff")
+	{
+		MYSQL_ADD_FIELD_PK("id", "i", id);
+		MYSQL_ADD_FIELD("name", "s", name);
+		MYSQL_ADD_FIELD("mobile", "i", mobile);
+		MYSQL_ADD_FIELD("wxAccessId", "i", wxAccessId);
+		MYSQL_ADD_FIELD("email", "s", email);
+		MYSQL_ADD_FIELD("birthday", "s", birthday);
+		MYSQL_ADD_FIELD("sex", "i", sex);
+		MYSQL_ADD_FIELD("idCard", "s", idCard);
+		MYSQL_ADD_FIELD("school", "s", school);
+		MYSQL_ADD_FIELD("degree", "i", degree);
+		MYSQL_ADD_FIELD("remark", "s", remark);
+		MYSQL_ADD_FIELD("state", "i", state);
+		MYSQL_ADD_FIELD("isManager", "i", isManager);
+		MYSQL_ADD_FIELD("headImg", "s", headImg);
+		MYSQL_ADD_FIELD("hireDate", "s", hireDate);
+		MYSQL_ADD_FIELD("fireDate", "s", fireDate);
+		MYSQL_ADD_FIELD("introduction", "s", introduction);
+		MYSQL_ADD_FIELD("addTime", "s", addTime);
+		MYSQL_ADD_FIELD("editTime", "s", editTime);
+		MYSQL_ADD_FIELD("creator", "s", creator);
+		MYSQL_ADD_FIELD("editor", "s", editor);
+		MYSQL_ADD_FIELD("deleted", "i", deleted);
+		MYSQL_ADD_FIELD("password", "s", password);
+		MYSQL_ADD_FIELD("classFee", "i", classFee);
+		MYSQL_ADD_FIELD("assistantFee", "i", assistantFee);
+		MYSQL_ADD_FIELD("orgId", "i", orgId);
+		MYSQL_ADD_FIELD("isInner", "i", isInner);
+	}
+};
+
 class UserDO : public BaseDO
 {
-	MYSQL_SYNTHESIZE(uint64_t, id, Id);//id` bigint unsigned NOT NULL COMMENT '�û�����',
-	
-	MYSQL_SYNTHESIZE(string, name, Name);//`name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '�ҳ�����',
-	
-	MYSQL_SYNTHESIZE(int, wx_access_id, Wx_access_id);//`wx_access_id` int DEFAULT NULL COMMENT '΢��id',
+	MYSQL_SYNTHESIZE(uint64_t, id, Id);//id` bigint unsigned NOT NULL COMMENT '用户主键',
 
-	MYSQL_SYNTHESIZE(string, mobile, Mobile);//`mobile` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '�ֻ����˺�',
+	MYSQL_SYNTHESIZE(string, name, Name);//`name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '家长姓名',
+
+	MYSQL_SYNTHESIZE(int, wx_access_id, Wx_access_id);//`wx_access_id` int DEFAULT NULL COMMENT '微信id',
+
+	MYSQL_SYNTHESIZE(string, mobile, Mobile);//`mobile` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '手机号账号',
 
 	MYSQL_SYNTHESIZE(string, email, Email);//`email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'email',
 
-	MYSQL_SYNTHESIZE(int, state, State);	//`state` tinyint(1) DEFAULT '1' COMMENT '�˺�״̬'
-	
-	MYSQL_SYNTHESIZE(string, password, Password);//`password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '����',
+	MYSQL_SYNTHESIZE(int, state, State);	//`state` tinyint(1) DEFAULT '1' COMMENT '账号状态'
 
-	MYSQL_SYNTHESIZE(int, login_times, Login_times);//`login_times` int DEFAULT '0' COMMENT '��¼����',
+	MYSQL_SYNTHESIZE(string, password, Password);//`password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '密码',
 
-	MYSQL_SYNTHESIZE(string, latest_login_time, Latest_login_time);//`latest_login_time` datetime DEFAULT NULL COMMENT '�ϴε�¼ʱ��',
+	MYSQL_SYNTHESIZE(int, login_times, Login_times);//`login_times` int DEFAULT '0' COMMENT '登录次数',
 
-	MYSQL_SYNTHESIZE(string, latest_login_ip, Latest_login_ip);//`latest_login_ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '�ϴε�¼ip',
+	MYSQL_SYNTHESIZE(string, latest_login_time, Latest_login_time);//`latest_login_time` datetime DEFAULT NULL COMMENT '上次登录时间',
 
-	MYSQL_SYNTHESIZE(string, add_time, Add_time);//`add_time` datetime DEFAULT NULL COMMENT '����ʱ��',
+	MYSQL_SYNTHESIZE(string, latest_login_ip, Latest_login_ip);//`latest_login_ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '上次登录ip',
 
-	MYSQL_SYNTHESIZE(string, remark, Remark);//`remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '��ע',
+	MYSQL_SYNTHESIZE(string, add_time, Add_time);//`add_time` datetime DEFAULT NULL COMMENT '加入时间',
 
-	MYSQL_SYNTHESIZE(uint64_t, creator, Creator);//`creator` bigint DEFAULT NULL COMMENT '������',
+	MYSQL_SYNTHESIZE(string, remark, Remark);//`remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
 
-	MYSQL_SYNTHESIZE(uint64_t, school_id, School_id);//`school_id` bigint DEFAULT NULL COMMENT '����ѧУid',
+	MYSQL_SYNTHESIZE(uint64_t, creator, Creator);//`creator` bigint DEFAULT NULL COMMENT '添加者',
 
-	MYSQL_SYNTHESIZE(uint64_t, org_id, Org_id);//`org_id` bigint DEFAULT NULL COMMENT '������������֯ID',
+	MYSQL_SYNTHESIZE(uint64_t, school_id, School_id);//`school_id` bigint DEFAULT NULL COMMENT '所属学校id',
+
+	MYSQL_SYNTHESIZE(uint64_t, org_id, Org_id);//`org_id` bigint DEFAULT NULL COMMENT '创建者所属组织ID',
 
 
 public:
@@ -85,4 +173,6 @@ public:
 	MYSQL_SYNTHESIZE(string, addTime, AddTime);
 	MYSQL_SYNTHESIZE(int32_t, state, State);
 };
+typedef std::shared_ptr<StaffDO> PtrStaffDO;
+
 #endif

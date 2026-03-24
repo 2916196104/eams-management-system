@@ -6,6 +6,7 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 class RegistrationPageQuery :public PageQuery {
 	DTO_INIT(RegistrationPageQuery, PageQuery);
+	API_DTO_FIELD_DEFAULT(Int64, id, ZH_WORDS_GETTER("common.field.student.id"));
 };
 
 
