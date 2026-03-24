@@ -7,8 +7,6 @@ ParentAccountPageJsonVO::Wrapper ParentAccountController::execQueryParentAccount
 	auto jvo = ParentAccountPageJsonVO::createShared();
 	jvo->success(data);
 	return jvo;
-	//return {};
-
 }
 
 ParentAccountChangeJsonVO::Wrapper ParentAccountController::excuteParentAccountChange(const ParentAccountChangeDTO::Wrapper& dto) {

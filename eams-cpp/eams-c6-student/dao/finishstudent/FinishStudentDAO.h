@@ -7,9 +7,7 @@
 #include "domain/dto/finishstudent/FinishStudentDTO.h"
 #include "domain/do/student/StudentDO.h"
 
-/**
- * 结业学员数据访问�?
- */
+
 class FinishStudentDAO : public BaseDAO
 {
 public:

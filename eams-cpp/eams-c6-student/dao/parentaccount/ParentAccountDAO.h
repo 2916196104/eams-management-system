@@ -6,9 +6,7 @@
 #include"domain/query/parentaccount/ParentAccountQuery.h"
 #include"domain/do/student/StudentDO.h"
 
-/**
- * ??????????????
- */
+
 class ParentAccountDAO : public BaseDAO
 {
 public:
