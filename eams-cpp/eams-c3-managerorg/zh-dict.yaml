@@ -165,6 +165,9 @@ board:
   boardType: 公告类型
   boardAddId: 文章编码(如果是新增不需要上传唯一ID,如果是修改就需要上传唯一ID)
   boardText: 公告文字内容
+  boardPublisherName: 公告发布者名称
+  boardPublisherId: 公告发布者id
+  boardTime: 公告发布时间
   boardStatus: 公告状态
   sc: 成绩
  list:
