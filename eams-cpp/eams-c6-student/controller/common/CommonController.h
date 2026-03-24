@@ -72,12 +72,12 @@ public:
 	}
 	// 学员缴欠费
 	ENDPOINT_INFO(payFees) {
-		//API_DEF_ADD_AUTH();//添加权限认证
+		API_DEF_ADD_AUTH();//添加权限认证
 		API_DEF_ADD_TAG(API_TAG);//将接口添加到分组
 		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("common.interface.pay-fees"));
 		API_DEF_ADD_RSP_JSON_WRAPPER(PayFeesJsonVO);
 	}
-	ENDPOINT(API_M_POST, "/c6/common/student/pay-fees", payFees,BODY_DTO(PayFeesDTO::Wrapper, dto)) {
+	ENDPOINT(API_M_POST, "/c6/common/student/pay-fees", payFees,BODY_DTO(PayFeesDTO::Wrapper, dto),API_HANDLER_AUTH_PARAME) {
 
 		API_HANDLER_RESP_VO(exePayFees(dto));
 	}
@@ -110,27 +110,27 @@ private:
 		auto vo = PayFeesJsonVO::createShared();
 		if (!dto) {
 			vo->setStatus(RS_FAIL);
-			vo->message = "参数不能为空";
+			vo->message = "Parameter cannot be empty";
 			return vo;
 		}
 		if (dto->payAmount <= 0 || !dto->payAmount) {
 			vo->setStatus(RS_FAIL);
-			vo->message = "缴费金额必须大于0";
+			vo->message = "The payment amount must be greater than zero";
 			return vo;
 		}
 		if (!dto->studentId) {
 			vo->setStatus(RS_FAIL);
-			vo->message = "学生id不能为空";
+			vo->message = "Student ID cannot be empty";
 			return vo;
 		}
 		if (!dto->courseId) {
 			vo->setStatus(RS_FAIL);
-			vo->message = "课程id不能为空";
+			vo->message = "The course ID cannot be empty";
 			return vo;
 		}
 		if (!dto->subjectId) {
 			vo->setStatus(RS_FAIL);
-			vo->message = "科目id不能为空";
+			vo->message = "Subject ID cannot be empty";
 			return vo;
 		}
 		//业务逻辑
@@ -139,7 +139,7 @@ private:
 		Connection* conn = pool.GetConnection();
 		if (!conn) {
 			vo->setStatus(RS_FAIL);
-			vo->message = "服务器繁忙，请稍后再试";
+			vo->message = "The server is busy, please try again later";
 			return vo;
 		}
 		//2.从数据库中的student_coruse表中查找是否有studentId、courseId、subjectId，没有的话返回错误
@@ -153,7 +153,7 @@ private:
 		ResultSet* res = pstmt->executeQuery();
 		if (!res->next()) {
 			vo->setStatus(RS_FAIL);
-			vo->message = "未找到学生课程记录";
+			vo->message = "Student course record not found";
 
 			// 释放资源
 			delete res;
@@ -167,7 +167,7 @@ private:
 		//3.查看是否已付清，已付清返回"已付清"
 		if (payOff == 1) {
 			vo->setStatus(RS_FAIL);
-			vo->message = "已付清";
+			vo->message = "Paid in full";
 			// 释放资源
 			delete res;
 			delete pstmt;
@@ -177,7 +177,7 @@ private:
 		//4.查看还剩下未付的款额，看amount是否大于未付的款额，大的话返回错误
 		if (int(amount - paidAmount) < int(dto->payAmount)) {
 			vo->setStatus(RS_FAIL);
-			vo->message = "所付金额超过待付金额";
+			vo->message = "The amount paid exceeds the amount due";
 			// 释放资源
 			delete res;
 			delete pstmt;
@@ -200,7 +200,7 @@ private:
 		delete pstmt;
 		if (affectedRows == 0) {
 			vo->setStatus(RS_FAIL);
-			vo->message = "更新失败，请稍后再试";
+			vo->message = "Update failed, please try again later";
 		}
 		else {
 			vo->setStatus(RS_SUCCESS);
