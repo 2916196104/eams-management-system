@@ -230,6 +230,254 @@ public:
 	DTO_INIT(QueryFollowUprecordsDTO, PageDTO<QueryDTO::Wrapper>);
 };
 
+/**
+ * 班级列表新增传输对象
+ */
+class getClassListAddDTO : public oatpp::DTO
+{
+	DTO_INIT(getClassListAddDTO, DTO);
+	// 序号
+	DTO_FIELD(String, id);
+	DTO_FIELD_INFO(id) {
+		info->description = ZH_WORDS_GETTER("getClassList.id");
+	}
+	// 班级名称
+	DTO_FIELD(String, className);
+	DTO_FIELD_INFO(className) {
+		info->description = ZH_WORDS_GETTER("getClassList.name");
+	}
+	// 科目
+	DTO_FIELD(String, subject);
+	DTO_FIELD_INFO(subject) {
+		info->description = ZH_WORDS_GETTER("getClassList.subject");
+	}
+	// 教室
+	DTO_FIELD(String, classroom);
+	DTO_FIELD_INFO(classroom) {
+		info->description = ZH_WORDS_GETTER("getClassList.classroom");
+	}
+	// 学生数
+	DTO_FIELD(UInt32, studentCount);
+	DTO_FIELD_INFO(studentCount) {
+		info->description = ZH_WORDS_GETTER("getClassList.studentCount");
+	}
+	// 人数上限
+	DTO_FIELD(UInt32, maxStudentCount);
+	DTO_FIELD_INFO(maxStudentCount) {
+		info->description = ZH_WORDS_GETTER("getClassList.maxStudentCount");
+	}
+	// 关联一个PayloadDTO负载数据对象
+	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
+public:
+	// 数据校验
+	std::string validate()
+	{
+		// 校验班级名称
+		if (!className || className->empty())
+			return "className invalidate.";
+
+		// 校验科目
+		if (!subject || subject->empty())
+			return "subject invalidate.";
+
+		// 校验教室
+		if (!classroom || classroom->empty())
+			return "classroom invalidate.";
+
+		// 校验学生数
+		if (!studentCount || studentCount > maxStudentCount)
+			return "studentCount invalidate.";
+
+		// 校验人数上限
+		if (!maxStudentCount || maxStudentCount <= 0)
+			return "maxStudentCount invalidate.";
+
+		return "";
+	}
+};
+
+/**
+ *  班级列表传输对象
+ */
+class getClassListDTO : public getClassListAddDTO
+{
+	DTO_INIT(getClassListDTO, getClassListAddDTO);
+	// 编号
+	DTO_FIELD(String, id);
+	DTO_FIELD_INFO(id) {
+		info->description = ZH_WORDS_GETTER("getClassList.id");
+	}
+};
+
+/**
+ * 班级列表分页查询传输对象
+ */
+class getClassListPageDTO : public PageDTO<getClassListDTO::Wrapper>
+{
+	DTO_INIT(getClassListPageDTO, PageDTO<getClassListDTO::Wrapper>);
+};
+
+
+
+/**
+ * 课程统计新增传输对象
+ */
+class getCourseStatisticsAddDTO : public oatpp::DTO
+{
+	DTO_INIT(getCourseStatisticsAddDTO, DTO);
+	// 课程
+	DTO_FIELD(String, course);
+	DTO_FIELD_INFO(course) {
+		info->description = ZH_WORDS_GETTER("getCourseStatistics.course");
+	}
+	// 总课时
+	DTO_FIELD(UInt32, totalHours);
+	DTO_FIELD_INFO(totalHours) {
+		info->description = ZH_WORDS_GETTER("getCourseStatistics.totalHours");
+	}
+	// 剩余课时
+	DTO_FIELD(UInt32, remainingHours);
+	DTO_FIELD_INFO(remainingHours) {
+		info->description = ZH_WORDS_GETTER("getCourseStatistics.remainingHours");
+	}
+	// 已上课时
+	DTO_FIELD(UInt32, attendedHours);
+	DTO_FIELD_INFO(attendedHours) {
+		info->description = ZH_WORDS_GETTER("getCourseStatistics.attendedHours");
+	}
+	// 到期日期
+	DTO_FIELD(String, expireDate);
+	DTO_FIELD_INFO(expireDate) {
+		info->description = ZH_WORDS_GETTER("getCourseStatistics.expireDate");
+	}
+	//清课优先级
+	DTO_FIELD(UInt32, cancelPriority);
+	DTO_FIELD_INFO(cancelPriority) {
+		info->description = ZH_WORDS_GETTER("getCourseStatistics.cancelPriority");
+	}
+
+	// 关联一个PayloadDTO负载数据对象
+	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
+public:
+	// 数据校验
+	std::string validate()
+	{
+		// 校验课程名称
+		if (!course || course->empty())
+			return "course invalidate.";
+
+		// 校验总课时
+		if (!totalHours || totalHours <= 0)
+			return "totalHours invalidate.";
+
+		// 校验剩余课时
+		if (!remainingHours)
+			return "remainingHours invalidate.";
+
+		// 校验已上课时
+		if (!attendedHours)
+			return "attendedHours invalidate.";
+
+		// 校验到期日期格式（简单非空校验，如需严格格式可扩展）
+		if (!expireDate || expireDate->empty())
+			return "expireDate invalidate.";
+
+		// 校验清课优先级
+		if (!cancelPriority || cancelPriority > 5) // 假设优先级范围为1-5，可根据业务调整
+			return "cancelPriority invalidate.";
+
+		// 校验课时逻辑关系：已上课时 + 剩余课时 <= 总课时
+		if (totalHours && attendedHours && remainingHours) {
+			if (attendedHours + remainingHours > totalHours) {
+				return "The sum of attendedHours and remainingHours cannot exceed totalHours.";
+			}
+		}
+
+		// 校验已上课时不能大于总课时
+		if (totalHours && attendedHours && attendedHours > totalHours) {
+			return "attendedHours cannot exceed totalHours.";
+		}
+
+		// 校验剩余课时不能大于总课时
+		if (totalHours && remainingHours && remainingHours > totalHours) {
+			return "remainingHours cannot exceed totalHours.";
+		}
+
+		return "";
+	}
+};
+/**
+ * 课程统计传输对象
+ */
+class getCourseStatisticsDTO : public getCourseStatisticsAddDTO
+{
+	DTO_INIT(getCourseStatisticsDTO, getCourseStatisticsAddDTO);
+	// 编号
+	DTO_FIELD(String, id);
+	DTO_FIELD_INFO(id) {
+		info->description = ZH_WORDS_GETTER("getCourseStatistics.id");
+	}
+};
+/**
+ * 课程统计分页查询传输对象
+ */
+class getCourseStatisticsPageDTO : public PageDTO<getCourseStatisticsDTO::Wrapper>
+{
+	DTO_INIT(getCourseStatisticsPageDTO, PageDTO<getCourseStatisticsDTO::Wrapper>);
+};
+
+
+
+
+/**
+ * 加入班级新增传输对象
+ */
+class JoinclassAddDTO : public oatpp::DTO
+{
+	DTO_INIT(JoinclassAddDTO, DTO);
+	// 班级名称
+	DTO_FIELD(String, className);
+	DTO_FIELD_INFO(className) {
+		info->description = ZH_WORDS_GETTER("JoinClass.name");
+	}
+	// 分校
+	DTO_FIELD(String, school);
+	DTO_FIELD_INFO(school) {
+		info->description = ZH_WORDS_GETTER("JoinClass.school");
+	}
+
+	// 关联一个PayloadDTO负载数据对象
+	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
+public:
+	// 数据校验
+	std::string validate()
+	{
+		if (!className || className->empty())
+			return "className invalidate.";
+		if (!school || school->empty())
+			return "school invalidate.";
+		return "";
+	}
+};
+/**
+ * 加入班级传输对象
+ */
+class  JoinclassDTO : public  JoinclassAddDTO
+{
+	DTO_INIT(JoinclassDTO, JoinclassAddDTO);
+	// 编号
+	DTO_FIELD(String, id);
+	DTO_FIELD_INFO(id) {
+		info->description = ZH_WORDS_GETTER("JoinClass.id");
+	}
+};
+/**
+ * 加入班级分页传输对象
+ */
+class JoinclassPageDTO : public PageDTO<JoinclassDTO::Wrapper>
+{
+	DTO_INIT(JoinclassPageDTO, PageDTO<JoinclassDTO::Wrapper>);
+};
 
 
 

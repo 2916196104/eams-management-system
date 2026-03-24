@@ -1,25 +1,62 @@
 #pragma once
-/*
- Copyright Zero One Star. All rights reserved.
-
- @Author: awei
- @Date: 2022/10/25 14:23:49
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
-	  https://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-*/
-#ifndef _SAMPLE_DAO_
-#define _SAMPLE_DAO_
+#ifndef _COMMON_DAO_
+#define _COMMON_DAO_
 #include "BaseDAO.h"
+#include "../../domain/do/student/StudentDO.h"
+#include "../../domain/query/common/CommonQuery.h"
+
+/**
+ * 班级列表数据访问对象
+ */
+class getClassListDAO : public BaseDAO
+{
+private:
+	inline std::string queryConditionBuilder(const getClassListQuery::Wrapper& query, SqlParams& params);
+public:
+	// 统计数据条数
+	uint64_t count(const getClassListQuery::Wrapper& query);
+	// 分页查询数据
+	std::list<getClassListDO> selectWithPage(const getClassListQuery::Wrapper& query);
+	std::list<PtrgetClassListDO> selectWithPagePtr(const getClassListQuery::Wrapper& query);
+};
 
 
-#endif // !_SAMPLE_DAO_
+/**
+ * 课程统计数据访问对象
+ */
+class getCourseStatisticsDAO : public BaseDAO
+{
+private:
+	inline std::string queryConditionBuilder(const getCourseStatisticsQuery::Wrapper& query, SqlParams& params);
+public:
+	// 统计数据条数
+	uint64_t count(const getCourseStatisticsQuery::Wrapper& query);
+	// 分页查询数据
+	std::list<getCourseStatisticsDO> selectWithPage(const getCourseStatisticsQuery::Wrapper& query);
+	std::list<PtrgetCourseStatisticsDO> selectWithPagePtr(const getCourseStatisticsQuery::Wrapper& query);
+};
+
+
+/**
+ * 课程统计数据访问对象
+ */
+class JoinclassDAO : public BaseDAO
+{
+private:
+	inline std::string queryConditionBuilder(const JoinclassQuery::Wrapper& query, SqlParams& params);
+public:
+	// 统计数据条数
+	uint64_t count(const JoinclassQuery::Wrapper& query);
+	// 分页查询数据
+	std::list<JoinclassDO> selectWithPage(const JoinclassQuery::Wrapper& query);
+	std::list<PtrJoinclassDO> JoinclassDAO::selectWithPagePtr(const JoinclassQuery::Wrapper& query);
+};
+
+
+
+
+
+
+
+
+#endif 

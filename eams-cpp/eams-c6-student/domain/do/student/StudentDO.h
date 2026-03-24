@@ -175,4 +175,126 @@ public:
 };
 typedef std::shared_ptr<StaffDO> PtrStaffDO;
 
+
+// 班级学员数据库实体类
+class ClassStudentDO : public BaseDO
+{
+	// 主键
+	MYSQL_SYNTHESIZE(string, id, Id);
+	// 班级id
+	MYSQL_SYNTHESIZE(string, classId, ClassId);
+	// 学生id
+	MYSQL_SYNTHESIZE(string, studentId, StudentId);
+	// 添加时间
+	MYSQL_SYNTHESIZE(string, addTime, AddTime);
+	// 创建人
+	MYSQL_SYNTHESIZE(string, creator, Creator);
+	// 加入原因
+	MYSQL_SYNTHESIZE(int, reason, Reason);
+	// 删除标记
+	MYSQL_SYNTHESIZE(int, deleted, Deleted);
+	// 备注信息
+	MYSQL_SYNTHESIZE(string, remark, Remark);
+	// 默认消费课程
+	MYSQL_SYNTHESIZE(string, consumeCourseId, ConsumeCourseId);
+
+public:
+	ClassStudentDO() : BaseDO("class_student")
+	{
+		MYSQL_ADD_FIELD_PK("id", "s", id);
+		MYSQL_ADD_FIELD("class_id", "s", classId);
+		MYSQL_ADD_FIELD("student_id", "s", studentId);
+		MYSQL_ADD_FIELD("add_time", "s", addTime);
+		MYSQL_ADD_FIELD("creator", "s", creator);
+		MYSQL_ADD_FIELD("reason", "i", reason);
+		MYSQL_ADD_FIELD("deleted", "i", deleted);
+		MYSQL_ADD_FIELD("remark", "s", remark);
+		MYSQL_ADD_FIELD("consume_course_id", "s", consumeCourseId);
+	}
+};
+
+/**
+班级列表数据库实体类
+**/
+class getClassListDO : public BaseDO
+{
+	// 序号
+	MYSQL_SYNTHESIZE(string, id, Id);
+	// 班级名称
+	MYSQL_SYNTHESIZE(string, className, ClassName);
+	// 科目
+	MYSQL_SYNTHESIZE(string, subject, Subject);
+	// 教室
+	MYSQL_SYNTHESIZE(string, classroom, Classroom);
+	// 学生数
+	MYSQL_SYNTHESIZE(int, studentCount, StudentCount);
+	// 人数上限
+	MYSQL_SYNTHESIZE(int, maxStudentCount, MaxStudentCount);
+
+public:
+	getClassListDO() : BaseDO("")
+	{
+		MYSQL_ADD_FIELD_PK("id", "s", id);
+		MYSQL_ADD_FIELD("class_name", "s", className);
+		MYSQL_ADD_FIELD("subject", "s", subject);
+		MYSQL_ADD_FIELD("classroom", "s", classroom);
+		MYSQL_ADD_FIELD("student_count", "i", studentCount);
+		MYSQL_ADD_FIELD("max_student_count", "i", maxStudentCount);
+	}
+};
+typedef std::shared_ptr<getClassListDO> PtrgetClassListDO;
+
+
+/**
+ 课程统计数据库实体类
+**/
+class getCourseStatisticsDO : public BaseDO
+{
+	// 课程
+	MYSQL_SYNTHESIZE(string, course, Course);
+	// 总课时
+	MYSQL_SYNTHESIZE(int, totalHours, TotalHours);
+	// 剩余课时
+	MYSQL_SYNTHESIZE(int, remainingHours, RemainingHours);
+	// 已上课时
+	MYSQL_SYNTHESIZE(int, attendedHours, AttendedHours);
+	// 到期日期
+	MYSQL_SYNTHESIZE(string, expireDate, ExpireDate);
+	// 清课优先级
+	MYSQL_SYNTHESIZE(int, cancelPriority, CancelPriority);
+
+public:
+	getCourseStatisticsDO() : BaseDO("")
+	{
+		MYSQL_ADD_FIELD_PK("course", "s", course);
+		MYSQL_ADD_FIELD("total_hours", "i", totalHours);
+		MYSQL_ADD_FIELD("remaining_hours", "i", remainingHours);
+		MYSQL_ADD_FIELD("attended_hours", "i", attendedHours);
+		MYSQL_ADD_FIELD("expire_date", "s", expireDate);
+		MYSQL_ADD_FIELD("cancel_priority", "i", cancelPriority);
+	}
+};
+typedef std::shared_ptr<getCourseStatisticsDO> PtrgetCourseStatisticsDO;
+
+
+/**
+? 加入班级数据库实体类
+**/
+class JoinclassDO : public BaseDO
+{
+	// 班级名称
+	MYSQL_SYNTHESIZE(string, className, ClassName);
+	// 分校
+	MYSQL_SYNTHESIZE(string, school, School);
+
+public:
+	JoinclassDO() : BaseDO("")
+	{
+		MYSQL_ADD_FIELD_PK("class_name", "s", className);
+		MYSQL_ADD_FIELD("school", "s", school);
+	}
+};
+typedef std::shared_ptr<JoinclassDO> PtrJoinclassDO;
+
+
 #endif
