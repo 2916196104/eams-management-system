@@ -2,8 +2,8 @@ package com.zeroone.star.sys.controller;
 
 
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.dto.j2.sys.OptlogDTO;
-import com.zeroone.star.project.dto.j2.sys.OptlogOperatorDTO;
+import com.zeroone.star.project.dto.j2.sys.Optlog.OptlogDTO;
+import com.zeroone.star.project.dto.j2.sys.Optlog.OptlogOperatorDTO;
 import com.zeroone.star.project.j2.sys.OptlogApis;
 import com.zeroone.star.project.query.j2.sys.OptlogOperatorQuery;
 import com.zeroone.star.project.query.j2.sys.OptlogQuery;
