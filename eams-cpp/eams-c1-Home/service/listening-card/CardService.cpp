@@ -61,7 +61,8 @@ oatpp::List<cardDTO::Wrapper> CardService::getAvailableCardList()
             endDate, EndDate,
             state, State,
             editTime, EditTime,
-            editorName, EditorName);
+            editorName, EditorName,
+            recordCount, RecordCount);
         list->push_back(dto);
     }
     return list;

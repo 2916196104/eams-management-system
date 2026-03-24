@@ -19,7 +19,10 @@ std::list<CardDO> CardDAO::queryAvailableCards() {
         "AND ct.deleted = 0 "
         "AND ct.end_date >= CURDATE() "
         "ORDER BY ct.add_time DESC";
-
+    /*
+		sql 语句说明：
+		select部分：查询试听卡表(course_trial)的基本信息，关联查询课程表(course)获取课程名称，关联查询员工表(staff)获取编辑者名称，`关联子查询`统计领取记录数。
+    */
     return sqlSession->executeQuery<CardDO>(sql, CardMapper());
 }
 /*

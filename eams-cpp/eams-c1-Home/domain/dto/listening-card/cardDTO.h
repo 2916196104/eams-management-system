@@ -99,6 +99,8 @@ class cardDTO : public oatpp::DTO {
 	API_DTO_FIELD_DEFAULT(String, editTime, ZH_WORDS_GETTER("listening-card.field.card.editTime"));
 	// 编辑者姓名
 	API_DTO_FIELD_DEFAULT(String, editorName, ZH_WORDS_GETTER("listening-card.field.card.editorName"));
+	// 领取记录数
+	API_DTO_FIELD_DEFAULT(Int32, recordCount, ZH_WORDS_GETTER("listening-card.field.card.receiveCount"));
 };
 
 /**

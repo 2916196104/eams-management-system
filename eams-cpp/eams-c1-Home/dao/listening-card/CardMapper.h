@@ -26,7 +26,6 @@ public:
         data.setEndDate(resultSet->getString(8));      // ct.end_date
         data.setState(resultSet->getInt(9) != 0);      // ct.state
         data.setEditTime(resultSet->getString(10));    // ct.edit_time
-        // editorName 可能为 NULL -> getString 返回 empty 或可处理为 null 的实现
         data.setEditorName(resultSet->getString(11));  // s.name AS editor_name
         data.setRecordCount(resultSet->getInt(12));    // rr.record_count
         return data;
