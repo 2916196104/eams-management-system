@@ -87,6 +87,8 @@ private:
 	// 数据状态系信息
 	PayloadCode code;
 	// TIP：新增属性字段在后面添加即可
+	// 组织编号
+	int64_t orgId;
 public:
 	PayloadDTO()
 	{
@@ -95,6 +97,7 @@ public:
 		this->sub = "";
 		this->setCode(PayloadCode::SUCCESS);
 		// 注意：新增属性字段赋值默认值在后面补充即可
+		this->orgId = 0;
 	}
 	PayloadDTO(std::string _sub, int64_t _exp, std::string _username, std::list<std::string> _authorities) :
 		sub(_sub), exp(_exp), username(_username), authorities(_authorities)
@@ -118,6 +121,8 @@ public:
 	std::string getToken() const { return token; }
 	void setToken(std::string val) { token = val; }
 	// 注意：新增属性字段后需要补充getter/setter
+	int64_t getOrgId() const { return orgId; }
+	void setOrgId(int64_t val) { orgId = val; }
 
 	// 添加权限
 	void putAuthority(std::string authstr) { authorities.push_back(authstr); }
@@ -134,6 +139,7 @@ public:
 		// 转换id
 		obj->add_claim("id", id);
 		// TIP：新增字段在后面补充即可
+		obj->add_claim("org_id", orgId);
 	}
 
 	// 将jwt_object的属性转换到Payload中
@@ -156,6 +162,10 @@ public:
 		else
 			setId(_payload["id"].get<std::string>());
 		// TIP：新增字段在后面补充即可
+		if (_payload.contains("org_id"))
+		{
+			setOrgId(_payload["org_id"].get<int64_t>());
+		}
 	}
 };
 
