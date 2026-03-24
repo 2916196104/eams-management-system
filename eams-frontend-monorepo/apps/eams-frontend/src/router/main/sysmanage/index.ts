@@ -8,6 +8,14 @@ const routes = [
 		component: () => import("@/views/org/employee/Index.vue"),
 	},
 	{
+		path: "/org/salary-settings",
+		name: "SalarySettings",
+		meta: {
+			label: "薪资设置",
+		},
+		component: () => import("@/views/org/salary/Index.vue"),
+	},
+	{
 		path: "/un-1",
 		name: "UN1",
 		meta: {
