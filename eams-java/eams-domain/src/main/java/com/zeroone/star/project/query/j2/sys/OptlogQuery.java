@@ -19,5 +19,5 @@ public class OptlogQuery extends PageQuery {
     private String info;
 
     @ApiModelProperty(value = "操作人的id",example = "超级管理员身份id为1则传入1")
-    private int operator;
+    private Integer operator;
 }

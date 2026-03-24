@@ -2,6 +2,8 @@ package com.zeroone.star.project.j2.sys;
 
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j2.sys.OptlogDTO;
+import com.zeroone.star.project.dto.j2.sys.OptlogOperatorDTO;
+import com.zeroone.star.project.query.j2.sys.OptlogOperatorQuery;
 import com.zeroone.star.project.query.j2.sys.OptlogQuery;
 import com.zeroone.star.project.vo.JsonVO;
 
@@ -18,5 +20,12 @@ public interface OptlogApis {
      * @return 操作日志列表
      */
     JsonVO<PageDTO<OptlogDTO>> queryOptlog(OptlogQuery query);//分页查询操作日志
+
+    /**
+     * 获取操作人列表（姓名+职位，条件+分页）
+     * @param query 查询条件
+     * @return 操作人列表
+     */
+    JsonVO<PageDTO<OptlogOperatorDTO>> queryOptlogOperators(OptlogOperatorQuery query);
 
 }
