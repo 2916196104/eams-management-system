@@ -34,9 +34,9 @@ class attendance_recordsQuery : public PageQuery
 	// 学生id
 	API_DTO_FIELD_REQUIRE(UInt32, student_id, ZH_WORDS_GETTER("attendance_records.student_id"), true);
 	// 课程id
-	API_DTO_FIELD_DEFAULT(UInt32, course_id, ZH_WORDS_GETTER("attendance_records.course_id"));
+	//API_DTO_FIELD_DEFAULT(UInt32, course_id, ZH_WORDS_GETTER("attendance_records.course_id"));
 	// 上课日期
-	API_DTO_FIELD_DEFAULT(String, date, ZH_WORDS_GETTER("attendance_records.date"));
+	//API_DTO_FIELD_DEFAULT(String, date, ZH_WORDS_GETTER("attendance_records.date"));
 };
 
 #include OATPP_CODEGEN_END(DTO)

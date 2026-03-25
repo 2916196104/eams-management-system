@@ -232,6 +232,17 @@ attendance_records:
   remark: 备注
   bookable: 是否可预约
   state: 上课状态
+  teach_evaluation:
+    lesson_id: 课次ID
+    teacher_id: 教师ID
+    score1: 综合评分
+    score2: 课堂气氛
+    score3: 教学内容
+    score4: 教学方法
+    content: 评语
+    add_time: 评价时间
+    student_id: 学生ID
+    anonymity: 是否匿名评价
  
 #积分兑换模块
 exchange:
