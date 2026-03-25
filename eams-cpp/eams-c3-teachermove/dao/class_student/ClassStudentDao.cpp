@@ -34,7 +34,6 @@ std::list<PtrClassStudentDO> ClassStudentDAO::selectByStudentId(const std::strin
 {
     string sql = "SELECT id, class_id, student_id, add_time, creator, reason, deleted, remark, consume_course_id FROM class_student WHERE deleted = 0 AND student_id = ?";
 
-    // 单个参数可以直接通过占位符 "%s" 传入执行
     return sqlSession->executeQuery<PtrClassStudentDO>(sql, ClassStudentMapper(), "%s", studentId);
 }
 
