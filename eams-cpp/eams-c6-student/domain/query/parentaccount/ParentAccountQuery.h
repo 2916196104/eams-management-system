@@ -8,9 +8,7 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/**
- * 家长账号分页查询参数
- */
+
 class ParentAccountQuery : public PageQuery
 {
 	DTO_INIT(ParentAccountQuery, PageQuery);

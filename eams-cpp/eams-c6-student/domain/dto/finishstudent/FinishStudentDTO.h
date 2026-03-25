@@ -8,9 +8,7 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/**
- * 结业学员查询DTO
- */
+
 class FinishStudentDTO : public oatpp::DTO
 {
 	DTO_INIT(FinishStudentDTO, DTO);
@@ -29,7 +27,12 @@ class FinishStudentDTO : public oatpp::DTO
 	API_DTO_FIELD_DEFAULT(Int32, age, ZH_WORDS_GETTER("finishstudent.field.finish-student-query.age"));
 	API_DTO_FIELD_DEFAULT(String, remark, ZH_WORDS_GETTER("finishstudent.field.finish-student-query.remark"));
 	API_DTO_FIELD_DEFAULT(String, graduationDate, ZH_WORDS_GETTER("finishstudent.field.finish-student-query.graduation-date"));
-//	API_DTO_FIELD_DEFAULT(String, graduationReason, ZH_WORDS_GETTER("finish_student.graduationReason"));
+};
+
+class FinishStudentImportDTO : public oatpp::DTO
+{
+	DTO_INIT(FinishStudentImportDTO, DTO);
+	API_DTO_FIELD_REQUIRE(oatpp::swagger::Binary, excel, ZH_WORDS_GETTER("intendedstudent.field.excel"), true);
 };
 
 #include OATPP_CODEGEN_END(DTO)

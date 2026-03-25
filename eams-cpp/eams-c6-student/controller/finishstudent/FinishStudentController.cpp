@@ -3,9 +3,10 @@
 #include "ExcelComponent.h"
 #include "SimpleDateTimeFormat.h"
 #include <cstdint>
+#include <limits>
 #include <sstream>
 
-std::shared_ptr<FinishStudentController::OutgoingResponse> FinishStudentController::execExportFinishStudent(const List<String>& ids)
+std::shared_ptr<FinishStudentController::OutgoingResponse> FinishStudentController::execExportFinishStudent(const List<UInt64>& ids)
 {
 	auto data = m_finishStudentService.listFinishStudentByIds(ids);
 
@@ -75,24 +76,110 @@ StringJsonVO::Wrapper FinishStudentController::execImportFinishStudent(std::shar
 	std::list<FinishStudentDTO::Wrapper> rows;
 	std::string errmsg = "";
 	ExcelComponent::read(file->data(), file->size(), "finish_student", [&rows, &errmsg](xlnt::worksheet* sheet) {
+		auto trimCopy = [](const std::string& text) -> std::string {
+			const auto begin = text.find_first_not_of(" \t\r\n");
+			if (begin == std::string::npos) {
+				return "";
+			}
+			const auto end = text.find_last_not_of(" \t\r\n");
+			return text.substr(begin, end - begin + 1);
+			};
+
+		auto parseRequiredInt64 = [&trimCopy](const std::string& text, int64_t& value) -> bool {
+			const auto trimmed = trimCopy(text);
+			if (trimmed.empty()) {
+				return false;
+			}
+			size_t pos = 0;
+			try {
+				const auto parsed = std::stoll(trimmed, &pos);
+				if (pos != trimmed.size()) {
+					return false;
+				}
+				value = static_cast<int64_t>(parsed);
+				return true;
+			}
+			catch (...) {
+				return false;
+			}
+			};
+
+		auto parseOptionalInt32 = [&trimCopy](const std::string& text, int32_t& value) -> bool {
+			const auto trimmed = trimCopy(text);
+			if (trimmed.empty()) {
+				return true;
+			}
+			size_t pos = 0;
+			try {
+				const auto parsed = std::stoll(trimmed, &pos);
+				if (pos != trimmed.size()) {
+					return false;
+				}
+				if (parsed < std::numeric_limits<int32_t>::min() || parsed > std::numeric_limits<int32_t>::max()) {
+					return false;
+				}
+				value = static_cast<int32_t>(parsed);
+				return true;
+			}
+			catch (...) {
+				return false;
+			}
+			};
+
 		int rn = 0;
 		for (auto row : sheet->rows()) {
 			if (rn++ == 0) continue;
 
-			auto idText = row[0].to_string();
+			auto idText = trimCopy(row[0].to_string());
 			if (idText.empty()) continue;
 
 			auto dto = FinishStudentDTO::createShared();
-			try {
-				dto->id = static_cast<int64_t>(std::stoll(idText));
-			}
-			catch (...) {
+			int64_t id = 0;
+			if (!parseRequiredInt64(idText, id)) {
 				errmsg = "row(" + std::to_string(rn) + ") id invalid.";
 				return;
 			}
+			dto->id = id;
 
-			dto->remark = row[12].to_string();
-			dto->graduationDate = row[13].to_string();
+			dto->studentName = trimCopy(row[1].to_string());
+			dto->parentName = trimCopy(row[2].to_string());
+			int32_t familyRel = 0;
+			if (!parseOptionalInt32(row[3].to_string(), familyRel)) {
+				errmsg = "row(" + std::to_string(rn) + ") familyRel invalid.";
+				return;
+			}
+			dto->familyRel = familyRel;
+			dto->mobile = trimCopy(row[4].to_string());
+			dto->counselor = trimCopy(row[5].to_string());
+			dto->grade = trimCopy(row[6].to_string());
+			dto->schoolName = trimCopy(row[7].to_string());
+			int32_t lessonCount = 0;
+			if (!parseOptionalInt32(row[8].to_string(), lessonCount)) {
+				errmsg = "row(" + std::to_string(rn) + ") lessonCount invalid.";
+				return;
+			}
+			dto->lessonCount = lessonCount;
+			int32_t points = 0;
+			if (!parseOptionalInt32(row[9].to_string(), points)) {
+				errmsg = "row(" + std::to_string(rn) + ") points invalid.";
+				return;
+			}
+			dto->points = points;
+			int32_t gender = 0;
+			if (!parseOptionalInt32(row[10].to_string(), gender)) {
+				errmsg = "row(" + std::to_string(rn) + ") gender invalid.";
+				return;
+			}
+			dto->gender = gender;
+			int32_t age = 0;
+			if (!parseOptionalInt32(row[11].to_string(), age)) {
+				errmsg = "row(" + std::to_string(rn) + ") age invalid.";
+				return;
+			}
+			dto->age = age;
+
+			dto->remark = trimCopy(row[12].to_string());
+			dto->graduationDate = trimCopy(row[13].to_string());
 
 			auto graduationDate = dto->graduationDate.getValue("");
 			if (!graduationDate.empty()) {

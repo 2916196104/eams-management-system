@@ -5,9 +5,7 @@
 #include "Mapper.h"
 #include "domain/dto/finishstudent/FinishStudentDTO.h"
 
-/**
- * 结业学员查询结果映射
- */
+
 class FinishStudentMapper : public Mapper<FinishStudentDTO::Wrapper>
 {
 public:
