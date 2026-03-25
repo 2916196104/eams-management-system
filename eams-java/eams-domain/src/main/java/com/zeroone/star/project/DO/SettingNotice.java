@@ -1,4 +1,4 @@
-package generator.domain;
+package com.zeroone.star.project.DO;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -103,91 +103,91 @@ public class SettingNotice implements Serializable {
     /**
     * 主键
     */
-    private void setId(Long id){
+    public void setId(Long id){
     this.id = id;
     }
 
     /**
     * 名称
     */
-    private void setName(String name){
+    public void setName(String name){
     this.name = name;
     }
 
     /**
     * 码
     */
-    private void setCode(String code){
+    public void setCode(String code){
     this.code = code;
     }
 
     /**
     * 微信是否开启
     */
-    private void setWxOn(Integer wxOn){
+    public void setWxOn(Integer wxOn){
     this.wxOn = wxOn;
     }
 
     /**
     * 微信模板
     */
-    private void setWxCode(String wxCode){
+    public void setWxCode(String wxCode){
     this.wxCode = wxCode;
     }
 
     /**
     * 短信是否开启
     */
-    private void setSmsOn(Integer smsOn){
+    public void setSmsOn(Integer smsOn){
     this.smsOn = smsOn;
     }
 
     /**
     * 短信模板
     */
-    private void setSmsCode(String smsCode){
+    public void setSmsCode(String smsCode){
     this.smsCode = smsCode;
     }
 
     /**
     * Email是否开启
     */
-    private void setEmailOn(Integer emailOn){
+    public void setEmailOn(Integer emailOn){
     this.emailOn = emailOn;
     }
 
     /**
     * 说明
     */
-    private void setInfo(String info){
+    public void setInfo(String info){
     this.info = info;
     }
 
     /**
     * 排序
     */
-    private void setSortNum(Integer sortNum){
+    public void setSortNum(Integer sortNum){
     this.sortNum = sortNum;
     }
 
     /**
     * 分组
     */
-    private void setGroupCode(String groupCode){
+    public void setGroupCode(String groupCode){
     this.groupCode = groupCode;
     }
 
     /**
     * 参数说明
     */
-    private void setParams(String params){
+    public void setParams(String params){
     this.params = params;
     }
 
     /**
     * 消息备注信息
     */
-    private void setNoticeRemark(String noticeRemark){
+    public void setNoticeRemark(String noticeRemark){
     this.noticeRemark = noticeRemark;
     }
 
@@ -195,91 +195,91 @@ public class SettingNotice implements Serializable {
     /**
     * 主键
     */
-    private Long getId(){
+    public Long getId(){
     return this.id;
     }
 
     /**
     * 名称
     */
-    private String getName(){
+    public String getName(){
     return this.name;
     }
 
     /**
     * 码
     */
-    private String getCode(){
+    public String getCode(){
     return this.code;
     }
 
     /**
     * 微信是否开启
     */
-    private Integer getWxOn(){
+    public Integer getWxOn(){
     return this.wxOn;
     }
 
     /**
     * 微信模板
     */
-    private String getWxCode(){
+    public String getWxCode(){
     return this.wxCode;
     }
 
     /**
     * 短信是否开启
     */
-    private Integer getSmsOn(){
+    public Integer getSmsOn(){
     return this.smsOn;
     }
 
     /**
     * 短信模板
     */
-    private String getSmsCode(){
+    public String getSmsCode(){
     return this.smsCode;
     }
 
     /**
     * Email是否开启
     */
-    private Integer getEmailOn(){
+    public Integer getEmailOn(){
     return this.emailOn;
     }
 
     /**
     * 说明
     */
-    private String getInfo(){
+    public String getInfo(){
     return this.info;
     }
 
     /**
     * 排序
     */
-    private Integer getSortNum(){
+    public Integer getSortNum(){
     return this.sortNum;
     }
 
     /**
     * 分组
     */
-    private String getGroupCode(){
+    public String getGroupCode(){
     return this.groupCode;
     }
 
     /**
     * 参数说明
     */
-    private String getParams(){
+    public String getParams(){
     return this.params;
     }
 
     /**
     * 消息备注信息
     */
-    private String getNoticeRemark(){
+    public String getNoticeRemark(){
     return this.noticeRemark;
     }
 
