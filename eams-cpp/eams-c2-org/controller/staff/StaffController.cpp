@@ -4,9 +4,9 @@
 StringJsonVO::Wrapper StaffController::executeGetEmpList(const StaffPageQuery::Wrapper& query)
 {
 
-	//// ²éÑ¯Êý¾Ý
+	//// æŸ¥è¯¢æ•°æ®
 	//auto result = StaffService().listAll(query);
-	// ÏìÓ¦½á¹û
+	// å“åº”ç»“æžœ
 	//auto jvo = StaffPageJsonVO::createShared();
 	//jvo->success(result);
 	//return jvo;
@@ -27,9 +27,9 @@ StringJsonVO::Wrapper StaffController::executeSaveEmp(const StaffSaveDTO::Wrappe
 
 
 
-// Í·ÏñÐÞ¸ÄÂß¼­ÊµÏÖ£¨ºÍexecuteQueryTest¸ñÊ½Ò»ÖÂ£©
+// å¤´åƒä¿®æ”¹é€»è¾‘å®žçŽ°ï¼ˆå’ŒexecuteQueryTestæ ¼å¼ä¸€è‡´ï¼‰
 StringJsonVO::Wrapper StaffController::executeModifyAvatar(const AvatarUploadDTO::Wrapper& dto) {
-	// ´´½¨ÏìÓ¦½á¹û
+	// åˆ›å»ºå“åº”ç»“æžœ
 	auto vo = StringJsonVO::createShared();
 	vo->success(ZH_WORDS_GETTER("modifyAvatar.resp"));
 	return vo;
@@ -37,7 +37,7 @@ StringJsonVO::Wrapper StaffController::executeModifyAvatar(const AvatarUploadDTO
 #include "StaffController.h"
 
 StringJsonVO::Wrapper StaffController::executegetDutyRecord(const DutyRecordQueryDTO::Wrapper& query) {
-    //´´½¨Ò»¸öÏàÓ¦½á¹û
+    //åˆ›å»ºä¸€ä¸ªç›¸åº”ç»“æžœ
     auto vo = StringJsonVO::createShared();
     vo->success(ZH_WORDS_GETTER("getDutyRecord.resp"));
     return vo;
