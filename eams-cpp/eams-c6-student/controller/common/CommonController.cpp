@@ -1,8 +1,8 @@
-ï»¿#include "stdafx.h"
+#include "stdafx.h"
 #include "CommonController.h"
 #include "../../lib-mysql/include/ConnectionPool.h"
 PayFeesJsonVO::Wrapper CommonController::exePayFees(const PayFeesDTO::Wrapper& dto) {
-	//å‚æ•°æ ¡éªŒ
+	//²ÎÊıĞ£Ñé
 	auto vo = PayFeesJsonVO::createShared();
 	if (!dto) {
 		vo->setStatus(RS_FAIL);
@@ -29,8 +29,8 @@ PayFeesJsonVO::Wrapper CommonController::exePayFees(const PayFeesDTO::Wrapper& d
 		vo->message = "Subject ID cannot be empty";
 		return vo;
 	}
-	//ä¸šåŠ¡é€»è¾‘
-	//1.åˆ›å»ºæ•°æ®åº“
+	//ÒµÎñÂß¼­
+	//1.´´½¨Êı¾İ¿â
 	ConnPool pool("127.0.0.1:3307/zo_eams", "root", "270153", 100);
 	Connection* conn = pool.GetConnection();
 	if (!conn) {
@@ -38,49 +38,49 @@ PayFeesJsonVO::Wrapper CommonController::exePayFees(const PayFeesDTO::Wrapper& d
 		vo->message = "The server is busy, please try again later";
 		return vo;
 	}
-	//2.ä»æ•°æ®åº“ä¸­çš„student_coruseè¡¨ä¸­æŸ¥æ‰¾æ˜¯å¦æœ‰studentIdã€courseIdã€subjectIdï¼Œæ²¡æœ‰çš„è¯è¿”å›é”™è¯¯
+	//2.´ÓÊı¾İ¿âÖĞµÄstudent_coruse±íÖĞ²éÕÒÊÇ·ñÓĞstudentId¡¢courseId¡¢subjectId£¬Ã»ÓĞµÄ»°·µ»Ø´íÎó
 	PreparedStatement* pstmt = conn->prepareStatement(
 		"SELECT pay_off, amount,paid_amount FROM student_course WHERE student_id = ? AND course_id = ? AND subject_id = ?"
 	);
-	pstmt->setInt(1, dto->studentId);   // å­¦ç”ŸID
-	pstmt->setInt(2, dto->courseId);    // è¯¾ç¨‹ID
-	pstmt->setInt(3, dto->subjectId);   // ç§‘ç›®ID
-	// æ‰§è¡ŒæŸ¥è¯¢
+	pstmt->setInt(1, dto->studentId);   // Ñ§ÉúID
+	pstmt->setInt(2, dto->courseId);    // ¿Î³ÌID
+	pstmt->setInt(3, dto->subjectId);   // ¿ÆÄ¿ID
+	// Ö´ĞĞ²éÑ¯
 	ResultSet* res = pstmt->executeQuery();
 	if (!res->next()) {
 		vo->setStatus(RS_FAIL);
 		vo->message = "Student course record not found";
 
-		// é‡Šæ”¾èµ„æº
+		// ÊÍ·Å×ÊÔ´
 		delete res;
 		delete pstmt;
 		pool.ReleaseConnection(conn);
 		return vo;
 	}
-	double amount = res->getDouble("amount");    // æ€»é‡‘é¢
-	double paidAmount = res->getDouble("paid_amount"); // å·²æ”¯ä»˜é‡‘é¢
-	int  payOff = res->getInt("pay_off");//æ˜¯å¦ä»˜æ¸…
-	//3.æŸ¥çœ‹æ˜¯å¦å·²ä»˜æ¸…ï¼Œå·²ä»˜æ¸…è¿”å›"å·²ä»˜æ¸…"
+	double amount = res->getDouble("amount");    // ×Ü½ğ¶î
+	double paidAmount = res->getDouble("paid_amount"); // ÒÑÖ§¸¶½ğ¶î
+	int  payOff = res->getInt("pay_off");//ÊÇ·ñ¸¶Çå
+	//3.²é¿´ÊÇ·ñÒÑ¸¶Çå£¬ÒÑ¸¶Çå·µ»Ø"ÒÑ¸¶Çå"
 	if (payOff == 1) {
 		vo->setStatus(RS_FAIL);
 		vo->message = "Paid in full";
-		// é‡Šæ”¾èµ„æº
+		// ÊÍ·Å×ÊÔ´
 		delete res;
 		delete pstmt;
 		pool.ReleaseConnection(conn);
 		return vo;
 	}
-	//4.æŸ¥çœ‹è¿˜å‰©ä¸‹æœªä»˜çš„æ¬¾é¢ï¼Œçœ‹amountæ˜¯å¦å¤§äºæœªä»˜çš„æ¬¾é¢ï¼Œå¤§çš„è¯è¿”å›é”™è¯¯
+	//4.²é¿´»¹Ê£ÏÂÎ´¸¶µÄ¿î¶î£¬¿´amountÊÇ·ñ´óÓÚÎ´¸¶µÄ¿î¶î£¬´óµÄ»°·µ»Ø´íÎó
 	if (int(amount - paidAmount) < int(dto->payAmount)) {
 		vo->setStatus(RS_FAIL);
 		vo->message = "The amount paid exceeds the amount due";
-		// é‡Šæ”¾èµ„æº
+		// ÊÍ·Å×ÊÔ´
 		delete res;
 		delete pstmt;
 		pool.ReleaseConnection(conn);
 		return vo;
 	}
-	//5.æ›´æ–°æœªä»˜çš„æ¬¾é¢ï¼Œè¿”å›è¿˜æœªç»“æ¸…çš„æ¬¾é¡¹ï¼Œå¹¶å¸¦å›æˆåŠŸä¿¡æ¯
+	//5.¸üĞÂÎ´¸¶µÄ¿î¶î£¬·µ»Ø»¹Î´½áÇåµÄ¿îÏî£¬²¢´ø»Ø³É¹¦ĞÅÏ¢
 	paidAmount += dto->payAmount;
 	if (paidAmount == amount) payOff = 1;
 	pstmt = conn->prepareStatement(
@@ -99,7 +99,7 @@ PayFeesJsonVO::Wrapper CommonController::exePayFees(const PayFeesDTO::Wrapper& d
 	}
 	else {
 		vo->setStatus(RS_SUCCESS);
-		std::string respondse = "æ”¯ä»˜æˆåŠŸ,å‰©ä½™å¾…ç¼´é‡‘é¢ä¸ºï¼š" + std::to_string((amount - paidAmount));
+		std::string respondse = "Ö§¸¶³É¹¦,Ê£Óà´ı½É½ğ¶îÎª£º" + std::to_string((amount - paidAmount));
 		vo->message = respondse;
 	}
 	delete res;

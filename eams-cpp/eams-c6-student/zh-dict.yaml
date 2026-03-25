@@ -1,57 +1,57 @@
-ï»¿# å…¬å…±æ¥å£
+# ¹«¹²½Ó¿Ú
 common:
- api-tag: å…¬å…±æ¥å£
+ api-tag: ¹«¹²½Ó¿Ú
  interface:
-  get-student-by-id: è·å–å­¦å‘˜è¯¦æƒ…
-  modify-student-picture: ä¿®æ”¹å­¦å‘˜å¤´åƒ
-  query-student-registration-record: è·å–æŠ¥åè®°å½•ï¼ˆæ¡ä»¶+åˆ†é¡µï¼‰
-  download-student-picture: ä¸‹è½½å­¦å‘˜å¤´åƒ 
-  pay-fees: ç¼´æ¬ è´¹
-  refund: é€€è´¹
+  get-student-by-id: »ñÈ¡Ñ§Ô±ÏêÇé
+  modify-student-picture: ĞŞ¸ÄÑ§Ô±Í·Ïñ
+  query-student-registration-record: »ñÈ¡±¨Ãû¼ÇÂ¼£¨Ìõ¼ş+·ÖÒ³£©
+  download-student-picture: ÏÂÔØÑ§Ô±Í·Ïñ 
+  pay-fees: ½ÉÇ··Ñ
+  refund: ÍË·Ñ
 
  field:
   file:
-   id: æ–‡ä»¶ID
+   id: ÎÄ¼şID
   student:
-   id: å­¦å‘˜ID
-   name: å­¦å‘˜å§“å
-   phone: æ‰‹æœºå·ç 
-   picture-path: å­¦å‘˜å¤´åƒæ–‡ä»¶è·¯å¾„
-   left-course-count: å‰©ä½™è¯¾æ¬¡
-   left-points: å‰©ä½™ç§¯åˆ†
-   stage: å­¦å‘˜é˜¶æ®µ
-   sex: å­¦å‘˜æ€§åˆ«
-   age: å­¦å‘˜å¹´é¾„
-   birthday: å‡ºç”Ÿå¹´æœˆ
-   identification-number: èº«ä»½è¯å·
-   parent-name: å®¶é•¿å§“å
-   relation-type: äº²å±å…³ç³»
-   grade: å¹´çº§
-   enter-time: å…¥å­¦æ—¶é—´
-   accurate-enter-time: ç²¾ç¡®å…¥å­¦æ—¶é—´
-   note: å¤‡æ³¨
-   course-progress: è¯¾æ¬¡è¿›åº¦
+   id: Ñ§Ô±ID
+   name: Ñ§Ô±ĞÕÃû
+   phone: ÊÖ»úºÅÂë
+   picture-path: Ñ§Ô±Í·ÏñÎÄ¼şÂ·¾¶
+   left-course-count: Ê£Óà¿Î´Î
+   left-points: Ê£Óà»ı·Ö
+   stage: Ñ§Ô±½×¶Î
+   sex: Ñ§Ô±ĞÔ±ğ
+   age: Ñ§Ô±ÄêÁä
+   birthday: ³öÉúÄêÔÂ
+   identification-number: Éí·İÖ¤ºÅ
+   parent-name: ¼Ò³¤ĞÕÃû
+   relation-type: Ç×Êô¹ØÏµ
+   grade: Äê¼¶
+   enter-time: ÈëÑ§Ê±¼ä
+   accurate-enter-time: ¾«È·ÈëÑ§Ê±¼ä
+   note: ±¸×¢
+   course-progress: ¿Î´Î½ø¶È
   registration-record:
-   id: æŠ¥åè®°å½•ID
-   add-time: æ·»åŠ æ—¶é—´
-   course: è¯¾ç¨‹
-   subject: ç§‘ç›®
-   buy-count: è´­ä¹°è¯¾æ¬¡
-   unit-price: å•ä»·
-   course-price: è¯¾ç¨‹ä»·æ ¼
-   sale-price: ä¼˜æƒ ä»·æ ¼
-   reality-price: å®é™…ä»·æ ¼
-   arrearage: æ¬ è´¹é‡‘é¢
-   begin-time: å¼€å§‹æ—¶é—´
-   end-time: ç»“æŸæ—¶é—´
-   refund-price: é€€è´¹é‡‘é¢
-   drop-class-count: é€€è¯¾æ•°é‡
-   refund-describe: é€€è´¹è¯´æ˜
-   refund-status: é€€è´¹çŠ¶æ€
+   id: ±¨Ãû¼ÇÂ¼ID
+   add-time: Ìí¼ÓÊ±¼ä
+   course: ¿Î³Ì
+   subject: ¿ÆÄ¿
+   buy-count: ¹ºÂò¿Î´Î
+   unit-price: µ¥¼Û
+   course-price: ¿Î³Ì¼Û¸ñ
+   sale-price: ÓÅ»İ¼Û¸ñ
+   reality-price: Êµ¼Ê¼Û¸ñ
+   arrearage: Ç··Ñ½ğ¶î
+   begin-time: ¿ªÊ¼Ê±¼ä
+   end-time: ½áÊøÊ±¼ä
+   refund-price: ÍË·Ñ½ğ¶î
+   drop-class-count: ÍË¿ÎÊıÁ¿
+   refund-describe: ÍË·ÑËµÃ÷
+   refund-status: ÍË·Ñ×´Ì¬
   fees:
-   handler:  æ”¶è´¹ç»æ‰‹äºº
-   refund-amount: é€€è´¹é‡‘é¢
-   pay-amount: ä»˜è´¹é‡‘é¢
-   times: é€€è´¹æ¬¡æ•°
-   reason: é€€æ¬¾åŸå› 
+   handler:  ÊÕ·Ñ¾­ÊÖÈË
+   refund-amount: ÍË·Ñ½ğ¶î
+   pay-amount: ¸¶·Ñ½ğ¶î
+   times: ÍË·Ñ´ÎÊı
+   reason: ÍË¿îÔ­Òò
 

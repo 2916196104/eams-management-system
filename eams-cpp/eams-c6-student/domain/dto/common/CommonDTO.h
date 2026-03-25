@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #ifndef CommonDTO_h
 #define CommonDTO_h
 #include"../../GlobalInclude.h"

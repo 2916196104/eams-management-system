@@ -1,4 +1,4 @@
-ï»¿#pragma once
+#pragma once
 #ifndef COMMON_CONTROLLER_H
 #define COMMON_CONTROLLER_H
 #include "ApiHelper.h"
@@ -13,7 +13,7 @@
 class CommonController : public oatpp::web::server::api::ApiController {
 	API_ACCESS_DECLARE(CommonController);
 public: 
-	//è·å–å­¦å‘˜è¯¦æƒ…
+	//»ñÈ¡Ñ§Ô±ÏêÇé
 	API_DEF_ENDPOINT_INFO_AUTH(
 		ZH_WORDS_GETTER("common.interface.get-student-by-id"), 
 		getStudentById, StudentJsonVO::Wrapper,
@@ -31,7 +31,7 @@ public:
 		executeGetStudentById(id)
 	);
 
-	//ä¸‹è½½å­¦å‘˜å¤´åƒ
+	//ÏÂÔØÑ§Ô±Í·Ïñ
 	API_DEF_ENDPOINT_INFO(
 		ZH_WORDS_GETTER("common.interface.download-student-picture"), loadStudentPicturebyPicturePath, Void, API_TAG,
 		API_DEF_ADD_QUERY_PARAMS(String, "picturePath", ZH_WORDS_GETTER("common.field.student.picture-path"), "file/test.jpg", true);
@@ -44,35 +44,35 @@ public:
 		return executeLoadStudentPicturebyPicturePath(picturePath);
 	);
 
-	//ä¿®æ”¹å­¦å‘˜å¤´åƒ
+	//ĞŞ¸ÄÑ§Ô±Í·Ïñ
 	ENDPOINT_INFO(modifyStudentPicture) {
-		API_DEF_ADD_AUTH();//æ·»åŠ æƒé™éªŒè¯
-		API_DEF_ADD_TAG(API_TAG);//å°†æ¥å£æ·»åŠ åˆ°åˆ†ç»„
-		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("common.interface.modify-student-picture"));//æ·»åŠ æ¥å£æè¿°
-		API_DEF_ADD_PATH_PARAMS(String, "id", ZH_WORDS_GETTER("common.field.student.id"), "123", true);//æ·»åŠ å‚æ•°
+		API_DEF_ADD_AUTH();//Ìí¼ÓÈ¨ÏŞÑéÖ¤
+		API_DEF_ADD_TAG(API_TAG);//½«½Ó¿ÚÌí¼Óµ½·Ö×é
+		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("common.interface.modify-student-picture"));//Ìí¼Ó½Ó¿ÚÃèÊö
+		API_DEF_ADD_PATH_PARAMS(String, "id", ZH_WORDS_GETTER("common.field.student.id"), "123", true);//Ìí¼Ó²ÎÊı
 		API_DEF_ADD_FILE_FORM(FileOnlyDTO::Wrapper);
-		API_DEF_ADD_RSP_JSON_WRAPPER(StringJsonVO);//æ·»åŠ è¿”å›æ•°æ®åŒ…è£…
+		API_DEF_ADD_RSP_JSON_WRAPPER(StringJsonVO);//Ìí¼Ó·µ»ØÊı¾İ°ü×°
 	}
     ENDPOINT(API_M_POST, "/c3/common/student/modify-picture/{id}",modifyStudentPicture,PATH(String,id), REQUEST(std::shared_ptr<IncomingRequest>, request), API_HANDLER_AUTH_PARAME) {
 		API_HANDLER_RESP_VO(executeModifyStudentPicture(id,request));
 	}
 
-	//æŸ¥è¯¢å­¦å‘˜æŠ¥åè®°å½•
+	//²éÑ¯Ñ§Ô±±¨Ãû¼ÇÂ¼
 	ENDPOINT_INFO(queryRegistrationRecordByPage) {
-		API_DEF_ADD_AUTH();//æ·»åŠ æƒé™éªŒè¯
-		API_DEF_ADD_TAG(API_TAG);//å°†æ¥å£æ·»åŠ åˆ°åˆ†ç»„
-        API_DEF_ADD_TITLE(ZH_WORDS_GETTER("common.interface.query-student-registration-record"));//æ·»åŠ æ¥å£æè¿°
-		API_DEF_ADD_PAGE_PARAMS();//æ·»åŠ åˆ†é¡µå‚æ•°
-		API_DEF_ADD_RSP_JSON_WRAPPER(RegistrationPageJsonVO);//æ·»åŠ è¿”å›æ•°æ®åŒ…è£…
+		API_DEF_ADD_AUTH();//Ìí¼ÓÈ¨ÏŞÑéÖ¤
+		API_DEF_ADD_TAG(API_TAG);//½«½Ó¿ÚÌí¼Óµ½·Ö×é
+        API_DEF_ADD_TITLE(ZH_WORDS_GETTER("common.interface.query-student-registration-record"));//Ìí¼Ó½Ó¿ÚÃèÊö
+		API_DEF_ADD_PAGE_PARAMS();//Ìí¼Ó·ÖÒ³²ÎÊı
+		API_DEF_ADD_RSP_JSON_WRAPPER(RegistrationPageJsonVO);//Ìí¼Ó·µ»ØÊı¾İ°ü×°
 	}
 	ENDPOINT(API_M_GET, "/c3/common/registration-recordf/query-by-page", queryRegistrationRecordByPage, QUERIES(QueryParams, queryParams),API_HANDLER_AUTH_PARAME) {
-		API_HANDLER_QUERY_PARAM(query, RegistrationPageQuery, queryParams);//è·å–å‚æ•°
+		API_HANDLER_QUERY_PARAM(query, RegistrationPageQuery, queryParams);//»ñÈ¡²ÎÊı
 		API_HANDLER_RESP_VO(executeQueryRegistrationRecordByPage(query));
 	}
-	// å­¦å‘˜ç¼´æ¬ è´¹
+	// Ñ§Ô±½ÉÇ··Ñ
 	ENDPOINT_INFO(payFees) {
-		API_DEF_ADD_AUTH();//æ·»åŠ æƒé™è®¤è¯
-		API_DEF_ADD_TAG(API_TAG);//å°†æ¥å£æ·»åŠ åˆ°åˆ†ç»„
+		API_DEF_ADD_AUTH();//Ìí¼ÓÈ¨ÏŞÈÏÖ¤
+		API_DEF_ADD_TAG(API_TAG);//½«½Ó¿ÚÌí¼Óµ½·Ö×é
 		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("common.interface.pay-fees"));
 		API_DEF_ADD_RSP_JSON_WRAPPER(PayFeesJsonVO);
 	}
@@ -80,10 +80,10 @@ public:
 
 		API_HANDLER_RESP_VO(exePayFees(dto));
 	}
-	// å­¦å‘˜é€€è´¹
+	// Ñ§Ô±ÍË·Ñ
 	ENDPOINT_INFO(refund) {
-		API_DEF_ADD_AUTH();//æ·»åŠ æƒé™è®¤è¯
-		API_DEF_ADD_TAG(API_TAG);//å°†æ¥å£æ·»åŠ åˆ°åˆ†ç»„
+		API_DEF_ADD_AUTH();//Ìí¼ÓÈ¨ÏŞÈÏÖ¤
+		API_DEF_ADD_TAG(API_TAG);//½«½Ó¿ÚÌí¼Óµ½·Ö×é
 		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("common.interface.refund"));
 		API_DEF_ADD_RSP_JSON_WRAPPER(RefundJsonVO);
 	}

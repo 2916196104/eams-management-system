@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #ifndef __COMMON_VO_H__
 #define __COMMON_VO_H__ 
 #include"../../GlobalInclude.h"
