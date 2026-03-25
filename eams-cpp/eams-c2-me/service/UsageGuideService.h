@@ -1,5 +1,5 @@
 #pragma once
-#include "domain/dto/parent/ParentDTO.h"
+#include "domain/dto/manual/ManualDTO.h"
 #include "domain/query/PageQuery.h"
 
 //调用dao查数据库

@@ -1,7 +1,7 @@
 #include "service/UsageGuideService.h"
-#include "dao/parentDao.h"
-#include "domain/dto/parent/ParentDTO.h"
-#include "domain/do/parentDO.h"
+#include "dao/manualDao.h"
+#include "domain/dto/manual/ManualDTO.h"
+#include "domain/do/manualDO.h"
 
 //查询数据库，将所有列表信息封装为dto返回
 UsageListDTO::Wrapper UsageGuideService:: UsageGuideService::listAll(const ListQuery::Wrapper& query)
@@ -12,7 +12,7 @@ UsageListDTO::Wrapper UsageGuideService:: UsageGuideService::listAll(const ListQ
 	pages->pageSize = query->pageSize;
 
 	// 【步骤2】查询总数
-	parentDAO dao;
+	manualDAO dao;
 	uint64_t count = dao.count();
 	if (count <= 0) {
 		return pages; // 无数据直接返回
@@ -23,10 +23,10 @@ UsageListDTO::Wrapper UsageGuideService:: UsageGuideService::listAll(const ListQ
 	pages->calcPages(); // 计算总页数
 
 	// 【步骤4】查询分页数据
-	list<ParentDO> result = dao.showList(query);
+	list<ManualDO> result = dao.showList(query);
 
 	// 【步骤5】DO转DTO
-	for (ParentDO& sub : result) {
+	for (ManualDO& sub : result) {
 		auto dto = UsageGuideDto::createShared();
 		ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub,
 			//id, Id,
@@ -49,7 +49,7 @@ UsageListDTO::Wrapper UsageGuideService:: UsageGuideService::listAll(const ListQ
 UsageGuideDetailDto::Wrapper UsageGuideService::UsageGuideService::getById(std::string id)
 {
 	// 【步骤1】调用DAO查询
-	parentDAO dao;
+	manualDAO dao;
 	auto res = dao.selectById(id);
 
 	// 【步骤2】检查查询结果
