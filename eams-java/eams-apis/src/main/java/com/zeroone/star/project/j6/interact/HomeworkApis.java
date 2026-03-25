@@ -5,6 +5,7 @@ import com.zeroone.star.project.dto.j6.interact.HomeworkDetailDto;
 import com.zeroone.star.project.dto.j6.interact.HomeworkListDto;
 import com.zeroone.star.project.query.j6.interact.HomeworkQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.project.vo.j6.interact.HomeworkDetailVO;
 import com.zeroone.star.project.vo.j6.interact.HomeworkSubmissionListVo;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public interface HomeworkApis {
     /**
      * 获取作业详情
      */
-    JsonVO<HomeworkDetailDto> homeworkDetails(Long id);
+    JsonVO<HomeworkDetailVO> homeworkDetails(Long id);
 
     /**
      * 保存作业,新增和编辑作业是调用这个接口
