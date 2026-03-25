@@ -34,5 +34,17 @@ public class GradeRecordDTO {
      */
     @ApiModelProperty(value = "成绩", example = "90")
     private Integer score;
+
+    /**
+     * 考核项id
+     */
+    @ApiModelProperty(value = "考核项id", required = true)
+    private Long gradeId;
+
+    /**
+     * 添加人
+     */
+//    @ApiModelProperty(value = "添加人", example = "123")
+//    private Long creator;
 }
 

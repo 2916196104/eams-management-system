@@ -5,6 +5,8 @@ import com.zeroone.star.project.dto.j6.interact.GradeFormDTO;
 import com.zeroone.star.project.dto.j6.interact.GradeRecordDTO;
 import com.zeroone.star.project.query.j6.interact.GradeFormQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 import java.util.Map;
@@ -50,9 +52,9 @@ public interface GradeApis {
 	 * @return
 	 */
 	//修改保存
-	JsonVO<String> saveGradeRecord(GradeRecordDTO gradeRecordDTO);
+    JsonVO<String> saveGradeRecord(GradeRecordDTO gradeRecordDTO);
 
-	/**
+    /**
 	 * 删除成绩,支持批量删除
 	 * @return
 	 */

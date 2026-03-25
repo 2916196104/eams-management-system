@@ -76,6 +76,7 @@ public class GradeController implements GradeApis {
         return null;
     }
 
+
     /**
      * 保存成绩
      *
@@ -85,7 +86,7 @@ public class GradeController implements GradeApis {
     @PostMapping("/record")
     @ApiOperation("保存成绩")
     @Override
-    public JsonVO<String> saveGradeRecord(GradeRecordDTO gradeRecordDTO) {
+    public JsonVO<String> saveGradeRecord( GradeRecordDTO gradeRecordDTO) {
         return gradeRecordService.saveGradeRecord(gradeRecordDTO);
     }
 
