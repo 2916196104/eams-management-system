@@ -19,4 +19,15 @@ import java.util.List;
 // 学员相关接口
 public interface AcademicApis {
 
+    JsonVO<PageDTO<StudentDTO>> queryPage(StudentQuery condition);
+
+    JsonVO<Long> saveStudents(StudentDTO studentDTO);
+
+    JsonVO<Long> deleteStudents(Long id);
+
+    JsonVO<Long> updateStudents(StudentDTO studentDTO);
+
+    JsonVO<StudentDTO> queryStudents(Long id);
+
+    JsonVO<List<StudentDTO>> queryStudents();
 }
