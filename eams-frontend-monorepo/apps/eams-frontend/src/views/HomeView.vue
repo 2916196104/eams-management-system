@@ -1,5 +1,6 @@
 <template>
 	<div class="header-row">
+		<!-- 应用信息栏 -->
 		<div class="header-title">
 			<img v-show="!isCollapse" class="app-icon" src="/logo.jpg" :title="appName" />
 			<el-text v-show="!isCollapse" class="app-name">{{ appName }}</el-text>
@@ -18,12 +19,14 @@
 				@click="isCollapse = !isCollapse"
 			></el-button>
 		</div>
+		<!-- 导航栏 -->
 		<div class="header-nav">
 			<el-avatar :size="30" :src="user?.avatar" />
 			{{ userInfo }}
 		</div>
 	</div>
 	<div class="content-row">
+		<!-- 侧边菜单栏 -->
 		<el-menu
 			:collapse="isCollapse"
 			:default-active="activeIndex"
@@ -34,12 +37,14 @@
 			:collapse-transition="false"
 			router
 		>
+			<!-- 首页菜单 -->
 			<el-menu-item :index="indexPath">
 				<el-icon>
 					<IconHomeFilled />
 				</el-icon>
 				<span>首页</span>
 			</el-menu-item>
+			<!-- 动态菜单 -->
 			<el-sub-menu v-for="item in menus" :key="item.id" :index="`${item.id}submenu`">
 				<template #title>
 					<el-icon>
@@ -57,7 +62,9 @@
 				</el-menu-item-group>
 			</el-sub-menu>
 		</el-menu>
+		<!-- 主内容区 -->
 		<div class="main">
+			<!-- 标签栏 -->
 			<el-tabs
 				v-model="activeIndex"
 				type="border-card"
@@ -65,6 +72,7 @@
 				@tab-click="tabClick"
 				@tab-remove="tabClose"
 			>
+				<!-- 首页标签页 -->
 				<el-tab-pane :name="indexPath" style="height: 0">
 					<template #label>
 						<el-icon>
@@ -73,6 +81,7 @@
 						<span style="padding-left: 5px">首页</span>
 					</template>
 				</el-tab-pane>
+				<!-- 动态标签页 -->
 				<el-tab-pane
 					v-for="(item, index) in tabs"
 					:key="`${index}tab`"
@@ -81,6 +90,7 @@
 					closable
 					style="height: 0"
 				/>
+				<!-- 操作标签页 -->
 				<el-tab-pane style="height: 0" name="tab-operation">
 					<template #label>
 						<el-dropdown trigger="click">
@@ -114,6 +124,7 @@
 					</template>
 				</el-tab-pane>
 			</el-tabs>
+			<!-- 二级路由 -->
 			<router-view />
 		</div>
 	</div>
@@ -128,25 +139,34 @@ import { useRenderIcon } from "@/components/ReIcon";
 import { useUserStore } from "@/stores/user";
 import { useTabStore } from "@/stores/tab";
 
+// 应用名称
 const appName = import.meta.env.VITE_APP_TITLE;
+// 当前用户信息
 const ustore = useUserStore();
 const { user, menus } = storeToRefs(ustore);
+// 用户信息提示
 const userInfo = ref(`欢迎用户：${user.value === null ? "游客" : user.value.username}`);
+// 菜单是否折叠
 const isCollapse = ref(false);
+// 路由数据
 const router = useRouter();
+// 标签页数据
 const tabstore = useTabStore();
 const { tabs, activeIndex, indexPath } = storeToRefs(tabstore);
 
+// 根据后端返回的 iconify/旧别名图标字符串渲染菜单图标
 function renderMenuIcon(icon?: string) {
 	return useRenderIcon(icon || "ep/menu");
 }
 
+/** 标签页点击事件 */
 const tabClick = (pane: TabsPaneContext) => {
 	if (pane.paneName === "tab-operation") return;
 	tabstore.setActiveIndex(pane.paneName as string);
 	router.push({ path: activeIndex.value });
 };
 
+/** 标签页关闭事件 */
 const tabClose = (name: TabPaneName) => {
 	if (activeIndex.value === name) {
 		const idx = tabstore.getTabIndex(name as string) - 1;
@@ -157,11 +177,13 @@ const tabClose = (name: TabPaneName) => {
 	tabstore.remTab(name as string);
 };
 
+/** 标签页切换事件 */
 const beforeLeave = (activeName: TabPaneName) => {
 	if (activeName === "tab-operation") return false;
 	return true;
 };
 
+/** 管理标签页关闭 */
 function handleClose(type: number) {
 	switch (type) {
 		case 1:

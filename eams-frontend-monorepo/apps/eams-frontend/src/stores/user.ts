@@ -7,30 +7,30 @@ import { DataUpType, useHttp } from "@/plugins/http";
 const tempMenus: Array<Menu> = [
 	{
 		id: "temp-finance",
-		text: "\u8d22\u52a1",
+		text: "财务",
 		icon: "ep/wallet-filled",
 		children: [
 			{
 				id: "temp-finance-payment-management",
-				text: "\u6b3e\u9879\u7ba1\u7406",
+				text: "款项管理",
 				icon: "ep/credit-card",
 				href: "/finance/paymentManagement",
 			},
 			{
 				id: "temp-finance-finance-record",
-				text: "\u6708\u8bfe\u65f6\u8d39",
+				text: "月课时费",
 				icon: "ep/calendar",
 				href: "/finance/financeRecord",
 			},
 			{
 				id: "temp-finance-course-reward",
-				text: "\u6d88\u8bfe\u8bfe\u916c",
+				text: "消课课酬",
 				icon: "ep/coin",
 				href: "/finance/courseReward",
 			},
 			{
 				id: "temp-finance-request-management",
-				text: "\u8bf7\u6b3e\u7ba1\u7406",
+				text: "请款管理",
 				icon: "ep/document-checked",
 				href: "/finance/requestManagement",
 			},
@@ -38,12 +38,12 @@ const tempMenus: Array<Menu> = [
 	},
 	{
 		id: "temp-data",
-		text: "\u6570\u636e",
+		text: "数据",
 		icon: "ep/data-analysis",
 		children: [
 			{
 				id: "temp-data-sale-stats",
-				text: "\u9500\u552e\u7edf\u8ba1",
+				text: "销售统计",
 				icon: "ep/trend-charts",
 				href: "/statis/saleStatis",
 			},
