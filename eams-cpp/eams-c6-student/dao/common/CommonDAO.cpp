@@ -177,3 +177,13 @@ std::string JoinclassDAO::queryConditionBuilder(const JoinclassQuery::Wrapper& q
 
     return sqlCondition.str();
 }
+PtrStudentCourseDO StudentCourseDAO::selectByIds(
+    const uint64_t studentId,
+    const uint64_t courseId,
+    const uint64_t subjectId
+) {
+    string sql = "SELECT * FROM student_course "
+        "WHERE student_id=? AND course_id=? AND subject_id=? AND deleted=0";
+    return getSqlSession()->executeQueryOne<PtrStudentCourseDO>(sql, PtrStudentCourseMapper(), "%d", "%d", "%d", studentId, courseId, subjectId);
+
+}

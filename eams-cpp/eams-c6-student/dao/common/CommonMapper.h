@@ -98,4 +98,14 @@ public:
 		return data;
 	}
 };
+//student_courseÊı¾İ±í×Ö¶ÎÆ¥ÅäÓ³Éä
+class PtrStudentCourseMapper : public Mapper<PtrStudentCourseDO> {
+public:
+	PtrStudentCourseDO mapper(ResultSet* resultSet) const override {
+		auto data = std::make_shared<StudentCourseDO>();
+		data->setStudentId(resultSet->getInt(1));
+		data->setCourseId(resultSet->getInt(2));
+		data->setSubjectId(resultSet->getInt(3));
+	}
+};
 #endif 
