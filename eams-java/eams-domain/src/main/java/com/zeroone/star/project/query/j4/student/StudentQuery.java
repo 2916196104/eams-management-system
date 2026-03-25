@@ -29,10 +29,6 @@ public class StudentQuery extends PageQuery {
     @ApiModelProperty("电话")
     private String phone;
 
-    @ApiModelProperty("状态")
-    @NotNull(message = "状态不能为空")
-    private String stage ;
-
     @ApiModelProperty("顾问ID")
     private String advisorId;
 }
