@@ -52,6 +52,7 @@ public class GradeController implements GradeApis {
     public JsonVO<PageDTO<GradeListDTO>> queryGrade(GradeRecordQuery gradeRecordQuery) {
         //参数校验
         if (gradeRecordQuery == null) {
+            //todo 应该换成全局异常处理器
             throw new RuntimeException("参数错误，参数不能为空");
         }
         PageDTO<GradeListDTO> gradeRecordList = gradeFormService.getGradeRecordList(gradeRecordQuery);
@@ -71,6 +72,7 @@ public class GradeController implements GradeApis {
     public JsonVO<Long> saveGrade(@RequestBody GradeFormDTO gradeFormDTO) {
         //参数校验
         if (gradeFormDTO == null) {
+            //todo 应该换成全局异常处理器
             throw new RuntimeException("参数错误，参数不能为空");
         }
         Long result = gradeFormService.saveGrade(gradeFormDTO);
@@ -89,6 +91,7 @@ public class GradeController implements GradeApis {
     public JsonVO<List<Long>> deleteGrade(@RequestBody List<Long> ids) {
         //参数校验
         if (CollUtil.isEmpty(ids)) {
+            //todo 应该换成全局异常处理器
             throw new RuntimeException("参数错误，参数不能为空");
         }
         List<Long> result = gradeFormService.deleteGrade(ids);

@@ -44,9 +44,15 @@ public class GradeFormServiceImpl extends ServiceImpl<GradeFormMapper, GradeForm
         //判断是新增还是修改
         if (gradeFormDTO.getId() != null) {
             //修改
+            //todo 填充修改人、修改时间
+            //gradeFormDO.setEditor();
+            //gradeFormDO.setEditTime(LocalDateTime.now());
             result  = this.updateById(gradeFormDO);
         }else {
             //新增
+            //todo 填充创建者、创建时间、创建者组织、
+            //gradeFormDO.setCreator();
+            //gradeFormDO.setAddTime(LocalDateTime.now());
             result =  this.save(gradeFormDO);
         }
         //保存数据库
@@ -72,10 +78,12 @@ public class GradeFormServiceImpl extends ServiceImpl<GradeFormMapper, GradeForm
             result = this.removeByIds(ids);
         } catch (Exception e) {
             log.error("成绩单删除操作失败");
+            //todo 应该换成全局异常处理器
             throw new RuntimeException(e);
         }
         if (!result) {
             log.error("成绩单删除操作失败");
+            //todo 应该换成全局异常处理器
             throw new RuntimeException("删除成绩单操作失败");
         }
         return ids;
