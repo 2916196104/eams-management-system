@@ -291,16 +291,23 @@ public class StudentController implements StudentApis {
      */
     @Override
     public JsonVO<StudentDetailVO> queryCourseTimes(String studentId) {
-        // 安全处理：防止studentId为空
-        String targetStudentId = (studentId == null) ? "默认ID" : studentId;
+        // 1. 安全处理：防止传入的 studentId 为空
+        String targetStudentId = (studentId == null || studentId.trim().isEmpty()) ? "1" : studentId;
 
-        // 构造返回VO（给所有字段赋值，避免空对象序列化报错）
+        // 2. 构造 VO 对象，严格匹配 StudentDetailVO 的所有字段
         StudentDetailVO vo = new StudentDetailVO();
         vo.setStudentId(targetStudentId);
-        vo.setStudentName("测试学员");
-        vo.setCourseTimes(20); // 课程次数（示例值）
-        vo.setRemainingTimes(5); // 剩余次数（示例值）
+        vo.setStudentName("sdadadsdsadd");
+        vo.setCountLessonTotal(20);          // 总课时数
+        vo.setCountLessonComplet(12);        // 已完成课时数
+        vo.setCountLessonRefund(2);          // 已退款课时数
+        vo.setRemainingTimes(6);             // 剩余课时数
+        vo.setStartDate(LocalDate.of(2025, 3, 1)); // 课程开始日期
+        vo.setExpireDate(LocalDate.of(2026, 3, 1)); // 课程过期日期
+        vo.setCourseAmount(new BigDecimal("2000.00")); // 课程总金额
+        vo.setPaidAmount(new BigDecimal("1800.00"));   // 实付金额
 
+        // 3. 返回成功结果
         return JsonVO.success(vo);
     }
 
@@ -311,29 +318,38 @@ public class StudentController implements StudentApis {
      */
     @Override
     public JsonVO<PageDTO<LessonSummaryVO>> listHourSummary(StudentQuery query) {
-        // 1. 安全处理查询参数：PageQuery 是 long 基本类型，永远不会为 null
-        // 直接使用 query 自带的 pageIndex/pageSize（已被 @Min 约束保证 ≥1）
-        long pageIndex = query.getPageIndex();
-        long pageSize = query.getPageSize();
-        String studentId = (query.getStudentId() == null) ? "" : query.getStudentId();
+        // 1. 构造课时汇总数据
+        LessonSummaryVO summary = new LessonSummaryVO();
+        summary.setId(1L);
+        summary.setLessonId(1001L);
+        summary.setClassId(2001);
 
-        // 2. 构造课时汇总VO（给核心字段赋值）
-        LessonSummaryVO summaryVO = new LessonSummaryVO();
-        summaryVO.setStudentId(studentId);
-        summaryVO.setTotalHour(15.5); // 总课时（示例值）
-        summaryVO.setUsedHour(8.0);   // 已用课时（示例值）
-        summaryVO.setRemainingHour(7.5); // 剩余课时（示例值）
-        List<LessonSummaryVO> dataList = Collections.singletonList(summaryVO);
+        // 处理空值
+        summary.setStudentId(query == null || query.getStudentId() == null ? "1" : query.getStudentId());
+        summary.setName(query == null || query.getName() == null ? "sdadadsdsadd" : query.getName());
+        summary.setMobile(query == null || query.getMobile() == null ? "18864216425" : query.getMobile());
 
-        // 3. 构造分页DTO（类型匹配，无需装箱）
+        summary.setDecLessonCount(1);
+        summary.setLessonCount(10);
+        summary.setTeacherId(3001L);
+        summary.setSignTime(LocalDateTime.of(2025, 3, 18, 14, 30));
+        summary.setSignType(1);
+        summary.setSignState(1);
+
+        // 2. 构造分页数据
+        List<LessonSummaryVO> rows = Collections.singletonList(summary);
         PageDTO<LessonSummaryVO> pageDTO = new PageDTO<>();
+
+        // 处理分页参数（变量类型改为 long，和返回类型一致）
+        long pageIndex = (query == null) ? 1L : query.getPageIndex();
+        long pageSize = (query == null) ? 30L : query.getPageSize();
+
         pageDTO.setPageIndex(pageIndex);
         pageDTO.setPageSize(pageSize);
-        pageDTO.setTotal(1L); // 总条数
-        pageDTO.setPages(1L); // 总页数
-        pageDTO.setRows(dataList); // 当前页数据
+        pageDTO.setTotal(1L);
+        pageDTO.setPages(1L);
+        pageDTO.setRows(rows);
 
-        // 4. 返回分页结果
         return JsonVO.success(pageDTO);
     }
     @Override
