@@ -28,7 +28,7 @@ public interface HomeworkApis {
      * 保存作业,新增和编辑作业是调用这个接口
      * todo 返回值该用do?
      */
-    JsonVO<HomeworkDetailDto>saveHomework(HomeworkDetailDto homeworkDetailDto);
+    JsonVO<Long>saveHomework(HomeworkDetailDto homeworkDetailDto);
 
     /**
      * 删除作业

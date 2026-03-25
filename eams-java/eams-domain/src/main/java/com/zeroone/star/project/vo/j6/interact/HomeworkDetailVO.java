@@ -1,9 +1,11 @@
 package com.zeroone.star.project.vo.j6.interact;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
+@Data
 public class HomeworkDetailVO {
 
 

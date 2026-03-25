@@ -23,6 +23,11 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Autowired
     private HomeworkMapper homeworkMapper;
 
+    /**
+     * 获取作业列表
+     * @param homeworkQuery
+     * @return
+     */
     @Override
     public PageDTO<HomeworkListDto> pageQuery(HomeworkQuery homeworkQuery) {
         // 创建分页对象
@@ -59,42 +64,59 @@ public class HomeworkServiceImpl implements HomeworkService {
         });
     }
 
+    /**
+     * 获取作业详情
+     * @param id
+     * @return
+     */
     @Override
     public HomeworkDetailVO getHomeworkDetail(Long id) {
-        return homeworkMapper.selectById(id);
+        Homework entity = homeworkMapper.selectById(id);
+        if (entity == null) {
+            return null;
+        }
+        HomeworkDetailVO vo = new HomeworkDetailVO();
+        vo.setId(entity.getId());
+        vo.setClass_id(entity.getClassId());
+        vo.setTitle(entity.getTitle());
+        vo.setContent(entity.getContent());
+        return vo;
     }
 
 
+    /**
+     * 保存作业
+     * @param homeworkDetailDto
+     * @return
+     */
     @Override
     public Long saveHomework(HomeworkDetailDto homeworkDetailDto) {
-        Homework homework = new Homework();
+        Homework entity = new Homework();
+        entity.setClassId(homeworkDetailDto.getClass_id());
+        entity.setTitle(homeworkDetailDto.getTitle());
+        entity.setContent(homeworkDetailDto.getContent());
 
-        // 修改作业
+        // 判断是修改还是新增：id不为空且数据库中存在该记录才是修改
+        boolean isUpdate = false;
         if (homeworkDetailDto.getId() != null) {
-            homework.setId(homeworkDetailDto.getId());
-            homework.setClassId(homeworkDetailDto.getClass_id());
-            homework.setTitle(homeworkDetailDto.getTitle());
-            homework.setContent(homeworkDetailDto.getContent());
-            homework.setEditTime(LocalDateTime.now());
-
-            homeworkMapper.updateById(homework);
-
-            return homework.getId();
+            Homework existingHomework = homeworkMapper.selectById(homeworkDetailDto.getId());
+            isUpdate = (existingHomework != null);
         }
-        // 新增作业
-        else {
-            homework.setClassId(homeworkDetailDto.getClass_id());
-            homework.setTitle(homeworkDetailDto.getTitle());
-            homework.setContent(homeworkDetailDto.getContent());
-            homework.setCreator(homeworkDetailDto.getCreator());
-            homework.setAddTime(LocalDateTime.now());
-            homework.setEditTime(LocalDateTime.now());
 
-            homeworkMapper.insert(homework);
-
-            return homework.getId();
+        if (isUpdate) {
+            // 修改操作
+            entity.setId(homeworkDetailDto.getId());
+            entity.setEditTime(LocalDateTime.now());
+            // TODO: 从当前登录用户获取editor
+            // entity.setEditor(currentUserId);
+            homeworkMapper.updateById(entity);
+        } else {
+            // 新增操作（不使用前端传入的id，让数据库自动生成）
+            entity.setAddTime(LocalDateTime.now());
+            // TODO: 从当前登录用户获取creator
+            // entity.setCreator(currentUserId);
+            homeworkMapper.insert(entity);
         }
+        return entity.getId();
     }
-
-
 }

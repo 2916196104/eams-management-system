@@ -14,20 +14,4 @@ import java.util.List;
 @Mapper
 public interface HomeworkMapper extends BaseMapper<Homework> {
 
-    /**
-     * 分页查询作业(分页+条件)
-     *
-     * @param homeworkQuery
-     * @return
-     */
-    List<HomeworkListDto> pageQuery(HomeworkQuery homeworkQuery);
-
-    /**
-     *
-     * 根据id查询作业详情
-     * @param id
-     * @return
-     */
-    @Select("select id, class_id, title, content from homework where id = #{id}")
-    HomeworkDetailVO selectById(Long id);
 }
