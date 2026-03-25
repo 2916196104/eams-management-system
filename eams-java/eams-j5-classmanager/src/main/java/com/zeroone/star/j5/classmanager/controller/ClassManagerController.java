@@ -1,6 +1,7 @@
 package com.zeroone.star.j5.classmanager.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zeroone.star.j5.classmanager.service.ClassService;
 import com.zeroone.star.j5.classmanager.service.ClassStudentService;
 import com.zeroone.star.project.dto.j5.classmanager.ClassDTO;
 import com.zeroone.star.project.dto.j5.classmanager.ClassStudentDTO;
@@ -31,6 +32,8 @@ import java.util.List;
 public class ClassManagerController implements ClassStudentApis {
     @Resource
     private ClassStudentService classStudentService;
+    @Resource
+    private ClassService classService;
 
     @GetMapping("/class-options")
     @ApiOperation(value = "获取班级下拉选项", notes = "获取所有班级的下拉选项，用于表单选择")
@@ -142,24 +145,27 @@ public class ClassManagerController implements ClassStudentApis {
     @PostMapping
     @ApiOperation("保存班级")
     @Override
-    public JsonVO<Long> saveClass(@RequestBody ClassDTO classDTO) {
-        return null;
+    public JsonVO<Long> addClass(@RequestBody ClassDTO classDTO) {
+        Long addClassCount = classService.saveClass(classDTO);
+        return JsonVO.success(addClassCount);
     }
 
     @DeleteMapping
     @ApiOperation("删除班级")
     @ApiImplicitParam(name = "ids", value = "班级id列表")
     @Override
-    public JsonVO<List<Long>> deleteClass(List<Long> ids) {
-        return null;
+    public JsonVO<Long> removeClass(@RequestBody List<Long> ids) {
+        Long removeClassCount = classService.removeClass(ids);
+        return JsonVO.success(removeClassCount);
     }
 
     @PutMapping
     @ApiOperation("结业班级")
     @ApiImplicitParam(name = "ids", value = "班级已结业")
     @Override
-    public JsonVO<List<Long>> endClass(List<Long> ids) {
-        return null;
+    public JsonVO<Long> endClass(@RequestBody List<Long> ids) {
+        Long endClassCount = classService.endClass(ids);
+        return JsonVO.success(endClassCount);
     }
 
 

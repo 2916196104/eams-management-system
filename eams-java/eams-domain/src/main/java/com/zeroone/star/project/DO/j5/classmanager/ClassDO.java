@@ -1,13 +1,16 @@
 package com.zeroone.star.project.DO.j5.classmanager;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.github.classgraph.json.Id;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
+@TableName("class")
 public class ClassDO {
     @Id
     @ApiModelProperty(value = "主键", example = "1")
@@ -15,6 +18,7 @@ public class ClassDO {
 
     @ApiModelProperty(value = "班级名", example = "三年二班")
     private String name;
+    @TableField("course_id")
     @ApiModelProperty(value = "课程ID", example = "5")
     private Long courseId;
     @ApiModelProperty(value = "教室ID", example = "10")
@@ -40,8 +44,8 @@ public class ClassDO {
     @ApiModelProperty(value = "排课备注", example = "数学强化班")
     private String remark;
 
-    @ApiModelProperty(value = "是否完结", example = "false")
-    private Boolean beOver;
+    @ApiModelProperty(value = "是否完结", example = "0", notes = "0表示未完结，1表示完结")
+    private Integer beOver;
     @ApiModelProperty(value = "完结时间", example = "2023-06-30 18:00:00")
     private LocalDateTime overTime;
     @ApiModelProperty(value = "完结操作人", example = "1")

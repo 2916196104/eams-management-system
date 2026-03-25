@@ -31,11 +31,11 @@ public interface ClassStudentApis {
 
 
     //保存班级
-    JsonVO<Long> saveClass(ClassDTO classDTO);
+    JsonVO<Long> addClass(ClassDTO classDTO);
 
     //删除班级
-    JsonVO<List<Long>> deleteClass(List<Long> ids);
+    JsonVO<Long> removeClass(List<Long> ids);
 
     //结业班级
-    JsonVO<List<Long>> endClass(List<Long> ids);
+    JsonVO<Long> endClass(List<Long> ids);
 }

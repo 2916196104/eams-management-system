@@ -10,10 +10,13 @@ public class ClassDTO {
     @ApiModelProperty(value = "班级id,如果保存必须传，新增不传", example = "1", required = false)
     private Long id;
 
-    @ApiModelProperty(value = "班级名", example = "1班", required = true)
+    @ApiModelProperty(value = "班级名", example = "1 班", required = true)
     private String name;
-
-    @ApiModelProperty(value = "课程", example = "1课程")
+    
+    @ApiModelProperty(value = "课程 ID", example = "3")
+    private Long courseId;
+    
+    @ApiModelProperty(value = "课程", example = "1 课程")
     private String course;
 
     @ApiModelProperty(value = "班主任", example = "张三", required = true)
