@@ -28,8 +28,8 @@ ReviewRecordPageDTO::Wrapper ReviewService::listAll(const ReviewRecordQuery::Wra
     auto objectMapper = oatpp::parser::json::mapping::ObjectMapper::createShared();
 
     // 创建 RedisClient 对象
-    RedisClient redisClient("127.0.0.1", 6379, "123456");
-     //ZO_CREATE_REDIS_CLIENT(redisClient);
+    //RedisClient redisClient("127.0.0.1", 6379, "123456");
+     ZO_CREATE_REDIS_CLIENT(redisClient);       // WIN:使用配置文件，LINUX:从 Nacos 配置文件获取
 
     // 2. 尝试从 Redis 缓存获取
     auto cachedData =
