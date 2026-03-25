@@ -36,7 +36,7 @@ ReviewRecordPageDTO::Wrapper ReviewService::listAll(const ReviewRecordQuery::Wra
         redisClient.execute<std::optional<std::string>>([&](Redis* redis) { return redis->get(cacheKey).value(); });
 
     // 如果缓存存在且有值
-    if (cachedData && cachedData.value().empty()) {
+    if (cachedData && !cachedData.value().empty()) {
         try {
             // 命中缓存，直接反序列化为 DTO 返回
             return objectMapper->readFromString<ReviewRecordPageDTO::Wrapper>(cachedData.value());
@@ -61,10 +61,6 @@ ReviewRecordPageDTO::Wrapper ReviewService::listAll(const ReviewRecordQuery::Wra
     // 只有在有数据的情况下才执行查表
     if (total > 0 && offset < total) {
         auto result = dao.selectByQuery(query);
-        // 返回的std::list类型的结果为空
-        if (result.empty()) {
-            return page; // 设置记录为空，直接返回
-        }
         for (auto& one : result) {
             auto dto = ReviewRecordDTO::createShared();
             ZO_STAR_DOMAIN_DO_TO_DTO_1(dto, one, 
