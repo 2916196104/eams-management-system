@@ -4,11 +4,14 @@ import com.zeroone.star.project.dto.PageDTO;
 
 import com.zeroone.star.project.dto.j1.org.ResetPasswordDTO;
 import com.zeroone.star.project.dto.j1.org.StaffDTO;
+import com.zeroone.star.project.dto.j1.org.StaffSetDTO;
+import com.zeroone.star.project.dto.j1.org.StaffUpdateDTO;
 import com.zeroone.star.project.query.j1.org.ClassRecordQuery;
 import com.zeroone.star.project.query.j1.org.StaffQuery;
 import com.zeroone.star.project.query.j1.org.TeachRecordQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j1.org.ClassRecordVO;
+import com.zeroone.star.project.vo.j1.org.StaffDetailsVO;
 import com.zeroone.star.project.vo.j1.org.StaffVO;
 import com.zeroone.star.project.vo.j1.org.TeachRecordVO;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,7 +38,7 @@ public interface StaffMangerApis {
      * @param condition
      * @return 员工信息
      **/
-    JsonVO<StaffVO> queryStaff(StaffQuery condition);
+    JsonVO<StaffDetailsVO> queryStaff(StaffQuery condition);
     /**
      *保存员工
      * @param condition
@@ -47,19 +50,19 @@ public interface StaffMangerApis {
      * @param ids
      * @return 员工信息
      **/
-    JsonVO<List<Long>> removeStaff(List<Long> ids);
+    JsonVO<Long> removeStaff(List<Long> ids);
     /**
      *设置员工
-     * @param ids
+     * @param condition
      * @return 员工信息
      **/
-    JsonVO<List<Long>> setStaff(List<Long> ids);
+    JsonVO<Long> setStaff(StaffSetDTO condition);
     /**
      *修改员工状态员工
-     * @param ids
+     * @param condition
      * @return 员工信息
      **/
-    JsonVO<List<Long>> updateStaffStatus(List<Long> ids);
+    JsonVO<Long> updateStaffStatus(StaffUpdateDTO condition);
     /**
      * 批量转出员工机构
      * @param staffIds 员工ID集合
