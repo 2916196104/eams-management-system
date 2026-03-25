@@ -83,8 +83,22 @@ StringJsonVO::Wrapper StaffController::executeModifyAvatar(const AvatarUploadDTO
 }
 
 StringJsonVO::Wrapper StaffController::executegetDutyRecord(const DutyRecordQueryDTO::Wrapper& query) {
-    //创建一个相应结果
-    auto vo = StringJsonVO::createShared();
-    vo->success(ZH_WORDS_GETTER("getDutyRecord.resp"));
-    return vo;
+  //创建一个相应结果
+  auto vo = StringJsonVO::createShared();
+  vo->success(ZH_WORDS_GETTER("getDutyRecord.resp"));
+  return vo;
+}
+ListJsonVO<String>::Wrapper StaffController::execSetRole(const List<String>& ids, const PayloadDTO& payload)
+{
+	return {};
+}
+
+ListJsonVO<String>::Wrapper StaffController::execSetJob(const List<String>& ids, const PayloadDTO& payload)
+{
+	return {};
+}
+
+ListJsonVO<String>::Wrapper StaffController::execSetInstitution(const List<String>& ids, const PayloadDTO& payload)
+{
+	return {};
 }

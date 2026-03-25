@@ -80,6 +80,9 @@
       intro: 简介
       isInner: 是否是内部人员
       isManager: 是否是管理者
+  setRole: 设置角色(支持批量)
+  setOnJob: 设置在职(支持批量)
+  setInstitution: 设置机构(支持批量)
 
 position:
   tag: 职位管理
@@ -151,4 +154,3 @@ institution:
     summary: 获取机构详情
   delete:
     summary: 删除机构
-
