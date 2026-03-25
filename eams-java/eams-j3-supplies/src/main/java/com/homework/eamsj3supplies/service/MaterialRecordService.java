@@ -19,6 +19,7 @@ import com.zeroone.star.project.vo.j3.supplies.MaterialRecordVO;
 import com.zeroone.star.project.vo.j3.supplies.MaterialStockVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
 import java.time.LocalDate;
@@ -45,11 +46,13 @@ public class MaterialRecordService {
 
         int delta = changeTypeEnum.toDelta(materialStockChangeDTO.getAmount());
         LambdaUpdateChainWrapper<Material> updateChain = new LambdaUpdateChainWrapper<>(materialMapper);
+        // 计算库存增减量：入库为正，出库为负
         updateChain.eq(Material::getId, materialStockChangeDTO.getMaterialId())
                 .eq(Material::getDeleted, 0)
                 .setSql("storage = storage + " + delta)
                 .set(Material::getEditTime, new Date());
         if (delta < 0) {
+            // 条件更新库存：避免库存扣成负数
             updateChain.ge(Material::getStorage, -delta);
         }
         int affected = updateChain.update() ? 1 : 0;
@@ -81,6 +84,9 @@ public class MaterialRecordService {
     }
 
     public JsonVO<PageDTO<MaterialRecordVO>> queryMaterialRecordPage(MaterialRecordQuery query) {
+        if (query == null){
+            return JsonVO.fail("query为空");
+        }
         Page<MaterialRecord> page = new Page<>(query.getPageIndex(), query.getPageSize());
         IPage<MaterialRecord> pageData = materialRecordMapper.selectPage(
                 page,
