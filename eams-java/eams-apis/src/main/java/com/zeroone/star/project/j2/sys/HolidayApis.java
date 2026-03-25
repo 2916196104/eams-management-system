@@ -36,5 +36,5 @@ public interface HolidayApis {
      * @param id 要删除数据的编号
      * @return 删除结果
      */
-    JsonVO<String> removeHoliday(String id);
+    JsonVO<String> removeHoliday(Long id);
 }
