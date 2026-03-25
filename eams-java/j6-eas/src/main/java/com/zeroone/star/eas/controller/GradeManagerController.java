@@ -51,7 +51,7 @@ public class GradeManagerController implements GradeManagerApis {
     @GetMapping("/{id}")
     @ApiOperation("获取年级详情")
     @Override
-    public JsonVO<ClassGradeDto> getGradeById(@PathVariable("id") Integer id) {
+    public JsonVO<ClassGradeDto> getGradeById(@PathVariable("id") Long id) {
         ClassGradeDto gradeDto = gradeManagerService.getGradeById(id);
         if (gradeDto == null) {
             return JsonVO.fail("年级不存在");

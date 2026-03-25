@@ -23,7 +23,7 @@ public interface GradeManagerApis {
     /**
      * 获取年级详情
      */
-    JsonVO<ClassGradeDto> getGradeById(Integer id);
+    JsonVO<ClassGradeDto> getGradeById(Long id);
 
     /**
      * 获取年级名称列表

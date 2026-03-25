@@ -71,7 +71,7 @@ public class GradeManagerServiceImpl extends ServiceImpl<ClassGradeMapper, Class
      * @return 年级详情
      */
     @Override
-    public ClassGradeDto getGradeById(Integer id) {
+    public ClassGradeDto getGradeById(Long id) {
         ClassGrade entity = this.getById(id);
         if (entity == null) {
             return null;
