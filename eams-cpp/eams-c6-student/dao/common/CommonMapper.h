@@ -98,5 +98,4 @@ public:
 		return data;
 	}
 };
-
-#endif
+#endif 
