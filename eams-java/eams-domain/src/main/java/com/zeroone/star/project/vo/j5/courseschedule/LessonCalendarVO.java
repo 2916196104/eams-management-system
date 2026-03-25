@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Data
 public class LessonCalendarVO {
@@ -17,8 +18,10 @@ public class LessonCalendarVO {
     private String courseName;      // 课程名称
     @ApiModelProperty("老师名称")
     private String teacherName;     // 老师名称
-    @ApiModelProperty("学生名称")
-    private String studentName;
+    @ApiModelProperty("学生id列表")
+    private List<String> studentIdList;
+    @ApiModelProperty("学生名称列表")
+    private List<String> studentNameList;
     @ApiModelProperty("班级类型")
     private String classType;
 
