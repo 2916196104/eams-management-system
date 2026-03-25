@@ -11,7 +11,7 @@
 
 // 1 定义API控制器使用宏
 #include OATPP_CODEGEN_BEGIN(ApiController)
-#define API_TAG ZH_WORDS_GETTER("parent.tags")
+#define API_TAG ZH_WORDS_GETTER("parent.tag")
 
 /*
  * 家长控制器

@@ -1,4 +1,5 @@
 parent:
+  tag: 家长信息
   query:
     summary: 获取家长信息
   field:
