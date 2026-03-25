@@ -6,6 +6,9 @@ import lombok.Data;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
+
 /**
  * <p>
  * 教室数据传输对象
@@ -24,12 +27,14 @@ public class ClassroomDTO {
      * 教室名称
      */
     @NotBlank(message = "教室名称不能为空")
+    @Size(max = 50, message = "教室名称长度不能超过50个字符")
     @ApiModelProperty(value = "教室名称",required = true,example = "教学楼")
     private String name;
     /**
      * 教室地址
      */
     @NotBlank(message = "教室地址不能为空")
+    @Size(max = 255, message = "教室地址长度不能超过255个字符")
     @ApiModelProperty(value = "教室地址",required = true,example = "崇文楼")
     private String address;
     /**
@@ -41,6 +46,7 @@ public class ClassroomDTO {
     /**
      * 备注说明
      */
+    @Size(max = 255, message = "备注说明长度不能超过255个字符")
     @ApiModelProperty(value = "备注说明",example = "测试测试")
     private String remark;
     /**
@@ -48,5 +54,4 @@ public class ClassroomDTO {
      */
     @ApiModelProperty(value = "学校ID",example = "1")
     private Long schoolId;
-
 }
