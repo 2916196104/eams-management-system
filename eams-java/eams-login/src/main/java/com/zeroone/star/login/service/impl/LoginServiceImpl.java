@@ -1,5 +1,6 @@
 package com.zeroone.star.login.service.impl;
 
+import cn.hutool.core.convert.Convert;
 import com.anji.captcha.model.common.ResponseModel;
 import com.zeroone.cloud.oauth2.entity.Oauth2Token;
 import com.zeroone.star.login.entity.StaffDO;
@@ -10,6 +11,7 @@ import com.zeroone.star.login.service.ILoginService;
 import com.zeroone.star.login.service.IMenuService;
 import com.zeroone.star.login.service.OauthService;
 import com.zeroone.star.project.components.user.UserHolder;
+import com.zeroone.star.project.components.user.UserDTO;
 import com.zeroone.star.project.dto.login.LoginDTO;
 import com.zeroone.star.project.dto.login.Oauth2TokenDTO;
 import com.zeroone.star.project.dto.login.RefreshTokenDTO;
@@ -100,7 +102,7 @@ public class LoginServiceImpl implements ILoginService {
 
     @Override
     public LoginVO getCurrentUser() {
-        Long userId = userHolder.getCurrentUserId();
+        Long userId = resolveCurrentUserId();
         if (userId == null) {
             throw new LoginException("Current user was not found");
         }
@@ -124,7 +126,7 @@ public class LoginServiceImpl implements ILoginService {
 
     @Override
     public String resetPassword(SelfResetPasswordDTO resetPasswordDTO) {
-        Long userId = userHolder.getCurrentUserId();
+        Long userId = resolveCurrentUserId();
         if (userId == null) {
             throw new LoginException("Current user was not found");
         }
@@ -150,7 +152,7 @@ public class LoginServiceImpl implements ILoginService {
 
     @Override
     public List<MenuTreeVO> getMenus() {
-        Long userId = userHolder.getCurrentUserId();
+        Long userId = resolveCurrentUserId();
         if (userId == null) {
             throw new LoginException("Current user was not found");
         }
@@ -226,5 +228,14 @@ public class LoginServiceImpl implements ILoginService {
 
     private List<String> defaultIfNull(List<String> values) {
         return values == null ? Collections.emptyList() : values;
+    }
+
+    private Long resolveCurrentUserId() {
+        try {
+            UserDTO currentUser = userHolder.getCurrentUser();
+            return currentUser == null ? null : Convert.toLong(currentUser.getId());
+        } catch (Exception e) {
+            throw new LoginException("Current user was not found");
+        }
     }
 }
