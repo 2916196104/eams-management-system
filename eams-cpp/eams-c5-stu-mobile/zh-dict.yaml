@@ -1,12 +1,12 @@
 home:
   trialCard:
-    name: "试用卡名称"
-    courseName: "试用卡课程名称"
-    lessonCount: "试用卡课时"
-    remainingQuantity: "试用卡剩余数量"
-    endData: "试用卡截止时间"
+    name: "试听卡名称"
+    courseName: "试听卡课程名称"
+    lessonCount: "试听卡课时"
+    remainingQuantity: "试听卡剩余数量"
+    endData: "试听卡截止时间"
     getTrialCardList:
-      info: "获取试用卡列表"
+      info: "获取试听卡列表"
 student:
   id: "学生ID"
   name: "学生姓名"
@@ -15,7 +15,7 @@ student:
   getStudentInfo: "获取学生信息"
 login:
   register:
-    summary: "注册接口"
+    summary: "注册"
     field:
       id: "编号ID"          
       telephoneNumber:      
