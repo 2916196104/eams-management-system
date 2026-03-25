@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "ApiHelper.h"
 #include "Macros.h"
@@ -13,7 +13,10 @@
         职位数据传输对象
  */
 class PositionDTO : public oatpp::DTO {
-  DTO_INIT(PositionDTO, DTO);
+	DTO_INIT(PositionDTO, DTO);
+	DTO_FIELD(Int32, id);               // 职位ID
+	DTO_FIELD(String, name);             // 职位名称
+	DTO_FIELD(String, description);      // 职位描述
 };
 
 /*

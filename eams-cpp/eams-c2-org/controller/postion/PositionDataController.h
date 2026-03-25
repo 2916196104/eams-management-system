@@ -17,9 +17,9 @@
  */
 class PositionDataController : public oatpp::web::server::api::ApiController // 1 继承控制器
 {
-  // 2 定义控制器访问入口
-  API_ACCESS_DECLARE(PositionDataController);
-  // 3 定义接口
+	// 2 定义控制器访问入口
+	API_ACCESS_DECLARE(PositionDataController);
+	// 3 定义接口
 public:
 
 	// -01: 修改或者新增职位数据权限接口，只完成了新增的逻辑，修改的逻辑还需要完善；并且新增数据是还会报错

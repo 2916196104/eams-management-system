@@ -7,6 +7,12 @@
 #include "domain/vo/NoDataJsonVO.h"
 #include "oatpp/core/Types.hpp"
 
+#include "domain/dto/postion/PositionDataPermissionQueryDTO.h"
+#include "domain/dto/postion/PositionDataPermissionPageDTO.h"
+#include "domain/vo/BaseJsonVO.h"
+#include "domain/dto/postion/DeletePositionRequestDTO.h"
+#include "domain/dto/postion/JsonResponseDTO.h"
+#include "domain/dto/postion/EmptyDTO.h"
 #include "ApiHelper.h"
 #include "ServerInfo.h"
 #include "domain/vo/BaseJsonVO.h"
@@ -21,9 +27,9 @@
 class PositionController
     : public oatpp::web::server::api::ApiController // 1 继承控制器
 {
-  // 2 定义控制器访问入口
-  API_ACCESS_DECLARE(PositionController);
-  // 3 定义接口
+    // 2 定义控制器访问入口
+    API_ACCESS_DECLARE(PositionController);
+    // 3 定义接口
 public:
   ENDPOINT_INFO(fetchPositionAll) {
 
@@ -94,10 +100,22 @@ public:
     vo->data = 10;
     example.addExample("example", vo);
   }
-  ENDPOINT("POST", "org/position/save", savePosition,
+  ENDPOINT("POST", "/org/position/save", savePosition,
            AUTHORIZATION(std::shared_ptr<CustomerAuthorizeObject>, auth),
            BODY_DTO(PositionSaveRequestDTO::Wrapper, dto));
 
+
+  // 为第一个接口添加标签（英文测试，确保功能）
+  ENDPOINT_INFO(getPositionDataPermissionList) {
+    info->addTag(API_TAG);
+  }
+  ENDPOINT("POST", "/positions/data/permissions/list", getPositionDataPermissionList, BODY_DTO(oatpp::Object<PositionDataPermissionQueryDTO>, request));
+
+    // 为第二个接口添加标签
+  ENDPOINT_INFO(deletePositions) {
+    info->addTag(API_TAG);
+  }
+  ENDPOINT("POST", "/positions/delete", deletePositions, BODY_DTO(oatpp::Object<DeletePositionRequestDTO>, request));
 private: // 定义接口执行函数
 };
 
