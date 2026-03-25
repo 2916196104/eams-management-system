@@ -7,19 +7,13 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-/**
- * Basic lesson detail view object.
- */
 @Data
-@ApiModel(value = "课次详情VO", description = "课次详情返回")
-public class LessonDetailVO {
-
+@ApiModel(value = "课次日历VO", description = "课次日历返回")
+public class LessonCalendarVO {
     @ApiModelProperty(value = "ID")
     private Long id;
     @ApiModelProperty(value = "标题")
     private String title;
-    @ApiModelProperty(value = "序号")
-    private Integer sn;
     @ApiModelProperty(value = "上课日期")
     private LocalDate date;
     @ApiModelProperty(value = "开始时间")
@@ -34,12 +28,4 @@ public class LessonDetailVO {
     private String teacherName;
     @ApiModelProperty(value = "教室名称")
     private String roomName;
-    @ApiModelProperty(value = "状态")
-    private Integer state;
-    @ApiModelProperty(value = "应到人数")
-    private Integer shouldCount;
-    @ApiModelProperty(value = "实到人数")
-    private Integer realCount;
-    @ApiModelProperty(value = "备注")
-    private String remark;
 }

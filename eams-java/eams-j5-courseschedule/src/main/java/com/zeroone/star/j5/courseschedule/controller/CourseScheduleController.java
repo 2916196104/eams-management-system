@@ -1,15 +1,15 @@
 package com.zeroone.star.j5.courseschedule.controller;
 
+import com.zeroone.star.j5.courseschedule.service.ILessonService;
 import com.zeroone.star.project.dto.j5.courseschedule.*;
 import com.zeroone.star.project.query.j5.courseschedule.*;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.j5.courseschedule.CourseScheduleApis;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.vo.j5.courseschedule.CourseDetailVO;
-import com.zeroone.star.project.vo.j5.courseschedule.CourseListVO;
-import com.zeroone.star.project.vo.j5.courseschedule.EvaluationVO;
+import com.zeroone.star.project.vo.j5.courseschedule.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,27 +17,31 @@ import java.util.Map;
 
 @RestController("j5/courseschedule")
 @Api(tags="课程表")
+@RequiredArgsConstructor
 public class CourseScheduleController implements CourseScheduleApis {
-
+    private final ILessonService ilessonService;
     @GetMapping("/calendar")
     @ApiOperation("获取课表日历（条件）")
     @Override
-    public JsonVO<List<LessonDTO>> queryCalendar(CourseQuery condition) {
-        return null;
+    public JsonVO<List<LessonCalendarVO>> queryCalendar(LessonQueryDTO query) {
+        List<LessonCalendarVO> list = ilessonService.calendar(query);
+        return JsonVO.success(list);
     }
 
     @GetMapping("/list")
     @ApiOperation("获取课次列表（条件+分页）")
     @Override
-    public JsonVO<PageDTO<CourseListVO>> queryCourseList(CourseListQuery courseListQuery) {
-        return null;
+    public JsonVO<PageDTO<LessonListVO>> queryCourseList(LessonQueryDTO query) {
+        PageDTO<LessonListVO> page = ilessonService.pageList(query);
+        return JsonVO.success(page);
     }
 
     @GetMapping("/detail/{id}")
     @ApiOperation("获取课次详情")
     @Override
-    public JsonVO<CourseDetailVO> queryCourseDetail(Long id) {
-        return null;
+    public JsonVO<LessonDetailVO> queryCourseDetail(@PathVariable Long id) {
+        LessonDetailVO detail = ilessonService.detail(id);
+        return JsonVO.success(detail);
     }
 
 
