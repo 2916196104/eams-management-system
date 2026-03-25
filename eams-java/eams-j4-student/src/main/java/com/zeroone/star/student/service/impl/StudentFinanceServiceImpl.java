@@ -263,7 +263,7 @@ public class StudentFinanceServiceImpl implements IStudentFinanceService {
     private void refreshPayStatus(StudentCourse studentCourse) {
         BigDecimal contractAmount = defaultZero(studentCourse.getAmount());
         BigDecimal paidAmount = defaultZero(studentCourse.getPaidAmount());
-        studentCourse.setPayOff(paidAmount.compareTo(contractAmount) >= 0 ? 1 : 0);
+        studentCourse.setPayOff(paidAmount.compareTo(contractAmount) >= 0 ? true : false);
     }
 
     private FinanceDTO buildPaymentDTO(FinanceRecord financeRecord, StudentCourse studentCourse, Student student) {

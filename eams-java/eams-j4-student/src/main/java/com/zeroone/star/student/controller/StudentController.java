@@ -5,11 +5,9 @@ import com.zeroone.star.project.dto.j4.student.*;
 import com.zeroone.star.project.dto.j4.student.StudentDTO;
 import com.zeroone.star.project.dto.j4.student.FinanceDTO;
 import com.zeroone.star.project.dto.j4.student.FollowUpDTO;
-import com.zeroone.star.project.dto.j4.student.GraduateStudentImportBatchDTO;
 import com.zeroone.star.project.j4.student.StudentApis;
 import com.zeroone.star.project.query.j4.student.*;
 import com.zeroone.star.project.vo.j4.student.*;
-import com.zeroone.star.student.mapper.IOmyMapper;
 import com.zeroone.star.student.service.*;
 import com.zeroone.star.project.query.j4.student.FinanceQuery;
 import com.zeroone.star.project.vo.JsonVO;
@@ -17,9 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import io.swagger.annotations.ApiParam;
 import org.springframework.http.ResponseEntity;
@@ -30,11 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -473,26 +466,8 @@ public class StudentController implements StudentApis {
     }
 
     /**
-     * 批量导入（JSON格式）
-     * 可在Knife4j/Postman直接POST调用
-     */
-    @PostMapping("/batch/import")
-    @ApiOperation(value = "结业学员批量导入（JSON）", notes = "传入JSON列表批量导入学员数据")
-    public CommonResponseVO<GraduateStudentImportResultVO> batchImport(
-            @ApiParam(value = "批量导入数据", required = true)
-            @RequestBody GraduateStudentImportBatchDTO importDTO) {
-        // 仅模拟返回结果，无业务逻辑，保证接口可调用
-        GraduateStudentImportResultVO result = new GraduateStudentImportResultVO();
-        result.setSuccessCount(importDTO.getStudentList().size());
-        result.setFailCount(0);
-        result.setFailDetails(new ArrayList<>());
-        result.setBatchNo("B" + LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "01");
-        return CommonResponseVO.success(result);
-    }
-
-    /**
-     * Excel文件导入
-     * 可在Knife4j/Postman上传文件调用
+     * 结业学员导入（Excel文件）
+     * @param file Excel文件（非空校验）
      */
     @PostMapping("/graduation/import")
     @ApiOperation("结业学员导入Excel")

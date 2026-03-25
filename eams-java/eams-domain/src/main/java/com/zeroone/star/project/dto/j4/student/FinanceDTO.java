@@ -44,7 +44,7 @@ public class FinanceDTO {
     private BigDecimal unpaidAmount;
 
     @ApiModelProperty(value = "是否结清（0：否 1：是）", example = "0")
-    private Integer payOff;
+    private Boolean payOff;
 
     @ApiModelProperty(value = "经办人ID", example = "1001")
     private Long operator;
