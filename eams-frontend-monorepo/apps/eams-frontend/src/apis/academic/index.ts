@@ -1,5 +1,5 @@
 import { useHttp } from "@/plugins/http";
-import type { StudentLeaveQueryDTO, StudentLeaveItemDTO, CourseListQueryDTO, CourseListVO } from "./type";
+import type { StudentLeaveQueryDTO, StudentLeaveItemDTO } from "./type";
 
 const http = useHttp();
 const currBaseUrl = "/student";
@@ -22,20 +22,5 @@ export const cancelStudentLeave = async (ids: number[]) => {
 		currBaseUrl + "/student-leave/cancel",
 		ids,
 	);
-	return res;
-};
-
-/**
- * 获取课程表列表
- * @param params 查询参数
- */
-export const getCourseListPage = async (params: CourseListQueryDTO) => {
-	const res = await http.get<{
-		pageIndex?: number;
-		pageSize?: number;
-		total?: number;
-		pages?: number;
-		rows?: CourseListVO[];
-	}>(currBaseUrl + "/course/list", params);
 	return res;
 };
