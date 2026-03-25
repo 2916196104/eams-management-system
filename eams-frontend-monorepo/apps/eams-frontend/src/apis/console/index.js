@@ -37,3 +37,36 @@ export const deleteCoursesApi = (ids) => {
 export const putCourseStatusApi = (courseIds, isResume) => {
 	return http.put(`${currBaseUrlJ5}/resume`, { courseIds, isResume });
 };
+
+// 教师/助教下拉菜单列表 -j5
+export const getTeacherListApi = (params) => {
+	return http.get(`/j5/courseplan/teachers`, params);
+};
+
+// 获取教室列表（条件+分页）-j4
+export const getClassroomListApi = (params) => {
+	return http.get(`/j4/classroom/list`, params);
+};
+
+// 获取控制台公告列表 - j6
+export const getNoticeListApi = (data) => {
+	return http.get("/j6/interact/Advertisement/list", data);
+};
+
+/**
+ * 本月报名走势查询 - j7
+ */
+export const getMonthlyTrendApi = (params) => {
+	return http.get("/j7-console/monthly-trend", {
+		params,
+	});
+};
+
+/**
+ * 课程报名查询 top5 - j7
+ */
+export const getCourseTop5Api = (params) => {
+	return http.get("/j7-console/course-registration", {
+		params,
+	});
+};

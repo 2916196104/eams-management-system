@@ -41,37 +41,56 @@
 					</template>
 				</my-calendar>
 			</el-card>
-			<!-- 预约课表 -->
-			<el-card style="margin-top: 10px">
-				<el-tabs v-model="reserveCalendar">
-					<el-tab-pane label="预约课表" name="reserve">
-						<my-calendar />
-					</el-tab-pane>
-				</el-tabs>
-			</el-card>
 		</el-col>
 		<!-- 右侧 -->
-		<el-col :span="8"></el-col>
+		<el-col :span="8">
+			<school-notice :data="noticeStore.noticeList" />
+			<el-card style="margin-left: 10px">
+				<line-chart
+					title="本月报名走势"
+					:x-axis-data="echartsStore.trendXAxis"
+					:series-data="echartsStore.trendSeries"
+					height="400px"
+				/>
+			</el-card>
+			<el-card style="margin-left: 10px; margin-top: 10px">
+				<bar-chart
+					title="课程报名前5"
+					:x-axis-data="barStore.barXAxis"
+					:series-data="barStore.barSeries"
+					height="400px"
+					:show-label="true"
+				/>
+			</el-card>
+		</el-col>
 	</el-row>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from "vue";
-import { useStatisticsStore, useScheduleStore } from "@/stores/console";
+import { useStatisticsStore, useScheduleStore, useNoticeStore, useEchartsStore } from "@/stores/console";
 import Statistics from "@/components/statistics/Statistics.vue";
 import MyCalendar from "@/components/mycalendar/MyCalendar.vue";
+import LineChart from "@/components/mychart/LineChart.vue";
+import BarChart from "@/components/mychart/BarChart.vue";
 import CalendarText from "./components/CalendarText.vue";
+import SchoolNotice from "./components/SchoolNotice.vue";
 
 /* store */
 const statisticsStore = useStatisticsStore();
 const scheduleStore = useScheduleStore();
-
+const noticeStore = useNoticeStore();
+const echartsStore = useEchartsStore();
+const barStore = useEchartsStore();
 /* 统计面板 */
 const statisticsLoading = ref(true);
 onMounted(async () => {
 	await statisticsStore.fetchStatistics(); // 获取统计数据
 	await scheduleStore.fetchMySchedule(); // 默认加载我的课表
 	statisticsLoading.value = false;
+	await noticeStore.fetchNoticeList(); // 获取学校公告
+	await echartsStore.fetchMonthlyTrend(); // 获取本月报名走势
+	await barStore.fetchCourseTop5(); // 获取课程报名前5
 });
 // 统计数据
 const statisticsList = computed(() => [
@@ -108,11 +127,8 @@ const statisticsList = computed(() => [
 		hoverBgColor: "#f4516c",
 	},
 ]);
-
 /* 课表 */
 const calendar = ref("my");
-const reserveCalendar = ref("reserve");
-
 /* 防止重复加载课表 */
 const loadedAll = ref(false);
 /* 切换 Tab 加载数据 */
@@ -122,7 +138,6 @@ watch(calendar, async (val) => {
 		loadedAll.value = true;
 	}
 });
-
 /* 调用 store 的方法 */
 function getEvents(date: Date) {
 	return scheduleStore.getMonthEvents(date, calendar.value);

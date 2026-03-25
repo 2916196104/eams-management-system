@@ -6,6 +6,11 @@ import {
 	getCourseDetailApi,
 	deleteCoursesApi,
 	putCourseStatusApi,
+	getTeacherListApi,
+	getClassroomListApi,
+	getNoticeListApi,
+	getMonthlyTrendApi,
+	getCourseTop5Api,
 } from "@/apis/console";
 import { useUserStore } from "@/stores/user";
 const userStore = useUserStore();
@@ -214,3 +219,149 @@ export const useCourseDetailStore = defineStore("courseDetail", () => {
 		toggleCourseStatus,
 	};
 });
+export const useBasicDataStore = defineStore("basicData", () => {
+	/* 教师列表 */
+	const teacherList = ref([]);
+	const teacherLoading = ref(false);
+
+	/* 教室列表 */
+	const classroomList = ref([]);
+	const classroomLoading = ref(false);
+
+	/* 获取教师列表 */
+	const fetchTeacherList = async (params = {}) => {
+		try {
+			teacherLoading.value = true;
+			const res = await getTeacherListApi(params);
+			teacherList.value = res.data || [];
+		} finally {
+			teacherLoading.value = false;
+		}
+	};
+
+	/* 获取教室列表 */
+	const fetchClassroomList = async (params = {}) => {
+		try {
+			classroomLoading.value = true;
+			const res = await getClassroomListApi(params);
+			classroomList.value = res.data || [];
+		} finally {
+			classroomLoading.value = false;
+		}
+	};
+
+	return {
+		teacherList,
+		classroomList,
+		teacherLoading,
+		classroomLoading,
+		fetchTeacherList,
+		fetchClassroomList,
+	};
+});
+export const useNoticeStore = defineStore("notice", () => {
+	/* 公告列表 */
+	const noticeList = ref([]);
+
+	/* 分页 */
+	const total = ref(0);
+	const loading = ref(false);
+
+	/* 查询公告 */
+	const fetchNoticeList = async (params = {}) => {
+		loading.value = true;
+		try {
+			const res = await getNoticeListApi(params);
+
+			noticeList.value = res.data.rows || [];
+			total.value = res.data.total || 0;
+		} finally {
+			loading.value = false;
+		}
+	};
+
+	return {
+		noticeList,
+		total,
+		loading,
+		fetchNoticeList,
+	};
+});
+export const useEchartsStore = defineStore("echarts", () => {
+	/* ===== 本月报名走势 ===== */
+	const monthlyTrend = ref([]);
+	const trendLoading = ref(false);
+
+	// 给图表用的数据
+	const trendXAxis = ref([]);
+	const trendSeries = ref([]);
+
+	const fetchMonthlyTrend = async (params = {}) => {
+		trendLoading.value = true;
+		try {
+			const res = await getMonthlyTrendApi(params);
+			const list = res.data || [];
+
+			monthlyTrend.value = list;
+
+			// ===== 转换为 echarts 数据 =====
+			trendXAxis.value = list.map((item) => formatDate(item.date));
+
+			trendSeries.value = [
+				{
+					name: "报名人数",
+					data: list.map((item) => item.totalCount || 0),
+					color: "#5470c6",
+				},
+			];
+		} finally {
+			trendLoading.value = false;
+		}
+	};
+
+	/* ===== 课程报名 Top5 ===== */
+	const barXAxis = ref([]);
+	const barSeries = ref([]);
+	const top5Loading = ref(false);
+
+	const fetchCourseTop5 = async (params = {}) => {
+		top5Loading.value = true;
+		try {
+			const res = await getCourseTop5Api(params);
+			const list = res.data || [];
+
+			barXAxis.value = list.map((item) => item.courseName || "");
+			barSeries.value = [
+				{
+					name: "报名人数",
+					data: list.map((item) => item.totalCount || 0),
+					color: "#5470c6",
+				},
+			];
+		} finally {
+			top5Loading.value = false;
+		}
+	};
+
+	return {
+		monthlyTrend,
+		trendXAxis,
+		trendSeries,
+		trendLoading,
+		fetchMonthlyTrend,
+
+		barXAxis,
+		barSeries,
+		top5Loading,
+		fetchCourseTop5,
+	};
+});
+
+/* 日期格式化 */
+function formatDate(date) {
+	if (!date) return "";
+	const d = new Date(date);
+	const m = String(d.getMonth() + 1).padStart(2, "0");
+	const day = String(d.getDate()).padStart(2, "0");
+	return `${m}-${day}`;
+}
