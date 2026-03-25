@@ -8,7 +8,8 @@
 #include "ServerInfo.h"
 #include "Macros.h"
 #include "domain/query/PageQuery.h"
-#include "../../domain/dto/staff/StaffDTO.h"
+#include "domain/dto/staff/StaffDTO.h" 
+
 
 // 1 定义API控制器使用宏
 #include OATPP_CODEGEN_BEGIN(ApiController)
@@ -70,6 +71,24 @@ public:
 	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/org/staff/saveEmp", saveEmp, BODY_DTO(StaffSaveDTO::Wrapper, dto), executeSaveEmp(dto));
 	
 
+	
+
+	// 定义修改头像接口
+	ENDPOINT_INFO(modifyAvatar) {
+		info->summary = ZH_WORDS_GETTER("institution.modifyAvatar.summary");
+		// 支持授权
+		API_DEF_ADD_AUTH();
+		// 定义响应参数格式
+		API_DEF_ADD_RSP_JSON(StringJsonVO::Wrapper);
+		//声明接收文件表单，定义参数请求格式
+		API_DEF_ADD_FILE_FORM(AvatarUploadDTO::Wrapper);
+		API_DEF_ADD_TAG(API_TAG);
+	}
+	ENDPOINT(API_M_POST, "/org/staff/modifyAvatar", modifyAvatar, BODY_DTO(AvatarUploadDTO::Wrapper,dto), API_HANDLER_AUTH_PARAME) {
+		// 直接调用处理函数
+		API_HANDLER_RESP_VO(executeModifyAvatar(dto));
+		//return createResponse(Status::CODE_200, ZH_WORDS_GETTER("modifyAvatar.resp"));
+	}
 private: // 定义接口执行函数
 	// 获取员工列表
 	StringJsonVO::Wrapper executeGetEmpList(const StaffPageQuery::Wrapper& query);
@@ -77,8 +96,9 @@ private: // 定义接口执行函数
 	// 保存员工(新增员工+更新员工)
 	StringJsonVO::Wrapper executeSaveEmp(const StaffSaveDTO::Wrapper& dto);
 
+	StringJsonVO::Wrapper executeModifyAvatar(const AvatarUploadDTO::Wrapper& dto);
 };
 
 #undef API_TAG
 #include OATPP_CODEGEN_END(ApiController) //<- End Codegen
-#endif // !_POSITION_CONTROLLER_
+#endif // !_STAFF_CONTROLLER_
