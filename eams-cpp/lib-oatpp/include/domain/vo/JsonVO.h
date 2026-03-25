@@ -25,112 +25,41 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * å‰åç«¯æ•°æ®å¯¹æ¥æ•°æ®å¯¹è±¡
+ * Ç°ºó¶ËÊı¾İ¶Ô½ÓÊı¾İ¶ÔÏó
  */
 template<class T>
 class JsonVO : public NoDataJsonVO
 {
-	// åˆå§‹åŒ–å®šä¹‰
+	// ³õÊ¼»¯¶¨Òå
 	DTO_INIT(JsonVO, NoDataJsonVO);
-#pragma once
-	/*
-	 Copyright Zero One Star. All rights reserved.
 
-	 @Author: awei
-	 @Date: 2022/10/25 11:24:25
-
-	 Licensed under the Apache License, Version 2.0 (the "License");
-	 you may not use this file except in compliance with the License.
-	 You may obtain a copy of the License at
-
-		  https://www.apache.org/licenses/LICENSE-2.0
-
-	 Unless required by applicable law or agreed to in writing, software
-	 distributed under the License is distributed on an "AS IS" BASIS,
-	 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 See the License for the specific language governing permissions and
-	 limitations under the License.
-	*/
-#ifndef _JSON_VO_
-#define _JSON_VO_
-#include "NoDataJsonVO.h"
-#include "Message.h"
-
-#include OATPP_CODEGEN_BEGIN(DTO)
-
-	/**
-	 * å‰åç«¯æ•°æ®å¯¹æ¥æ•°æ®å¯¹è±¡
-	 */
-	template<class T>
-	class JsonVO : public NoDataJsonVO
-	{
-		// åˆå§‹åŒ–å®šä¹‰
-		DTO_INIT(JsonVO, NoDataJsonVO);
-
-		// æ•°æ®å¯¹è±¡
-		DTO_FIELD(T, data, "data");
-		DTO_FIELD_INFO(data) {
-#ifndef LINUX
-			info->description = u8"æ•°æ®å¯¹è±¡";
-#else
-			info->description = "data object";
-#endif
-		}
-
-	public:
-		// è®¾ç½®çŠ¶æ€
-		void setStatus(ResultStatus resultStatus) {
-			this->message = resultStatus.getMessage();
-			this->code = resultStatus.getCode();
-		}
-		// åˆå§‹åŒ–
-		void init(T data, ResultStatus resultStatus) {
-			this->data = data;
-			this->setStatus(resultStatus);
-		}
-		// æ„å»ºæˆåŠŸæ¶ˆæ¯
-		void success(T data) {
-			this->setStatus(RS_SUCCESS);
-			this->data = data;
-		}
-		// æ„å»ºå¤±è´¥æ¶ˆæ¯
-		void fail(T data) {
-			this->setStatus(RS_FAIL);
-			this->data = data;
-		}
-	};
-
-#include OATPP_CODEGEN_END(DTO)
-
-#endif // !_JSON_VO_
-
-	// æ•°æ®å¯¹è±¡
+	// Êı¾İ¶ÔÏó
 	DTO_FIELD(T, data, "data");
 	DTO_FIELD_INFO(data) {
 #ifndef LINUX
-		info->description = u8"æ•°æ®å¯¹è±¡";
+		info->description = u8"Êı¾İ¶ÔÏó";
 #else
 		info->description = "data object";
 #endif
 	}
 
 public:
-	// è®¾ç½®çŠ¶æ€
+	// ÉèÖÃ×´Ì¬
 	void setStatus(ResultStatus resultStatus) {
 		this->message = resultStatus.getMessage();
 		this->code = resultStatus.getCode();
 	}
-	// åˆå§‹åŒ–
+	// ³õÊ¼»¯
 	void init(T data, ResultStatus resultStatus) {
 		this->data = data;
 		this->setStatus(resultStatus);
 	}
-	// æ„å»ºæˆåŠŸæ¶ˆæ¯
+	// ¹¹½¨³É¹¦ÏûÏ¢
 	void success(T data) {
 		this->setStatus(RS_SUCCESS);
 		this->data = data;
 	}
-	// æ„å»ºå¤±è´¥æ¶ˆæ¯
+	// ¹¹½¨Ê§°ÜÏûÏ¢
 	void fail(T data) {
 		this->setStatus(RS_FAIL);
 		this->data = data;

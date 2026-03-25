@@ -24,28 +24,28 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 /**
- * åˆ†é¡µæŸ¥è¯¢å¯¹è±¡çˆ¶ç±»ï¼ŒåŽç»­åˆ†é¡µæŸ¥è¯¢å¯¹è±¡å¯ä»¥ç»§æ‰¿å®ƒ
+ * ·ÖÒ³²éÑ¯¶ÔÏó¸¸Àà£¬ºóÐø·ÖÒ³²éÑ¯¶ÔÏó¿ÉÒÔ¼Ì³ÐËü
  */
 class PageQuery : public oatpp::DTO
 {
-	// åˆå§‹åŒ–å®šä¹‰
+	// ³õÊ¼»¯¶¨Òå
 	DTO_INIT(PageQuery, DTO);
-	// æŸ¥è¯¢é¡µç 
+	// ²éÑ¯Ò³Âë
 	DTO_FIELD(UInt64, pageIndex) = 1;
 	DTO_FIELD_INFO(pageIndex) {
 		info->required = true;
 #ifndef LINUX
-		info->description = u8"å½“å‰é¡µç ";
+		info->description = u8"µ±Ç°Ò³Âë";
 #else
 		info->description = "curr page index";
 #endif
 	}
-	// æŸ¥è¯¢æ¡æ•°
+	// ²éÑ¯ÌõÊý
 	DTO_FIELD(UInt64, pageSize) = 10;
 	DTO_FIELD_INFO(pageSize) {
 		info->required = true;
 #ifndef LINUX
-		info->description = u8"æ¯é¡µæ•°æ®æ¡æ•°";
+		info->description = u8"Ã¿Ò³Êý¾ÝÌõÊý";
 #else
 		info->description = "curr page size";
 #endif
