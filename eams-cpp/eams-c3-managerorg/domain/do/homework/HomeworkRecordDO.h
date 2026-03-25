@@ -17,7 +17,7 @@ class HomeworkRecordDO : public BaseDO
 	MYSQL_SYNTHESIZE(int64_t, student_id, StudentId);
 	// 添加时间
 	MYSQL_SYNTHESIZE(string, add_time,AddTime);
-	// 内容
+	// 内容，可能是文件URL等
 	MYSQL_SYNTHESIZE(string, content, Content);
 	// 分数
 	MYSQL_SYNTHESIZE(int8_t, score, Score);

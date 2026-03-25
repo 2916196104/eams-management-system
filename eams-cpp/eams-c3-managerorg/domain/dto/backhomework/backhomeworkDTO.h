@@ -99,25 +99,30 @@ public:
 };
 
 //课后作业DTO类
-
 //获取作业列表（条件+分页）
 class GetHomeworkListDTO : public oatpp::DTO
 {
 	DTO_INIT(GetHomeworkListDTO, oatpp::DTO);
+
+	// 查看的作业标题
+	DTO_FIELD(Int64, id);
+	DTO_FIELD_INFO(id) {
+		info->description = ZH_WORDS_GETTER("homework.gethomeworklist.id");
+	}
 	// 查看的作业标题
 	DTO_FIELD(String, title);
 	DTO_FIELD_INFO(title) {
 		info->description = ZH_WORDS_GETTER("homework.gethomeworklist.title");
 	}
 	// 查看的作业班级
-	DTO_FIELD(String, classname);
-	DTO_FIELD_INFO(classname) {
-		info->description = ZH_WORDS_GETTER("homework.gethomeworklist.classname");
+	DTO_FIELD(String, class_id);
+	DTO_FIELD_INFO(class_id) {
+		info->description = ZH_WORDS_GETTER("homework.gethomeworklist.class_id");
 	}
 	// 查看的作业发布者
-	DTO_FIELD(String, publisher);
-	DTO_FIELD_INFO(publisher) {
-		info->description = ZH_WORDS_GETTER("homework.gethomeworklist.publisher");
+	DTO_FIELD(String, creator);
+	DTO_FIELD_INFO(creator) {
+		info->description = ZH_WORDS_GETTER("homework.gethomeworklist.creator");
 	}
 };
 
@@ -137,13 +142,14 @@ class GetHomeworkDetailDTO : public oatpp::DTO
 		info->description = ZH_WORDS_GETTER("homework.gethomeworkdetail.title");
 	}
 	// 查看的作业班级
-	DTO_FIELD(String, classname);
-	DTO_FIELD_INFO(classname) {
-		info->description = ZH_WORDS_GETTER("homework.gethomeworkdetail.classname");
+	DTO_FIELD(String, class_id);
+	DTO_FIELD_INFO(class_id) {
+		info->description = ZH_WORDS_GETTER("homework.gethomeworkdetail.class_id");
 	}
 };
 
 //保存作业
+//对应数据库homework表的字段
 class SaveHomeworkDTO : public oatpp::DTO
 {
 	DTO_INIT(SaveHomeworkDTO, oatpp::DTO);
@@ -152,6 +158,8 @@ class SaveHomeworkDTO : public oatpp::DTO
 	DTO_FIELD_INFO(id) {
 		info->description = ZH_WORDS_GETTER("homework.savehomework.id");
 	}
+
+
 };
 
 

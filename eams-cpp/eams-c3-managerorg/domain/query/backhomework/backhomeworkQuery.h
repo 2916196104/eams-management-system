@@ -32,14 +32,14 @@ class GetHomeworkListQuery : public PageQuery {
 		info->description = ZH_WORDS_GETTER("homework.gethomeworklist.title");
 	}
 	// 班级
-	DTO_FIELD(String, classname);
-	DTO_FIELD_INFO(classname) {
-		info->description = ZH_WORDS_GETTER("homework.gethomeworklist.classname");
+	DTO_FIELD(String, class_id);
+	DTO_FIELD_INFO(class_id) {
+		info->description = ZH_WORDS_GETTER("homework.gethomeworklist.class_id");
 	}
 	// 发布者
-	DTO_FIELD(String, publisher);
-	DTO_FIELD_INFO(publisher) {
-		info->description = ZH_WORDS_GETTER("homework.gethomeworklist.publisher");
+	DTO_FIELD(String, creator);
+	DTO_FIELD_INFO(creator) {
+		info->description = ZH_WORDS_GETTER("homework.gethomeworklist.creator");
 	}
 
 };

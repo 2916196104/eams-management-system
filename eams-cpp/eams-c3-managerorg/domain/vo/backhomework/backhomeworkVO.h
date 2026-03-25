@@ -97,22 +97,35 @@ public:
 
 
 //获取作业列表（条件+分页）
-class GetHomeworkListJsonVO : public JsonVO<GetHomeworkListDTO::Wrapper> {
-	DTO_INIT(GetHomeworkListJsonVO, JsonVO<GetHomeworkListDTO::Wrapper>)
-};
+//返回了标题，班级，提交量（数据库没这个功能），发布人，发布时间
+class GetHomeworkListJsonVO : public JsonVO<GetHomeworkListPageDTO::Wrapper> {
+	DTO_INIT(GetHomeworkListJsonVO, JsonVO<GetHomeworkListPageDTO::Wrapper>);
 
-class GetHomeworkListPageJsonVO : public JsonVO<GetHomeworkListPageDTO::Wrapper> {
-	DTO_INIT(GetHomeworkListPageJsonVO, JsonVO<GetHomeworkListPageDTO::Wrapper>)
+	DTO_FIELD(oatpp::Int64, id);
+	DTO_FIELD(oatpp::String, title);
+	DTO_FIELD(oatpp::String, class_id);
+	DTO_FIELD(oatpp::String, content);
+	DTO_FIELD(oatpp::Int64, creator);
+	DTO_FIELD(oatpp::String, addtime);
 };
 
 //获取作业详情
+//返回了标题，班级，内容，方便下一步修改/保存作业
 class GetHomeworkDetailJsonVO : public JsonVO<GetHomeworkDetailDTO::Wrapper> {
 	DTO_INIT(GetHomeworkDetailJsonVO, JsonVO<GetHomeworkDetailDTO::Wrapper>);
+
+	DTO_FIELD(oatpp::Int64, id);
+	DTO_FIELD(oatpp::String, title);
+	DTO_FIELD(oatpp::String, class_id);
+	DTO_FIELD(oatpp::String, content);
 };
 
 //保存作业
+//但好像什么都没有返回，暂时先放个id吧
 class SaveHomeworkJsonVO : public JsonVO<GetHomeworkDetailDTO::Wrapper> {
 	DTO_INIT(SaveHomeworkJsonVO, JsonVO<GetHomeworkDetailDTO::Wrapper>);
+
+	DTO_FIELD(oatpp::Int64, id);
 };
 
 #include OATPP_CODEGEN_END(DTO)

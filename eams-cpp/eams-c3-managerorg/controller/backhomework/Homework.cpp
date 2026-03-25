@@ -1,17 +1,26 @@
 #include "Homework.h"
 #include "stdafx.h"
 #include "../../domain/vo/backhomework/backhomeworkVO.h"
+#include "../../service/backhomework/HomeworkService.h"
 
-
-GetHomeworkListPageJsonVO::Wrapper Homework::execGetHomeworkList(const GetHomeworkListQuery::Wrapper& query) {
+//获取作业列表（条件+分页）
+GetHomeworkListJsonVO::Wrapper Homework::execGetHomeworkList(const GetHomeworkListQuery::Wrapper& query) {
+	//// 查询数据
+	//auto result = HomeworkService().gethomeworklist(query);
+	//// 响应结果
+	//auto jvo = GetHomeworkListJsonVO::createShared();
+	//jvo->success("ok");
+	//return jvo;
 	return {};
 }
 
+//获取作业详情
 GetHomeworkDetailJsonVO::Wrapper Homework::execGetHomeworkDetail(const string& id) {
 	return {};
 }
 
-SaveHomeworkJsonVO::Wrapper Homework::execSaveHomework(const string& id) {
+//保存作业
+StringJsonVO::Wrapper Homework::execSaveHomework(const SaveHomeworkDTO::Wrapper& dto, const PayloadDTO& payload) {
 	return {};
 }
 
