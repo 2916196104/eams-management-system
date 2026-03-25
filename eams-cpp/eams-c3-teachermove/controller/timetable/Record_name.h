@@ -22,9 +22,9 @@
 
 class Record_name : public oatpp::web::server::api::ApiController
 {
-	//å®šä¹‰æŽ§åˆ¶å™¨è®¿é—®å…¥å£
+	//¶¨Òå¿ØÖÆÆ÷·ÃÎÊÈë¿Ú
 	API_ACCESS_DECLARE(Record_name);
-public:		//å®šä¹‰æŽ¥å£
+public:		//¶¨Òå½Ó¿Ú
 	API_DEF_ENDPOINT_INFO_AUTH(
 		ZH_WORDS_GETTER("api.get-detail-cs.title"),
 		getDetailCS,
@@ -61,7 +61,7 @@ public:		//å®šä¹‰æŽ¥å£
 		auto vo = execGetStuList(query);
 		API_HANDLER_RESP_VO(vo);
 	);
-	// 1. è®¾ç½®ä¸Šè¯¾çŠ¶æ€ æŽ¥å£çš„å®šä¹‰
+	// 1. ÉèÖÃÉÏ¿Î×´Ì¬ ½Ó¿ÚµÄ¶¨Òå
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("set_status.title"), modifyStatus, SetStudyStatusRspJsonVO::Wrapper, API_TAG);
 	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "course/record-name/set-status", modifyStatus, BODY_DTO(SetStudyStatusDTO::Wrapper, dto), updateModifyStatus(dto, authObject->getPayload()));
 

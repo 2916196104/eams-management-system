@@ -25,69 +25,69 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * ·ÖÒ³Êı¾İÊµÌå
+ * åˆ†é¡µæ•°æ®å®ä½“
  */
 template <class T>
 class PageDTO : public oatpp::DTO
 {
-	// ³õÊ¼»¯
+	// åˆå§‹åŒ–
 	DTO_INIT(PageDTO, DTO);
 
 	/**
-	 * µ±Ç°Ò³Âë
+	 * å½“å‰é¡µç 
 	 */
 	DTO_FIELD(UInt64, pageIndex) = 1;
 	DTO_FIELD_INFO(pageIndex) {
 		info->required = true;
 #ifndef LINUX
-		info->description = u8"µ±Ç°Ò³Âë";
+		info->description = u8"å½“å‰é¡µç ";
 #else
 		info->description = "page index";
 #endif
 	}
 	/**
-	 * Ã¿Ò³ÏÔÊ¾×î´óÊı¾İÌõÊı
+	 * æ¯é¡µæ˜¾ç¤ºæœ€å¤§æ•°æ®æ¡æ•°
 	 */
 	DTO_FIELD(UInt64, pageSize) = 5;
 	DTO_FIELD_INFO(pageSize) {
 		info->required = true;
 #ifndef LINUX
-		info->description = u8"Ã¿Ò³Êı¾İÌõÊı";
+		info->description = u8"æ¯é¡µæ•°æ®æ¡æ•°";
 #else
 		info->description = "page size";
 #endif
 	}
 	/**
-	 * Êı¾İµÄ×ÜÌõÊı
+	 * æ•°æ®çš„æ€»æ¡æ•°
 	 */
 	DTO_FIELD(Int64, total) = 9;
 	DTO_FIELD_INFO(total) {
 		info->required = true;
 #ifndef LINUX
-		info->description = u8"Êı¾İµÄ×ÜÌõÊı";
+		info->description = u8"æ•°æ®çš„æ€»æ¡æ•°";
 #else
 		info->description = "total";
 #endif
 	}
 	/**
-	 * Êı¾İµÄ×ÜÒ³Êı
+	 * æ•°æ®çš„æ€»é¡µæ•°
 	 */
 	DTO_FIELD(Int64, pages) = 2;
 	DTO_FIELD_INFO(pages) {
 		info->required = true;
 #ifndef LINUX
-		info->description = u8"Êı¾İµÄ×ÜÒ³Êı";
+		info->description = u8"æ•°æ®çš„æ€»é¡µæ•°";
 #else
 		info->description = "pages";
 #endif
 	}
 	/**
-	 * µ±Ç°Ò³Êı¾İÁĞ±í
+	 * å½“å‰é¡µæ•°æ®åˆ—è¡¨
 	 */
 	DTO_FIELD(List<T>, rows) = {};
 	DTO_FIELD_INFO(rows) {
 #ifndef LINUX
-		info->description = u8"µ±Ç°Ò³Êı¾İÁĞ±í";
+		info->description = u8"å½“å‰é¡µæ•°æ®åˆ—è¡¨";
 #else
 		info->description = "page data list";
 #endif
@@ -97,7 +97,7 @@ public:
 		this->total = v_int64(0);
 		this->pages = v_int64(0);
 	}
-	// ³õÊ¼»¯ËùÓĞÄÚÈİ
+	// åˆå§‹åŒ–æ‰€æœ‰å†…å®¹
 	void initAll(UInt64 pageIndex, UInt64 pageSize, Int64 total, Int64 pages, List<T> rows) {
 		this->pageIndex = pageIndex;
 		this->pageSize = pageSize;
@@ -105,12 +105,12 @@ public:
 		this->pages = pages;
 		this->rows = rows;
 	}
-	// ¼ÆËã×ÜÒ³Êı
+	// è®¡ç®—æ€»é¡µæ•°
 	void calcPages() {
 		this->pages = total.getValue(0) / pageSize.getValue(1);
 		this->pages = total.getValue(0) % pageSize.getValue(1) == 0 ? this->pages.getValue(0) : this->pages.getValue(0) + 1;
 	}
-	// Ìí¼ÓÒ»ÌõÊı¾İ
+	// æ·»åŠ ä¸€æ¡æ•°æ®
 	void addData(T one) {
 		this->rows->push_back(one);
 	}
