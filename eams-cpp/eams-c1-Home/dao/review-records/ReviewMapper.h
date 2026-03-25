@@ -16,9 +16,9 @@ public:
     {
         PtrReviewViewDO review = std::make_shared<ReviewViewDO>();
         review->setId(resultSet->getUInt64("id"));
-        review->setLessonId(resultSet->getInt64("lesson_id"));
+        review->setLessonId(resultSet->getUInt64("lesson_id"));
         review->setLessonTitle(resultSet->getString("lesson_title"));
-        review->setEvaluateTeacher(resultSet->getInt("evaluate_teacher"));
+        review->setEvaluateTeacher(resultSet->getUInt64("evaluate_teacher"));
         review->setEvaluation(resultSet->getString("evaluation"));
         review->setScore(resultSet->getInt("score"));
         review->setEvaluateTime(resultSet->getString("evaluate_time"));

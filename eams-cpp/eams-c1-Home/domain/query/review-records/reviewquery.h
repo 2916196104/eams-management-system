@@ -33,7 +33,7 @@ class ReviewRecordQuery : public PageQuery
 {
 	DTO_INIT(ReviewRecordQuery, PageQuery);
 	// 学生id
-	API_DTO_FIELD_REQUIRE(Int64, student_id, ZH_WORDS_GETTER("review_records.student_id"), true);
+	API_DTO_FIELD_REQUIRE(UInt64, student_id, ZH_WORDS_GETTER("review_records.student_id"), true);
 };
 
 #include OATPP_CODEGEN_END(DTO)

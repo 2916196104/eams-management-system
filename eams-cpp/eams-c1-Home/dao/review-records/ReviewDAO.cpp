@@ -19,7 +19,7 @@ uint64_t ReviewDAO::count(const ReviewRecordQuery::Wrapper& query)
 
     if (query->student_id) {
         sql += " AND student_id = ?";
-        SQLPARAMS_PUSH(params, "ll", int64_t, query->student_id.getValue(1));
+        SQLPARAMS_PUSH(params, "ll", uint64_t, query->student_id.getValue(1));
     }
 
     try {
@@ -62,7 +62,7 @@ std::list<PtrReviewViewDO> ReviewDAO::selectByQuery(const ReviewRecordQuery::Wra
         SqlParams params;
         if (query->student_id) {
             sql += " AND ls.student_id = ?";
-            SQLPARAMS_PUSH(params, "ll", int64_t, query->student_id.getValue(1));
+            SQLPARAMS_PUSH(params, "ll", uint64_t, query->student_id.getValue(1));
         } else {
             std::cerr << "[ReviewDAO::selectByQuery] : 缺少查询参数" << std::endl;
             return std::list<PtrReviewViewDO>(); // 缺少查询参数时，返回空列表

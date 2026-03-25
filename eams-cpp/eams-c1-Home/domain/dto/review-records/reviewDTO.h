@@ -35,11 +35,11 @@ class ReviewRecordDTO : public oatpp::DTO
 	// 唯一标识
 	API_DTO_FIELD_DEFAULT(UInt64, id, ZH_WORDS_GETTER("review_records.id"));
 	// 课程id
-	API_DTO_FIELD_DEFAULT(Int64, lesson_id, ZH_WORDS_GETTER("review_records.lesson_id"))
+	API_DTO_FIELD_DEFAULT(UInt64, lesson_id, ZH_WORDS_GETTER("review_records.lesson_id"))
 	// 课程名称
 	API_DTO_FIELD_DEFAULT(String, lesson_title, ZH_WORDS_GETTER("review_records.lesson_title"))
 	// 评语老师
-    API_DTO_FIELD_DEFAULT(Int64, evaluate_teacher, ZH_WORDS_GETTER("review_records.evaluate_teacher"));
+    API_DTO_FIELD_DEFAULT(UInt64, evaluate_teacher, ZH_WORDS_GETTER("review_records.evaluate_teacher"));
 	// 老师评语
     API_DTO_FIELD_DEFAULT(String, evaluation, ZH_WORDS_GETTER("review_records.evaluation"));
 	// 老师评分

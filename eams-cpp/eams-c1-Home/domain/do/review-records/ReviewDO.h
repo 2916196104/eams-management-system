@@ -15,9 +15,9 @@ class LessonStudentDO : public BaseDO {
 	// 主键
     MYSQL_SYNTHESIZE(uint64_t, id, Id);
     // 课程id
-    MYSQL_SYNTHESIZE(int64_t, lessonId, LessonId)
+    MYSQL_SYNTHESIZE(uint64_t, lessonId, LessonId)
 	// 评语老师
-    MYSQL_SYNTHESIZE(int64_t, evaluateTeacher, EvaluateTeacher);
+    MYSQL_SYNTHESIZE(uint64_t, evaluateTeacher, EvaluateTeacher);
     // 老师评语
     MYSQL_SYNTHESIZE(string, evaluation, Evaluation);
     // 老师评分
@@ -29,8 +29,8 @@ public:
     LessonStudentDO() : BaseDO("lesson_student")
     {
         MYSQL_ADD_FIELD_PK("id", "ull", id);
-        MYSQL_ADD_FIELD_NULLABLE("lesson_id", "ll", lessonId, false);
-        MYSQL_ADD_FIELD_NULLABLE("evaluate_teacher", "ll", evaluateTeacher, true);
+        MYSQL_ADD_FIELD_NULLABLE("lesson_id", "ull", lessonId, false);
+        MYSQL_ADD_FIELD_NULLABLE("evaluate_teacher", "ull", evaluateTeacher, true);
         MYSQL_ADD_FIELD_NULLABLE("evaluation", "s", evaluation, true);
         MYSQL_ADD_FIELD_NULLABLE("score", "c", score, true);
         MYSQL_ADD_FIELD_NULLABLE("evaluate_time", "s", evaluateTime, true);
