@@ -3,7 +3,7 @@
  @Date: 2026/03/23 17:37:41
  @File: ReviewDAO.cpp
 */
-//#include "stdafx.h"
+#include "stdafx.h"
 #include "ReviewDAO.h"
 #include "ReviewMapper.h"
 
