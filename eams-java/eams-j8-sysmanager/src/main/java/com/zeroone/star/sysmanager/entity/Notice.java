@@ -3,6 +3,9 @@ package com.zeroone.star.sysmanager.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,6 +18,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @since 2026-03-14
  */
 @Data
+@TableName("notice")
 public class Notice implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,6 +27,7 @@ public class Notice implements Serializable {
      * id
      */
     @ApiModelProperty(value = "ID", example = "1")
+    @TableId(type = IdType.ASSIGN_UUID)
     private Long id;
 
     /**
