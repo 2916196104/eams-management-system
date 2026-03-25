@@ -1,7 +1,7 @@
 package com.zeroone.star.project.j3.course;
 
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
+import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j3.course.CourseLinkDTO;
 import com.zeroone.star.project.query.j3.course.CourseLinkQuery;
 import com.zeroone.star.project.vo.JsonVO;
