@@ -1,6 +1,6 @@
+#include "stdafx.h"
 #include "RegistrationDAO.h"
 #include "RegistrationMapper.h"
-
 
 uint64_t RegistrationDAO::count(const RegistrationRecordQuery::Wrapper& query) 
 {
