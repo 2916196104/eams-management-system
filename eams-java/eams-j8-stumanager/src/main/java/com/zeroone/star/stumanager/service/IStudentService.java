@@ -1,7 +1,15 @@
 package com.zeroone.star.stumanager.service;
 
+import com.zeroone.star.project.dto.j8.stumanager.SaveStu.ChangeStuStageDTO;
+import com.zeroone.star.project.dto.j8.stumanager.SaveStu.SaveStuDTO;
+import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.project.vo.j8.SaveStu.DictVO;
 import com.zeroone.star.stumanager.entity.Student;
 import com.baomidou.mybatisplus.extension.service.IService;
+import io.swagger.annotations.ApiOperation;
+
+import javax.validation.Valid;
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +21,18 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IStudentService extends IService<Student> {
 
+    @ApiOperation("保存学员信息")
+    JsonVO<SaveStuDTO> saveStudent(@Valid SaveStuDTO saveStuDTO);
+
+    @ApiOperation("修改学员状态")
+    JsonVO<ChangeStuStageDTO> updateStudentStage(@Valid ChangeStuStageDTO changeStuStageDTO);
+
+    @ApiOperation("获取亲属关系字典")
+    JsonVO<List<DictVO>> listFamilyRel();
+
+    @ApiOperation("获取年级下拉字典")
+    public JsonVO<List<DictVO>> listGradeDict();
+
+    @ApiOperation("获取来源下拉字典")
+    JsonVO<List<DictVO>> listJoinWayDict();
 }

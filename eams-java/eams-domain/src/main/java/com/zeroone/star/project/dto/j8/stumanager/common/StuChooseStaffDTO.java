@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * <p>
- * 描述：报名签单数据传输对象
+ * 描述：经手人数据传输对象
  * </p>
  * <p>版权：&copy;01星球</p>
  * <p>地址：01星球总部</p>
@@ -16,9 +16,9 @@ import javax.validation.constraints.NotNull;
  * @version 1.0.0
  */
 @Data
-@ApiModel("报名签单数据传输对象")
-public class StuSignCourseDTO extends StuSignCourseAddDTO {
-    @ApiModelProperty(value = "报名签单主键ID", example = "123456")
-    @NotNull(message = "报名签单主键ID不能为空")
+@ApiModel("经手人数据传输对象")
+public class StuChooseStaffDTO extends StuChooseStaffAddDTO {
+    @ApiModelProperty(value = "编号", example = "1")
+    @NotNull(message = "编号不能为空")
     private Long id;
 }
