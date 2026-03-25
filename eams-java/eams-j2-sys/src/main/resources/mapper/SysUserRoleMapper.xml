@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zeroone.star.sys.mapper.SysUserRoleMapper">
 
-    <select id="selectRoleStaffPage" resultType="com.zeroone.star.project.dto.j2.sys.RolepermStaffDTO">
+    <select id="selectRoleStaffPage" resultType="com.zeroone.star.project.dto.j2.sys.Roleperm.RolepermStaffDTO">
         SELECT
         s.id,
         s.name,

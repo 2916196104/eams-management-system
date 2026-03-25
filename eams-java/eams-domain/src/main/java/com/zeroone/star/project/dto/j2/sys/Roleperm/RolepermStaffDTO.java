@@ -11,9 +11,12 @@ import lombok.Data;
  */
 @Data
 public class RolepermStaffDTO {
+    @ApiModelProperty(value = "角色id", example = "1")
+    private Integer roleId;
+
     @ApiModelProperty(value = "员工id",example = "1")
     private int id;
-    @ApiModelProperty(value = "员工姓名",example = "超级管理员")
+    @ApiModelProperty(value = "员工姓名",example = "管理员")
     private String name;
     @ApiModelProperty(value = "手机号",example = "")
     private String mobile;

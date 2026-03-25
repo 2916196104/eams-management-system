@@ -1,21 +1,41 @@
 package com.zeroone.star.sys.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j2.sys.Optlog.OptlogOperatorDTO;
 import com.zeroone.star.project.dto.j2.sys.Roleperm.PermissionDTO;
 import com.zeroone.star.project.dto.j2.sys.Roleperm.RolepermDTO;
 import com.zeroone.star.project.dto.j2.sys.Roleperm.RolepermStaffDTO;
 import com.zeroone.star.project.j2.sys.RolepermApis;
+import com.zeroone.star.project.query.j2.sys.OptlogOperatorQuery;
 import com.zeroone.star.project.query.j2.sys.roleperm.RolepermQuery;
 import com.zeroone.star.project.query.j2.sys.roleperm.RolepermStaffQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.project.vo.j2.sys.Roleperm.PermissionGroupListVO;
 import com.zeroone.star.project.vo.j2.sys.Roleperm.PermissionGroupVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import com.zeroone.star.sys.entity.SysPermission;
+import com.zeroone.star.sys.entity.SysUserRole;
+import com.zeroone.star.sys.mapper.StaffMapper;
+import com.zeroone.star.sys.mapper.SysUserRoleMapper;
+import com.zeroone.star.sys.mapper.roleperm.MsPermissionMapper;
+import com.zeroone.star.sys.service.SysRoleService;
+import com.zeroone.star.sys.service.roleperm.SysPermissionService;
+import io.swagger.annotations.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author isme
@@ -27,6 +47,16 @@ import java.util.List;
 @RequestMapping("/sys/roleperm")
 @Api(tags = "角色权限")
 public class RolepermController implements RolepermApis {
+    @Resource
+    private SysUserRoleMapper sysUserRoleMapper;
+
+    @Resource
+    private StaffMapper staffMapper;
+    private MsPermissionMapper msPermissionMapper;
+
+    @Resource
+    private SysRoleService sysRoleService;
+    private SysPermissionService PermissionService;
 
     /**
      * 负责人：小白
@@ -54,19 +84,59 @@ public class RolepermController implements RolepermApis {
     /**
      * 负责人：isme
      */
-    @Override
-    @DeleteMapping("/delete/role/{id}")
+    @DeleteMapping
     @ApiOperation("删除角色")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "roleId", value = "角色ID（推荐传此参数）", paramType = "query", dataType = "int", example = "1"),
+            @ApiImplicitParam(name = "id", value = "角色ID（兼容参数）", paramType = "query", dataType = "int", example = "1")
+    })
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public JsonVO<PageDTO<RolepermDTO>> removeRoleperm(RolepermQuery query) {
-        return null;
+        int roleId = 0;
+        HttpServletRequest request = getRequest();
+        if (request != null) {
+            String roleIdStr = request.getParameter("roleId");
+            if (StringUtils.hasText(roleIdStr)) {
+                try {
+                    roleId = Integer.parseInt(roleIdStr);
+                } catch (NumberFormatException ignored) {
+                }
+            }
+            if (roleId <= 0) {
+                String idStr = request.getParameter("id");
+                if (StringUtils.hasText(idStr)) {
+                    try {
+                        roleId = Integer.parseInt(idStr);
+                    } catch (NumberFormatException ignored) {
+                    }
+                }
+            }
+        }
+        if (roleId <= 0 && query != null) {
+            roleId = query.getId();
+        }
+        if (roleId <= 0) {
+            return JsonVO.fail("参数错误");
+        }
+
+        sysUserRoleMapper.delete(new QueryWrapper<SysUserRole>()
+                .lambda()
+                .eq(SysUserRole::getRoleId, String.valueOf(roleId)));
+        boolean removed = sysRoleService.removeById(roleId);
+        if (!removed) {
+            return JsonVO.fail("删除失败");
+        }
+        return JsonVO.success(null);
     }
 
-     /**
+
+    /**
      * 负责人：Yaco
      */
     @Override
     @GetMapping("/query/list/permission")
-    @ApiModelProperty("获取可分配的权限")
+    @ApiOperation("获取可分配的权限")
     public JsonVO<PermissionGroupVO> queryPermission() {
         return null;
     }
@@ -74,40 +144,171 @@ public class RolepermController implements RolepermApis {
     @Override
     @GetMapping("/query/list/select/{roleId}")
     @ApiOperation("获取已分配的权限")
-    public JsonVO<PermissionGroupVO> querySelectedPermission(@PathVariable String roleId) {
-        return null;
+    public JsonVO<PermissionGroupListVO> querySelectedPermission(@PathVariable String roleId) {
+        List<SysPermission> allPermissions = PermissionService.queryPermission(); // 查所有权限
+        List<SysPermission> selectedPermissions = PermissionService.querySelectedPermission(roleId); // 查该角色已选权限
+
+        // 2. 转换为 DTO
+        List<PermissionDTO> allDTOs = msPermissionMapper.entitiesToDTOs(allPermissions);
+        List<PermissionDTO> selectedDTOs = msPermissionMapper.entitiesToDTOs(selectedPermissions);
+        Set<Long> selectedIds = selectedDTOs.stream().map(PermissionDTO::getId).collect(Collectors.toSet());
+
+        // 3. 按分组聚合（全量权限 + 已选标记）
+        Map<String, List<PermissionDTO>> groupMap = allDTOs.stream()
+                .collect(Collectors.groupingBy(PermissionDTO::getGroupName));
+
+        List<PermissionGroupVO> groupList = groupMap.entrySet().stream()
+                .map(entry -> {
+                    PermissionGroupVO groupVO = new PermissionGroupVO();
+                    groupVO.setGroupName(entry.getKey());
+                    groupVO.setPermissions(entry.getValue()); // 该分组下的所有权限
+                    // 筛选该分组下的已选权限（用于前端勾选）
+                    List<PermissionDTO> selectedInGroup = entry.getValue().stream()
+                            .filter(p -> selectedIds.contains(p.getId()))
+                            .collect(Collectors.toList());
+                    groupVO.setSelectedPermissions(selectedInGroup);
+                    return groupVO;
+                })
+                .collect(Collectors.toList());
+
+        PermissionGroupListVO result = new PermissionGroupListVO();
+        result.setGroupList(groupList);
+        return JsonVO.success(result);
+
     }
 
 
     @Override
     @PostMapping("/modify/{roleId}")
     @ApiOperation("保存角色权限分配")
-    public JsonVO<Long> savePermission(
+    public JsonVO<String> savePermission(
             @PathVariable @ApiParam(value = "角色ID", required = true) String roleId,
             @RequestBody List<PermissionDTO> list) {
-        return null;
+        // 1. 参数校验
+        if (roleId == null || roleId.trim().isEmpty()) {
+            return JsonVO.fail("角色ID不能为空");
+        }
+        try {
+            // 2. 转换 PermissionDTO 列表为 SysPermission 列表（只需要 id 即可）
+            List<SysPermission> permissions = list.stream()
+                    .map(dto -> {
+                        SysPermission permission = new SysPermission();
+                        permission.setId(dto.getId()); // 只需要权限ID
+                        return permission;
+                    })
+                    .collect(Collectors.toList());
+            // 3. 调用 Service 层执行保存（先删后插，带事务）
+            boolean success = PermissionService.savePermission(roleId, permissions);
+            // 4. 返回结果
+            if (success) {
+                return JsonVO.success("保存角色权限分配成功");
+            } else {
+                return JsonVO.fail("保存角色权限分配失败");
+            }
+        } catch (Exception e) {
+            return JsonVO.fail("保存角色权限分配异常：" + e.getMessage());
+        }
     }
     /**
      * 负责人：isme
      */
-    @Override
     @GetMapping("/list/staff")
-    @ApiOperation("获取角色员工列表（条件+分页）")
+    @ApiOperation("获取角色员工列表(列表+分页）")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "roleId", value = "角色ID（必传）", required = true, paramType = "query", dataType = "int", example = "1"),
+    })
+    @Override
     public JsonVO<PageDTO<RolepermStaffDTO>> queryListRolepermStaff(RolepermStaffQuery query) {
-        return null;
+        if (query == null) {
+            query = new RolepermStaffQuery();
+        }
+        Integer roleId = query.getRoleId();
+        if (roleId == null || roleId <= 0) {
+            HttpServletRequest request = getRequest();
+            if (request != null) {
+                String roleIdStr = request.getParameter("roleId");
+                if (StringUtils.hasText(roleIdStr)) {
+                    try {
+                        roleId = Integer.parseInt(roleIdStr);
+                    } catch (NumberFormatException ignored) {
+                    }
+                }
+            }
+        }
+        if (roleId == null || roleId <= 0) {
+            Page<RolepermStaffDTO> empty = new Page<>(1, 10);
+            empty.setRecords(Collections.emptyList());
+            empty.setTotal(0);
+            return JsonVO.success(PageDTO.create(empty));
+        }
+
+        long pageIndex = query.getPageIndex() > 0 ? query.getPageIndex() : 1;
+        long pageSize = query.getPageSize() > 0 ? query.getPageSize() : 10;
+        Page<RolepermStaffDTO> page = new Page<>(pageIndex, pageSize);
+        Page<RolepermStaffDTO> result = sysUserRoleMapper.selectRoleStaffPage(page, String.valueOf(roleId), query.getName());
+        return JsonVO.success(PageDTO.create(result));
     }
 
-    @Override
+
     @PostMapping("/save/staff")
     @ApiOperation("给角色添加员工")
+    @Override
     public JsonVO<String> addRolepermStaff(RolepermStaffDTO rolepermStaffDTO) {
-        return null;
+        if (rolepermStaffDTO == null || rolepermStaffDTO.getId() <= 0) {
+            return JsonVO.fail("参数错误");
+        }
+        Integer roleId = rolepermStaffDTO.getRoleId();
+        if (roleId == null || roleId <= 0) {
+            HttpServletRequest request = getRequest();
+            if (request != null) {
+                String roleIdStr = request.getParameter("roleId");
+                if (StringUtils.hasText(roleIdStr)) {
+                    try {
+                        roleId = Integer.parseInt(roleIdStr);
+                    } catch (NumberFormatException ignored) {
+                    }
+                }
+            }
+        }
+        if (roleId == null || roleId <= 0) {
+            return JsonVO.fail("参数错误");
+        }
+        sysUserRoleMapper.insertRoleStaff(String.valueOf(roleId), String.valueOf(rolepermStaffDTO.getId()));
+        return JsonVO.success("ok");
     }
 
-    @Override
-    @DeleteMapping("/delete/staff/{id}")
+    @DeleteMapping("/{staffId}")
     @ApiOperation("从角色移除员工")
-    public JsonVO<String> removeRolepermStaff(String id) {
-        return null;
+    @ApiImplicitParam(name = "roleId", value = "角色ID（必传）", required = true, paramType = "query", dataType = "int", example = "1")
+    @Override
+    public JsonVO<String> removeRolepermStaff(@PathVariable("staffId") String staffId) {
+        if (!StringUtils.hasText(staffId)) {
+            return JsonVO.fail("参数错误");
+        }
+        HttpServletRequest request = getRequest();
+        String roleId = request != null ? request.getParameter("roleId") : null;
+        if (!StringUtils.hasText(roleId)) {
+            return JsonVO.fail("参数错误");
+        }
+        sysUserRoleMapper.deleteByRoleIdAndUserId(roleId, staffId);
+        return JsonVO.success("ok");
+    }
+
+    @GetMapping("/operators")
+    @ApiOperation("获取员工列表（姓名+职称）隐藏的接口")
+    public JsonVO<PageDTO<OptlogOperatorDTO>> queryOperators(OptlogOperatorQuery query) {
+        if (query == null) {
+            query = new OptlogOperatorQuery();
+        }
+        long pageIndex = query.getPageIndex() > 0 ? query.getPageIndex() : 1;
+        long pageSize = query.getPageSize() > 0 ? query.getPageSize() : 10;
+        Page<OptlogOperatorDTO> page = new Page<>(pageIndex, pageSize);
+        Page<OptlogOperatorDTO> result = staffMapper.selectOptlogOperators(page, query.getName());
+        return JsonVO.success(PageDTO.create(result));
+    }
+
+    private HttpServletRequest getRequest() {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        return attributes != null ? attributes.getRequest() : null;
     }
 }

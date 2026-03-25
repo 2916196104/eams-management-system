@@ -21,11 +21,12 @@ public interface PermissonApis {
      */
     @ApiModelProperty("获取已分配的权限")
     JsonVO<PermissionGroupVO> querySelectedPermission(String roleId);
+
     /**
-     * 根据角色id，先删除对应的权限，再插入已选择的权限(保存角色分配的权限)，调用deletePermission和updataPermission
+     * 根据角色id，先删除对应的权限，再插入已选择的权限(保存角色分配的权限)
      * @param roleId 用户id
      * @param list  勾选的权限
-     * @return 是否勾选
+     * @return 是否成功
      */
     @ApiModelProperty("保存角色权限分配")
     JsonVO<Long> savePermission(String roleId,List<PermissionDTO> list);
