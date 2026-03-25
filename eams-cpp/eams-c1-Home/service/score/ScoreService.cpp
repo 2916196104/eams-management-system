@@ -28,7 +28,7 @@ ScorePageDTO::Wrapper ScoreService::listAll(const ScoreQuery::Wrapper& query)
 
     // 2. 尝试从 Redis 缓存获取
     auto cachedData =
-        redisClient.execute<std::optional<std::string>>([&](Redis* redis) { return redis->get(cacheKey); });
+        redisClient.execute<std::optional<std::string>>([&](Redis* redis) { return redis->get(cacheKey).value(); });
 
     // 如果缓存存在且有值
     if (cachedData && !cachedData.value().empty()) {
