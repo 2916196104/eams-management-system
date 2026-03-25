@@ -1,4 +1,5 @@
 #include "GetCommonDatetimeService.h"
+#include "dao/timetable/CommonDatetimeDao.h"
 
 namespace
 {
@@ -28,15 +29,25 @@ namespace
 CommonDatetimeJsonVO::Wrapper GetCommonDatetimeService::getCommonDatetime(const GetCommonDatetimeQuery::Wrapper& query) const
 {
 	auto queryDate = query && query->date ? query->date : oatpp::String("2026-03-15");
+	CommonDatetimeDao dao;
+	auto rows = dao.selectByDate(queryDate.getValue(""));
 
 	auto data = CommonDatetimeDTO::createShared();
-	data->lesson_count = oatpp::UInt32(3);
+	data->lesson_count = oatpp::UInt32(static_cast<v_uint32>(rows.size()));
 	data->lessons = {};
 
-	(void)queryDate;
-	data->lessons->push_back(buildLesson(1, "15:12", "16:12", 1001, 5001, true, false, true));
-	data->lessons->push_back(buildLesson(1, "17:40", "18:20", 1002, 5002, false, true, false));
-	data->lessons->push_back(buildLesson(1, "18:30", "19:10", 1003, 5003, false, false, true));
+	for (const auto& row : rows)
+	{
+		data->lessons->push_back(buildLesson(
+			row.lesson_count,
+			row.start_time.c_str(),
+			row.end_time.c_str(),
+			row.teacher_id,
+			row.classroom_id,
+			row.is_signed,
+			row.is_leave,
+			row.is_reserved));
+	}
 
 	auto vo = CommonDatetimeJsonVO::createShared();
 	vo->success(data);

@@ -10,7 +10,7 @@
 #include "oatpp/web/server/api/ApiController.hpp"
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
-#define API_TAG ZH_WORDS_GETTER("api.tag")
+#define API_TAG ZH_WORDS_GETTER("api.tag1")
 
 class GetCommonDatetime : public oatpp::web::server::api::ApiController
 {
