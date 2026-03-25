@@ -60,17 +60,13 @@ public:
 	}
 
 
-
 	// 定义接口:保存员工
 
 	// 3.1 定义新增接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("staff.saveEmp.controller.summary"), saveEmp, StringJsonVO::Wrapper, API_TAG);
 
-
 	// 3.2 定义新增接口处理
 	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/org/staff/saveEmp", saveEmp, BODY_DTO(StaffSaveDTO::Wrapper, dto), executeSaveEmp(dto));
-	
-
 	
 
 	// 定义修改头像接口
@@ -88,7 +84,28 @@ public:
 		// 直接调用处理函数
 		API_HANDLER_RESP_VO(executeModifyAvatar(dto));
 		//return createResponse(Status::CODE_200, ZH_WORDS_GETTER("modifyAvatar.resp"));
+
+    }
+
+    //定义获取代班记录接口
+	ENDPOINT_INFO(getDutyRecord) {
+	  info->summary = ZH_WORDS_GETTER("institution.getDutyRecord.summary");
+	  //支持授权
+	  API_DEF_ADD_AUTH();
+	  //定义响应参数格式
+	  API_DEF_ADD_RSP_JSON(StringJsonVO::Wrapper);
+	  //定义请求参数格式
+	  API_DEF_QUERY_PARAM_BUILD(DutyRecordQueryDTO);
+	  API_DEF_ADD_TAG(API_TAG);
 	}
+    ENDPOINT(API_M_GET, "/org/employee/getDutyRecord", getDutyRecord, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
+        //解析查询参数
+        API_HANDLER_QUERY_PARAM(query, DutyRecordQueryDTO, params);
+        //相应结果
+        API_HANDLER_RESP_VO(executegetDutyRecord(query));
+        //return createResponse(Status::CODE_200, ZH_WORDS_GETTER("getDutyRecord.resp"));
+    }
+
 private: // 定义接口执行函数
 	// 获取员工列表
 	StringJsonVO::Wrapper executeGetEmpList(const StaffPageQuery::Wrapper& query);
@@ -97,6 +114,7 @@ private: // 定义接口执行函数
 	StringJsonVO::Wrapper executeSaveEmp(const StaffSaveDTO::Wrapper& dto);
 
 	StringJsonVO::Wrapper executeModifyAvatar(const AvatarUploadDTO::Wrapper& dto);
+    StringJsonVO::Wrapper executegetDutyRecord(const DutyRecordQueryDTO::Wrapper& query);
 };
 
 #undef API_TAG
