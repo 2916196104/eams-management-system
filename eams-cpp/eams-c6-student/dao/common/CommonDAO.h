@@ -11,7 +11,7 @@
 class getClassListDAO : public BaseDAO
 {
 private:
-	inline std::string queryConditionBuilder(const getClassListQuery::Wrapper& query, SqlParams& params);
+	 std::string queryConditionBuilder(const getClassListQuery::Wrapper& query, SqlParams& params);
 public:
 	// 统计数据条数
 	uint64_t count(const getClassListQuery::Wrapper& query);
@@ -27,7 +27,7 @@ public:
 class getCourseStatisticsDAO : public BaseDAO
 {
 private:
-	inline std::string queryConditionBuilder(const getCourseStatisticsQuery::Wrapper& query, SqlParams& params);
+	 std::string queryConditionBuilder(const getCourseStatisticsQuery::Wrapper& query, SqlParams& params);
 public:
 	// 统计数据条数
 	uint64_t count(const getCourseStatisticsQuery::Wrapper& query);
@@ -43,7 +43,7 @@ public:
 class JoinclassDAO : public BaseDAO
 {
 private:
-	inline std::string queryConditionBuilder(const JoinclassQuery::Wrapper& query, SqlParams& params);
+	 std::string queryConditionBuilder(const JoinclassQuery::Wrapper& query, SqlParams& params);
 public:
 	// 统计数据条数
 	uint64_t count(const JoinclassQuery::Wrapper& query);
@@ -51,8 +51,15 @@ public:
 	std::list<JoinclassDO> selectWithPage(const JoinclassQuery::Wrapper& query);
 	std::list<PtrJoinclassDO> JoinclassDAO::selectWithPagePtr(const JoinclassQuery::Wrapper& query);
 };
+/**
+ * 学生课程数据访问对象
+ */
+class StudentCourseDAO : public BaseDAO {
+public:
 
+private:
 
+};
 
 
 

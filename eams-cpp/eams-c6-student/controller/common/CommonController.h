@@ -55,6 +55,7 @@ public:
 		API_HANDLER_QUERY_PARAM(query, RegistrationPageQuery, queryParams);//获取参数
 		API_HANDLER_RESP_VO(executeQueryRegistrationRecordByPage(query));
 	}
+	//缴欠费
 	ENDPOINT_INFO(payFees) {
 		API_DEF_ADD_AUTH();
 		API_DEF_ADD_TAG(API_TAG);
@@ -65,7 +66,7 @@ public:
 
 		API_HANDLER_RESP_VO(exePayFees(dto));
 	}
-	
+	//退款
 	ENDPOINT_INFO(refund) {
 		API_DEF_ADD_AUTH();
 		API_DEF_ADD_TAG(API_TAG);

@@ -1,6 +1,6 @@
 #pragma once
 #include "domain/do/BaseDO.h"
-#include"lib-mysql/include/BaseDO.h"
+#include"../../../../lib-mysql/include/BaseDO.h"
 class RefundDO: public BaseDO {
 	uint64_t id; // Ö÷¼ü
 	uint64_t studentId; //Ñ§Éúid
