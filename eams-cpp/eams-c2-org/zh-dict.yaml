@@ -69,4 +69,18 @@ institution:
   sample:
     tags: 员工管理
 
-
+position:
+  tag: 职位管理
+  field:
+    id: 职位id
+    name: 职位名
+    data: 数据
+    total: 总数据数
+    totalPages:  总页数
+    limit: 每页数据数
+    page: 当前页码
+  interface:
+    fetchAll: 获取职位名称
+    title: 职位管理
+    pageQuery: 分页+搜索查询职位名称
+    save: 保存职位

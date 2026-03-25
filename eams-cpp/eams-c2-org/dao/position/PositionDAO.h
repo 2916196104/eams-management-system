@@ -1,0 +1,23 @@
+#ifndef _POSITIONDAO_H_
+#define _POSITIONDAO_H_
+
+#include "BaseDAO.h"
+#include "domain/do/position/PositionDO.h"
+
+#include <cstdint>
+#include <string>
+#include <vector>
+
+class PositionDAO : public BaseDAO {
+
+public:
+  std::vector<PositionItemDO> fetchAll();
+  uint64_t countByNameLike(const std::string &keyWord);
+  std::vector<PositionItemDO> selectPageByNameLike(int pageNum, int pageSize,
+                                                   const std::string &keyWord);
+
+  uint64_t insertPosition(const std::string &name);
+  int updatePositionNameById(int64_t id, const std::string &name);
+};
+
+#endif

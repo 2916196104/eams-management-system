@@ -49,10 +49,7 @@ public:
 	// 创建ObjectMapper组件以在Controller的API中序列化/反序列化DTO
 	OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::data::mapping::ObjectMapper>, apiObjectMapper)([] {
 		auto objectMapper = oatpp::parser::json::mapping::ObjectMapper::createShared();
-		// 禁用未知字段
 		objectMapper->getDeserializer()->getConfig()->allowUnknownFields = false;
-		// 不下发空字段
-		objectMapper->getSerializer()->getConfig()->includeNullFields = false;
 		return objectMapper;
 		}());
 	// 创建使用Router组件路由http请求的ConnectionHandler组件
