@@ -20,12 +20,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import io.swagger.annotations.ApiParam;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
@@ -46,6 +48,9 @@ import java.util.List;
 @RequestMapping("/j4/student")
 @Api(tags = "学员管理")
 public class StudentController implements StudentApis {
+    @Resource
+    private IStudentService studentService;
+
     @Resource
     private IStudentFinanceService studentFinanceService;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -78,44 +83,90 @@ public class StudentController implements StudentApis {
     @GetMapping("/follow-up/page")
     @ApiOperation("获取跟进记录列表（条件+分页）")
     @Override
-    public JsonVO<PageDTO<FollowUpDTO>> queryFollowUpPage(FollowUpQuery condition) {
-        // TODO: 调用 Service 层实现业务逻辑
-        // 模拟返回，实际需替换为 service.queryFollowUpPage(condition)
-        return null;
+    public JsonVO<PageDTO<FollowUpDTO>> queryFollowUpPage(@Validated FollowUpQuery condition) {
+        return JsonVO.success(studentService.queryFollowUpPage(condition));
     }
+
 
     @PostMapping("/follow-up")
     @ApiOperation("添加/修改跟进记录")
     @Override
-    public JsonVO<Long> saveFollowUp(@RequestBody FollowUpDTO followUpDTO) {
-        // TODO: 调用 Service 层实现业务逻辑
-        // 如果 followUpDTO.getId() != null 则更新，否则新增
-        return null;
+    public JsonVO<Long> saveFollowUp(@RequestBody @Validated FollowUpDTO followUpDTO) {
+        // 基本业务校验
+        if (followUpDTO.getStudentId() == null) return JsonVO.fail("学生ID不能为空");
+        if (followUpDTO.getContactTime() == null) return JsonVO.fail("联系时间不能为空");
+
+        Long id = studentService.saveFollowUp(followUpDTO);
+        return JsonVO.success(id);
     }
 
     @DeleteMapping("/follow-up/{id}")
     @ApiOperation("删除跟进记录（单个删除）")
     @Override
     public JsonVO<Long> deleteFollowUp(@PathVariable Long id) {
-        // TODO: 调用 Service 层实现业务逻辑
-        return null;
+        try {
+            return JsonVO.success(studentService.removeFollowUp(id));
+        } catch (Exception e) {
+            return JsonVO.fail("删除失败：" + e.getMessage());
+        }
     }
 
     @GetMapping("/follow-up/{id}")
     @ApiOperation("获取跟进记录详情")
     @Override
     public JsonVO<FollowUpDTO> getFollowUpDetail(@PathVariable Long id) {
-        // TODO: 调用 Service 层实现业务逻辑
-        return null;
+        FollowUpDTO detail = studentService.getFollowUpDetail(id);
+        return detail != null ? JsonVO.success(detail) : JsonVO.fail("记录不存在");
     }
 
+    @Override
+    @GetMapping("/class/page")
+    @ApiOperation("获取班级列表（条件 + 分页）")
+    public JsonVO<PageDTO<ClassDTO>> queryClassPage(@Validated ClassQuery condition) {
+        try {
+            PageDTO<ClassDTO> result = studentService.queryClassPage(condition);
+            return JsonVO.success(result);
+        } catch (Exception e) {
+            return JsonVO.fail(e.getMessage());
+        }
+    }
 
     @Override
-    @GetMapping("/page")
-    @ApiOperation("获取班级列表（条件 + 分页）")
-    public JsonVO<PageDTO<ClassDTO>> queryClassPage(ClassQuery condition) {
-        // TODO: 调用 Service 层实现业务逻辑
-        return null;
+    @PostMapping("/class/join")
+    @ApiOperation("加入班级")
+    public JsonVO<Long> joinClass(@RequestBody @Validated ClassStudentDTO dto) {
+        try {
+            if (dto.getClassId() == null) {
+                return JsonVO.fail("班级ID不能为空");
+            }
+            if (dto.getStudentId() == null) {
+                return JsonVO.fail("学生ID不能为空");
+            }
+            Long result = studentService.joinClass(dto);
+            return JsonVO.success(result);
+        } catch (IllegalArgumentException e) {
+            return JsonVO.fail(e.getMessage());
+        } catch (Exception e) {
+            return JsonVO.fail("加入班级失败：" + e.getMessage());
+        }
+    }
+
+    @Override
+    @DeleteMapping("/class/quit")
+    @ApiOperation("退出班级")
+    public JsonVO<List<Long>> quitClass(
+            @ApiParam(value = "班级 ID", required = true, example = "2008418408985583620")
+            @RequestParam @NotNull(message = "班级ID不能为空") Long classId,
+            @ApiParam(value = "学生 ID", required = true, example = "2008418408985583617")
+            @RequestParam @NotNull(message = "学生ID不能为空") Long studentId) {
+        try {
+            List<Long> result = studentService.quitClass(classId, studentId);
+            return JsonVO.success(result);
+        } catch (IllegalArgumentException e) {
+            return JsonVO.fail(e.getMessage());
+        } catch (Exception e) {
+            return JsonVO.fail("退出班级失败：" + e.getMessage());
+        }
     }
     @GetMapping("/queryOmyLessonCount")
     @ApiOperation("获取消课记录（条件+分页）")
@@ -175,24 +226,6 @@ public class StudentController implements StudentApis {
         }
     }
 
-    @Override
-    @PostMapping("/join")
-    @ApiOperation("加入班级")
-    public JsonVO<Long> joinClass(@RequestBody ClassStudentDTO dto) {
-        // TODO: 调用 Service 层实现业务逻辑
-        return null;
-    }
-
-    @Override
-    @DeleteMapping("/quit")
-    @ApiOperation("退出班级")
-    public JsonVO<List<Long>> quitClass(
-            @ApiParam(value = "班级ID", required = true, example = "2008418408985583620") @RequestParam Long classId,
-            @ApiParam(value = "学生ID", required = true, example = "2008418408985583617") @RequestParam Long studentId) {
-        // TODO: 调用 Service 层
-        // 模拟返回删除成功的记录 ID
-        return null;
-    }
 
     @ApiOperation(value = "意向学员-导出全部")
     @GetMapping(value = "/export-intention", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)

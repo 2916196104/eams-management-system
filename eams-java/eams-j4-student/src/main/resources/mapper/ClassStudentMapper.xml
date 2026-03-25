@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.project.mapper.j4.student.ClassStudentMapper">
+
+    <resultMap id="ClassDetailVOMap" type="com.zeroone.star.project.vo.j4.student.ClassDetailVO">
+        <id property="id" column="class_id"/>
+        <result property="name" column="class_name"/>
+        <result property="subjectName" column="course_name"/>
+        <result property="classroomName" column="classroom_name"/>
+        <result property="studentCount" column="student_count"/>
+        <result property="maxStudentCount" column="planned_student_count"/>
+    </resultMap>
+
+    <select id="selectClassPageByStudentId" resultMap="ClassDetailVOMap">
+        SELECT
+        c.id AS class_id,
+        c.name AS class_name,
+        cr.name AS course_name,
+        rm.name AS classroom_name,
+        c.planned_student_count AS planned_student_count,
+        COUNT(cs.student_id) AS student_count
+        FROM class_student cs
+        INNER JOIN class c ON cs.class_id = c.id AND c.deleted = 0
+        LEFT JOIN course cr ON c.course_id = cr.id AND cr.deleted = 0
+        LEFT JOIN classroom rm ON c.classroom_id = rm.id AND rm.deleted = 0
+        WHERE cs.student_id = #{studentId}
+        AND cs.deleted = 0
+        <if test="className != null and className != ''">
+            AND c.name LIKE CONCAT('%', #{className}, '%')
+        </if>
+        GROUP BY c.id, c.name, cr.name, rm.name, c.planned_student_count
+        ORDER BY MAX(cs.add_time) DESC
+    </select>
+
+    <select id="selectByClassIdAndStudentId" resultType="com.zeroone.star.student.entity.ClassStudentDO">
+        SELECT id, class_id, student_id, deleted
+        FROM class_student
+        WHERE class_id = #{classId} AND student_id = #{studentId} AND deleted = 0
+        LIMIT 1
+    </select>
+</mapper>
