@@ -16,4 +16,5 @@ public interface IClassStudentService extends IService<ClassStudent> {
     boolean bindStudentToClass(Long studentId, Long classId);
     ////判断学生id退出班级成功
     boolean unbindStudentFromClass(Long studentId);
+
 }

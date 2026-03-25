@@ -3,9 +3,12 @@ package com.zeroone.star.stumanager.controller.common;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zeroone.star.project.dto.j8.stumanager.CourseStatisticsDTO;
 import com.zeroone.star.project.j8.stumanager.common.ClassScheduleApis;
+import com.zeroone.star.project.query.j8.stumanager.common.StuClassQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.ResultStatus;
 import com.zeroone.star.stumanager.entity.ClassStudent;
+import com.zeroone.star.stumanager.mapper.StudentMapper;
+import com.zeroone.star.stumanager.service.IClassService;
 import com.zeroone.star.stumanager.service.IClassStudentService;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.zeroone.star.project.vo.j8.stumanager.StuClassVO;
 
+import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
@@ -36,6 +40,10 @@ public class ClassScheduleController implements ClassScheduleApis {
 
     // 仅保留实际使用的Service，消除未使用字段警告
     private final IClassStudentService classStudentService;
+    @Resource
+    private IClassService classService;
+    @Autowired
+    private StudentMapper studentMapper;
 
     @Autowired
     public ClassScheduleController(IClassStudentService classStudentService) {
@@ -147,20 +155,26 @@ public class ClassScheduleController implements ClassScheduleApis {
     public JsonVO<PageDTO<StuClassVO>> queryStuClass(
             @RequestParam(defaultValue = "1") Integer pageNo,
             @RequestParam(defaultValue = "10")Integer pageSize,
-            @NotNull @RequestParam String studentId) {
-        return null;
+            @NotNull @RequestParam Long studentId) {
+        PageDTO<StuClassVO> stuClassVOPageDTO = classService.listStuClass(pageNo, pageSize, studentId);
+        return JsonVO.success(stuClassVOPageDTO);
     }
 
     @GetMapping("/lession/list")
     @ApiOperation(value = "查询课表")
     @Override
     public JsonVO<PageDTO<ClassScheduleVO>> queryClassSchedule(
-                                                   @RequestParam(defaultValue = "1") Integer page,
+                                                   @RequestParam(defaultValue = "1") Integer pageNo,
                                                    @RequestParam(defaultValue = "10") Integer pageSize,
                                                    @NotNull @RequestParam Long studentId,
                                                    @RequestParam(required = false) LocalDate beginTime,
                                                    @RequestParam(required = false) LocalDate endTime) {
-        return JsonVO.success(null);
+        StuClassQuery stuClassQuery = new StuClassQuery();
+        stuClassQuery.setStudentId(studentId);
+        stuClassQuery.setBeginTime(beginTime);
+        stuClassQuery.setEndTime(endTime);
+        PageDTO<ClassScheduleVO> classSchedule = classService.listClassSchedule(pageNo, pageSize, stuClassQuery);
+        return JsonVO.success(classSchedule);
     }
 
 }

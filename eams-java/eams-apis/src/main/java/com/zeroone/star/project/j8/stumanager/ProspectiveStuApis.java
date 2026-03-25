@@ -1,9 +1,9 @@
 package com.zeroone.star.project.j8.stumanager;
 
 import com.zeroone.star.project.vo.JsonVO;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface ProspectiveStuApis {
     // 导出意向学员
-    ResponseEntity<byte[]> exportProspectiveStu(List<Long> ids) throws IOException;
+    void exportProspectiveStu(HttpServletResponse response, List<Long> ids) throws IOException;
     // 导入意向学员
-    JsonVO<String> importProspectiveStu(MultipartFile file);
+    JsonVO<String> importProspectiveStu(MultipartFile file) throws IOException;
 }

@@ -4,11 +4,14 @@ import com.zeroone.star.project.dto.j8.stumanager.SaveStu.ChangeStuStageDTO;
 import com.zeroone.star.project.dto.j8.stumanager.SaveStu.SaveStuDTO;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j8.SaveStu.DictVO;
+import com.zeroone.star.project.vo.j8.stumanager.ProspectiveStuVO;
 import com.zeroone.star.stumanager.entity.Student;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.swagger.annotations.ApiOperation;
 
 import javax.validation.Valid;
+import java.util.List;
+
 import java.util.List;
 
 /**
@@ -35,4 +38,5 @@ public interface IStudentService extends IService<Student> {
 
     @ApiOperation("获取来源下拉字典")
     JsonVO<List<DictVO>> listJoinWayDict();
+    List<ProspectiveStuVO> queryStudents(List<Long> ids);
 }

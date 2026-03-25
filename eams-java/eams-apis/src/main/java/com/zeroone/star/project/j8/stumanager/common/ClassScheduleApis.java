@@ -22,7 +22,7 @@ import java.time.LocalDate;
 @Tag(name = "班级课表管理接口", description = "提供班级加入、退出、课程统计功能")
 @RequestMapping("/stumanager/class")
 public interface ClassScheduleApis {
-    JsonVO<PageDTO<StuClassVO>> queryStuClass(Integer pageNo, Integer pageSize, String studentId);
+    JsonVO<PageDTO<StuClassVO>> queryStuClass(Integer pageNo, Integer pageSize, Long studentId);
     JsonVO<PageDTO<ClassScheduleVO>> queryClassSchedule(Integer page, Integer pageSize, Long studentId, LocalDate beginTime, LocalDate endTime);
 
     /**

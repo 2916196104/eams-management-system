@@ -8,6 +8,33 @@
         from student s left join user u on s.user_id = u.id
         where s.id=#{id}
     </select>
+    <select id="selectStudents" resultType="com.zeroone.star.project.vo.j8.stumanager.ProspectiveStuVO">
+--         select id, user_id, family_rel, as_default, school_id, name, deleted, stage, gender, birthday, head_img,
+--                join_way, remark, graduation_date, graduation_reason, add_time, counselor,
+--         creator, editor, edit_time, idcard, redpoint_grade, redpoint_evaluate,
+--         grade, join_date, wx_access_id, credit, org_id, grade_id
+--         from student
+        select s.id as id, s.name as name, u.mobile as phone,
+        if(s.gender = 0, '男', '女') as sex, u.name as parentName,
+        if(s.family_rel = 0, '直系亲属', '非直系亲属'), org.name as school, cg.name as grade,
+        staff.name as counselor, s.birthday as birthday
+        from student as s
+        left join user as u
+        on s.user_id = u.id
+        left join org
+        on s.school_id = org.id
+        left join class_grade as cg
+        on cg.id = s.grade_id
+        left join staff
+        on staff.id = s.counselor
+        where s.stage = 0 and s.deleted = 0
+        <if test="ids != null and ids.size() > 0">
+        and s.id in
+            <foreach item="id" collection="ids" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
+    </select>
 </mapper>
 
         <!--阶段: 在学学员
