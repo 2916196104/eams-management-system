@@ -17,4 +17,9 @@ student:
   tag: 学员相关
   query:
     grade: 查询可选年级  
-     
+    point: 查询我的积分  
+  id: 学生id
+  changed_credit: 变动积分
+  current_credit: 当前积分
+  add_time: 积分变动时间
+  remark: 备注信息
