@@ -1,6 +1,6 @@
-import { defineStore } from "pinia";
 import type { Menu, Oauth2TokenDTO, UserInfo } from "@/apis/login/type";
 import { DataUpType, useHttp } from "@/plugins/http";
+import { defineStore } from "pinia";
 
 // 前端临时补充的菜单项，用于在正式管理端左侧展示这 5 个页面。
 // 图标统一改成 iconify 风格字符串，便于和后端存储格式保持一致。
@@ -49,6 +49,19 @@ const tempMenus: Array<Menu> = [
 			},
 		],
 	},
+	{
+		id: "temp-system",
+		text: "系统",
+		icon: "ep/setting",
+		children: [
+			{
+				id: "temp-system-notice",
+				text: "系统公告",
+				icon: "ep/setting",
+				href: "/notice",
+			},
+		],
+	},
 ];
 
 // 深拷贝菜单，避免直接修改后端返回的原始数据。
@@ -72,9 +85,7 @@ function mergeMenus(sourceMenus: Array<Menu> = []) {
 
 		const currentChildren = currentGroup.children || [];
 		for (const tempChild of tempGroup.children || []) {
-			const exists = currentChildren.some(
-				(item) => item.href === tempChild.href || item.text === tempChild.text,
-			);
+			const exists = currentChildren.some((item) => item.href === tempChild.href || item.text === tempChild.text);
 			if (!exists) currentChildren.push(cloneMenu(tempChild));
 		}
 		currentGroup.children = currentChildren;
