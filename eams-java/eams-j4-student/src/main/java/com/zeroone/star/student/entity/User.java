@@ -49,7 +49,7 @@ public class User implements Serializable {
     private String email;
 
     @TableField("state")
-    private Integer state;
+    private Boolean state;
 
     @TableField("password")
     private String password;
