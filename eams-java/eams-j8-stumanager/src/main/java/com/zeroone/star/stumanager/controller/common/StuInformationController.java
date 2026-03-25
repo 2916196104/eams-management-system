@@ -2,6 +2,8 @@ package com.zeroone.star.stumanager.controller.common;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j8.stumanager.SaveStu.SaveStuAddDTO;
 import com.zeroone.star.project.dto.j8.stumanager.SaveStu.SaveStuDTO;
@@ -17,6 +19,7 @@ import com.zeroone.star.project.vo.j8.stumanager.StudentCourseVO;
 import com.zeroone.star.project.vo.j8.stumanager.StudentListVO;
 import com.zeroone.star.project.vo.j8.stumanager.StudentVO;
 import com.zeroone.star.stumanager.entity.Student;
+import com.zeroone.star.stumanager.mapper.StudentMapper;
 import com.zeroone.star.stumanager.service.IStudentCourseService;
 import com.zeroone.star.stumanager.service.IStudentService;
 import com.zeroone.star.stumanager.service.impl.MsStuCouMapper;
@@ -29,6 +32,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 学员信息
@@ -119,17 +123,24 @@ public class StuInformationController implements StuInformationApis {
         return JsonVO.success(studentAvatarVO);
     }
 
+
     @GetMapping("/query-studentlist")
     @ApiOperation(value = "获取学员列表")
-    @Override
-    public JsonVO<PageDTO<StudentListVO>> queryStudents(StudentListQuery query) {
-        PageDTO<StudentListVO> pageDTO = new PageDTO<>();
+    public  JsonVO<PageDTO<StudentListVO>> queryStudents(@Validated StudentListQuery query) {
+        PageDTO<StudentListVO> pageDTO= iStudentService.listStudents(query);
+        if (pageDTO.getTotal() == 0) {
+            return JsonVO.create(pageDTO, 10000, "未找到相关数据");
+        }
         return JsonVO.success(pageDTO);
     }
     @GetMapping("/query-listByCourse")
     @ApiOperation(value = "获取学员课程数据列表")
     @Override
-    public JsonVO<PageDTO<StudentCourseVO>> queryStudentsByCourse(StudentCourseQuery condition) {
-        return JsonVO.success(null);
+    public JsonVO<PageDTO<StudentCourseVO>> queryStudentsByCourse(@Validated StudentCourseQuery condition) {
+        PageDTO<StudentCourseVO> pageDTO = iStudentCourseService.listStudentsByCourse(condition);
+        if (pageDTO.getTotal() == 0) {
+            return JsonVO.create(pageDTO, 10000, "未找到相关数据");
+        }
+        return JsonVO.success(pageDTO);
     }
 }

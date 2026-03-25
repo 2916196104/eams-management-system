@@ -45,7 +45,7 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <configuration>
                     <!-- Docker 远程管理地址-->
-                    <dockerHost>https://192.168.220.128:2375</dockerHost>
+                    <dockerHost>https://172.20.10.2:2375</dockerHost>
                     <!-- CA 证书位置 -->
                     <certPath>/home/docker-ca</certPath>
                     <!-- 镜像设置 -->
