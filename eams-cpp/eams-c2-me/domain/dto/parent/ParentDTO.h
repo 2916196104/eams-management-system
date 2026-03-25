@@ -12,6 +12,11 @@
  */
 class ParentDTO : public oatpp::DTO {
   DTO_INIT(ParentDTO, DTO);
+  DTO_FIELD(String, name);
+  DTO_FIELD(String, phone);
+  // 注册时间
+  DTO_FIELD(String, regDate);
+
 };
 
 #include OATPP_CODEGEN_END(DTO)

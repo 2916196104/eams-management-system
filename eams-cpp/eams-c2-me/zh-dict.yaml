@@ -1,0 +1,15 @@
+parent:
+  tag: 家长信息
+  query:
+    summary: 获取家长信息
+  field:
+    phone: 电话号
+  modify-name:
+    summary: 修改家长信息
+    param: 需修改的姓名
+  modify-password:
+    summary: 修改家长密码
+    old-password: 旧密码
+    new-password: 新密码
+    verify-paaword: 重复新密码
+
