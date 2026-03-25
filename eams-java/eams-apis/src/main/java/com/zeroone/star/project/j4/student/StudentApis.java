@@ -105,10 +105,6 @@ public interface StudentApis {
      */
     JsonVO<String> importOnlineStudents(MultipartFile file);
 
-    /**
-     * 导出在线学员
-     */
-    ResponseEntity<byte[]> exportOnlineStudents();
 
     @ApiOperation("Save student information")
     @PostMapping("/student/save-student")

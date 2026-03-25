@@ -153,26 +153,45 @@ public class StudentController implements StudentApis {
     @ApiOperation("导入在学学员")
     @Override
     public JsonVO<String> importOnlineStudents(@RequestPart("file") MultipartFile file) {
-        Boolean result = studentService.importOnlineStudents(file);
-        if(result) {
-            return JsonVO.success("在线学员导入成功");
+        if(file.isEmpty()) {
+            return JsonVO.fail("上传的Excel不能为空");
         }
-        return JsonVO.fail("在线学员导入失败");
+        try {
+            studentService.importOnlineStudents(file);
+            return JsonVO.success("在学学员导入成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return JsonVO.fail("在线学员导入失败L:"+e.getMessage());
+        }
+
     }
 
     @GetMapping("/exportOnlineStudents")
     @ApiOperation("导出在学学员")
-    @Override
-    public ResponseEntity<byte[]> exportOnlineStudents() {
-        byte[] data = studentService.exportOnlineStudent();
-        if(data != null && data.length > 0) {
-            return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                    .header("Content-Disposition", "attachment; filename=\"online_students.xlsx\"")
-                    .body(data);
-        } else {
-            return ResponseEntity.noContent().build();
+    public void exportOnlineStudents(HttpServletResponse response) {
+        try {
+            // 1. 设置响应头，告诉浏览器这是一个下载文件的响应
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            response.setCharacterEncoding("utf-8");
+
+            // 为了防止中文文件名乱码，手动进行URLEncoder编码
+            String fileName = URLEncoder.encode("在线学员列表", "UTF-8").replaceAll("\\+", "%20");
+            response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + fileName + ".xlsx");
+
+            // 2. 调用 Service 层进行查询和直接使用写流的方式导出
+            studentService.exportOnlineStudent(response.getOutputStream());
+        } catch (Exception e) {
+            // 发生异常时可以重置 response 后返回 JSON 提示信息
+            response.reset();
+            response.setContentType("application/json");
+            response.setCharacterEncoding("utf-8");
+            try {
+                response.getWriter().println("{\"code\": 500, \"msg\": \"导出Excel失败\"}");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
+
     }
 
     @Override

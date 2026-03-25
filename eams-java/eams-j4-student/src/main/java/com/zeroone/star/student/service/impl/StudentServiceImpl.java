@@ -1,10 +1,12 @@
 package com.zeroone.star.student.service.impl;
 
 import com.alibaba.cloud.commons.lang.StringUtils;
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zeroone.star.project.components.easyexcel.EasyExcelComponent;
+import com.zeroone.star.project.components.easyexcel.ExcelReadListener;
 import com.zeroone.star.project.components.user.UserHolder;
 import com.zeroone.star.project.dto.j4.student.StudentDTO;
 import com.zeroone.star.project.vo.JsonVO;
@@ -24,8 +26,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -316,16 +322,141 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
      * @return
      */
     @Override
-    public Boolean importOnlineStudents(MultipartFile file) {
-        return null;
+    @Transactional(rollbackFor = Exception.class) // 开启事务，保证整个导入过程的原子性
+    public Boolean importOnlineStudents(MultipartFile file) throws IOException {
+
+        // 当前用户ID作为顾问
+        Long currentStaffId = null;
+        try {
+            currentStaffId = Long.valueOf(userHolder.getCurrentUser().getId());
+        } catch (Exception e) {
+            log.warn("无法获取当前登录用户信息，导入的意向学员顾问字段为空",e);
+        }
+
+        List<StudentImportExcelVO> list = easyExcelComponent.parseExcel(file.getInputStream(),"Sheet1",StudentImportExcelVO.class);
+
+        List<StudentImportExcelVO> errorList = new ArrayList<>();
+
+        List<Student> studentsToSave = new ArrayList<>();
+
+        for (StudentImportExcelVO vo : list) {
+
+            if (StringUtils.isBlank(vo.getStudentName()) || vo.getStudentName().contains("学员导入模板") || "*姓名".equals(vo.getStudentName())) {
+                continue; // 直接跳过，不纳入错误列表
+            }
+
+            if (StringUtils.isBlank(vo.getStudentName()) || StringUtils.isBlank(vo.getPassword())) {
+                vo.setErrorMessage("姓名和登录密码不能为空");
+                errorList.add(vo);
+                continue;
+            }
+
+            if (StringUtils.isBlank(vo.getPhone()) || !PHONE_PATTERN.matcher(vo.getPhone()).matches()) {
+                vo.setErrorMessage("手机号为空或格式不正确");
+                errorList.add(vo);
+                continue;
+            }
+
+            LocalDate birthDate = null;
+
+            if (StringUtils.isNotBlank(vo.getBirthday())) {
+                try {
+                    String originDate = vo.getBirthday().trim().replace("/", "-");
+
+                    String[] parts = originDate.split("-");
+                    if (parts.length == 3) {
+                        StringBuilder sb = new StringBuilder();
+                        sb.append(parts[0]).append("-"); // 年
+                        sb.append(parts[1].length() == 1 ? "0" + parts[1] : parts[1]).append("-"); // 月补零
+                        sb.append(parts[2].length() == 1 ? "0" + parts[2] : parts[2]); // 日补零
+                        originDate = sb.toString();
+                    }
+
+
+                    if (originDate.length() > 10) {
+                        originDate = originDate.substring(0, 10);
+                    }
+
+                    birthDate = LocalDate.parse(originDate, DATE_FORMATTER);
+                } catch (Exception e) {
+                    vo.setErrorMessage("日期解析失败，请确保格式类似 2015-05-15");
+                    errorList.add(vo);
+                    continue;
+                }
+            }
+
+            User user = userService.getOne(new LambdaQueryWrapper<User>().eq(User::getMobile, vo.getPhone()));
+            if (user == null) {
+                user = new User();
+                user.setMobile(vo.getPhone());
+                user.setName(vo.getParentName());
+                user.setPassword(vo.getPassword());
+                user.setState(true);
+                userService.save(user);
+            }
+
+            Student existingStudent = this.getOne(new LambdaQueryWrapper<Student>()
+                    .eq(Student::getUserId, user.getId())
+                    .eq(Student::getName, vo.getStudentName())
+                    .eq(Student::getDeleted, 0)); // 没被删除的才算重复
+
+            if (existingStudent != null) {
+
+                vo.setErrorMessage("该家长名下已存在名为【" + vo.getStudentName() + "】的学员，请勿重复导入");
+                errorList.add(vo);
+                continue;
+            }
+
+            Student student = new Student();
+            student.setUserId(user.getId());
+            student.setName(vo.getStudentName());
+            student.setIdcard(vo.getIdcard());
+            student.setBirthday(birthDate);
+
+
+            if (currentStaffId != null) {
+                student.setCounselor(currentStaffId);
+            }
+
+            student.setStage(1);
+            student.setDeleted(0);
+            student.setAsDefault(true);
+
+            student.setGender("男".equals(vo.getGender()) ? 1 : ("女".equals(vo.getGender()) ? 2 : 0));
+            // 亲属关系默认为0
+            student.setFamilyRel(0);
+
+            studentsToSave.add(student);
+        }
+
+        if (!studentsToSave.isEmpty()) {
+            this.saveBatch(studentsToSave);
+        }
+
+        // 处理错误列表（如果你现在的接口定义只能返回 Boolean，那么抛出异常，或者建议修改接口返回类型/响应写出逻辑）
+        if (!errorList.isEmpty()) {
+            log.warn("在线学员导入有 {} 条失败记录", errorList.size());
+            return false;
+        }
+
+        return true;
     }
 
     /**
      * 导出在线学员
-     * @return
+     * @param outputStream
      */
     @Override
-    public byte[] exportOnlineStudent() {
-        return new byte[0];
+    public void exportOnlineStudent(ServletOutputStream outputStream) {
+        List<StudentExportExcelVO> exportData = this.baseMapper.selectOnlineStudentExportData();
+
+        // 将装配好的 VO 列表使用 EasyExcel 写入输出流
+        EasyExcel.write(outputStream, StudentExportExcelVO.class)
+                .sheet("在线学员")
+                .doWrite(exportData);
     }
+
+
+
+
 }
