@@ -16,6 +16,9 @@ public:
 	std::list<PtrHomeworkDO> queryHomeworkList(const GetHomeworkListQuery& query);
 	//通过作业标题查询数据
 	std::list<PtrHomeworkDO> queryHomeworkListByTitle(const std::string& title);
+	//删除作业数据（支持单个和批量删除）
+	int deleteHomework(const std::list<int>& ids);
+
 
 };
 

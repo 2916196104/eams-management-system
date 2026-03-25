@@ -151,3 +151,44 @@ std::list<PtrHomeworkDO> HomeworkDao::queryHomeworkListByTitle(const std::string
     
     return homeworkList;
 }
+
+//删除作业数据（支持单个和批量删除）
+int HomeworkDao::deleteHomework(const std::list<int>& ids) {
+    // 检查ids是否为空
+    if (ids.empty()) {
+        return 0;
+    }
+    
+    // 构建SQL语句（软删除，将deleted字段设置为1）
+    std::string sql = "UPDATE homework SET deleted = 1 WHERE id IN (";
+    
+    // 准备参数
+    std::vector<int> idVector(ids.begin(), ids.end());
+    for (size_t i = 0; i < idVector.size(); i++) {
+        if (i > 0) {
+            sql += ", ";
+        }
+        sql += "?";
+    }
+    sql += ")";
+    
+    // 执行删除操作
+    int affectedRows = 0;
+    try {
+        NULL_PTR_CHECK(sqlSession, "sqlSession is null");
+        // 获取prepareStatement对象
+        auto pstmt = sqlSession->getConnection()->prepareStatement(sql);
+        // 设置参数
+        for (size_t i = 0; i < idVector.size(); i++) {
+            pstmt->setInt(i + 1, idVector[i]);
+        }
+        // 执行更新操作
+        affectedRows = pstmt->executeUpdate();
+        // 释放资源
+        if (pstmt) pstmt->close();
+    } catch (const std::exception& e) {
+        cerr << "ExecuteUpdate Exception. " << e.what() << endl;
+    }
+    
+    return affectedRows;
+}
