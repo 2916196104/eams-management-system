@@ -1,43 +1,43 @@
-getEmpList:
- controller: 
-  summary: 获取员工列表
-  resp: 操作成功
-  empName: 员工姓名
-  phone: 手机号
-  status: 状态
-  zhangsan: 张三
- dto:
-  id: 编号
-  pageIndex: 页码
-  pageSize: 每页条数
-  name: 姓名
-  phone: 手机号
-  status: 状态
+staff:
+  tag: 员工管理
+  getEmpList:
+    controller: 
+      summary: 获取员工列表
+      resp: 操作成功
+      empName: 员工姓名
+      phone: 手机号
+      status: 状态
+      zhangsan: 张三
+  dto:
+    id: 编号
+    pageIndex: 页码
+    pageSize: 每页条数
+    name: 姓名
+    phone: 手机号
+    status: 状态
+  saveEmp:
+    controller: 
+      summary: 保存员工(新增员工(不传id)+更新员工(传id))
+      resp: 操作成功
+      empName: 员工姓名
+      phone: 手机号
+      status: 状态
+      zhangsan: 张三
+    dto:
+      id: 编号(新增时不传，更新时传入)
+      name: 姓名
+      phone: 电话
+      mobile: 登录账号
+      orgId: 所属机构
+      positionId: 所属职位
+      gender: 性别
+      degree: 学历
+      birthday: 生日
+      school: 毕业学校
+      hireDate: 入职日期
+      classFee: 上课费
+      assistantFee: 助教费
+      intro: 简介
+      isInner: 是否是内部人员
+      isManager: 是否是管理者
 
-
-
-saveEmp:
- controller: 
-  summary: 保存员工(新增员工(不传id)+更新员工(传id))
-  resp: 操作成功
-  empName: 员工姓名
-  phone: 手机号
-  status: 状态
-  zhangsan: 张三
- dto:
-  id: 编号(新增时不传，更新时传入)
-  name: 姓名
-  phone: 电话
-  mobile: 登录账号
-  orgId: 所属机构
-  positionId: 所属职位
-  gender: 性别
-  degree: 学历
-  birthday: 生日
-  school: 毕业学校
-  hireDate: 入职日期
-  classFee: 上课费
-  assistantFee: 助教费
-  intro: 简介
-  isInner: 是否是内部人员
-  isManager: 是否是管理者

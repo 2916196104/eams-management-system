@@ -12,7 +12,7 @@
 
 // 1 定义API控制器使用宏
 #include OATPP_CODEGEN_BEGIN(ApiController)
-#define API_TAG ZH_WORDS_GETTER("sample.tags")
+#define API_TAG ZH_WORDS_GETTER("staff.tag")
 
 /*
  * 员工控制器
@@ -27,7 +27,7 @@ public:
 	// 接口描述
 	ENDPOINT_INFO(getEmpList) {
 		// 接口描述
-		info->summary = ZH_WORDS_GETTER("getEmpList.controller.summary");
+		info->summary = ZH_WORDS_GETTER("staff.getEmpList.controller.summary");
 
 		// 支持授权(文档描述时显示锁)
 		// 同时要向ENDPOINT加入参数五
@@ -40,9 +40,11 @@ public:
 		// 分页参数："查询页码"、"每页的条数"
 		API_DEF_ADD_PAGE_PARAMS();// 这个宏用于定义"分页相关"的查询参数文档(会向文档中加入"查询页码"、"每页的条数"参数)
 		// 其他参数："姓名/手机号"、"状态"
-		API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("getEmpList.controller.empName"), ZH_WORDS_GETTER("getEmpList.controller.zhangsan"), false);
-		API_DEF_ADD_QUERY_PARAMS(String, "phone", ZH_WORDS_GETTER("getEmpList.controller.phone"), "13800138000", false);
-		API_DEF_ADD_QUERY_PARAMS(Int32, "status", ZH_WORDS_GETTER("getEmpList.controller.status"), 1, false);
+		API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("staff.getEmpList.controller.empName"), ZH_WORDS_GETTER("getEmpList.controller.zhangsan"), false);
+		API_DEF_ADD_QUERY_PARAMS(String, "phone", ZH_WORDS_GETTER("staff.getEmpList.controller.phone"), "13800138000", false);
+		API_DEF_ADD_QUERY_PARAMS(Int32, "status", ZH_WORDS_GETTER("staff.getEmpList.controller.status"), 1, false);
+
+		API_DEF_ADD_TAG(API_TAG);
 	}
 	
 	// 接口定义(路由注册)
@@ -61,7 +63,7 @@ public:
 	// 定义接口:保存员工
 
 	// 3.1 定义新增接口描述
-	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("saveEmp.controller.summary"), saveEmp, StringJsonVO::Wrapper, API_TAG);
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("staff.saveEmp.controller.summary"), saveEmp, StringJsonVO::Wrapper, API_TAG);
 
 
 	// 3.2 定义新增接口处理
