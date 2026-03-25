@@ -3,6 +3,7 @@ package com.zeroone.star.student.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.cloud.commons.lang.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -10,12 +11,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zeroone.star.project.components.easyexcel.EasyExcelComponent;
 import com.zeroone.star.project.components.user.UserHolder;
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.dto.j4.student.ClassDTO;
-import com.zeroone.star.project.dto.j4.student.ClassStudentDTO;
-import com.zeroone.star.project.dto.j4.student.FollowUpDTO;
-import com.zeroone.star.project.dto.j4.student.StudentDTO;
+import com.zeroone.star.project.dto.j4.student.*;
 import com.zeroone.star.project.query.j4.student.ClassQuery;
+import com.zeroone.star.project.query.j4.student.CourseQuery;
 import com.zeroone.star.project.query.j4.student.FollowUpQuery;
+import com.zeroone.star.project.query.j4.student.StudentQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j4.student.ClassDetailVO;
 import com.zeroone.star.student.config.RequestMetaUtil;
@@ -68,9 +68,6 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
 
     @Resource
     private ClassMapper classMapper;
-
-    @Resource
-    private ClassStudentMapper classStudentMapper;
 
     @Resource
     private ClassStudentMapper classStudentMapper;
@@ -527,12 +524,12 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     @Override
     public PageDTO<StudentDTO> queryCourseStu(CourseQuery condition) {
         // 1. 构建分页查询对象
-        Page<ClassStudent> page = new Page<>(condition.getPageIndex(), condition.getPageSize());
+        Page<ClassStudentDO> page = new Page<>(condition.getPageIndex(), condition.getPageSize());
 
         // 2. 构建查询条件
-        QueryWrapper<ClassStudent> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<ClassStudentDO> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("class_id", condition.getClassId());
-        Page<ClassStudent> classStudentPage = classStudentMapper.selectPage(page, queryWrapper);
+        Page<ClassStudentDO> classStudentPage = classStudentMapper.selectPage(page, queryWrapper);
 
         // 3.封装成StudentDTO
         PageDTO<StudentDTO> result = new PageDTO<>();
@@ -541,12 +538,10 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         result.setPageIndex(condition.getPageIndex());
         result.setPageSize(condition.getPageSize());
 
-        List<ClassStudent> records = classStudentPage.getRecords();
+        List<ClassStudentDO> records = classStudentPage.getRecords();
         List<StudentDTO> responseDTOS = BeanUtil.copyToList(records, StudentDTO.class);
         result.setRows(responseDTOS);
 
         return result;
     }
-
-
 }
