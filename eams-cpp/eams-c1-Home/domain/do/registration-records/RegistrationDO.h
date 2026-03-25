@@ -16,11 +16,11 @@ class StudentCourseDO : public BaseDO {
     // 主键
     MYSQL_SYNTHESIZE(uint64_t, id, Id);
     // 学生id
-    MYSQL_SYNTHESIZE(int64_t, studentId, StudentId);
+    MYSQL_SYNTHESIZE(uint64_t, studentId, StudentId);
     // 课程id
-    MYSQL_SYNTHESIZE(int64_t, courseId, CourseId);
+    MYSQL_SYNTHESIZE(uint64_t, courseId, CourseId);
     // 科目id
-    MYSQL_SYNTHESIZE(int64_t, subjectId, SubjectId);
+    MYSQL_SYNTHESIZE(uint64_t, subjectId, SubjectId);
     // 报名时间
     MYSQL_SYNTHESIZE(string, addTime, AddTime);
     // 过期时间
@@ -40,9 +40,9 @@ public:
     StudentCourseDO() : BaseDO("student_course")
     {
         MYSQL_ADD_FIELD_PK("id", "ull", id);
-        MYSQL_ADD_FIELD_NULLABLE("student_id", "ll", studentId, false);
-        MYSQL_ADD_FIELD_NULLABLE("course_id", "ll", courseId, false);
-        MYSQL_ADD_FIELD_NULLABLE("subject_id", "ll", subjectId, false);
+        MYSQL_ADD_FIELD_NULLABLE("student_id", "ull", studentId, false);
+        MYSQL_ADD_FIELD_NULLABLE("course_id", "ull", courseId, false);
+        MYSQL_ADD_FIELD_NULLABLE("subject_id", "ull", subjectId, false);
         MYSQL_ADD_FIELD_NULLABLE("add_time", "s", addTime, true);
         MYSQL_ADD_FIELD_NULLABLE("expire_date", "s", expireDate, true);
         MYSQL_ADD_FIELD_NULLABLE("amount", "d", amount, true);

@@ -16,11 +16,11 @@ public:
     {
         PtrRegistrationViewDO registration = std::make_shared<RegistrationViewDO>();
         registration->setId(resultSet->getUInt64("id"));
-        registration->setStudentId(resultSet->getInt64("student_id"));
+        registration->setStudentId(resultSet->getUInt64("student_id"));
         registration->setStudentName(resultSet->getString("student_name"));
-        registration->setCourseId(resultSet->getInt64("course_id"));
+        registration->setCourseId(resultSet->getUInt64("course_id"));
         registration->setCourseName(resultSet->getString("course_name"));
-        registration->setSubjectId(resultSet->getInt64("subject_id"));
+        registration->setSubjectId(resultSet->getUInt64("subject_id"));
         registration->setSubjectName(resultSet->getString("subject_name"));
         registration->setAddTime(resultSet->getString("add_time"));
         registration->setExpireDate(resultSet->getString("expire_date"));

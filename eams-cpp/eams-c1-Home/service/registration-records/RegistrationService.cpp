@@ -69,8 +69,11 @@ RegistrationRecordPageDTO::Wrapper RegistrationService::listAll(const Registrati
                 continue;
             }
         }
+        
         page->rows->emplace_back(std::move(dto));
     }
+    page->total = page->rows->size();
+    page->calcPages();
     return page;
 
 }

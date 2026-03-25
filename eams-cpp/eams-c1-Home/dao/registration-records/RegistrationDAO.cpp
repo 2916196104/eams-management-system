@@ -12,7 +12,7 @@ uint64_t RegistrationDAO::count(const RegistrationRecordQuery::Wrapper& query)
     SqlParams params;
     if (query->student_id) {
         sql += " AND student_id = ?";
-        SQLPARAMS_PUSH(params, "ll", int64_t, query->student_id.getValue(1));
+        SQLPARAMS_PUSH(params, "ll", uint64_t, query->student_id.getValue(1));
     }
     try {
         // 执行查询
@@ -64,7 +64,7 @@ std::list<PtrRegistrationViewDO> RegistrationDAO::selectByQuery(const Registrati
         SqlParams params;
         if (query->student_id) {
             sql += " AND sc.student_id = ?";
-            SQLPARAMS_PUSH(params, "ll", int64_t, query->student_id.getValue(1));
+            SQLPARAMS_PUSH(params, "ll", uint64_t, query->student_id.getValue(1));
         } else {
             std::cerr << "[RegistrationDAO::selectByQuery] : 缺少查询参数" << std::endl;
             return std::list<PtrRegistrationViewDO>(); // 缺少查询参数时，返回空列表
