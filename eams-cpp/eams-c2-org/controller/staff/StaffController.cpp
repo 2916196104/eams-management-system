@@ -1,4 +1,5 @@
 ﻿// controller/staff/StaffController.cpp
+#include "stdafx.h"
 #include "StaffController.h"
 // 确保引入必要的头文件
 #include "oatpp/core/Types.hpp"
@@ -46,8 +47,6 @@ DeleteResultJsonVO::Wrapper StaffController::execRemoveStaffByIds(const StaffBat
 
     return jvo;
 }
-#include "stdafx.h"
-#include "StaffController.h"
 
 StringJsonVO::Wrapper StaffController::executeGetEmpList(const StaffPageQuery::Wrapper& query)
 {
@@ -101,4 +100,18 @@ ListJsonVO<String>::Wrapper StaffController::execSetJob(const List<String>& ids,
 ListJsonVO<String>::Wrapper StaffController::execSetInstitution(const List<String>& ids, const PayloadDTO& payload)
 {
 	return {};
+}
+StringJsonVO::Wrapper StaffController::executeStaffPassWordChange(const StaffChangePasswordDTO::Wrapper& dto)
+{
+	auto jvo = StringJsonVO::createShared();
+	//serviceʵ���޸�����
+	jvo->success("");
+	return jvo;
+}
+
+StringJsonVO::Wrapper StaffController::executeStaffListExport(const StaffExportQueryDto::Wrapper& exportQuery)
+{
+	auto jvo = StringJsonVO::createShared();
+	jvo->success("");
+	return jvo;
 }

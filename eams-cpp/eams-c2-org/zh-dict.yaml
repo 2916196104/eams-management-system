@@ -21,7 +21,7 @@
     mobile: 手机号
     idCard: 身份证号
     headImg: 头像URL
-    state: 在职状态
+    state: 职工状态(离职或在职)
     wxAccessId: 微信登录ID
     email: 邮箱
     birthday: 生日
@@ -40,6 +40,7 @@
     creator: 创建人ID
     editor: 编辑人ID
     password: 密码
+    new-password: 新密码
   getEmpList:
     controller: 
       summary: 获取员工列表
@@ -83,6 +84,16 @@
   setRole: 设置角色(支持批量)
   setOnJob: 设置在职(支持批量)
   setInstitution: 设置机构(支持批量)
+  change-psword: 
+    summary: 修改职工密码   
+  export-list: 
+    keyword: 导出查询关键字(姓名或手机号)
+    export: 是否导出
+    summary: 导出职工数据
+  get-lesson-record:
+    summary: 获取授课记录
+    start-date: 开始日期
+    end-date: 结束日期
 
 position:
   tag: 职位管理
