@@ -1,15 +1,16 @@
-#pragma once
-
-
-
-
+﻿#pragma once
 #ifndef _SAMPLE_SERVICE_
 #define _SAMPLE_SERVICE_
-//#include "domain/vo/sample/SampleVO.h"
-//#include "domain/query/sample/SampleQuery.h"
 #include "../../domain/dto/common/CommonDTO.h"
-
-
+#include "../../dao/common/CommonDAO.h"
+class StudentService {
+public:
+	void ModifyStudentHeadImg(ModifyStudentHeadImgDTO::Wrapper dto);
+};
+class RegistrationRecordService {
+public:
+	std::list<RegistrationDTO::Wrapper> GetRegistrationRecordWithPage(RegistrationPageQuery::Wrapper query);
+};
 
 
 

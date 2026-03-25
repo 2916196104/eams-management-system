@@ -173,6 +173,68 @@ public:
 	MYSQL_SYNTHESIZE(string, addTime, AddTime);
 	MYSQL_SYNTHESIZE(int32_t, state, State);
 };
+class QueryStudentbyIdDO : public BaseDO {
+public:
+	// 学生id
+	MYSQL_SYNTHESIZE(long long, id, Id);
+	// 学生姓名
+	MYSQL_SYNTHESIZE(string, name, Name);
+	// 手机号
+	MYSQL_SYNTHESIZE(string, phone, Phone);
+	// 图片路径
+	MYSQL_SYNTHESIZE(string, picturePath, PicturePath);
+	// 剩余课程数
+	MYSQL_SYNTHESIZE(int, leftCourseCount, LeftCourseCount);
+	// 剩余积分
+	MYSQL_SYNTHESIZE(int, leftPoints, LeftPoints);
+	// 阶段
+	MYSQL_SYNTHESIZE(int, stage, Stage);
+	// 性别
+	MYSQL_SYNTHESIZE(int, sex, Sex);
+	// 年龄
+	MYSQL_SYNTHESIZE(int, age, Age);
+	// 生日
+	MYSQL_SYNTHESIZE(string, birthday, Birthday);
+	// 身份证号
+	MYSQL_SYNTHESIZE(string, identificationNumber, IdentificationNumber);
+	// 家长姓名
+	MYSQL_SYNTHESIZE(string, parentName, ParentName);
+	// 关系类型
+	MYSQL_SYNTHESIZE(string, relationType, RelationType);
+	// 年级
+	MYSQL_SYNTHESIZE(int, grade, Grade);
+	// 入学时间
+	MYSQL_SYNTHESIZE(string, enterTime, EnterTime);
+	// 精确入学时间
+	MYSQL_SYNTHESIZE(string, accurateEnterTime, AccurateEnterTime);
+	// 备注
+	MYSQL_SYNTHESIZE(string, note, Note);
+	// 课程进度
+	MYSQL_SYNTHESIZE(string, courseProgress, CourseProgress);
+
+public:
+	QueryStudentbyIdDO() : BaseDO("student")  // 假设表名为 "student"，请根据实际表名修改
+	{
+		MYSQL_ADD_FIELD_PK("id", "l", id);
+		MYSQL_ADD_FIELD("name", "s", name);
+		MYSQL_ADD_FIELD("phone", "s", phone);
+		MYSQL_ADD_FIELD("head_img", "s", picturePath);
+		MYSQL_ADD_FIELD("left_course_count", "i", leftCourseCount);
+		MYSQL_ADD_FIELD("left_points", "i", leftPoints);
+		MYSQL_ADD_FIELD("stage", "i", stage);
+		MYSQL_ADD_FIELD("sex", "i", sex);
+		MYSQL_ADD_FIELD("age", "i", age);
+		MYSQL_ADD_FIELD("birthday", "s", birthday);
+		MYSQL_ADD_FIELD("identification_number", "s", identificationNumber);
+		MYSQL_ADD_FIELD("parent_name", "s", parentName);
+		MYSQL_ADD_FIELD("relation_type", "s", relationType);
+		MYSQL_ADD_FIELD("grade", "i", grade);
+		MYSQL_ADD_FIELD("enter_time", "s", enterTime);
+		MYSQL_ADD_FIELD("accurate_enter_time", "s", accurateEnterTime);
+		MYSQL_ADD_FIELD("note", "s", note);
+		MYSQL_ADD_FIELD("course_progress", "s", courseProgress);
+	}
+};
 typedef std::shared_ptr<StaffDO> PtrStaffDO;
 
 #endif

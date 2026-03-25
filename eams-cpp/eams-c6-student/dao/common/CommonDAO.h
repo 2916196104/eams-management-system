@@ -20,6 +20,21 @@
 #ifndef _SAMPLE_DAO_
 #define _SAMPLE_DAO_
 #include "BaseDAO.h"
-
-
+#include "../../domain/query/common/CommonQuery.h"
+#include "../../domain/dto/common/CommonDTO.h"
+class StudentDAO :public BaseDAO
+{
+public:
+	void updateStudentHeadImg(uint64_t studentId, const std::string& headImg);
+	StudentDTO::Wrapper getStudentDetailById(uint64_t studentId);
+};
+class RegistrationRecordDAO :public BaseDAO
+{
+private:
+	uint64_t count(uint64_t studentId);
+public:
+	// 不使用 DO：SQL JOIN 结果直接映射成 DTO
+	std::list<RegistrationDTO::Wrapper> selectRegistrationRecordWithPage(const RegistrationPageQuery::Wrapper& query);
+	
+};
 #endif // !_SAMPLE_DAO_

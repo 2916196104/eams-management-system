@@ -1,24 +1,38 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "CommonController.h"
-
-
-
-
+#include "../../service/common/CommonService.h"
+StudentJsonVO::Wrapper CommonController::executeGetStudentById(const String& id) {
+	return StudentJsonVO::createShared();
+}
+StringJsonVO::Wrapper CommonController::executeModifyStudentPicture(const ModifyStudentHeadImgDTO::Wrapper& dto)
+{
+	auto jvo = StringJsonVO::createShared();
+	StudentService service;
+	service.ModifyStudentHeadImg(dto);
+	jvo->success("success");
+	return jvo;
+}
+RegistrationPageJsonVO::Wrapper CommonController::executeQueryRegistrationRecordByPage(const RegistrationPageQuery::Wrapper& query) {
+	auto jvo = RegistrationPageJsonVO::createShared();
+	RegistrationRecordService service;
+	auto data=service.GetRegistrationRecordWithPage(query);
+	return jvo;
+}
 /**
- * µ÷Õû»ý·ÖÖ´ÐÐº¯Êý
+ * è°ƒæ•´ç§¯åˆ†æ‰§è¡Œå‡½æ•°
  */
 StringJsonVO::Wrapper CommonController::execModifyPoints(const ModifyPointsDTO::Wrapper& dto, const PayloadDTO& payload)
 {
-	// ¶¨Òå·µ»ØÊý¾Ý¶ÔÏó
+	// å®šä¹‰è¿”å›žæ•°æ®å¯¹è±¡
 	auto jvo = StringJsonVO::createShared();
-	// ²ÎÊýÐ£Ñé
+	// å‚æ•°æ ¡éªŒ
 	if (!dto->id)
 	{
 		jvo->init(nullptr, RS_PARAMS_INVALID);
 		return jvo;
 	}
 
-	//// Ö´ÐÐÊý¾ÝÐÞ¸Ä
+	//// æ‰§è¡Œæ•°æ®ä¿®æ”¹
 	//dto->setPayload(&payload);
 	//if (AdjustPointsService().updateData(dto)) {
 	//	jvo->success(dto->name);
@@ -27,27 +41,27 @@ StringJsonVO::Wrapper CommonController::execModifyPoints(const ModifyPointsDTO::
 	//{
 	//	jvo->fail(dto->name);
 	//}
-	// ÏìÓ¦½á¹û
+	// å“åº”ç»“æžœ
 	return jvo;
 }
 
 
 
 /**
- * Ìí¼Ó¸ú½ø¼ÇÂ¼Ö´ÐÐº¯Êý
+ * æ·»åŠ è·Ÿè¿›è®°å½•æ‰§è¡Œå‡½æ•°
  */
 StringJsonVO::Wrapper CommonController::execAddFollowUpRecord(const AddFollowUpRecordDTO::Wrapper& dto, const PayloadDTO& payload)
 {
-	// ¶¨Òå·µ»ØÊý¾Ý¶ÔÏó
+	// å®šä¹‰è¿”å›žæ•°æ®å¯¹è±¡
 	auto jvo = StringJsonVO::createShared();
-	// ²ÎÊýÐ£Ñé
+	// å‚æ•°æ ¡éªŒ
 	if (!dto->id)
 	{
 		jvo->init(nullptr, RS_PARAMS_INVALID);
 		return jvo;
 	}
 
-	// Ö´ÐÐÊý¾ÝÐÞ¸Ä
+	// æ‰§è¡Œæ•°æ®ä¿®æ”¹
 	//dto->setPayload(&payload);
 	//if (AddFollowUpRecordService().updateData(dto)) {
 	//	jvo->success(dto->name);
@@ -56,15 +70,15 @@ StringJsonVO::Wrapper CommonController::execAddFollowUpRecord(const AddFollowUpR
 	//{
 	//	jvo->fail(dto->name);
 	//}
-	//// ÏìÓ¦½á¹û
+	//// å“åº”ç»“æžœ
 	return jvo;
 }
 
 QueryFollowUprecordsJsonVO::Wrapper CommonController::execQueryFollowUprecords(const FollowUprecordsQuery::Wrapper& query)
 {
-	// ²éÑ¯Êý¾Ý
+	// æŸ¥è¯¢æ•°æ®
 	//auto result = SampleService().listAll(query);
-	// ÏìÓ¦½á¹û
+	// å“åº”ç»“æžœ
 	auto jvo = QueryFollowUprecordsJsonVO::createShared();
 	jvo->success(QueryFollowUprecordsDTO::createShared());
 	return jvo;

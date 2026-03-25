@@ -1,33 +1,33 @@
-#pragma once
+ï»¿#pragma once
 #ifndef _CLASSGRADE_DO_
 #define _CLASSGRADE_DO_
 #include "../DoInclude.h"
 
 /**
- * Äê¼¶±íÊı¾İ¿âÊµÌåÀà
- * ¶ÔÓ¦±í: class_grade
+ * å¹´çº§è¡¨æ•°æ®åº“å®ä½“ç±»
+ * å¯¹åº”è¡¨: class_grade
  */
 class ClassGradeDO : public BaseDO
 {
-	// Ö÷¼ü (bigint unsigned - 64Î»ÎŞ·ûºÅÕûÊı)
+	// ä¸»é”® (bigint unsigned - 64ä½æ— ç¬¦å·æ•´æ•°)
 	MYSQL_SYNTHESIZE(uint64_t, id, Id);
-	// Äê¼¶Ãû³Æ (varchar)
+	// å¹´çº§åç§° (varchar)
 	MYSQL_SYNTHESIZE(string, name, Name);
-	// ÈëÑ§Äê·İ (int)
+	// å…¥å­¦å¹´ä»½ (int)
 	MYSQL_SYNTHESIZE(int, year, Year);
-	// ±¸×¢ (varchar)
+	// å¤‡æ³¨ (varchar)
 	MYSQL_SYNTHESIZE(string, remark, Remark);
-	// ÅÅĞò (int)
+	// æ’åº (int)
 	MYSQL_SYNTHESIZE(int, sortNum, SortNum);
-	// ´´½¨ÈË (bigint unsigned - ¹ØÁªstaff.id£¬´æ´¢ÓÃ»§ID¶ø·ÇĞÕÃû)
+	// åˆ›å»ºäºº (bigint unsigned - å…³è”staff.idï¼Œå­˜å‚¨ç”¨æˆ·IDè€Œéå§“å)
 	MYSQL_SYNTHESIZE(uint64_t, creator, Creator);
-	// ±à¼­ÈË (bigint unsigned - ¹ØÁªstaff.id£¬´æ´¢ÓÃ»§ID¶ø·ÇĞÕÃû)
+	// ç¼–è¾‘äºº (bigint unsigned - å…³è”staff.idï¼Œå­˜å‚¨ç”¨æˆ·IDè€Œéå§“å)
 	MYSQL_SYNTHESIZE(uint64_t, editor, Editor);
-	// Ìí¼ÓÊ±¼ä (datetime)
+	// æ·»åŠ æ—¶é—´ (datetime)
 	MYSQL_SYNTHESIZE(string, addTime, AddTime);
-	// ±à¼­Ê±¼ä (datetime)
+	// ç¼–è¾‘æ—¶é—´ (datetime)
 	MYSQL_SYNTHESIZE(string, editTime, EditTime);
-	// É¾³ı±ê¼Ç (tinyint - 0Î´É¾³ı 1ÒÑÉ¾³ı)
+	// åˆ é™¤æ ‡è®° (tinyint - 0æœªåˆ é™¤ 1å·²åˆ é™¤)
 	MYSQL_SYNTHESIZE(int, deleted, Deleted);
 public:
 	ClassGradeDO() : BaseDO("class_grade")
@@ -44,7 +44,6 @@ public:
 		MYSQL_ADD_FIELD("deleted", "i", deleted);
 	}
 };
-
-// ¸øClassGradeDOÖÇÄÜÖ¸ÕëÉè¶¨Ò»¸ö±ğÃû·½±ãÊ¹ÓÃ
+// ç»™ClassGradeDOæ™ºèƒ½æŒ‡é’ˆè®¾å®šä¸€ä¸ªåˆ«åæ–¹ä¾¿ä½¿ç”¨
 typedef std::shared_ptr<ClassGradeDO> PtrClassGradeDO;
 #endif // !_CLASSGRADE_DO_
