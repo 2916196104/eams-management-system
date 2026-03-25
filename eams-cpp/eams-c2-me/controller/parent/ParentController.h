@@ -18,9 +18,9 @@
  */
 class ParentController : public oatpp::web::server::api::ApiController // 1 继承控制器
 {
-  // 2 定义控制器访问入口
-  API_ACCESS_DECLARE(ParentController);
-  // 3 定义接口
+	// 2 定义控制器访问入口
+	API_ACCESS_DECLARE(ParentController);
+	// 3 定义接口
 public:
   // 定义获取家长详细信息接口描述
  // API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("parent.query.summary"), queryOne, ParentJsonVO::Wrapper, API_TAG,
@@ -58,3 +58,17 @@ private: // 定义接口执行函数
 #undef API_TAG
 #include OATPP_CODEGEN_END(ApiController) //<- End Codegen
 #endif // !_POSITION_CONTROLLER_
+
+
+
+
+
+
+
+
+
+
+
+
+
+

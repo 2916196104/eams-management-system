@@ -124,3 +124,13 @@ file:
   img-url: 图片src
   img-alt: 图片文字描述
   img-href: 图片链接地址
+
+help:
+ tag: 使用说明
+ querylist: 获取使用说明列表
+ querydetail: 获取使用说明详情
+ pageIndex: 页码
+ pageSize: 每页条数
+ id: 编号
+ title: 标题
+ content: 内容
