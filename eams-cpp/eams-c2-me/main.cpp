@@ -50,7 +50,7 @@ void parseServerArgs(int argc, char* argv[]) {
 	std::string nacosNs = "";
 	std::string serviceName = "";
 	std::string regIp = "";
-#endif
+#endif	//Windows平台不使用Nacos相关配置
 
 	// 开始解析
 	int currIndex = 1;
@@ -101,7 +101,7 @@ void parseServerArgs(int argc, char* argv[]) {
 		else if (prefix == "ns") nacosNs = val;
 		else if (prefix == "sn") serviceName = val;
 		else if (prefix == "ip") regIp = val;
-#endif
+#endif //windows 
 		// 更新索引
 		currIndex++;
 	}
