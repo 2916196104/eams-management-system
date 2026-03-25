@@ -1,4 +1,4 @@
-rocket-mq:
+﻿rocket-mq:
   name-server: 118.178.56.172:8280
 fastdfs:
   charset: UTF-8

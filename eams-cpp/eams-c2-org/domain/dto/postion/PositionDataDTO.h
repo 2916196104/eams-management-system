@@ -9,13 +9,13 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /*
-	鑱屼綅鏁版嵁鏉冮檺鏁版嵁浼犺緭瀵硅薄
+	职位数据权限数据传输对象
  */
 class PositionDataDTO : public oatpp::DTO {
-  DTO_INIT(PositionDataDTO, DTO);
-  DTO_FIELD(Int32, id);               // 鑱屼綅ID
-  DTO_FIELD(String, name);             // 鑱屼綅鍚嶇О
-  DTO_FIELD(Vector<oatpp::Object<PermissionDTO>>, permissions);  // 鏉冮檺鍒楄〃
+	DTO_INIT(PositionDataDTO, DTO);
+	DTO_FIELD(Int32, id);               // 职位ID
+	DTO_FIELD(String, name);             // 职位名称
+	DTO_FIELD(Vector<oatpp::Object<PermissionDTO>>, permissions);  // 权限列表
 };
 
 #include OATPP_CODEGEN_END(DTO)

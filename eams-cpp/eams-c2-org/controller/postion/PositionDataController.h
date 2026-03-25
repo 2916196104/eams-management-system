@@ -7,21 +7,21 @@
 #include "ApiHelper.h"
 #include "ServerInfo.h"
 
-// 1 瀹氫箟API鎺у埗鍣ㄤ娇鐢ㄥ畯
+// 1 定义API控制器使用宏
 #include OATPP_CODEGEN_BEGIN(ApiController)
 #define API_TAG ZH_WORDS_GETTER("sample.tags")
 
 /*
- * 鑱屼綅鏁版嵁鏉冮檺鎺у埗鍣?
+ * 职位数据权限控制器
  */
-class PositionDataController : public oatpp::web::server::api::ApiController // 1 缁ф壙鎺у埗鍣?
+class PositionDataController : public oatpp::web::server::api::ApiController // 1 继承控制器
 {
-  // 2 瀹氫箟鎺у埗鍣ㄨ闂叆鍙?
-  API_ACCESS_DECLARE(PositionDataController);
-  // 3 瀹氫箟鎺ュ彛
+	// 2 定义控制器访问入口
+	API_ACCESS_DECLARE(PositionDataController);
+	// 3 定义接口
 public:
 
-private: // 瀹氫箟鎺ュ彛鎵ц鍑芥暟
+private: // 定义接口执行函数
 };
 
 #undef API_TAG
