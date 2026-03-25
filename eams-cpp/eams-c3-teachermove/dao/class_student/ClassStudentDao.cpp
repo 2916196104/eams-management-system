@@ -53,6 +53,5 @@ uint64_t ClassStudentDAO::insert(const PtrClassStudentDO& doObj)
     SQLPARAMS_PUSH(params, "s", std::string, doObj->getRemark());
     SQLPARAMS_PUSH(params, "ll", int64_t, doObj->getConsumeCourseId());
 
-    // 执行插入，通常底层框架封装了 executeUpdate
     return sqlSession->executeUpdate(sql, params);
 }
