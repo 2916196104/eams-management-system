@@ -38,6 +38,16 @@ listening-card:
     userID: 用户ID
     receive: 领取试听卡
     tag: 试听卡
+    cardId: 试听卡ID
+    recordID: 订单ID
+    trialID: 试听卡ID
+    studentID: 学生ID
+    schoolID: 学校ID
+    counselor: 顾问
+    courseID: 课程ID
+    lessonCount: 课时数
+    endDate: 到期日期
+    studentCourseID: 学生课程关联ID
     field:
       # 试听卡基本信息
       id: 主键ID
