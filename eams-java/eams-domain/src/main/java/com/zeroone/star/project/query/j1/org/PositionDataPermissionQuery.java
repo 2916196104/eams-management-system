@@ -1,17 +1,21 @@
 package com.zeroone.star.project.query.j1.org;
 
 import com.zeroone.star.project.query.PageQuery;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 /**
  * 查询条件类
  */
+@Data
+@ApiModel("职位数据权限查询对象")
 public class PositionDataPermissionQuery extends PageQuery {
 
     @ApiModelProperty(value = "数据表表名",example = "staff")
     private String entity_name;
 
-    @ApiModelProperty(value = "数据权限范围类型，不填则表示按系统默认",example = "1全部 2本校 3本部门 4自己")
+    @ApiModelProperty(value = "数据权限范围类型，不填则表示按系统默认",example = "1")
     private Integer scope_type;
 
 
