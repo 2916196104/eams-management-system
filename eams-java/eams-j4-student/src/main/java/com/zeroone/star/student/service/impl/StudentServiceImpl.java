@@ -1,24 +1,32 @@
 package com.zeroone.star.student.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.cloud.commons.lang.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zeroone.star.project.components.easyexcel.EasyExcelComponent;
 import com.zeroone.star.project.components.user.UserHolder;
-import com.zeroone.star.project.dto.j4.student.StudentDTO;
+import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j4.student.*;
+import com.zeroone.star.project.query.j4.student.ClassQuery;
+import com.zeroone.star.project.query.j4.student.CourseQuery;
+import com.zeroone.star.project.query.j4.student.FollowUpQuery;
+import com.zeroone.star.project.query.j4.student.StudentQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.project.vo.j4.student.ClassDetailVO;
 import com.zeroone.star.student.config.RequestMetaUtil;
-import com.zeroone.star.student.domain.po.Student;
-import com.zeroone.star.student.domain.po.SysLog;
-import com.zeroone.star.student.domain.po.User;
-import com.zeroone.star.student.domain.vo.StudentExportExcelVO;
-import com.zeroone.star.student.domain.vo.StudentImportExcelVO;
-import com.zeroone.star.student.mapper.StudentMapper;
-import com.zeroone.star.student.mapper.SysLogMapper;
+import com.zeroone.star.student.entity.*;
+import com.zeroone.star.project.vo.j4.student.StudentExportExcelVO;
+import com.zeroone.star.project.vo.j4.student.StudentImportExcelVO;
+import com.zeroone.star.student.mapper.*;
 import com.zeroone.star.student.service.IStudentService;
 import com.zeroone.star.student.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,6 +62,15 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
 
     @Resource
     private HttpServletRequest httpRequest;
+
+    @Resource
+    private ContactRecordMapper contactRecordMapper;
+
+    @Resource
+    private ClassMapper classMapper;
+
+    @Resource
+    private ClassStudentMapper classStudentMapper;
 
     // 注入框架自带的当前用户获取组件
     @Resource
@@ -327,5 +344,204 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     @Override
     public byte[] exportOnlineStudent() {
         return new byte[0];
+    }
+
+    @Override
+    public PageDTO<ClassDTO> queryClassPage(ClassQuery condition) {
+        long pageIndex = condition.getPageIndex();
+        long pageSize = condition.getPageSize();
+
+        if (pageIndex < 1) pageIndex = 1;
+        if (pageSize < 1) pageSize = 10;
+
+        Page<ClassDetailVO> pageParam = new Page<>(pageIndex, pageSize);
+        IPage<ClassDetailVO> resultPage = classMapper.selectClassPage(pageParam, condition);
+
+        List<ClassDTO> dtoList = new ArrayList<>();
+        List<ClassDetailVO> records = resultPage.getRecords();
+        if (records != null) {
+            for (ClassDetailVO vo : records) {
+                dtoList.add(convertToClassDTO(vo));
+            }
+        }
+
+        PageDTO<ClassDTO> pageDTO = new PageDTO<>();
+        pageDTO.setRows(dtoList);
+        pageDTO.setTotal(resultPage.getTotal());
+        pageDTO.setPageIndex(resultPage.getCurrent());
+        pageDTO.setPageSize(resultPage.getSize());
+        pageDTO.setPages(resultPage.getPages());
+
+        return pageDTO;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Long joinClass(ClassStudentDTO dto) {
+        if (dto.getClassId() == null) {
+            throw new IllegalArgumentException("班级ID不能为空");
+        }
+        if (dto.getStudentId() == null) {
+            throw new IllegalArgumentException("学生ID不能为空");
+        }
+
+        com.zeroone.star.student.entity.ClassDO classDO = classMapper.selectById(dto.getClassId());
+        if (classDO == null || (classDO.getDeleted() != null && classDO.getDeleted() == 1)) {
+            throw new RuntimeException("班级不存在");
+        }
+
+        int count = classStudentMapper.countByClassAndStudent(dto.getClassId(), dto.getStudentId());
+        if (count > 0) {
+            throw new RuntimeException("该学员已在班级中");
+        }
+
+        int currentCount = classStudentMapper.countByClassId(dto.getClassId());
+        if (classDO.getPlannedStudentCount() != null && currentCount >= classDO.getPlannedStudentCount()) {
+            throw new RuntimeException("班级人数已满");
+        }
+
+        ClassStudentDO classStudentDO = new ClassStudentDO();
+        classStudentDO.setClassId(dto.getClassId());
+        classStudentDO.setStudentId(dto.getStudentId());
+        classStudentDO.setAddTime(LocalDateTime.now());
+        classStudentDO.setCreator(dto.getStudentId());
+        classStudentDO.setDeleted(0);
+        classStudentDO.setConsumeCourseId(classDO.getCourseId());
+
+        classStudentMapper.insert(classStudentDO);
+
+        return classStudentDO.getId();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public List<Long> quitClass(Long classId, Long studentId) {
+        if (classId == null || studentId == null) {
+            throw new IllegalArgumentException("参数不能为空");
+        }
+
+        LambdaQueryWrapper<ClassStudentDO> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(ClassStudentDO::getClassId, classId)
+                .eq(ClassStudentDO::getStudentId, studentId)
+                .eq(ClassStudentDO::getDeleted, 0);
+
+        List<ClassStudentDO> list = classStudentMapper.selectList(queryWrapper);
+
+        if (list == null || list.isEmpty()) {
+            throw new RuntimeException("学员不在该班级中");
+        }
+
+        List<Long> deletedIds = new ArrayList<>();
+        for (ClassStudentDO record : list) {
+            record.setDeleted(1);
+            classStudentMapper.updateById(record);
+            deletedIds.add(record.getId());
+        }
+
+        return deletedIds;
+    }
+
+    private ClassDTO convertToClassDTO(ClassDetailVO vo) {
+        ClassDTO dto = new ClassDTO();
+        BeanUtils.copyProperties(vo, dto);
+        if (vo.getPlannedStudentCount() != null) {
+            dto.setMaxStudentCount(vo.getPlannedStudentCount());
+        }
+        return dto;
+    }
+
+    @Override
+    public PageDTO<FollowUpDTO> queryFollowUpPage(FollowUpQuery condition) {
+        // 1. 创建分页参数对象
+        Page<FollowUpDTO> pageParam = new Page<>(condition.getPageIndex(), condition.getPageSize());
+
+        // 2. 执行查询，返回 IPage
+        IPage<FollowUpDTO> iPage = contactRecordMapper.selectFollowUpPage(pageParam, condition);
+
+        // 3. 强转并转换成 PageDTO
+        return PageDTO.create((Page<FollowUpDTO>) iPage);
+    }
+
+    @Override
+    @Transactional
+    public Long saveFollowUp(FollowUpDTO dto) {
+        ContactRecordDO recordDO = new ContactRecordDO();
+        BeanUtil.copyProperties(dto, recordDO); // 使用文档提到的 BeanUtil
+
+        if (dto.getId() == null) {
+            recordDO.setAddTime(LocalDateTime.now());
+            contactRecordMapper.insert(recordDO);
+        } else {
+            contactRecordMapper.updateById(recordDO);
+        }
+        return recordDO.getId();
+    }
+
+    @Override
+    public Long removeFollowUp(Long id) {
+        contactRecordMapper.deleteById(id);
+        return id;
+    }
+
+    @Override
+    public FollowUpDTO getFollowUpDetail(Long id) {
+        ContactRecordDO recordDO = contactRecordMapper.selectById(id);
+        if (recordDO == null) return null;
+        FollowUpDTO dto = new FollowUpDTO();
+        BeanUtil.copyProperties(recordDO, dto);
+        return dto;
+    }
+
+    @Override
+    public PageDTO<ResponseDTO> listall(StudentQuery condition) {
+        String name = condition.getName();
+        String status = condition.getStage();
+
+        // 1.构建分页查询对象
+        Page<Student> page = new Page<>(condition.getPageIndex(), condition.getPageSize());
+
+        // 2.分页查询
+        Page<Student> p = lambdaQuery()
+                .like(!StringUtils.isEmpty(name), Student::getName, name)
+                .eq(!StringUtils.isEmpty(status), Student::getStage, status)
+                .page(page);
+
+        // 3.封装成ResponsDTO
+        PageDTO<ResponseDTO> result = new PageDTO<>();
+
+        result.setTotal(p.getTotal());
+        result.setPages(p.getPages());
+        result.setPageIndex(condition.getPageIndex());
+        result.setPageSize(condition.getPageSize());
+
+        List<Student> records = p.getRecords();
+        List<ResponseDTO> responseDTOS = BeanUtil.copyToList(records, ResponseDTO.class);
+        result.setRows(responseDTOS);
+
+        return result;
+    }
+
+    @Override
+    public PageDTO<StudentDTO> queryCourseStu(CourseQuery condition) {
+        // 1. 构建分页查询对象
+        Page<ClassStudentDO> page = new Page<>(condition.getPageIndex(), condition.getPageSize());
+
+        // 2. 构建查询条件
+        QueryWrapper<ClassStudentDO> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("class_id", condition.getClassId());
+        Page<ClassStudentDO> classStudentPage = classStudentMapper.selectPage(page, queryWrapper);
+
+        // 3.封装成StudentDTO
+        PageDTO<StudentDTO> result = new PageDTO<>();
+        result.setTotal(classStudentPage.getTotal());
+        result.setPages(classStudentPage.getPages());
+        result.setPageIndex(condition.getPageIndex());
+        result.setPageSize(condition.getPageSize());
+
+        List<ClassStudentDO> records = classStudentPage.getRecords();
+        List<StudentDTO> responseDTOS = BeanUtil.copyToList(records, StudentDTO.class);
+        result.setRows(responseDTOS);
+
+        return result;
     }
 }

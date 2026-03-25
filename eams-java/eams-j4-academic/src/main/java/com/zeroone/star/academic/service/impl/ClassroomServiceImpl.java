@@ -1,68 +1,68 @@
 package com.zeroone.star.academic.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zeroone.star.academic.entity.Classroom;
+import com.zeroone.star.academic.mapper.ClassroomMapper;
 import com.zeroone.star.academic.service.ClassroomService;
-import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.components.user.UserHolder;
 import com.zeroone.star.project.dto.j4.academic.ClassroomDTO;
 import com.zeroone.star.project.query.j4.academic.ClassroomQuery;
 import com.zeroone.star.project.vo.j4.academic.ClassroomVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.annotation.Resource;
+import java.time.LocalDateTime;
 
 @Service
-public class ClassroomServiceImpl implements ClassroomService {
-    public PageDTO<ClassroomVO> getList(ClassroomQuery query) {
-        PageDTO<ClassroomVO> pageDTO = new PageDTO<>();
-        pageDTO.setPageIndex(1L);
-        pageDTO.setPageSize(10L);
-        pageDTO.setTotal(3L);
-        pageDTO.setPages(1L);
+public class ClassroomServiceImpl extends ServiceImpl<ClassroomMapper, Classroom> implements ClassroomService {
 
-        // 添加测试数据
-        List<ClassroomVO> classrooms = new ArrayList<>();
+    @Resource
+    private UserHolder userHolder;
 
-        ClassroomVO classroom1 = new ClassroomVO();
-        classroom1.setId(1L);
-        classroom1.setName("主教学楼 101");
-        classroom1.setArea(50);
-        classroom1.setAddress("主教学楼一层");
-        classroom1.setRemark("普通教室");
-        classrooms.add(classroom1);
-
-        ClassroomVO classroom2 = new ClassroomVO();
-        classroom2.setId(2L);
-        classroom2.setName("主教学楼 201");
-        classroom2.setArea(40);
-        classroom2.setAddress("主教学楼二层");
-        classroom2.setRemark("多媒体教室");
-        classrooms.add(classroom2);
-
-        ClassroomVO classroom3 = new ClassroomVO();
-        classroom3.setId(3L);
-        classroom3.setName("实验楼 301");
-        classroom3.setArea(30);
-        classroom3.setAddress("实验楼三层");
-        classroom3.setRemark("实验室");
-        classrooms.add(classroom3);
-
-        pageDTO.setRows(classrooms);
-        return pageDTO;
+    @Override
+    public IPage<ClassroomVO> getList(ClassroomQuery query) {
+        return this.baseMapper.getList(new Page<>(query.getPageIndex(), query.getPageSize()),query);
     }
 
+    @Override
     public ClassroomVO getClassroomById(Long id) {
+        Classroom classroom = this.getById(id);
+        if (classroom == null) {
+            throw new IllegalArgumentException("教室不存在");
+        }
         ClassroomVO classroomVO = new ClassroomVO();
-        classroomVO.setId(id);
-        classroomVO.setName("教室" + id);
-        classroomVO.setArea(40 + (int)(id % 20));
-        classroomVO.setAddress("教学楼" + ((id % 5) + 1) + "层");
-        classroomVO.setRemark(id % 2 == 0 ? "多媒体教室" : "普通教室");
+        BeanUtils.copyProperties(classroom, classroomVO);
         return classroomVO;
     }
-    public Long save(ClassroomDTO classroomDTO) {
-        return classroomDTO.getId();
-    }
-    public List<Long> delete(List<Long> ids) {
-        return ids;
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean save(ClassroomDTO classroomDTO) {
+        Classroom classroom = new Classroom();
+        BeanUtils.copyProperties(classroomDTO, classroom);
+
+        Long currentUserId = null;
+        try {
+            if (userHolder.getCurrentUser() != null) {
+                currentUserId = Long.valueOf(userHolder.getCurrentUser().getId());
+            }
+        } catch (Exception ignored) {
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+        if (classroom.getId() == null) {
+            classroom.setSchoolId(classroomDTO.getSchoolId());
+            classroom.setCreator(currentUserId);
+            classroom.setAddTime(now);
+            classroom.setDeleted(0);
+        } else {
+            classroom.setEditor(currentUserId);
+            classroom.setEditTime(now);
+        }
+        return this.saveOrUpdate(classroom);
     }
 }

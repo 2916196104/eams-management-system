@@ -1,4 +1,4 @@
-package com.zeroone.star.student.domain.po;
+package com.zeroone.star.student.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;

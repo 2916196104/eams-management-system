@@ -1,8 +1,8 @@
 server:
-  port: ${sp.sample}
+  port: ${sp.academic}
 spring:
   application:
-    name: ${sn.sample}
+    name: ${sn.academic}
 seata:
   tx-service-group: tx-business
   enabled: false
@@ -10,7 +10,7 @@ seata:
   service:
     #seata服务地址
     grouplist:
-      default: ${seata.default}
+      default: 127.0.0.1:8888
     #虚拟组和分组映射，key的名字与tx-service-group一致
     vgroup-mapping:
       tx-business: default

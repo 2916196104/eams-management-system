@@ -122,7 +122,7 @@ public interface StudentApis {
     @PostMapping("/student/list-hour-summary")
     JsonVO<PageDTO<LessonSummaryVO>> listHourSummary(@RequestBody StudentQuery query);
 
-    JsonVO<PageDTO<ResponseDTO>> queryCourseStudent(CourseQuery condition);
+    JsonVO<PageDTO<StudentDTO>> queryCourseStudent(CourseQuery condition);
 
     JsonVO<PageDTO<ResponseDTO>> listAllStudent(StudentQuery condition);
 

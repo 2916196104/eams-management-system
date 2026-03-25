@@ -1,6 +1,6 @@
 package com.zeroone.star.student.service;
 
-import com.zeroone.star.student.domain.po.User;
+import com.zeroone.star.student.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

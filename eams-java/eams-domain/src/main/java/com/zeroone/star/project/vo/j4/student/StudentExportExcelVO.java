@@ -1,4 +1,4 @@
-package com.zeroone.star.student.domain.vo;
+package com.zeroone.star.project.vo.j4.student;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.Data;

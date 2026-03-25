@@ -1,8 +1,8 @@
 package com.zeroone.star.student.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zeroone.star.student.domain.po.Student;
-import com.zeroone.star.student.domain.vo.StudentExportExcelVO;
+import com.zeroone.star.student.entity.Student;
+import com.zeroone.star.project.vo.j4.student.StudentExportExcelVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
