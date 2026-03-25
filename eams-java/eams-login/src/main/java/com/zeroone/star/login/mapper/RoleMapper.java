@@ -17,4 +17,18 @@ public interface RoleMapper extends BaseMapper<RoleDO> {
             "WHERE sur.user_id = #{userId} " +
             "ORDER BY sr.id")
     List<String> selectRoleCodesByUserId(@Param("userId") Long userId);
+
+    @Select("SELECT permission_info.code " +
+            "FROM (" +
+            "    SELECT DISTINCT sp.id, sp.code " +
+            "    FROM sys_permission sp " +
+            "    INNER JOIN sys_role_permission srp ON sp.id = srp.permission_id " +
+            "    INNER JOIN sys_user_role sur ON srp.role_id = sur.role_id " +
+            "    WHERE sur.user_id = #{userId} " +
+            "      AND sp.enabled = 1 " +
+            "      AND sp.code IS NOT NULL " +
+            "      AND sp.code <> ''" +
+            ") permission_info " +
+            "ORDER BY permission_info.id")
+    List<String> selectPermissionCodesByUserId(@Param("userId") Long userId);
 }

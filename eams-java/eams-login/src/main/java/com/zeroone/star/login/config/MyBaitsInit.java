@@ -1,10 +1,7 @@
 package com.zeroone.star.login.config;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-
-import javax.sql.DataSource;
 
 /**
  * <p>
@@ -16,7 +13,6 @@ import javax.sql.DataSource;
  * @version 1.0.0
  */
 @Configuration
-@ConditionalOnBean(DataSource.class)
 @ComponentScan("com.zeroone.star.project.config.mybatis")
 public class MyBaitsInit {
 }

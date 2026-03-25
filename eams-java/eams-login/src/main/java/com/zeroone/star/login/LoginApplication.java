@@ -1,9 +1,7 @@
 package com.zeroone.star.login;
 
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
-import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -17,13 +15,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @author 阿伟学长
  * @version 1.0.0
  */
-@SpringBootApplication(exclude = {
-        DataSourceAutoConfiguration.class,
-        DruidDataSourceAutoConfigure.class,
-        MybatisPlusAutoConfiguration.class
-})
+@SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
+@MapperScan("com.zeroone.star.login.mapper")
 public class LoginApplication {
 
     public static void main(String[] args) {

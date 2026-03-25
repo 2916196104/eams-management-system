@@ -1,6 +1,10 @@
 package com.zeroone.star.org.controller;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.zeroone.star.org.mapper.DataPermissionMapper;
+import com.zeroone.star.org.mapstruct.DataPermissionConvert;
+import com.zeroone.star.org.service.DataPermissionService;
+import com.zeroone.star.project.Do.j1.PositionDataPermissionDO;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j1.org.PositionDataPermissionDTO;
 import com.zeroone.star.project.dto.j1.orgmanager.PositionDTO;
@@ -14,8 +18,10 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +39,13 @@ import java.util.stream.Collectors;
 @RequestMapping("/common/position")
 @Api(tags = "职位管理")
 public class OrgManagerController implements PositionDataPermissionApis {
+
+    @Resource
+    DataPermissionService dataPermissionService;
+
+    @Resource
+    DataPermissionConvert dataPermissionConvert;
+
     @Override
     @GetMapping("/list")
     @ApiOperation(value = "职位列表", notes = "支持按职位名称模糊搜索，返回分页数据")
@@ -102,25 +115,41 @@ public class OrgManagerController implements PositionDataPermissionApis {
     }
 
 
-    @GetMapping("j1/org/query")
+    @GetMapping("query")
     @ApiOperation("获取职位数据权限列 表（条件+分页）")
     @Override
     public JsonVO<PageDTO<PositionDataPermissionDTO>> queryPage(PositionDataPermissionQuery condition) {
-        return null;
+        return JsonVO.success(dataPermissionService.listAll(condition));
     }
 
-    @PostMapping("j1/org/save")
-    @ApiOperation("保存职位数据权限")
+    @PostMapping("savePermission")
+    @ApiOperation("保存职位数据权限 新增/修改")
     @Override
     public JsonVO<Long> addPositionDataPermission(@RequestBody PositionDataPermissionDTO positionDataPermissionDTO) {
-        return null;
+        Long id = positionDataPermissionDTO.getId();
+
+        PositionDataPermissionDO permissionDO = dataPermissionConvert.dtoToDo(positionDataPermissionDTO);
+        // 新增
+        if(id == null){
+            if(dataPermissionService.save(permissionDO)){
+                return JsonVO.success(permissionDO.getId());
+            }
+        }else{ // 修改
+            if(dataPermissionService.updateById(permissionDO)){
+                return JsonVO.success(id);
+            }
+        }
+        return JsonVO.fail(null);
     }
 
-    @DeleteMapping("j1/org/remove")
+    @DeleteMapping("remove")
     @ApiOperation("删除职位数据权限（支持批量删除）")
     @ApiImplicitParam(name = "ids",value = "职位数据权限对应的id列表",type = "Array",required = true,example = "1")
     @Override
     public JsonVO<List<Long>> removePositionDataPermission(@RequestBody List<Long> ids) {
-        return null;
+        if(dataPermissionService.removeByIds(ids)){
+            return JsonVO.success(ids);
+        }
+        return JsonVO.fail(null);
     }
 }

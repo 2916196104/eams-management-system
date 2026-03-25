@@ -8,10 +8,7 @@ import lombok.Setter;
 import java.io.Serializable;
 
 /**
- * <p>
- * 菜单
- * </p>
- * @author 阿伟
+ * Menu resource loaded from permission data.
  */
 @Getter
 @Setter
@@ -19,56 +16,31 @@ public class Menu implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 菜单编号
-     */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    /**
-     * 菜单名
-     */
     private String name;
 
-    /**
-     * 链接地址
-     */
     private String linkUrl;
 
     /**
-     * 路由地址
+     * Frontend route path, or falls back to the permission code.
      */
     private String path;
 
-    /**
-     * 显示优先级别
-     */
     private Integer priority;
 
-    /**
-     * 图标
-     */
     private String icon;
 
-    /**
-     * 描述
-     */
+    private String code;
+
     private String description;
 
-    /**
-     * 父级菜单编号
-     */
     private Integer parentMenuId;
 
-    /**
-     * 层次级别
-     */
     private Integer level;
 
-    /**
-     * 是否启用 0 禁用 1 启用
-     */
     private Integer isEnable;
 
-
+    private String groupName;
 }

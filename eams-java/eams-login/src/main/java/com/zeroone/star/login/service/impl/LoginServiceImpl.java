@@ -1,5 +1,6 @@
 package com.zeroone.star.login.service.impl;
 
+import cn.hutool.core.convert.Convert;
 import com.anji.captcha.model.common.ResponseModel;
 import com.zeroone.cloud.oauth2.entity.Oauth2Token;
 import com.zeroone.star.login.entity.StaffDO;
@@ -10,18 +11,22 @@ import com.zeroone.star.login.service.ILoginService;
 import com.zeroone.star.login.service.IMenuService;
 import com.zeroone.star.login.service.OauthService;
 import com.zeroone.star.project.components.user.UserHolder;
+import com.zeroone.star.project.components.user.UserDTO;
 import com.zeroone.star.project.dto.login.LoginDTO;
 import com.zeroone.star.project.dto.login.Oauth2TokenDTO;
 import com.zeroone.star.project.dto.login.RefreshTokenDTO;
+import com.zeroone.star.project.dto.login.SelfResetPasswordDTO;
 import com.zeroone.star.project.vo.login.LoginPageConfigVO;
 import com.zeroone.star.project.vo.login.LoginVO;
 import com.zeroone.star.project.vo.login.MenuTreeVO;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +58,9 @@ public class LoginServiceImpl implements ILoginService {
 
     @Resource
     private RoleMapper roleMapper;
+
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
     @Value("${zo.cloud.starter.oauth2.mgr-id}")
     private String clientId;
@@ -94,7 +102,7 @@ public class LoginServiceImpl implements ILoginService {
 
     @Override
     public LoginVO getCurrentUser() {
-        Long userId = userHolder.getCurrentUserId();
+        Long userId = resolveCurrentUserId();
         if (userId == null) {
             throw new LoginException("Current user was not found");
         }
@@ -107,9 +115,34 @@ public class LoginServiceImpl implements ILoginService {
         LoginVO loginVO = new LoginVO();
         loginVO.setId(String.valueOf(staff.getId()));
         loginVO.setUsername(staff.getMobile());
+        loginVO.setName(staff.getName());
+        loginVO.setAvatar(StringUtils.hasText(staff.getHeadImg()) ? staff.getHeadImg() : "");
+        loginVO.setMobile(staff.getMobile());
         loginVO.setIsEnabled(resolveEnabled(staff));
-        loginVO.setRoles(roleMapper.selectRoleCodesByUserId(userId));
+        loginVO.setRoles(defaultIfNull(roleMapper.selectRoleCodesByUserId(userId)));
+        loginVO.setPermissions(defaultIfNull(roleMapper.selectPermissionCodesByUserId(userId)));
         return loginVO;
+    }
+
+    @Override
+    public String resetPassword(SelfResetPasswordDTO resetPasswordDTO) {
+        Long userId = resolveCurrentUserId();
+        if (userId == null) {
+            throw new LoginException("Current user was not found");
+        }
+
+        StaffDO staff = staffMapper.selectCurrentUserById(userId);
+        if (staff == null) {
+            throw new LoginException("Current user does not exist or is disabled");
+        }
+
+        String encodedPassword = passwordEncoder.encode(resetPasswordDTO.getNewPassword());
+        int updatedRows = staffMapper.updatePasswordByUserId(userId, encodedPassword);
+        if (updatedRows != 1) {
+            throw new LoginException("Password reset failed");
+        }
+
+        return "\u5bc6\u7801\u4fee\u6539\u6210\u529f\uff0c\u8bf7\u91cd\u65b0\u767b\u5f55";
     }
 
     @Override
@@ -119,7 +152,7 @@ public class LoginServiceImpl implements ILoginService {
 
     @Override
     public List<MenuTreeVO> getMenus() {
-        Long userId = userHolder.getCurrentUserId();
+        Long userId = resolveCurrentUserId();
         if (userId == null) {
             throw new LoginException("Current user was not found");
         }
@@ -191,5 +224,18 @@ public class LoginServiceImpl implements ILoginService {
             return staff.getState();
         }
         return 1;
+    }
+
+    private List<String> defaultIfNull(List<String> values) {
+        return values == null ? Collections.emptyList() : values;
+    }
+
+    private Long resolveCurrentUserId() {
+        try {
+            UserDTO currentUser = userHolder.getCurrentUser();
+            return currentUser == null ? null : Convert.toLong(currentUser.getId());
+        } catch (Exception e) {
+            throw new LoginException("Current user was not found");
+        }
     }
 }
