@@ -1,5 +1,0 @@
-server:
-  port: ${sp.org}
-spring:
-  application:
-    name: ${sn.org}
