@@ -7,41 +7,41 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 积分记录展示对象
+ * Points record view object.
  */
 @Data
-@ApiModel("积分记录展示对象")
+@ApiModel("Points record view object")
 public class PointsRecordVO {
-    @ApiModelProperty(value = "记录ID", example = "1")
+    @ApiModelProperty(value = "Record ID", example = "1")
     private Long id;
 
-    @ApiModelProperty(value = "学员ID", example = "1")
+    @ApiModelProperty(value = "Student ID", example = "1")
     private Long studentId;
 
-    @ApiModelProperty(value = "学员姓名", example = "张三")
+    @ApiModelProperty(value = "Student name", example = "Zhang San")
     private String studentName;
 
-    @ApiModelProperty(value = "积分变动值", example = "10")
+    @ApiModelProperty(value = "Points delta", example = "10")
     private Integer credit;
 
-    @ApiModelProperty(value = "当前积分", example = "100")
+    @ApiModelProperty(value = "Current points", example = "100")
     private Integer currentCredit;
 
-    @ApiModelProperty(value = "变动类型", example = "1")
+    @ApiModelProperty(value = "Change type", example = "1")
     private Integer changeType;
 
-    @ApiModelProperty(value = "记录来源ID", example = "3001")
+    @ApiModelProperty(value = "Source ID", example = "3001")
     private Long sourceId;
 
-    @ApiModelProperty(value = "操作人ID", example = "10")
+    @ApiModelProperty(value = "Operator ID", example = "10")
     private Long staffId;
 
-    @ApiModelProperty(value = "操作人姓名", example = "李老师")
+    @ApiModelProperty(value = "Operator name", example = "Li Teacher")
     private String staffName;
 
-    @ApiModelProperty(value = "变动时间", example = "2026-03-15T10:00:00")
+    @ApiModelProperty(value = "Change time", example = "2026-03-15T10:00:00")
     private LocalDateTime addTime;
 
-    @ApiModelProperty(value = "备注", example = "活动奖励")
+    @ApiModelProperty(value = "Remark", example = "activity reward")
     private String remark;
 }
