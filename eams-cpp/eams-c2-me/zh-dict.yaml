@@ -25,3 +25,4 @@ student:
   remark: 备注信息
   switchStudent: 切换学员
   removeStudent: 移除学员
+  getStudentList: 获取学员列表

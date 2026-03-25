@@ -43,3 +43,10 @@ JsonVO<oatpp::Any>::Wrapper StudentController::executeRemoveUser(const IdQuery::
     //根据逻辑值响应前端
     return vo;
 }
+#include "StudentController.h"
+
+
+StudentPageJsonVO::Wrapper StudentController::executeQueryAll(const UserQuery::Wrapper& query)
+{
+	return StudentPageJsonVO::createShared();
+}
