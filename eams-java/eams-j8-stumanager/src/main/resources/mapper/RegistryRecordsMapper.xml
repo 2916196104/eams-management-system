@@ -4,7 +4,7 @@
 
     <resultMap id="registryRecordsDTOMap" type="com.zeroone.star.project.dto.j8.stumanager.RegistryRecordsDTO">
         <result property="addTime" column="add_time"/>
-        <result property="name" column="course_name"/>
+        <result property="name" column="name"/>
         <result property="subjectName" column="subject_name"/>
         <result property="type" column="type"/>
         <result property="countLessonTotal" column="count_lesson_total"/>
@@ -23,10 +23,10 @@
         <result property="refundRerifyState" column="refund_rerify_state"/>
     </resultMap>
 
-    <select id="selectRegistryRecords" resultMap="registryRecordsDTOMap">
+    <select id="selectRegistryRecords" resultMap="registryRecordsDTOMap" resultType="com.zeroone.star.project.dto.j8.stumanager.RegistryRecordsDTO">
         SELECT
         sc.add_time,
-        c.name AS course_name,
+        sc.name,
         s.name AS subject_name,
         CASE WHEN sc.from_trial = true THEN 0 ELSE 1 END AS type,
         sc.count_lesson_total,
@@ -40,13 +40,14 @@
         sc.verify_state,
         sc.remark,
         sc.count_lesson_refund AS refund_lesson_count,
+        sc.course_amount AS due_amount,
+        sc.paid_amount AS actual_amount,
         1 AS refund_rerify_state
         FROM student_course sc
-        LEFT JOIN course c ON sc.course_id = c.id
         LEFT JOIN subject s ON sc.subject_id = s.id
         WHERE sc.deleted = 0
         <if test="condition.name != null and condition.name != ''">
-            AND c.name LIKE CONCAT('%', #{condition.name}, '%')
+            AND sc.name LIKE CONCAT('%', #{condition.name}, '%')
         </if>
         <if test="condition.subjectName != null and condition.subjectName != ''">
             AND s.name = #{condition.subjectName}

@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RegistryRecordsServiceImpl implements IRegistryRecordsService {
@@ -35,15 +37,104 @@ public class RegistryRecordsServiceImpl implements IRegistryRecordsService {
      */
     @Override
     public PageDTO<RegistryRecordsDTO> queryRegistryRecords(RegistryRecordsQuery condition) {
+        // 如果 pageSize 为 0，设置为一个很大的值，返回所有记录
+        if (condition.getPageSize() == 0) {
+            condition.setPageIndex(1);
+            condition.setPageSize(Integer.MAX_VALUE);
+        }
+
         Page<RegistryRecordsDTO> page = new Page<>(condition.getPageIndex(), condition.getPageSize());
 
         IPage<RegistryRecordsDTO> resultPage = studentCourseMapper.selectRegistryRecords(page, condition);
 
         PageDTO<RegistryRecordsDTO> pageDTO = new PageDTO<>();
-        pageDTO.setTotal(resultPage.getTotal());
         pageDTO.setPageIndex(resultPage.getCurrent());
         pageDTO.setPageSize(resultPage.getSize());
+        pageDTO.setTotal(resultPage.getTotal());
+        pageDTO.setPages(resultPage.getPages());
+
+        List<RegistryRecordsDTO> records = resultPage.getRecords();
+
+        // 打印日志，查看是否查询到数据
+        System.out.println("查询到的记录数：" + records.size());
+
+        // 如果指定了自定义列，只返回这些列的数据
+        if (condition.getDisplayColumns() != null && !condition.getDisplayColumns().isEmpty()) {
+            records = filterColumns(records, condition.getDisplayColumns());
+        }
+
+        pageDTO.setRows(records);
+
         return pageDTO;
+    }
+
+    /**
+     * 过滤只显示指定的列
+     */
+    private List<RegistryRecordsDTO> filterColumns(List<RegistryRecordsDTO> records, List<String> columns) {
+        return records.stream()
+                .map(dto -> {
+                    RegistryRecordsDTO filteredDto = new RegistryRecordsDTO();
+
+                    // 只复制指定字段的值
+                    if (columns.contains("addTime")) {
+                        filteredDto.setAddTime(dto.getAddTime());
+                    }
+                    if (columns.contains("name")) {
+                        filteredDto.setName(dto.getName());
+                    }
+                    if (columns.contains("subjectName")) {
+                        filteredDto.setSubjectName(dto.getSubjectName());
+                    }
+                    if (columns.contains("type")) {
+                        filteredDto.setType(dto.getType());
+                    }
+                    if (columns.contains("countLessonTotal")) {
+                        filteredDto.setCountLessonTotal(dto.getCountLessonTotal());
+                    }
+                    if (columns.contains("unitPrice")) {
+                        filteredDto.setUnitPrice(dto.getUnitPrice());
+                    }
+                    if (columns.contains("amount")) {
+                        filteredDto.setAmount(dto.getAmount());
+                    }
+                    if (columns.contains("discountAmount")) {
+                        filteredDto.setDiscountAmount(dto.getDiscountAmount());
+                    }
+                    if (columns.contains("paidAmount")) {
+                        filteredDto.setPaidAmount(dto.getPaidAmount());
+                    }
+                    if (columns.contains("payOverdue")) {
+                        filteredDto.setPayOverdue(dto.getPayOverdue());
+                    }
+                    if (columns.contains("startDate")) {
+                        filteredDto.setStartDate(dto.getStartDate());
+                    }
+                    if (columns.contains("expireDate")) {
+                        filteredDto.setExpireDate(dto.getExpireDate());
+                    }
+                    if (columns.contains("verifyState")) {
+                        filteredDto.setVerifyState(dto.getVerifyState());
+                    }
+                    if (columns.contains("dueAmount")) {
+                        filteredDto.setDueAmount(dto.getDueAmount());
+                    }
+                    if (columns.contains("actualAmount")) {
+                        filteredDto.setActualAmount(dto.getActualAmount());
+                    }
+                    if (columns.contains("refundLessonCount")) {
+                        filteredDto.setRefundLessonCount(dto.getRefundLessonCount());
+                    }
+                    if (columns.contains("remark")) {
+                        filteredDto.setRemark(dto.getRemark());
+                    }
+                    if (columns.contains("refundRerifyState")) {
+                        filteredDto.setRefundRerifyState(dto.getRefundRerifyState());
+                    }
+
+                    return filteredDto;
+                })
+                .collect(Collectors.toList());
     }
 
     /**
