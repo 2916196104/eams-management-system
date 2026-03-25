@@ -1,13 +1,14 @@
-package com.zeroone.star.education.service.impl;
+package com.zeroone.star.j5.courseplan.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zeroone.star.education.mapper.ClassMapper;
-import com.zeroone.star.education.service.ClassService;
+import com.zeroone.star.j5.courseplan.mapper.ClassMapper;
+import com.zeroone.star.j5.courseplan.service.ClassService;
 import com.zeroone.star.project.query.j5.schedule.ClassByNameQuery;
 import com.zeroone.star.project.vo.j5.schedule.ClassOptionVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.zeroone.star.j5.courseplan.entity.Class;
 
 @Service
 public class ClassServiceImpl extends ServiceImpl<ClassMapper, Class> implements ClassService {

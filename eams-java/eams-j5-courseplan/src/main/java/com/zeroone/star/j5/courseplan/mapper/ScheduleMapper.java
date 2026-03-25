@@ -1,11 +1,10 @@
-package com.zeroone.star.education.mapper;
+package com.zeroone.star.j5.courseplan.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zeroone.star.education.entity.LessonSchedule;
+import com.zeroone.star.j5.courseplan.entity.LessonSchedule;
 import com.zeroone.star.project.query.j5.schedule.SchedulePlanQuery;
 import com.zeroone.star.project.vo.j5.schedule.SchedulePlanVO;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 

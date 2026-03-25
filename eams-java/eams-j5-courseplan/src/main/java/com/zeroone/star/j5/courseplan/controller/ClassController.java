@@ -1,6 +1,6 @@
-package com.zeroone.star.education.controller;
+package com.zeroone.star.j5.courseplan.controller;
 
-import com.zeroone.star.education.service.ClassService;
+import com.zeroone.star.j5.courseplan.service.ClassService;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.j5.schedule.ClassApis;
 import com.zeroone.star.project.query.j5.schedule.ClassByNameQuery;

@@ -1,8 +1,8 @@
-package com.zeroone.star.education.controller;
+package com.zeroone.star.j5.courseplan.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zeroone.star.education.service.ScheduleService;
+import com.zeroone.star.j5.courseplan.service.ScheduleService;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j5.schedule.ScheduleSaveDTO;
 import com.zeroone.star.project.j5.schedule.SchedulePlanApis;

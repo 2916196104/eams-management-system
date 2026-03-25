@@ -1,4 +1,4 @@
-package com.zeroone.star.education.utils;
+package com.zeroone.star.j5.courseplan.utils;
 
 import java.time.LocalDate;
 import java.util.HashSet;

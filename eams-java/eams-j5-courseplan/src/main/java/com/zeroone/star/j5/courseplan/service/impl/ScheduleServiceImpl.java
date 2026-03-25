@@ -1,4 +1,4 @@
-package com.zeroone.star.education.service.impl;
+package com.zeroone.star.j5.courseplan.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -6,17 +6,16 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zeroone.star.education.entity.LessonSchedule;
-import com.zeroone.star.education.entity.LessonScheduleSetting;
-import com.zeroone.star.education.entity.Staff;
-import com.zeroone.star.education.entity.StaffOrgInfo;
-import com.zeroone.star.education.mapper.LessonScheduleSettingMapper;
-import com.zeroone.star.education.mapper.ScheduleMapper;
-import com.zeroone.star.education.service.LessonScheduleSettingService;
-import com.zeroone.star.education.service.ScheduleService;
-import com.zeroone.star.education.service.StaffOrgInfoService;
-import com.zeroone.star.education.service.StaffService;
-import com.zeroone.star.education.utils.ScheduleUtils;
+import com.zeroone.star.j5.courseplan.entity.LessonSchedule;
+import com.zeroone.star.j5.courseplan.entity.LessonScheduleSetting;
+import com.zeroone.star.j5.courseplan.entity.Staff;
+import com.zeroone.star.j5.courseplan.entity.StaffOrgInfo;
+import com.zeroone.star.j5.courseplan.mapper.ScheduleMapper;
+import com.zeroone.star.j5.courseplan.service.LessonScheduleSettingService;
+import com.zeroone.star.j5.courseplan.service.ScheduleService;
+import com.zeroone.star.j5.courseplan.service.StaffOrgInfoService;
+import com.zeroone.star.j5.courseplan.service.StaffService;
+import com.zeroone.star.j5.courseplan.utils.ScheduleUtils;
 import com.zeroone.star.project.components.user.UserDTO;
 import com.zeroone.star.project.components.user.UserHolder;
 import com.zeroone.star.project.dto.j5.schedule.LessonScheduleSettingDTO;
@@ -32,7 +31,6 @@ import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 

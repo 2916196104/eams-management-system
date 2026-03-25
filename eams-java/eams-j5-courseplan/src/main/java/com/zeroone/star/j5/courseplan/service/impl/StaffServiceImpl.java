@@ -1,10 +1,10 @@
-package com.zeroone.star.education.service.impl;
+package com.zeroone.star.j5.courseplan.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zeroone.star.education.entity.Staff;
-import com.zeroone.star.education.mapper.StaffMapper;
-import com.zeroone.star.education.service.StaffService;
+import com.zeroone.star.j5.courseplan.entity.Staff;
+import com.zeroone.star.j5.courseplan.mapper.StaffMapper;
+import com.zeroone.star.j5.courseplan.service.StaffService;
 import com.zeroone.star.project.query.j5.schedule.TeacherByNameQuery;
 import com.zeroone.star.project.vo.j5.schedule.TeacherOptionVO;
 import org.springframework.beans.factory.annotation.Autowired;

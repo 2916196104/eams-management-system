@@ -1,4 +1,4 @@
-package com.zeroone.star.education.entity;
+package com.zeroone.star.j5.courseplan.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
