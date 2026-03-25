@@ -1,9 +1,11 @@
 package com.zeroone.star.project.dto.j2.sys.Sysparam;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
+@JsonInclude(JsonInclude.Include.ALWAYS)
 public class SettingOptionDTO {
     @ApiModelProperty(value = "主键", example = "1")
     private Long id;
