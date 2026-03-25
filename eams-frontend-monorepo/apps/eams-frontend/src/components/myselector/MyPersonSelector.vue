@@ -1,5 +1,5 @@
 <template>
-	<div class="my-person-selector">
+	<div ref="rootRef" class="my-person-selector">
 		<!-- 触发输入框 -->
 		<el-input v-model="selectedPersonName" :placeholder="placeholder" readonly @click="toggleSelector">
 			<template #suffix>
@@ -60,6 +60,7 @@ import { ref, computed, watch, onMounted, onUnmounted } from "vue";
 import { ArrowDown, Search } from "@element-plus/icons-vue";
 import type { MyPersonSelectorProps, PersonData } from "./type";
 
+const rootRef = ref(null);
 // 定义组件属性
 const props = withDefaults(defineProps<MyPersonSelectorProps>(), {
 	placeholder: "请选择人员",
@@ -177,10 +178,9 @@ watch(
 );
 
 // 点击外部关闭选择器
-function handleClickOutside(event: MouseEvent) {
-	const target = event.target as HTMLElement;
-	const selector = document.querySelector(".my-person-selector");
-	if (selector && !selector.contains(target)) {
+function handleClickOutside(event) {
+	const target = event.target;
+	if (rootRef.value && !rootRef.value.contains(target)) {
 		selectorVisible.value = false;
 	}
 }
