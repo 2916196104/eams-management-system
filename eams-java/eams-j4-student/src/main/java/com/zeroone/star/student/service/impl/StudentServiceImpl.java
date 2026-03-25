@@ -19,7 +19,7 @@ import com.zeroone.star.student.entity.ContactRecordDO;
 import com.zeroone.star.student.mapper.ClassMapper;
 import com.zeroone.star.student.mapper.ClassStudentMapper;
 import com.zeroone.star.student.mapper.ContactRecordMapper;
-import com.zeroone.star.student.service.StudentService;
+import com.zeroone.star.student.service.IStudentService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class StudentServiceImpl implements StudentService {
+public class StudentServiceImpl implements IStudentService {
 
     @Resource
     private ClassMapper classMapper;

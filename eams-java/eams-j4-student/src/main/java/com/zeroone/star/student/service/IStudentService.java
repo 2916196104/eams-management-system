@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 学员管理 Service 接口
  */
-public interface StudentService {
+public interface IStudentService {
 
     /**
      * 分页查询班级列表

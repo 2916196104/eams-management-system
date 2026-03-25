@@ -8,7 +8,7 @@ import com.zeroone.star.project.j4.student.StudentApis;
 import com.zeroone.star.project.query.j4.student.ClassQuery;
 import com.zeroone.star.project.query.j4.student.FollowUpQuery;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.student.service.StudentService;
+import com.zeroone.star.student.service.IStudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -29,7 +29,7 @@ import java.util.List;
 public class StudentController implements StudentApis {
 
     @Resource
-    private StudentService studentService;
+    private IStudentService studentService;
 
     @GetMapping("/follow-up/page")
     @ApiOperation("获取跟进记录列表（条件+分页）")
