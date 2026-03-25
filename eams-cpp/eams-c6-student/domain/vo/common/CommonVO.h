@@ -20,6 +20,12 @@ class FileJsonVO:public JsonVO<FileOnlyDTO::Wrapper>
 public:
     DTO_INIT(FileJsonVO, JsonVO<FileOnlyDTO::Wrapper>)
 };
+class PayFeesJsonVO :public JsonVO<PayFeesDTO::Wrapper> {
+    DTO_INIT(PayFeesJsonVO,JsonVO<PayFeesDTO::Wrapper>)
+};
+class RefundJsonVO :public JsonVO<RefundDTO::Wrapper> {
+    DTO_INIT(RefundJsonVO, JsonVO<RefundDTO::Wrapper>)
+};
 
 class CourseCountJsonVO : public JsonVO<CourseCountDTO::Wrapper> {
 public:
@@ -64,7 +70,5 @@ class JoinclassJsonVO : public JsonVO<JoinclassDTO::Wrapper> {
 class JoinclassPageJsonVO : public JsonVO<JoinclassPageDTO::Wrapper> {
     DTO_INIT(JoinclassPageJsonVO, JsonVO<JoinclassPageDTO::Wrapper>);
 };
-
-
 #include OATPP_CODEGEN_END(DTO)
 #endif

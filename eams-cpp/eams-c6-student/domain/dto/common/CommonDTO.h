@@ -58,6 +58,23 @@ class FileOnlyDTO :public oatpp::DTO {
     //API_DTO_FIELD_DEFAULT(oatpp::swagger::Binary, file, ZH_WORDS_GETTER("common.field.file.file"),true);多出第四个参数导致编译错误
 	API_DTO_FIELD_REQUIRE(oatpp::swagger::Binary, file, ZH_WORDS_GETTER("common.field.file.file"), true);
 };
+class PayFeesDTO :public oatpp::DTO {
+	DTO_INIT(PayFeesDTO, DTO);
+	API_DTO_FIELD_DEFAULT(Float64, payAmount, ZH_WORDS_GETTER("common.filed.fees.pay-amount"), true);
+	API_DTO_FIELD_DEFAULT(String, handler, ZH_WORDS_GETTER("common.filed.fees.handler"), false);
+	API_DTO_FIELD_DEFAULT(UInt64, studentId, ZH_WORDS_GETTER("common.files.student.id"), true);
+	API_DTO_FIELD_DEFAULT(UInt64, courseId, ZH_WORDS_GETTER("common.filed.fees."), true);
+	API_DTO_FIELD_DEFAULT(UInt64, subjectId, ZH_WORDS_GETTER("common.filed.fees.handler"), true);
+	
+
+	
+};
+class RefundDTO :public oatpp::DTO{
+	DTO_INIT(RefundDTO, DTO);
+	API_DTO_FIELD_DEFAULT(UInt64, amount, ZH_WORDS_GETTER("common.filed.fees.refund-amount"), true);
+	API_DTO_FIELD_DEFAULT(UInt64, times, ZH_WORDS_GETTER("common.files.fees.times"), true);
+	API_DTO_FIELD_DEFAULT(String,reason , ZH_WORDS_GETTER("common.files.fees.reason"), true);
+};
 class CourseCountDTO :public oatpp::DTO {
 	DTO_INIT(CourseCountDTO, DTO);
 	API_DTO_FIELD_DEFAULT(String, courseName, ZH_WORDS_GETTER("common.field.course.name"));
@@ -478,8 +495,5 @@ class JoinclassPageDTO : public PageDTO<JoinclassDTO::Wrapper>
 {
 	DTO_INIT(JoinclassPageDTO, PageDTO<JoinclassDTO::Wrapper>);
 };
-
-
-
 #include OATPP_CODEGEN_END(DTO)
 #endif
