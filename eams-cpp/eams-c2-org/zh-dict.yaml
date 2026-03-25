@@ -56,6 +56,24 @@ position:
     title: 职位管理
     pageQuery: 分页+搜索查询职位名称
     save: 保存职位
+  datapermission:
+    endpoint:
+      modifyoradd: 修改职位数据权限
+      delete: 删除职位数据权限(支持批量删除)
+      resp:
+        addsuccess: 新增数据成功
+        addfail: 新增数据失败
+        modifysuccess: 修改数据成功
+        modifyfail: 修改数据失败(修改的结果与旧数据相同也会造成此结果)
+    psdto:
+      ename: 数据实体表表名
+      id: 权限记录id
+      info: 数据实体表描述(比如：在线购课订单表(b))
+      orgids: 组织/部门id, 配合scopeType使用
+      ownerfield: 数据实体表单条中描述记录负责人的字段
+      ownerorgfield: 数据实体表单条中描述记录所属组织的字段
+      positionid: 该职位id
+      scopetype: 数据权限范围类型
 
 institution:
   field:
@@ -93,3 +111,4 @@ institution:
     summary: 获取机构详情
   delete:
     summary: 删除机构
+
