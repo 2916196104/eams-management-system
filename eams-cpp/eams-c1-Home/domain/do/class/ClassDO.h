@@ -109,9 +109,9 @@ class ClassDO : public BaseDO {
 	MYSQL_SYNTHESIZE(std::string, course_name, Course_Name);//course_id对应的课程名称 course表中的name字段
 	// 教师名称
 	MYSQL_SYNTHESIZE(std::string, teacher_name, Teacher_Name);//teacher_id对应的教师名称 staff表中的name字段
-	// 学生人数（这个字段是通过 SQL join 和 count 计算出来的，不直接存储在数据库里） 
+	// 班级人数（这个字段是通过 SQL join 和 count 计算出来的，不直接存储在数据库里） 
 	MYSQL_SYNTHESIZE(uint32_t, student_count, StudentCount);
-	//完结课时数（这个字段也是通过 SQL join 和 count 计算出来的，不直接存储在数据库里）
+	//课次数（这个字段也是通过 SQL join 和 count 计算出来的，不直接存储在数据库里）
 	MYSQL_SYNTHESIZE(uint32_t, over_lesson_count, Over_Lesson_Count);
 public:
     ClassDO() : BaseDO("class") {

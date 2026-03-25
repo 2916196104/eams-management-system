@@ -82,58 +82,44 @@ std::list<ClassDO> ClassDAO::selectWithPage(const classQuery::Wrapper& query)
             AND cs.deleted = 0
         );
 */
-std::list<StudentDO> StudentDAO::selectByClassId(uint64_t class_id)
+std::list<StudentDO> StudentDAO::selectByClassId(const uint64_t& class_id)
 {
     SqlParams params;
 
     std::string sql =
-        "SELECT "
-        "  s.gender, "
-        "  s.name "
-        "FROM student s "
-        "WHERE s.deleted = 0 "
-        "  AND s.id IN ("
-        "      SELECT cs.student_id "
-        "      FROM class_student cs "
-        "      WHERE cs.class_id = ? "
-        "        AND cs.deleted = 0"
-        "  ) "
-        "ORDER BY s.id DESC";
+        "SELECT t1.gender, t1.name"
+        " FROM student t1"
+        " WHERE t1.deleted = 0"
+        " AND t1.id in(select student_id from class_student where class_id = ? and deleted = 0)"
+        " ORDER BY"
+        " t1.id desc";
     SQLPARAMS_PUSH(params, "i", uint64_t, class_id);
 
     return sqlSession->executeQuery<StudentDO>(sql, StudentListMapper(), params);
 }
 
-ClassDO ClassDAO::selectById(uint64_t id)
+ClassDO ClassDAO::selectById(const uint64_t& id)
 {
     SqlParams params;
 
     std::string sql =
-        "SELECT "
-        "  t1.name, "
-        "  t1.start_date, "
-        "  t1.end_date, "
-        "  t1.remark, "
-        "  t3.name AS classroom, "
-        "  t4.name AS teacher_name, "
-        "  t7.name AS course_name, "
-        "  ( SELECT COUNT(0) "
-        "      FROM class_student t0 "
-        "     WHERE t0.class_id = t1.id AND t0.deleted = 0 "
-        "  ) AS student_count, "
-        "  ( SELECT COUNT(0) "
-        "      FROM lesson l "
-        "     WHERE l.class_id = t1.id "
-        "       AND l.date <= CURDATE() "
-        "       AND l.end_time < CURTIME() "
-        "  ) AS over_lesson_count "
-        "FROM class t1 "
-        "LEFT JOIN classroom t3 ON t3.id = t1.classroom_id "
-        "LEFT JOIN staff t4 ON t4.id = t1.teacher_id "
-        "LEFT JOIN course t7 ON t7.id = t1.course_id "
-        "WHERE t1.id = ? AND t1.deleted != 1";
-
+        "select t1.name,"
+        " t4.name teacher_name,"
+        " t3.name classroom,"
+        " t7.name course_name,"
+        " t1.start_date,"
+        " t1.end_date,"
+        " (SELECT count(0) FROM lesson t8 WHERE t8.class_id = t1.id and t8.date <= CURDATE() and t8.end_time < CURTIME()) over_lesson_count,"
+        " (SELECT count(0) FROM class_student t0 WHERE t0.class_id = t1.id and t0.deleted = 0) student_count,"
+        " t1.remark,"
+        " t1.be_over"
+        " from class t1"
+        " LEFT JOIN classroom t3 on t3.id = t1.classroom_id"
+        " LEFT JOIN staff t4 ON t4.id = t1.teacher_id"
+        " LEFT JOIN course t7 ON t7.id = t1.course_id"
+        " LEFT JOIN class_grade t8 ON t8.id = t1.grade_id"
+        " WHERE"
+        " t1.id =?";
     SQLPARAMS_PUSH(params, "i", uint64_t, id);
-
-	return sqlSession->executeQueryOne<ClassDO>(sql, ClassMapper(), params);
+	return sqlSession->executeQueryOne<ClassDO>(sql, ClassInfoMapper(), params);
 }

@@ -33,13 +33,8 @@ class classQuery : public PageQuery
 	DTO_INIT(classQuery, PageQuery);
 	// 班级id
 	API_DTO_FIELD_REQUIRE(UInt32, student_id, ZH_WORDS_GETTER("class.student.id"), true);
-	// 班级负责人id
-	//API_DTO_FIELD_DEFAULT(UInt32, teacher_id, ZH_WORDS_GETTER("class.teacher_id"));
-	// 课程id
-	//API_DTO_FIELD_REQUIRE(UInt32, course_id, ZH_WORDS_GETTER("class.course_id"), true);
-	
 };
-
+/*
 class classinfoQuery : public oatpp::DTO
 {
 	DTO_INIT(classinfoQuery, DTO);
@@ -50,7 +45,7 @@ class classinfoQuery : public oatpp::DTO
 	// 课程id
 	API_DTO_FIELD_REQUIRE(UInt32, course_id, ZH_WORDS_GETTER("class.course_id"), true);
 };
-
+*/
 #include OATPP_CODEGEN_END(DTO)
 
 #endif // !_CLASSQUERY_H_

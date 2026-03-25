@@ -33,7 +33,7 @@ public:
 	ClassPageDTO::Wrapper listAll(const classQuery::Wrapper& query);
 	
 	//查询班级详情
-	ClassInfoDTO::Wrapper getById(uint64_t id);
+	ClassInfoDTO::Wrapper getById(const uint64_t& id);
 };
 
 /**

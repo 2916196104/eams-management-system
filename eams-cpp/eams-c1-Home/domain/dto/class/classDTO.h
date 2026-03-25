@@ -25,21 +25,21 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /*
+* Field TYpe Nullable
+name 班级名,varchar(50),YES
+teacher_name （教师）姓名,varchar(20),YES
+course_name 课程名,varchar(50),YES
+start_date 计划开班日期,date,YES
+end_date 计划结业日期,date,YES
  * 班级数据传输对象
  */
 class ClassDTO : public oatpp::DTO
 {
 	DTO_INIT(ClassDTO, DTO);
-	//主键id
-	//API_DTO_FIELD_REQUIRE(UInt32, id, ZH_WORDS_GETTER("class.id"), true);
 	// 班级名
 	API_DTO_FIELD_REQUIRE(String, class_name, ZH_WORDS_GETTER("class.class_name"), true);
-	// 班级负责⼈id
-	//API_DTO_FIELD_DEFAULT(UInt32, teacher_id, ZH_WORDS_GETTER("class.teacher_id"));
 	// 教师名称
 	API_DTO_FIELD_DEFAULT(String, teacher_name, ZH_WORDS_GETTER("class.teacher_name"));
-	// 课程id
-	//API_DTO_FIELD_REQUIRE(UInt32, course_id, ZH_WORDS_GETTER("class.course_id"), true);
 	// 课程套餐课程名
 	API_DTO_FIELD_REQUIRE(String, course_name, ZH_WORDS_GETTER("class.course_name"), true);
 	// 计划开班日期
@@ -58,30 +58,22 @@ class ClassPageDTO : public PageDTO<ClassDTO::Wrapper>
 	DTO_INIT(ClassPageDTO, PageDTO<ClassDTO::Wrapper>);
 };
 
-/*
-* 班级列表数据传输对象
-
-class ClassListDTO : public oatpp::DTO
-{
-	DTO_INIT(ClassListDTO, DTO);
-	// 班级列表
-	API_DTO_FIELD_DEFAULT(List<ClassDTO::Wrapper>, class_list, ZH_WORDS_GETTER("class.class_list"));
-};
-*/
-
-/*
+/* 
+* Field TYpe Nullable
+remark 排课备注,varchar(255),YES
+classroom 教室名,varchar(50),YES
+student_count 班级人数,bigint,YES
+over_lesson_count 课次数量,bigint,YES
 * 班级详情数据传输对象
 */
 class ClassInfoDTO : public ClassDTO
 {
 	DTO_INIT(ClassInfoDTO, ClassDTO);
-	// 教室id
-	//API_DTO_FIELD_DEFAULT(UInt32, classroom_id, ZH_WORDS_GETTER("class.classroom_id"));
 	// 教室名称
 	API_DTO_FIELD_DEFAULT(String, classroom_name, ZH_WORDS_GETTER("class.classroom_name"));
 	// 排课备注
 	API_DTO_FIELD_DEFAULT(String, remark, ZH_WORDS_GETTER("class.remark"));
-	// 完结课时数
+	// 课次数量
 	API_DTO_FIELD_DEFAULT(UInt32, over_lesson_count, ZH_WORDS_GETTER("class.over_lesson_count"));
 };
 
@@ -91,10 +83,8 @@ class ClassInfoDTO : public ClassDTO
 class StudentDTO : public oatpp::DTO
 {
 	DTO_INIT(StudentDTO, DTO);
-	// 学生id
-	//API_DTO_FIELD_REQUIRE(UInt32, id, ZH_WORDS_GETTER("class.student.id"), true);
 	// 学生姓名
-	API_DTO_FIELD_REQUIRE(String, name, ZH_WORDS_GETTER("class.student.name"), true);
+	API_DTO_FIELD_DEFAULT(String, name, ZH_WORDS_GETTER("class.student.name")," ");
 	// 学生性别
 	API_DTO_FIELD_DEFAULT(Boolean, gender, ZH_WORDS_GETTER("class.student.gender"));
 };

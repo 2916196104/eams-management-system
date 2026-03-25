@@ -24,7 +24,7 @@
 #include "../../domain/do/class/classDO.h"
 
 /**
- * class表字段匹配映射
+ * class列表字段匹配映射
  */
 class ClassMapper : public Mapper<ClassDO>
 {
@@ -65,6 +65,43 @@ public:
         return data;
     }
 };
+
+/**
+* 班级详情字段匹配映射类，负责将数据库查询结果映射为 ClassDO 对象
+  * 通过实现 Mapper 接口的 mapper 方法，定义了从 ResultSet 到 ClassDO 的映射规则
+  * 在 mapper 方法中，根据 class 表的字段以及 SQL join 出来的展示字段，从 ResultSet 中获取对应的值并设置到 ClassDO 对象中
+  * 最终返回完整填充的 ClassDO 对象供后续使用
+field      Type      Nullable
+name 班级名,varchar(50),YES
+start_date 计划开班日期,date,YES
+end_date 计划结业日期,date,YES
+remark 排课备注,varchar(255),YES
+classroom 教室名,varchar(50),YES
+teacher_name （教师）姓名,varchar(20),YES
+course_name 课程名,varchar(50),YES
+student_count 班级人数,bigint,YES
+over_lesson_count 课次数量,bigint,YES
+*//*
+class ClassMapper : public Mapper<ClassDO>
+{
+public:
+    ClassDO mapper(ResultSet* resultSet) const override
+    {
+        ClassDO data;
+        // class 表字段
+		data.setName(resultSet->getString("name"));
+		data.setStartDate(resultSet->getString("start_date"));
+		data.setEndDate(resultSet->getString("end_date"));
+		data.setRemark(resultSet->getString("remark"));
+		data.setClassRoom(resultSet->getString("classroom"));
+		data.setTeacher_Name(resultSet->getString("teacher_name"));
+		data.setCourse_Name(resultSet->getString("course_name"));
+		data.setStudentCount(resultSet->getInt("student_count"));
+		data.setOver_Lesson_Count(resultSet->getInt("over_lesson_count"));
+        return data;
+    }
+};
+*/
 
 /**
 * * 班级表字段匹配映射类，负责将数据库查询结果映射为 ClassDO 对象

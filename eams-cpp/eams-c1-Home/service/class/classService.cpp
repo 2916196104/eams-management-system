@@ -64,7 +64,18 @@ ClassPageDTO::Wrapper ClassService::listAll(const classQuery::Wrapper& query)
     return pages;
 }
 
-ClassInfoDTO::Wrapper ClassService::getById(uint64_t id)
+/**
+name 班级名
+start_date 计划开班日期
+end_date 计划结业日期
+remark 排课备注
+classroom 教室名
+teacher_name （教师）姓名
+course_name 课程名
+student_count 班级人数
+over_lesson_count 课次数量
+*/
+ClassInfoDTO::Wrapper ClassService::getById(const uint64_t& id)
 {
     ClassDAO dao;
     ClassDO result = dao.selectById(id);
@@ -72,12 +83,12 @@ ClassInfoDTO::Wrapper ClassService::getById(uint64_t id)
     ZO_STAR_DOMAIN_DO_TO_DTO(
         dto, result,
         class_name, Name,
+        start_date, StartDate,
+        end_date, EndDate,
         teacher_name, Teacher_Name,
         course_name, Course_Name,
         remark,Remark,
         classroom_name,ClassRoom,
-        start_date, StartDate,
-        end_date, EndDate,
         student_count, StudentCount,
 		over_lesson_count, Over_Lesson_Count
     );
@@ -90,6 +101,10 @@ StudentListDTO::Wrapper StudentService::listByClassId(uint64_t class_id)
 	auto listdto = StudentListDTO::createShared();
 	StudentDAO dao;
 	list<StudentDO> result = dao.selectByClassId(class_id);
+	//避免空指针异常，先创建一个空的列表对象
+    if (!listdto->student_list) {
+        listdto->student_list = oatpp::List<StudentDTO::Wrapper>::createShared();
+    }
     for (StudentDO& sub : result)
     {
         auto dto = StudentDTO::createShared();

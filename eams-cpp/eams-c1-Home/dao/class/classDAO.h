@@ -37,11 +37,7 @@ public:
 	// 分页查询数据
 	std::list<ClassDO> selectWithPage(const classQuery::Wrapper& query);
 	//id查询班级详情
-	ClassDO selectById(uint64_t id);
-	// 通过姓名查询数据
-	//std::list<ClassDO> selectByName(const string& name);
-	// 通过ID查询数据
-	//PtrSampleDO selectById(std::string id);
+	ClassDO selectById(const uint64_t& id);
 };
 /**
 * student表数据库操作实现
@@ -50,6 +46,6 @@ class StudentDAO : public BaseDAO
 {
 public:
 	// 通过id查询数据列表
-	std::list<StudentDO> selectByClassId(uint64_t class_id);
+	std::list<StudentDO> selectByClassId(const uint64_t& class_id);
 };
 #endif // !_CLASSDAO_H_
