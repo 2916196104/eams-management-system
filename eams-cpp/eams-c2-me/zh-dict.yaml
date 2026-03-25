@@ -24,3 +24,4 @@ student:
   add_time: 积分变动时间
   remark: 备注信息
   switchStudent: 切换学员
+  removeStudent: 移除学员
