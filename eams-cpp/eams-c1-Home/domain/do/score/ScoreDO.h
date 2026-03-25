@@ -28,25 +28,22 @@ class GradeRecordDO : public BaseDO {
     // 主键
     MYSQL_SYNTHESIZE(uint64_t, id, Id);
     // 考核项id
-    MYSQL_SYNTHESIZE(int64_t, gradeId, GradeId);
+    MYSQL_SYNTHESIZE(uint64_t, gradeId, GradeId);
     // 学生id
-    MYSQL_SYNTHESIZE(int64_t, studentId, StudentId);
+    MYSQL_SYNTHESIZE(uint64_t, studentId, StudentId);
     // 分数
     MYSQL_SYNTHESIZE(int, score, Score);
     // 添加时间
     MYSQL_SYNTHESIZE(string, addTime, AddTime);
-    // 添加人
-    MYSQL_SYNTHESIZE(int64_t, creator, Creator);
 
 public:
     GradeRecordDO() : BaseDO("grade_record")
     {
         MYSQL_ADD_FIELD_PK("id", "ull", id);
-        MYSQL_ADD_FIELD_NULLABLE("grade_id", "ll", gradeId, true);
-        MYSQL_ADD_FIELD_NULLABLE("student_id", "ll", studentId, true);
+        MYSQL_ADD_FIELD_NULLABLE("grade_id", "ull", gradeId, true);
+        MYSQL_ADD_FIELD_NULLABLE("student_id", "ull", studentId, true);
         MYSQL_ADD_FIELD_NULLABLE("score", "i", score, true);
         MYSQL_ADD_FIELD_NULLABLE("add_time", "s", addTime, true);
-        MYSQL_ADD_FIELD_NULLABLE("creator", "ll", creator, true);
     }
 };
 

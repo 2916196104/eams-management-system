@@ -19,7 +19,7 @@ uint64_t ScoreDAO::count(const ScoreQuery::Wrapper &query)
 
     if (query->student_id) {
         sql += " AND student_id = ?";
-        SQLPARAMS_PUSH(params, "ll", int64_t, query->student_id.getValue(1));
+        SQLPARAMS_PUSH(params, "ll", uint64_t, query->student_id.getValue(1));
     }
 
     try {
@@ -61,7 +61,7 @@ std::list<PtrScoreViewDO> ScoreDAO::selectByQuery(const ScoreQuery::Wrapper &que
         SqlParams params;
         if (query->student_id) {
             sql += " AND gr.student_id = ?";
-            SQLPARAMS_PUSH(params, "ll", int64_t, query->student_id.getValue(1));
+            SQLPARAMS_PUSH(params, "ll", uint64_t, query->student_id.getValue(1));
         } else {
             std::cerr << "[ScoreDAO::selectByQuery] : 缺少查询参数" << std::endl;
             return std::list<PtrScoreViewDO>(); // 缺少查询参数时，返回空列表

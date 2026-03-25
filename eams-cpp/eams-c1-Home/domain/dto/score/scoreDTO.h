@@ -35,11 +35,11 @@ class ScoreDTO : public oatpp::DTO
 	// 唯一标识
 	API_DTO_FIELD_DEFAULT(UInt64, id, ZH_WORDS_GETTER("score.id"));
 	// 考核项id
-	API_DTO_FIELD_DEFAULT(Int64, grade_id, ZH_WORDS_GETTER("score.grade_id"));
+	API_DTO_FIELD_DEFAULT(UInt64, grade_id, ZH_WORDS_GETTER("score.grade_id"));
 	// 考核项名称
 	API_DTO_FIELD_DEFAULT(String, grade_title, ZH_WORDS_GETTER("score.grade_title"));
 	// 学生id
-	API_DTO_FIELD_DEFAULT(Int64, student_id, ZH_WORDS_GETTER("score.student_id"));
+	API_DTO_FIELD_DEFAULT(UInt64, student_id, ZH_WORDS_GETTER("score.student_id"));
 	// 学生姓名
 	API_DTO_FIELD_DEFAULT(String, student_name, ZH_WORDS_GETTER("score.student_name"));
 	// 分数

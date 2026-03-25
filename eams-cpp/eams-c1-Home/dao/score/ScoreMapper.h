@@ -16,9 +16,9 @@ public:
     {
         PtrScoreViewDO score = std::make_shared<ScoreViewDO>();
         score->setId(resultSet->getUInt64("id"));
-        score->setGradeId(resultSet->getInt64("grade_id"));
+        score->setGradeId(resultSet->getUInt64("grade_id"));
         score->setGradeTitle(resultSet->getString("grade_title"));
-        score->setStudentId(resultSet->getInt64("student_id"));
+        score->setStudentId(resultSet->getUInt64("student_id"));
         score->setStudentName(resultSet->getString("student_name"));
         score->setScore(resultSet->getInt("score"));
         score->setAddTime(resultSet->getString("add_time"));
