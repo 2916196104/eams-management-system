@@ -13,3 +13,8 @@ parent:
     new-password: 新密码
     verify-paaword: 重复新密码
 
+student:
+  tag: 学员相关
+  query:
+    grade: 查询可选年级  
+     
