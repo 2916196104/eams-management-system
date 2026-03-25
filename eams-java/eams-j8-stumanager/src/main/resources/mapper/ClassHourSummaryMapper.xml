@@ -2,4 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zeroone.star.stumanager.mapper.ClassHourSummaryMapper">
 
+    <select id="pageList" resultType="com.zeroone.star.project.vo.j8.stumanager.ClassHourSummaryVO">
+        SELECT
+        s.name,
+        sc.subjectId,
+        te.content,
+        sc.countLessonTotal,
+        c.courseName
+        FROM Student s
+        LEFT JOIN StudentCourse sc ON s.id = sc.studentId
+        LEFT JOIN TeachEvaluation te ON s.id = te.studentId
+        LEFT JOIN Course c ON sc.subjectId = c.subjectId
+
+        <where>
+            <if test="query.studentName != null and query.studentName != ''">
+                AND s.name = #{query.studentName}
+            </if>
+            <if test="query.courseName != null">
+                AND sc.subjectId = #{query.courseName}
+            </if>
+            <if test="query.attendanceRecord != null and query.attendanceRecord != ''">
+                AND te.content = #{query.attendanceRecord}
+            </if>
+            <if test="query.totalLessonHours != null">
+                AND sc.countLessonTotal = #{query.totalLessonHours}
+            </if>
+        </where>
+    </select>
 </mapper>

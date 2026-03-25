@@ -1,5 +1,6 @@
 package com.zeroone.star.stumanager.controller.common;
 
+import com.alibaba.cloud.commons.lang.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.zeroone.star.project.dto.PageDTO;
@@ -7,8 +8,8 @@ import com.zeroone.star.project.dto.j8.stumanager.SaveStu.ChangeStuStageDTO;
 import com.zeroone.star.project.dto.j8.stumanager.SaveStu.SaveStuDTO;
 import com.zeroone.star.project.dto.j8.stumanager.common.StuChooseCourseDTO;
 import com.zeroone.star.project.dto.j8.stumanager.common.StuChooseStaffDTO;
+import com.zeroone.star.project.dto.j8.stumanager.StudentHeadImgDTO;
 import com.zeroone.star.project.dto.j8.stumanager.common.StuSignCourseDTO;
-import com.zeroone.star.project.dto.j8.stumanager.StudentAvatarDTO;
 import com.zeroone.star.project.j8.stumanager.common.StuInformationApis;
 import com.zeroone.star.project.query.j8.StuSignCourseQuery.CourseQuery;
 import com.zeroone.star.project.query.j8.StuSignCourseQuery.StaffQuery;
@@ -16,33 +17,27 @@ import com.zeroone.star.project.query.j8.stumanager.StudentQuery;
 import com.zeroone.star.project.query.j8.stumanager.common.StudentCourseQuery;
 import com.zeroone.star.project.query.j8.stumanager.common.StudentListQuery;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.vo.j8.stumanager.StudentAvatarVO;
 import com.zeroone.star.project.vo.j8.stumanager.StudentCourseVO;
 import com.zeroone.star.project.vo.j8.stumanager.StudentListVO;
 import com.zeroone.star.project.vo.j8.stumanager.StudentVO;
 import com.zeroone.star.stumanager.entity.Student;
 import com.zeroone.star.project.vo.j8.SaveStu.DictVO;
+import com.zeroone.star.stumanager.mapper.StudentMapper;
 import com.zeroone.star.stumanager.service.IStudentCourseService;
 import com.zeroone.star.stumanager.service.IStudentService;
 import com.zeroone.star.stumanager.service.impl.MsStuMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.time.LocalDate;
 
 /**
- * <p>
  * 描述：学员信息管理控制器
- * </p>
- * <p>版权：&copy;01星球</p>
- * <p>地址：01星球总部</p>
- * @author tsfmn
- * @version 1.0.0
  */
 @Api(tags = "共用接口-学员信息")
 @RequestMapping("/stu/common/stuInformation")
@@ -67,6 +62,10 @@ public class StuInformationController implements StuInformationApis {
      * @param saveStuDTO 学生修改DTO（JSON格式，含ID和修改后的信息）
      * @return 包含修改结果的JSON响应
      */
+    @Resource
+    StudentMapper studentMapper;
+
+    //保存学员控制器
     @PostMapping("/save-student")
     @ApiOperation("修改学生信息")
     @Override
@@ -138,20 +137,20 @@ public class StuInformationController implements StuInformationApis {
     }
 
     @Override
-    @PutMapping("/update-studentAvatar")
+    @PutMapping("/update-studentHeadImg")
     @ApiOperation(value = "修改学员头像")
-    public JsonVO<StudentAvatarVO> updateStudentAvatar(@Validated @RequestBody StudentAvatarDTO studentAvatarDTO ) {
+    public JsonVO<String> updateStudentHeadImg(@Validated @RequestBody StudentHeadImgDTO studentHeadImgDTO ) {
         LambdaUpdateWrapper<Student> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.eq(Student::getId,studentAvatarDTO.getStudentId());
-        updateWrapper.set(Student::getHeadImg,studentAvatarDTO.getAvatarUrl());//Student:headImg
+        updateWrapper.eq(Student::getId,studentHeadImgDTO.getId());
+        updateWrapper.set(Student::getHeadImg,studentHeadImgDTO.getId());//Student:headImg
         boolean success = iStudentService.update(updateWrapper);
         if(!success){
             return JsonVO.fail("修改头像失败");
         }
-        StudentAvatarVO studentAvatarVO=new StudentAvatarVO();
-        studentAvatarVO.setStudentId(studentAvatarDTO.getStudentId());
-        studentAvatarVO.setAvatarUrl(studentAvatarDTO.getAvatarUrl());
-        return JsonVO.success(studentAvatarVO);
+//        StudentHeadImgVO studentHeadImgVO=new StudentHeadImgVO();
+//        studentHeadImgVO.setId(studentHeadImgDTO.getId());
+//        studentHeadImgVO.setHeadImg(studentHeadImgDTO.getHeadImg());
+        return JsonVO.success("修改头像成功");
     }
 
     @GetMapping("/query-studentlist")

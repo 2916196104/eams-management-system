@@ -2,4 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zeroone.star.stumanager.mapper.StudentMapper">
 
+    <select id="getStudentDetailsById" resultType="com.zeroone.star.project.vo.j8.stumanager.StudentVO">
+        select s.stage,s.sex,s.age,s.birthday,s.idcard,
+               u.name,s.family_rel,s.grade_id,s.join_date,s.add_time
+        from student s left join user u on s.user_id = u.id
+        where s.id=#{id}
+    </select>
 </mapper>
+
+        <!--阶段: 在学学员
+        性别: 女
+        年龄:
+        出生年月:
+        身份证号码:
+        家长姓名: 小李
+        亲属关系: 其他
+        年 级:
+        入学时间:
+        加入时间: 2026-03-24 11:22-->
