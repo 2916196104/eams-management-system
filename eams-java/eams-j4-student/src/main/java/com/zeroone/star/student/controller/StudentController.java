@@ -24,7 +24,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
@@ -76,9 +75,6 @@ public class StudentController implements StudentApis {
     public JsonVO<FinanceDTO> applyRefund(@RequestBody FinanceDTO financeDTO) {
         return JsonVO.success(studentFinanceService.applyRefund(financeDTO));
     }
-
-    @Resource
-    private IStudentService studentService;
 
     @GetMapping("/follow-up/page")
     @ApiOperation("获取跟进记录列表（条件+分页）")
