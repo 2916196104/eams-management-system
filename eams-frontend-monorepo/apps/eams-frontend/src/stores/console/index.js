@@ -1,6 +1,12 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
-import { getStatisticsApi, getScheduleCalendarApi } from "@/apis/console";
+import {
+	getStatisticsApi,
+	getScheduleCalendarApi,
+	getCourseDetailApi,
+	deleteCoursesApi,
+	putCourseStatusApi,
+} from "@/apis/console";
 import { useUserStore } from "@/stores/user";
 const userStore = useUserStore();
 
@@ -160,5 +166,51 @@ export const useScheduleStore = defineStore("schedule", () => {
 		getMonthEvents,
 		getWeekEvents,
 		getDayEvents,
+	};
+});
+export const useCourseDetailStore = defineStore("courseDetail", () => {
+	const courseDetail = ref(null); // 课程详情数据
+	const loading = ref(false); // 加载状态
+	const error = ref(null); // 错误信息
+
+	// 根据课程ID获取课程详情
+	const fetchCourseDetail = async (id) => {
+		loading.value = true;
+		error.value = null;
+		try {
+			const res = await getCourseDetailApi(id);
+			courseDetail.value = res.data || res; // 根据接口返回调整
+		} catch (err) {
+			console.error("获取课程详情失败:", err);
+			error.value = err.message || "请求失败";
+		} finally {
+			loading.value = false;
+		}
+	};
+	// 删除课程
+	const deleteCourses = async (ids) => {
+		try {
+			await deleteCoursesApi(ids);
+		} catch (err) {
+			console.error("删除课程失败:", err);
+		}
+	};
+
+	// 停止/恢复课程
+	const toggleCourseStatus = async (courseIds, isResume) => {
+		try {
+			await putCourseStatusApi(courseIds, isResume);
+		} catch (err) {
+			console.error("停止/恢复课程失败:", err);
+		}
+	};
+
+	return {
+		courseDetail,
+		loading,
+		error,
+		fetchCourseDetail,
+		deleteCourses,
+		toggleCourseStatus,
 	};
 });

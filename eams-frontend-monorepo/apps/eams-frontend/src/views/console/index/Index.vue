@@ -20,7 +20,7 @@
 					<!-- 月视图 -->
 					<template #cell="{ cell }">
 						<div v-for="item in getEvents(cell.date)" :key="item.id">
-							<calendar-text>
+							<calendar-text :info="item">
 								{{ item.startTime }}
 								{{ item.courseName }}
 								({{ item.teacherName }})
