@@ -38,4 +38,44 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.zeroone.star.sample.SampleApplication</mainClass>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.zeroone.star</groupId>
+                <artifactId>mp-code-generator-plugin</artifactId>
+                <configuration>
+                    <!-- 数据库连接信息配置 -->
+                    <dbConfig>
+                        <!-- 数据库主机地址 -->
+                        <host>192.168.16.133</host>
+                        <!-- 数据库端口 -->
+                        <port>3306</port>
+                        <!-- 数据库名称 -->
+                        <dbname>sample</dbname>
+                        <!-- 数据库用户名 -->
+                        <username>root</username>
+                        <!-- 数据库密码 -->
+                        <password>123456</password>
+                    </dbConfig>
+                    <!-- 生成代码输出根目录 -->
+                    <outDir>${project.basedir}/src/main/java</outDir>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
+
+
+<!--<project xmlns="http://maven.apache.org/POM/4.1.0">-->
+<!--    -->
+<!--</project>-->
+
+
