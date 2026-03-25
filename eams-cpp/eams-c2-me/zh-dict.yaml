@@ -23,3 +23,4 @@ student:
   current_credit: 当前积分
   add_time: 积分变动时间
   remark: 备注信息
+  switchStudent: 切换学员

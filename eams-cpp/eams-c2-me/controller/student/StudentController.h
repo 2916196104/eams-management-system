@@ -35,6 +35,20 @@ private: // 定义接口执行函数
 	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/me/getMyPoint", queryPoint, PointQuery, executeQueryPoint(query));
 private: // 定义接口执行函数
 	PointPageJsonVO::Wrapper executeQueryPoint(const PointQuery::Wrapper& query);
+
+	//切换用户
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("student.switchStudent"), switchStudent, StringJsonVO::Wrapper, API_TAG);
+	API_HANDLER_ENDPOINT_AUTH(
+	  API_M_GET,
+	  "/me/switchStudent",
+	  switchStudent,
+	  QUERY(Int64, id),
+	  executeSwitchStudent(id)
+	);
+
+private: // 定义接口执行函数
+	JsonVO<oatpp::Any>::Wrapper executeSwitchStudent(int64_t id);
+
 };
 
 #undef API_TAG
