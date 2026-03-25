@@ -25,9 +25,16 @@
 				<div class="table-container">
 					<el-table :data="filteredData" :height="tableHeight" stripe border>
 						<el-table-column type="index" label="序号" width="60" align="center" />
-						<el-table-column prop="name" label="姓名" min-width="100" />
-						<el-table-column prop="department" label="部门" min-width="120" />
-						<el-table-column prop="phone" label="手机号" min-width="130" />
+
+						<el-table-column
+							v-for="col in props.columns"
+							:key="col.prop"
+							:prop="col.prop"
+							:label="col.label"
+							:min-width="col.minWidth"
+							:width="col.width"
+						/>
+
 						<el-table-column label="操作" width="80" align="center">
 							<template #default="{ row }">
 								<el-button type="primary" size="small" link @click="selectPerson(row)">选择</el-button>
@@ -63,12 +70,17 @@ import type { MyPersonSelectorProps, PersonData } from "./type";
 const rootRef = ref(null);
 // 定义组件属性
 const props = withDefaults(defineProps<MyPersonSelectorProps>(), {
-	placeholder: "请选择人员",
-	searchPlaceholder: "请输入姓名关键字搜索",
+	placeholder: "请选择",
+	searchPlaceholder: "请输入关键字搜索",
 	panelWidth: "580px",
 	tableHeight: "438px",
 	pageSizes: () => [10, 20, 50, 100],
 	defaultPageSize: 10,
+	columns: () => [
+		{ prop: "name", label: "姓名", minWidth: 100 },
+		{ prop: "department", label: "部门", minWidth: 120 },
+		{ prop: "phone", label: "手机号", minWidth: 130 },
+	],
 });
 
 // 定义组件事件
