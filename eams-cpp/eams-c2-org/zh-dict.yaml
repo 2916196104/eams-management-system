@@ -1,0 +1,42 @@
+﻿staff:
+  tag: 员工示例接口
+  # 接口级中文描述（可选，对齐add-address的summary格式）
+  query-all:
+    summary: 查询所有员工
+  query-one:
+    summary: 查询员工详情
+  add-staff:
+    summary: 新增员工
+  edit-staff:
+    summary: 修改员工信息
+  delete-staff:
+    summary: 删除员工
+  # 字段级中文映射（核心，对齐address的field格式）
+field:
+  id: 员工ID
+  orgId: 所属组织ID
+  deleted: 是否删除
+  isInner: 是否内部人员
+  name: 姓名
+  mobile: 手机号
+  idCard: 身份证号
+  headImg: 头像URL
+  state: 在职状态
+  wxAccessId: 微信登录ID
+  email: 邮箱
+  birthday: 生日
+  gender: 性别
+  school: 毕业学校
+  degree: 学历
+  remark: 备注
+  isManager: 是否管理者
+  hireDate: 入职日期
+  fireDate: 离职日期
+  intro: 个人介绍
+  classFee: 课时费
+  assistantFee: 助教费
+  addTime: 创建时间
+  editTime: 编辑时间
+  creator: 创建人ID
+  editor: 编辑人ID
+  password: 密码

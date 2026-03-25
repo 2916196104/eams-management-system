@@ -1,14 +1,14 @@
-spring:
+﻿spring:
   datasource:
-    url: jdbc:mysql://47.115.230.192:3306/test?useUnicode=true&useSSL=false&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://111.228.43.9:3307/zo_eams?useUnicode=true&useSSL=false&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
-    password: 123456
+    password: V9sgZWAO6JZ6BRPuvcRM
     druid:
-     max-active: 5
+      max-active: 5
   redis:
-    host: 47.115.230.192
-    port: 6379
-    password: 123456
+    host: 8.163.61.213
+    port: 19642
+    password: Redis627#Xq98
   data:
     mongodb:
-      uri: mongodb://admin:123456@47.115.230.192:27017/firstDb
+      uri: mongodb://root:V9sgZWAO6JZ6BRPuvcRM@111.228.43.9:3307/firstDb
