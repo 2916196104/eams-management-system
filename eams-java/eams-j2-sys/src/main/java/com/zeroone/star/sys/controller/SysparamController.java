@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,10 +24,10 @@ import java.util.stream.Collectors;
 @Api(tags = "系统参数")
 public class SysparamController implements SysparamApis {
 
-    @Autowired
-    private ISettingService settingService;
-    @Autowired
+    @Resource
     private ISettingOptionService settingOptionService;
+    private ISettingService settingService;
+
 
     @GetMapping()
     @ApiOperation("获取设置列表")

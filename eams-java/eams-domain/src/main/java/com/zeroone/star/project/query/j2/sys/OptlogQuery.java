@@ -18,6 +18,6 @@ public class OptlogQuery extends PageQuery {
     @ApiModelProperty(value = "操作内容",example = "登录成功")
     private String info;
 
-    @ApiModelProperty(value = "操作人的id",example = "超级管理员身份id为1则传入1")
+    @ApiModelProperty(value = "操作人的id",example = "1")
     private Integer operator;
 }
