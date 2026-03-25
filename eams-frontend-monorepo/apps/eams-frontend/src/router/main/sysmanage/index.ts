@@ -3,41 +3,41 @@ const routes = [
 		path: "/un-1",
 		name: "UN1",
 		meta: {
-			label: "系统管理1",
+			label: "内部公告",
 		},
-		component: () => import("@/views/status/404.vue"),
+		redirect: { name: "SystemInternalAnnouncement" },
 	},
 	{
 		path: "/un-2",
 		name: "UN2",
 		meta: {
-			label: "系统管理2",
+			label: "系统参数",
 		},
-		component: () => import("@/views/status/403.vue"),
+		redirect: { name: "SystemParameter" },
 	},
 	{
 		path: "/un-3",
 		name: "UN3",
 		meta: {
-			label: "系统管理3",
+			label: "角色与权限",
 		},
-		component: () => import("@/views/status/500.vue"),
+		redirect: { name: "SystemRolePermission" },
 	},
 	{
 		path: "/un-4",
 		name: "UN4",
 		meta: {
-			label: "系统管理4",
+			label: "数据字典",
 		},
-		component: () => import("@/views/status/403.vue"),
+		redirect: { name: "SystemDataDictionary" },
 	},
 	{
 		path: "/un-5",
 		name: "UN5",
 		meta: {
-			label: "系统管理5",
+			label: "通知设置",
 		},
-		component: () => import("@/views/status/404.vue"),
+		redirect: { name: "SystemNotificationSetting" },
 	},
 	{
 		path: "/un-6",
