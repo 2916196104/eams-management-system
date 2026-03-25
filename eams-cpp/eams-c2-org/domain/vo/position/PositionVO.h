@@ -6,7 +6,7 @@
 #define _POSITIONVO_H_
 
 #include "../../GlobalInclude.h"
-#include "../../dto/postion/PositionDTO.h"
+#include "../../dto/position/PositionDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 

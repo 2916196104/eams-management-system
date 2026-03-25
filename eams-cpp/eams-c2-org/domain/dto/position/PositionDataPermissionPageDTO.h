@@ -2,8 +2,8 @@
 #include "../../GlobalInclude.h"
 #include "PositionDataDTO.h"
 #include "DataPermissionItemDTO.h" 
-#include "domain/dto/postion/PositionDataPermissionQueryDTO.h"
-#include "domain/dto/postion/PositionDataPermissionPageDTO.h"
+#include "domain/dto/position/PositionDataPermissionQueryDTO.h"
+#include "domain/dto/position/PositionDataPermissionPageDTO.h"
 #include "domain/vo/BaseJsonVO.h"
 #include OATPP_CODEGEN_BEGIN(DTO)
 

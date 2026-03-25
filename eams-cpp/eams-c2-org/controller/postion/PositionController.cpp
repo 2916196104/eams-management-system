@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "Message.h"
 #include "ResultStatus.h"
-#include "domain/dto/postion/PositionDTO.h"
+#include "domain/dto/position/PositionDTO.h"
 #include "PositionController.h"
 #include "service/position/PositionService.h"
 
@@ -76,15 +76,15 @@ PositionController::savePosition(const std::shared_ptr<CustomerAuthorizeObject>&
   return createDtoResponse(Status::CODE_200, vo);
 }
 #include "PositionController.h"
-#include "domain/dto/postion/PermissionDTO.h"
-#include "domain/dto/postion/PositionDataDTO.h"
-#include "domain/dto/postion/PositionDataPermissionQueryDTO.h"
-#include "domain/dto/postion/PositionDataPermissionPageDTO.h"
+#include "domain/dto/position/PermissionDTO.h"
+#include "domain/dto/position/PositionDataDTO.h"
+#include "domain/dto/position/PositionDataPermissionQueryDTO.h"
+#include "domain/dto/position/PositionDataPermissionPageDTO.h"
 #include "domain/vo/BaseJsonVO.h"
 
-#include "domain/dto/postion/DeletePositionRequestDTO.h"
-#include "domain/dto/postion/JsonResponseDTO.h"
-#include "domain/dto/postion/EmptyDTO.h"
+#include "domain/dto/position/DeletePositionRequestDTO.h"
+#include "domain/dto/position/JsonResponseDTO.h"
+#include "domain/dto/position/EmptyDTO.h"
 
 using namespace oatpp::web::protocol::http;
 std::shared_ptr<PositionController::OutgoingResponse> PositionController::getPositionDataPermissionList(

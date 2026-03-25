@@ -1,7 +1,7 @@
 #ifndef _POSITIONSERVICE_H_
 #define _POSITIONSERVICE_H_
 
-#include "../../domain/dto/postion/PositionDTO.h"
+#include "../../domain/dto/position/PositionDTO.h"
 
 class PositionService {
 

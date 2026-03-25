@@ -6,7 +6,7 @@
 #include "domain/vo/BaseJsonVO.h"
 #include "ApiHelper.h"
 #include "ServerInfo.h"
-#include "../../domain/dto/postion/PositionDataDTO.h"
+#include "../../domain/dto/position/PositionDataDTO.h"
 
 // 1 定义API控制器使用宏
 #include OATPP_CODEGEN_BEGIN(ApiController)

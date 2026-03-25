@@ -2,17 +2,17 @@
 #ifndef _POSITION_CONTROLLER_
 #define _POSITION_CONTROLLER_
 
-#include "domain/dto/postion/PositionDTO.h"
+#include "domain/dto/position/PositionDTO.h"
 #include "domain/vo/JsonVO.h"
 #include "domain/vo/NoDataJsonVO.h"
 #include "oatpp/core/Types.hpp"
 
-#include "domain/dto/postion/PositionDataPermissionQueryDTO.h"
-#include "domain/dto/postion/PositionDataPermissionPageDTO.h"
+#include "domain/dto/position/PositionDataPermissionQueryDTO.h"
+#include "domain/dto/position/PositionDataPermissionPageDTO.h"
 #include "domain/vo/BaseJsonVO.h"
-#include "domain/dto/postion/DeletePositionRequestDTO.h"
-#include "domain/dto/postion/JsonResponseDTO.h"
-#include "domain/dto/postion/EmptyDTO.h"
+#include "domain/dto/position/DeletePositionRequestDTO.h"
+#include "domain/dto/position/JsonResponseDTO.h"
+#include "domain/dto/position/EmptyDTO.h"
 #include "ApiHelper.h"
 #include "ServerInfo.h"
 #include "domain/vo/BaseJsonVO.h"
