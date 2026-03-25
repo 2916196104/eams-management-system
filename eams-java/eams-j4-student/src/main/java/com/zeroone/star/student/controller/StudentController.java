@@ -17,7 +17,6 @@ import com.zeroone.star.student.service.IStudentService;
 import com.zeroone.star.project.query.j4.student.FinanceQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.util.StringUtil;
@@ -51,6 +50,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/j4/student")
 @Api(tags = "学员管理")
+@Validated
 public class StudentController implements StudentApis {
     @Resource
     private IStudentService studentService;
@@ -59,6 +59,7 @@ public class StudentController implements StudentApis {
     private IStudentFinanceService studentFinanceService;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+
 
     @ApiOperation(value = "分页查询缴欠费与线下退费记录")
     @GetMapping("/finance/page")
@@ -339,16 +340,18 @@ public class StudentController implements StudentApis {
     @Override
     @GetMapping("/studentList")
     @ApiOperation("获取开通指定课程学员列表（条件+分页）")
-    public JsonVO<PageDTO<ResponseDTO>> queryCourseStudent(CourseQuery condition) {
-        return null;
+    public JsonVO<PageDTO<StudentDTO>> queryCourseStudent(@Validated CourseQuery condition) {
+        return JsonVO.success(studentService.queryCourseStu(condition));
     }
 
     @Override
     @GetMapping("/list")
     @ApiOperation("获取学员列表（条件+分页）")
-    public JsonVO<PageDTO<ResponseDTO>> listAllStudent(StudentQuery condition) {
-        return null;
+    public JsonVO<PageDTO<ResponseDTO>> listAllStudent(@Validated StudentQuery condition) {
+        return JsonVO.success(studentService.listall(condition));
     }
+
+
     @Override
     @PutMapping("/avatar")
     @ApiOperation("修改学员头像")

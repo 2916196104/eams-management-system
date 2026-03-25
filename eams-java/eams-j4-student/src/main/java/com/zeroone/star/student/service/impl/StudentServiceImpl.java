@@ -72,6 +72,9 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     @Resource
     private ClassStudentMapper classStudentMapper;
 
+    @Resource
+    private ClassStudentMapper classStudentMapper;
+
     // 注入框架自带的当前用户获取组件
     @Resource
     private UserHolder userHolder;
@@ -491,4 +494,59 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         BeanUtil.copyProperties(recordDO, dto);
         return dto;
     }
+
+    @Override
+    public PageDTO<ResponseDTO> listall(StudentQuery condition) {
+        String name = condition.getName();
+        String status = condition.getStage();
+
+        // 1.构建分页查询对象
+        Page<Student> page = new Page<>(condition.getPageIndex(), condition.getPageSize());
+
+        // 2.分页查询
+        Page<Student> p = lambdaQuery()
+                .like(!StringUtils.isEmpty(name), Student::getName, name)
+                .eq(!StringUtils.isEmpty(status), Student::getStage, status)
+                .page(page);
+
+        // 3.封装成ResponsDTO
+        PageDTO<ResponseDTO> result = new PageDTO<>();
+
+        result.setTotal(p.getTotal());
+        result.setPages(p.getPages());
+        result.setPageIndex(condition.getPageIndex());
+        result.setPageSize(condition.getPageSize());
+
+        List<Student> records = p.getRecords();
+        List<ResponseDTO> responseDTOS = BeanUtil.copyToList(records, ResponseDTO.class);
+        result.setRows(responseDTOS);
+
+        return result;
+    }
+
+    @Override
+    public PageDTO<StudentDTO> queryCourseStu(CourseQuery condition) {
+        // 1. 构建分页查询对象
+        Page<ClassStudent> page = new Page<>(condition.getPageIndex(), condition.getPageSize());
+
+        // 2. 构建查询条件
+        QueryWrapper<ClassStudent> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("class_id", condition.getClassId());
+        Page<ClassStudent> classStudentPage = classStudentMapper.selectPage(page, queryWrapper);
+
+        // 3.封装成StudentDTO
+        PageDTO<StudentDTO> result = new PageDTO<>();
+        result.setTotal(classStudentPage.getTotal());
+        result.setPages(classStudentPage.getPages());
+        result.setPageIndex(condition.getPageIndex());
+        result.setPageSize(condition.getPageSize());
+
+        List<ClassStudent> records = classStudentPage.getRecords();
+        List<StudentDTO> responseDTOS = BeanUtil.copyToList(records, StudentDTO.class);
+        result.setRows(responseDTOS);
+
+        return result;
+    }
+
+
 }

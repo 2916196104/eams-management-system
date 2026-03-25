@@ -4,11 +4,14 @@ import com.zeroone.star.project.query.PageQuery;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 //CourseQuery: 课程名称、类型、分页参数。
 @Data
 public class CourseQuery extends PageQuery {
 
     @ApiModelProperty(value = "班级id", example = "111",required = true)
+    @NotNull(message = "班级id不能为空")
     private Long classId;
 
     @ApiModelProperty(value = "课程名称", example = "Java课程")
