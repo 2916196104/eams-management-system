@@ -7,6 +7,8 @@
 #include "../../domain/do/homework/HomeworkDO.h"
 #include "../../domain/query/backhomework/backhomeworkQuery.h"
 #include "../../domain/dto/backhomework/backhomeworkDTO.h"
+#include "HomeworkDao.h"
+#include "HomeworkMapper.h"
 
 /**
  * 本人负责实现获取作业列表（条件+分页），获取作业详情，保存作业三个功能
@@ -24,8 +26,8 @@ public:
 	// 获取作业详情（条件+分页）
 	std::list<HomeworkDO> gethomeworklist(const GetHomeworkListQuery::Wrapper& query);
 	// 获取作业详情，传id，返回对应作业的DO
-	PtrHomeworkDO gethomeworkdetail(std::string id);
+	PtrHomeworkRecordDO gethomeworkdetail(std::string id);
 	//保存作业
-	int savehomework(const SaveHomeworkDTO& dto);
+	//int savehomework(const SaveHomeworkDTO& dto);
 };
 #endif // !_HOMEWORK_DAO_
