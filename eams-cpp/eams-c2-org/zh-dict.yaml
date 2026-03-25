@@ -41,34 +41,6 @@ staff:
       isInner: 是否是内部人员
       isManager: 是否是管理者
 
-institution:
-  field:
-    id: 机构编号
-    name: 机构名称
-    parentId: 父机构编号
-    children: 子机构列表
-  tags:
-    t1: 机构管理
-  tree:
-    summary: 获取机构名称树
-  save:
-    summary: 保存机构名称
-  api:
-    get: 获取机构树
-    save: 保存机构
-  getDutyRecord:
-    summary: 获取代班记录
-    resp: 获取成功
-    param1: 员工ID
-    param2: 代班日期
-  modifyAvatar:
-    summary: 修改员工头像
-    resp: 头像修改成功
-    param1: 员工ID
-    param2: 头像文件
-  sample:
-    tags: 员工管理
-
 position:
   tag: 职位管理
   field:
@@ -84,3 +56,40 @@ position:
     title: 职位管理
     pageQuery: 分页+搜索查询职位名称
     save: 保存职位
+
+institution:
+  field:
+    id: 机构编号 
+    name: 机构名称
+    type: 机构类型
+    pid: 父机构编号
+    parentId: 父机构编号
+    children: 子机构列表
+  tags:
+    t1: 机构管理
+  tree:
+    summary: 获取机构名称树
+  save:
+    summary: 保存机构名称
+    delete: 删除机构
+  api:
+    get: 获取机构树
+    save: 保存机构
+  getDutyRecord:
+    summary: 获取代班记录
+    resp: 获取成功
+    param1: 员工ID
+    param2: 代班日期
+  modifyAvatar:
+    summary: 修改员工头像
+    resp: 头像修改成功
+    param1: 员工ID
+    param2: 头像文件
+  sample:
+    tags: 员工管理
+  list:
+    summary: 获取机构列表(条件)
+  detail:
+    summary: 获取机构详情
+  delete:
+    summary: 删除机构
