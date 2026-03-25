@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -25,7 +26,7 @@ public class LessonCountDTO {
     @ApiModelProperty(value = "课程", example = "绘画")
     private String course_name;
     @ApiModelProperty(value = "上课日期", example = "2026-3-15")
-    private Date course_time;
+    private LocalDateTime course_time;
     @ApiModelProperty(value = "操作人", example = "管理员a")
     private String change_person;
     @ApiModelProperty(value = "说明", example = "无")
