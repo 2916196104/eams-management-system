@@ -21,7 +21,7 @@ const routes = [
 		meta: {
 			label: "组织管理",
 		},
-		component: () => import("@/views/org/orgManage/Index.vue"),
+		component: () => import("@/views/org/org-manage/Index.vue"),
 	},
 	{
 		path: "/un-1",

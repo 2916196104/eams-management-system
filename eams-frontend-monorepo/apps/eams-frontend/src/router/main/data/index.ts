@@ -10,7 +10,7 @@ const routes = [
 		meta: {
 			label: "学员统计",
 		},
-		component: () => import("@/views/data/studentStatistics/Index.vue"),
+		component: () => import("@/views/data/student-statistics/Index.vue"),
 	},
 	{
 		path: "/data/teaching-statistics",
@@ -18,7 +18,7 @@ const routes = [
 		meta: {
 			label: "授课统计",
 		},
-		component: () => import("@/views/data/teachingStatistics/Index.vue"),
+		component: () => import("@/views/data/teaching-statistics/Index.vue"),
 	},
 ];
 

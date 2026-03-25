@@ -63,7 +63,6 @@ const store = useOrgManageStore();
 const tableRef = ref();
 const editVisible = ref(false);
 const mode = ref<"add" | "edit">("add");
-const currentRow = ref<OrgManageNode | null>(null);
 const DRAFT_KEY = "org-manage-form-draft:v1";
 const formRef = ref<FormInstance>();
 const formModel = ref<OrgEditPayload>({
@@ -94,7 +93,6 @@ onMounted(async () => {
 
 function openAdd(row: OrgManageNode) {
 	mode.value = "add";
-	currentRow.value = row;
 	formModel.value = { parentId: row.id, name: "", level: "分校", shortName: "", contact: "", phone: "", fax: "", email: "", sortNo: 0, enabled: true, desc: "" };
 	restoreDraft("add");
 	editVisible.value = true;
@@ -102,7 +100,6 @@ function openAdd(row: OrgManageNode) {
 
 function openEdit(row: OrgManageNode) {
 	mode.value = "edit";
-	currentRow.value = row;
 	formModel.value = {
 		id: row.id,
 		parentId: row.parentId,
@@ -180,8 +177,9 @@ async function handleSubmit() {
 		}
 		editVisible.value = false;
 		ElMessage.success("提交成功");
-	} catch (e: any) {
-		ElMessage.error(e?.message || "提交失败");
+	} catch (e) {
+		const err = e as Error;
+		ElMessage.error(err?.message || "提交失败");
 	}
 }
 </script>

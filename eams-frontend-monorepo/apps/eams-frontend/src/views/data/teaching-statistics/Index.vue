@@ -83,8 +83,9 @@ onMounted(async () => {
 async function refreshAll() {
 	try {
 		await store.refreshAll();
-	} catch (e: any) {
-		ElMessage.error(e?.message || "查询失败");
+	} catch (e) {
+		const err = e as Error;
+		ElMessage.error(err?.message || "查询失败");
 	}
 }
 
@@ -92,8 +93,9 @@ async function handleClassHourRangeChange(payload: { startDate: string; endDate:
 	store.setClassHourRange(payload);
 	try {
 		await store.fetchClassHourData();
-	} catch (e: any) {
-		ElMessage.error(e?.message || "更新课时统计失败");
+	} catch (e) {
+		const err = e as Error;
+		ElMessage.error(err?.message || "更新课时统计失败");
 	}
 }
 
@@ -102,13 +104,16 @@ async function handleScoreRangeChange(payload: { startDate: string; endDate: str
 	try {
 		await store.fetchScoreRankData();
 		sortState.value = { prop: null, order: null };
-	} catch (e: any) {
-		ElMessage.error(e?.message || "更新学评教得分失败");
+	} catch (e) {
+		const err = e as Error;
+		ElMessage.error(err?.message || "更新学评教得分失败");
 	}
 }
 
-function handleSortChange(payload: { column: any; prop: SortProp; order: SortOrder }) {
-	sortState.value = { prop: payload.prop ?? null, order: payload.order ?? null };
+function handleSortChange(payload: { prop?: string; order?: SortOrder | null }) {
+	const prop = (payload.prop as SortProp | undefined) ?? null;
+	const order = (payload.order ?? null) as SortOrder | null;
+	sortState.value = { prop, order };
 }
 </script>
 
@@ -140,3 +145,4 @@ function handleSortChange(payload: { column: any; prop: SortProp; order: SortOrd
 	height: 320px;
 }
 </style>
+

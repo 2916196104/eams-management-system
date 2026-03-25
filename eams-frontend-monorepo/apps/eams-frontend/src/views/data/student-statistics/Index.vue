@@ -53,8 +53,9 @@ onMounted(async () => {
 async function handleQuery() {
 	try {
 		await store.refreshAll();
-	} catch (e: any) {
-		ElMessage.error(e?.message || "查询失败");
+	} catch (e) {
+		const err = e as Error;
+		ElMessage.error(err?.message || "查询失败");
 	}
 }
 
@@ -62,8 +63,9 @@ async function handleLeadRangeChange(payload: { startDate: string; endDate: stri
 	store.setLeadRange(payload);
 	try {
 		await store.fetchLeadTrend();
-	} catch (e: any) {
-		ElMessage.error(e?.message || "更新走势失败");
+	} catch (e) {
+		const err = e as Error;
+		ElMessage.error(err?.message || "更新走势失败");
 	}
 }
 
@@ -71,8 +73,9 @@ async function handleRankRangeChange(payload: { startDate: string; endDate: stri
 	store.setRankRange(payload);
 	try {
 		await store.fetchClassHourRank();
-	} catch (e: any) {
-		ElMessage.error(e?.message || "更新排行失败");
+	} catch (e) {
+		const err = e as Error;
+		ElMessage.error(err?.message || "更新排行失败");
 	}
 }
 </script>

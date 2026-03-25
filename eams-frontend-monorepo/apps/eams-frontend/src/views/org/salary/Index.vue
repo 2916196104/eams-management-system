@@ -8,21 +8,45 @@
 			</el-col>
 			<el-col :span="18">
 				<el-card shadow="never">
+					<div class="salary-toolbar">
+						<div />
+						<div class="toolbar-icons">
+							<el-tooltip content="刷新" placement="top">
+								<el-button circle @click="handleRefresh">
+									<el-icon><Refresh /></el-icon>
+								</el-button>
+							</el-tooltip>
+							<el-tooltip content="打印" placement="top">
+								<el-button circle @click="handlePrint">
+									<el-icon><Printer /></el-icon>
+								</el-button>
+							</el-tooltip>
+							<el-tooltip content="自定义列" placement="top">
+								<el-button circle @click="handleColumnConfig">
+									<el-icon><Grid /></el-icon>
+								</el-button>
+							</el-tooltip>
+						</div>
+					</div>
+
 					<el-table v-loading="store.loading.list" :data="store.list" border>
 						<el-table-column type="index" label="序号" width="60" />
-						<el-table-column prop="teacherName" label="姓名/电话" min-width="180">
+						<el-table-column prop="teacherName" label="姓名/电话" min-width="200">
 							<template #default="scope">
 								<div>{{ scope.row.teacherName }}</div>
 								<div class="sub-text">{{ scope.row.phone }}</div>
 							</template>
 						</el-table-column>
-						<el-table-column prop="salaryMode" label="薪资模式" min-width="120" />
-						<el-table-column prop="baseSalary" label="底薪" min-width="90" />
-						<el-table-column prop="trialLessonPay" label="试听课时薪资" min-width="120" />
-						<el-table-column prop="lessonDuration" label="课时时长" min-width="100" />
-						<el-table-column prop="lessonBonus" label="课时提成" min-width="90" />
-						<el-table-column prop="performancePay" label="绩效薪资" min-width="90" />
-						<el-table-column label="操作" width="90" fixed="right">
+						<el-table-column prop="orgName" label="所属机构" min-width="240" />
+						<el-table-column label="薪资设置" min-width="260">
+							<template #default="scope">
+								<div class="salary-summary">
+									<span class="salary-mode">{{ scope.row.salaryMode }}</span>
+									<span class="salary-detail">{{ getSalarySummary(scope.row) }}</span>
+								</div>
+							</template>
+						</el-table-column>
+						<el-table-column label="操作" width="120" fixed="right">
 							<template #default="scope">
 								<el-button link type="primary" @click="openEdit(scope.row)">修改</el-button>
 							</template>
@@ -116,6 +140,7 @@ import { ElMessage, type FormInstance, type FormRules } from "element-plus";
 import OrgTreePanel from "@/components/org/employee/OrgTreePanel.vue";
 import { useSalarySettingsStore } from "@/stores/org/salarySettings";
 import type { LessonFeeSetting, SalaryRow, SalaryUpdatePayload } from "@/apis/org/salarySettings";
+import { Grid, Printer, Refresh } from "@element-plus/icons-vue";
 
 const store = useSalarySettingsStore();
 const editVisible = ref(false);
@@ -222,8 +247,9 @@ async function handleSubmitEdit() {
 		if (editingRow.value) clearDraft(editingRow.value.id);
 		editVisible.value = false;
 		ElMessage.success("薪资设置修改成功");
-	} catch (e: any) {
-		ElMessage.error(e?.message || "修改失败");
+	} catch (e) {
+		const err = e as Error;
+		ElMessage.error(err?.message || "修改失败");
 	}
 }
 
@@ -239,6 +265,26 @@ function handleAddFeeRow() {
 
 function handleRemoveFeeRow(index: number) {
 	editForm.value.lessonFeeSettings.splice(index, 1);
+}
+
+function getSalarySummary(row: SalaryRow) {
+	if (row.salaryMode === "底薪模式") {
+		return `底薪${row.baseSalary}/月，达标${row.targetLessonCount}课时，课时费${row.trialLessonPay}/${row.lessonDuration}`;
+	}
+	return `非底薪模式，课时费${row.trialLessonPay}/${row.lessonDuration}`;
+}
+
+async function handleRefresh() {
+	await store.fetchList();
+	ElMessage.success("已刷新");
+}
+
+function handlePrint() {
+	window.print();
+}
+
+function handleColumnConfig() {
+	ElMessage.info("自定义列功能暂未接入");
 }
 </script>
 
@@ -264,6 +310,34 @@ function handleRemoveFeeRow(index: number) {
 
 .full-width {
 	width: 100%;
+}
+
+.salary-toolbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 8px;
+}
+
+.toolbar-icons {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.salary-summary {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.salary-mode {
+	font-weight: 600;
+}
+
+.salary-detail {
+	color: #909399;
+	font-size: 12px;
 }
 
 .name-text {

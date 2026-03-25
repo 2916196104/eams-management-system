@@ -1,4 +1,5 @@
 <template>
+	<!-- start -->
 	<div class="employee-page">
 		<el-alert v-if="store.error" class="error-alert" type="error" :closable="false" :title="store.error" />
 
@@ -8,41 +9,57 @@
 			</el-col>
 			<el-col :span="18">
 				<el-card shadow="never">
-					<div class="toolbar">
-						<div class="toolbar-left">
+					<div class="filters-row">
+						<div class="filters-left">
 							<span class="toolbar-label">搜索:</span>
-							<el-input v-model="keywordModel" placeholder="姓名或手机号" clearable class="search-input" />
+							<el-input v-model="keywordModel" placeholder="姓名或手机号" clearable class="search-input" @keyup.enter="handleSearch" />
 							<span class="toolbar-label">状态:</span>
-							<el-select v-model="statusModel" placeholder="状态" clearable class="status-select">
+							<el-select v-model="statusModel" placeholder="请选择" clearable class="status-select" @change="handleSearch">
 								<el-option label="在职" value="在职" />
 								<el-option label="离职" value="离职" />
 							</el-select>
-							<el-button type="primary" @click="handleSearch">搜索</el-button>
-							<el-button @click="handleReset">重置</el-button>
 						</div>
-						<div class="toolbar-right">
-							<el-tooltip content="刷新" placement="top"><el-button circle @click="handleRefresh"><el-icon><Refresh /></el-icon></el-button></el-tooltip>
-							<el-tooltip content="打印" placement="top"><el-button circle @click="handlePrint"><el-icon><Printer /></el-icon></el-button></el-tooltip>
-							<el-popover placement="bottom" trigger="click" width="160">
-								<template #reference>
-									<el-tooltip content="自定义列" placement="top"><el-button circle><el-icon><Grid /></el-icon></el-button></el-tooltip>
-								</template>
-								<el-checkbox-group v-model="checkedColumns" class="column-check-group">
-									<el-checkbox v-for="item in allColumns" :key="item.key" :label="item.key">{{ item.label }}</el-checkbox>
-								</el-checkbox-group>
-							</el-popover>
+						<div class="filters-right">
+							<el-tooltip content="搜索" placement="top">
+								<el-button circle @click="handleSearch">
+									<el-icon><Search /></el-icon>
+								</el-button>
+							</el-tooltip>
+							<el-tooltip content="重置" placement="top">
+								<el-button circle @click="handleReset">
+									<el-icon><Refresh /></el-icon>
+								</el-button>
+							</el-tooltip>
+							<el-button class="export-btn" plain @click="handleExport">导出</el-button>
 						</div>
 					</div>
 
-					<div class="toolbar toolbar-actions">
-						<div class="toolbar-left">
-							<el-button type="primary" plain @click="dialogVisible = true">添加员工</el-button>
+					<div class="actions-row">
+						<div class="actions-left">
+							<el-button type="primary" plain @click="dialogVisible = true">+ 添加员工</el-button>
 							<el-button :disabled="!hasSelection" @click="setRoleDialogVisible = true">设置角色</el-button>
 							<el-button :disabled="!hasSelection" @click="handleDelete">删除</el-button>
-							<el-button :disabled="!hasSelection" @click="transferOrgDialogVisible = true">转机构</el-button>
+							<el-button :disabled="!hasSelection" @click="transferOrgDialogVisible = true">+ 转机构</el-button>
 							<el-button :disabled="!hasSelection" @click="leaveDialogVisible = true">转为离职</el-button>
 							<el-button :disabled="!hasSelection" @click="activeDialogVisible = true">转为在职</el-button>
 							<el-button :disabled="!hasSelection" @click="openTransferStudentDialog">转学员</el-button>
+						</div>
+						<div class="actions-right">
+							<el-tooltip content="刷新" placement="top">
+								<el-button circle @click="handleRefresh">
+									<el-icon><Refresh /></el-icon>
+								</el-button>
+							</el-tooltip>
+							<el-tooltip content="打印" placement="top">
+								<el-button circle @click="handlePrint">
+									<el-icon><Printer /></el-icon>
+								</el-button>
+							</el-tooltip>
+							<el-tooltip content="自定义列" placement="top">
+								<el-button circle @click="openColumnDialog">
+									<el-icon><Grid /></el-icon>
+								</el-button>
+							</el-tooltip>
 						</div>
 					</div>
 
@@ -157,6 +174,19 @@
 			:submitting="store.loading.batch"
 			@submit="handleConfirmTransferStudent"
 		/>
+		<el-dialog v-model="columnDialogVisible" title="自定义显示列：" width="520px" destroy-on-close>
+			<div class="column-dialog-body">
+				<el-checkbox-group v-model="draftCheckedColumns" class="column-grid">
+					<el-checkbox v-for="item in allColumns" :key="item.key" :label="item.key">{{ item.label }}</el-checkbox>
+				</el-checkbox-group>
+			</div>
+			<template #footer>
+				<div class="column-footer">
+					<el-button @click="handleRestoreColumns">恢复</el-button>
+					<el-button type="primary" @click="handleConfirmColumns">确认</el-button>
+				</div>
+			</template>
+		</el-dialog>
 		<EmployeeEditDialog
 			v-model="editDialogVisible"
 			:submitting="store.loading.add"
@@ -166,12 +196,13 @@
 		/>
 		<ResetPasswordDialog v-model="resetPwdDialogVisible" :submitting="store.loading.batch" @submit="handleSubmitResetPwd" />
 	</div>
+	<!-- end -->
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { Grid, Printer, Refresh } from "@element-plus/icons-vue";
+import { Grid, Printer, Refresh, Search } from "@element-plus/icons-vue";
 import OrgTreePanel from "@/components/org/employee/OrgTreePanel.vue";
 import EmployeeFormDialog from "@/components/org/employee/EmployeeFormDialog.vue";
 import EmployeeEditDialog from "@/components/org/employee/EmployeeEditDialog.vue";
@@ -212,6 +243,9 @@ const allColumns = [
 	{ key: "status", label: "状态" },
 ] as const;
 const checkedColumns = ref<string[]>(allColumns.map((i) => i.key));
+const columnDialogVisible = ref(false);
+const defaultColumnKeys = allColumns.map((i) => i.key);
+const draftCheckedColumns = ref<string[]>([...checkedColumns.value]);
 
 onMounted(async () => {
 	await store.initPage();
@@ -281,6 +315,20 @@ function isColumnVisible(key: string) {
 	return checkedColumns.value.includes(key);
 }
 
+function openColumnDialog() {
+	draftCheckedColumns.value = [...checkedColumns.value];
+	columnDialogVisible.value = true;
+}
+
+function handleRestoreColumns() {
+	draftCheckedColumns.value = [...defaultColumnKeys];
+}
+
+function handleConfirmColumns() {
+	checkedColumns.value = [...draftCheckedColumns.value];
+	columnDialogVisible.value = false;
+}
+
 async function handleRefresh() {
 	await store.fetchEmployeeList();
 	ElMessage.success("已刷新");
@@ -288,6 +336,10 @@ async function handleRefresh() {
 
 function handlePrint() {
 	window.print();
+}
+
+function handleExport() {
+	ElMessage.info("导出功能暂未接入");
 }
 
 async function handleDelete() {
@@ -388,6 +440,57 @@ async function handleSubmitResetPwd(newPassword: string) {
 	font-size: 14px;
 }
 
+.filters-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 10px;
+	gap: 12px;
+}
+
+.filters-left {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.filters-right {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.right-icons {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.export-btn {
+	padding: 0 10px;
+}
+
+.actions-row {
+	margin-bottom: 12px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+}
+
+.actions-left {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.actions-right {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
 .toolbar-right {
 	display: flex;
 	align-items: center;
@@ -412,10 +515,26 @@ async function handleSubmitResetPwd(newPassword: string) {
 	width: 100%;
 }
 
-.column-check-group {
+.column-dialog-body {
+	padding: 2px 0 4px;
+}
+
+.column-grid {
 	display: grid;
-	grid-template-columns: 1fr;
-	gap: 6px;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 10px 18px;
+	padding: 6px 8px;
+}
+
+.column-grid :deep(.el-checkbox__label) {
+	white-space: nowrap;
+}
+
+.column-footer {
+	display: flex;
+	justify-content: flex-end;
+	gap: 16px;
+	width: 100%;
 }
 
 .student-pick-toolbar {
