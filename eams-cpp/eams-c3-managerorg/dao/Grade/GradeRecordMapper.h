@@ -2,7 +2,7 @@
 #define _GRADE_RECORD_MAPPER_H
 
 #include"Mapper.h"
-#include <GradeRecordDO.h>
+#include "domain/do/Grade/GradeRecordDO.h"
 
 
 class GradeRecordMapper : public Mapper<GradeRecordDO> {
@@ -20,7 +20,7 @@ public:
     return data;
   }
 };
-class PtrSampleMapper : public Mapper<PtrGradeRecordDO> {
+class PtrGradeRecordMapper : public Mapper<PtrGradeRecordDO> {
 public:
   PtrGradeRecordDO mapper(ResultSet* resultSet) const override
   {
