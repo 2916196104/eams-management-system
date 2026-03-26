@@ -39,6 +39,30 @@ class EvaluationQuery : public PageQuery
 		info->description = ZH_WORDS_GETTER("evaluation.field.lesson_id");
 	}
 
+	// 学生姓名
+	DTO_FIELD(String, name);
+	DTO_FIELD_INFO(name) {
+		info->description = ZH_WORDS_GETTER("evaluation.field.name");
+	}
+
+	// 评分
+	DTO_FIELD(Int32, score);
+	DTO_FIELD_INFO(score) {
+		info->description = ZH_WORDS_GETTER("evaluation.field.score");
+	}
+
+	// 是否签到
+	DTO_FIELD(Boolean, isSign);
+	DTO_FIELD_INFO(isSign) {
+		info->description = ZH_WORDS_GETTER("evaluation.field.has_sign");
+	}
+
+	// 是否点评
+	DTO_FIELD(Boolean, isEvaluate);
+	DTO_FIELD_INFO(isEvaluate) {
+		info->description = ZH_WORDS_GETTER("evaluation.field.has_evaluation");
+	}
+
 };
 
 
