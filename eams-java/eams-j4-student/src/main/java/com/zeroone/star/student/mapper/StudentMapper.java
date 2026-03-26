@@ -1,13 +1,13 @@
 package com.zeroone.star.student.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.zeroone.star.project.dto.j4.student.StudentDTO;
 import com.zeroone.star.project.dto.j4.student.StudentQueryCondition;
 import com.zeroone.star.project.vo.j4.student.StudentExportVO;
 import com.zeroone.star.student.entity.Student;
 import com.zeroone.star.project.vo.j4.student.StudentExportExcelVO;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -76,4 +76,39 @@ public interface StudentMapper extends BaseMapper<Student> {
             "LEFT JOIN staff st ON s.counselor = st.id " +
             "WHERE s.stage = 1 AND s.deleted = 0")
     List<StudentExportExcelVO> selectOnlineStudentExportData();
+
+    /**
+     * 修改学生阶段
+     */
+    @Update("UPDATE student SET stage = #{stage} WHERE id = #{id}")
+    int updateStudentStage(StudentDTO studentDTO);
+
+    /**
+     * 插入报名表 (student_course)
+     */
+    @Insert("INSERT INTO student_course " +
+            "(student_id, course_id, subject_id, start_date, expire_date, remark, " +
+            "count_lesson_total, count_lesson_complete, amount, paid_amount, " +
+            "operator, creator, add_time, verify_state, unit_price) " +
+            "VALUES " +
+            "(#{studentId}, #{courseId}, #{subjectId}, #{startDate}, #{expireDate}, #{remark}, " +
+            "#{countLessonTotal}, 0, #{amount}, #{paidAmount}, " +
+            "#{staffId}, #{staffId}, NOW(), 1, #{unitPrice})")
+    int insertStudentCourse(StudentEnrollDTO enrollDTO);
+
+    /**
+     * 插入课时变更流水表 (student_lesson_count_log)
+     */
+    @Insert("INSERT INTO student_lesson_count_log " +
+            "(student_id, course_id, change_count, remaining_count, staff_id, add_time, stage, remark) " +
+            "VALUES " +
+            "(#{studentId}, #{courseId}, #{countLessonTotal}, #{countLessonTotal}, #{staffId}, NOW(), 1, '报名')")
+    int insertEnrollLog(StudentEnrollDTO enrollDTO);
+
+
+    /**
+     * 查询学生详情
+     */
+    @Select("SELECT * FROM student WHERE id = #{id}")
+    StudentDTO selectStudentDetail(Integer id);
 }

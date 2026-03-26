@@ -544,4 +544,40 @@ public class StudentController implements StudentApis {
     public JsonVO<StudentScheduleVO> getStudentSchedule(StudentQuery studentQuery) {
         return null;
     }
+
+    /**
+     * 学员阶段设置
+     */
+    @PutMapping("/modify-stage")
+    @ApiOperation(value = "设置学员阶段状态", notes = "修改学员当前学习阶段")
+    public Result<Boolean> modifyStudentStage(@RequestBody StudentDTO studentDTO) {
+        // Service 返回原始 boolean
+        boolean success = studentService.updateStudentStage(studentDTO);
+        // 在 Controller 层进行 Result 包装
+        return success ? Result.ok() : Result.build(false, "阶段更新失败");
+    }
+
+    @PostMapping("/add-enroll")
+    @ApiOperation(value = "新增学员报名", notes = "关联课程并初始化课时流水")
+    public Result<Boolean> addStudentEnroll(@RequestBody StudentEnrollDTO enrollDTO) {
+        // 基础校验
+        if (enrollDTO.getStudentId() == null || enrollDTO.getCourseId() == null) {
+            return Result.build(false, "报名失败：学员ID和课程ID不能为空");
+        }
+
+        boolean isSuccess = studentService.saveStudentEnroll(enrollDTO);
+        return isSuccess ? Result.ok() : Result.build(false, "报名存入数据库失败");
+    }
+
+    /**
+     * 获取学员详情
+     */
+    @GetMapping("/query-detail/id")
+    @ApiOperation(value = "获取学员详细资料", notes = "根据ID查询单条详情")
+    public Result<StudentDTO> queryStudentDetail(Integer id) {
+        // Service 返回原始 DTO 对象
+        StudentDTO detail = studentService.getStudentDetail(id);
+        // 包装进 Result 的 result 字段
+        return Result.build(detail);
+    }
 }
