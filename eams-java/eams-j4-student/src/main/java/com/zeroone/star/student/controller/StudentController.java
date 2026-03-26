@@ -159,9 +159,9 @@ public class StudentController implements StudentApis {
     @ApiOperation("退出班级")
     public JsonVO<List<Long>> quitClass(
             @ApiParam(value = "班级 ID", required = true, example = "2008418408985583620")
-            @RequestParam @NotNull(message = "班级ID不能为空") Long classId,
+            @RequestParam Long classId,
             @ApiParam(value = "学生 ID", required = true, example = "2008418408985583617")
-            @RequestParam @NotNull(message = "学生ID不能为空") Long studentId) {
+            @RequestParam Long studentId) {
         try {
             List<Long> result = studentService.quitClass(classId, studentId);
             return JsonVO.success(result);
