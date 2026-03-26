@@ -103,20 +103,20 @@ class GetHomeworkListJsonVO : public JsonVO<GetHomeworkListPageDTO::Wrapper> {
 
 	DTO_FIELD(oatpp::Int64, id);
 	DTO_FIELD(oatpp::String, title);
-	DTO_FIELD(oatpp::String, class_id);
+	DTO_FIELD(oatpp::Int64, class_id);
 	DTO_FIELD(oatpp::String, content);
 	DTO_FIELD(oatpp::Int64, creator);
 	DTO_FIELD(oatpp::String, addtime);
 };
 
 //获取作业详情
-//返回了标题，班级，内容，方便下一步修改/保存作业
+//返回了内容
 class GetHomeworkDetailJsonVO : public JsonVO<GetHomeworkDetailDTO::Wrapper> {
 	DTO_INIT(GetHomeworkDetailJsonVO, JsonVO<GetHomeworkDetailDTO::Wrapper>);
 
-	DTO_FIELD(oatpp::Int64, id);
+	//是要回标题和班级等信息？
 	DTO_FIELD(oatpp::String, title);
-	DTO_FIELD(oatpp::String, class_id);
+	DTO_FIELD(oatpp::Int64,class_id);
 	DTO_FIELD(oatpp::String, content);
 };
 

@@ -6,7 +6,8 @@
 
 
 //作业DO
-class HomeworkDO:BaseDO
+//兄弟我需要用你的这个DO，必须是HomeworkDO:public BaseDO
+class HomeworkDO:public BaseDO
 {
 	//主键ID（作业记录唯一标识）
 	MYSQL_SYNTHESIZE(int, id, Id);

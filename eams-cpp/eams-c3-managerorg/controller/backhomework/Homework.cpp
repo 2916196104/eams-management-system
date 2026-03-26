@@ -5,23 +5,60 @@
 
 //获取作业列表（条件+分页）
 GetHomeworkListJsonVO::Wrapper Homework::execGetHomeworkList(const GetHomeworkListQuery::Wrapper& query) {
-	//// 查询数据
-	//auto result = HomeworkService().gethomeworklist(query);
-	//// 响应结果
-	//auto jvo = GetHomeworkListJsonVO::createShared();
-	//jvo->success("ok");
-	//return jvo;
-	return {};
+	// 查询数据
+	auto result = HomeworkService().gethomeworklist(query);
+	// 响应结果
+	auto jvo = GetHomeworkListJsonVO::createShared();
+	jvo->success(result);
+	return jvo;
 }
 
 //获取作业详情
-GetHomeworkDetailJsonVO::Wrapper Homework::execGetHomeworkDetail(const string& id) {
-	return {};
+GetHomeworkDetailJsonVO::Wrapper Homework::execGetHomeworkDetail(UInt64 id) {
+	// 定义返回数据对象
+	auto jvo = GetHomeworkDetailJsonVO::createShared();
+
+	// 参数校验
+	// 非空校验
+	if (!id)
+	{
+		jvo->init(nullptr, RS_PARAMS_INVALID);
+		return jvo;
+	}
+
+	// 执行数据新增
+	auto res = HomeworkService().gethomeworkdetail(id.getValue({}));
+	jvo->success(res);
+
+	//响应结果
+	return jvo;
 }
 
 //保存作业
 StringJsonVO::Wrapper Homework::execSaveHomework(const SaveHomeworkDTO::Wrapper& dto, const PayloadDTO& payload) {
-	return {};
+	
+	// 定义返回数据对象
+	auto jvo = StringJsonVO::createShared();
+	// 参数校验
+	std::string errmsg = dto->validate();
+	if (errmsg != "")
+	{
+		jvo->init(errmsg, RS_PARAMS_INVALID);
+		return jvo;
+	}
+
+	// 执行
+	dto->setPayload(&payload);
+	bool id = HomeworkService().saveHomework(dto);
+	if (id == true) {
+		jvo->success("success");
+	}
+	else
+	{
+		jvo->fail("");
+	}
+	//响应结果
+	return jvo;
 }
 
 ListJsonVO<String>::Wrapper Homework::executeDelHomework(const DeleteHomework::Wrapper& dto)

@@ -19,10 +19,9 @@ public:
 	// 获取作业列表，分页查询
 	GetHomeworkListPageDTO::Wrapper gethomeworklist(const GetHomeworkListQuery::Wrapper& query);
 	// 获取作业详情
-	GetHomeworkDetailDTO::Wrapper gethomeworkdetail(std::string id);
+	GetHomeworkDetailDTO::Wrapper gethomeworkdetail(int64_t id);
 	// 保存作业
-	std::string saveHomework(const SaveHomeworkDTO::Wrapper& dto);
-
+	bool saveHomework(const SaveHomeworkDTO::Wrapper& dto);
 };
 
 #endif 

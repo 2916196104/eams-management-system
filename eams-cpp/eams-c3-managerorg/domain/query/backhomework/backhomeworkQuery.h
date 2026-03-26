@@ -32,7 +32,7 @@ class GetHomeworkListQuery : public PageQuery {
 		info->description = ZH_WORDS_GETTER("homework.gethomeworklist.title");
 	}
 	// 班级名称
-	DTO_FIELD(String, class_id);
+	DTO_FIELD(Int64, class_id);
 	DTO_FIELD_INFO(class_id) {
 		info->description = ZH_WORDS_GETTER("homework.gethomeworklist.class_id");
 	}

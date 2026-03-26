@@ -67,16 +67,18 @@ homework:
   summary: 作业
   gethomeworklist: 
     summary: 获取作业列表(条件+分页)
+    id: 作业ID
     title: 作业标题
     class_id: 班级ID
     creator: 作业发布者
   gethomeworkdetail: 
     summary: 获取作业详情
+    id: 作业ID
     class_id: 班级ID
     title: 作业标题
   savehomework:
     summary: 保存作业 
-    id: ID
+    id: 作业ID
 
 
 SendHomework:

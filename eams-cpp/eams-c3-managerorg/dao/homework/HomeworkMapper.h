@@ -24,7 +24,7 @@ public:
 class PtrHomeworkMapper :public std::shared_ptr<HomeworkMapper>
 {
 public:
-	PtrHomeworkDO map(ResultSet* resultSet) const
+	PtrHomeworkDO mapper(ResultSet* resultSet) const //兄弟，你这原来写的是map，我改成mapper了，接口中是mapper，否则我们调用的时候会报错，找不到这个函数
 	{
 		auto homework = std::make_shared<HomeworkDO>();
 		homework->setId(resultSet->getInt("id"));
