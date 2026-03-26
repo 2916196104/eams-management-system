@@ -31,8 +31,8 @@ namespace StudentRecord {
 			// 定义分页查询参数描述
 			API_DEF_ADD_PAGE_PARAMS();
 			// 定义其他查询参数描述
-			API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("StudentRecord.sample.field.name"), "li ming", false);
-			API_DEF_ADD_QUERY_PARAMS(String, "studentid", ZH_WORDS_GETTER("StudentRecord.sample.field.id"), "7965", true);
+			API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("StudentRecord.sample.field.name"), "1", false);
+			API_DEF_ADD_QUERY_PARAMS(String, "id", ZH_WORDS_GETTER("StudentRecord.sample.field.id"), "1", true);
 		}
 		// 3.2 定义查询接口处理
 		ENDPOINT(API_M_GET, "/c7/workbanch/CourseProgress", CourseProgress, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
@@ -56,7 +56,7 @@ namespace StudentRecord {
 			API_DEF_ADD_PAGE_PARAMS();
 			// 定义其他查询参数描述
 			API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("StudentRecord.sample.field.name"), "li ming", false);
-			API_DEF_ADD_QUERY_PARAMS(String, "studentid", ZH_WORDS_GETTER("StudentRecord.sample.field.id"), "7965", true);
+			API_DEF_ADD_QUERY_PARAMS(String, "id", ZH_WORDS_GETTER("StudentRecord.sample.field.id"), "7965", true);
 		}
 		// 3.2 定义查询接口处理
 		ENDPOINT(API_M_GET, "/c7/workbanch/CourseRecord", CourseRecord, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
@@ -80,7 +80,7 @@ namespace StudentRecord {
 			API_DEF_ADD_PAGE_PARAMS();
 			// 定义其他查询参数描述
 			API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("StudentRecord.sample.field.name"), "li ming", false);
-			API_DEF_ADD_QUERY_PARAMS(String, "studentid", ZH_WORDS_GETTER("StudentRecord.sample.field.id"), "7965", true);
+			API_DEF_ADD_QUERY_PARAMS(String, "id", ZH_WORDS_GETTER("StudentRecord.sample.field.id"), "7965", true);
 		}
 		// 3.2 定义查询接口处理
 		ENDPOINT(API_M_GET, "/c7/workbanch/StudentSighnUP", StudentSighnUP, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {

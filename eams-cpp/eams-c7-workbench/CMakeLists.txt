@@ -59,7 +59,30 @@ add_executable(${appName}
     "controller/StudentRecord/StclassRecordController.cpp"
     "controller/StudentRecord/StlistController.cpp"
     "controller/StudentRecord/StprofileDetailsController.cpp"
- "controller/StudentRecord/student_coursecontroller.cpp" "controller/StudentRecord/student_coursecontroller.h" "domain/dto/StudentRecord/student_courseDTO.h" "domain/query/StudentRecord/studentinformation.h" "domain/vo/StudentRecord/student_courseVO.h" "controller/AddStudent/PostStudentInfo.cpp" "controller/AddStudent/PostStudentInfo.h" "controller/RegistRecord/GetRegistRecordDetailsController.cpp" "controller/RegistRecord/GetRegistRecordDetailsController.h" "controller/RegistRecord/GetRegistRecordListController.cpp" "controller/RegistRecord/GetRegistRecordListController.h" "domain/dto/AddStudent/AddStudentDTO.h" "domain/dto/RegistRecord/RegistRecordDTO.h" "domain/query/AddStudent/AddStudentQuery.h" "domain/query/RegistRecord/RegistRecordQuery.h" "domain/vo/AddStudent/AddStudentVO.h" "domain/vo/RegistRecord/RegistRecordVO.h")
+    "controller/AddStudent/PostStudentInfo.cpp"
+    "controller/RegistRecord/GetRegistRecordDetailsController.cpp"
+    "controller/RegistRecord/GetRegistRecordListController.cpp"
+    "controller/StudentRecord/student_coursecontroller.cpp"
+    "dao/StudentRecord/student_courseDAO.cpp" 
+    "controller/AddStudent/PostStudentInfo.h"
+    "controller/RegistRecord/GetRegistRecordDetailsController.h"
+    "controller/RegistRecord/GetRegistRecordListController.h"
+    "controller/StudentRecord/student_coursecontroller.h"
+    "dao/StudentRecord/student_courseDAO.h"
+    "dao/StudentRecord/student_courseMapper.h"
+    "domain/do/StudentRecord/classroom/classroomdo.h"
+    "domain/do/StudentRecord/student_course/student_coursedo.h"
+    "domain/do/StudentRecord/view/student_courseviewdo.h"
+    "domain/dto/StudentRecord/student_courseDTO.h"
+    "domain/dto/AddStudent/AddStudentDTO.h"
+    "domain/dto/RegistRecord/RegistRecordDTO.h"
+    "domain/query/StudentRecord/studentinformation.h"
+    "domain/query/AddStudent/AddStudentQuery.h"
+    "domain/query/RegistRecord/RegistRecordQuery.h"
+    "domain/vo/StudentRecord/student_courseVO.h"
+    "domain/vo/AddStudent/AddStudentVO.h"
+    "domain/vo/RegistRecord/RegistRecordVO.h"
+)
 # 发布Swagger文档包宏定义
 if(DEFINED _RELEASE_DOC_)
 	target_compile_definitions(${appName} PRIVATE _RELEASE_DOC_)

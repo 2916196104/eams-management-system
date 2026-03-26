@@ -1,15 +1,64 @@
-ï»¿#include"stdafx.h"
+#include"stdafx.h"
 #include"student_coursecontroller.h"
+#include"../../service/StudentRecord/student_courseServeice.h"
 
 CourseProgressPageJsonVO::Wrapper StudentRecord::CourseControllor::execCourseProgressPageQuery(StudentQuery::Wrapper userQuery) {
-	return {};
+	if (!userQuery->id) {
+		// ·â×°³ÉVO·µ»Ø£¨²¹³äÍ¨ÓÃ·µ»Ø×Ö¶Î£©
+		auto vo = CourseProgressPageJsonVO::createShared();
+		vo->code = 400;
+		vo->message = "id can't be empty";
+		return vo;
+	}
+	// ´´½¨Service¶ÔÏó
+	StudentCourseService service;
+	// µ÷ÓÃService²éÑ¯Êý¾Ý
+	auto pageDTO = service.listAllCourseProgress(userQuery);
+	// ·â×°³ÉVO·µ»Ø£¨²¹³äÍ¨ÓÃ·µ»Ø×Ö¶Î£©
+	auto vo = CourseProgressPageJsonVO::createShared();
+	vo->data = pageDTO;
+	vo->code = 200;
+	vo->message = "seccesefully find through id";
+	return vo;
 
 }
 CourseRecordPageJsonVO::Wrapper StudentRecord::CourseControllor::execCourseRecordPageQuery(StudentQuery::Wrapper userQuery) {
-	
-	return {};
+
+	if (!userQuery->id) {
+		// ·â×°³ÉVO·µ»Ø£¨²¹³äÍ¨ÓÃ·µ»Ø×Ö¶Î£©
+		auto vo = CourseRecordPageJsonVO::createShared();
+		vo->code = 400;
+		vo->message = "id can't be empty";
+		return vo;
+	}
+	// ´´½¨Service¶ÔÏó
+	StudentCourseService service;
+	// µ÷ÓÃService²éÑ¯Êý¾Ý
+	auto pageDTO = service.listAllCourseRecord(userQuery);
+	// ·â×°³ÉVO·µ»Ø£¨²¹³äÍ¨ÓÃ·µ»Ø×Ö¶Î£©
+	auto vo = CourseRecordPageJsonVO::createShared();
+	vo->data = pageDTO;
+	vo->code = 200;
+	vo->message = "seccesefully find through id";
+	return vo;
 }
 StudentSighnUPPageJsonVO::Wrapper StudentRecord::CourseControllor::execStudentSighnUPPageQuery(StudentQuery::Wrapper userQuery) {
 
-	return {};
+	if (!userQuery->id) {
+		// ·â×°³ÉVO·µ»Ø£¨²¹³äÍ¨ÓÃ·µ»Ø×Ö¶Î£©
+		auto vo = StudentSighnUPPageJsonVO::createShared();
+		vo->code = 400;
+		vo->message = "id can't be empty";
+		return vo;
+	}
+	// ´´½¨Service¶ÔÏó
+	StudentCourseService service;
+	// µ÷ÓÃService²éÑ¯Êý¾Ý
+	auto pageDTO = service.listAllStudentSighnUP(userQuery);
+	// ·â×°³ÉVO·µ»Ø£¨²¹³äÍ¨ÓÃ·µ»Ø×Ö¶Î£©
+	auto vo = StudentSighnUPPageJsonVO::createShared();
+	vo->data = pageDTO;
+	vo->code = 200;
+	vo->message = "seccesefully find through id";
+	return vo;
 }
