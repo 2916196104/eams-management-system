@@ -7,7 +7,7 @@
 bool StudentLeaveService::addLeave(const ScheduleLeaveDTO::Wrapper& dto)
 {
 
-	uint64_t lessonId = dto->scheduleId.getValue(0);
+	uint64_t lessonId = dto->lessonId.getValue(0);
 	uint64_t studentId = dto->studentId.getValue(0);
 	std::string reason = dto->reason;
 

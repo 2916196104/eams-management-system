@@ -7,10 +7,10 @@
 bool AppointmentService::addAppointment(const ScheduleAppointmentDTO::Wrapper& dto)
 {
 	// 基础参数校验
-	if (!dto->scheduleId || !dto->studentId) {
+	if (!dto->lessonId || !dto->studentId) {
 		throw std::runtime_error("参数校验失败：排课ID或学生ID不能为空！");
 	}
-	uint64_t lessonId = dto->scheduleId.getValue(0);
+	uint64_t lessonId = dto->lessonId.getValue(0);
 	uint64_t studentId = dto->studentId.getValue(0);
 
 

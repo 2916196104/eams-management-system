@@ -51,7 +51,7 @@ public:
     // 3.2 定义新增预约接口处理
     API_HANDLER_ENDPOINT_AUTH(
         API_M_POST,
-        "schedule/appointment",
+        "/app/sCenter/lesson/appoint",
         addAppointment,
         BODY_DTO(ScheduleAppointmentDTO::Wrapper, dto),
         execAddAppointment(dto, authObject->getPayload()) // 传递 DTO 和 Payload (通常包含当前用户/家长信息)
@@ -69,7 +69,7 @@ public:
     // 3.2 定义新增请假接口处理
     API_HANDLER_ENDPOINT_AUTH(
         API_M_POST,
-        "schedule/leave",
+        "/app/sCenter/lesson/leave",
         addLeave,
         BODY_DTO(ScheduleLeaveDTO::Wrapper, dto),
         execAddLeave(dto, authObject->getPayload())
