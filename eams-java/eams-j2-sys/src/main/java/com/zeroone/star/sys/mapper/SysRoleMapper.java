@@ -1,8 +1,10 @@
 package com.zeroone.star.sys.mapper;
 
-import com.zeroone.star.sys.entity.SysRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.zeroone.star.sys.entity.SysRole;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,5 +16,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SysRoleMapper extends BaseMapper<SysRole> {
+    List<SysRole> selectByUserId(int userId);
 
+    List<SysRole> selectByMenuPath(String path);
 }

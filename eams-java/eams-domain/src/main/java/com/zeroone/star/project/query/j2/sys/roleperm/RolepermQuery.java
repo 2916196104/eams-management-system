@@ -14,4 +14,9 @@ import lombok.Data;
 public class RolepermQuery extends PageQuery {
     @ApiModelProperty(value = "角色id",example = "1")
     private int id;
+    @ApiModelProperty(value = "角色名称",hidden = true)
+    private String name;
+
+    @ApiModelProperty(value = "角色编码",hidden = true)
+    private String code;
 }

@@ -16,6 +16,7 @@ import com.zeroone.star.project.vo.j2.sys.Roleperm.PermissionGroupListVO;
 import com.zeroone.star.project.vo.j2.sys.Roleperm.PermissionGroupVO;
 import com.zeroone.star.sys.entity.Staff;
 import com.zeroone.star.sys.entity.SysPermission;
+import com.zeroone.star.sys.entity.SysRole;
 import com.zeroone.star.sys.entity.SysUserRole;
 import com.zeroone.star.sys.mapper.StaffMapper;
 import com.zeroone.star.sys.mapper.SysUserRoleMapper;
@@ -54,6 +55,7 @@ public class RolepermController implements RolepermApis {
     @Resource
     private StaffMapper staffMapper;
     private MsPermissionMapper msPermissionMapper;
+    private SysRoleService roleService;
 
     @Resource
     private SysRoleService sysRoleService;
@@ -62,25 +64,65 @@ public class RolepermController implements RolepermApis {
     /**
      * 负责人：小白
      */
-    @Override
-    @ApiOperation("获取角色名称列表（条件）")
+    private RolepermDTO toDto(SysRole sysRole) {
+        RolepermDTO dto = new RolepermDTO();
+        dto.setId(sysRole.getId() == null ? null : sysRole.getId().longValue());
+        dto.setName(sysRole.getName());
+        dto.setCode(sysRole.getCode());
+        return dto;
+    }
+    private SysRole toEntity(RolepermDTO dto) {
+        SysRole sysRole = new SysRole();
+        if (dto != null) {
+            if (dto.getId() != null) sysRole.setId(dto.getId().intValue());
+            sysRole.setName(dto.getName());
+            sysRole.setCode(dto.getCode());
+        }
+        return sysRole;
+    }
+    @ApiOperation("获取角色名称列表")
     @GetMapping("/nameList")
     public JsonVO<List<RolepermDTO>> getNameList(RolepermQuery query) {
-        return null;
+        QueryWrapper<SysRole> wrapper = new QueryWrapper<>();
+        if (query.getName() != null) wrapper.like("name", query.getName());
+        if (query.getCode() != null) wrapper.eq("code", query.getCode());
+        List<SysRole> sysRoles = roleService.list(wrapper);
+        List<RolepermDTO> dtoList = sysRoles.stream().map(this::toDto).collect(Collectors.toList());
+        return JsonVO.success(dtoList);
     }
 
-    @Override
+    @ApiOperation("获取角色分页列表")
     @GetMapping("/page")
-    @ApiOperation("获取角色列表（条件+分页）")
     public JsonVO<List<RolepermDTO>> getPage(RolepermQuery query) {
-        return null;
+        long pageIndex = (query.getPageIndex() > 0 ? query.getPageIndex() : 1);
+        long pageSize = (query.getPageSize() > 0 ? query.getPageSize() : 10);
+
+        Page<SysRole> page = new Page<>(pageIndex, pageSize);
+        QueryWrapper<SysRole> wrapper = new QueryWrapper<>();
+        if (query.getName() != null) wrapper.like("name", query.getName());
+        if (query.getCode() != null) wrapper.eq("code", query.getCode());
+        wrapper.orderByDesc("id");
+
+        Page<SysRole> result = roleService.page(page, wrapper);
+        List<RolepermDTO> dtoList = result.getRecords().stream().map(this::toDto).collect(Collectors.toList());
+        return JsonVO.success(dtoList);
     }
 
-    @Override
-    @PostMapping("/save")
     @ApiOperation("保存角色")
+    @PostMapping("/save")
     public JsonVO<RolepermDTO> saveRole(RolepermDTO dto) {
-        return null;
+        if (dto == null) {
+            return JsonVO.fail("参数无效");
+        }
+        SysRole sysRole = toEntity(dto);
+        boolean saved;
+        if (dto.getId() != null) {
+            saved = roleService.updateById(sysRole);
+        } else {
+            saved = roleService.save(sysRole);
+            dto.setId(sysRole.getId() == null ? null : sysRole.getId().longValue());
+        }
+        return saved ? JsonVO.success(dto) : JsonVO.fail("保存失败");
     }
     /**
      * 负责人：isme
