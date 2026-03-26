@@ -86,6 +86,8 @@ std::list<Lesson_StudentDO> Lesson_StudentDAO::selectWithPage(
 
 bool Teach_EvaluationDAO::insert(const Ptrteach_evaluationDO data)
 {
+	if(!data->getPrimaryField()->get())
+		throw std::runtime_error("Primary key value is required for insert operation.");
 	SqlParams params;
 	std::string sql =
 		"INSERT INTO teach_evaluation ("
@@ -103,5 +105,5 @@ bool Teach_EvaluationDAO::insert(const Ptrteach_evaluationDO data)
 	SQLPARAMS_PUSH(params, "s", std::string, data->getAddTime());
 	SQLPARAMS_PUSH(params, "i", uint64_t, data->getStudentId());
 	SQLPARAMS_PUSH(params, "i", uint64_t, data->getAnonymity());
-	return sqlSession->executeUpdate(sql, params) > 0;
+	return sqlSession->executeUpdate(sql, params);
 }

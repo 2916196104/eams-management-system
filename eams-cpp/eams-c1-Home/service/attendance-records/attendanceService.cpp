@@ -64,11 +64,11 @@ std::string Teach_EvaluationService::saveData(const attendance_recordsEvaluateDT
 {
 	if (!dto)
 	{
-		return false;
+		return "";
 	}
 
 	// 直接使用 DO 对象（DAO.insert 接受 const Teach_EvaluationDO&）
-	Ptrteach_evaluationDO data;
+	Ptrteach_evaluationDO data = make_shared<Teach_EvaluationDO>();
 
 	// DTO -> DO 映射（根据实际 DTO 字段调整）
 	ZO_STAR_DOMAIN_DTO_TO_DO_1(data,dto,
@@ -79,7 +79,6 @@ std::string Teach_EvaluationService::saveData(const attendance_recordsEvaluateDT
 		Score3,score3,
 		Score4,score4,
 		Content,content,
-		AddTime, add_time,
 		StudentId,student_id,
 		Anonymity, anonymity
 	);

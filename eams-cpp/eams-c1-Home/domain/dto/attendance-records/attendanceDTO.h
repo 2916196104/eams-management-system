@@ -79,13 +79,22 @@ class attendance_recordsEvaluateDTO : public oatpp::DTO
 	// 评语
 	API_DTO_FIELD_REQUIRE(String, content, ZH_WORDS_GETTER("attendance_records.teach_evaluation.content"), true);
 	// 评价时间
-	API_DTO_FIELD_REQUIRE(String, add_time, ZH_WORDS_GETTER("attendance_records.teach_evaluation.add_time"), true);
+	//API_DTO_FIELD_REQUIRE(String, add_time, ZH_WORDS_GETTER("attendance_records.teach_evaluation.add_time"), true);
 	// 学生id
 	API_DTO_FIELD_REQUIRE(UInt64, student_id, ZH_WORDS_GETTER("attendance_records.teach_evaluation.student_id"), true);
 	// 是否匿名
 	API_DTO_FIELD_REQUIRE(UInt8, anonymity, ZH_WORDS_GETTER("attendance_records.teach_evaluation.anonymity"), true);
 	// 关联一个PayloadDTO负载数据对象
 	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
+public:
+	string validate() 
+	{
+		if (score1 < 1 || score1 > 5) return "score1 invalidate.";
+		if (score2 < 1 || score2 > 5) return "score2 invalidate.";
+		if (score3 < 1 || score3 > 5) return "score3 invalidate.";
+		if (score4 < 1 || score4 > 5) return "scpre4 invalidate.";
+		return "";
+	}
 };
 #include OATPP_CODEGEN_END(DTO)
 

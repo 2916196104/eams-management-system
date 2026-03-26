@@ -29,10 +29,22 @@ attendance_recordsPageJsonVO::Wrapper attendanceController::execQueryAttendanceR
 	return jvo;
 }
 
-attendance_recordsEvaluateJsonVO::Wrapper attendanceController::execEvaluateAttendanceRecords(const UInt32& student_id) {
-	auto dto = attendance_recordsEvaluateDTO::createShared();
-	auto res = Teach_EvaluationService().saveData(dto);
-	auto jvo = attendance_recordsEvaluateJsonVO::createShared();
-	//jvo->success(res);
+StringJsonVO::Wrapper attendanceController::execEvaluateAttendanceRecords(const attendance_recordsEvaluateDTO::Wrapper& dto, const PayloadDTO& payload) {
+	auto jvo = StringJsonVO::createShared();
+	std::string errmsg = dto->validate();
+	if (errmsg != "") {
+		jvo->init(errmsg, RS_PARAMS_INVALID);
+		return jvo;
+	}
+
+	dto->setPayload(&payload);
+	std::string id = Teach_EvaluationService().saveData(dto);
+	if (id != "") {
+		jvo->success(id);
+	}
+	else {
+		jvo->fail("");
+	}
+
 	return jvo;
 }

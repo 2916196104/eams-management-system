@@ -43,10 +43,12 @@ class attendance_recordsPageJsonVO : public JsonVO<attendance_recordsPageDTO::Wr
 /*
 * 评价课次显示对象
 */
+/*
 class attendance_recordsEvaluateJsonVO : public JsonVO<attendance_recordsEvaluateDTO::Wrapper>
 {
 	DTO_INIT(attendance_recordsEvaluateJsonVO, JsonVO<attendance_recordsEvaluateDTO::Wrapper>);
 };
+*/
 #include OATPP_CODEGEN_END(DTO)
 
 #endif // !_ATTENDANCEVO_H_

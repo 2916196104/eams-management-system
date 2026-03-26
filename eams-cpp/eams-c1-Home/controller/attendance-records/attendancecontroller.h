@@ -45,17 +45,13 @@ public: // 定义接口
 
 	//2.1 定义评价课次控制器
 	API_DEF_ENDPOINT_INFO_AUTH(
-		ZH_WORDS_GETTER("attendance_records.evaluate_attendance_records"), evaluateAttendanceRecords, attendance_recordsEvaluateJsonVO::Wrapper, API_TAG,
-		API_DEF_ADD_QUERY_PARAMS(UInt32, "student_id", ZH_WORDS_GETTER("attendance_records.student_id"), 1, true);
-	);
+		ZH_WORDS_GETTER("attendance_records.evaluate_attendance_records"), addevaluateAttendanceRecords, StringJsonVO::Wrapper, API_TAG);
 	// 2.2 定义评价课次接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/home/attendance_records/evaluate", evaluateAttendanceRecords, QUERY(UInt32, student_id), execEvaluateAttendanceRecords(student_id));
-
-
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/home/attendance_records/evaluate", addevaluateAttendanceRecords,BODY_DTO(attendance_recordsEvaluateDTO::Wrapper ,dto), execEvaluateAttendanceRecords(dto, authObject->getPayload()));
 private: // 定义接口执行函数
 	attendance_recordsPageJsonVO::Wrapper execQueryAttendanceRecordsPage(const attendance_recordsQuery::Wrapper& query);
 
-	attendance_recordsEvaluateJsonVO::Wrapper execEvaluateAttendanceRecords(const UInt32& student_id);
+	StringJsonVO::Wrapper execEvaluateAttendanceRecords(const attendance_recordsEvaluateDTO::Wrapper& dto, const PayloadDTO& payload);
 };
 
 #include OATPP_CODEGEN_END(ApiController)
