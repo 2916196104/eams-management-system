@@ -11,13 +11,12 @@ import lombok.Data;
  */
 @Data
 public class RolepermStaffDTO {
-    @ApiModelProperty(value = "角色id", example = "1")
+    @ApiModelProperty(value = "角色roleId", example = "1")
     private Integer roleId;
-
-    @ApiModelProperty(value = "员工id",example = "1")
-    private int id;
-    @ApiModelProperty(value = "员工姓名",example = "管理员")
+    @ApiModelProperty(value = "员工staffId",example = "1")
+    private int staffId;
+    @ApiModelProperty(value = "员工姓名(返回字段，添加时无需传递）")
     private String name;
-    @ApiModelProperty(value = "手机号",example = "")
+    @ApiModelProperty(value = "员工手机号(返回字段，添加时无需传递）")
     private String mobile;
 }

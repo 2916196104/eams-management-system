@@ -14,6 +14,7 @@ import com.zeroone.star.project.query.j2.sys.roleperm.RolepermStaffQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j2.sys.Roleperm.PermissionGroupListVO;
 import com.zeroone.star.project.vo.j2.sys.Roleperm.PermissionGroupVO;
+import com.zeroone.star.sys.entity.Staff;
 import com.zeroone.star.sys.entity.SysPermission;
 import com.zeroone.star.sys.entity.SysUserRole;
 import com.zeroone.star.sys.mapper.StaffMapper;
@@ -88,22 +89,21 @@ public class RolepermController implements RolepermApis {
     @ApiOperation("删除角色")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "roleId", value = "角色ID（推荐传此参数）", paramType = "query", dataType = "int", example = "1"),
-            @ApiImplicitParam(name = "id", value = "角色ID（兼容参数）", paramType = "query", dataType = "int", example = "1")
     })
     @Override
     @Transactional(rollbackFor = Exception.class)
     public JsonVO<PageDTO<RolepermDTO>> removeRoleperm(RolepermQuery query) {
-        int roleId = 0;
-        HttpServletRequest request = getRequest();
-        if (request != null) {
-            String roleIdStr = request.getParameter("roleId");
-            if (StringUtils.hasText(roleIdStr)) {
-                try {
-                    roleId = Integer.parseInt(roleIdStr);
-                } catch (NumberFormatException ignored) {
+        int roleId = query != null ? query.getId() : 0;
+        if (roleId <= 0) {
+            HttpServletRequest request = getRequest();
+            if (request != null) {
+                String roleIdStr = request.getParameter("roleId");
+                if (StringUtils.hasText(roleIdStr)) {
+                    try {
+                        roleId = Integer.parseInt(roleIdStr);
+                    } catch (NumberFormatException ignored) {
+                    }
                 }
-            }
-            if (roleId <= 0) {
                 String idStr = request.getParameter("id");
                 if (StringUtils.hasText(idStr)) {
                     try {
@@ -113,16 +113,10 @@ public class RolepermController implements RolepermApis {
                 }
             }
         }
-        if (roleId <= 0 && query != null) {
-            roleId = query.getId();
-        }
         if (roleId <= 0) {
             return JsonVO.fail("参数错误");
         }
-
-        sysUserRoleMapper.delete(new QueryWrapper<SysUserRole>()
-                .lambda()
-                .eq(SysUserRole::getRoleId, String.valueOf(roleId)));
+        sysUserRoleMapper.delete(new QueryWrapper<SysUserRole>().eq("role_id", String.valueOf(roleId)));
         boolean removed = sysRoleService.removeById(roleId);
         if (!removed) {
             return JsonVO.fail("删除失败");
@@ -252,9 +246,10 @@ public class RolepermController implements RolepermApis {
 
     @PostMapping("/save/staff")
     @ApiOperation("给角色添加员工")
+    @ApiImplicitParam(name = "roleId", value = "角色ID", paramType = "query", dataType = "int", example = "1")
     @Override
     public JsonVO<String> addRolepermStaff(RolepermStaffDTO rolepermStaffDTO) {
-        if (rolepermStaffDTO == null || rolepermStaffDTO.getId() <= 0) {
+        if (rolepermStaffDTO == null || rolepermStaffDTO.getStaffId() <= 0) {
             return JsonVO.fail("参数错误");
         }
         Integer roleId = rolepermStaffDTO.getRoleId();
@@ -273,8 +268,25 @@ public class RolepermController implements RolepermApis {
         if (roleId == null || roleId <= 0) {
             return JsonVO.fail("参数错误");
         }
-        sysUserRoleMapper.insertRoleStaff(String.valueOf(roleId), String.valueOf(rolepermStaffDTO.getId()));
-        return JsonVO.success("ok");
+
+        if (sysRoleService.getById(roleId) == null) {
+            return JsonVO.fail("角色不存在");
+        }
+
+        Long staffId = Long.valueOf(rolepermStaffDTO.getStaffId());
+        Staff staff = staffMapper.selectOne(new QueryWrapper<Staff>()
+                .lambda()
+                .eq(Staff::getId, staffId)
+                .and(w -> w.isNull(Staff::getDeleted).or().eq(Staff::getDeleted, false)));
+        if (staff == null) {
+            return JsonVO.fail("员工不存在");
+        }
+
+        int inserted = sysUserRoleMapper.insertRoleStaff(String.valueOf(roleId), String.valueOf(staffId));
+        if (inserted <= 0) {
+            return JsonVO.fail("添加失败或已存在");
+        }
+        return JsonVO.success("添加成功");
     }
 
     @DeleteMapping("/{staffId}")
@@ -295,7 +307,7 @@ public class RolepermController implements RolepermApis {
     }
 
     @GetMapping("/operators")
-    @ApiOperation("获取员工列表（姓名+职称）隐藏的接口")
+    @ApiOperation("获取当前所有的员工列表（姓名+职称）隐藏的接口")
     public JsonVO<PageDTO<OptlogOperatorDTO>> queryOperators(OptlogOperatorQuery query) {
         if (query == null) {
             query = new OptlogOperatorQuery();

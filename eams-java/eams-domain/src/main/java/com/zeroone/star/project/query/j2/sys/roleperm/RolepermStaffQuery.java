@@ -15,6 +15,6 @@ public class RolepermStaffQuery extends PageQuery {
     @ApiModelProperty(value = "角色id", example = "1")
     private Integer roleId;
 
-    @ApiModelProperty(value = "员工姓名",example = "管理员")
+    @ApiModelProperty(hidden = true)
     private String name;
 }
