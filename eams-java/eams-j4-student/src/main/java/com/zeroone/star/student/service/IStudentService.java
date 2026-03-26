@@ -11,8 +11,10 @@ import com.zeroone.star.project.query.j4.student.StudentQuery;
 import com.zeroone.star.student.entity.Student;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.io.IOException;
 
 /**
  * <p>
@@ -41,13 +43,13 @@ public interface IStudentService extends IService<Student> {
      * @param file
      * @return
      */
-    Boolean importOnlineStudents(MultipartFile file);
+    Boolean importOnlineStudents(MultipartFile file) throws IOException;
 
     /**
      * 导出在线学员
-     * @return
+     * @param outputStream
      */
-    byte[] exportOnlineStudent();
+    void exportOnlineStudent(ServletOutputStream outputStream);
 
     PageDTO<ResponseDTO> listall(StudentQuery condition);
 
