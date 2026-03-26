@@ -18,8 +18,16 @@
 */
 #include "stdafx.h"
 #include "registrationcontroller.h"
+#include "service/registration-records/RegistrationService.h"
+
 // 实现获取报名记录列表（条件+分页）接口执行函数
 RegistrationRecordPageJsonVO::Wrapper RegistrationRecodeController::execQueryRecords(const RegistrationRecordQuery::Wrapper& query)
 {
-	return {};
+    RegistrationService service;
+    auto result = service.listAll(query);
+
+	auto jvo = RegistrationRecordPageJsonVO::createShared();
+
+	jvo->success(result);
+    return jvo;
 }

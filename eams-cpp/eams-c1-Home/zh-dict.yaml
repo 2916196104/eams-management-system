@@ -139,14 +139,15 @@ registration-records:
   student_name: 学生姓名
   course_id: 课程id
   course_name: 课程名称
+  subject_id: 科目id
   subject_name: 科目名称
   add_time: 报名时间
   expire_date: 过期时间
   amount: 课程金额
   paid_amount: 实付金额
   count_lesson_total: 总课次
-  count_lesson_remaining: 剩余课次
-  type: 报名类型
+  count_lesson_complete: 已上课次
+  lesson_type: 报名类型
   verify_state: 审核状态
   expired: 是否已过期
   # ---2. 可能多出的字段：状态相关

@@ -46,7 +46,7 @@ public: // 定义接口
 	// 定义获取报名记录列表（条件+分页）接口处理
 	API_HANDLER_ENDPOINT_QUERY_AUTH(
 		API_M_GET,
-		"/c1/registration-records/query-records",
+		"/app/sCenter/shop/courseInfo",
 		queryRecords,
 		RegistrationRecordQuery,
 		execQueryRecords(query)
