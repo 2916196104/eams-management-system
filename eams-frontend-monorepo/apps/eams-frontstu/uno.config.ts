@@ -3,6 +3,16 @@ import { presetUni } from "@uni-helper/unocss-preset-uni";
 import { defineConfig, presetIcons, transformerDirectives, transformerVariantGroup } from "unocss";
 
 export default defineConfig({
+	safelist: [
+		"i-carbon:bookmark-filled",
+		"i-carbon:user-multiple",
+		"i-carbon:notebook",
+		"i-carbon:result",
+		"i-carbon:edit",
+		"i-carbon:star-filled",
+		"i-carbon:calendar",
+		"i-carbon:gift",
+	],
 	presets: [
 		presetUni({
 			attributify: false,
