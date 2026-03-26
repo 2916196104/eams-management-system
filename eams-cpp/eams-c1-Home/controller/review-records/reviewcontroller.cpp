@@ -18,8 +18,15 @@
 */
 #include "stdafx.h"
 #include "reviewcontroller.h"
+#include "service/review-records/ReviewService.h"
+
 // 实现获取点评记录（条件+分页）接口执行函数
 ReviewRecordPageJsonVO::Wrapper ReviewRecordController::execQueryReviews(const ReviewRecordQuery::Wrapper& query)
 {
-	return {};
+    ReviewService service;
+    auto result = service.listAll(query);
+
+	auto jvo = ReviewRecordPageJsonVO::createShared();
+    jvo->success(result);
+    return jvo;
 }

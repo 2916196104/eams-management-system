@@ -11,4 +11,4 @@ spring:
     password: 01star
   data:
     mongodb:
-      uri: mongodb://awei:123456@192.168.1.27:27017/firstDb
+      uri: mongodb://awei:123456@192.168.220.128:27017/firstDb
