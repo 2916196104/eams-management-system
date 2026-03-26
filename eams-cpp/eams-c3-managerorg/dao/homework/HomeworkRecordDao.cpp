@@ -1,66 +1,68 @@
 #include "stdafx.h"
 #include "HomeworkRecordDAO.h"
 #include "HomeworkRecordMapper.h"
-#include "domain/query/backhomework/backhomeworkQuery.h"
 
-std::string HomeworkRecordDAO::queryConditionBuilder(const GetHomeworkListQuery::Wrapper& query, SqlParams& params)
+// 分页查询作业提交记录
+std::list<PtrHomeworkRecordDO> HomeworkRecordDAO::getSendHomeworkList(const BackhomeworkQuery::Wrapper& query)
 {
-	stringstream sqlCondition;
-	sqlCondition << " WHERE 1=1";
-	if (query->title) {
+    std::string sql = "SELECT id, homework_id, student_id, add_time, content, "
+        "score, comment, comment_time, comment_teacher, images "
+        "FROM homeworkrecord WHERE 1=1";
+    SqlParams params;
 
-		sqlCondition << " AND `title`=?";
-		SQLPARAMS_PUSH(params, "s", std::string, query->title.getValue(""));
-	}
-	if (query->class_id) {
+    if (query->studentId) {
+        sql += " AND student_id = ?";
+        SQLPARAMS_PUSH(params, "bi", int64_t, static_cast<int64_t>(query->studentId.getValue(0)));
+    }
 
-		sqlCondition << " AND class_id=?";
-		SQLPARAMS_PUSH(params, "s", std::string, query->class_id.getValue(""));
-	}
-	if (query->creator) {
+    sql += " ORDER BY add_time DESC";
 
-		sqlCondition << " AND creator=?";
-		SQLPARAMS_PUSH(params, "s", std::string, query->creator.getValue(0));
-	}
-	return sqlCondition.str();
+    // 分页
+    uint64_t pageIndex = query->pageIndex.getValue(1);
+    uint64_t pageSize = query->pageSize.getValue(10);
+    sql += " LIMIT ?, ?";
+    SQLPARAMS_PUSH(params, "i", int, static_cast<int>((pageIndex - 1) * pageSize));
+    SQLPARAMS_PUSH(params, "i", int, static_cast<int>(pageSize));
+
+    return sqlSession->executeQuery<PtrHomeworkRecordDO>(sql, PtrHomeworkRecordMapper(), params);
 }
 
-uint64_t HomeworkRecordDAO::count(const GetHomeworkListQuery::Wrapper& query)
+// 统计作业提交记录总数
+uint64_t HomeworkRecordDAO::countSendHomework(const BackhomeworkQuery::Wrapper& query)
 {
-	SqlParams params;
-	string sql = "SELECT COUNT(*) FROM homework ";
-	// 构建查询条件
-	sql += queryConditionBuilder(query, params);
-	// 执行查询
-	return sqlSession->executeQueryNumerical(sql, params);
+    std::string sql = "SELECT COUNT(*) FROM homeworkrecord WHERE 1=1";
+    SqlParams params;
+
+    if (query->studentId) {
+        sql += " AND student_id = ?";
+        SQLPARAMS_PUSH(params, "bi", int64_t, static_cast<int64_t>(query->studentId.getValue(0)));
+    }
+
+    return sqlSession->executeQueryNumerical(sql, params);
 }
 
-//定义了分页查询
-std::list<HomeworkDO> HomeworkRecordDAO::gethomeworklist(const GetHomeworkListQuery::Wrapper& query)
+// 根据 ID 查询单条提交记录
+PtrHomeworkRecordDO HomeworkRecordDAO::getSendHomeworkById(oatpp::UInt64 id)
 {
-	SqlParams params;
-	string sql = "SELECT title,class_id,creator FROM homework ";
-	// 构建查询条件
-	sql += queryConditionBuilder(query, params);
-	// 构建排序语句
-	sql += " ORDER BY IFNULL(`update_time`, `create_time`) DESC, `id` DESC ";
-	// 构建分页条件
-	sql += " LIMIT " + std::to_string(((query->pageIndex - 1) * query->pageSize)) + "," + std::to_string(query->pageSize);
+    std::string sql = "SELECT id, homework_id, student_id, add_time, content, "
+        "score, comment, comment_time, comment_teacher, images "
+        "FROM homeworkrecord WHERE id = ?";
+    SqlParams params;
+    SQLPARAMS_PUSH(params, "bi", int64_t, static_cast<int64_t>(id));
 
-	// 执行查询
-	return sqlSession->executeQuery<HomeworkDO>(sql, HomeworkMapper(), params);
-	//return{};
+    return sqlSession->executeQueryOne<PtrHomeworkRecordDO>(sql, PtrHomeworkRecordMapper(), params);
 }
 
-//获取作业详情，点击会传id，传回班级，作业标题，作业内容
-PtrHomeworkRecordDO HomeworkRecordDAO::gethomeworkdetail(std::string id)
+// 更新点评信息
+bool HomeworkRecordDAO::updateComment(const HomeworkRecordDO& record)
 {
-	string sql = "SELECT class_id,title,content FROM homework WHERE `id`=?";
-	return sqlSession->executeQueryOne<PtrHomeworkRecordDO>(sql, PtrHomeworkRecordMapper(), "%s", id);
-	//return {};
-}
+    std::string sql = "UPDATE homeworkrecord SET comment=?, score=?, comment_teacher=?, comment_time=? WHERE id=?";
+    SqlParams params;
+    SQLPARAMS_PUSH(params, "s", std::string, record.getComment());
+    SQLPARAMS_PUSH(params, "ti", int8_t, record.getScore());
+    SQLPARAMS_PUSH(params, "bi", int64_t, record.getCommentTeacher());
+    SQLPARAMS_PUSH(params, "dt", std::string, record.getCommentTime());
+    SQLPARAMS_PUSH(params, "bi", int64_t, record.getId());
 
-//保存作业
-//int savehomework(const SaveHomeworkDTO& dto) {
-//	return {};
-//}
+    return sqlSession->executeUpdate(sql, params) > 0;
+}

@@ -1,5 +1,6 @@
 #pragma once
 
+
 #ifndef _HOMEWORKRECORD_MAPPER_
 #define _HOMEWORKRECORD_MAPPER_
 
