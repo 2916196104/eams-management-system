@@ -1,52 +1,66 @@
 #include "stdafx.h"
-#include "HomeworkDAO.h"       // 替换为HomeworkDAO头文件
-#include "HomeworkMapper.h"   // 替换为HomeworkMapper头文件
+#include "HomeworkDAO.h"
+#include "HomeworkMapper.h"
 
-// 条件构建方法：参数替换为HomeworkQuery，适配homework表查询字段
 std::string HomeworkDAO::queryConditionBuilder(const HomeworkQuery::Wrapper& query, SqlParams& params)
 {
     stringstream sqlCondition;
     sqlCondition << " WHERE 1=1";
 
-    // 1. 班级ID查询（homework表核心索引字段，NOT NULL）
+    // 过滤未删除
+    sqlCondition << " AND h.deleted = 0 AND c.deleted = 0 ";
+
     if (query->class_id)
     {
-        sqlCondition << " AND class_id =?";
-        // 类型适配：homework.class_id是bigint → uint64_t
+        sqlCondition << " AND h.class_id = ?";
         SQLPARAMS_PUSH(params, "i", uint64_t, query->class_id.getValue(0));
     }
 
     return sqlCondition.str();
 }
 
-// 计数方法：表名改为homework，参数替换为HomeworkQuery
 uint64_t HomeworkDAO::count(const HomeworkQuery::Wrapper& query)
 {
     SqlParams params;
-    // 核心：数据库表名改为homework（匹配作业表）
-    string sql = "SELECT COUNT(*) FROM homework ";
-    // 构建查询条件
+    string sql = R"(
+        SELECT COUNT(DISTINCT h.id)
+        FROM homework h
+        JOIN class c ON h.class_id = c.id
+    )";
     sql += queryConditionBuilder(query, params);
-    // 执行查询（返回总数）
     return sqlSession->executeQueryNumerical(sql, params);
 }
 
-// 分页查询方法：适配HomeworkDO/HomeworkMapper，表名改为homework
 std::list<HomeworkDO> HomeworkDAO::selectWithPage(const HomeworkQuery::Wrapper& query)
 {
     SqlParams params;
-    // 数据库表名改为homework
-    string sql = "SELECT * FROM homework ";
-    // 构建查询条件
+
+    // 这里和学生表一模一样！！！
+    string sql = R"(
+        SELECT
+            c.name AS class_name,
+            h.title,
+            CASE WHEN hr.id IS NOT NULL THEN 1 ELSE 0 END AS submit_status
+        FROM homework h
+        JOIN class c ON h.class_id = c.id
+        LEFT JOIN homework_record hr ON h.id = hr.homework_id
+    )";
+
+    // 拼接条件（和学生一样）
     sql += queryConditionBuilder(query, params);
 
-    // 排序语句适配homework表字段（优先按添加时间降序，再按主键降序）
-    // 匹配homework表的add_time/edit_time/id字段，符合业务查询习惯
-    sql += " ORDER BY IFNULL(`edit_time`, `add_time`) DESC, `id` DESC ";
+    // 排序（和学生一样）
+    sql += " ORDER BY h.add_time DESC, h.id DESC ";
 
-    // 构建分页条件（复用PageQuery的pageIndex/pageSize，逻辑不变）
-    sql += " LIMIT " + std::to_string(((query->pageIndex - 1) * query->pageSize)) + "," + std::to_string(query->pageSize);
+    // ↓↓↓↓ 只有这里不一样！因为作业要分页！学生不需要！↓↓↓↓
+    sql += " LIMIT ?, ?";
 
-    // 执行查询：替换为HomeworkDO和HomeworkMapper，匹配作业表字段映射
+    // 分页参数（必须加，不然报错）
+    int offset = (query->pageIndex - 1) * query->pageSize;
+    int size = query->pageSize.getValue(0);
+    SQLPARAMS_PUSH(params, "i", int, offset);
+    SQLPARAMS_PUSH(params, "i", int, size);
+
+    // 执行（和学生一样）
     return sqlSession->executeQuery<HomeworkDO>(sql, HomeworkMapper(), params);
 }
