@@ -14,7 +14,7 @@ uint64_t ScoreDAO::count(const ScoreQuery::Wrapper &query)
     if (!session)
         return 0;
 
-    std::string sql = "SELECT COUNT(*) AS total FROM `grade_record` WHERE 1=1";
+    std::string sql = "SELECT COUNT(1) AS total FROM `grade_record` WHERE 1=1";
     SqlParams params;
 
     if (query->student_id) {
