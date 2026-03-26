@@ -55,6 +55,8 @@ public:
 	MYSQL_SYNTHESIZE(int32_t, credit, Credit);
 	MYSQL_SYNTHESIZE(int64_t, orgId, OrgId);
 	MYSQL_SYNTHESIZE(int32_t, gradeId, GradeId);
+	// 来自 user 表的关联字段，不注册为 student 表字段
+	MYSQL_SYNTHESIZE(std::string, mobile, Mobile);
 
 public:
 	StudentDO() : BaseDO("student")
@@ -91,4 +93,5 @@ public:
 	}
 };
 
+typedef std::shared_ptr<StudentDO> PtrStudentDO;
 #endif // !_STUDENT_DO_H_
