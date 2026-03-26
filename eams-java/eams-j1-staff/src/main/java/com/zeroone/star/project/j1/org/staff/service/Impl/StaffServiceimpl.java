@@ -43,8 +43,6 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
     private StaffPositionMapper staffPositionMapper;
 @Autowired
 private StaffMapper staffMapper;
-@Resource
-private UserHolder userHolder;
  
 
     @Override
