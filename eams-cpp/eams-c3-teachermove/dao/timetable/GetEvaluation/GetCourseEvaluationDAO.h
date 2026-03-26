@@ -17,13 +17,18 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#ifndef _SetStudyStatus_DAO_
-#define _SetStudyStatus_DAO_
+#ifndef _GET_COURSE_EVALUATION_DAO_
+#define _GET_COURSE_EVALUATION_DAO_
 #include "BaseDAO.h"
 
+#include "domain/query/timetable/TimetableQuery.h"
+#include "domain/do/timetable/GetCourseEvaluation/GetCourseEvaluationDO.h"
 
 
-class setStatusDAO : public BaseDAO
+/**
+ * 示例表数据库操作实现
+ */
+class GetCourseEvaluation : public BaseDAO
 {
 private:
 	//************************************
@@ -35,8 +40,9 @@ private:
 	// Parameter:   SqlParams& params 存放查询数据的参数对象
 	// Description: 查询条件构建器，根据SampleQuery对象动态构建查询条件相关参数
 	//************************************
-
+	inline std::string queryConditionBuilder(const EvaluationQuery::Wrapper& query, SqlParams& params);
 public:
-	bool couldBeModifyById(const string& stu_id);		
+	// 分页查询数据
+	std::list<PtrEvaluationViewDO> selectWithPage(const EvaluationQuery::Wrapper& query);
 };
-#endif // !_SetStudyStatus_DAO_
+#endif // !_GET_COURSE_EVALUATION_DAO_
