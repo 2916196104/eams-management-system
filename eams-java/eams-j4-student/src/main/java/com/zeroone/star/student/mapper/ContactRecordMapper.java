@@ -15,5 +15,6 @@ public interface ContactRecordMapper extends BaseMapper<ContactRecordDO> {
     /**
      * 分页查询跟进记录，关联学生表获取姓名 [cite: 1613, 1651]
      */
+
     IPage<FollowUpVO> selectFollowUpPage(Page<?> page, @Param("condition") FollowUpQuery condition);
 }

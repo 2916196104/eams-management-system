@@ -592,6 +592,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         Page<FollowUpVO> pageParam = new Page<>(condition.getPageIndex(), condition.getPageSize());
 
         // 2. 执行查询，返回 IPage
+        pageParam.setOptimizeCountSql(false);
         IPage<FollowUpVO> iPage = contactRecordMapper.selectFollowUpPage(pageParam, condition);
 
         // 3. 转换成 PageDTO 返回
