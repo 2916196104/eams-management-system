@@ -24,6 +24,12 @@ import com.zeroone.star.student.entity.*;
 import com.zeroone.star.project.vo.j4.student.StudentExportExcelVO;
 import com.zeroone.star.project.vo.j4.student.StudentImportExcelVO;
 import com.zeroone.star.student.mapper.*;
+import com.zeroone.star.project.vo.j4.student.FollowUpVO;
+import com.zeroone.star.student.entity.ClassStudentDO;
+import com.zeroone.star.student.entity.ContactRecordDO;
+import com.zeroone.star.student.mapper.ClassMapper;
+import com.zeroone.star.student.mapper.ClassStudentMapper;
+import com.zeroone.star.student.mapper.ContactRecordMapper;
 import com.zeroone.star.student.service.IStudentService;
 import com.zeroone.star.student.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -581,15 +587,15 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     }
 
     @Override
-    public PageDTO<FollowUpDTO> queryFollowUpPage(FollowUpQuery condition) {
+    public PageDTO<FollowUpVO> queryFollowUpPage(FollowUpQuery condition) {
         // 1. 创建分页参数对象
-        Page<FollowUpDTO> pageParam = new Page<>(condition.getPageIndex(), condition.getPageSize());
+        Page<FollowUpVO> pageParam = new Page<>(condition.getPageIndex(), condition.getPageSize());
 
         // 2. 执行查询，返回 IPage
-        IPage<FollowUpDTO> iPage = contactRecordMapper.selectFollowUpPage(pageParam, condition);
+        IPage<FollowUpVO> iPage = contactRecordMapper.selectFollowUpPage(pageParam, condition);
 
-        // 3. 强转并转换成 PageDTO
-        return PageDTO.create((Page<FollowUpDTO>) iPage);
+        // 3. 转换成 PageDTO 返回
+        return PageDTO.create((Page<FollowUpVO>) iPage);
     }
 
     @Override

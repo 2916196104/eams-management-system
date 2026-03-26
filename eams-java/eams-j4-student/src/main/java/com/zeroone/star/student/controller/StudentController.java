@@ -12,6 +12,8 @@ import com.zeroone.star.student.service.*;
 import com.zeroone.star.project.query.j4.student.FinanceQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import io.seata.core.model.Result;
+import com.zeroone.star.project.vo.j4.student.FollowUpVO;
+import com.zeroone.star.student.service.IStudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -86,7 +88,7 @@ public class StudentController implements StudentApis {
     @GetMapping("/follow-up/page")
     @ApiOperation("获取跟进记录列表（条件+分页）")
     @Override
-    public JsonVO<PageDTO<FollowUpDTO>> queryFollowUpPage(@Validated FollowUpQuery condition) {
+    public JsonVO<PageDTO<FollowUpVO>> queryFollowUpPage(@Validated FollowUpQuery condition) {
         return JsonVO.success(studentService.queryFollowUpPage(condition));
     }
 

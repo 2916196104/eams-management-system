@@ -10,6 +10,7 @@ import com.zeroone.star.project.query.j4.student.FollowUpQuery;
 import com.zeroone.star.project.query.j4.student.StudentQuery;
 import com.zeroone.star.student.entity.Student;
 import org.springframework.web.multipart.MultipartFile;
+import com.zeroone.star.project.vo.j4.student.FollowUpVO;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -70,7 +71,7 @@ public interface IStudentService extends IService<Student> {
      */
     List<Long> quitClass(Long classId, Long studentId);
 
-    PageDTO<FollowUpDTO> queryFollowUpPage(FollowUpQuery condition);
+    PageDTO<FollowUpVO> queryFollowUpPage(FollowUpQuery condition);
 
     Long saveFollowUp(FollowUpDTO followUpDTO);
 
