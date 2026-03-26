@@ -53,7 +53,8 @@ function refreshPage() {
 				<view class="student-item__info">
 					<view class="student-item__icon i-carbon:user-avatar-filled-alt text-34px text-#30c7a6" />
 					<view class="student-item__name">
-						{{ student.name }}<text class="student-item__gender">{{ student.gender === "男" ? "♂" : "♀" }}</text>
+						{{ student.name }}
+						<text class="student-item__gender">{{ student.gender === "男" ? "♂" : "♀" }}</text>
 					</view>
 				</view>
 				<view

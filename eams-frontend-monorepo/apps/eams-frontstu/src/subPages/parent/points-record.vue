@@ -107,12 +107,10 @@ async function loadRecords(nextPage = 1, append = false) {
 		pages.value = Number(pageData.pages || 0);
 		total.value = Number(pageData.total || 0);
 		recordList.value = append ? [...recordList.value, ...rows] : rows;
-	}
-	catch {
+	} catch {
 		if (!append) recordList.value = [];
 		uni.showToast({ title: "兑换记录加载失败", icon: "none" });
-	}
-	finally {
+	} finally {
 		targetLoading.value = false;
 	}
 }
@@ -144,12 +142,7 @@ onMounted(() => {
 				</view>
 
 				<view v-for="item in recordList" :key="item.id" class="record-card">
-					<image
-						v-if="item.cover"
-						:src="item.cover"
-						class="record-card__cover"
-						mode="aspectFill"
-					/>
+					<image v-if="item.cover" :src="item.cover" class="record-card__cover" mode="aspectFill" />
 					<view v-else class="record-card__cover record-card__cover--placeholder">
 						<view class="i-carbon:gift text-28px text-#bcc4d1" />
 					</view>
@@ -167,18 +160,10 @@ onMounted(() => {
 							<text>消耗积分 {{ item.credit || 0 }}</text>
 						</view>
 
-						<view class="record-card__text">
-							兑换时间：{{ item.addTime || "暂无" }}
-						</view>
-						<view class="record-card__text">
-							审核时间：{{ item.verifyTime || "暂无" }}
-						</view>
-						<view class="record-card__text">
-							审核人：{{ item.verifyStaffName || "暂无" }}
-						</view>
-						<view class="record-card__remark">
-							审核备注：{{ item.verifyRemark || "暂无备注" }}
-						</view>
+						<view class="record-card__text">兑换时间：{{ item.addTime || "暂无" }}</view>
+						<view class="record-card__text">审核时间：{{ item.verifyTime || "暂无" }}</view>
+						<view class="record-card__text">审核人：{{ item.verifyStaffName || "暂无" }}</view>
+						<view class="record-card__remark">审核备注：{{ item.verifyRemark || "暂无备注" }}</view>
 					</view>
 				</view>
 

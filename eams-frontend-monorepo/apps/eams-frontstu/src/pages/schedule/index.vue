@@ -73,13 +73,9 @@ const selectedDayText = computed(() => {
 	return `${date.getMonth() + 1}.${date.getDate()}`;
 });
 
-const courseList = computed(() =>
-	scheduleList.value.filter(item => item.scheduleType !== 2 && !item.canReserve),
-);
+const courseList = computed(() => scheduleList.value.filter((item) => item.scheduleType !== 2 && !item.canReserve));
 
-const reserveList = computed(() =>
-	scheduleList.value.filter(item => item.scheduleType === 2 || item.canReserve),
-);
+const reserveList = computed(() => scheduleList.value.filter((item) => item.scheduleType === 2 || item.canReserve));
 
 // 根据当前月份构建日历面板
 const calendarCells = computed<Array<CalendarCell>>(() => {
@@ -187,12 +183,10 @@ async function loadSchedule() {
 			},
 		});
 		scheduleList.value = normalizeScheduleList(res?.data);
-	}
-	catch {
+	} catch {
 		scheduleList.value = [];
 		globalToast.error("课表加载失败");
-	}
-	finally {
+	} finally {
 		loading.value = false;
 	}
 }
@@ -221,11 +215,9 @@ async function handleReserve(item: ScheduleItem) {
 				});
 				globalToast.success(response?.message || "预约成功");
 				await loadSchedule();
-			}
-			catch {
+			} catch {
 				globalToast.error("预约失败");
-			}
-			finally {
+			} finally {
 				actionLoadingId.value = null;
 			}
 		},
@@ -254,11 +246,9 @@ async function handleSignIn(item: ScheduleItem) {
 				});
 				globalToast.success(response?.message || "签到成功");
 				await loadSchedule();
-			}
-			catch {
+			} catch {
 				globalToast.error("签到失败");
-			}
-			finally {
+			} finally {
 				actionLoadingId.value = null;
 			}
 		},
@@ -296,11 +286,9 @@ function handleLeave(item: ScheduleItem) {
 				});
 				globalToast.success(response?.message || "请假成功");
 				await loadSchedule();
-			}
-			catch {
+			} catch {
 				globalToast.error("请假失败");
-			}
-			finally {
+			} finally {
 				actionLoadingId.value = null;
 			}
 		},
@@ -366,7 +354,10 @@ onMounted(() => {
 			</view>
 
 			<!-- 当日正式课表 -->
-			<ParentSectionCard :title="`${selectedDayText} 课表`" :right-text="courseList.length ? `${courseList.length} 节` : '本日无课'">
+			<ParentSectionCard
+				:title="`${selectedDayText} 课表`"
+				:right-text="courseList.length ? `${courseList.length} 节` : '本日无课'"
+			>
 				<view v-if="courseList.length" class="schedule-list">
 					<view v-for="item in courseList" :key="`course-${item.id}`" class="schedule-card">
 						<view class="schedule-card__header">

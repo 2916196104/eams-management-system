@@ -46,7 +46,12 @@ function handleRightClick() {
 			</view>
 			<view class="parent-nav__title">{{ title }}</view>
 			<view class="parent-nav__side parent-nav__side--right">
-				<view v-if="rightText || showRefresh" class="parent-nav__action" :style="{ color: rightTextColor }" @click="handleRightClick">
+				<view
+					v-if="rightText || showRefresh"
+					class="parent-nav__action"
+					:style="{ color: rightTextColor }"
+					@click="handleRightClick"
+				>
 					<text v-if="rightText">{{ rightText }}</text>
 					<view v-else class="i-carbon:renew text-16px text-#222" />
 				</view>

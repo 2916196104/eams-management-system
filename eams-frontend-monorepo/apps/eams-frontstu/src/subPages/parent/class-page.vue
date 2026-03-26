@@ -139,12 +139,10 @@ async function loadClassList(nextPage = 1, append = false) {
 		pages.value = Number(pageData.pages || 0);
 		total.value = Number(pageData.total || 0);
 		classList.value = append ? [...classList.value, ...rows] : rows;
-	}
-	catch {
+	} catch {
 		if (!append) classList.value = [];
 		uni.showToast({ title: "班级列表加载失败", icon: "none" });
-	}
-	finally {
+	} finally {
 		targetLoading.value = false;
 	}
 }
@@ -162,13 +160,11 @@ async function loadPageData() {
 		classList.value = [];
 		await loadClassInfo();
 		await loadClassStudents(classInfo.value?.id);
-	}
-	catch {
+	} catch {
 		classInfo.value = null;
 		classStudents.value = [];
 		uni.showToast({ title: "班级信息加载失败", icon: "none" });
-	}
-	finally {
+	} finally {
 		loading.value = false;
 	}
 }

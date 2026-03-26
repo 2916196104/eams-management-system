@@ -143,7 +143,9 @@ onMounted(() => {
 					class="parent-home__grid-item"
 					@click="navigateTo(item.routeName)"
 				>
-					<view v-if="item.redPoint" class="parent-home__redpoint">{{ item.redPoint > 99 ? "99+" : item.redPoint }}</view>
+					<view v-if="item.redPoint" class="parent-home__redpoint">
+						{{ item.redPoint > 99 ? "99+" : item.redPoint }}
+					</view>
 					<view class="parent-home__grid-icon" :style="{ color: item.iconColor }">
 						<view :class="`${item.icon} text-30px`" />
 					</view>
