@@ -1,0 +1,23 @@
+#pragma once
+
+#ifndef _HOMEWORK_QUERY_
+#define _HOMEWORK_QUERY_
+#include "../../../GlobalInclude.h"
+#include "domain/query/PageQuery.h"
+
+#include OATPP_CODEGEN_BEGIN(DTO)
+// 类名修正+继承PageQuery，符合OATPP DTO规范
+class HomeworkQuery : public PageQuery
+{
+    DTO_INIT(HomeworkQuery, PageQuery); // 初始化宏匹配类名
+
+    // ========== 适配homework表的查询字段 ==========
+    // 1. 班级ID（核心查询字段，匹配homework表class_id）
+    DTO_FIELD(Int64, class_id);
+    DTO_FIELD_INFO(class_id) {
+        info->description = ZH_WORDS_GETTER("Homework.field.class_id");
+    }
+};
+
+#include OATPP_CODEGEN_END(DTO)
+#endif // !_HOMEWORK_QUERY_
