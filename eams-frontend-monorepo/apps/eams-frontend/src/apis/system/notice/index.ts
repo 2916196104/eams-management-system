@@ -8,13 +8,11 @@ const currBaseUrl = "/notice";
  * 获取公告详情
  */
 export const getNoticeDetail = (id: number) => {
-	return http.get(`${currBaseUrl}/get-by-id/:id`, {
-		params: { id },
-	});
+	return http.get(`${currBaseUrl}/get-by-id/${id}`);
 };
 
 export const delNotice = (ids: INoticeDel) => {
-	return http.delete(`${currBaseUrl}/delete/:ids`, {
+	return http.delete(`${currBaseUrl}/delete`, {
 		params: {
 			ids,
 		},
@@ -22,7 +20,7 @@ export const delNotice = (ids: INoticeDel) => {
 };
 
 export const getNoticeList = (data: INoticeList) => {
-	return http.get(`${currBaseUrl}/get-by-id/`, {
+	return http.get(`${currBaseUrl}/get-by-id`, {
 		params: {
 			data,
 		},
@@ -30,5 +28,5 @@ export const getNoticeList = (data: INoticeList) => {
 };
 
 export const editNotice = (data: INoticeSave) => {
-	return http.post(`${currBaseUrl}/save/`, data);
+	return http.post(`${currBaseUrl}/save`, data);
 };
