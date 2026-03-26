@@ -5,7 +5,15 @@ import com.zeroone.star.project.dto.j8.stumanager.SaveStu.SaveStuDTO;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j8.SaveStu.DictVO;
 import com.zeroone.star.project.vo.j8.stumanager.ProspectiveStuVO;
+import com.alibaba.cloud.commons.lang.StringUtils;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.query.j8.stumanager.common.StudentListQuery;
+import com.zeroone.star.project.vo.j8.stumanager.StudentListVO;
 import com.zeroone.star.stumanager.entity.Student;
+import com.zeroone.star.stumanager.mapper.StudentCourseMapper;
 import com.zeroone.star.stumanager.mapper.StudentMapper;
 import com.zeroone.star.stumanager.service.IStudentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -21,6 +29,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import java.util.List;
+
+import javax.annotation.Resource;
 
 /**
  * <p>
@@ -94,13 +104,22 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
 
         // 3. 更新数据库
         boolean success = updateById(student);
-
         if (success) {
             ChangeStuStageDTO resultDTO = msStuMapper.StudentToStuStageDTO(student);
             return JsonVO.success(resultDTO);
         } else {
             return JsonVO.fail("状态转换失败");
         }
+    }
+
+    @Override
+    public PageDTO<StudentListVO> listStudents(StudentListQuery query) {
+
+        Page<StudentListVO> page = new Page<>(query.getPageIndex(), query.getPageSize());
+
+        Page<StudentListVO> result = studentMapper.getList(page, query);
+
+        return PageDTO.create(result);
     }
 
     // StudentServiceImpl 实现

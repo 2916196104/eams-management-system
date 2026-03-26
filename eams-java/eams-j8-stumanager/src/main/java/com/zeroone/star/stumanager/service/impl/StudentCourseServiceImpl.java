@@ -12,6 +12,10 @@ import com.zeroone.star.project.query.j8.StuSignCourseQuery.StaffQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.stumanager.entity.Course;
 import com.zeroone.star.stumanager.entity.Staff;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.query.j8.stumanager.common.StudentCourseQuery;
+import com.zeroone.star.project.vo.j8.stumanager.StudentCourseVO;
 import com.zeroone.star.stumanager.entity.StudentCourse;
 import com.zeroone.star.stumanager.mapper.CourseMapper;
 import com.zeroone.star.stumanager.mapper.StaffMapper;
@@ -28,9 +32,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.Resource;
+
 /**
  * <p>
  * 报名签约表 服务实现类
+ * 课程数据表 服务实现类
  * </p>
  *
  * @author dabidai
@@ -38,9 +45,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class StudentCourseServiceImpl extends ServiceImpl<StudentCourseMapper, StudentCourse> implements IStudentCourseService {
-
     @Resource
-    StudentCourseMapper studentCourseMapper;
+    private StudentCourseMapper studentCourseMapper;
 
     @Resource
     StaffMapper staffMapper;
@@ -51,6 +57,15 @@ public class StudentCourseServiceImpl extends ServiceImpl<StudentCourseMapper, S
     @Resource
     MsStuCouMapper msStuCouMapper;
 
+    @Override
+    public PageDTO<StudentCourseVO> listStudentsByCourse(StudentCourseQuery condition) {
+        // 1. 构建分页
+        Page<StudentCourseVO> page = new Page<>(condition.getPageIndex(), condition.getPageSize());
+        // 2. 执行查询
+        Page<StudentCourseVO> result = studentCourseMapper.getList(page, condition);
+        // 3. 标准返回
+        return PageDTO.create(result);
+    }
 
     /**
      * 学生课程报名接口实现

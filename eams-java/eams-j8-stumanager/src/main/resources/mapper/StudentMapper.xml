@@ -35,6 +35,65 @@
             </foreach>
         </if>
     </select>
+    <select id="getList" resultType="com.zeroone.star.project.vo.j8.stumanager.StudentListVO">
+        SELECT
+        t1.id,
+        t1.name,
+        t8.name as parentName,
+        t1.family_rel as familyRel,
+        t8.mobile,
+        t3.name as counselorName,
+        t10.name as gradeName,
+        t4.name as schoolName,
+        CASE
+        WHEN #{query.gradeId} IS NOT NULL THEN
+        (select sum(count_lesson_total - count_lesson_complete - count_lesson_refund)
+        from student_course
+        where student_id = t1.id
+        and grade_id = #{query.gradeId}
+        and expire_date &gt;= CURDATE())
+        ELSE
+        IFNULL(sum(t5.count_lesson_total - t5.count_lesson_complete - t5.count_lesson_refund), 0)
+        END as countLessonRemaining,
+        t1.credit,
+        t1.gender,
+        TIMESTAMPDIFF(YEAR, t1.birthday, CURDATE()) AS age,
+        t1.remark,
+        t9.name as joinWayName,
+        t2.contact_time as contactTime,
+        t2.contact_next_time as contactNextTime,
+        t1.stage,
+        t1.graduation_date as graduationDate
+        FROM student t1
+        LEFT JOIN user t8 on t8.id = t1.user_id
+        LEFT JOIN staff t3 on t3.id = t1.counselor
+        LEFT JOIN contact_record t2 on t2.student_id = t1.id
+        AND t2.contact_time = (select max(contact_time) FROM contact_record where student_id = t1.id )
+        LEFT JOIN org t4 on t4.id = t1.school_id
+        LEFT JOIN student_course t5 on t5.student_id = t1.id
+        AND t5.expire_date &gt;= CURDATE()
+        AND t5.verify_state = 2
+        LEFT JOIN dict_item t9 on t9.id = t1.join_way
+        LEFT JOIN class_grade t10 on t10.id = t1.grade_id
+        <where>
+            t1.deleted = 0
+            <if test="query.stage != null">
+                AND t1.stage = #{query.stage.code}
+            </if>
+            <if test="query.keyword != null and query.keyword != ''">
+                AND (
+                t1.name like concat('%', #{query.keyword}, '%')
+                or t8.mobile like concat('%', #{query.keyword}, '%')
+                )
+            </if>
+            <if test="query.gradeId != null">
+                AND t1.grade_id = #{query.gradeId}
+            </if>
+        </where>
+        GROUP BY t1.id
+        ORDER BY t1.add_time DESC
+    </select>
+
 </mapper>
 
         <!--阶段: 在学学员

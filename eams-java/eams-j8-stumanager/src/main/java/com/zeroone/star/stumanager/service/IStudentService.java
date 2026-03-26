@@ -5,6 +5,11 @@ import com.zeroone.star.project.dto.j8.stumanager.SaveStu.SaveStuDTO;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j8.SaveStu.DictVO;
 import com.zeroone.star.project.vo.j8.stumanager.ProspectiveStuVO;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.query.j8.stumanager.common.StudentListQuery;
+import com.zeroone.star.project.vo.j8.stumanager.StudentListVO;
 import com.zeroone.star.stumanager.entity.Student;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.swagger.annotations.ApiOperation;
@@ -39,4 +44,8 @@ public interface IStudentService extends IService<Student> {
     @ApiOperation("获取来源下拉字典")
     JsonVO<List<DictVO>> listJoinWayDict();
     List<ProspectiveStuVO> queryStudents(List<Long> ids);
+    /**
+     * 分页查询学员列表
+     */
+    PageDTO<StudentListVO> listStudents(StudentListQuery query);
 }
