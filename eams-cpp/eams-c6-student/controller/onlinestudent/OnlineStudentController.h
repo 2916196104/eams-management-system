@@ -27,14 +27,15 @@ public:
 		Void,													// Swagger 无响应体
 		API_TAG													// 标签
 	);
+
 	// 定义导出接口处理
 	API_HANDLER_ENDPOINT_OPTION_AUTH(
-		API_M_GET,
+		API_M_POST,
 		"/c6/student/online/export",
 		exportExcel,
 		BODY_DTO(List<String>, ids),
 		auto response = execExportExcel(ids);
-		return response;  // 直接返回 Response，不经过 createDtoResponse
+		return response;
 	);
 
 	// 定义导入接口描述
