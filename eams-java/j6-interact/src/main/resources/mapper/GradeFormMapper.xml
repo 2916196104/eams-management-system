@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.interact.mapper.GradeFormMapper">
+
+    <resultMap id="BaseResultMap" type="com.zeroone.star.project.dataobject.j6.interact.GradeFormDO">
+            <id property="id" column="id" />
+            <result property="title" column="title" />
+            <result property="info" column="info" />
+            <result property="creator" column="creator" />
+            <result property="addTime" column="add_time" />
+            <result property="deleted" column="deleted" />
+            <result property="editor" column="editor" />
+            <result property="editTime" column="edit_time" />
+            <result property="orgId" column="org_id" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,title,info,creator,add_time,deleted,
+        editor,edit_time,org_id
+    </sql>
+
+    <!--获取成绩分页列表，涉及三张表的查询-->
+    <select id="getGradeRecordList" resultType="com.zeroone.star.project.dto.j6.interact.GradeListDTO">
+        SELECT grade.id as gradeId,grade.title as title,
+               student.id as studentId,student.`name` as studentName,
+               grade_record.score as score, grade_record.id as id
+        FROM grade JOIN grade_record ON grade.id = grade_record.grade_id
+            JOIN student ON grade_record.student_id = student.id
+            WHERE grade.id = #{gradeId}
+              and grade.deleted = 0
+              and student.deleted = 0
+    </select>
+
+    <!-- 成绩单列表查询 -->
+    <select id="queryForm" resultType="com.zeroone.star.project.dto.j6.interact.GradeFormDTO">
+        SELECT g.id, g.title, g.info, s.name AS creator, g.add_time
+        FROM grade g
+        LEFT JOIN staff s ON g.creator = s.id
+        WHERE g.deleted=0
+        <if test="title!=null and title!=''">
+            AND g.title LIKE CONCAT('%',#{title},'%')
+        </if>
+        <if test="creator!=null">
+            AND g.creator=#{creator}
+        </if>
+        ORDER BY g.add_time DESC
+    </select>
+</mapper>

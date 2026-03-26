@@ -21,15 +21,13 @@ import java.time.LocalDateTime;
 @ApiModel("成绩单传输对象")
 public class GradeFormDTO implements Serializable {
 
+    @ApiModelProperty(value = "成绩单id,如果是修改数据必须传,新增不需要传", example = "2030583010845589505")
+    private Long id;
+
     @ApiModelProperty(value = "考核项",example = "数据结构")
     private String title;
 
     @ApiModelProperty(value = "考核说明",example = "有选择题、填空题和编程题")
     private String info;
 
-    @ApiModelProperty(value = "发布者",example = "管理员")
-    private String creator;
-
-    @ApiModelProperty(value = "发布时间",example = "2026-03-10 21:17")
-    private LocalDateTime addTime;
 }

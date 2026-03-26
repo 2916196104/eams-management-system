@@ -18,10 +18,10 @@ public class GradeListDTO {
     private Long id;
 
     /**
-     * 序号
+     * 成绩单id
      */
-    @ApiModelProperty(value = "序号",example = "1")
-    private Long sort_id;
+    @ApiModelProperty(value = "成绩单id", example = "1")
+    private Long gradeId;
 
     /**
      * 考核项
@@ -30,7 +30,12 @@ public class GradeListDTO {
     private String title;
 
     @ApiModelProperty(value = "学生ID", example = "20230001", required = true)
-    private Long student_id;
+    private Long studentId;
+    /**
+     * 学生姓名
+     */
+    @ApiModelProperty(value = "学生姓名", example = "阿良")
+    private String studentName;
 
     /**
      * 成绩
