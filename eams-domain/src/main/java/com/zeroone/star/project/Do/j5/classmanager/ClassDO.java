@@ -1,5 +1,6 @@
 package com.zeroone.star.project.Do.j5.classmanager;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.github.classgraph.json.Id;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -8,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
+@TableName("class")
 public class ClassDO {
     @Id
     @ApiModelProperty(value = "主键", example = "1")
