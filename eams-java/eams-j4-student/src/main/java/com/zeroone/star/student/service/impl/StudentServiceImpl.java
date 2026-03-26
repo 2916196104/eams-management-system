@@ -157,18 +157,48 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Long saveFollowUp(FollowUpDTO dto) {
         ContactRecordDO recordDO = new ContactRecordDO();
-        BeanUtil.copyProperties(dto, recordDO); // 使用文档提到的 BeanUtil
 
-        if (dto.getId() == null) {
-            recordDO.setAddTime(LocalDateTime.now());
-            contactRecordMapper.insert(recordDO);
-        } else {
-            contactRecordMapper.updateById(recordDO);
+        // 1. 手动映射业务字段 (解决字段名不一致问题)
+        recordDO.setStudentId(dto.getStudentId());
+        recordDO.setStage(dto.getProgressStage());
+        recordDO.setContactType(dto.getContactChannel());
+        recordDO.setContactTime(dto.getContactTime());
+        recordDO.setInfo(dto.getFollowUpContent());
+        recordDO.setContactNextTime(dto.getNextContactTime());
+        recordDO.setContactPhone(dto.getContactDetail());
+
+        // 2. 自动填充系统字段 (请替换为实际获取逻辑)
+        Long currentUserId = getCurrentUserId();
+        Long currentOrgId = getCurrentUserOrgId();
+
+        recordDO.setCreator(currentUserId);
+        recordDO.setOrgId(currentOrgId);
+        recordDO.setAddTime(LocalDateTime.now());
+        recordDO.setDeleted(0);
+
+        int result = contactRecordMapper.insert(recordDO);
+
+        // 校验插入结果
+        if (result <= 0) {
+            throw new RuntimeException("跟进记录保存失败，受影响行数为: " + result);
         }
+
+        // MyBatis-Plus 会在 insert 成功后自动将自增主键回填到 recordDO.getId()
         return recordDO.getId();
+    }
+
+    // 模拟获取当前用户信息的方法，请替换为你项目的实际实现 (如 StpUtil.getLoginId() 或 SecurityContextHolder)
+    private Long getCurrentUserId() {
+        // TODO: 从线程上下文或 Token 中解析真实用户ID
+        return 1L;
+    }
+
+    private Long getCurrentUserOrgId() {
+        // TODO: 从线程上下文或 Token 中解析真实组织ID
+        return 1L;
     }
 
     @Override

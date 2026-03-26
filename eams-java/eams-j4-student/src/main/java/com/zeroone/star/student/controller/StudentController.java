@@ -40,14 +40,19 @@ public class StudentController implements StudentApis {
 
 
     @PostMapping("/follow-up")
-    @ApiOperation("添加/修改跟进记录")
+    @ApiOperation("添加跟进记录")
     @Override
     public JsonVO<Long> saveFollowUp(@RequestBody @Validated FollowUpDTO followUpDTO) {
-        // 基本业务校验
-        if (followUpDTO.getStudentId() == null) return JsonVO.fail("学生ID不能为空");
-        if (followUpDTO.getContactTime() == null) return JsonVO.fail("联系时间不能为空");
+        if (followUpDTO.getStudentId() == null) {
+            return JsonVO.fail("学生ID不能为空");
+        }
+        if (followUpDTO.getContactTime() == null) {
+            return JsonVO.fail("联系时间不能为空");
+        }
 
+        // 调用 Service 进行新增
         Long id = studentService.saveFollowUp(followUpDTO);
+
         return JsonVO.success(id);
     }
 
