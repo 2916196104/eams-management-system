@@ -46,7 +46,7 @@ public class FollowUpDTO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime nextContactTime;
 
-    @ApiModelProperty(value = "联系方式详情", example = "13800138000 或 微信: zhangsan")
+    @ApiModelProperty(value = "联系方式详情,电话号或微信号", example = "13800138000")
     private String contactDetail;
 
 

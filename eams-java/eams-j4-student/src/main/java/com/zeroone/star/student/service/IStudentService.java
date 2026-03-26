@@ -6,6 +6,7 @@ import com.zeroone.star.project.dto.j4.student.ClassStudentDTO;
 import com.zeroone.star.project.dto.j4.student.FollowUpDTO;
 import com.zeroone.star.project.query.j4.student.ClassQuery;
 import com.zeroone.star.project.query.j4.student.FollowUpQuery;
+import com.zeroone.star.project.vo.j4.student.FollowUpVO;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public interface IStudentService {
      */
     List<Long> quitClass(Long classId, Long studentId);
 
-    PageDTO<FollowUpDTO> queryFollowUpPage(FollowUpQuery condition);
+    PageDTO<FollowUpVO> queryFollowUpPage(FollowUpQuery condition);
 
     Long saveFollowUp(FollowUpDTO followUpDTO);
 

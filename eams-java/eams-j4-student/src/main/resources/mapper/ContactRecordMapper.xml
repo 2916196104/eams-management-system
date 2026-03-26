@@ -2,12 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zeroone.star.student.mapper.ContactRecordMapper">
 
-    <select id="selectFollowUpPage" resultType="com.zeroone.star.project.dto.j4.student.FollowUpDTO">
+
+    <select id="selectFollowUpPage" resultType="com.zeroone.star.project.vo.j4.student.FollowUpVO">
         SELECT
-        r.id, r.student_id AS studentId, s.name AS studentName,
-        r.info, r.contact_time AS contactTime, r.contact_next_time AS contactNextTime,
-        r.contact_type AS contactType, r.contact_phone AS contactPhone,
-        r.stage, r.creator, r.add_time AS addTime
+        r.id,
+        r.student_id AS studentId,
+        s.name AS studentName,
+        r.info,
+        r.contact_time AS contactTime,
+        r.contact_next_time AS contactNextTime,
+        r.contact_type AS contactType,
+        r.contact_phone AS contactPhone,
+        r.stage,
+        r.creator,
+        r.add_time AS addTime
         FROM contact_record r
         LEFT JOIN student s ON r.student_id = s.id AND s.deleted = 0
         <where>

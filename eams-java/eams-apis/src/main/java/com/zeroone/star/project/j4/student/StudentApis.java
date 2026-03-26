@@ -7,6 +7,7 @@ import com.zeroone.star.project.dto.j4.student.FollowUpDTO;
 import com.zeroone.star.project.query.j4.student.ClassQuery;
 import com.zeroone.star.project.query.j4.student.FollowUpQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.project.vo.j4.student.FollowUpVO;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface StudentApis {
      * 获取跟进记录列表（条件+分页）
      * GET /j4/student/follow-up/page
      */
-    JsonVO<PageDTO<FollowUpDTO>> queryFollowUpPage(FollowUpQuery condition);
+    JsonVO<PageDTO<FollowUpVO>> queryFollowUpPage(FollowUpQuery condition);
 
     /**
      * 添加跟进记录

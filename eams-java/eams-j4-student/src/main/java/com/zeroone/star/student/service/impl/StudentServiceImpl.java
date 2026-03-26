@@ -14,6 +14,7 @@ import com.zeroone.star.project.query.j4.student.ClassQuery;
 
 import com.zeroone.star.project.query.j4.student.FollowUpQuery;
 import com.zeroone.star.project.vo.j4.student.ClassDetailVO;
+import com.zeroone.star.project.vo.j4.student.FollowUpVO;
 import com.zeroone.star.student.entity.ClassStudentDO;
 import com.zeroone.star.student.entity.ContactRecordDO;
 import com.zeroone.star.student.mapper.ClassMapper;
@@ -134,26 +135,36 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     private ClassDTO convertToClassDTO(ClassDetailVO vo) {
-        ClassDTO dto = new ClassDTO();
-        BeanUtils.copyProperties(vo, dto);
-        if (vo.getPlannedStudentCount() != null) {
-            dto.setMaxStudentCount(vo.getPlannedStudentCount());
+        if (vo == null) {
+            return null;
         }
+        ClassDTO dto = new ClassDTO();
+        // 1. 复制同名字段 (id, name, subject, classroomName, studentCount, courseId, classroomId)
+        BeanUtils.copyProperties(vo, dto);
+        // 2. 手动复制不同名的字段
+        // 把 VO 的 plannedStudentCount 赋值给 DTO 的 maxStudentCount
+        dto.setMaxStudentCount(vo.getPlannedStudentCount());
+
         return dto;
     }
     @Resource
     private ContactRecordMapper contactRecordMapper;
 
     @Override
-    public PageDTO<FollowUpDTO> queryFollowUpPage(FollowUpQuery condition) {
-        // 1. 创建分页参数对象
-        Page<FollowUpDTO> pageParam = new Page<>(condition.getPageIndex(), condition.getPageSize());
+    public PageDTO<FollowUpVO> queryFollowUpPage(FollowUpQuery condition) {
+        // 1. 创建分页参数对象 - 这里的泛型要改成 VO
+        // 修改前：Page<FollowUpDTO>
+        // 修改后：Page<FollowUpVO>
+        Page<FollowUpVO> pageParam = new Page<>(condition.getPageIndex(), condition.getPageSize());
 
         // 2. 执行查询，返回 IPage
-        IPage<FollowUpDTO> iPage = contactRecordMapper.selectFollowUpPage(pageParam, condition);
+        // 修改前：IPage<FollowUpDTO>
+        // 修改后：IPage<FollowUpVO>
+        IPage<FollowUpVO> iPage = contactRecordMapper.selectFollowUpPage(pageParam, condition);
 
-        // 3. 强转并转换成 PageDTO
-        return PageDTO.create((Page<FollowUpDTO>) iPage);
+        // 3. 转换成 PageDTO 返回
+        // 这里直接传入 iPage 即可，不需要强转 (PageDTO.create 通常支持 IPage 接口)
+        return PageDTO.create((Page<FollowUpVO>) iPage);
     }
 
     @Override
