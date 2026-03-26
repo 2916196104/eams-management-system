@@ -11,11 +11,14 @@ import java.util.List;
 @Mapper
 public interface RoleMapper extends BaseMapper<RoleDO> {
 
-    @Select("SELECT DISTINCT sr.code " +
-            "FROM sys_role sr " +
-            "INNER JOIN sys_user_role sur ON sr.id = sur.role_id " +
-            "WHERE sur.user_id = #{userId} " +
-            "ORDER BY sr.id")
+    @Select("SELECT role_info.code " +
+            "FROM (" +
+            "    SELECT DISTINCT sr.id, sr.code " +
+            "    FROM sys_role sr " +
+            "    INNER JOIN sys_user_role sur ON sr.id = sur.role_id " +
+            "    WHERE sur.user_id = #{userId}" +
+            ") role_info " +
+            "ORDER BY role_info.id")
     List<String> selectRoleCodesByUserId(@Param("userId") Long userId);
 
     @Select("SELECT permission_info.code " +

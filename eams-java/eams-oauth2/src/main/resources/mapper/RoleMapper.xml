@@ -10,14 +10,14 @@
     </resultMap>
 
     <select id="selectByUserId" resultMap="BaseResultMap">
-        SELECT r.id, r.name, r.code AS keyword, r.description
+        SELECT r.id, r.name, r.code AS keyword, NULL AS description
         FROM sys_role r
         INNER JOIN sys_user_role ur ON r.id = ur.role_id
         WHERE ur.user_id = #{userId}
     </select>
 
     <select id="selectByMenuPath" resultMap="BaseResultMap">
-        SELECT DISTINCT r.id, r.code AS keyword
+        SELECT DISTINCT r.id, r.name, r.code AS keyword, NULL AS description
         FROM sys_role r
         INNER JOIN sys_role_permission rp ON r.id = rp.role_id
         INNER JOIN sys_permission p ON rp.permission_id = p.id
