@@ -8,18 +8,17 @@ import java.time.LocalDateTime;
 
 @Data
 
-@ApiModel(description = "学员实体")
+@ApiModel(description = "学员返回类")
 public class ClassStudentVO {
 
     @ApiModelProperty(value = "学员ID", example = "1")
     private Long id;
 
     @ApiModelProperty(value = "学员姓名", example = "张三")
-    private String name;
+    private String StudentName;
 
-
-    @ApiModelProperty(value = "所属班级ID", example = "5")
-    private Long classId;
+    @ApiModelProperty(value = "剩余课时", example = "1")
+    private Integer remainingLessons;
 
     @ApiModelProperty(value = "性别 1男 2女", example = "1")
     private Integer gender;

@@ -110,9 +110,8 @@ public class ClassManagerController implements ClassStudentApis {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "classId", value = "班级ID", required = true, dataType = "long", paramType = "path", example = "1"),
             @ApiImplicitParam(name = "studentName", value = "学员姓名（模糊匹配）", dataType = "string", paramType = "form", example = "张"),
-            @ApiImplicitParam(name = "studentNo", value = "学号（模糊匹配）", dataType = "string", paramType = "form", example = "2023"),
             @ApiImplicitParam(name = "gender", value = "性别 1 男 2 女", dataType = "int", paramType = "form", example = "1"),
-            @ApiImplicitParam(name = "pageNum", value = "当前页码", dataType = "int", paramType = "form", example = "1", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageIndex", value = "当前页码", dataType = "int", paramType = "form", example = "1", defaultValue = "1"),
             @ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", paramType = "form", example = "30", defaultValue = "30")
     })
     @ApiResponses({
