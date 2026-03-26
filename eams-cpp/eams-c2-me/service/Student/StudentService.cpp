@@ -89,7 +89,7 @@ StudentPageDTO::Wrapper StudentService::listAll(const StudentQuery::Wrapper& que
 		ZO_STAR_DOMAIN_DO_TO_DTO_1(dto, sub,
 			id, Id,
 			name, Name, 
-			headImg,Head_img,
+			headImg,HeadImg,//ÐÞ¸ÄDOµÄ
 			birthday,Birthday,
 			credit,Credit
 			 

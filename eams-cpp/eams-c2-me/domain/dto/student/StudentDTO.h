@@ -13,7 +13,7 @@
 class StudentDTO : public oatpp::DTO {
   DTO_INIT(StudentDTO, DTO);//初始化DTO
 
-  API_DTO_FIELD(Int64, id, ZH_WORDS_GETTER("dto.student.id"), true,Int32(0));
+  API_DTO_FIELD(String, id, ZH_WORDS_GETTER("dto.student.id"), true,String(""));
   API_DTO_FIELD(String, name, ZH_WORDS_GETTER("dto.student.name"), true, "");
   API_DTO_FIELD_DEFAULT(String, headImg, ZH_WORDS_GETTER("dto.student.headImg"));
   API_DTO_FIELD(Int32, credit, ZH_WORDS_GETTER("dto.student.credit"), true, 0);
