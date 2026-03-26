@@ -2,6 +2,7 @@ package com.zeroone.star.stumanager.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -17,10 +18,13 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@TableName("subject")
 public class Subject implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    /**
+     * 主键
+     */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
@@ -68,6 +72,5 @@ public class Subject implements Serializable {
      * 创建者所属组织ID
      */
     private Long orgId;
-
 
 }

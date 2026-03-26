@@ -2,13 +2,22 @@ package com.zeroone.star.project.query.j8.stumanager;
 
 import com.zeroone.star.project.query.PageQuery;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
+@Data
 public class RegistryRecordsQuery extends PageQuery {
+    /**
+     * 自定义显示的列（字段名列表）
+     */
+    @ApiModelProperty(value = "自定义显示的列", example = "[\"name\",\"subjectName\",\"amount\",\"paidAmount\"]")
+    private List<String> displayColumns;
+
     /**
      * 添加时间
      */

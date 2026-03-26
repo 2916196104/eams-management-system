@@ -5,32 +5,22 @@ import com.zeroone.star.project.dto.j8.stumanager.SaveStu.SaveStuDTO;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j8.SaveStu.DictVO;
 import com.zeroone.star.project.vo.j8.stumanager.ProspectiveStuVO;
-import com.alibaba.cloud.commons.lang.StringUtils;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.query.j8.stumanager.common.StudentListQuery;
 import com.zeroone.star.project.vo.j8.stumanager.StudentListVO;
 import com.zeroone.star.stumanager.entity.Student;
-import com.zeroone.star.stumanager.mapper.StudentCourseMapper;
 import com.zeroone.star.stumanager.mapper.StudentMapper;
 import com.zeroone.star.stumanager.service.IStudentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Resource;
-import java.util.List;
-
-import javax.annotation.Resource;
 
 /**
  * <p>

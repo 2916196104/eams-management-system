@@ -12,8 +12,6 @@ import com.zeroone.star.project.query.j8.StuSignCourseQuery.StaffQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.stumanager.entity.Course;
 import com.zeroone.star.stumanager.entity.Staff;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.query.j8.stumanager.common.StudentCourseQuery;
 import com.zeroone.star.project.vo.j8.stumanager.StudentCourseVO;
 import com.zeroone.star.stumanager.entity.StudentCourse;
@@ -26,13 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.annotation.Resource;
 
 /**
  * <p>

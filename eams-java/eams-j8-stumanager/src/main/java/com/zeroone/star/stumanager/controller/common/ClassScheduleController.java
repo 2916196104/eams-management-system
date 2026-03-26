@@ -14,8 +14,6 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.j8.stumanager.common.ClassScheduleApis;
-import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j8.stumanager.ClassScheduleVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

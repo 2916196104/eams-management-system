@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.stumanager.mapper.StudentCourseMapper">
+
+    <resultMap id="registryRecordsDTOMap" type="com.zeroone.star.project.dto.j8.stumanager.RegistryRecordsDTO">
+        <result property="addTime" column="add_time"/>
+        <result property="name" column="name"/>
+        <result property="subjectName" column="subject_name"/>
+        <result property="type" column="type"/>
+        <result property="countLessonTotal" column="count_lesson_total"/>
+        <result property="unitPrice" column="unit_price"/>
+        <result property="amount" column="amount"/>
+        <result property="discountAmount" column="discount_amount"/>
+        <result property="paidAmount" column="paid_amount"/>
+        <result property="payOverdue" column="pay_overdue"/>
+        <result property="startDate" column="start_date"/>
+        <result property="expireDate" column="expire_date"/>
+        <result property="verifyState" column="verify_state"/>
+        <result property="dueAmount" column="due_amount"/>
+        <result property="actualAmount" column="actual_amount"/>
+        <result property="refundLessonCount" column="refund_lesson_count"/>
+        <result property="remark" column="remark"/>
+        <result property="refundRerifyState" column="refund_rerify_state"/>
+    </resultMap>
+
+    <select id="selectRegistryRecords" resultMap="registryRecordsDTOMap" resultType="com.zeroone.star.project.dto.j8.stumanager.RegistryRecordsDTO">
+        SELECT
+        sc.add_time,
+        sc.name,
+        s.name AS subject_name,
+        CASE WHEN sc.from_trial = true THEN 0 ELSE 1 END AS type,
+        sc.count_lesson_total,
+        sc.unit_price,
+        sc.amount,
+        sc.discount_amount,
+        sc.paid_amount,
+        (sc.amount - sc.paid_amount) AS pay_overdue,
+        sc.start_date,
+        sc.expire_date,
+        sc.verify_state,
+        sc.remark,
+        sc.count_lesson_refund AS refund_lesson_count,
+        sc.course_amount AS due_amount,
+        sc.paid_amount AS actual_amount,
+        1 AS refund_rerify_state
+        FROM student_course sc
+        LEFT JOIN subject s ON sc.subject_id = s.id
+        WHERE sc.deleted = 0
+        <if test="condition.name != null and condition.name != ''">
+            AND sc.name LIKE CONCAT('%', #{condition.name}, '%')
+        </if>
+        <if test="condition.subjectName != null and condition.subjectName != ''">
+            AND s.name = #{condition.subjectName}
+        </if>
+        <if test="condition.type != null">
+            AND sc.from_trial = #{condition.type}
+        </if>
+        <if test="condition.countLessonTotal != null">
+            AND sc.count_lesson_total = #{condition.countLessonTotal}
+        </if>
+        <if test="condition.unitPrice != null">
+            AND sc.unit_price = #{condition.unitPrice}
+        </if>
+        <if test="condition.amount != null">
+            AND sc.amount = #{condition.amount}
+        </if>
+        <if test="condition.discountAmount != null">
+            AND sc.discount_amount = #{condition.discountAmount}
+        </if>
+        <if test="condition.paidAmount != null">
+            AND sc.paid_amount = #{condition.paidAmount}
+        </if>
+        <if test="condition.startDate != null">
+            AND sc.start_date = #{condition.startDate}
+        </if>
+        <if test="condition.expireDate != null">
+            AND sc.expire_date = #{condition.expireDate}
+        </if>
+        <if test="condition.verifyState != null">
+            AND sc.verify_state = #{condition.verifyState}
+        </if>
+        <if test="condition.remark != null and condition.remark != ''">
+            AND sc.remark LIKE CONCAT('%', #{condition.remark}, '%')
+        </if>
+    </select>
+
+</mapper>
