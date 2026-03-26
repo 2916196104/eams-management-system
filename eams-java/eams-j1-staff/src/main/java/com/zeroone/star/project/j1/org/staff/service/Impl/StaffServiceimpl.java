@@ -10,6 +10,7 @@ import com.github.pagehelper.PageInfo;
 import com.zeroone.star.project.DO.Staff;
 import com.zeroone.star.project.DO.StaffOrginfo;
 import com.zeroone.star.project.DO.StaffPosition;
+import com.zeroone.star.project.components.user.UserDTO;
 import com.zeroone.star.project.components.user.UserHolder;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j1.org.StaffDTO;
@@ -26,6 +27,8 @@ import com.zeroone.star.project.vo.j1.org.StaffVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -40,11 +43,18 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
     private StaffPositionMapper staffPositionMapper;
 @Autowired
 private StaffMapper staffMapper;
-@Resource
-private UserHolder userHolder;
+ 
 
     @Override
     public JsonVO<PageDTO<StaffVO>> queryPage(StaffQuery condition) {
+        // 从 Spring 上下文获取当前请求
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+
+// 从请求里取出 UserDTO（网关/拦截器放进去的）
+        UserDTO userDTO = (UserDTO) attributes.getRequest().getAttribute("userDTO");
+
+// 取你要的 orgId
+        Long orgId = userDTO.getOrgId();
         long pageNo = condition.getPageIndex();
         long pageSize = condition.getPageSize();
         PageHelper.startPage((int)pageNo,(int)pageSize);
@@ -80,7 +90,7 @@ private UserHolder userHolder;
                                     .eq(StaffOrginfo::getDeleted, 0)
                     );
                     if (orgInfoDO != null) {
-                        staffVO.setOrgId(userHolder.getCurrentOrgId());
+                        staffVO.setOrgId(orgId);
                         staffVO.setPositionId(orgInfoDO.getPositionId());
                         // 新增：查职位名称
                         if (orgInfoDO.getPositionId() != null) {
@@ -107,6 +117,14 @@ private UserHolder userHolder;
 
     @Override
     public JsonVO<StaffDetailsVO> queryStaff(StaffQuery condition) {
+        // 从 Spring 上下文获取当前请求
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+
+// 从请求里取出 UserDTO（网关/拦截器放进去的）
+        UserDTO userDTO = (UserDTO) attributes.getRequest().getAttribute("userDTO");
+
+// 取你要的 orgId
+        Long orgId = userDTO.getOrgId();
         if (condition.getId() == null) {
             return JsonVO.fail("员工ID不能为空");
         }
@@ -132,7 +150,7 @@ private UserHolder userHolder;
         );
         if (orgInfoDO != null) {
             // 补充机构表字段
-            staffVO.setOrgId(userHolder.getCurrentOrgId());
+            staffVO.setOrgId(orgId);
             staffVO.setGroupId(orgInfoDO.getGroupId());
             staffVO.setComId(orgInfoDO.getComId());
             staffVO.setDptId(orgInfoDO.getDptId());
@@ -152,6 +170,14 @@ private UserHolder userHolder;
 
     @Override
     public JsonVO<Long> saveStaff(StaffDTO condition) {
+        // 从 Spring 上下文获取当前请求
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+
+// 从请求里取出 UserDTO（网关/拦截器放进去的）
+        UserDTO userDTO = (UserDTO) attributes.getRequest().getAttribute("userDTO");
+
+// 取你要的 orgId
+        Long orgId = userDTO.getOrgId();
         // 保留你的原有校验逻辑
         if(condition.getName() == null||condition.getName().equals("")){
             return JsonVO.fail("姓名不能为空");
@@ -159,7 +185,7 @@ private UserHolder userHolder;
         if(condition.getMobile() == null||condition.getMobile().equals("")){
             return JsonVO.fail("账号不能为空");
         }
-        if(userHolder.getCurrentOrgId() == null){
+        if(orgId == null){
             return JsonVO.fail("机构不能为空");
         }
         if(condition.getGender() == null){
@@ -186,7 +212,7 @@ private UserHolder userHolder;
             // 同步新增机构表
             StaffOrginfo orgInfoDO = new StaffOrginfo();
             orgInfoDO.setStaffId(staffId);
-            orgInfoDO.setOrgId(userHolder.getCurrentOrgId());
+            orgInfoDO.setOrgId(orgId);
             orgInfoDO.setGroupId(condition.getGroupId());
             orgInfoDO.setComId(condition.getComId());
             orgInfoDO.setDptId(condition.getDptId());
@@ -200,7 +226,7 @@ private UserHolder userHolder;
             // 同步更新机构表
             StaffOrginfo orgInfoDO = new StaffOrginfo();
             orgInfoDO.setStaffId(staffId);
-            orgInfoDO.setOrgId(userHolder.getCurrentOrgId());
+            orgInfoDO.setOrgId(orgId);
             orgInfoDO.setPositionId(condition.getPositionId());
             orgInfoDO.setGroupId(condition.getGroupId());
             orgInfoDO.setComId(condition.getComId());
@@ -215,6 +241,14 @@ private UserHolder userHolder;
     }
     @Override
     public JsonVO<Long> removeStaff(List<Long> ids) {
+        // 从 Spring 上下文获取当前请求
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+
+// 从请求里取出 UserDTO（网关/拦截器放进去的）
+        UserDTO userDTO = (UserDTO) attributes.getRequest().getAttribute("userDTO");
+
+// 取你要的 orgId
+        Long orgId = userDTO.getOrgId();
         if (ids == null || ids.isEmpty()) {
             return JsonVO.fail("请选择要删除的员工");
         }
@@ -241,6 +275,14 @@ private UserHolder userHolder;
 
     @Override
     public JsonVO<Long> updateStaffStatus(StaffUpdateDTO condition) {
+        // 从 Spring 上下文获取当前请求
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+
+// 从请求里取出 UserDTO（网关/拦截器放进去的）
+        UserDTO userDTO = (UserDTO) attributes.getRequest().getAttribute("userDTO");
+
+// 取你要的 orgId
+        Long orgId = userDTO.getOrgId();
         Staff staff = new Staff();
         List<Long> ids = condition.getIds();
         Integer status = condition.getStatus();
@@ -264,6 +306,14 @@ private UserHolder userHolder;
 
     @Override
     public JsonVO<Long> setStaff(StaffSetDTO condition) {
+        // 从 Spring 上下文获取当前请求
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+
+// 从请求里取出 UserDTO（网关/拦截器放进去的）
+        UserDTO userDTO = (UserDTO) attributes.getRequest().getAttribute("userDTO");
+
+// 取你要的 orgId
+        Long orgId = userDTO.getOrgId();
         List<Long> staffIds = condition.getIds(); // 员工ID列表
         Long positionId = condition.getPositionId();   // 目标职位ID（角色对应职位）
 
