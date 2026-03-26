@@ -6,37 +6,46 @@
 PayFeesJsonVO::Wrapper helper(const PayFeesDTO::Wrapper& dto) {
 	auto vo = PayFeesJsonVO::createShared();
 	StudentCourseDAO dao;
-	auto data = dao.selectByIds(dto->studentId, dto->courseId, dto->studentId);
+	PtrStudentCourseDO data = dao.selectByIds(dto->studentId, dto->courseId, dto->subjectId);
 	if (!data) {
 		vo->setStatus(RS_FAIL);
 		vo->message = "Student course record not found";
 		return vo;
 	}
+
 	if (data->getPayOff() == 1) {
 		vo->setStatus(RS_FAIL);
 		vo->message = "Paid in full";
 		return vo;
 	}
-	double tempAmount = data->getAmount();
-	double tempPaidAmount = data->getPaidAmount();
-	double toPay = tempAmount - tempPaidAmount;
+	double tempAmount = round(data->getAmount() * 100) / 100.0;
+	double tempPaidAmount = round(data->getPaidAmount() * 100) / 100.0;
+	double toPay = round((tempAmount - tempPaidAmount) * 100) / 100.0;
+
 	if (toPay < dto->payAmount) {
 		vo->setStatus(RS_FAIL);
 		vo->message = "The amount paid exceeds the amount due";
 		return vo;
 	}
-	data->setPaidAmount(dto->payAmount + data->getPaidAmount());
-	if (toPay == dto->payAmount) {
+	//std::cout << data->getPaidAmount() << "\n";
+	//std::cout << data->getId() << "\n";
+	double newPaidAmount = round((dto->payAmount + tempPaidAmount) * 100) / 100.0;
+	data->setPaidAmount(newPaidAmount);
+	//data->setPaidAmount(9);
+	//std::cout << data->getPaidAmount() << "\n";
+	if (std::fabs(toPay - dto->payAmount) <= 1e-6) {
 		data->setPayOff(1);
 	}
+	//data->setId(2);
 	int rows = dao.update(*data);
 	if (rows == 0) {
 		vo->setStatus(RS_FAIL);
 		vo->message = "Update failed, please try again later";
+		return vo;
 	}
 	vo->setStatus(RS_SUCCESS);
-	toPay = data->getAmount() - data->getPaidAmount();
-	vo->message = "Payment successful, the remaining amount to be paid is:" + std::to_string(toPay);
+	double remaining = round((data->getAmount() - data->getPaidAmount()) * 100) / 100.0;
+	vo->message = "Payment successful, the remaining amount to be paid is:" + std::to_string(remaining);
 	return vo;
 }
 

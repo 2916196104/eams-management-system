@@ -61,6 +61,7 @@ public:
 		uint64_t courseId,
 		uint64_t subjectId
 	);
+	int updatePayStatus(uint64_t id, double paidAmount, int payOff);
 private:
 
 };

@@ -182,8 +182,18 @@ PtrStudentCourseDO StudentCourseDAO::selectByIds(
     const uint64_t courseId,
     const uint64_t subjectId
 ) {
-    string sql = "SELECT * FROM student_course "
-        "WHERE student_id=? AND course_id=? AND subject_id=? AND deleted=0";
-    return getSqlSession()->executeQueryOne<PtrStudentCourseDO>(sql, PtrStudentCourseMapper(), "%d", "%d", "%d", studentId, courseId, subjectId);
+    string sql = "SELECT * FROM student_course WHERE student_id=" + std::to_string(studentId) +
+        " AND course_id=" + std::to_string(courseId) +
+        " AND subject_id=" + std::to_string(subjectId) +
+        " AND deleted=0";
+    return getSqlSession()->executeQueryOne<PtrStudentCourseDO>(sql, PtrStudentCourseMapper(), "");
 
+}
+int StudentCourseDAO::updatePayStatus(uint64_t id, double paidAmount, int payOff) {
+    std::string sql = "UPDATE student_course SET paid_amount=?, pay_off=? WHERE id=?";
+    SqlParams params;
+    params.push_back(SqlParam("paid_amount", std::make_shared<double>(paidAmount)));
+    params.push_back(SqlParam("pay_off", std::make_shared<int>(payOff)));
+    params.push_back(SqlParam("id", std::make_shared<uint64_t>(id)));
+    return getSqlSession()->executeUpdate(sql, params);
 }

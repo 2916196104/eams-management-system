@@ -68,51 +68,51 @@ public:
 		MYSQL_ADD_FIELD("subject_id", "i", subjectId);
 
 		// 时间 (允许为空)
-		MYSQL_ADD_FIELD_NULLABLE("start_date", "s", startDate, false);
-		MYSQL_ADD_FIELD_NULLABLE("expire_date", "s", expireDate, false);
+		/*MYSQL_ADD_FIELD_NULLABLE("start_date", "s", startDate, false);
+		MYSQL_ADD_FIELD_NULLABLE("expire_date", "s", expireDate, false);*/
 
 		// 备注 (不允许为空)
-		MYSQL_ADD_FIELD("remark", "i", remark);
+		/*MYSQL_ADD_FIELD_NULLABLE("remark", "i", remark, false);*/
 
 		// 课次
-		MYSQL_ADD_FIELD("count_lesson_total", "i", countLessonTotal);
-		MYSQL_ADD_FIELD("count_lesson_complete", "i", countLessonComplete);
-		MYSQL_ADD_FIELD("count_lesson_refund", "i", countLessonRefund);
+		/*MYSQL_ADD_FIELD_NULLABLE("count_lesson_total", "i", countLessonTotal, false);
+		MYSQL_ADD_FIELD_NULLABLE("count_lesson_complete", "i", countLessonComplete, false);
+		MYSQL_ADD_FIELD_NULLABLE("count_lesson_refund", "i", countLessonRefund, false);*/
 
 		// 金额
-		MYSQL_ADD_FIELD("course_amount", "d", courseAmount);
-		MYSQL_ADD_FIELD("discount_amount", "d", discountAmount);
-		MYSQL_ADD_FIELD("amount", "d", amount);
-		MYSQL_ADD_FIELD("paid_amount", "d", paidAmount);
+		/*MYSQL_ADD_FIELD_NULLABLE("course_amount", "d", courseAmount, false);
+		MYSQL_ADD_FIELD_NULLABLE("discount_amount", "d", discountAmount, false);
+		MYSQL_ADD_FIELD_NULLABLE("amount", "d", amount, false);*/
+		MYSQL_ADD_FIELD_NULLABLE("paid_amount", "d", paidAmount, false);
 
 		// 支付状态
-		MYSQL_ADD_FIELD("pay_off", "i", payOff);
+		MYSQL_ADD_FIELD("pay_off", "i", payOff, false);
 
 		// 操作人 (允许为空)
-		MYSQL_ADD_FIELD_NULLABLE("operator", "i", opt, false);
+		//MYSQL_ADD_FIELD_NULLABLE("operator", "i", opt, false);
 
-		// 创建信息
-		MYSQL_ADD_FIELD("creator", "i", creator);
-		MYSQL_ADD_FIELD("add_time", "s", addTime);
+		//// 创建信息
+		//MYSQL_ADD_FIELD_NULLABLE("creator", "i", creator, false);
+		//MYSQL_ADD_FIELD_NULLABLE("add_time", "s", addTime, false);
 
-		// 编辑信息 (允许为空，刚创建没有编辑)
-		MYSQL_ADD_FIELD_NULLABLE("editor", "i", editor, false);
-		MYSQL_ADD_FIELD_NULLABLE("edit_time", "s", editTime, false);
+		//// 编辑信息 (允许为空，刚创建没有编辑)
+		//MYSQL_ADD_FIELD_NULLABLE("editor", "i", editor, false);
+		//MYSQL_ADD_FIELD_NULLABLE("edit_time", "s", editTime, false);
 
-		// 状态
-		MYSQL_ADD_FIELD("deleted", "i", deleted);
-		MYSQL_ADD_FIELD("verify_state", "i", verifyState);
+		//// 状态
+		//MYSQL_ADD_FIELD_NULLABLE("deleted", "i", deleted, false);
+		//MYSQL_ADD_FIELD_NULLABLE("verify_state", "i", verifyState, false);
 
-		// 提醒与优先级
-		MYSQL_ADD_FIELD("warning_times", "i", warningTimes);
-		MYSQL_ADD_FIELD("priority", "i", priority);
+		//// 提醒与优先级
+		//MYSQL_ADD_FIELD_NULLABLE("warning_times", "i", warningTimes, false);
+		//MYSQL_ADD_FIELD_NULLABLE("priority", "i", priority, false);
 
-		// 单价与体验
-		MYSQL_ADD_FIELD("unit_price", "d", unitPrice);
-		MYSQL_ADD_FIELD("from_trial", "i", fromTrial);
+		//// 单价与体验
+		//MYSQL_ADD_FIELD_NULLABLE("unit_price", "d", unitPrice, false);
+		//MYSQL_ADD_FIELD_NULLABLE("from_trial", "i", fromTrial, false);
 
-		// 组织 (允许为空)
-		MYSQL_ADD_FIELD_NULLABLE("org_id", "i", orgId, false);
+		//// 组织 (允许为空)
+		//MYSQL_ADD_FIELD_NULLABLE("org_id", "i", orgId, false);
 	}
 };
 typedef std::shared_ptr<StudentCourseDO> PtrStudentCourseDO;
