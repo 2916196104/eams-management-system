@@ -1,34 +1,32 @@
 <template>
-	<SystemSectionLayout>
-		<section class="panel-card notice-page">
-			<div class="notice-page__title">{{ config.title }}</div>
+	<section class="panel-card notice-page">
+		<div class="notice-page__title">{{ config.title }}</div>
 
-			<el-form label-width="140px" class="notice-form">
-				<el-form-item label="邮件通知">
-					<el-switch v-model="setting.emailon" />
-				</el-form-item>
-				<el-form-item label="微信通知">
-					<el-switch v-model="setting.wechaton" />
-				</el-form-item>
-				<el-form-item label="微信消息模板ID">
-					<el-input v-model="setting.noticewechatId" />
-				</el-form-item>
-				<el-form-item label="短信通知">
-					<el-switch v-model="setting.messageon" />
-				</el-form-item>
-				<el-form-item label="短信模板ID">
-					<el-input v-model="setting.messageId_eg" />
-				</el-form-item>
-				<el-form-item label="提示信息">
-					<el-input v-model="setting.tips" type="textarea" :rows="3" />
-				</el-form-item>
-			</el-form>
+		<el-form label-width="140px" class="notice-form">
+			<el-form-item label="邮件通知">
+				<el-switch v-model="setting.emailon" />
+			</el-form-item>
+			<el-form-item label="微信通知">
+				<el-switch v-model="setting.wechaton" />
+			</el-form-item>
+			<el-form-item label="微信消息模板ID">
+				<el-input v-model="setting.noticewechatId" />
+			</el-form-item>
+			<el-form-item label="短信通知">
+				<el-switch v-model="setting.messageon" />
+			</el-form-item>
+			<el-form-item label="短信模板ID">
+				<el-input v-model="setting.messageId_eg" />
+			</el-form-item>
+			<el-form-item label="提示信息">
+				<el-input v-model="setting.tips" type="textarea" :rows="3" />
+			</el-form-item>
+		</el-form>
 
-			<div class="notice-page__footer">
-				<el-button type="primary" @click="handleSave">{{ config.saveButtonText }}</el-button>
-			</div>
-		</section>
-	</SystemSectionLayout>
+		<div class="notice-page__footer">
+			<el-button type="primary" @click="handleSave">{{ config.saveButtonText }}</el-button>
+		</div>
+	</section>
 </template>
 
 <script setup lang="ts">
@@ -36,7 +34,6 @@ import { onMounted, reactive } from "vue";
 import { ElMessage } from "element-plus";
 import type { NoticeSettingDTO } from "@/apis/system/type";
 import type { SystemNotificationPageConfig } from "../shared";
-import SystemSectionLayout from "./SystemSectionLayout.vue";
 
 const props = defineProps<{
 	config: SystemNotificationPageConfig;
@@ -86,6 +83,7 @@ onMounted(() => {
 <style scoped>
 .panel-card {
 	padding: 20px 24px;
+	margin: 16px;
 	background: #ffffff;
 	border: 1px solid #edf0f5;
 	box-shadow: 0 1px 2px rgb(31 45 61 / 4%);
