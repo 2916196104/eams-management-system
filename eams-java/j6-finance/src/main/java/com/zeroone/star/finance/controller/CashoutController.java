@@ -30,7 +30,7 @@ public class CashoutController implements CashoutApis {
      */
     @GetMapping("/list")
     @ApiOperation("请款列表查询（条件+分页）")
-    @ApiOperationSupport(order = 1) // Knife4j 注解，可按需补充 author、params 等
+    @ApiOperationSupport(order = 1)
     @Override
     public JsonVO<PageDTO<CashoutListVO>> queryCashoutPage(CashoutListQuery query) {
         // TODO 调用 Service 完成查询，这里先返回 null
@@ -49,31 +49,18 @@ public class CashoutController implements CashoutApis {
         return null;
     }
 
-    @Resource
-    private CashoutServiceImpl cashoutService;
-
     @PostMapping("/save")
     @ApiOperation(value = "保存请款申请")
     @Override
     public JsonVO<Long> saveCashout(@Validated @RequestBody CashoutAddDTO cashoutAddDTO) {
-        try {
-            Long id = cashoutService.saveCashout(cashoutAddDTO);
-            return JsonVO.success(id);
-        } catch (Exception e) {
-            return JsonVO.fail(e.getMessage());
-        }
+        return null;
     }
 
     @PutMapping("/cancel/{id}")
     @ApiOperation(value = "作废请款申请")
     @Override
     public JsonVO<Long> cancelCashout(@PathVariable Long id) {
-        try {
-            cashoutService.cancelCashout(id);
-            return JsonVO.success(id);
-        } catch (Exception e) {
-            return JsonVO.fail(e.getMessage());
-        }
+        return null;
     }
 
     /**
