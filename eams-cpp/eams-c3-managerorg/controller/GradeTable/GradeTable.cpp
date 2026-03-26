@@ -33,10 +33,20 @@ DeleteListJsonVO::Wrapper DeleteListController::ExecDeleteListQuery(
 }
 
 /* Save List */
-Vector<Int64> SaveListController::ExecSaveListQuery(
-    const SaveListQuery::Wrapper& query,
-    const PayloadDTO& payload)
+SaveListJsonVO::Wrapper SaveListController::ExecSaveListQuery(
+    const SaveListQuery::Wrapper& query)
 {
-    /* TODO: finish implementation */
-    return {};
+    SaveListJsonVO::Wrapper vo = SaveListJsonVO::createShared();
+
+    if (!query)
+    {
+        oatpp::Int64 empty = -1;
+        vo->init(empty, RS_FAIL);
+        return vo;
+    }
+
+    SaveListService sls;
+    vo->success(sls.SaveListQuery(query));
+
+    return vo;
 }

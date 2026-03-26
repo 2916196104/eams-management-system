@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef __GRADE_TABLE_PAGE_JSON_VO_H__
 #define __GRADE_TABLE_PAGE_JSON_VO_H__
 
@@ -24,9 +24,9 @@ class DeleteListJsonVO : public JsonVO<Vector<Int64>>
 };
 
 /* Save List */
-class SaveListJsonVO : public JsonVO<Vector<Int64>>
+class SaveListJsonVO : public JsonVO<Int64>
 {
-    DTO_INIT(SaveListJsonVO, JsonVO<Vector<Int64>>);
+    DTO_INIT(SaveListJsonVO, JsonVO<Int64>);
 };
 
 //成绩单分页显示JsonVO对象，用于响应给客户端

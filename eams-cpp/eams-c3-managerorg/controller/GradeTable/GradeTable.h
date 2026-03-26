@@ -91,27 +91,24 @@ class SaveListController : public oatpp::web::server::api::ApiController
     API_ACCESS_DECLARE(SaveListController);
 
 public:
-    API_DEF_ENDPOINT_INFO_QUERY_AUTH(
+    API_DEF_ENDPOINT_INFO_AUTH(
         ZH_WORDS_GETTER("grade_table.save.save_list_title"),
         SaveList,
-        SaveListQuery,
         SaveListJsonVO::Wrapper,
         ZH_WORDS_GETTER("GradeTable.tags")
     );
 
-    API_HANDLER_ENDPOINT_QUERY_AUTH(
+    API_HANDLER_ENDPOINT_AUTH(
         API_M_GET,
         "org/gradetable/save-gradetable",
         SaveList,
-        SaveListQuery,
-        ExecSaveListQuery(query, authObject->getPayload())
+        BODY_DTO(SaveListQuery::Wrapper, query),
+        ExecSaveListQuery(query)
     );
 
 private:
-    Vector<Int64> ExecSaveListQuery(
-        const SaveListQuery::Wrapper& query,
-        const PayloadDTO& payload
-    );
+    SaveListJsonVO::Wrapper ExecSaveListQuery(
+        const SaveListQuery::Wrapper& query);
 };
 
 #include OATPP_CODEGEN_END(ApiController)

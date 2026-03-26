@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef __GRADE_TABLE_QUERY_H__
 #define __GRADE_TABLE_QUERY_H__
 
@@ -26,11 +26,7 @@ class DeleteListQuery : public PageQuery
 {
 	DTO_INIT(DeleteListQuery, PageQuery);
 
-	DTO_FIELD(Vector<Int64>, ids);
-	DTO_FIELD_INFO(ids)
-	{
-		info->description = ZH_WORDS_GETTER("grade_table.delete.ids");
-	}
+	API_DTO_FIELD_DEFAULT(Vector<Int64>, ids, ZH_WORDS_GETTER("grade_table.delete.ids"));
 };
 
 /* Save List */
@@ -38,11 +34,12 @@ class SaveListQuery : public PageQuery
 {
 	DTO_INIT(SaveListQuery, PageQuery);
 
-	DTO_FIELD(Int64, id);
-	DTO_FIELD_INFO(id)
-	{
-		info->description = ZH_WORDS_GETTER("grade_table.save.id");
-	}
+	API_DTO_FIELD_DEFAULT(Int64, id, ZH_WORDS_GETTER("grade_table.save.id"));
+    API_DTO_FIELD_DEFAULT(Int64, grade_id, ZH_WORDS_GETTER("grade_table.save.grade_id"));
+    API_DTO_FIELD_DEFAULT(Int64, student_id, ZH_WORDS_GETTER("grade_table.save.student_id"));
+    API_DTO_FIELD_DEFAULT(Int32, score, ZH_WORDS_GETTER("grade_table.save.score"));
+    API_DTO_FIELD_DEFAULT(String, add_time, ZH_WORDS_GETTER("grade_table.save.add_time"));
+    API_DTO_FIELD_DEFAULT(Int64, creator, ZH_WORDS_GETTER("grade_table.save.creator"));
 };
 
 #include OATPP_CODEGEN_END(DTO)
