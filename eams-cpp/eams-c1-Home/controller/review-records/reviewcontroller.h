@@ -47,7 +47,7 @@ public: // 定义接口
 	// 定义获取点评记录（条件+分页）接口处理
 	API_HANDLER_ENDPOINT_QUERY_AUTH(
 		API_M_GET,
-		"/c1/review-records/query-reviews",
+		"/app/sCenter/lesson/evaluateLog",
 		queryReviews,
 		ReviewRecordQuery,
 		execQueryReviews(query)
