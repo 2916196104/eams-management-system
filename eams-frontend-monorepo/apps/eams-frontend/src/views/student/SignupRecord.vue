@@ -47,24 +47,36 @@
 						<el-input v-model="filters.operatorName" placeholder="请输入经办人" clearable class="filter-input" />
 					</div>
 					<div class="filter-buttons">
-						<el-button :icon="Search" circle @click="handleSearch" />
-						<el-button :icon="CircleClose" circle @click="handleReset" />
+						<el-button circle @click="handleSearch">
+							<IconifyIconOffline icon="ep/search" width="16" height="16" />
+						</el-button>
+						<el-button circle @click="handleReset">
+							<IconifyIconOffline icon="ep/close" width="16" height="16" />
+						</el-button>
 					</div>
 				</div>
 				<div class="action-buttons">
-					<el-button :icon="RefreshRight" circle @click="handleRefresh" />
-					<el-button :icon="Printer" circle @click="handlePrint" />
-					<el-button :icon="Menu" circle @click="handleCustomSort" />
-					<el-button :icon="Download" circle @click="handleExport" />
+					<el-button circle @click="handleRefresh">
+						<IconifyIconOffline icon="ep/refresh" width="16" height="16" />
+					</el-button>
+					<el-button circle @click="handlePrint">
+						<IconifyIconOffline icon="ep/printer" width="16" height="16" />
+					</el-button>
+					<el-button circle @click="handleCustomSort">
+						<IconifyIconOffline icon="ep/menu" width="16" height="16" />
+					</el-button>
+					<el-button circle @click="handleExport">
+						<IconifyIconOffline icon="ep/download" width="16" height="16" />
+					</el-button>
 				</div>
 			</div>
 			<div class="batch-actions">
 				<el-button @click="handleBatchSignup">
-					<el-icon><List /></el-icon>
+					<IconifyIconOffline icon="ep/list" width="16" height="16" />
 					批量报名
 				</el-button>
 				<el-button @click="handleBatchDelete">
-					<el-icon><Delete /></el-icon>
+					<IconifyIconOffline icon="ep/delete" width="16" height="16" />
 					删除
 				</el-button>
 			</div>
@@ -92,7 +104,7 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { CircleClose, Delete, Download, List, Menu, Printer, RefreshRight, Search } from "@element-plus/icons-vue";
+import { IconifyIconOffline } from "@/components/ReIcon";
 import MyTable from "@/components/mytable/MyTable.vue";
 import { createPageDTO, type MyTableAttr, type MyTableColumn, type PageDTO } from "@/components/mytable/type";
 import { getSignupRecordPage, getCourseList, batchSignup, batchDelete, exportSignupRecord } from "@/apis/student";

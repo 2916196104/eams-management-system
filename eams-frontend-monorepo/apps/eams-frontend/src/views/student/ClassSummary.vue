@@ -20,14 +20,24 @@
 						</el-select>
 					</div>
 					<div class="filter-buttons">
-						<el-button :icon="Search" circle @click="handleSearch" />
-						<el-button :icon="CircleClose" circle @click="handleReset" />
+						<el-button circle @click="handleSearch">
+							<IconifyIconOffline icon="ep/search" width="16" height="16" />
+						</el-button>
+						<el-button circle @click="handleReset">
+							<IconifyIconOffline icon="ep/close" width="16" height="16" />
+						</el-button>
 					</div>
 				</div>
 				<div class="action-buttons">
-					<el-button :icon="RefreshRight" circle @click="handleRefresh" />
-					<el-button :icon="Printer" circle @click="handlePrint" />
-					<el-button :icon="Menu" circle @click="handleCustomSort" />
+					<el-button circle @click="handleRefresh">
+						<IconifyIconOffline icon="ep/refresh" width="16" height="16" />
+					</el-button>
+					<el-button circle @click="handlePrint">
+						<IconifyIconOffline icon="ep/printer" width="16" height="16" />
+					</el-button>
+					<el-button circle @click="handleCustomSort">
+						<IconifyIconOffline icon="ep/menu" width="16" height="16" />
+					</el-button>
 				</div>
 			</div>
 			<my-table
@@ -54,7 +64,7 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
-import { CircleClose, Menu, Printer, RefreshRight, Search } from "@element-plus/icons-vue";
+import { IconifyIconOffline } from "@/components/ReIcon";
 import MyTable from "@/components/mytable/MyTable.vue";
 import { createPageDTO, type MyTableAttr, type MyTableColumn, type PageDTO } from "@/components/mytable/type";
 import { getClassSummaryPage } from "@/apis/student";

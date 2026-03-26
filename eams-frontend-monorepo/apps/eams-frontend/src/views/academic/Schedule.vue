@@ -53,54 +53,66 @@
 						/>
 					</div>
 					<div class="filter-buttons">
-						<el-button :icon="Search" circle @click="handleSearch" />
-						<el-button :icon="CircleClose" circle @click="handleReset" />
+						<el-button circle @click="handleSearch">
+							<IconifyIconOffline icon="ep/search" width="16" height="16" />
+						</el-button>
+						<el-button circle @click="handleReset">
+							<IconifyIconOffline icon="ep/close" width="16" height="16" />
+						</el-button>
 					</div>
 				</div>
 				<div class="filter-actions">
-					<el-button :icon="Refresh" circle @click="handleRefresh" />
-					<el-button :icon="Printer" circle @click="handlePrint" />
-					<el-button :icon="Download" circle @click="handleExport" />
-					<el-button :icon="Menu" circle @click="handleCustomColumn" />
+					<el-button circle @click="handleRefresh">
+						<IconifyIconOffline icon="ep/refresh" width="16" height="16" />
+					</el-button>
+					<el-button circle @click="handlePrint">
+						<IconifyIconOffline icon="ep/printer" width="16" height="16" />
+					</el-button>
+					<el-button circle @click="handleExport">
+						<IconifyIconOffline icon="ep/download" width="16" height="16" />
+					</el-button>
+					<el-button circle @click="handleCustomColumn">
+						<IconifyIconOffline icon="ep/menu" width="16" height="16" />
+					</el-button>
 				</div>
 			</div>
 
 			<!-- 批量操作栏 -->
 			<div class="batch-actions">
 				<el-button type="primary" @click="handleScheduleCalendar">
-					<el-icon><Calendar /></el-icon>
+					<IconifyIconOffline icon="ep/calendar" width="16" height="16" />
 					课表日历
 				</el-button>
 				<el-button @click="handleRepeatSchedule">
-					<el-icon><RefreshRight /></el-icon>
+					<IconifyIconOffline icon="ep/refresh-right" width="16" height="16" />
 					+ 重复排课
 				</el-button>
 				<el-button @click="handleFreeSchedule">
-					<el-icon><Edit /></el-icon>
+					<IconifyIconOffline icon="ep/edit" width="16" height="16" />
 					+ 自由排课
 				</el-button>
 				<el-button @click="handleBatchDelete">
-					<el-icon><Delete /></el-icon>
+					<IconifyIconOffline icon="ep/delete" width="16" height="16" />
 					删除
 				</el-button>
 				<el-button @click="handleBatchModify">
-					<el-icon><EditPen /></el-icon>
+					<IconifyIconOffline icon="ep/edit-pen" width="16" height="16" />
 					批量修改
 				</el-button>
 				<el-button @click="handleStop">
-					<el-icon><VideoPause /></el-icon>
+					<IconifyIconOffline icon="ep/video-pause" width="16" height="16" />
 					停课
 				</el-button>
 				<el-button @click="handleResume">
-					<el-icon><VideoPlay /></el-icon>
+					<IconifyIconOffline icon="ep/video-play" width="16" height="16" />
 					恢复
 				</el-button>
 				<el-button @click="handleReservationOpen">
-					<el-icon><Open /></el-icon>
+					<IconifyIconOffline icon="ep/open" width="16" height="16" />
 					预约开
 				</el-button>
 				<el-button @click="handleReservationClose">
-					<el-icon><Close /></el-icon>
+					<IconifyIconOffline icon="ep/close" width="16" height="16" />
 					预约关
 				</el-button>
 			</div>
@@ -133,23 +145,7 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
-import {
-	Calendar,
-	Close,
-	CircleClose,
-	Delete,
-	Download,
-	Edit,
-	EditPen,
-	Menu,
-	Open,
-	Printer,
-	Refresh,
-	RefreshRight,
-	Search,
-	VideoPause,
-	VideoPlay,
-} from "@element-plus/icons-vue";
+import { IconifyIconOffline } from "@/components/ReIcon";
 import MyTable from "@/components/mytable/MyTable.vue";
 import { createPageDTO, type MyTableAttr, type MyTableColumn, type PageDTO } from "@/components/mytable/type";
 import { getCourseListPage } from "@/apis/academic";
