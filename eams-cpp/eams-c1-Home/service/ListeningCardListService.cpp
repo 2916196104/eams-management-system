@@ -51,8 +51,7 @@ bool ListeningCardListService::claimCard(const receiveCardDTO::Wrapper& dto)
 	ZO_STAR_DOMAIN_DTO_TO_DO(data, dto, LessonCount, lessonCount, SchoolId, schoolId);
 	ZO_STAR_DOMAIN_DTO_TO_DO(data, dto, Counselor, counselor, Id, id);
 	ZO_STAR_DOMAIN_DTO_TO_DO(data, dto, StudentCourseId, studentCourseId, AddTime, addTime);
-
 	// 执行数据修改
 	ListeningCardDAO dao;
-	return  dao.update(data) == 1;
+	return  dao.insert(data) == 1;
 }
