@@ -1,5 +1,5 @@
 package com.zeroone.star.project.j6.interact;
-import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
+import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j6.interact.GradeListDTO;
 import com.zeroone.star.project.dto.j6.interact.GradeFormDTO;
 import com.zeroone.star.project.dto.j6.interact.GradeRecordAddDTO;

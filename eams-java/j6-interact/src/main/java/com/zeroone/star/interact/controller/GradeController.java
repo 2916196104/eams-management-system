@@ -1,6 +1,7 @@
 package com.zeroone.star.interact.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
+import com.zeroone.star.interact.service.IGradeService;
+import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j6.interact.GradeListDTO;
 import com.zeroone.star.project.dto.j6.interact.GradeFormDTO;
 import com.zeroone.star.project.dto.j6.interact.GradeRecordAddDTO;
@@ -9,8 +10,10 @@ import com.zeroone.star.project.query.j6.interact.GradeFormQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +22,8 @@ import java.util.Map;
 @Api(tags = "成绩单")
 public class GradeController implements GradeApis {
 
+    @Resource
+    private IGradeService gradeService;
     /**
      * 获得成绩单列表（条件+分页）
      *
@@ -28,8 +33,9 @@ public class GradeController implements GradeApis {
     @GetMapping
     @ApiOperation("获取成绩单列表（条件+分页）")
     @Override
-    public JsonVO<PageDTO<GradeFormDTO>> queryForm(GradeFormQuery condition) {
-        return null;
+    public JsonVO<PageDTO<GradeFormDTO>> queryForm(@Validated  GradeFormQuery condition) {
+        PageDTO<GradeFormDTO> result=gradeService.queryForm(condition);
+        return JsonVO.success(result);
     }
 
     /**

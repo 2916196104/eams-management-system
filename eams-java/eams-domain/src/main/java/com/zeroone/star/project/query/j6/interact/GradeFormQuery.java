@@ -1,5 +1,6 @@
 package com.zeroone.star.project.query.j6.interact;
 
+import com.zeroone.star.project.query.PageQuery;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -10,10 +11,10 @@ import lombok.Data;
  */
 @Data
 
-public class GradeFormQuery {
+public class GradeFormQuery extends PageQuery {
     @ApiModelProperty(value = "标题",example = "数据结构")
     private String title;
 
     @ApiModelProperty(value = "发布者id",example = "1")
-    private Integer creator;
+    private Long creator;
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.interact.mapper.TeachEvaluationMapper">
+
+    <select id="queryPage" resultType="com.zeroone.star.project.dto.j6.interact.TeachEvaluationDTO">
+        SELECT
+        stu.name   AS studentName,
+        s.name     AS teacherName,
+        l.title    AS lessonName,
+        t.score1   AS score1,
+        t.score2   AS score2,
+        t.score3   AS score3,
+        t.score4   AS score4,
+        t.content  AS content,
+        t.add_time AS addTime,
+        t.anonymity AS anonymity
+        FROM teach_evaluation t
+        LEFT JOIN lesson l ON t.lesson_id = l.id
+        LEFT JOIN staff s ON t.teacher_id = s.id
+        LEFT JOIN student stu ON t.student_id = stu.id
+        <where>
+            <if test="lessonId != null">
+                AND t.lesson_id = #{lessonId}
+            </if>
+            <if test="teacherId != null">
+                AND t.teacher_id = #{teacherId}
+            </if>
+            <if test="studentId != null">
+                AND t.student_id = #{studentId}
+            </if>
+            <if test="startTime != null">
+                AND DATE(t.add_time) <![CDATA[ >= ]]> #{startTime}
+            </if>
+            <if test="endTime != null">
+                AND DATE(t.add_time) <![CDATA[ <= ]]> #{endTime}
+            </if>
+        </where>
+        ORDER BY t.add_time DESC
+    </select>
+
+</mapper>
