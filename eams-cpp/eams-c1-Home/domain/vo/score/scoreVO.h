@@ -21,7 +21,7 @@
 #define _SCOREVO_H_
 
 #include "../../GlobalInclude.h"
-#include "../../dto/score/scoreDTO.h"
+#include "../../dto/score/ScoreDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 

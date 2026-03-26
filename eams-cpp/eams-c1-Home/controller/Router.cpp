@@ -22,7 +22,7 @@
 #include "ApiHelper.h"
 #include "controller/registration-records/registrationcontroller.h"
 #include"listening-card/cardcontroller.h"
-#include "score/scorecontroller.h"		
+#include "score/scorecontroller.h"
 #include "points-exchange/exchangecontroller.h"
 #include "controller/review-records/reviewcontroller.h"
 #include "class/classcontroller.h"
