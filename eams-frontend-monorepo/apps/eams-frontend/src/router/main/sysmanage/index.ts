@@ -1,29 +1,5 @@
 const routes = [
 	{
-		path: "/un-1",
-		name: "UN1",
-		meta: {
-			label: "内部公告",
-		},
-		redirect: { name: "SystemInternalAnnouncement" },
-	},
-	{
-		path: "/un-2",
-		name: "UN2",
-		meta: {
-			label: "系统参数",
-		},
-		redirect: { name: "SystemParameter" },
-	},
-	{
-		path: "/un-3",
-		name: "UN3",
-		meta: {
-			label: "角色与权限",
-		},
-		redirect: { name: "SystemRolePermission" },
-	},
-	{
 		path: "/un-4",
 		name: "UN4",
 		meta: {

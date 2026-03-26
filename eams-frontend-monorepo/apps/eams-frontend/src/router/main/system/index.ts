@@ -1,31 +1,7 @@
 const routes = [
 	{
 		path: "/system",
-		redirect: { name: "SystemInternalAnnouncement" },
-	},
-	{
-		path: "/system/internal-announcement",
-		name: "SystemInternalAnnouncement",
-		meta: {
-			label: "内部公告",
-		},
-		component: () => import("@/views/system/InternalAnnouncement.vue"),
-	},
-	{
-		path: "/system/system-parameter",
-		name: "SystemParameter",
-		meta: {
-			label: "系统参数",
-		},
-		component: () => import("@/views/system/SystemParameter.vue"),
-	},
-	{
-		path: "/system/role-permission",
-		name: "SystemRolePermission",
-		meta: {
-			label: "角色与权限",
-		},
-		component: () => import("@/views/system/RolePermission.vue"),
+		redirect: { name: "SystemDataDictionary" },
 	},
 	{
 		path: "/system/data-dictionary",
