@@ -47,7 +47,7 @@ public class LoginController implements LoginApis {
     @Override
     public JsonVO<Oauth2TokenDTO> authLogin(
             @Validated @RequestBody @ApiParam(value = "登录请求参数", required = true) LoginDTO loginDTO) {
-        return JsonVO.success(loginService.authLogin(loginDTO));
+        return loginService.authLogin(loginDTO);
     }
 
     @PostMapping("/refresh-token")
@@ -55,7 +55,7 @@ public class LoginController implements LoginApis {
     @Override
     public JsonVO<Oauth2TokenDTO> refreshToken(
             @Validated @RequestBody @ApiParam(value = "刷新令牌请求参数", required = true) RefreshTokenDTO refreshTokenDTO) {
-        return JsonVO.success(loginService.refreshToken(refreshTokenDTO));
+        return loginService.refreshToken(refreshTokenDTO);
     }
 
     @GetMapping("/current-user")
