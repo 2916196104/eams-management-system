@@ -3,6 +3,7 @@
 
 StringJsonVO::Wrapper BoardManager::executeAddBoard(const BoardAddDTO::Wrapper& dto, const PayloadDTO& payload)
 {
+	/*
 	// 定义返回数据对象
 	auto jvo = StringJsonVO::createShared();
 	// 参数校验
@@ -25,10 +26,13 @@ StringJsonVO::Wrapper BoardManager::executeAddBoard(const BoardAddDTO::Wrapper& 
 	}
 
 	return jvo;
+	*/
+	return {};
 }
 
 ListJsonVO<String>::Wrapper BoardManager::execRemoveBoard(const List<String>& ids)
 {
+	/*
 	// 定义返回数据对象
 	auto jvo = ListJsonVO<String>::createShared();
 	// 参数校验
@@ -47,10 +51,14 @@ ListJsonVO<String>::Wrapper BoardManager::execRemoveBoard(const List<String>& id
 	}
 
 	return jvo;
+	*/
+	return {};
+
 }
 
 ListJsonVO<String>::Wrapper BoardManager::execStartBoard(const List<String>& ids, const PayloadDTO& payload)
 {
+	/*
 	// 定义返回数据对象
 	auto jvo = ListJsonVO<String>::createShared();
 	// 参数校验
@@ -71,10 +79,14 @@ ListJsonVO<String>::Wrapper BoardManager::execStartBoard(const List<String>& ids
 	}
 
 	return jvo;
+	*/
+	return {};
+
 }
 
 ListJsonVO<String>::Wrapper BoardManager::execEndBoard(const List<String>& ids, const PayloadDTO& payload)
 {
+	/*
 	// 定义返回数据对象
 	auto jvo = ListJsonVO<String>::createShared();
 	// 参数校验
@@ -95,17 +107,24 @@ ListJsonVO<String>::Wrapper BoardManager::execEndBoard(const List<String>& ids, 
 	}
 
 	return jvo;
+	*/
+	return {};
+
 }
 
 // ========== 新增：获取公告列表接口实现 ==========
 BoardPageJsonVO::Wrapper BoardManager::execGetBoardList(const BoardQuery::Wrapper& query)
 {
+	/*
 	// 查询数据
 	auto result = SampleService().listAll(query);
 	// 响应结果
 	auto jvo = BoardPageJsonVO::createShared();
 	jvo->success(result);
 	return jvo;
+	*/
+	return {};
+
 }
 
 // ========== 新增：获取公告详情接口实现 ==========
