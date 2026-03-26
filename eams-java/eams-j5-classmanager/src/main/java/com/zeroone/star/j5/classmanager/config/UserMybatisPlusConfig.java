@@ -1,4 +1,4 @@
-package com.zeroone.star.classmanager.config;
+package com.zeroone.star.j5.classmanager.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;

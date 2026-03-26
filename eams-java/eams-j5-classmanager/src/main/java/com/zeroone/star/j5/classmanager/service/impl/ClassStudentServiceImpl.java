@@ -2,7 +2,9 @@ package com.zeroone.star.j5.classmanager.service.impl;
 
 import com.alibaba.nacos.shaded.org.checkerframework.checker.units.qual.C;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zeroone.star.j5.classmanager.mapper.ClassStudentMapper;
@@ -11,8 +13,10 @@ import com.zeroone.star.project.DO.j5.classmanager.ClassStudentDO;
 import com.zeroone.star.project.components.user.UserHolder;
 import com.zeroone.star.project.dto.j5.classmanager.ClassStudentDTO;
 import com.zeroone.star.project.dto.j5.classmanager.TransClassStudentDTO;
+import com.zeroone.star.project.query.j5.classmanager.ClassStudentQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.ResultStatus;
+import com.zeroone.star.project.vo.j5.classmanager.ClassStudentVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hpsf.ClassID;
 import org.springframework.stereotype.Service;
@@ -154,4 +158,16 @@ public class ClassStudentServiceImpl extends ServiceImpl<ClassStudentMapper, Cla
         return update;
 
     }
+    /**
+     * 分页查询班级学生
+     * @param classId 班级ID
+     * @param query 查询参数
+     * @return 分页结果
+     */
+    @Override
+    public IPage<ClassStudentVO> queryClassStudentPage(Long classId, ClassStudentQuery query) {
+        Page<ClassStudentVO> page = new Page<>(query.getPageIndex(), query.getPageSize());
+        return classStudentMapper.selectClassStudentPage(page, classId, query);
+    }
+
 }
