@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #ifndef _NOTICE_DAO_
 #define _NOTICE_DAO_
 
@@ -7,18 +7,18 @@
 #include "../../domain/query/BoardManager/BoardManagerQuery.h"
 
 /**
- * 通知设置数据访问对象
+ * ֪ͨ�������ݷ��ʶ���
  */
 class NoticeDAO : public BaseDAO
 {
 public:
-    // 查询所有通知配置
+    // ��ѯ����֪ͨ����
     std::list<PtrNoticeSettingDO> selectAll();
 
-    // 根据ID查询通知配置
+    // ����ID��ѯ֪ͨ����
     PtrNoticeSettingDO selectById(int id);
 
-    // 根据通知编码（code）查询通知配置
+    // ����֪ͨ���루code����ѯ֪ͨ����
     PtrNoticeSettingDO selectByCode(const std::string& code);
 };
 

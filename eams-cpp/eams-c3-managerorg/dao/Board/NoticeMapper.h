@@ -1,4 +1,4 @@
-﻿#ifndef _NOTICE_MAPPER_
+#ifndef _NOTICE_MAPPER_
 #define _NOTICE_MAPPER_
 
 #include "Mapper.h"

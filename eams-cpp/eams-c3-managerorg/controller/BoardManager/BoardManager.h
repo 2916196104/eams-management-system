@@ -37,12 +37,12 @@ public:		//定义接口
 	// 3.1 定义启用公告接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("board.start.summary"), startBoard, ListJsonVO<String>::Wrapper, API_TAG);
 	// 3.2 定义启用公告接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "org/board/start-board", startBoard, BODY_DTO(List<String>, ids), execStartBoard(ids));
+	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "org/board/start-board", startBoard, BODY_DTO(List<String>, ids), execStartBoard(ids, authObject->getPayload()));
 
 	// 3.1 定义停用公告接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("board.end.summary"), endBoard, ListJsonVO<String>::Wrapper, API_TAG);
 	// 3.2 定义停用公告接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "org/board/end-board", endBoard, BODY_DTO(List<String>, ids), execEndBoard(ids));
+	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "org/board/end-board", endBoard, BODY_DTO(List<String>, ids), execEndBoard(ids, authObject->getPayload()));
 
 	// ========== 新增：获取公告列表接口（和原有接口格式完全一致，一行写完） ==========
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("board.list.summary"), GetBoardList,BoardQuery, BoardPageJsonVO::Wrapper, API_TAG);
@@ -64,8 +64,8 @@ public:		//定义接口
 private:	//定义接口执行函数
 	StringJsonVO::Wrapper executeAddBoard(const BoardAddDTO::Wrapper& dto,const PayloadDTO& payload);
 	ListJsonVO<String>::Wrapper execRemoveBoard(const List<String>& ids);
-	ListJsonVO<String>::Wrapper execStartBoard(const List<String>& ids);
-	ListJsonVO<String>::Wrapper execEndBoard(const List<String>& ids);
+	ListJsonVO<String>::Wrapper execStartBoard(const List<String>& ids, const PayloadDTO& payload);
+	ListJsonVO<String>::Wrapper execEndBoard(const List<String>& ids, const PayloadDTO& payload);
 
 	// ========== 新增：函数声明（完全抄原有格式） ==========
 	ListJsonVO<String>::Wrapper execGetBoardList(const BoardQuery::Wrapper& query);

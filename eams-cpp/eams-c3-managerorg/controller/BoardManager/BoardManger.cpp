@@ -3,28 +3,128 @@
 
 StringJsonVO::Wrapper BoardManager::executeAddBoard(const BoardAddDTO::Wrapper& dto, const PayloadDTO& payload)
 {
+	/*
+	// 定义返回数据对象
+	auto jvo = StringJsonVO::createShared();
+	// 参数校验
+	std::string errmsg = dto->validate();
+	if (errmsg != "")
+	{
+		jvo->init(errmsg, RS_PARAMS_INVALID);
+		return jvo;
+	}
+	// 执行数据新增
+	dto->setPayload(&payload);
+	//这里注意要调用的是雪花算法
+	std::string id = SampleService().saveData(dto);
+	if (id != "") {
+		jvo->success(id);
+	}
+	else
+	{
+		jvo->fail({});
+	}
+
+	return jvo;
+	*/
 	return {};
 }
 
 ListJsonVO<String>::Wrapper BoardManager::execRemoveBoard(const List<String>& ids)
 {
+	/*
+	// 定义返回数据对象
+	auto jvo = ListJsonVO<String>::createShared();
+	// 参数校验
+	if (ids->empty())
+	{
+		jvo->init(nullptr, RS_PARAMS_INVALID);
+		return jvo;
+	}
+	// 执行数据删除
+	if (SampleService().removeData(ids)) {
+		jvo->success(ids);
+	}
+	else
+	{
+		jvo->fail(nullptr);
+	}
+
+	return jvo;
+	*/
 	return {};
+
 }
 
-ListJsonVO<String>::Wrapper BoardManager::execStartBoard(const List<String>& ids)
+ListJsonVO<String>::Wrapper BoardManager::execStartBoard(const List<String>& ids, const PayloadDTO& payload)
 {
+	/*
+	// 定义返回数据对象
+	auto jvo = ListJsonVO<String>::createShared();
+	// 参数校验
+	if (ids->empty())
+	{
+		jvo->init(nullptr, RS_PARAMS_INVALID);
+		return jvo;
+	}
+	// 执行数据修改
+	BoardAddDTO::Wrapper dto;
+	dto->setPayload(&payload);
+	if (SampleService().updateData1(ids,dto)) {
+		jvo->success(ids);
+	}
+	else
+	{
+		jvo->fail(nullptr);
+	}
+
+	return jvo;
+	*/
 	return {};
+
 }
 
-ListJsonVO<String>::Wrapper BoardManager::execEndBoard(const List<String>& ids)
+ListJsonVO<String>::Wrapper BoardManager::execEndBoard(const List<String>& ids, const PayloadDTO& payload)
 {
+	/*
+	// 定义返回数据对象
+	auto jvo = ListJsonVO<String>::createShared();
+	// 参数校验
+	if (ids->empty())
+	{
+		jvo->init(nullptr, RS_PARAMS_INVALID);
+		return jvo;
+	}
+	// 执行数据修改
+	BoardAddDTO::Wrapper dto;
+	dto->setPayload(&payload);
+	if (SampleService().updateData2(ids, dto)) {
+		jvo->success(ids);
+	}
+	else
+	{
+		jvo->fail(nullptr);
+	}
+
+	return jvo;
+	*/
 	return {};
+
 }
 
 // ========== 新增：获取公告列表接口实现 ==========
-ListJsonVO<String>::Wrapper BoardManager::execGetBoardList(const BoardQuery::Wrapper& query)
+BoardPageJsonVO::Wrapper BoardManager::execGetBoardList(const BoardQuery::Wrapper& query)
 {
-	return ListJsonVO<String>::Wrapper();
+	/*
+	// 查询数据
+	auto result = SampleService().listAll(query);
+	// 响应结果
+	auto jvo = BoardPageJsonVO::createShared();
+	jvo->success(result);
+	return jvo;
+	*/
+	return {};
+
 }
 
 // ========== 新增：获取公告详情接口实现 ==========

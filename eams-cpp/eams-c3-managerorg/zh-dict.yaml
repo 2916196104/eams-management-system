@@ -119,6 +119,7 @@ StuJudgeTeaDTO:
   anonymity: 是否匿名(0表示false  1表示true)
   startEvaluateTime: 评价起始时间
   endEvaluateTime: 评价结束时间
+  orgName: 教师所属组织名称
 
   # 教评学
 TeaJudgeStuDTO:
