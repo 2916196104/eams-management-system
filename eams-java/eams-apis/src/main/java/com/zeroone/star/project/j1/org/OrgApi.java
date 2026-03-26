@@ -26,7 +26,7 @@ public interface OrgApi {
 
     @ApiOperation(value = "获取机构列表", notes = "根据条件查询机构列表，返回关键数据，完整数据通过详情接口获取")
     @GetMapping("/query-list")
-    JsonVO<List<OrgListVO>> queryOrgList(OrgQuery query);
+    JsonVO<List<OrgListVO>> queryOrgList(@ModelAttribute OrgQuery query);
 
     @ApiOperation(value = "获取机构详情", notes = "根据机构ID获取完整信息")
     @GetMapping("/query-detail")
