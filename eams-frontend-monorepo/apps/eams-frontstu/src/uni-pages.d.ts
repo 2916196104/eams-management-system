@@ -7,10 +7,25 @@ type _LocationUrl =
   "/pages/index/index" |
   "/pages/home/index" |
   "/pages/mine/index" |
+  "/pages/schedule/index" |
+  "/pages/select/index" |
   "/subPages/login/forget" |
   "/subPages/login/register" |
   "/subPages/mine/about" |
-  "/subPages/mine/them";
+  "/subPages/mine/them" |
+  "/subPages/parent/attendance-record" |
+  "/subPages/parent/class-page" |
+  "/subPages/parent/comment-record" |
+  "/subPages/parent/goods-detail" |
+  "/subPages/parent/homework-detail" |
+  "/subPages/parent/homework-list" |
+  "/subPages/parent/notice-list" |
+  "/subPages/parent/points-mall" |
+  "/subPages/parent/points-record" |
+  "/subPages/parent/score-list" |
+  "/subPages/parent/signup-record" |
+  "/subPages/parent/student-list" |
+  "/subPages/parent/trial-card";
 
 interface NavigateToOptions {
 	url: _LocationUrl;
@@ -18,7 +33,7 @@ interface NavigateToOptions {
 interface RedirectToOptions extends NavigateToOptions {}
 
 interface SwitchTabOptions {
-	url: "/pages/home/index" | "/pages/mine/index";
+	url: "/pages/home/index" | "/pages/schedule/index" | "/pages/select/index" | "/pages/mine/index";
 }
 
 type ReLaunchOptions = NavigateToOptions | SwitchTabOptions;

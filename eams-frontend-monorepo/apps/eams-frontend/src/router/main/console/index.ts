@@ -47,6 +47,64 @@ const routes = [
 		},
 		component: () => import("@/views/console/follow/Follow.vue"),
 	},
+	{
+		path: "/student/online",
+		name: "studentOnline",
+		meta: {
+			label: "在学学员",
+		},
+		component: () => import("@/views/console/student/OnlineStudents.vue"),
+	},
+	{
+		path: "/student/detail",
+		name: "studentDetail",
+		meta: {
+			label: "学员详情",
+		},
+		component: () => import("@/views/console/student/StudentDetail.vue"),
+	},
+	{
+		path: "/student/intention",
+		name: "studentIntention",
+		meta: { label: "意向学员" },
+		component: () => import("@/views/console/student/IntentionStudents.vue"),
+	},
+	{
+		path: "/student/graduated",
+		name: "studentGraduated",
+		meta: { label: "结业学员" },
+		component: () => import("@/views/console/student/GraduatedStudents.vue"),
+	},
+	{
+		path: "/student/parent-accounts",
+		name: "studentParentAccounts",
+		meta: { label: "家长账号" },
+		component: () => import("@/views/console/student/ParentAccounts.vue"),
+	},
+	{
+		path: "/student/lesson-progress",
+		name: "studentLessonProgress",
+		meta: { label: "课时进度" },
+		component: () => import("@/views/console/student/StudentModulePlaceholder.vue"),
+	},
+	{
+		path: "/student/lesson-summary",
+		name: "studentLessonSummary",
+		meta: { label: "课时汇总" },
+		component: () => import("@/views/console/student/StudentModulePlaceholder.vue"),
+	},
+	{
+		path: "/student/enrollment-records",
+		name: "studentEnrollmentRecords",
+		meta: { label: "报名记录" },
+		component: () => import("@/views/console/signup/Signup.vue"),
+	},
+	{
+		path: "/student/follow-records",
+		name: "studentFollowRecords",
+		meta: { label: "跟进记录" },
+		component: () => import("@/views/console/follow/Follow.vue"),
+	},
 ];
 
 export default routes;
