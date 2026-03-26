@@ -54,7 +54,7 @@ public class FundManageController implements FundManageApis {
     }
 
     @GetMapping("/download")
-    @ApiOperation("Export all fund records")
+    @ApiOperation("导出")
     @Override
     public void download(HttpServletResponse response) throws IOException {
         String fileName = URLEncoder.encode(EXPORT_NAME, String.valueOf(StandardCharsets.UTF_8)).replaceAll("\\+", "%20");
