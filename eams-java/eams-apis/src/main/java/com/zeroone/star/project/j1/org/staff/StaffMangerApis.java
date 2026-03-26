@@ -7,6 +7,7 @@ import com.zeroone.star.project.dto.j1.org.StaffDTO;
 import com.zeroone.star.project.dto.j1.org.StaffSetDTO;
 import com.zeroone.star.project.dto.j1.org.StaffUpdateDTO;
 import com.zeroone.star.project.query.j1.org.ClassRecordQuery;
+import com.zeroone.star.project.query.j1.org.StaffDetailQuery;
 import com.zeroone.star.project.query.j1.org.StaffQuery;
 import com.zeroone.star.project.query.j1.org.TeachRecordQuery;
 import com.zeroone.star.project.vo.JsonVO;
@@ -38,7 +39,7 @@ public interface StaffMangerApis {
      * @param condition
      * @return 员工信息
      **/
-    JsonVO<StaffDetailsVO> queryStaff(StaffQuery condition);
+    JsonVO<StaffDetailsVO> queryStaff(StaffDetailQuery condition);
     /**
      *保存员工
      * @param condition
