@@ -14,4 +14,13 @@ public interface RedisConstant {
      * 角色资源映射Map的key
      */
     String RESOURCE_ROLES_MAP = "AUTH:RESOURCE_ROLES";
+    /**
+     * 登出token前缀
+     */
+    String LOGOUT_TOKEN_PREFIX  = "LOGOUT_TOKEN:";
+
+    /**
+     * token状态：活跃
+     */
+    String TOKEN_STATUS_ACTIVE = "ACTIVE";
 }

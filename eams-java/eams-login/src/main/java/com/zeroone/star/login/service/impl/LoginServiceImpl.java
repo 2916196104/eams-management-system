@@ -1,6 +1,8 @@
 package com.zeroone.star.login.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
 import com.anji.captcha.model.common.ResponseModel;
 import com.zeroone.cloud.oauth2.entity.Oauth2Token;
 import com.zeroone.star.login.entity.StaffDO;
@@ -10,19 +12,29 @@ import com.zeroone.star.login.mapper.StaffMapper;
 import com.zeroone.star.login.service.ILoginService;
 import com.zeroone.star.login.service.IMenuService;
 import com.zeroone.star.login.service.OauthService;
+import com.zeroone.star.project.components.jwt.JwtComponent;
+import com.zeroone.star.project.components.jwt.exception.JwtExpiredException;
 import com.zeroone.star.project.components.user.UserHolder;
 import com.zeroone.star.project.components.user.UserDTO;
+import com.zeroone.star.project.constant.RedisConstant;
 import com.zeroone.star.project.dto.login.LoginDTO;
 import com.zeroone.star.project.dto.login.Oauth2TokenDTO;
 import com.zeroone.star.project.dto.login.RefreshTokenDTO;
 import com.zeroone.star.project.dto.login.SelfResetPasswordDTO;
+import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.project.vo.ResultStatus;
 import com.zeroone.star.project.vo.login.LoginPageConfigVO;
 import com.zeroone.star.project.vo.login.LoginVO;
 import com.zeroone.star.project.vo.login.MenuTreeVO;
+import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.annotation.Resource;
 import java.lang.reflect.Method;
@@ -30,6 +42,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class LoginServiceImpl implements ILoginService {
@@ -42,14 +55,11 @@ public class LoginServiceImpl implements ILoginService {
     private static final String OAUTH_REFRESH_TOKEN = "refresh_token";
 
     @Resource
-    private OauthService oauthService;
-
+    OauthService oAuthService;
     @Resource
-    private UserHolder userHolder;
-
+    UserHolder userHolder;
     @Resource
-    private CaptchaBusinessService captchaBusinessService;
-
+    RedisTemplate<String, Object> redisTemplate;
     @Resource
     private IMenuService menuService;
 
@@ -62,11 +72,19 @@ public class LoginServiceImpl implements ILoginService {
     @Resource
     private PasswordEncoder passwordEncoder;
 
-    @Value("${zo.cloud.starter.oauth2.mgr-id}")
-    private String clientId;
+    @Resource
+    private CaptchaBusinessService captchaBusinessService;
 
+    @Value("${zo.cloud.starter.oauth2.mgr-id}")
+    String clientId;
     @Value("${zo.cloud.starter.oauth2.mgr-password}")
-    private String clientPassword;
+    String clientPassword;
+    @Value("${login.captcha.enabled:false}")
+    Boolean captchaEnabled;
+
+    @Autowired
+    private JwtComponent jwtComponent;
+
 
     @Override
     public LoginPageConfigVO getLoginPageConfig() {
@@ -79,25 +97,80 @@ public class LoginServiceImpl implements ILoginService {
     }
 
     @Override
-    public Oauth2TokenDTO authLogin(LoginDTO loginDTO) {
-        validateCaptcha(loginDTO.getCode());
+    public JsonVO<Oauth2TokenDTO> authLogin(@Validated @RequestBody @ApiParam(value = "登录请求参数", required = true) LoginDTO loginDTO) {
+        // 验证码二次校验
+        if (captchaEnabled) {
+            //校验LoginDTO
+            if (StrUtil.isBlank(loginDTO.getCode())) {
+                JsonVO.create(null, ResultStatus.FAIL.getCode(), "验证码不能为空");
+            }
+            //校验验证码
+            ResponseModel responseModel = captchaBusinessService.verification(loginDTO.getCode());
+            if (!responseModel.isSuccess()) {
+                return JsonVO.create(null, Integer.parseInt(responseModel.getRepCode()), responseModel.getRepMsg());
+            }
+        }
+        // 账号密码认证
         Map<String, String> params = new HashMap<>(5);
-        params.put(OAUTH_GRANT_TYPE, OAUTH_PASSWORD);
-        params.put(OAUTH_CLIENT_ID, clientId);
-        params.put(OAUTH_CLIENT_SECRET, clientPassword);
-        params.put(OAUTH_USERNAME, loginDTO.getUsername());
-        params.put(OAUTH_PASSWORD, loginDTO.getPassword());
-        return requestToken(params);
+        params.put("grant_type", "password");
+        params.put("client_id", clientId);
+        params.put("client_secret", clientPassword);
+        params.put("username", loginDTO.getUsername());
+        params.put("password", loginDTO.getPassword()) ;
+        Oauth2Token oauth2Token = oAuthService.postAccessToken(params);
+
+        // 认证失败
+        if (oauth2Token.getErrorMsg() != null) {
+            return JsonVO.create(null, ResultStatus.FAIL.getCode(), oauth2Token.getErrorMsg());
+        }
+
+        // TODO:未实现认证成功后如何实现注销凭证（如记录凭证到内存数据库）
+        Oauth2TokenDTO tokenDTO = BeanUtil.toBean(oauth2Token, Oauth2TokenDTO.class);
+        //缓存token到白名单
+        redisTemplate.opsForValue().set(
+                RedisConstant.LOGOUT_TOKEN_PREFIX + tokenDTO.getToken(),
+                RedisConstant.TOKEN_STATUS_ACTIVE,
+                oauth2Token.getExpiresIn(),
+                TimeUnit.SECONDS
+        );
+
+        // 响应认证成功数据
+        return JsonVO.success(tokenDTO);
     }
 
+
     @Override
-    public Oauth2TokenDTO refreshToken(RefreshTokenDTO refreshTokenDTO) {
+    public JsonVO<Oauth2TokenDTO> refreshToken(RefreshTokenDTO refreshTokenDTO) {
+        // 注销凭证验证
+        try {
+            jwtComponent.defaultRsaVerify(refreshTokenDTO.getToken());
+        }catch (Exception e){
+            if (!(e instanceof JwtExpiredException))
+                return JsonVO.create(null, ResultStatus.FAIL.getCode(),e.getMessage());
+        }
+
+        // 刷新凭证
         Map<String, String> params = new HashMap<>(4);
-        params.put(OAUTH_GRANT_TYPE, OAUTH_REFRESH_TOKEN);
-        params.put(OAUTH_CLIENT_ID, clientId);
-        params.put(OAUTH_CLIENT_SECRET, clientPassword);
-        params.put(OAUTH_REFRESH_TOKEN, refreshTokenDTO.getRefreshToken());
-        return requestToken(params);
+        params.put("grant_type", "refresh_token");
+        params.put("client_id", clientId);
+        params.put("client_secret", clientPassword);
+        params.put("refresh_token", refreshTokenDTO.getRefreshToken());
+        Oauth2Token oauth2Token = oAuthService.postAccessToken(params);
+        // 刷新失败
+        if (oauth2Token.getErrorMsg() != null) {
+            return JsonVO.create(null, ResultStatus.FAIL.getCode(), oauth2Token.getErrorMsg());
+        }
+
+        Oauth2TokenDTO tokenDTO = BeanUtil.toBean(oauth2Token, Oauth2TokenDTO.class);
+        redisTemplate.opsForValue().getOperations()
+                .delete(RedisConstant.LOGOUT_TOKEN_PREFIX+refreshTokenDTO.getToken());
+        redisTemplate.opsForValue().set(
+                RedisConstant.LOGOUT_TOKEN_PREFIX+oauth2Token.getToken()
+                ,RedisConstant.TOKEN_STATUS_ACTIVE,
+                oauth2Token.getExpiresIn(), TimeUnit.SECONDS);
+
+        // 响应刷新成功数据
+        return JsonVO.success(tokenDTO);
     }
 
     @Override
@@ -196,24 +269,6 @@ public class LoginServiceImpl implements ILoginService {
         } catch (Exception ignored) {
             return null;
         }
-    }
-
-    private Oauth2TokenDTO requestToken(Map<String, String> params) {
-        Oauth2Token oauth2Token = oauthService.postAccessToken(params);
-        if (oauth2Token == null) {
-            throw new LoginException("Authentication service did not respond");
-        }
-        if (StringUtils.hasText(oauth2Token.getErrorMsg())) {
-            throw new LoginException(oauth2Token.getErrorMsg());
-        }
-
-        Oauth2TokenDTO tokenDTO = new Oauth2TokenDTO();
-        tokenDTO.setToken(oauth2Token.getToken());
-        tokenDTO.setRefreshToken(oauth2Token.getRefreshToken());
-        tokenDTO.setTokenHead(oauth2Token.getTokenHead());
-        tokenDTO.setExpiresIn(oauth2Token.getExpiresIn());
-        tokenDTO.setClientId(oauth2Token.getClientId());
-        return tokenDTO;
     }
 
     private Byte resolveEnabled(StaffDO staff) {
