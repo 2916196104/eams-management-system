@@ -50,7 +50,7 @@ public class LoginController implements LoginApis {
         return loginService.authLogin(loginDTO);
     }
 
-    @PostMapping("/refresh-token")
+    @PostMapping("/refresh-token" )
     @ApiOperation(value = "刷新令牌")
     @Override
     public JsonVO<Oauth2TokenDTO> refreshToken(

@@ -116,7 +116,7 @@ public class LoginServiceImpl implements ILoginService {
         params.put("client_id", clientId);
         params.put("client_secret", clientPassword);
         params.put("username", loginDTO.getUsername());
-        params.put("password", loginDTO.getPassword());
+        params.put("password", loginDTO.getPassword()) ;
         Oauth2Token oauth2Token = oAuthService.postAccessToken(params);
 
         // 认证失败

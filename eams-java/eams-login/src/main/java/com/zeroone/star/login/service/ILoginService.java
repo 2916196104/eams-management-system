@@ -15,7 +15,7 @@ public interface ILoginService {
 
     LoginPageConfigVO getLoginPageConfig();
 
-    JsonVO<Oauth2TokenDTO> authLogin(LoginDTO loginDTO);
+    JsonVO<Oauth2TokenDTO> authLogin(LoginDTO  loginDTO);
 
     JsonVO<Oauth2TokenDTO> refreshToken(RefreshTokenDTO refreshTokenDTO);
 

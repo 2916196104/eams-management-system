@@ -17,7 +17,7 @@ public interface RedisConstant {
     /**
      * 登出token前缀
      */
-    String LOGOUT_TOKEN_PREFIX = "LOGOUT_TOKEN:";
+    String LOGOUT_TOKEN_PREFIX  = "LOGOUT_TOKEN:";
 
     /**
      * token状态：活跃

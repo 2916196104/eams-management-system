@@ -14,7 +14,7 @@ spring:
 # nacos中配置 是否开启验证码
 login:
   captcha:
-#    enabled: false
+#    enabled:  false
     enabled: ${login.captcha.enabled}
 
 # 开启sentinel声明式服务熔断
