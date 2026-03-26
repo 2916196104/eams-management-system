@@ -7,6 +7,7 @@ import com.zeroone.star.project.dto.j1.org.StaffSetDTO;
 import com.zeroone.star.project.dto.j1.org.StaffUpdateDTO;
 import com.zeroone.star.project.j1.org.staff.StaffMangerApis;
 import com.zeroone.star.project.j1.org.staff.service.StaffService;
+import com.zeroone.star.project.query.j1.org.StaffDetailQuery;
 import com.zeroone.star.project.query.j1.org.StaffQuery;
 import com.zeroone.star.project.query.j1.org.ClassRecordQuery;
 import com.zeroone.star.project.query.j1.org.TeachRecordQuery;
@@ -50,7 +51,7 @@ public class StaffController implements StaffMangerApis {
     @GetMapping("/get")
     @Override
     @ApiOperation("获取员工详情")
-    public JsonVO<StaffDetailsVO> queryStaff(StaffQuery condition) {
+    public JsonVO<StaffDetailsVO> queryStaff(StaffDetailQuery condition) {
         return staffService.queryStaff(condition);
     }
        @PostMapping("/save")
