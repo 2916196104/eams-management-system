@@ -21,6 +21,7 @@
 #define _LOGINVO_H_
 
 #include "../../GlobalInclude.h"
+#include "../../dto/login/AuthDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
@@ -28,6 +29,40 @@
  * 定义显示对象
  */
 
+ /**
+  * 发送验证码返回 VO
+  */
+class SendResetCodeJsonVO : public JsonVO<SendResetCodeRespDTO::Wrapper>
+{
+	DTO_INIT(SendResetCodeJsonVO, JsonVO<SendResetCodeRespDTO::Wrapper>);
+};
+
+/**
+ * 修改密码返回 VO
+ */
+class UpdatePasswordJsonVO : public JsonVO<UpdatePasswordRespDTO::Wrapper>
+{
+	DTO_INIT(UpdatePasswordJsonVO, JsonVO<UpdatePasswordRespDTO::Wrapper>);
+};
+
+class RegisterJsonVO : public JsonVO<RegisterDTO::Wrapper>
+{
+	DTO_INIT(RegisterJsonVO, JsonVO<RegisterDTO::Wrapper>)
+	/*DTO_FIELD(String, code);
+	DTO_FIELD(String, message);
+	DTO_FIELD(RegisterRespDTO::Wrapper, data);
+	API_DTO_FIELD_DEFAULT(Boolean, success, ZH_WORDS_GETTER("success"));
+	*/
+};
+
+class SendRegisterCodeJsonVO : public JsonVO<RegisterRespDTO::Wrapper> {
+	DTO_INIT(SendRegisterCodeJsonVO, JsonVO<RegisterRespDTO::Wrapper>)
+	/*DTO_FIELD(String, code);
+	DTO_FIELD(String, message);
+	DTO_FIELD(SendResetCodeRespDTO::Wrapper, data);
+	API_DTO_FIELD_DEFAULT(Boolean, success, ZH_WORDS_GETTER("success"));
+	*/
+};
 
 #include OATPP_CODEGEN_END(DTO)
 

@@ -18,5 +18,8 @@
 */
 #include "stdafx.h"
 #include "reviewcontroller.h"
-//实现接口执行函数
-
+// 实现获取点评记录（条件+分页）接口执行函数
+ReviewRecordPageJsonVO::Wrapper ReviewRecordController::execQueryReviews(const ReviewRecordQuery::Wrapper& query)
+{
+	return {};
+}

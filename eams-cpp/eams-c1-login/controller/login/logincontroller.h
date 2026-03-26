@@ -25,18 +25,93 @@
 #include "Macros.h"
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/query/PageQuery.h"
+#include "domain/dto/login/AuthDTO.h"
+#include "domain/vo/login/loginVO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
-//ç™»é™†æ¨¡å—æ§åˆ¶å™¨
+#define API_TAG ZH_WORDS_GETTER("login.tag")
+
+//µÇÂ½Ä£¿é¿ØÖÆÆ÷
 class loginController : public oatpp::web::server::api::ApiController
 {
-	// å®šä¹‰æ§åˆ¶å™¨è®¿é—®å…¥å£
+	// ¶¨Òå¿ØÖÆÆ÷·ÃÎÊÈë¿Ú
 	API_ACCESS_DECLARE(loginController);
-public: // å®šä¹‰æ¥å£
+public: // ¶¨Òå½Ó¿Ú
 
+	// ¶¨Òå·¢ËÍÑéÖ¤Âë½Ó¿ÚĞÅÏ¢
+	API_DEF_ENDPOINT_INFO_AUTH(
+		ZH_WORDS_GETTER("login.send-code.summary"),
+		sendResetCode,
+		SendResetCodeJsonVO::Wrapper,
+		API_TAG
+	);
+	// ·¢ËÍÑéÖ¤Âë½Ó¿Ú
+	API_HANDLER_ENDPOINT_AUTH(
+		API_M_POST,
+		"/c1/login/send-code",
+		sendResetCode,
+		BODY_DTO(SendResetCodeDTO::Wrapper, dto),
+		executeSendResetCode(dto)
+	);
 
-private: // å®šä¹‰æ¥å£æ‰§è¡Œå‡½æ•°
+	// ¶¨ÒåĞŞ¸ÄÃÜÂë½Ó¿ÚĞÅÏ¢
+	API_DEF_ENDPOINT_INFO_AUTH(
+		ZH_WORDS_GETTER("login.modify-password.summary"),
+		resetPassword,
+		UpdatePasswordJsonVO::Wrapper,
+		API_TAG
+	);
 
+	// ĞŞ¸ÄÃÜÂë½Ó¿Ú
+	API_HANDLER_ENDPOINT_AUTH(
+		API_M_PUT,
+		"/c1/login/modify-password",
+		resetPassword,
+		BODY_DTO(UpdatePasswordDTO::Wrapper, dto),
+		executeModifyPassword(dto)
+	);
+	
+	// ¶¨Òå·¢ËÍ×¢²áÑéÖ¤Âë½Ó¿ÚĞÅÏ¢
+	API_DEF_ENDPOINT_INFO_AUTH(
+		ZH_WORDS_GETTER("login.send-register-code.summary"),
+		sendRegisterCode,
+		SendRegisterCodeJsonVO::Wrapper,
+		API_TAG
+	);
+	// ·¢ËÍ×¢²áÑéÖ¤Âë½Ó¿Ú
+	API_HANDLER_ENDPOINT_AUTH(
+		API_M_POST,
+		"/c1/login/send-register-code",
+		sendRegisterCode,
+		BODY_DTO(SendResetCodeDTO::Wrapper, dto),
+		executeSendRegisterCode(dto)
+	);
+	// ¶¨Òå×¢²á½Ó¿ÚĞÅÏ¢
+	API_DEF_ENDPOINT_INFO_AUTH(
+		ZH_WORDS_GETTER("login.register.summary"),
+		registerAccount,
+		RegisterJsonVO::Wrapper,
+		API_TAG
+	);
+	// ×¢²á½Ó¿Ú
+	API_HANDLER_ENDPOINT_AUTH(
+		API_M_POST,
+		"/c1/login/register",
+		registerAccount,
+		BODY_DTO(RegisterDTO::Wrapper, dto),
+		executeRegister(dto)
+	);
+	
+
+private: // ¶¨Òå½Ó¿ÚÖ´ĞĞº¯Êı
+	// ·¢ËÍÑéÖ¤Âë
+	SendResetCodeJsonVO::Wrapper executeSendResetCode(const SendResetCodeDTO::Wrapper& dto);
+	// ĞŞ¸ÄÃÜÂë
+	UpdatePasswordJsonVO::Wrapper executeModifyPassword(const UpdatePasswordDTO::Wrapper& dto);
+	// ·¢ËÍ×¢²á¶ÌĞÅÑéÖ¤
+	SendRegisterCodeJsonVO::Wrapper executeSendRegisterCode(const SendResetCodeDTO::Wrapper& dto);
+	// ×¢²áÕËºÅ
+	RegisterJsonVO::Wrapper executeRegister(const RegisterDTO::Wrapper& dto);
 };
 
 #include OATPP_CODEGEN_END(ApiController)

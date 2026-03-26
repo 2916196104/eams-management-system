@@ -19,4 +19,10 @@
 #include "stdafx.h"
 #include "attendancecontroller.h"
 //实现接口执行函数
+attendance_recordsPageJsonVO::Wrapper attendanceController::execQueryAttendanceRecordsPage(const attendance_recordsQuery::Wrapper& query) {
+	return {};
+}
 
+attendance_recordsEvaluateJsonVO::Wrapper attendanceController::execEvaluateAttendanceRecords(const UInt32& student_id) {
+	return {};
+}

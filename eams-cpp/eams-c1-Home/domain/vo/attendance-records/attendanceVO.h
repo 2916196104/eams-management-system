@@ -21,14 +21,32 @@
 #define _ATTENDANCEVO_H_
 
 #include "../../GlobalInclude.h"
-
+#include "../../dto/attendance-records/attendanceDTO.h"
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * 定义显示对象
+ * 上课记录列表显示对象
  */
+class attendance_recordsJsonVO : public JsonVO<attendance_recordsDTO::Wrapper>
+{
+	DTO_INIT(attendance_recordsJsonVO, JsonVO<attendance_recordsDTO::Wrapper>);
+};
 
+/*
+* 上课记录分页显示对象
+*/
+class attendance_recordsPageJsonVO : public JsonVO<attendance_recordsPageDTO::Wrapper>
+{
+	DTO_INIT(attendance_recordsPageJsonVO, JsonVO<attendance_recordsPageDTO::Wrapper>);
+};
 
+/*
+* 评价课次显示对象
+*/
+class attendance_recordsEvaluateJsonVO : public JsonVO<attendance_recordsEvaluateDTO::Wrapper>
+{
+	DTO_INIT(attendance_recordsEvaluateJsonVO, JsonVO<attendance_recordsEvaluateDTO::Wrapper>);
+};
 #include OATPP_CODEGEN_END(DTO)
 
 #endif // !_ATTENDANCEVO_H_

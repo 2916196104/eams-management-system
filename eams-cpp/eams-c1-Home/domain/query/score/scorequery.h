@@ -33,7 +33,7 @@ class ScoreQuery : public PageQuery
 {
 	DTO_INIT(ScoreQuery, PageQuery);
 	// 学生id
-	API_DTO_FIELD_REQUIRE(Int64, student_id, ZH_WORDS_GETTER("score.student_id"), true);
+	API_DTO_FIELD_REQUIRE(UInt64, student_id, ZH_WORDS_GETTER("score.student_id"), true);
 };
 
 

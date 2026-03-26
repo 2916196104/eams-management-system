@@ -18,10 +18,20 @@
 */
 #include "stdafx.h"
 #include "scorecontroller.h"
+#include "service/score/ScoreService.h"
 //实现接口执行函数
 
 // 实现获取成绩列表（条件+分页）接口执行函数
 ScorePageJsonVO::Wrapper ScoreController::execQueryScore(const ScoreQuery::Wrapper& query)
 {
-	return {};
+	// 创建service层对象，调用查询函数
+    ScoreService service;
+    auto result = service.listAll(query);
+
+	// 创建返回的vo对象
+    auto jvo = ScorePageJsonVO::createShared();
+
+	jvo->success(result);
+	return jvo;
+    //return {};
 }

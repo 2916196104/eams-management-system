@@ -25,9 +25,51 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * 数据传输对象
+ * 定义一个课表预约请求的数据传输类型
  */
+class ScheduleAppointmentDTO : public oatpp::DTO {
+	DTO_INIT(ScheduleAppointmentDTO, DTO);
+	//预约课次ID
+	API_DTO_FIELD_REQUIRE(UInt64, scheduleId, ZH_WORDS_GETTER("schedule.appointment.scheduleId"), true);
+	//预约学生ID
+	API_DTO_FIELD_REQUIRE(UInt64, studentId, ZH_WORDS_GETTER("schedule.appointment.studentId"), true);
 
+};
+
+/**
+ * 定义一个课表请假请求数据传输类型
+ */
+class ScheduleLeaveDTO : public oatpp::DTO {
+    DTO_INIT(ScheduleLeaveDTO, DTO);
+
+    // 请假课次ID
+    API_DTO_FIELD_REQUIRE(UInt64, scheduleId, ZH_WORDS_GETTER("schedule.leave.scheduleId"), true);
+    // 请假学生ID
+    API_DTO_FIELD_REQUIRE(UInt64, studentId, ZH_WORDS_GETTER("schedule.leave.studentId"), true);
+    // 请假原因
+    API_DTO_FIELD_REQUIRE(String, reason, ZH_WORDS_GETTER("schedule.leave.reason"), true);
+};
+
+/**
+ * 签到请求传输对象
+ */
+class SignInDTO : public oatpp::DTO
+{
+	DTO_INIT(SignInDTO, DTO);
+
+	// 排课ID
+	API_DTO_FIELD_REQUIRE(UInt64, scheduleId, ZH_WORDS_GETTER("schedule.field.scheduleId"), true);
+
+public:
+	// 参数校验逻辑
+	std::string validate()
+	{
+		if (!scheduleId || scheduleId <= 0) {
+			return "scheduleId invalidate.";
+		}
+		return "";
+	}
+};
 #include OATPP_CODEGEN_END(DTO)
 
 #endif // !_SCHEDULEDTO_H_

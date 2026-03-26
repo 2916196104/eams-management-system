@@ -25,17 +25,62 @@
 #include "Macros.h"
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/query/PageQuery.h"
+#include "domain/vo/points-exchange/exchangeVO.h"
+#include "domain/query/points-exchange/exchangequery.h"
+
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
-//ç§¯åˆ†å…‘æ¢æ¨¡å—æ§åˆ¶å™¨
+
+#define API_TAG ZH_WORDS_GETTER("exchange.tag")
+
+//»ı·Ö¶Ò»»Ä£¿é¿ØÖÆÆ÷
 class exchangeController : public oatpp::web::server::api::ApiController
 {
-	// å®šä¹‰æ§åˆ¶å™¨è®¿é—®å…¥å£
+	// ¶¨Òå¿ØÖÆÆ÷·ÃÎÊÈë¿Ú
 	API_ACCESS_DECLARE(exchangeController);
-public: // å®šä¹‰æ¥å£
+public: // ¶¨Òå½Ó¿Ú
 
+	// 1. ¶¨Òå²éÑ¯ËùÓĞ»ı·ÖÀñÆ·ÁĞ±íĞÅÏ¢£¨Ìõ¼ş+·ÖÒ³£©½Ó¿ÚÃèÊö
+	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("exchange.query-allGoods.summary"), queryAllGoods, PageQuery, GoodsPageJsonVO::Wrapper, API_TAG);
+	// 1.2 ¶¨Òå²éÑ¯ËùÓĞ»ı·ÖÀñÆ·ÁĞ±íĞÅÏ¢£¨Ìõ¼ş+·ÖÒ³£©½Ó¿Ú´¦Àí
+	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c1/exchange/query-allGoods", queryAllGoods, QUERIES(QueryParams, queryParams),
+		API_HANDLER_QUERY_PARAM(query, PageQuery, queryParams); API_HANDLER_RESP_VO(executeQueryAll(query)););
 
-private: // å®šä¹‰æ¥å£æ‰§è¡Œå‡½æ•°
+	// 2. ¶¨Òå»ñÈ¡»ı·ÖÀñÆ·ÏêÇé½Ó¿ÚÃèÊö
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("exchange.get-goods-detail.summary"), getGoodsDetail, GoodsDetailJsonVO::Wrapper, API_TAG,
+		API_DEF_ADD_PATH_PARAMS(Int64, "id", ZH_WORDS_GETTER("exchange.field.id"), 101, true);
+	);
+	// 2.2 ¶¨Òå»ñÈ¡»ı·ÖÀñÆ·ÏêÇé½Ó¿Ú´¦Àí
+	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c1/exchange/goods-detail/{id}", getGoodsDetail, PATH(Int64, id), executeGetGoodsDetail(id));
+
+	// 3. ¶¨Òå²éÑ¯µ±Ç°ÓÃ»§¶Ò»»¼ÇÂ¼£¨Ìõ¼ş+·ÖÒ³£©½Ó¿ÚÃèÊö
+	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("exchange.query-accept.summary"), queryAcceptGoods, AcceptGoodsQuery, AcceptGoodsPageJsonVO::Wrapper, API_TAG);
+	// 3.2 ¶¨Òå²éÑ¯µ±Ç°ÓÃ»§¶Ò»»¼ÇÂ¼£¨Ìõ¼ş+·ÖÒ³£©½Ó¿Ú´¦Àí
+	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c1/exchange/query-acceptGoods", queryAcceptGoods, QUERIES(QueryParams, queryParams),
+		API_HANDLER_QUERY_PARAM(query, AcceptGoodsQuery, queryParams); API_HANDLER_RESP_VO(executeQueryAcceptGoods(query)););
+
+	// 4. ¶¨Òå²éÑ¯»ı·Ö¶Ò»»¹æÔò£¨Í¨¹ıIdÖµÀ´²éÑ¯£¬Ò²¿É²éÑ¯Êı¾İ¿âÖĞÆäËû¹æÔò£©½Ó¿ÚÃèÊö
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("exchange.query-rule.summary"), queryRule, SettingJsonVO::Wrapper, API_TAG,
+		API_DEF_ADD_QUERY_PARAMS(UInt64, "id", ZH_WORDS_GETTER("goods.setting.id"), 107, true);
+	);
+	// 4.2 ¶¨Òå²éÑ¯»ı·Ö¶Ò»»¹æÔò£¨Í¨¹ıIdÖµÀ´²éÑ¯£¬Ò²¿É²éÑ¯Êı¾İ¿âÖĞÆäËû¹æÔò£©½Ó¿Ú´¦Àí
+	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c1/exchange/query-rule", queryRule, QUERY(UInt64, id), executeQueryRule(id));
+
+	// 5. ¶¨Òå¶Ò»»ÀñÆ·½Ó¿ÚÃèÊö
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("exchange.submit-exchange.summary"), submitExchange, ExchangeResultJsonVO::Wrapper, API_TAG,
+		// POSTÇëÇóÎŞ·¨Ê¹ÓÃAPI_DEF_ADD_QUERY_PARAMS£¬ËùÒÔÕâÀïÁô¿Õ£¬»òÕß¿ÉÒÔÌí¼ÓÆäËûĞÅÏ¢
+		);
+	// 5.2 ¶¨Òå¶Ò»»ÀñÆ·½Ó¿Ú´¦Àí
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c1/exchange/submit", submitExchange,
+		BODY_DTO(ExchangeSubmitDTO::Wrapper, request),
+		executeSubmitExchange(request));
+
+private: // ¶¨Òå½Ó¿ÚÖ´ĞĞº¯Êı
+	GoodsPageJsonVO::Wrapper executeQueryAll(const PageQuery::Wrapper& query);
+	GoodsDetailJsonVO::Wrapper executeGetGoodsDetail(const Int64& id);
+	AcceptGoodsPageJsonVO::Wrapper executeQueryAcceptGoods(const AcceptGoodsQuery::Wrapper& acceptGoods);
+	SettingJsonVO::Wrapper executeQueryRule(const UInt64& id);
+	ExchangeResultJsonVO::Wrapper executeSubmitExchange(const ExchangeSubmitDTO::Wrapper& request);
 
 };
 

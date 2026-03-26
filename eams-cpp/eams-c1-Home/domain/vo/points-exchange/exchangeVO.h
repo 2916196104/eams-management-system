@@ -21,12 +21,45 @@
 #define _EXCHANGEVO_H_
 
 #include "../../GlobalInclude.h"
-
+#include "../../dto/points-exchange/exchangeDTO.h"
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * 瀹氫箟鏄剧ず瀵硅薄
+ * 定义显示对象
  */
+
+class GoodsPageJsonVO : public JsonVO<GoodsPageDTO::Wrapper>
+{
+	DTO_INIT(GoodsPageJsonVO, JsonVO<GoodsPageDTO::Wrapper>);
+};
+
+
+class AcceptGoodsPageJsonVO : public JsonVO<AcceptGoodsPageDTO::Wrapper>
+{
+	DTO_INIT(AcceptGoodsPageJsonVO, JsonVO<AcceptGoodsPageDTO::Wrapper>);
+};
+
+
+class SettingJsonVO : public JsonVO<SettingDTO::Wrapper>
+{
+	DTO_INIT(SettingJsonVO, JsonVO<SettingDTO::Wrapper>);
+};
+
+/**
+ * 积分礼品详情响应VO
+ */
+class GoodsDetailJsonVO : public JsonVO<GoodsDetailDTO::Wrapper>
+{
+	DTO_INIT(GoodsDetailJsonVO, JsonVO<GoodsDetailDTO::Wrapper>);
+};
+
+/**
+ * 兑换结果响应VO
+ */
+class ExchangeResultJsonVO : public JsonVO<ExchangeResultDTO::Wrapper>
+{
+	DTO_INIT(ExchangeResultJsonVO, JsonVO<ExchangeResultDTO::Wrapper>);
+};
 
 
 #include OATPP_CODEGEN_END(DTO)
