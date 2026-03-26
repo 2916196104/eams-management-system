@@ -17,6 +17,9 @@ public class CashoutDetailVO {
     @ApiModelProperty("请款类型")
     private Integer type;
 
+    @ApiModelProperty("请款类型名称")
+    private String typeName;
+
     @ApiModelProperty("申请人名称")
     private String creatorName;
 
@@ -34,6 +37,9 @@ public class CashoutDetailVO {
 
     @ApiModelProperty("审批状态")
     private Integer verifyState;
+
+    @ApiModelProperty("审批状态名称")
+    private String verifyStateName;
 
     @ApiModelProperty("审核人")
     private String verifyStaff;

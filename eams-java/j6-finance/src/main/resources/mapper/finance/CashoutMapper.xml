@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zeroone.star.finance.mapper.CashoutMapper">
+
+    <select id="selectCashoutPage" resultType="com.zeroone.star.project.vo.j6.finance.CashoutListVO">
+        SELECT
+        c.id,
+        c.title,
+        c.type,
+        s.name AS creatorName,
+        c.payee_name AS payeeName,
+        c.account,
+        c.amount,
+        c.info,
+        c.verify_state AS verifyState,
+        c.verify_remark AS verifyRemark,
+        c.add_time AS addTime
+        FROM cashout c
+        LEFT JOIN staff s ON c.creator = s.id AND s.deleted = 0
+        WHERE c.deleted = 0
+        <if test="q != null">
+            <if test="q.title != null and q.title != ''">
+                AND c.title LIKE CONCAT('%', #{q.title}, '%')
+            </if>
+            <if test="q.type != null">
+                AND c.type = #{q.type}
+            </if>
+            <if test="q.verifyState != null">
+                AND c.verify_state = #{q.verifyState}
+            </if>
+            <if test="q.creator != null">
+                AND c.creator = #{q.creator}
+            </if>
+            <if test="q.payeeName != null and q.payeeName != ''">
+                AND c.payee_name LIKE CONCAT('%', #{q.payeeName}, '%')
+            </if>
+            <if test="q.startDate != null">
+                AND c.add_time <![CDATA[>=]]> CONCAT(#{q.startDate}, ' 00:00:00')
+            </if>
+            <if test="q.endDate != null">
+                AND c.add_time <![CDATA[<=]]> CONCAT(#{q.endDate}, ' 23:59:59')
+            </if>
+        </if>
+        ORDER BY c.add_time DESC
+    </select>
+
+    <select id="selectCashoutDetailById" resultType="com.zeroone.star.project.vo.j6.finance.CashoutDetailVO">
+        SELECT
+            c.title,
+            c.type,
+            d.name AS typeName,
+            s.name AS creatorName,
+            c.payee_name AS payeeName,
+            c.account,
+            c.amount,
+            c.info,
+            c.verify_state AS verifyState,
+            CASE c.verify_state
+                WHEN 0 THEN '待审核'
+                WHEN 1 THEN '审核通过'
+                WHEN 2 THEN '已驳回'
+                ELSE '未知'
+                END AS verifyStateName,
+            vs.name AS verifyStaff,
+            c.verify_time AS verifyTime,
+            c.verify_remark AS verifyRemark,
+            c.add_time AS applyTime,
+            c.attach_file AS attachFile
+        FROM cashout c
+                 LEFT JOIN staff s ON c.creator = s.id AND s.deleted = 0
+                 LEFT JOIN staff vs ON c.verify_staff = vs.id AND vs.deleted = 0
+                 LEFT JOIN dict_item d ON c.type = d.id
+        WHERE c.id = #{id} AND c.deleted = 0
+    </select>
+
+</mapper>
