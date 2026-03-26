@@ -12,7 +12,7 @@ import java.util.List;
  * </p>
  * <p>版权：&copy;01 星球</p>
  * <p>地址：01 星球总部</p>
- * @author 阿伟学长
+ * @author hxb
  * @version 1.0.0
  */
 @ApiModel("本月报名统计视图对象")

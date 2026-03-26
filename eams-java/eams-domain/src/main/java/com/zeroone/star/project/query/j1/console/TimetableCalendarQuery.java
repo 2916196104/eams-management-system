@@ -4,28 +4,34 @@ import com.zeroone.star.project.query.PageQuery;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.time.LocalDate;
-
+/**
+ * <p>
+ * 描述：课表日历查询对象
+ * </p>
+ * @author hxb
+ */
 @Data
-@ApiModel(value = "TimetableCalendarQuery", description = "Schedule query")
+@ApiModel(value = "课表日历查询对象")
+@EqualsAndHashCode(callSuper = true)
 public class TimetableCalendarQuery extends PageQuery {
 
-    @ApiModelProperty(value = "Week start")
-    private LocalDate weekStart;
+    @ApiModelProperty(value = "开始日期", example = "2026-03-01")
+    private String startDate;
 
-    @ApiModelProperty(value = "Week end")
-    private LocalDate weekEnd;
+    @ApiModelProperty(value = "结束日期", example = "2026-03-31")
+    private String endDate;
 
-    @ApiModelProperty(value = "Class ID")
+    @ApiModelProperty(value = "班级ID")
     private Long classId;
 
-    @ApiModelProperty(value = "Course ID")
+    @ApiModelProperty(value = "课程ID")
     private Long courseId;
 
-    @ApiModelProperty(value = "Teacher ID")
+    @ApiModelProperty(value = "教师ID")
     private Long teacherId;
 
-    @ApiModelProperty(value = "Student ID")
+    @ApiModelProperty(value = "学员ID")
     private Long studentId;
 }

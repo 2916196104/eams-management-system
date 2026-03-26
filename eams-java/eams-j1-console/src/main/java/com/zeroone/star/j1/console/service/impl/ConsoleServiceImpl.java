@@ -1,16 +1,23 @@
 package com.zeroone.star.j1.console.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zeroone.star.j1.console.entity.*;
+import com.zeroone.star.j1.console.mapper.*;
 import com.zeroone.star.j1.console.service.IConsoleService;
 import com.zeroone.star.project.query.j1.console.*;
 import com.zeroone.star.project.vo.j1.console.*;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.annotation.Resource;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>
- * 描述：控制台服务实现类
+ * 描述：控制台服务实现
  * </p>
  * <p>版权：&copy;01 星球</p>
  * <p>地址：01 星球总部</p>
@@ -19,149 +26,267 @@ import java.util.List;
  */
 @Service
 public class ConsoleServiceImpl implements IConsoleService {
-    
+
+    @Resource
+    private StudentMapper studentMapper;
+    @Resource
+    private StaffMapper staffMapper;
+    @Resource
+    private LessonMapper lessonMapper;
+    @Resource
+    private StudentCourseMapper studentCourseMapper;
+    @Resource
+    private ContactRecordMapper contactRecordMapper;
+    @Resource
+    private CourseMapper courseMapper;
+    @Resource
+    private ClassMapper classMapper;
+    @Resource
+    private ClassroomMapper classroomMapper;
+    @Resource
+    private UserMapper userMapper;
+
     @Override
     public ConsoleStatisticsVO getStatistics() {
-        // TODO: 待实现，从数据库查询真实数据
         ConsoleStatisticsVO vo = new ConsoleStatisticsVO();
-        vo.setTotalStudents(1200);
-        vo.setTotalTeachers(85);
-        vo.setTotalCourses(156);
-        vo.setTotalClasses(42);
-        vo.setTodayAttendanceRate(96.5);
-        vo.setMonthEnrollments(328);
-        vo.setPendingTasks(15);
+        
+        vo.setTotalStudents(studentMapper.countTotalStudents());
+        vo.setTotalLessons(lessonMapper.countTotalLessons());
+        vo.setTotalTeachers(staffMapper.countTotalTeachers());
+        
+        String yearMonth = java.time.LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM"));
+        Double monthAmount = studentCourseMapper.countMonthEnrollmentAmount(yearMonth);
+        vo.setMonthEnrollmentAmount(monthAmount != null ? Math.round(monthAmount / 10000.0 * 10.0) / 10.0 : 0.0);
+        
         return vo;
     }
     
     @Override
     public MonthEnrollmentVO getMonthEnrollment(MonthEnrollmentQuery query) {
-        // TODO: 待实现，从数据库查询真实数据
         MonthEnrollmentVO vo = new MonthEnrollmentVO();
-        vo.setMonth(query.getYear() + "-" + String.format("%02d", query.getMonth()));
-        vo.setTotalEnrollments(328);
-        vo.setTargetCompletionRate(82.5);
         
-        // 模拟每日报名数据
-        List<MonthEnrollmentVO.DailyEnrollmentData> dailyData = new ArrayList<>();
-        for (int i = 1; i <= 15; i++) {
-            MonthEnrollmentVO.DailyEnrollmentData data = new MonthEnrollmentVO.DailyEnrollmentData();
-            data.setDate("2024-03-" + String.format("%02d", i));
-            data.setCount((int)(Math.random() * 30) + 10);
-            dailyData.add(data);
+        String yearMonth = String.format("%d-%02d", query.getYear(), query.getMonth());
+        vo.setMonth(yearMonth);
+        
+        Integer totalEnrollments = studentCourseMapper.countMonthEnrollments(yearMonth);
+        vo.setTotalEnrollments(totalEnrollments != null ? totalEnrollments : 0);
+        
+        double completionRate = totalEnrollments != null ? totalEnrollments * 100.0 / 300 : 0;
+        vo.setTargetCompletionRate(Math.round(completionRate * 10.0) / 10.0);
+        
+        List<Map<String, Object>> dailyData = studentCourseMapper.countDailyEnrollments(yearMonth);
+        List<MonthEnrollmentVO.DailyEnrollmentData> dailyList = new ArrayList<>();
+        if (dailyData != null) {
+            for (Map<String, Object> data : dailyData) {
+                MonthEnrollmentVO.DailyEnrollmentData item = new MonthEnrollmentVO.DailyEnrollmentData();
+                item.setDate((String) data.get("date"));
+                item.setCount(((Number) data.get("count")).intValue());
+                dailyList.add(item);
+            }
         }
-        vo.setDailyData(dailyData);
+        vo.setDailyData(dailyList);
         
         return vo;
     }
     
     @Override
-    public CourseEnrollmentVO getCourseEnrollment(CourseEnrollmentQuery query) {
-        // TODO: 待实现，从数据库查询真实数据
-        CourseEnrollmentVO vo = new CourseEnrollmentVO();
-        vo.setTotalCourses(156);
-        vo.setEnrollingCourses(42);
-        vo.setFullCourses(28);
-        
-        // 模拟课程报名列表
-        List<CourseEnrollmentVO.CourseEnrollmentItem> courseList = new ArrayList<>();
-        CourseEnrollmentVO.CourseEnrollmentItem item1 = new CourseEnrollmentVO.CourseEnrollmentItem();
-        item1.setCourseId(1001);
-        item1.setCourseName("Java 高级编程");
-        item1.setTeacherName("张老师");
-        item1.setEnrolledCount(45);
-        item1.setTotalCapacity(60);
-        item1.setRemainingSlots(15);
-        item1.setEnrollmentStatus(1);
-        courseList.add(item1);
-        
-        CourseEnrollmentVO.CourseEnrollmentItem item2 = new CourseEnrollmentVO.CourseEnrollmentItem();
-        item2.setCourseId(1002);
-        item2.setCourseName("Python 数据分析");
-        item2.setTeacherName("李老师");
-        item2.setEnrolledCount(60);
-        item2.setTotalCapacity(60);
-        item2.setRemainingSlots(0);
-        item2.setEnrollmentStatus(2);
-        courseList.add(item2);
-        
-        vo.setCourseList(courseList);
-        
-        return vo;
+    public List<CourseEnrollmentRankVO> getCourseEnrollmentRank() {
+        List<Map<String, Object>> rankData = studentCourseMapper.selectCourseEnrollmentAmountRank(5);
+        List<CourseEnrollmentRankVO> result = new ArrayList<>();
+        if (rankData != null) {
+            for (Map<String, Object> data : rankData) {
+                CourseEnrollmentRankVO item = new CourseEnrollmentRankVO();
+                item.setCourseName((String) data.get("courseName"));
+                item.setAmount(((Number) data.get("amount")).doubleValue());
+                result.add(item);
+            }
+        }
+        return result;
     }
     
     @Override
-    public ScheduleVO getSchedule(ScheduleQuery query) {
-        // TODO: 待实现，从数据库查询真实数据
-        ScheduleVO vo = new ScheduleVO();
-        vo.setUserId(query.getUserId());
-        vo.setUserType(query.getUserType());
-        vo.setWeek(query.getWeek() != null ? query.getWeek() : 5);
+    public TimetableCalendarVO getTimetableCalendar(TimetableCalendarQuery query) {
+        TimetableCalendarVO vo = new TimetableCalendarVO();
         
-        // 模拟课表数据
-        List<ScheduleVO.ScheduleItem> scheduleList = new ArrayList<>();
-        ScheduleVO.ScheduleItem item1 = new ScheduleVO.ScheduleItem();
-        item1.setScheduleId(5001);
-        item1.setCourseId(1001);
-        item1.setCourseName("Java 高级编程");
-        item1.setTeacherName("张老师");
-        item1.setClassroom("教学楼 A-301");
-        item1.setDayOfWeek(1);
-        item1.setPeriod(1);
-        item1.setStartTime("08:00");
-        item1.setEndTime("09:40");
-        scheduleList.add(item1);
+        LambdaQueryWrapper<LessonDO> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(LessonDO::getDeleted, 0);
+        wrapper.orderByAsc(LessonDO::getDate, LessonDO::getStartTime);
         
-        ScheduleVO.ScheduleItem item2 = new ScheduleVO.ScheduleItem();
-        item2.setScheduleId(5002);
-        item2.setCourseId(1002);
-        item2.setCourseName("数据库原理");
-        item2.setTeacherName("王老师");
-        item2.setClassroom("教学楼 B-205");
-        item2.setDayOfWeek(2);
-        item2.setPeriod(3);
-        item2.setStartTime("14:00");
-        item2.setEndTime("15:40");
-        scheduleList.add(item2);
+        if (query.getStartDate() != null && !query.getStartDate().isEmpty()) {
+            wrapper.ge(LessonDO::getDate, java.sql.Date.valueOf(query.getStartDate()));
+        }
+        if (query.getEndDate() != null && !query.getEndDate().isEmpty()) {
+            wrapper.le(LessonDO::getDate, java.sql.Date.valueOf(query.getEndDate()));
+        }
+        if (query.getCourseId() != null) {
+            wrapper.eq(LessonDO::getCourseId, query.getCourseId());
+        }
+        if (query.getClassId() != null) {
+            wrapper.eq(LessonDO::getClassId, query.getClassId());
+        }
+        if (query.getTeacherId() != null) {
+            wrapper.eq(LessonDO::getTeacherId, query.getTeacherId());
+        }
         
-        vo.setScheduleList(scheduleList);
+        List<LessonDO> lessons = lessonMapper.selectList(wrapper);
         
+        List<TimetableCalendarVO.ScheduleItem> scheduleList = new ArrayList<>();
+        for (LessonDO lesson : lessons) {
+            TimetableCalendarVO.ScheduleItem item = new TimetableCalendarVO.ScheduleItem();
+            item.setId(lesson.getId());
+            item.setCourseName(courseMapper.getNameById(lesson.getCourseId()));
+            item.setClassName(classMapper.getNameById(lesson.getClassId()));
+            item.setTeacherName(staffMapper.getNameById(lesson.getTeacherId()));
+            item.setClassroom(classroomMapper.getNameById(lesson.getRoomId()));
+            
+            if (lesson.getDate() != null && lesson.getStartTime() != null) {
+                item.setStartTime(lesson.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+            }
+            scheduleList.add(item);
+        }
+        
+        vo.setList(scheduleList);
+        vo.setTotal((long) scheduleList.size());
         return vo;
     }
-    
+
     @Override
-    public CustomerVO getCustomers(CustomerQuery query) {
-        // TODO: 待实现，从数据库查询真实数据
-        CustomerVO vo = new CustomerVO();
-        vo.setTotalCustomers(256);
-        vo.setPotentialCustomers(85);
-        vo.setFollowingCustomers(120);
-        vo.setEnrolledCustomers(48);
+    public MyCustomerVO getMyCustomerList(MyCustomerQuery query) {
+        Page<StudentDO> page = new Page<>(query.getPageNum(), query.getPageSize());
+        LambdaQueryWrapper<StudentDO> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(StudentDO::getDeleted, 0);
+        wrapper.eq(StudentDO::getStage, 0); // 意向学员
         
-        // 模拟客户列表
-        List<CustomerVO.CustomerItem> customerList = new ArrayList<>();
-        CustomerVO.CustomerItem item1 = new CustomerVO.CustomerItem();
-        item1.setCustomerId(3001);
-        item1.setCustomerName("李明");
-        item1.setPhone("13800138000");
-        item1.setWechat("liming2024");
-        item1.setInterestedCourse("Java 高级编程");
-        item1.setStatus(1);
-        item1.setLastContactTime("2024-03-15 14:30:00");
-        customerList.add(item1);
+        if (query.getStudentName() != null && !query.getStudentName().isEmpty()) {
+            wrapper.like(StudentDO::getName, query.getStudentName());
+        }
+        if (query.getStage() != null) {
+            wrapper.eq(StudentDO::getStage, query.getStage());
+        }
+        if (query.getGender() != null) {
+            wrapper.eq(StudentDO::getGender, query.getGender());
+        }
+        wrapper.orderByDesc(StudentDO::getAddTime);
         
-        CustomerVO.CustomerItem item2 = new CustomerVO.CustomerItem();
-        item2.setCustomerId(3002);
-        item2.setCustomerName("王芳");
-        item2.setPhone("13900139000");
-        item2.setWechat("wangfang888");
-        item2.setInterestedCourse("Python 数据分析");
-        item2.setStatus(0);
-        item2.setLastContactTime("2024-03-14 10:20:00");
-        customerList.add(item2);
+        com.baomidou.mybatisplus.core.metadata.IPage<StudentDO> studentPage = studentMapper.selectPage(page, wrapper);
         
-        vo.setCustomerList(customerList);
+        List<MyCustomerVO.CustomerItem> voList = studentPage.getRecords().stream().map(student -> {
+            MyCustomerVO.CustomerItem item = new MyCustomerVO.CustomerItem();
+            item.setId(student.getId());
+            item.setStudentName(student.getName());
+            item.setStage(student.getStage());
+            item.setStageName(getLearnStageName(student.getStage()));
+            item.setGender(student.getGender());
+            item.setGenderName(getGenderName(student.getGender()));
+            item.setAge(calculateAge(student.getBirthday()));
+            item.setSourceName(getSourceName(student.getJoinWay()));
+            item.setRemark(student.getRemark());
+            item.setAddTime(student.getAddTime() != null ?
+                student.getAddTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime() : null);
+            
+            // 获取家长信息
+            if (student.getUserId() != null) {
+                item.setParentName(userMapper.getNameById(student.getUserId()));
+                item.setContactPhone(userMapper.getMobileById(student.getUserId()));
+            }
+            item.setFamilyRel(student.getFamilyRel());
+            item.setFamilyRelName(getFamilyRelName(student.getFamilyRel()));
+            
+            // 计算剩余课次
+            LambdaQueryWrapper<StudentCourseDO> courseWrapper = new LambdaQueryWrapper<>();
+            courseWrapper.eq(StudentCourseDO::getStudentId, student.getId())
+                        .eq(StudentCourseDO::getDeleted, 0);
+            List<StudentCourseDO> courses = studentCourseMapper.selectList(courseWrapper);
+            int remainCount = 0;
+            for (StudentCourseDO course : courses) {
+                if (course.getCountLessonTotal() != null && course.getCountLessonComplete() != null) {
+                    remainCount += course.getCountLessonTotal() - course.getCountLessonComplete();
+                }
+            }
+            item.setRemainLessonCount(remainCount);
+            item.setDeficiencyStatus(remainCount < 0 ? 1 : 0);
+            
+            // 获取最近跟进记录
+            LambdaQueryWrapper<ContactRecordDO> recordWrapper = new LambdaQueryWrapper<>();
+            recordWrapper.eq(ContactRecordDO::getStudentId, student.getId())
+                        .eq(ContactRecordDO::getDeleted, 0)
+                        .orderByDesc(ContactRecordDO::getContactTime)
+                        .last("LIMIT 1");
+            ContactRecordDO record = contactRecordMapper.selectOne(recordWrapper);
+            
+            if (record != null) {
+                item.setLastFollowTime(record.getContactTime() != null ?
+                    record.getContactTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime() : null);
+                item.setLastFollowContent(record.getInfo());
+                item.setNextFollowTime(record.getContactNextTime() != null ?
+                    record.getContactNextTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime() : null);
+            }
+            return item;
+        }).collect(Collectors.toList());
         
+        MyCustomerVO vo = new MyCustomerVO();
+        vo.setTotal(studentPage.getTotal());
+        vo.setList(voList);
         return vo;
+    }
+
+    /**
+     * 获取学习阶段名称
+     */
+    private String getLearnStageName(Integer stage) {
+        if (stage == null) return "未知";
+        switch (stage) {
+            case 0: return "意向学员";
+            case 1: return "在读学员";
+            case 2: return "结业学员";
+            default: return "未知";
+        }
+    }
+
+    /**
+     * 获取性别名称
+     */
+    private String getGenderName(Integer gender) {
+        if (gender == null) return "未知";
+        switch (gender) {
+            case 0: return "未知";
+            case 1: return "男";
+            case 2: return "女";
+            default: return "未知";
+        }
+    }
+
+    /**
+     * 获取来源名称
+     */
+    private String getSourceName(Long joinWay) {
+        if (joinWay == null) return "未知";
+        return "其他";
+    }
+
+    /**
+     * 获取家庭关系名称
+     */
+    private String getFamilyRelName(Integer familyRel) {
+        if (familyRel == null) return "未知";
+        switch (familyRel) {
+            case 1: return "爸爸";
+            case 2: return "妈妈";
+            case 3: return "爷爷";
+            case 4: return "奶奶";
+            case 5: return "外公";
+            case 6: return "外婆";
+            case 7: return "其他";
+            default: return "未知";
+        }
+    }
+
+    /**
+     * 根据生日计算年龄
+     */
+    private Integer calculateAge(Date birthday) {
+        if (birthday == null) return null;
+        java.time.LocalDate birthDate = birthday.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return java.time.Period.between(birthDate, java.time.LocalDate.now()).getYears();
     }
 }
