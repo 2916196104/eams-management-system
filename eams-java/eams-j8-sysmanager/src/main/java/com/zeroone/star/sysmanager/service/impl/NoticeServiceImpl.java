@@ -13,6 +13,7 @@ import com.zeroone.star.project.vo.j8.sysmanager.NoticeVO;
 import com.zeroone.star.sysmanager.entity.Notice;
 import com.zeroone.star.sysmanager.exception.BusinessException;
 import com.zeroone.star.sysmanager.mapper.NoticeMapper;
+import com.zeroone.star.sysmanager.service.INoticeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zeroone.star.sysmanager.service.InternalNoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
 
         return pageResult;
     }
+}
 
     @Override
     public NoticeVO getNoticeDetail(Long id) {

@@ -17,6 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * <p>
+ * 学员跟进表 服务实现类
+ * </p>
+ *
+ * @author dabidai
+ * @since 2026-03-14
+ */
 @Service
 public class ContactRecordServiceImpl extends ServiceImpl<ContactRecordMapper, ContactRecord> implements IContactRecordService {
 
@@ -34,23 +42,23 @@ public class ContactRecordServiceImpl extends ServiceImpl<ContactRecordMapper, C
         if (size == null || size < 1) {
             size = 10;
         }
-        
+
         List<ContactRecord> records = baseMapper.selectByStudentId(studentId);
-        
+
         if (records == null || records.isEmpty()) {
             return new ExtendPageDTO<>(new ArrayList<>(), page, size, 0);
         }
-        
+
         int total = records.size();
         int start = (page - 1) * size;
         int end = Math.min(start + size, total);
-        
+
         if (start >= total) {
             return new ExtendPageDTO<>(new ArrayList<>(), page, size, total);
         }
-        
+
         List<ContactRecord> pageRecords = records.subList(start, end);
-        
+
         List<FollowRecordVO> voList = pageRecords.stream()
                 .map(record -> {
                     FollowRecordVO vo = new FollowRecordVO();
@@ -66,9 +74,9 @@ public class ContactRecordServiceImpl extends ServiceImpl<ContactRecordMapper, C
                     vo.setStage(record.getStage());
                     return vo;
                 }).collect(Collectors.toList());
-        
+
         ExtendPageDTO<FollowRecordVO> pageDTO = new ExtendPageDTO<>(voList, page, size, total);
-        
+
         return pageDTO;
     }
 
@@ -86,7 +94,7 @@ public class ContactRecordServiceImpl extends ServiceImpl<ContactRecordMapper, C
         if (dto.getStage() == null) {
             throw new IllegalArgumentException("跟进阶段不能为空");
         }
-        
+
         Long creatorId = 1L;
         try {
             UserDTO currentUser = userHolder.getCurrentUser();
@@ -100,7 +108,7 @@ public class ContactRecordServiceImpl extends ServiceImpl<ContactRecordMapper, C
         } catch (Exception e) {
 
         }
-        
+
         ContactRecord record = new ContactRecord();
         record.setStudentId(dto.getStudentId());
         record.setInfo(dto.getInfo());
@@ -113,7 +121,7 @@ public class ContactRecordServiceImpl extends ServiceImpl<ContactRecordMapper, C
         record.setAddTime(LocalDateTime.now());
         record.setDeleted(false);
         record.setOrgId(1L);
-        
+
         return save(record);
     }
 
@@ -122,16 +130,16 @@ public class ContactRecordServiceImpl extends ServiceImpl<ContactRecordMapper, C
         if (id == null) {
             throw new IllegalArgumentException("跟进记录ID不能为空");
         }
-        
+
         ContactRecord record = getById(id);
         if (record == null) {
             throw new IllegalArgumentException("跟进记录不存在");
         }
-        
+
         if (record.getDeleted() != null && record.getDeleted()) {
             throw new IllegalArgumentException("跟进记录已被删除");
         }
-        
+
         record.setDeleted(true);
         return updateById(record);
     }

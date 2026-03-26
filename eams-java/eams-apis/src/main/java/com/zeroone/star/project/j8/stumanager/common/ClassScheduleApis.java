@@ -2,13 +2,11 @@ package com.zeroone.star.project.j8.stumanager.common;
 import com.zeroone.star.project.dto.j8.stumanager.CourseStatisticsDTO;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j8.stumanager.ClassScheduleVO;
 import com.zeroone.star.project.vo.j8.stumanager.StuClassVO;
 

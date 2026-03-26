@@ -5,8 +5,6 @@ import com.zeroone.star.project.dto.j8.stumanager.SaveStu.SaveStuDTO;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j8.SaveStu.DictVO;
 import com.zeroone.star.project.vo.j8.stumanager.ProspectiveStuVO;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.query.j8.stumanager.common.StudentListQuery;
 import com.zeroone.star.project.vo.j8.stumanager.StudentListVO;
@@ -17,7 +15,6 @@ import io.swagger.annotations.ApiOperation;
 import javax.validation.Valid;
 import java.util.List;
 
-import java.util.List;
 
 /**
  * <p>

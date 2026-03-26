@@ -17,7 +17,6 @@ import io.swagger.annotations.ApiOperation;
 /**
  * <p>
  * 报名签约表 服务类
- * 课程数据表 服务类
  * </p>
  *
  * @author dabidai

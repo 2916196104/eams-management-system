@@ -29,7 +29,6 @@ import java.time.LocalDateTime;
 /**
  * <p>
  * 报名签约表 服务实现类
- * 课程数据表 服务实现类
  * </p>
  *
  * @author dabidai

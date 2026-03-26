@@ -28,7 +28,14 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
+/**
+ * <p>
+ * 学生积分变动记录 服务实现类
+ * </p>
+ *
+ * @author dabidai
+ * @since 2026-03-14
+ */
 @Service
 public class StudentCreditLogServiceImpl extends ServiceImpl<StudentCreditLogMapper, StudentCreditLog> implements IStudentCreditLogService {
 
