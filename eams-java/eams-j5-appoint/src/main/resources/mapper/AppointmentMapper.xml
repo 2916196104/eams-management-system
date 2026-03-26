@@ -22,17 +22,17 @@
         LEFT JOIN staff st ON a.verify_staff = st.id
 
         <where>
-            <if test="query.studentNames != null and query.studentNames.size() > 0">
-                AND s.name IN
-                <foreach collection="query.studentNames" item="stuName" open="(" separator="," close=")">
-                    #{stuName}
+            <if test="query.studentIds != null and query.studentIds.size() > 0">
+                AND a.student_id IN
+                <foreach collection="query.studentIds" item="stuId" open="(" separator="," close=")">
+                    #{stuId}
                 </foreach>
             </if>
 
-            <if test="query.courseNames != null and query.courseNames.size() > 0">
-                AND c.name IN
-                <foreach collection="query.courseNames" item="crsName" open="(" separator="," close=")">
-                    #{crsName}
+            <if test="query.courseIds != null and query.courseIds.size() > 0">
+                AND a.course_id IN
+                <foreach collection="query.courseIds" item="crsId" open="(" separator="," close=")">
+                    #{crsId}
                 </foreach>
             </if>
 

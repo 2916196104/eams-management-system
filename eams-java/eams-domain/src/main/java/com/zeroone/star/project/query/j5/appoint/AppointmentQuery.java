@@ -21,13 +21,13 @@ import java.util.List;
 @Data
 public class AppointmentQuery extends PageQuery {
 
-    @ApiModelProperty(value = "学生名称列表(支持多选)", example = "[张三, 李四, 小名]")
+    @ApiModelProperty(value = "学生ID列表(支持多选)", example = "[1, 2, 3]")
     @Size(max = 5, message = "一次最多只能查询5个学生")
-    private List<String> studentNames;
+    private List<Long> studentIds;
 
-    @ApiModelProperty(value = "课程名称列表(支持多选)", example = "[英文, 数学]")
+    @ApiModelProperty(value = "课程ID列表(支持多选)", example = "[10, 20]")
     @Size(max = 5, message = "一次最多只能查询5门课程")
-    private List<String> courseNames;
+    private List<Long> courseIds;
 
     @ApiModelProperty(value = "开始日期", example = "2026-03-01")
     @JsonFormat(pattern = "yyyy-MM-dd")
