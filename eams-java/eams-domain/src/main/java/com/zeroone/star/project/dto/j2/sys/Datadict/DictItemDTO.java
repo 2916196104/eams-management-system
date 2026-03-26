@@ -1,19 +1,21 @@
-package com.zeroone.star.project.vo.j2.sys;
+package com.zeroone.star.project.dto.j2.sys.Datadict;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * <p>
- * 描述：数据字典VO类
+ * 描述：数据字典DTO类
  * </p>
  * @author softmaple
  * @version 1.0.0
  */
 @Data
-@ApiModel(description = "数据字典VO类")
-public class DatadictVO {
+@ApiModel(description = "数据字典DTO类")
+public class DictItemDTO {
     /**
      * ID
      */
@@ -27,6 +29,7 @@ public class DatadictVO {
     /**
      * 数据字典名称
      */
+    @NotBlank(message = "数据字典名称不能为空")
     @ApiModelProperty(value = "数据字典名称", example = "名称")
     private String name;
     /**
@@ -38,5 +41,7 @@ public class DatadictVO {
      * 数据字典排序
      */
     @ApiModelProperty(value = "数据字典排序", example = "1")
-    private Integer softNum;
+    private Integer sortNum;
+
+
 }

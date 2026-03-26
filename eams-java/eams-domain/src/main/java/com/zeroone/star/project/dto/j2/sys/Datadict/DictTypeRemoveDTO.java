@@ -1,4 +1,4 @@
-package com.zeroone.star.project.dto.j2.sys;
+package com.zeroone.star.project.dto.j2.sys.Datadict;
 
 
 import io.swagger.annotations.ApiModel;

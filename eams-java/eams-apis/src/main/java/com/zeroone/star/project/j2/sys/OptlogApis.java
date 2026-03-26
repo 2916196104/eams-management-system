@@ -3,8 +3,8 @@ package com.zeroone.star.project.j2.sys;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j2.sys.Optlog.OptlogDTO;
 import com.zeroone.star.project.dto.j2.sys.Optlog.OptlogOperatorDTO;
-import com.zeroone.star.project.query.j2.sys.OptlogOperatorQuery;
-import com.zeroone.star.project.query.j2.sys.OptlogQuery;
+import com.zeroone.star.project.query.j2.sys.optlog.OptlogOperatorQuery;
+import com.zeroone.star.project.query.j2.sys.optlog.OptlogQuery;
 import com.zeroone.star.project.vo.JsonVO;
 
 /**

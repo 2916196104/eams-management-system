@@ -1,29 +1,44 @@
-package com.zeroone.star.project.dto.j2.sys;
+package com.zeroone.star.sys.entity;
 
-import io.swagger.annotations.ApiModel;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import java.io.Serializable;
+
 /**
  * <p>
- * 描述：数据字典DTO类
+ * 描述：数据字典实体类
  * </p>
  * @author softmaple
  * @version 1.0.0
  */
-@Data
-@ApiModel(description = "数据字典DTO类")
-public class DatadictDTO {
+@Setter
+@Getter
+@TableName("dict_item")
+public class DictItem implements Serializable {
+    /**
+     * 序列化ID
+     */
+    private static final long serialVersionUID = 1L;
+
     /**
      * ID
      */
     @ApiModelProperty(value = "ID", example = "1")
+    @TableId(type = IdType.AUTO)
     private Long id;
     /**
      * 数据字典ID
      */
+
     @ApiModelProperty(value = "数据字典ID", example = "1")
     private Long dictId;
     /**
@@ -35,11 +50,13 @@ public class DatadictDTO {
     /**
      * 数据字典说明
      */
+
     @ApiModelProperty(value = "数据字典说明", example = "说明")
     private String info;
     /**
      * 数据字典排序
      */
+
     @ApiModelProperty(value = "数据字典排序", example = "1")
-    private Integer softNum;
+    private Integer sortNum;
 }

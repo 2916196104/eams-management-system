@@ -1,15 +1,19 @@
 package com.zeroone.star.project.j2.sys;
 
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.dto.j2.sys.*;
-import com.zeroone.star.project.query.j2.sys.datadict.DictItemQuery;
+import com.zeroone.star.project.dto.j2.sys.Datadict.DictDTO;
+import com.zeroone.star.project.dto.j2.sys.Datadict.DictItemDTO;
+import com.zeroone.star.project.dto.j2.sys.Datadict.DictTypeRemoveDTO;
+import com.zeroone.star.project.dto.j2.sys.Datadict.DictTypeSaveDTO;
 import com.zeroone.star.project.query.PageQuery;
+import com.zeroone.star.project.query.j2.sys.datadict.DictItemQuery;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.vo.j2.sys.DatadictVO;
+import com.zeroone.star.project.vo.j2.sys.Datadict.DatadictVO;
 
 import java.util.List;
 
 public interface DatadictApis {
+
     /**
      * 查询数据字典这个表
      * @return
@@ -43,32 +47,26 @@ public interface DatadictApis {
      * @return 该类型下的所有字典列表
      */
     JsonVO<PageDTO<DatadictVO>> listDatadictByDictIdPage(Long dictId, PageQuery query);
+
     /**
-     * 根据ID获取数据字典
+     * 根据id获取数据字典
      */
-
-    JsonVO<DatadictVO> getDatadictById(Integer id);
+    JsonVO<DictItemDTO> getDatadictById(Long id);
     /**
-     * 分页查询数据字典列表
+     * 获取数据字典列表
      */
-
-    JsonVO<PageDTO<DatadictVO>> listDatadict(PageQuery query);
+    JsonVO<PageDTO<DatadictVO>> listDatadict(DictItemQuery query);
     /**
-     * 添加字典
+     * 增加数据字典
      */
-
-    JsonVO<String> addDatadict(DatadictDTO dto);
+    JsonVO<String> addDatadict(DictItemDTO dto);
     /**
-     * 修改字典
+     * 修改数据字典
      */
-
-    JsonVO<String> updateDatadict(DatadictDTO dto);
+    JsonVO<String> updateDatadict(DictItemDTO dto);
     /**
-     * 删除字典
+     * 删除数据字典
      */
-
-    JsonVO<String> deleteDatadict(List<Integer> ids);
-
-
+    JsonVO<String> deleteDatadict(List<Long> ids);
 
 }

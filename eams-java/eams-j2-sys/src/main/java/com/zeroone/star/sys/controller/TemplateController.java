@@ -1,9 +1,9 @@
 package com.zeroone.star.sys.controller;
 
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.dto.j2.sys.TemplateDTO;
+import com.zeroone.star.project.dto.j2.sys.Template.TemplateDTO;
 import com.zeroone.star.project.j2.sys.TemplateApis;
-import com.zeroone.star.project.query.j2.sys.TemplateQuery;
+import com.zeroone.star.project.query.j2.sys.template.TemplateQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -1,8 +1,8 @@
 package com.zeroone.star.project.j2.sys;
 
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.dto.j2.sys.HolidayDTO;
-import com.zeroone.star.project.query.j2.sys.HolidayQuery;
+import com.zeroone.star.project.dto.j2.sys.Holiday.HolidayDTO;
+import com.zeroone.star.project.query.j2.sys.holiday.HolidayQuery;
 import com.zeroone.star.project.vo.JsonVO;
 
 
