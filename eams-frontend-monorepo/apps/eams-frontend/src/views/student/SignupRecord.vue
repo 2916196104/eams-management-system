@@ -70,13 +70,20 @@
 					</el-button>
 				</div>
 			</div>
+			<!-- 批量操作栏：使用 icon 插槽实现图标与文字对齐 -->
 			<div class="batch-actions">
 				<el-button @click="handleBatchSignup">
-					<IconifyIconOffline icon="ep/list" width="16" height="16" />
+					<!-- 使用 #icon 插槽包裹图标，Element Plus 会自动处理图标与文本的间距和对齐 -->
+					<template #icon>
+						<IconifyIconOffline icon="ep/list" width="14" height="14" />
+					</template>
 					批量报名
 				</el-button>
 				<el-button @click="handleBatchDelete">
-					<IconifyIconOffline icon="ep/delete" width="16" height="16" />
+					<!-- 使用 #icon 插槽包裹图标，Element Plus 会自动处理图标与文本的间距和对齐 -->
+					<template #icon>
+						<IconifyIconOffline icon="ep/delete" width="14" height="14" />
+					</template>
 					删除
 				</el-button>
 			</div>
@@ -354,10 +361,32 @@ onMounted(() => {
 	flex-wrap: wrap;
 }
 
+/* 批量操作栏样式 */
 .batch-actions {
 	display: flex;
 	gap: 12px;
 	margin-top: 12px;
+}
+
+/* 按钮使用 inline-flex 布局，确保图标与文本对齐 */
+.batch-actions .el-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* 图标容器使用 flex 布局，确保 SVG 居中 */
+.batch-actions .el-button .el-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* 强制设置 SVG 图标尺寸，并使用 vertical-align 实现垂直居中 */
+.batch-actions .el-button .el-icon svg {
+	width: 14px !important;
+	height: 13px !important;
+	vertical-align: middle;
 }
 
 .filter-item {

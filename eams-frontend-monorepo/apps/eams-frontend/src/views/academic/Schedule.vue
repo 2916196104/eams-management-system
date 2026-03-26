@@ -77,42 +77,61 @@
 				</div>
 			</div>
 
-			<!-- 批量操作栏 -->
+			<!-- 批量操作栏：使用 icon 插槽实现图标与文字对齐 -->
 			<div class="batch-actions">
 				<el-button type="primary" @click="handleScheduleCalendar">
-					<IconifyIconOffline icon="ep/calendar" width="16" height="16" />
+					<!-- 使用 #icon 插槽包裹图标，Element Plus 会自动处理图标与文本的间距和对齐 -->
+					<template #icon>
+						<IconifyIconOffline icon="ep/calendar" width="14" height="14" />
+					</template>
 					课表日历
 				</el-button>
 				<el-button @click="handleRepeatSchedule">
-					<IconifyIconOffline icon="ep/refresh-right" width="16" height="16" />
+					<template #icon>
+						<IconifyIconOffline icon="ep/refresh-right" width="14" height="14" />
+					</template>
 					+ 重复排课
 				</el-button>
 				<el-button @click="handleFreeSchedule">
-					<IconifyIconOffline icon="ep/edit" width="16" height="16" />
+					<template #icon>
+						<IconifyIconOffline icon="ep/edit" width="14" height="14" />
+					</template>
 					+ 自由排课
 				</el-button>
 				<el-button @click="handleBatchDelete">
-					<IconifyIconOffline icon="ep/delete" width="16" height="16" />
+					<template #icon>
+						<IconifyIconOffline icon="ep/delete" width="14" height="14" />
+					</template>
 					删除
 				</el-button>
 				<el-button @click="handleBatchModify">
-					<IconifyIconOffline icon="ep/edit-pen" width="16" height="16" />
+					<template #icon>
+						<IconifyIconOffline icon="ep/edit-pen" width="14" height="14" />
+					</template>
 					批量修改
 				</el-button>
 				<el-button @click="handleStop">
-					<IconifyIconOffline icon="ep/video-pause" width="16" height="16" />
+					<template #icon>
+						<IconifyIconOffline icon="ep/video-pause" width="14" height="14" />
+					</template>
 					停课
 				</el-button>
 				<el-button @click="handleResume">
-					<IconifyIconOffline icon="ep/video-play" width="16" height="16" />
+					<template #icon>
+						<IconifyIconOffline icon="ep/video-play" width="14" height="14" />
+					</template>
 					恢复
 				</el-button>
 				<el-button @click="handleReservationOpen">
-					<IconifyIconOffline icon="ep/open" width="16" height="16" />
+					<template #icon>
+						<IconifyIconOffline icon="ep/open" width="14" height="14" />
+					</template>
 					预约开
 				</el-button>
 				<el-button @click="handleReservationClose">
-					<IconifyIconOffline icon="ep/close" width="16" height="16" />
+					<template #icon>
+						<IconifyIconOffline icon="ep/close" width="14" height="14" />
+					</template>
 					预约关
 				</el-button>
 			</div>
@@ -382,12 +401,35 @@ onMounted(() => {
 	flex-shrink: 0;
 }
 
+/* 批量操作栏样式 */
 .batch-actions {
 	display: flex;
 	gap: 12px;
 	flex-wrap: wrap;
 	padding: 12px 0;
 	border-bottom: 1px solid #ebeef5;
+	align-items: center;
+}
+
+/* 按钮使用 inline-flex 布局，确保图标与文本对齐 */
+.batch-actions .el-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* 图标容器使用 flex 布局，确保 SVG 居中 */
+.batch-actions .el-button .el-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* 强制设置 SVG 图标尺寸，并使用 vertical-align 实现垂直居中 */
+.batch-actions .el-button .el-icon svg {
+	width: 14px !important;
+	height: 13px !important;
+	vertical-align: middle;
 }
 
 :deep(.cell-class-time) {
