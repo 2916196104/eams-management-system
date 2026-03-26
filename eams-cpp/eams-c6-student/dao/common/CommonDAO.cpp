@@ -9,10 +9,24 @@ void StudentDAO::updateStudentHeadImg(uint64_t studentId, const std::string& hea
 	SQLPARAMS_PUSH(params, "ull", uint64_t, studentId);
 	sqlSession->executeUpdate(sql, params);
 }
-StudentDTO::Wrapper getStudentDetailById(uint64_t studentId) {
-	string sql = "select "
-		"";
-
+StudentDTO::Wrapper StudentDAO::getStudentDetailById(uint64_t studentId) {
+	string sql = "select stu.head_img,stu.name,u.mobile, "
+		"coalesce(sum(sc.count_lesson_total - sc.count_lesson_complete), 0) as cll,"
+		"stu.credit,stu.stage,stu.gender,stu.birthday,stu.birthday,stu.idcard,u.name,"
+		"stu.family_rel,stu.grade,stu.join_date,stu.add_time,stu.remark,"
+		"sum(sc.count_lesson_complete) "
+		"from student stu "
+		"left join user u on stu.user_id=u.id "
+		"left join student_course sc on stu.id=sc.student_id "
+        "where stu.id=? "
+		"GROUP BY stu.id, stu.head_img, stu.name, u.mobile, stu.credit, "
+		"stu.stage, stu.gender, stu.birthday, stu.idcard, u.name, "
+		"stu.family_rel, stu.grade, stu.join_date, stu.add_time, stu.remark";
+		;
+	SqlParams params;
+    SQLPARAMS_PUSH(params, "ull", uint64_t, studentId);
+	auto resultSet = sqlSession->executeQueryOne<StudentDTO::Wrapper>(sql,StudentDetailMapper(), params);
+	return resultSet;
 
 }
 uint64_t RegistrationRecordDAO::count(uint64_t studentId) {

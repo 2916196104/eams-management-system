@@ -18,15 +18,15 @@ public:
 		getStudentById, StudentJsonVO::Wrapper,
 		API_TAG,
 		API_DEF_ADD_QUERY_PARAMS(
-			String, "id", ZH_WORDS_GETTER("common.field.student.id"),
-			"d934050a8bb373e8f8eed0bf7507ec17", true
+			UInt64, "id", ZH_WORDS_GETTER("common.field.student.id"),
+			121212117, true
 		);
 	)
 	API_HANDLER_ENDPOINT_AUTH(
 			API_M_GET,
 			"/c6/common/student/get-by-id",
 			getStudentById,
-			QUERY(String, id),
+			QUERY(UInt64, id),
 			executeGetStudentById(id)
 	);
 	//修改学员头像
@@ -149,7 +149,7 @@ public:
 
 
 private:
-	StudentJsonVO::Wrapper executeGetStudentById(const String& id);
+	StudentJsonVO::Wrapper executeGetStudentById(UInt64 id);
 	StringJsonVO::Wrapper executeModifyStudentPicture(const ModifyStudentHeadImgDTO::Wrapper& dto);
 	RegistrationPageJsonVO::Wrapper executeQueryRegistrationRecordByPage(const RegistrationPageQuery::Wrapper& query);
 	CourseCountJsonVO::Wrapper executeGetCourseCountData(const String& id) {

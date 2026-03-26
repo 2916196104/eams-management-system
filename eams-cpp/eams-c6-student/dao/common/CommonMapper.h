@@ -49,6 +49,30 @@ public:
 		return dto;
 	}
 };
+class StudentDetailMapper :public Mapper<StudentDTO::Wrapper> {
+public:
+	StudentDTO::Wrapper mapper(ResultSet* rs) const override {
+		auto dto = StudentDTO::createShared();
+		dto->picturePath = rs->getString(1).c_str();
+		dto->name = rs->getString(2).c_str();
+		dto->phone = rs->getString(3).c_str();
+		dto->leftCourseCount = rs->getInt(4);
+		dto->leftPoints = rs->getInt(5);
+		dto->stage = rs->getInt(6);
+		dto->sex = rs->getInt(7);
+		dto->age = rs->getInt(8);
+		dto->birthday = rs->getString(9).c_str();
+		dto->identificationNumber = rs->getString(10).c_str();
+		dto->parentName = rs->getString(11).c_str();
+		dto->relationType = rs->getInt(12);
+		dto->grade = rs->getInt(13);
+		dto->enterTime = rs->getString(14).c_str();
+		dto->accurateEnterTime = rs->getString(15).c_str();
+		dto->note = rs->getString(16).c_str();
+		dto->courseProgress = rs->getInt(17);
+		return dto;
+	}
+};
 
 
 #endif

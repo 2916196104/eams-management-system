@@ -1,7 +1,10 @@
 ﻿#include "stdafx.h"
 #include "CommonController.h"
 #include "../../service/common/CommonService.h"
-StudentJsonVO::Wrapper CommonController::executeGetStudentById(const String& id) {
+StudentJsonVO::Wrapper CommonController::executeGetStudentById(UInt64 id) {
+	auto jvo=StudentJsonVO::createShared();
+	StudentService service;
+	auto data=service.GetStudentDetailById(id);
 	return StudentJsonVO::createShared();
 }
 StringJsonVO::Wrapper CommonController::executeModifyStudentPicture(const ModifyStudentHeadImgDTO::Wrapper& dto)

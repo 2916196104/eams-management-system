@@ -6,10 +6,12 @@
 class StudentService {
 public:
 	void ModifyStudentHeadImg(ModifyStudentHeadImgDTO::Wrapper dto);
+	StudentDTO::Wrapper GetStudentDetailById(uint64_t studentId);
 };
 class RegistrationRecordService {
 public:
 	std::list<RegistrationDTO::Wrapper> GetRegistrationRecordWithPage(RegistrationPageQuery::Wrapper query);
+	
 };
 
 

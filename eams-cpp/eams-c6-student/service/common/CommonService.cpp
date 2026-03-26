@@ -10,6 +10,10 @@ void StudentService::ModifyStudentHeadImg(ModifyStudentHeadImgDTO::Wrapper dto) 
 	StudentDAO dao;
 	dao.updateStudentHeadImg(id, headImg);
 }
+StudentDTO::Wrapper StudentService::GetStudentDetailById(uint64_t studentId) {
+	StudentDAO dao;
+	return dao.getStudentDetailById(studentId);
+}
 std::list<RegistrationDTO::Wrapper> RegistrationRecordService::GetRegistrationRecordWithPage(RegistrationPageQuery::Wrapper query) {
 	RegistrationRecordDAO dao;
 	return dao.selectRegistrationRecordWithPage(query);
