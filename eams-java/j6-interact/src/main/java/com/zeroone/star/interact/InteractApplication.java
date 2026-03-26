@@ -12,8 +12,8 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableFeignClients
 @MapperScan("com.zeroone.star.interact.mapper")
 @ComponentScan(basePackages = {
-        "com.zeroone.star.interact", // 当前模块自己的包 (必须保留，否则 Controller/Service 扫不到)
-        "com.zeroone.star.project.config.mybatis" // 专门为了加载 MP 配置而添加的包
+        "com.zeroone.star.interact",
+        "com.zeroone.star.project.config.mybatis"
 })
 public class InteractApplication {
 
