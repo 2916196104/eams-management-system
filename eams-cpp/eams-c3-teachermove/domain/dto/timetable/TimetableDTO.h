@@ -69,6 +69,9 @@ class SetStudyStatusDTO : public oatpp::DTO {
 	DTO_FIELD_INFO(state) {
 		info->description = ZH_WORDS_GETTER("set_status.sign_type");
 	}
+
+	// 关联一个PayloadDTO负载数据对象
+	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
 };
 
 /* 设置设置上课状态的返回值 */

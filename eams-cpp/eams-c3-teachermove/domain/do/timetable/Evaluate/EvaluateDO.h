@@ -17,33 +17,36 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#ifndef _SETSTUDYSTATUSDO_H_
-#define _SETSTUDYSTATUSDO_H_
+#ifndef _EVALUATEDO_H_
+#define _EVALUATEDO_H_
 #include "../../DoInclude.h"
 
 
-class StatusDO : public BaseDO
+class EvaluateDO : public BaseDO
 {
 	// 唯一编号
 	MYSQL_SYNTHESIZE(string, id, Id);
-	// 签到时间
+	// 评价时间
 	MYSQL_SYNTHESIZE(string, time, Time);
-	// 签到方式
-	MYSQL_SYNTHESIZE(int, type, Type);
-	// 签到结果
-	MYSQL_SYNTHESIZE(int, state, State);
-	
+	// 评价人Id
+	MYSQL_SYNTHESIZE(int, teacherId, TeacherId);
+	// 评价分数
+	MYSQL_SYNTHESIZE(int, score, Score);
+	// 评价
+	MYSQL_SYNTHESIZE(string, evaluation, Evaluation);
+
 public:
-	StatusDO() : BaseDO("lesson_student")
+	EvaluateDO() : BaseDO("lesson_student")
 	{
 		MYSQL_ADD_FIELD_PK("id", "s", id);
-		MYSQL_ADD_FIELD("time", "s", time);
-		MYSQL_ADD_FIELD("type", "i", type);
-		MYSQL_ADD_FIELD("state", "i", state);
+		MYSQL_ADD_FIELD("evaluate_time", "s", time);
+		MYSQL_ADD_FIELD("evaluate_teacher", "i", teacherId);
+		MYSQL_ADD_FIELD("score", "i", score);
+		MYSQL_ADD_FIELD("evaluation", "s", evaluation);
 	}
 
 };
 
 
 
-#endif // !_SETSTUDYSTATUSDO_H_
+#endif // !_EVALUATEDO_H_

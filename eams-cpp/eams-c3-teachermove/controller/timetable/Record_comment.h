@@ -34,7 +34,7 @@ public:		//定义接口
 		// 定义分页查询参数描述
 		API_DEF_ADD_PAGE_PARAMS();
 		// 定义其他查询参数描述
-
+		API_DEF_ADD_QUERY_PARAMS(Int32, "lessonId", ZH_WORDS_GETTER("evaluate.field.lesson_id"), 8364, false);
 
 	}
 	ENDPOINT(API_M_GET, "course/record-comment/cs-comment-list", queryEvaluation, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {

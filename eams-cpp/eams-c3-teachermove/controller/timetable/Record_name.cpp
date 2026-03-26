@@ -65,7 +65,26 @@ GetStuListJsonVO::Wrapper Record_name::execGetStuList(const GetStuListQuery::Wra
 
 SetStudyStatusRspJsonVO::Wrapper Record_name::updateModifyStatus(const SetStudyStatusDTO::Wrapper& dto, const PayloadDTO& payload)
 {
-	return SetStudyStatusRspJsonVO::Wrapper();
+	// 定义返回数据对象
+	auto jvo = SetStudyStatusRspJsonVO::createShared();
+	// 参数校验
+	if (!dto->id)
+	{
+		jvo->init(nullptr, RS_PARAMS_INVALID);
+		return jvo;
+	}
+
+	// 执行数据修改
+	dto->setPayload(&payload);
+	/*if (SampleService().updateData(dto)) {
+		jvo->success(dto->id);
+	}
+	else
+	{
+		jvo->fail(dto->id);
+	}*/
+	// 响应结果
+	return jvo;
 }
 
 // Endpoint 1: Implementation of Get Student List (with conditions + pagination)

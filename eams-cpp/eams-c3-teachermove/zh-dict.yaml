@@ -76,6 +76,7 @@ evaluate:
     evaluation: 点评
     operator: 点评人
     operation_time: 操作时间
+    lesson_id: 课程ID号
   response:
     code: 错误码
     message: 错误信息
