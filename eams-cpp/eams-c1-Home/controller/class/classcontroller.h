@@ -35,15 +35,6 @@ class classController : public oatpp::web::server::api::ApiController
 	// 定义控制器访问入口
 	API_ACCESS_DECLARE(classController);
 public: // 定义接口
-	/*//1.1 定义获取班级列表控制器
-	API_DEF_ENDPOINT_INFO_AUTH(
-		ZH_WORDS_GETTER("class.get_class_list"), queryClassList, classListJsonVO::Wrapper, API_TAG,
-		API_DEF_ADD_QUERY_PARAMS(UInt32, "student_id",ZH_WORDS_GETTER("class.student.id"),1,true);
-	);
-
-	//1.2 定义获取班级列表接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/home/class/list/query-by-student_id", queryClassList,QUERY(UInt32,student_id), execQueryClassList(student_id));
-	*/
 	//2.1 定义获取班级详情控制器
 	API_DEF_ENDPOINT_INFO_AUTH(
 		ZH_WORDS_GETTER("class.get_class_info"), queryClassInfo, classInfoJsonVO::Wrapper, API_TAG,
@@ -70,7 +61,6 @@ public: // 定义接口
 	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/home/class/student/list/query-by-class_id", queryStudentList, QUERY(UInt32, class_id), execQueryStudentList(class_id));
 
 private: // 定义接口执行函数
-	//classListJsonVO::Wrapper execQueryClassList(const UInt32 &student_id);
 
 	classInfoJsonVO::Wrapper execQueryClassInfo(const UInt32 &class_id);
 

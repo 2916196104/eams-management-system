@@ -18,11 +18,33 @@
 */
 #include "stdafx.h"
 #include "attendancecontroller.h"
+#include "../../service/attendance-records/attendanceService.h"
 //实现接口执行函数
 attendance_recordsPageJsonVO::Wrapper attendanceController::execQueryAttendanceRecordsPage(const attendance_recordsQuery::Wrapper& query) {
-	return {};
+	// 查询数据
+	auto result = Lesson_StudentService().listAll(query);
+	// 响应结果
+	auto jvo = attendance_recordsPageJsonVO::createShared();
+	jvo->success(result);
+	return jvo;
 }
 
-attendance_recordsEvaluateJsonVO::Wrapper attendanceController::execEvaluateAttendanceRecords(const UInt32& student_id) {
-	return {};
+StringJsonVO::Wrapper attendanceController::execEvaluateAttendanceRecords(const attendance_recordsEvaluateDTO::Wrapper& dto, const PayloadDTO& payload) {
+	auto jvo = StringJsonVO::createShared();
+	std::string errmsg = dto->validate();
+	if (errmsg != "") {
+		jvo->init(errmsg, RS_PARAMS_INVALID);
+		return jvo;
+	}
+
+	dto->setPayload(&payload);
+	std::string id = Teach_EvaluationService().saveData(dto);
+	if (id != "") {
+		jvo->success(id);
+	}
+	else {
+		jvo->fail("");
+	}
+
+	return jvo;
 }

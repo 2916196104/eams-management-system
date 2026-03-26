@@ -18,21 +18,28 @@
 */
 #include "stdafx.h"
 #include "classcontroller.h"
-//实现接口执行函数
-/*
-classListJsonVO::Wrapper classController::execQueryClassList(const UInt32 &student_id) {
-	return {};
-}
-*/
+#include "SimpleDateTimeFormat.h"
+#include "../../service/class/classService.h"
+
 classInfoJsonVO::Wrapper classController::execQueryClassInfo(const UInt32 &class_id) {
-	return {};
+	auto res = ClassService().getById(class_id);
+	auto jvo = classInfoJsonVO::createShared();
+	jvo->success(res);
+	return jvo;
 }
 
 classPageJsonVO::Wrapper classController::execQueryClassPage(const classQuery::Wrapper& query) {
-	return {};
+	auto res = ClassService().listAll(query);
+	// 响应结果
+	auto jvo = classPageJsonVO::createShared();
+	jvo->success(res);
+	return jvo;
 }
 
 studentListJsonVO::Wrapper classController::execQueryStudentList(const UInt32& class_id) {
-	return {};
+	auto res = StudentService().listByClassId(class_id);
+	auto jvo = studentListJsonVO::createShared();
+	jvo->success(res);
+	return jvo;
 }
 
