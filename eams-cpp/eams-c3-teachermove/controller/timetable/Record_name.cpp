@@ -1,11 +1,8 @@
 #include "stdafx.h"
 #include "Record_name.h"
-#include "stdafx.h"
 #include "service/timetable/RecordnameService.h"
 
-namespace
-{
-}
+
 
 GetDetailCSJsonVO::Wrapper Record_name::execGetDetailCS(const GetDetailCSQuery::Wrapper& query)
 {
