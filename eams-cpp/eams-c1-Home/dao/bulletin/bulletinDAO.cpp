@@ -6,14 +6,14 @@
 
 /**
  * 查询最新一条公告
- * 查询逻辑：按照sort_num倒序，id升序，取第一条
+ * 查询逻辑：按照sort_num倒序，id倒序，取第一条
  */
 ptrbulletinDO bulletinDAO::selectLatest()
 {
     string sql = "SELECT id,title,cover,content,type,state,sort_num,add_time,edit_time,creator,editor,deleted "
         "FROM advertisement "
         "WHERE deleted=0 AND state=1 "
-        "ORDER BY sort_num DESC, id ASC "
+        "ORDER BY sort_num DESC, id DESC "
         "LIMIT 1";
 
     // 使用PtrBulletinMapper来映射结果到ptrbulletinDO
@@ -34,7 +34,7 @@ uint64_t bulletinDAO::count()
 /**
  * 分页查询公告
  * 查询条件：deleted=0 AND state=1
- * 排序：sort_num DESC, id ASC
+ * 排序：sort_num DESC, id DESC
  */
 std::list<bulletinDO> bulletinDAO::selectWithPage(const PageQuery::Wrapper& query)
 {
@@ -42,7 +42,7 @@ std::list<bulletinDO> bulletinDAO::selectWithPage(const PageQuery::Wrapper& quer
     string sql = "SELECT id,title,cover,content,type,state,sort_num,add_time,edit_time,creator,editor,deleted "
         "FROM advertisement "
         "WHERE deleted=0 AND state=1 "
-        "ORDER BY sort_num DESC, id ASC ";
+        "ORDER BY sort_num DESC, id DESC ";
 
     // 计算分页偏移量
     int offset = (query->pageIndex - 1) * query->pageSize;

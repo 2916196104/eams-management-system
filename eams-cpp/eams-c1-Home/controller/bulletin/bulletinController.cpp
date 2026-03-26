@@ -5,9 +5,6 @@
 
 titleJsonVO::Wrapper bulletinController::executeQueryTitle()
 {
-	//return {};
-
-
 	// 调用Service层获取最新公告
 	auto result = bulletinService().getLatest();
 
@@ -19,8 +16,6 @@ titleJsonVO::Wrapper bulletinController::executeQueryTitle()
 
 listPageJsonVO::Wrapper bulletinController::executeQueryList(const PageQuery::Wrapper& query)
 {
-
-	//return {};
 	auto result = bulletinService().listAll(query);
 
 	// 包装响应结果
@@ -31,8 +26,6 @@ listPageJsonVO::Wrapper bulletinController::executeQueryList(const PageQuery::Wr
 
 redJsonVO::Wrapper bulletinController::executeQueryRed(const Int64& student_id)
 {
-	//return {};
-	// 调用Service层获取未读数
 	auto result = redService().getRed(student_id);
 
 	 //包装响应结果
