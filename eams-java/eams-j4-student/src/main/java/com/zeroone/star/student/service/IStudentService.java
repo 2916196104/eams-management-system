@@ -77,4 +77,14 @@ public interface IStudentService extends IService<Student> {
     Long removeFollowUp(Long id);
 
     FollowUpDTO getFollowUpDetail(Long id);
+
+    /** 更新学员阶段，返回执行成败 */
+    boolean updateStudentStage(StudentDTO studentDTO);
+
+    /** 保存报名信息，返回执行成败 */
+    boolean saveStudentEnroll(StudentEnrollDTO enrollDTO);
+
+    /** 获取学员详情，返回原始数据对象 */
+    StudentDTO getStudentDetail(Integer id);
+
 }

@@ -2,6 +2,7 @@ package com.zeroone.star.student.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zeroone.star.project.dto.j4.student.StudentDTO;
+import com.zeroone.star.project.dto.j4.student.StudentEnrollDTO;
 import com.zeroone.star.project.dto.j4.student.StudentQueryCondition;
 import com.zeroone.star.project.vo.j4.student.StudentExportVO;
 import com.zeroone.star.student.entity.Student;
