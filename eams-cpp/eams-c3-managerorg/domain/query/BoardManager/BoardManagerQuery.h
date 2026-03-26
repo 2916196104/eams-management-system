@@ -6,12 +6,10 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/*��������ѯ��*/
 
 
-/**
- * ����һ����ѯ��������ݴ���ģ��
- */
+
+
 class BoardQuery : public PageQuery
 {
 	// �����ʼ��
