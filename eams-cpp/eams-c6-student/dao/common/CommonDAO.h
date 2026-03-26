@@ -4,7 +4,7 @@
 #include "BaseDAO.h"
 #include "../../domain/do/student/StudentDO.h"
 #include "../../domain/query/common/CommonQuery.h"
-
+#include "../../domain/do/common/CommonDO.h"
 /**
  * 班级列表数据访问对象
  */
@@ -56,7 +56,11 @@ public:
  */
 class StudentCourseDAO : public BaseDAO {
 public:
-
+	PtrStudentCourseDO StudentCourseDAO::selectByIds(
+		uint64_t studentId,
+		uint64_t courseId,
+		uint64_t subjectId
+	);
 private:
 
 };

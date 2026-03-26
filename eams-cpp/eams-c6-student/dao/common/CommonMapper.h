@@ -4,6 +4,7 @@
 
 #include "Mapper.h"
 #include "../../domain/do/student/StudentDO.h"
+#include "../../domain/do/common/CommonDO.h"
 // ∞‡º∂¡–±Ì◊÷∂Œ∆•≈‰”≥…‰
 class getClassListMapper : public Mapper<getClassListDO>
 {
@@ -106,6 +107,7 @@ public:
 		data->setStudentId(resultSet->getInt(1));
 		data->setCourseId(resultSet->getInt(2));
 		data->setSubjectId(resultSet->getInt(3));
+		return data;
 	}
 };
 #endif 
