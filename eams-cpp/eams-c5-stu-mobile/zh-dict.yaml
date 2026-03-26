@@ -5,7 +5,7 @@ c5:
       classstudent:
         tag: 班级学员
         query-all:
-          summary: 分页查询班级学员
+          summary: 获取班级学员列表
         field:
           id: 主键ID
           class_id: 班级id
@@ -16,10 +16,12 @@ c5:
           deleted: 删除标记
           remark: 备注信息
           consume_course_id: 默认消费课程ID
+          name: 姓名
+          gender: 性别
     homework:
       tag: 作业
       query-all:
-        summary: 分页查询作业
+        summary: 获取作业列表(条件+分页)
       field:
         id: 主键ID
         class_id: 班级id

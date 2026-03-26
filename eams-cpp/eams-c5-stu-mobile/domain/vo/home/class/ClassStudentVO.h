@@ -9,14 +9,9 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-// 单条数据返回VO：适配ClassStudentDTO
-class ClassStudentJsonVO : public JsonVO<ClassStudentDTO::Wrapper> {
-    DTO_INIT(ClassStudentJsonVO, JsonVO<ClassStudentDTO::Wrapper>)
-};
-
-// 分页数据返回VO：适配ClassStudentPageDTO
-class ClassStudentPageJsonVO : public JsonVO<ClassStudentPageDTO::Wrapper> {
-    DTO_INIT(ClassStudentPageJsonVO, JsonVO<ClassStudentPageDTO::Wrapper>)
+// 列表VO，专门用于返回ClassStudentDTO列表
+class ClassStudentJsonVO : public JsonVO<oatpp::List<ClassStudentDTO::Wrapper>> {
+    DTO_INIT(ClassStudentJsonVO, JsonVO<oatpp::List<ClassStudentDTO::Wrapper>>);
 };
 
 #include OATPP_CODEGEN_END(DTO)
