@@ -1,7 +1,13 @@
 #include "stdafx.h"
-#include "GetcreditmalllistController.h"
+#include "GetCreditMallListController.h"
+#include "service/home/credit/GetCreditMallListService.h"
 
-CreditmalllistPageJsonVO::Wrapper GetcreditmalllistController::executeQueryCreditmalllistQuery(const CreditmalllistQuery::Wrapper& query)
+
+
+CreditMallListPageJsonVO::Wrapper GetCreditMallListController::executeQueryAll(const CreditMallListQuery::Wrapper& creditmallQuery)
 {
-	return CreditmalllistPageJsonVO::Wrapper();
+	CreditMallListService cms;
+	auto vo = CreditMallListPageJsonVO::createShared();
+	vo->success(cms.listAll(creditmallQuery));
+	return vo;
 }

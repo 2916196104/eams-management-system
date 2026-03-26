@@ -68,7 +68,7 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(GetcreditexchangelistController);
 	ROUTER_SIMPLE_BIND(HomeworkController);
 	ROUTER_SIMPLE_BIND(ClassStudentController);
-	ROUTER_SIMPLE_BIND(GetcreditmalllistController);
+	ROUTER_SIMPLE_BIND(GetCreditMallListController);
 	ROUTER_SIMPLE_BIND(GetallannouncementController);
 	ROUTER_SIMPLE_BIND(GetdisplayedannouncementController);
 	ROUTER_SIMPLE_BIND(GettimeableController);

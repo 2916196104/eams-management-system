@@ -1,40 +1,32 @@
 #pragma once
-#ifndef _GETCREDITMALLLISTCONTROLLER_H_
-#define _GETCREDITMALLLISTCONTROLLER_H_
+#ifndef _CET_CREDIT_MALL_LIST_CONTROLLER_H_
+#define _CET_CREDIT_MALL_LIST_CONTROLLER_H_
 
-#include "ApiHelper.h"
+#include "domain/query/home/credit/GetCreditMallListQuery.h"
 #include "domain/vo/BaseJsonVO.h"
-#include "domain/query/PageQuery.h"
-#include "domain/query/home/credit/CreditmalllistQuery.h"
-#include "domain/dto/home/credit/CreditmalllistDTO.h"
-#include "domain/vo/home/credit/CreditmalllistVO.h"
+#include "domain/vo/home/credit/GetCreditMallListVO.h"
+using namespace oatpp;
 
-#include OATPP_CODEGEN_BEGIN(ApiController)
-#define API_TAG ZH_WORDS_GETTER("c5.home.credit.tag")
+#include OATPP_CODEGEN_BEGIN(ApiController) //<- Begin Codegen
 
-class GetcreditmalllistController : public oatpp::web::server::api::ApiController
+#define API_TAG ZH_WORDS_GETTER("get-credit-mall-list.tag")
+
+class GetCreditMallListController : public oatpp::web::server::api::ApiController
 {
-	API_ACCESS_DECLARE(GetcreditmalllistController);
+	// 添加访问定义
+	API_ACCESS_DECLARE(GetCreditMallListController);
 public:
-	ENDPOINT_INFO(Getcreditmalllist) {
-		info->summary = ZH_WORDS_GETTER("c5.home.credit.mall.query-all.summary");
-		API_DEF_ADD_AUTH();
-		API_DEF_ADD_TAG(API_TAG);
-		API_DEF_ADD_RSP_JSON(CreditmalllistPageJsonVO::Wrapper);
-		API_DEF_ADD_PAGE_PARAMS();
-		API_DEF_ADD_QUERY_PARAMS(String, "credit_mall_name", ZH_WORDS_GETTER("c5.home.credit.mall.field.name"), "book", false);
-
-	}
-	ENDPOINT(API_M_GET, "/c5/home/credit/creditmalllist", Getcreditmalllist, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
-		API_HANDLER_QUERY_PARAM(query, CreditmalllistQuery, params);
-		API_HANDLER_RESP_VO(executeQueryCreditmalllistQuery(query));
-	}
+	// 定义查询所有积分商品信息接口描述
+	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("get-credit-mall-list.summary"), queryAllCreditMallList, CreditMallListQuery, CreditMallListJsonVO::Wrapper, API_TAG);
+	// 定义查询所有积分商品信息接口端点
+	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c5/home/credit/get_credit_mall_list", queryAllCreditMallList, CreditMallListQuery, executeQueryAll(query));
 private:
-	CreditmalllistPageJsonVO::Wrapper executeQueryCreditmalllistQuery(const CreditmalllistQuery::Wrapper& query);
+	CreditMallListPageJsonVO::Wrapper executeQueryAll(const CreditMallListQuery::Wrapper& creditmallQuery);
+
 };
 
 
-#include OATPP_CODEGEN_END(ApiController)
 
+#include OATPP_CODEGEN_END(ApiController) //<- End Codegen
 
-#endif // !_GETCREDITMALLLISTCONTROLLER_H_
+#endif // !_CET_CREDIT_MALL_LIST_CONTROLLER_H_
