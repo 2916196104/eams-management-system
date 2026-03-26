@@ -14,7 +14,7 @@ uint64_t ReviewDAO::count(const ReviewRecordQuery::Wrapper& query)
         return 0;
     }
 
-    std::string sql = "SELECT COUNT(*) AS total FROM `lesson_student` WHERE 1=1";
+    std::string sql = "SELECT COUNT(1) AS total FROM `lesson_student` WHERE 1=1";
     SqlParams params;
 
     if (query->student_id) {
