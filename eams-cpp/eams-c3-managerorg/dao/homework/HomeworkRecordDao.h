@@ -11,23 +11,23 @@
 #include "HomeworkMapper.h"
 
 /**
- * ±¾ÈË¸ºÔğÊµÏÖ»ñÈ¡×÷ÒµÁĞ±í£¨Ìõ¼ş+·ÖÒ³£©£¬»ñÈ¡×÷ÒµÏêÇé£¬±£´æ×÷ÒµÈı¸ö¹¦ÄÜ
- * ±¾ÈËÒ²¸ºÔğhomeworkrecord±íµÄÊı¾İ¿â²Ù×÷ÊµÏÖ£¬µ«ÉÏÊöµÄÈı¸ö¹¦ÄÜÊÇÓÃµ½homework±í
- * Ò²¾ÍÊÇËµÕâ¸ö±íµÄÊı¾İ¿â²Ù×÷ÊµÏÖÊÇÓÃÀ´ÊµÏÖÆäËû¹¦ÄÜµÄ£¬ËäÈ»ÏÖÔÚÃ»ÓĞÓÃµ½£¬µ«ºóĞø¿ÉÄÜ»áÓÃµ½
+ * æœ¬äººè´Ÿè´£å®ç°è·å–ä½œä¸šåˆ—è¡¨ï¼ˆæ¡ä»¶+åˆ†é¡µï¼‰ï¼Œè·å–ä½œä¸šè¯¦æƒ…ï¼Œä¿å­˜ä½œä¸šä¸‰ä¸ªåŠŸèƒ½
+ * æœ¬äººä¹Ÿè´Ÿè´£homeworkrecordè¡¨çš„æ•°æ®åº“æ“ä½œå®ç°ï¼Œä½†ä¸Šè¿°çš„ä¸‰ä¸ªåŠŸèƒ½æ˜¯ç”¨åˆ°homeworkè¡¨
+ * ä¹Ÿå°±æ˜¯è¯´è¿™ä¸ªè¡¨çš„æ•°æ®åº“æ“ä½œå®ç°æ˜¯ç”¨æ¥å®ç°å…¶ä»–åŠŸèƒ½çš„ï¼Œè™½ç„¶ç°åœ¨æ²¡æœ‰ç”¨åˆ°ï¼Œä½†åç»­å¯èƒ½ä¼šç”¨åˆ°
  */
 class HomeworkRecordDAO : public BaseDAO
 {
 private:
 	inline std::string queryConditionBuilder(const GetHomeworkListQuery::Wrapper& query, SqlParams& params);
 public:
-	// Í³¼ÆÊı¾İÌõÊı
-	// ÔÚservice²ã»áµ÷ÓÃÕâ¸ö·½·¨
+	// ç»Ÿè®¡æ•°æ®æ¡æ•°
+	// åœ¨serviceå±‚ä¼šè°ƒç”¨è¿™ä¸ªæ–¹æ³•
 	uint64_t count(const GetHomeworkListQuery::Wrapper& query);
-	// »ñÈ¡×÷ÒµÏêÇé£¨Ìõ¼ş+·ÖÒ³£©
+	// è·å–ä½œä¸šè¯¦æƒ…ï¼ˆæ¡ä»¶+åˆ†é¡µï¼‰
 	std::list<HomeworkDO> gethomeworklist(const GetHomeworkListQuery::Wrapper& query);
-	// »ñÈ¡×÷ÒµÏêÇé£¬´«id£¬·µ»Ø¶ÔÓ¦×÷ÒµµÄDO
+	// è·å–ä½œä¸šè¯¦æƒ…ï¼Œä¼ idï¼Œè¿”å›å¯¹åº”ä½œä¸šçš„DO
 	PtrHomeworkRecordDO gethomeworkdetail(std::string id);
-	//±£´æ×÷Òµ
+	//ä¿å­˜ä½œä¸š
 	//int savehomework(const SaveHomeworkDTO& dto);
 };
 #endif // !_HOMEWORK_DAO_

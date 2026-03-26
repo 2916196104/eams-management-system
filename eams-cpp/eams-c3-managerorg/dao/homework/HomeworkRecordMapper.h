@@ -7,8 +7,8 @@
 #include "../../domain/do/homework/HomeworkRecordDO.h"
 
 /**
- * ±í×Ö¶ÎÆ¥ÅäÓ³Éä£¬¶ÔÓ¦homeworkrecord±íµÄÃ¿Ò»¸ö×Ö¶Î
- * ¹²10¸ö×Ö¶Î£ºid, homework_id, student_id, add_time, content, score, comment, comment_time, comment_teacher, images
+ * è¡¨å­—æ®µåŒ¹é…æ˜ å°„ï¼Œå¯¹åº”homeworkrecordè¡¨çš„æ¯ä¸€ä¸ªå­—æ®µ
+ * å…±10ä¸ªå­—æ®µï¼šid, homework_id, student_id, add_time, content, score, comment, comment_time, comment_teacher, images
  */
 class HomeworkRecordMapper : public Mapper<HomeworkRecordDO>
 {
@@ -31,7 +31,7 @@ public:
 };
 
 /**
- * ±í×Ö¶ÎÆ¥ÅäÓ³Éä-´´½¨ÖÇÄÜÖ¸Õë¶ÔÏó
+ * è¡¨å­—æ®µåŒ¹é…æ˜ å°„-åˆ›å»ºæ™ºèƒ½æŒ‡é’ˆå¯¹è±¡
  */
 class PtrHomeworkRecordMapper : public Mapper<PtrHomeworkRecordDO>
 {

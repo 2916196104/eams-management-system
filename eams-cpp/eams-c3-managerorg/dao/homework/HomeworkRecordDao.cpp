@@ -1,7 +1,7 @@
-
 #include "stdafx.h"
 #include "HomeworkRecordDAO.h"
 #include "HomeworkRecordMapper.h"
+#include "domain/query/backhomework/backhomeworkQuery.h"
 
 std::string HomeworkRecordDAO::queryConditionBuilder(const GetHomeworkListQuery::Wrapper& query, SqlParams& params)
 {
@@ -29,30 +29,30 @@ uint64_t HomeworkRecordDAO::count(const GetHomeworkListQuery::Wrapper& query)
 {
 	SqlParams params;
 	string sql = "SELECT COUNT(*) FROM homework ";
-	// ¹¹½¨²éÑ¯Ìõ¼ş
+	// æ„å»ºæŸ¥è¯¢æ¡ä»¶
 	sql += queryConditionBuilder(query, params);
-	// Ö´ĞĞ²éÑ¯
+	// æ‰§è¡ŒæŸ¥è¯¢
 	return sqlSession->executeQueryNumerical(sql, params);
 }
 
-//¶¨ÒåÁË·ÖÒ³²éÑ¯
+//å®šä¹‰äº†åˆ†é¡µæŸ¥è¯¢
 std::list<HomeworkDO> HomeworkRecordDAO::gethomeworklist(const GetHomeworkListQuery::Wrapper& query)
 {
 	SqlParams params;
-	string sql = "SELECT title,class_id,creator FROM homework ";  
-	// ¹¹½¨²éÑ¯Ìõ¼ş
+	string sql = "SELECT title,class_id,creator FROM homework ";
+	// æ„å»ºæŸ¥è¯¢æ¡ä»¶
 	sql += queryConditionBuilder(query, params);
-	// ¹¹½¨ÅÅĞòÓï¾ä
+	// æ„å»ºæ’åºè¯­å¥
 	sql += " ORDER BY IFNULL(`update_time`, `create_time`) DESC, `id` DESC ";
-	// ¹¹½¨·ÖÒ³Ìõ¼ş
+	// æ„å»ºåˆ†é¡µæ¡ä»¶
 	sql += " LIMIT " + std::to_string(((query->pageIndex - 1) * query->pageSize)) + "," + std::to_string(query->pageSize);
 
-	// Ö´ĞĞ²éÑ¯
+	// æ‰§è¡ŒæŸ¥è¯¢
 	return sqlSession->executeQuery<HomeworkDO>(sql, HomeworkMapper(), params);
 	//return{};
 }
 
-//»ñÈ¡×÷ÒµÏêÇé£¬µã»÷»á´«id£¬´«»Ø°à¼¶£¬×÷Òµ±êÌâ£¬×÷ÒµÄÚÈİ
+//è·å–ä½œä¸šè¯¦æƒ…ï¼Œç‚¹å‡»ä¼šä¼ idï¼Œä¼ å›ç­çº§ï¼Œä½œä¸šæ ‡é¢˜ï¼Œä½œä¸šå†…å®¹
 PtrHomeworkRecordDO HomeworkRecordDAO::gethomeworkdetail(std::string id)
 {
 	string sql = "SELECT class_id,title,content FROM homework WHERE `id`=?";
@@ -60,7 +60,7 @@ PtrHomeworkRecordDO HomeworkRecordDAO::gethomeworkdetail(std::string id)
 	//return {};
 }
 
-//±£´æ×÷Òµ
+//ä¿å­˜ä½œä¸š
 //int savehomework(const SaveHomeworkDTO& dto) {
 //	return {};
 //}
