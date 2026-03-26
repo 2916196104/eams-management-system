@@ -1,10 +1,4 @@
 #pragma once
-/*
- Copyright Zero One Star. All rights reserved.
-
- @Author: king
- @Date: 2025/03/26
-*/
 #ifndef __LESSON_QUERY_H__
 #define __LESSON_QUERY_H__
 
@@ -23,31 +17,31 @@ class LessonQuery : public PageQuery
     // 课程名称（模糊查询）
     DTO_FIELD(String, title);
     DTO_FIELD_INFO(title) {
-        info->description = "课程名称，支持模糊匹配";
+        info->description = ZH_WORDS_GETTER("lesson.title");
     }
 
     // 适用学校ID（精确查询）
     DTO_FIELD(Int64, schoolId);
     DTO_FIELD_INFO(schoolId) {
-        info->description = "适用学校ID";
+        info->description = ZH_WORDS_GETTER("lesson.school");
     }
 
     // 科目ID（精确查询）
     DTO_FIELD(Int64, courseId);
     DTO_FIELD_INFO(courseId) {
-        info->description = "科目ID";
+        info->description = ZH_WORDS_GETTER("lesson.course");
     }
 
     // 状态（1:正常 2:已关闭）
     DTO_FIELD(Int32, state);
     DTO_FIELD_INFO(state) {
-        info->description = "状态（1:正常 2:已关闭）";
+        info->description = ZH_WORDS_GETTER("lesson.state");
     }
 
     // 适用年级ID（精确查询）
     DTO_FIELD(Int64, classId);
     DTO_FIELD_INFO(classId) {
-        info->description = "适用年级ID";
+        info->description = ZH_WORDS_GETTER("lesson.classId");
     }
 };
 

@@ -130,3 +130,10 @@ student:
  field:
   name: 姓名
   stage: 阶段（意向、在学、结业）
+
+lesson:
+  title: 课程名称，支持模糊匹配
+  school: 适用学校ID
+  course: 科目ID
+  state: 状态（1:正常 2:已关闭）
+  classId: 适用年级ID
