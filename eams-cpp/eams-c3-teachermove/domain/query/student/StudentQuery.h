@@ -8,19 +8,19 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * 学生分页查询对象
+ * 瀛︾敓鍒嗛〉鏌ヨ瀵硅薄
  */
 class StudentQuery : public PageQuery
 {
 	DTO_INIT(StudentQuery, PageQuery);
-	// 姓名
+	// 濮撳悕
 	DTO_FIELD(String, name);
 	DTO_FIELD_INFO(name) {
 		info->description = ZH_WORDS_GETTER("student.field.name");
 	}
-	// 阶段（意向、在学、结业）
+	// 闃舵锛堟剰鍚戙�佸湪瀛︺�佺粨涓氾級
 	DTO_FIELD(Int8, stage);
-	DTO_FIELD_INFO(sex) {
+	DTO_FIELD_INFO(stage) {
 		info->description = ZH_WORDS_GETTER("student.field.stage");
 	}
 };
