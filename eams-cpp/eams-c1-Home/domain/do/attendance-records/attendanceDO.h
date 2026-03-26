@@ -113,7 +113,7 @@ class Teach_EvaluationDO : public BaseDO
 {
 public:
 	// 主键
-	MYSQL_SYNTHESIZE(std::string, id, Id);
+	MYSQL_SYNTHESIZE(std::uint64_t, id, Id);
 	// 课次id
 	MYSQL_SYNTHESIZE(uint64_t, lesson_id, LessonId);
 	// 老师id

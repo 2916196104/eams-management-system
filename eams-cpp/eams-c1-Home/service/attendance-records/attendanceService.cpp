@@ -21,6 +21,7 @@
 #include "../../dao/attendance-records/attendanceDAO.h"
 #include "id/UuidFacade.h"
 #include "SimpleDateTimeFormat.h"
+#include "../../../lib-common/include/id/SnowFlake.h"
 attendance_recordsPageDTO::Wrapper Lesson_StudentService::listAll(const attendance_recordsQuery::Wrapper& query)
 {
 	// 构建返回对象
@@ -83,10 +84,13 @@ std::string Teach_EvaluationService::saveData(const attendance_recordsEvaluateDT
 		Anonymity, anonymity
 	);
 	UuidFacade uf;
-	data->setId(uf.genUuid());
+	//雪花id生成器
+	SnowFlake sf(1, 1);
+	//雪花算法插入id
+	data->setId(sf.nextId());
 	// 设置创建时间
 	data->setAddTime(SimpleDateTimeFormat::format());
 	// 执行数据添加
 	Teach_EvaluationDAO dao;
-	return dao.insert(data) == 1 ? data->getId() : "";
+	return dao.insert(data) == 1 ?to_string(data->getId()) : "";
 }

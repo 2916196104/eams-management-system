@@ -91,10 +91,11 @@ bool Teach_EvaluationDAO::insert(const Ptrteach_evaluationDO data)
 	SqlParams params;
 	std::string sql =
 		"INSERT INTO teach_evaluation ("
-		"  lesson_id, teacher_id, score1, score2, score3, score4, content, add_time, student_id, anonymity "
+		"  id, lesson_id, teacher_id, score1, score2, score3, score4, content, add_time, student_id, anonymity "
 		") VALUES ("
-		"  ?, ?, ?, ?, ?, ?, ?, ?, ?, ? "
+		"  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? "
 		")";
+	SQLPARAMS_PUSH(params, "i", uint64_t, data->getId());
 	SQLPARAMS_PUSH(params, "i", uint64_t, data->getLessonId());
 	SQLPARAMS_PUSH(params, "i", uint64_t, data->getTeacherId());
 	SQLPARAMS_PUSH(params, "i", uint64_t, data->getScore1());
