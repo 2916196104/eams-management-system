@@ -3,59 +3,75 @@ import { markRaw } from "vue";
 import EpArrowDownBold from "~icons/ep/arrow-down-bold";
 import EpArrowUpBold from "~icons/ep/arrow-up-bold";
 import EpBack from "~icons/ep/back";
+import EpCalendar from "~icons/ep/calendar";
 import EpCheck from "~icons/ep/check";
 import EpClose from "~icons/ep/close";
 import EpCloseBold from "~icons/ep/close-bold";
 import EpDelete from "~icons/ep/delete";
 import EpDownload from "~icons/ep/download";
 import EpEdit from "~icons/ep/edit";
+import EpEditPen from "~icons/ep/edit-pen";
 import EpExpand from "~icons/ep/expand";
 import EpFinished from "~icons/ep/finished";
 import EpFold from "~icons/ep/fold";
 import EpFullScreen from "~icons/ep/full-screen";
 import EpHomeFilled from "~icons/ep/home-filled";
+import EpList from "~icons/ep/list";
 import EpMenu from "~icons/ep/menu";
 import EpMessage from "~icons/ep/message";
 import EpMinus from "~icons/ep/minus";
 import EpMore from "~icons/ep/more";
 import EpMoreFilled from "~icons/ep/more-filled";
+import EpOpen from "~icons/ep/open";
 import EpOperation from "~icons/ep/operation";
 import EpPlus from "~icons/ep/plus";
+import EpPrinter from "~icons/ep/printer";
+import EpRefresh from "~icons/ep/refresh";
 import EpRefreshRight from "~icons/ep/refresh-right";
 import EpSearch from "~icons/ep/search";
 import EpSetting from "~icons/ep/setting";
 import EpTickets from "~icons/ep/tickets";
 import EpUploadFilled from "~icons/ep/upload-filled";
 import EpUser from "~icons/ep/user";
+import EpVideoPause from "~icons/ep/video-pause";
+import EpVideoPlay from "~icons/ep/video-play";
 
 const offlineIcons = {
 	"ep/arrow-down-bold": markRaw(EpArrowDownBold),
 	"ep/arrow-up-bold": markRaw(EpArrowUpBold),
 	"ep/back": markRaw(EpBack),
+	"ep/calendar": markRaw(EpCalendar),
 	"ep/check": markRaw(EpCheck),
 	"ep/close": markRaw(EpClose),
 	"ep/close-bold": markRaw(EpCloseBold),
 	"ep/delete": markRaw(EpDelete),
 	"ep/download": markRaw(EpDownload),
 	"ep/edit": markRaw(EpEdit),
+	"ep/edit-pen": markRaw(EpEditPen),
 	"ep/expand": markRaw(EpExpand),
 	"ep/finished": markRaw(EpFinished),
 	"ep/fold": markRaw(EpFold),
 	"ep/full-screen": markRaw(EpFullScreen),
 	"ep/home-filled": markRaw(EpHomeFilled),
+	"ep/list": markRaw(EpList),
 	"ep/menu": markRaw(EpMenu),
 	"ep/message": markRaw(EpMessage),
 	"ep/minus": markRaw(EpMinus),
 	"ep/more": markRaw(EpMore),
 	"ep/more-filled": markRaw(EpMoreFilled),
+	"ep/open": markRaw(EpOpen),
 	"ep/operation": markRaw(EpOperation),
 	"ep/plus": markRaw(EpPlus),
+	"ep/printer": markRaw(EpPrinter),
+	"ep/refresh": markRaw(EpRefresh),
 	"ep/refresh-right": markRaw(EpRefreshRight),
 	"ep/search": markRaw(EpSearch),
 	"ep/setting": markRaw(EpSetting),
 	"ep/tickets": markRaw(EpTickets),
 	"ep/upload-filled": markRaw(EpUploadFilled),
 	"ep/user": markRaw(EpUser),
+	"ep/video-pause": markRaw(EpVideoPause),
+	"ep/video-play": markRaw(EpVideoPlay),
 } satisfies Record<string, Component>;
 
 const aliasIcons = {
