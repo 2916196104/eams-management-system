@@ -4,6 +4,7 @@ import com.zeroone.star.interact.service.HomeworkService;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j6.interact.HomeworkDetailDto;
 import com.zeroone.star.project.dto.j6.interact.HomeworkListDto;
+import com.zeroone.star.project.dto.j6.interact.HomeworkScoreDto;
 import com.zeroone.star.project.j6.interact.HomeworkApis;
 import com.zeroone.star.project.query.j6.interact.HomeworkQuery;
 import com.zeroone.star.project.vo.JsonVO;
@@ -95,7 +96,12 @@ public class HomeworkController implements HomeworkApis {
     @ApiOperation("删除作业")
     @Override
     public JsonVO<List<Long>> deleteHomeworks(@RequestBody List<Long> ids) {
-        return null;
+        try {
+            List<Long> result = homeworkService.deleteHomeworks(ids);
+            return JsonVO.success(result);
+        } catch (Exception e) {
+            return JsonVO.fail(e.getMessage());
+        }
     }
 
     /**
@@ -107,19 +113,31 @@ public class HomeworkController implements HomeworkApis {
     @ApiOperation("获取作业提交列表（条件+分页）")
     @Override
     public JsonVO<PageDTO<HomeworkSubmissionListVo>> queryHomeworkSubmissionList(@PathVariable("id") Long homeworkId) {
-        return null;
+        try {
+            PageDTO<HomeworkSubmissionListVo> result = homeworkService.queryHomeworkSubmissionList(homeworkId);
+            return JsonVO.success(result);
+        } catch (Exception e) {
+            return JsonVO.fail(e.getMessage());
+        }
     }
 
     /**
      * 点评作业
      *
-     * @param id
-     * TODO 请求参数和响应参数可能都不对
+     * @param homeworkScoreDto 点评信息（包含提交记录ID、分数、点评内容）
      */
-    @PutMapping("/{id}")
+    @PutMapping("/score")
     @ApiOperation("点评作业")
     @Override
-    public JsonVO<Long> scoreHomework(@PathVariable("id") Long id) {
-        return null;
+    public JsonVO<Long> scoreHomework(@Validated @RequestBody HomeworkScoreDto homeworkScoreDto) {
+        try {
+            Long result = homeworkService.scoreHomework(homeworkScoreDto);
+            if (result == null) {
+                return JsonVO.fail("提交记录不存在");
+            }
+            return JsonVO.success(result);
+        } catch (Exception e) {
+            return JsonVO.fail(e.getMessage());
+        }
     }
 }

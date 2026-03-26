@@ -3,6 +3,7 @@ package com.zeroone.star.project.j6.interact;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j6.interact.HomeworkDetailDto;
 import com.zeroone.star.project.dto.j6.interact.HomeworkListDto;
+import com.zeroone.star.project.dto.j6.interact.HomeworkScoreDto;
 import com.zeroone.star.project.query.j6.interact.HomeworkQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j6.interact.HomeworkDetailVO;
@@ -41,7 +42,8 @@ public interface HomeworkApis {
     JsonVO<PageDTO<HomeworkSubmissionListVo>>queryHomeworkSubmissionList(Long homeworkId);
     /**
      * 点评作业
-     * TODO 请求参数和响应参数可能都不对
+     * @param homeworkScoreDto 点评信息（包含提交记录ID、分数、点评内容）
+     * @return 提交记录ID
      */
-    JsonVO<Long> scoreHomework(Long id);
+    JsonVO<Long> scoreHomework(HomeworkScoreDto homeworkScoreDto);
 }
