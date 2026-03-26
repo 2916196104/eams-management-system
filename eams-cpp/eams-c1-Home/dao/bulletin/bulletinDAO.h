@@ -4,7 +4,7 @@
 
 #include "domain/do/bulletin/bulletinDO.h"
 #include "domain/query/PageQuery.h"
-#include "BaseDAO.h"  
+#include "BaseDAO.h"
 #include <list>
 #include <cstdint>
 
@@ -30,8 +30,13 @@ public:
 class redDAO : public BaseDAO
 {
 public:
-	// 聚合查询所有未读数 - 新增方法
+	// 聚合查询所有未读数
 	std::shared_ptr<redDO> getUnreadCounts(int64_t studentId);
+
+	// 分拆的查询方法
+	int32_t getHomeworkUnreadCount(int64_t studentId);
+	int32_t getEvaluateUnreadCount(int64_t studentId);
+	int32_t getGradeUnreadCount(int64_t studentId);
 };
 
 #endif // !_BULLETIN_DAO_H_

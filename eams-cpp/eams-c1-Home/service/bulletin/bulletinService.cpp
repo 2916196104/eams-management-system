@@ -92,26 +92,33 @@ redDTO::Wrapper redService::getRed(int64_t studentId)
 {
 	// 参数校验
 	if (studentId <= 0) {
-		return redDTO::createShared();
+		auto dto = redDTO::createShared();
+		dto->grade_count = 0;
+		dto->evaluate_count = 0;
+		dto->homework_count = 0;
+		return dto;
 	}
 
 	// 查询未读数
 	redDAO dao;
 	auto redDO = dao.getUnreadCounts(studentId);
 
-	// 没有查询到数据
-	if (!redDO) {
-		return redDTO::createShared();
-	}
-
 	// 创建返回DTO对象
 	auto dto = redDTO::createShared();
 
-	// 手动将DO转换为DTO
-	// 这种方法更清晰，也避免了命名不一致的问题
-	dto->grade_count = redDO->getGradeCount();
-	dto->evaluate_count = redDO->getEvaluateCount();
-	dto->homework_count = redDO->getHomeworkCount();
+	if (redDO) {
+		// 手动将DO转换为DTO
+		dto->grade_count = redDO->getGradeCount();
+		dto->evaluate_count = redDO->getEvaluateCount();
+		dto->homework_count = redDO->getHomeworkCount();
+	}
+	else {
+		cout<<"查询未读数失败,返回全-1"<<endl;
+		// 如果查询失败，返回0值
+		dto->grade_count = -1;
+		dto->evaluate_count = -1;
+		dto->homework_count = -1;
+	}
 
 	return dto;
 }

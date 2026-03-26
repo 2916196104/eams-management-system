@@ -26,9 +26,18 @@ listPageJsonVO::Wrapper bulletinController::executeQueryList(const PageQuery::Wr
 
 redJsonVO::Wrapper bulletinController::executeQueryRed(const Int64& student_id)
 {
+	//std::cout << "=== 开始处理redpoint请求 ===" << std::endl;
+	//std::cout << "接收到的student_id: " << student_id.getValue(0) << std::endl;
+
 	auto result = redService().getRed(student_id);
 
-	 //包装响应结果
+	//std::cout << "Service返回结果: "
+	//    << "grade=" << result->grade_count
+	//    << ", evaluate=" << result->evaluate_count
+	//    << ", homework=" << result->homework_count << std::endl;
+	//std::cout << "=== 结束处理redpoint请求 ===" << std::endl;
+
+	// 包装响应结果
 	auto jvo = redJsonVO::createShared();
 	jvo->success(result);
 	return jvo;
