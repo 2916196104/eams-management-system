@@ -49,72 +49,48 @@ const router = createRouter({
 	routes,
 });
 
-// 添加一个路由的全局前置守卫
-router.beforeEach(async function (to, from, next) {
+// 全局前置守卫（Vue Router 4：用 return 替代 next()，避免弃用警告）
+router.beforeEach(async (to) => {
 	// 判断是否是白名单页面
 	if (to.name === "Login" || to.name === "NotFound" || to.name === "Forbidden" || to.name === "Error") {
-		next();
-		return;
+		return true;
 	}
 
 	// 放行示例模块访问
-	if (import.meta.env.DEV) {
-		if (to.path.indexOf("sample") !== -1) {
-			next();
-			return;
-		}
+	if (import.meta.env.DEV && to.path.includes("sample")) {
+		return true;
 	}
 
-	// 判断本地是否记录token值
 	const store = useUserStore();
 	const token = store.getToken;
-	// 如果有token
 	if (token) {
-		// 判断是否已经加载数据
-		const isLoaded = store.isLoaded;
-		// 如果没有加载
-		if (!isLoaded) {
-			// 加载用户信息
+		if (!store.isLoaded) {
 			await store.loadUser();
-			// 加载菜单资源
 			await store.loadMenus();
-			// 设置加载完毕
 			store.setLoaded(true);
 		}
 
-		// #region 处理标签页数据
 		const tabstore = useTabStore();
-		// 首页处理
-		if (to.path == tabstore.indexPath) {
+		if (to.path === tabstore.indexPath) {
 			tabstore.setActiveIndex(to.path);
-		}
-		// 设置了标签数据的路由
-		else if (to.meta.label) {
+		} else if (to.meta.label) {
 			const idx = tabstore.getTabIndex(to.path);
-			// 如果标签页已经打开了
 			if (idx !== -1) {
-				// 设置当前标签页
 				tabstore.setActiveIndex(to.path);
 			} else {
-				// 添加标签页
 				tabstore.addTab({
-					label: to.meta.label,
+					label: to.meta.label as string,
 					path: to.path,
 				});
-				// 设置当前标签页
 				tabstore.setActiveIndex(to.path);
 			}
 		}
-		// #endregion
 
-		// 允许跳转
-		next();
+		return true;
 	}
-	// 如果没有token值，直接进入登录
-	else {
-		next({ name: "Login" });
-		ElMessage.warning("在未登录时，禁止访问其他页面！");
-	}
+
+	ElMessage.warning("在未登录时，禁止访问其他页面！");
+	return { name: "Login" };
 });
 
 export default router;

@@ -1,6 +1,5 @@
 const routes = [
 	{
-<<<<<<< f1
 		path: "/system",
 		redirect: { name: "SystemInternalAnnouncement" },
 	},
