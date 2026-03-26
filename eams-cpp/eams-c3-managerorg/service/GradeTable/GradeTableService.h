@@ -10,7 +10,5 @@ class DeleteListService
 {
 public:
     oatpp::Vector<oatpp::Int64> DeleteListQuery(
-        const DeleteListQuery::Wrapper& query,
-        const PayloadDTO& payload
-    );
+        const DeleteListQuery::Wrapper& query);
 };

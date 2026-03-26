@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef __GRADE_TABLE_H__
 #define __GRADE_TABLE_H__
 
@@ -65,27 +65,24 @@ class DeleteListController : public oatpp::web::server::api::ApiController
     API_ACCESS_DECLARE(DeleteListController);
 
 public:
-    API_DEF_ENDPOINT_INFO_QUERY_AUTH(
+    API_DEF_ENDPOINT_INFO_AUTH(
         ZH_WORDS_GETTER("grade_table.delete.delete_list_title"),
         DeleteList,
-        DeleteListQuery,
         DeleteListJsonVO::Wrapper,
         ZH_WORDS_GETTER("GradeTable.tags")
     );
 
-    API_HANDLER_ENDPOINT_QUERY_AUTH(
+    API_HANDLER_ENDPOINT_AUTH(
         API_M_DEL,
         "org/gradetable/gradetable-delete",
         DeleteList,
-        DeleteListQuery,
-        ExecDeleteListQuery(query, authObject->getPayload())
+        BODY_DTO(DeleteListQuery::Wrapper, query),
+        ExecDeleteListQuery(query)
     );
 
 private:
-    Vector<Int64> ExecDeleteListQuery(
-        const DeleteListQuery::Wrapper& query,
-        const PayloadDTO& payload
-    );
+    DeleteListJsonVO::Wrapper ExecDeleteListQuery(
+        const DeleteListQuery::Wrapper& query);
 };
 
 /* save list */

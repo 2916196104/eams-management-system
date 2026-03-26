@@ -1,5 +1,7 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "GradeTable.h"
+
+#include "service/GradeTable/GradeTableService.h"
 
 /**
  * 分页查询成绩单列表执行函数实现
@@ -12,12 +14,22 @@ GradeTablePageJsonVO::Wrapper GradeTable::execQueryPageGradeTable(const GradeTab
 }
 
 /* Delete List */
-Vector<Int64> DeleteListController::ExecDeleteListQuery(
-    const DeleteListQuery::Wrapper& query,
-    const PayloadDTO& payload)
+DeleteListJsonVO::Wrapper DeleteListController::ExecDeleteListQuery(
+    const DeleteListQuery::Wrapper& query)
 {
-    /* TODO: finish implementation */
-    return nullptr;
+    DeleteListJsonVO::Wrapper vo = DeleteListJsonVO::createShared();
+
+    if (!query || !query->ids || query->ids->empty())
+    {
+        auto empty = oatpp::Vector<oatpp::Int64>::createShared();
+        vo->init(empty, RS_PARAMS_INVALID);
+        return vo;
+    }
+
+    DeleteListService dls;
+    vo->success(dls.DeleteListQuery(query));
+
+    return vo;
 }
 
 /* Save List */
