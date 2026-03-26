@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @TableName("contact_record")
 public class ContactRecordDO {
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     private Long studentId;
