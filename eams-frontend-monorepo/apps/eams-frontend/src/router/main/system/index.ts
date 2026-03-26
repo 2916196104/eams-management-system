@@ -19,6 +19,22 @@ const routes = [
 		},
 		component: () => import("@/views/system/NotificationSetting.vue"),
 	},
+	{
+		path: "/system/holiday-manage",
+		name: "SystemHolidayManage",
+		meta: {
+			label: "节假日管理",
+		},
+		component: () => import("@/views/system/HolidayManage.vue"),
+	},
+	{
+		path: "/system/operation-log",
+		name: "SystemOperationLog",
+		meta: {
+			label: "操作日志",
+		},
+		component: () => import("@/views/system/OperationLog.vue"),
+	},
 ];
 
 export default routes;

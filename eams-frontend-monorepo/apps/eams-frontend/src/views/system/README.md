@@ -1,23 +1,69 @@
 # system 视图目录说明
 
-这个目录目前只保留两个系统管理页面：
+当前 `src/views/system` 已经按接近 `console` 模块的方式组织：
+
+- 每个页面都有自己的入口 `.vue`
+- 页面内容直接渲染在主框架右侧内容区
+- 不再依赖 `system` 自己那套内部侧边栏布局
+
+当前保留的系统页面有：
 
 - 数据字典
 - 通知设置
+- 节假日管理
+- 操作日志
 
 ## 目录结构
 
 - `DataDictionary.vue`
 - `NotificationSetting.vue`
-- `menu.ts`
+- `HolidayManage.vue`
+- `OperationLog.vue`
 - `shared.ts`
 - `components/`
 
 `components/` 当前主要包含：
 
-- `SystemSectionLayout.vue`
 - `SystemDictionaryPage.vue`
 - `SystemNotificationPage.vue`
+- `SystemHolidayPage.vue`
+- `SystemOperationLogPage.vue`
+
+## 当前真实运行逻辑
+
+### 1. 路由入口
+
+系统页面路由统一注册在：
+
+- `src/router/main/system/index.ts`
+
+当前路由为：
+
+- `/system/data-dictionary`
+- `/system/notification-setting`
+- `/system/holiday-manage`
+- `/system/operation-log`
+
+### 2. 页面加载方式
+
+每个入口页只做一件事：
+
+- 引入对应的页面组件
+- 必要时传入 `shared.ts` 中的配置
+
+例如：
+
+- `DataDictionary.vue` -> `SystemDictionaryPage.vue`
+- `NotificationSetting.vue` -> `SystemNotificationPage.vue`
+- `HolidayManage.vue` -> `SystemHolidayPage.vue`
+- `OperationLog.vue` -> `SystemOperationLogPage.vue`
+
+### 3. 页面展示方式
+
+现在 `system` 页面和 `console` 的风格一致：
+
+- 页面直接显示在主框架 `HomeView.vue` 的右侧内容区
+- 页面切换依赖主框架菜单和主路由
 
 ## 各文件作用
 
@@ -29,7 +75,7 @@
 
 - 引入 `SystemDictionaryPage.vue`
 - 引入 `dataDictionaryConfig`
-- 完成页面与配置绑定
+- 将页面和配置绑定起来
 
 ### NotificationSetting.vue
 
@@ -39,43 +85,49 @@
 
 - 引入 `SystemNotificationPage.vue`
 - 引入 `notificationSettingConfig`
-- 完成页面与配置绑定
+- 将页面和配置绑定起来
+
+### HolidayManage.vue
+
+节假日管理页面入口。
+
+作用：
+
+- 引入 `SystemHolidayPage.vue`
+
+说明：
+
+- 已接入真实接口查询、新增、删除节日
+
+### OperationLog.vue
+
+操作日志页面入口。
+
+作用：
+
+- 引入 `SystemOperationLogPage.vue`
+
+说明：
+
+- 已接入真实分页查询接口
 
 ### shared.ts
 
-这个文件是当前 system 目录的配置中心。
+这是当前 `system` 页面里“需要复用配置”的中心文件。
 
-负责：
+当前主要负责：
 
-- 定义页面组件需要的配置类型
-- 把 `src/apis/system` 的接口方法装配成页面配置对象
+- 定义页面组件所需配置类型
+- 将 `src/apis/system` 的接口函数组装成页面配置对象
 
 当前主要导出：
 
 - `dataDictionaryConfig`
 - `notificationSettingConfig`
 
-### menu.ts
-
-负责 system 模块的菜单项定义。
-
-当前保留菜单：
-
-- 数据字典
-- 通知设置
-
-### SystemSectionLayout.vue
-
-页面统一外层布局组件。
-
-负责：
-
-- 公共页面容器
-- 统一的间距与外层样式
-
 ### SystemDictionaryPage.vue
 
-数据字典页面的主组件。
+数据字典主页面组件。
 
 负责：
 
@@ -86,47 +138,60 @@
 
 ### SystemNotificationPage.vue
 
-通知设置页面的主组件。
+通知设置主页面组件。
 
 负责：
 
 - 通知设置表单展示
-- 开关、模板 ID、提示信息编辑
 - 保存通知设置
 
-## 页面是怎么串起来的
+### SystemHolidayPage.vue
 
-以数据字典页为例：
+节假日管理主页面组件。
 
-1. 路由进入 `DataDictionary.vue`
-2. `DataDictionary.vue` 把 `dataDictionaryConfig` 传给 `SystemDictionaryPage.vue`
-3. `SystemDictionaryPage.vue` 通过 `config` 调用 `src/apis/system/index.ts` 中的接口
+负责：
 
-通知设置页同理。
+- 年份切换
+- 日历展示
+- 节日高亮
+- 调用后端接口新增 / 删除节日
 
-## 现在已经删除的页面
+### SystemOperationLogPage.vue
 
-下面这些页面和对应配置已经从当前目录清理掉：
+操作日志主页面组件。
 
-- 内部公告
-- 系统参数
-- 角色权限
+负责：
 
-如果后续又要恢复，不建议直接从 README 改起，应该先补：
+- 条件查询
+- 表格展示
+- 分页切换
+- 调用后端接口查询日志
 
-1. 路由
-2. 页面入口
-3. `shared.ts` 配置
-4. 组件
-5. `src/apis/system` 接口
+## 页面与 API 的关系
 
-## 快速定位规则
+### 已接入真实接口
 
-- 改页面布局和交互：
-  看 `components/`
-- 改页面文案和接口绑定：
-  看 `shared.ts`
-- 改菜单：
-  看 `menu.ts`
-- 改接口：
-  看 `src/apis/system`
+- 数据字典
+- 通知设置
+- 节假日管理
+- 操作日志
+
+## 维护建议
+
+- 改页面内容和交互：看 `components/`
+- 改页面入口：看各入口 `.vue`
+- 改可复用配置：看 `shared.ts`
+- 改路由：看 `src/router/main/system/index.ts`
+- 改接口：看 `src/apis/system`
+
+## 当前和旧逻辑的区别
+
+旧逻辑：
+
+- `system` 自己有一套内部侧边栏
+- 页面通过内部布局组件统一包裹
+
+当前逻辑：
+
+- `system` 页面像 `console` 一样直接作为业务页展示
+- 页面切换依赖主框架菜单和主路由

@@ -1,6 +1,14 @@
 import type { PageDTO } from "../type";
 import { useHttp } from "@/plugins/http";
-import type { DatadictVO, DictTypeDTO, DictionaryCategory, DictionaryItem, NoticeSettingDTO } from "./type";
+import type {
+	DatadictVO,
+	DictTypeDTO,
+	DictionaryCategory,
+	DictionaryItem,
+	HolidayDTO,
+	NoticeSettingDTO,
+	OptlogDTO,
+} from "./type";
 
 function cloneValue<T>(value: T): T {
 	if (typeof structuredClone === "function") return structuredClone(value);
@@ -35,6 +43,71 @@ let noticeSetting: NoticeSettingDTO = {
 	tips: "模板提示",
 	wechaton: true,
 };
+
+let holidayRecords: HolidayDTO[] = [
+	{ id: "holiday-1", holidayTime: "2026-01-01" },
+	{ id: "holiday-2", holidayTime: "2026-05-01" },
+	{ id: "holiday-3", holidayTime: "2026-10-01" },
+	{ id: "holiday-4", holidayTime: "2026-10-02" },
+];
+
+const operationLogRecords: OptlogDTO[] = [
+	{
+		add_time: "2026-03-26 09:10:22",
+		broswer_name: "Chrome 134",
+		browser_ver: "192.168.1.20",
+		info: "新增节假日“2026-05-01”",
+		operator: 1,
+		org_id: "/sys/holiday",
+		os_name: "Windows 11",
+		time_cost: "85",
+		type: "新增",
+	},
+	{
+		add_time: "2026-03-26 10:18:43",
+		broswer_name: "Edge 135",
+		browser_ver: "192.168.1.31",
+		info: "更新通知设置模板参数",
+		operator: 2,
+		org_id: "/noticesetting/savesetting",
+		os_name: "Windows 10",
+		time_cost: "102",
+		type: "修改",
+	},
+	{
+		add_time: "2026-03-26 11:02:08",
+		broswer_name: "Chrome 134",
+		browser_ver: "192.168.1.18",
+		info: "删除字典项“试听课”",
+		operator: 1,
+		org_id: "/sys/dict/delete-dict",
+		os_name: "Windows 11",
+		time_cost: "97",
+		type: "删除",
+	},
+	{
+		add_time: "2026-03-26 13:21:16",
+		broswer_name: "Firefox 136",
+		browser_ver: "192.168.1.25",
+		info: "导出操作日志列表",
+		operator: 3,
+		org_id: "/system/operation-log/export",
+		os_name: "macOS",
+		time_cost: "156",
+		type: "导出",
+	},
+	{
+		add_time: "2026-03-26 15:09:37",
+		broswer_name: "Safari 18",
+		browser_ver: "192.168.1.42",
+		info: "登录后台系统",
+		operator: 4,
+		org_id: "/auth/login",
+		os_name: "iPadOS",
+		time_cost: "68",
+		type: "老师登录",
+	},
+];
 
 export async function listDictionaryCategories(): Promise<DictionaryCategory[]> {
 	const http = useHttp();
@@ -208,6 +281,128 @@ export async function updateNotificationTemplate(data: NoticeSettingDTO): Promis
 		noticeSetting = {
 			...data,
 			name: data.name || noticeSetting.name,
+		};
+	}
+}
+
+export async function listHolidays(params?: {
+	pageIndex?: number;
+	pageSize?: number;
+	year?: number;
+}): Promise<PageDTO<HolidayDTO>> {
+	const http = useHttp();
+	const pageIndex = params?.pageIndex ?? 1;
+	const pageSize = params?.pageSize ?? 366;
+	const year = params?.year;
+
+	try {
+		const query: Record<string, any> = {
+			pageIndex,
+			pageSize,
+		};
+		if (year != null) {
+			query["holidayList[0].year"] = year;
+		}
+
+		const res = await http.get<PageDTO<HolidayDTO>>("/sys/holiday", query);
+		return {
+			pageIndex: res.data?.pageIndex ?? pageIndex,
+			pageSize: res.data?.pageSize ?? pageSize,
+			pages: res.data?.pages ?? 1,
+			total: res.data?.total ?? res.data?.rows?.length ?? 0,
+			rows: (res.data?.rows || []).map((item) => ({
+				id: item.id != null ? String(item.id) : undefined,
+				holidayTime: item.holidayTime,
+			})),
+		};
+	} catch {
+		await delay();
+		const rows = holidayRecords.filter((item) => (year != null ? item.holidayTime.startsWith(`${year}-`) : true));
+		return {
+			pageIndex,
+			pageSize,
+			pages: 1,
+			total: rows.length,
+			rows: cloneValue(rows),
+		};
+	}
+}
+
+export async function addHoliday(holidayTime: string): Promise<void> {
+	const http = useHttp();
+	try {
+		await http.post("/sys/holiday", undefined, {
+			params: {
+				holidayTime,
+			},
+			upType: 0,
+		});
+	} catch {
+		await delay();
+		if (!holidayRecords.some((item) => item.holidayTime === holidayTime)) {
+			holidayRecords = [
+				...holidayRecords,
+				{
+					id: `holiday-${Date.now()}`,
+					holidayTime,
+				},
+			];
+		}
+	}
+}
+
+export async function deleteHoliday(id: string): Promise<void> {
+	const http = useHttp();
+	try {
+		await http.delete(`/sys/holiday/${id}`);
+	} catch {
+		await delay();
+		holidayRecords = holidayRecords.filter((item) => item.id !== id);
+	}
+}
+
+export async function listOperationLogs(params?: {
+	info?: string;
+	operator?: number;
+	pageIndex?: number;
+	pageSize?: number;
+	type?: string;
+}): Promise<PageDTO<OptlogDTO>> {
+	const http = useHttp();
+	const pageIndex = params?.pageIndex ?? 1;
+	const pageSize = params?.pageSize ?? 10;
+
+	try {
+		const res = await http.get<PageDTO<OptlogDTO>>("/sys/optlog", {
+			info: params?.info,
+			operator: params?.operator,
+			pageIndex,
+			pageSize,
+			type: params?.type,
+		});
+		return {
+			pageIndex: res.data?.pageIndex ?? pageIndex,
+			pageSize: res.data?.pageSize ?? pageSize,
+			pages: res.data?.pages ?? 1,
+			total: res.data?.total ?? res.data?.rows?.length ?? 0,
+			rows: res.data?.rows || [],
+		};
+	} catch {
+		await delay();
+		const filtered = operationLogRecords.filter((item) => {
+			const infoMatched = !params?.info || String(item.info || "").includes(params.info);
+			const typeMatched = !params?.type || String(item.type || "") === params.type;
+			const operatorMatched = params?.operator == null || Number(item.operator) === params.operator;
+			return infoMatched && typeMatched && operatorMatched;
+		});
+		const start = (pageIndex - 1) * pageSize;
+		const rows = filtered.slice(start, start + pageSize);
+		return {
+			pageIndex,
+			pageSize,
+			pages: Math.max(1, Math.ceil(filtered.length / pageSize)),
+			total: filtered.length,
+			rows: cloneValue(rows),
 		};
 	}
 }

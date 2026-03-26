@@ -1,69 +1,67 @@
 <template>
-	<SystemSectionLayout>
-		<section class="dict-page">
-			<section class="panel-card dict-nav">
-				<div
-					v-for="category in categories"
-					:key="category.id"
-					:class="['dict-nav__item', { 'dict-nav__item--active': category.id === activeCategoryId }]"
-					@click="selectCategory(category.id)"
-				>
-					<div>{{ category.label }}</div>
-					<div class="dict-nav__count">{{ category.itemCount }} {{ config.categoryCountSuffix }}</div>
-				</div>
-			</section>
-
-			<section class="panel-card dict-table">
-				<div class="dict-table__toolbar">
-					<div class="dict-table__actions">
-						<el-button type="primary" :icon="Plus" @click="openDialog()">{{ config.createButtonText }}</el-button>
-						<el-button :icon="Delete" :disabled="selectedRows.length === 0" @click="handleBatchDelete">
-							{{ config.deleteButtonText }}
-						</el-button>
-					</div>
-					<div class="dict-table__actions">
-						<el-button circle :icon="RefreshRight" @click="loadCategories" />
-						<el-button circle :icon="Printer" />
-						<el-button circle :icon="Grid" />
-					</div>
-				</div>
-
-				<el-table :data="items" border @selection-change="handleSelectionChange">
-					<el-table-column type="selection" width="55" />
-					<el-table-column
-						v-for="column in config.columns"
-						:key="column.prop"
-						:prop="column.prop"
-						:label="column.label"
-						:min-width="column.minWidth"
-						:width="column.width"
-					/>
-					<el-table-column label="操作" width="120" align="center">
-						<template #default="{ row }">
-							<el-button link type="primary" @click="openDialog(row)">编辑</el-button>
-						</template>
-					</el-table-column>
-				</el-table>
-			</section>
+	<section class="dict-page">
+		<section class="panel-card dict-nav">
+			<div
+				v-for="category in categories"
+				:key="category.id"
+				:class="['dict-nav__item', { 'dict-nav__item--active': category.id === activeCategoryId }]"
+				@click="selectCategory(category.id)"
+			>
+				<div>{{ category.label }}</div>
+				<div class="dict-nav__count">{{ category.itemCount }} {{ config.categoryCountSuffix }}</div>
+			</div>
 		</section>
 
-		<el-dialog
-			v-model="dialogVisible"
-			:title="dialogForm.id ? config.editDialogTitle : config.createDialogTitle"
-			width="540px"
-		>
-			<el-form label-width="80px">
-				<el-form-item v-for="field in config.formFields" :key="field.prop" :label="field.label">
-					<el-input v-if="field.type !== 'textarea'" v-model="dialogForm[field.prop]" />
-					<el-input v-else v-model="dialogForm[field.prop]" type="textarea" :rows="field.rows || 3" />
-				</el-form-item>
-			</el-form>
-			<template #footer>
-				<el-button @click="dialogVisible = false">取消</el-button>
-				<el-button type="primary" @click="submitDialog">保存</el-button>
-			</template>
-		</el-dialog>
-	</SystemSectionLayout>
+		<section class="panel-card dict-table">
+			<div class="dict-table__toolbar">
+				<div class="dict-table__actions">
+					<el-button type="primary" :icon="Plus" @click="openDialog()">{{ config.createButtonText }}</el-button>
+					<el-button :icon="Delete" :disabled="selectedRows.length === 0" @click="handleBatchDelete">
+						{{ config.deleteButtonText }}
+					</el-button>
+				</div>
+				<div class="dict-table__actions">
+					<el-button circle :icon="RefreshRight" @click="loadCategories" />
+					<el-button circle :icon="Printer" />
+					<el-button circle :icon="Grid" />
+				</div>
+			</div>
+
+			<el-table :data="items" border @selection-change="handleSelectionChange">
+				<el-table-column type="selection" width="55" />
+				<el-table-column
+					v-for="column in config.columns"
+					:key="column.prop"
+					:prop="column.prop"
+					:label="column.label"
+					:min-width="column.minWidth"
+					:width="column.width"
+				/>
+				<el-table-column label="操作" width="120" align="center">
+					<template #default="{ row }">
+						<el-button link type="primary" @click="openDialog(row)">编辑</el-button>
+					</template>
+				</el-table-column>
+			</el-table>
+		</section>
+	</section>
+
+	<el-dialog
+		v-model="dialogVisible"
+		:title="dialogForm.id ? config.editDialogTitle : config.createDialogTitle"
+		width="540px"
+	>
+		<el-form label-width="80px">
+			<el-form-item v-for="field in config.formFields" :key="field.prop" :label="field.label">
+				<el-input v-if="field.type !== 'textarea'" v-model="dialogForm[field.prop]" />
+				<el-input v-else v-model="dialogForm[field.prop]" type="textarea" :rows="field.rows || 3" />
+			</el-form-item>
+		</el-form>
+		<template #footer>
+			<el-button @click="dialogVisible = false">取消</el-button>
+			<el-button type="primary" @click="submitDialog">保存</el-button>
+		</template>
+	</el-dialog>
 </template>
 
 <script setup lang="ts">
@@ -72,7 +70,6 @@ import { ElMessage, ElMessageBox } from "element-plus";
 import { Delete, Grid, Plus, Printer, RefreshRight } from "@element-plus/icons-vue";
 import type { DictionaryCategory, DictionaryItem } from "@/apis/system/type";
 import type { SystemDictionaryPageConfig } from "../shared";
-import SystemSectionLayout from "./SystemSectionLayout.vue";
 
 const props = defineProps<{
 	config: SystemDictionaryPageConfig;
@@ -171,6 +168,7 @@ onMounted(() => {
 	display: grid;
 	grid-template-columns: 360px minmax(0, 1fr);
 	gap: 16px;
+	padding: 16px;
 }
 
 .panel-card {
@@ -217,5 +215,11 @@ onMounted(() => {
 .dict-table__actions {
 	display: flex;
 	gap: 12px;
+}
+
+@media (max-width: 1280px) {
+	.dict-page {
+		grid-template-columns: 1fr;
+	}
 }
 </style>
