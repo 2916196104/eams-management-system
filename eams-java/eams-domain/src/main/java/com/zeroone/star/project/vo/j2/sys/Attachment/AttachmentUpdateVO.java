@@ -1,7 +1,7 @@
 // src/main/java/com/zeroone/star/project/vo/j2/sys/AttachmentUpdateVO.java
-package com.zeroone.star.project.vo.j2.sys.Attach;
+package com.zeroone.star.project.vo.j2.sys.Attachment;
 
-import com.zeroone.star.project.dto.j2.sys.Attach.AttachmentDTO;
+import com.zeroone.star.project.dto.j2.sys.Attachment.AttachmentDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -38,7 +38,7 @@ public class AttachmentUpdateVO extends AttachmentDTO {
 
         // 设置额外字段
         vo.setLastModifierName(modifierName);
-        vo.setUpdateTimeFormatted(formatDateTime(dto.getUpdateTime()));
+        vo.setUpdateTimeFormatted(formatDateTime(java.time.LocalDateTime.now()));
         vo.setOperationResult("修改成功");
 
         return vo;

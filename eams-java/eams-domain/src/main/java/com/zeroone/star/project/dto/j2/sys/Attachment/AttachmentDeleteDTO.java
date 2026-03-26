@@ -1,5 +1,4 @@
-// src/main/java/com/zeroone/star/project/dto/j2/sys/AttachmentDeleteDTO.java
-package com.zeroone.star.project.dto.j2.sys.Attach;
+package com.zeroone.star.project.dto.j2.sys.Attachment;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -19,9 +18,9 @@ import java.util.List;
 @ApiModel("附件删除参数")
 public class AttachmentDeleteDTO {
 
-    @ApiModelProperty(value = "附件ID列表", example = "[\"att_001\", \"att_002\"]", required = true)
+    @ApiModelProperty(value = "附件ID列表", example = "[1, 2]", required = true)
     @NotEmpty(message = "附件ID列表不能为空")
-    private List<String> ids;
+    private List<Long> ids;
 
     @ApiModelProperty(value = "删除原因", example = "资料已过时")
     private String deleteReason;
