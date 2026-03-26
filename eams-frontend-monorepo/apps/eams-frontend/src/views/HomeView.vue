@@ -37,25 +37,27 @@
 			:collapse-transition="false"
 			router
 		>
+			<!-- 首页菜单 -->
 			<el-menu-item :index="indexPath">
 				<el-icon>
 					<IconHomeFilled />
 				</el-icon>
 				<span>首页</span>
 			</el-menu-item>
-			<el-sub-menu v-for="item in menus" :key="item.id" :index="item.id + 'submenu'">
+			<!-- 动态菜单 -->
+			<el-sub-menu v-for="item in menus" :key="item.id" :index="`${item.id}submenu`">
 				<template #title>
 					<el-icon>
-						<component :is="item.icon" />
+						<component :is="renderMenuIcon(item.icon)" />
 					</el-icon>
 					<span>{{ item.text }}</span>
 				</template>
 				<el-menu-item-group>
-					<el-menu-item v-for="i in item.children" :key="i.id" :index="i.href">
+					<el-menu-item v-for="child in item.children" :key="child.id" :index="child.href">
 						<el-icon>
-							<component :is="i.icon" />
+							<component :is="renderMenuIcon(child.icon)" />
 						</el-icon>
-						{{ i.text }}
+						{{ child.text }}
 					</el-menu-item>
 				</el-menu-item-group>
 			</el-sub-menu>
@@ -68,7 +70,7 @@
 				type="border-card"
 				:before-leave="beforeLeave"
 				@tab-click="tabClick"
-				@tab-remove="tabColse"
+				@tab-remove="tabClose"
 			>
 				<!-- 首页标签页 -->
 				<el-tab-pane :name="indexPath" style="height: 0">
@@ -82,7 +84,7 @@
 				<!-- 动态标签页 -->
 				<el-tab-pane
 					v-for="(item, index) in tabs"
-					:key="index + 'tab'"
+					:key="`${index}tab`"
 					:label="item.label"
 					:name="item.path"
 					closable
@@ -99,18 +101,18 @@
 							</el-button>
 							<template #dropdown>
 								<el-dropdown-menu>
-									<el-dropdown-item :disabled="tabs.length == 0" icon="IconCloseBlod" @click="handleClose(1)">
+									<el-dropdown-item :disabled="tabs.length === 0" icon="IconCloseBlod" @click="handleClose(1)">
 										关闭所有标签页
 									</el-dropdown-item>
 									<el-dropdown-item
-										:disabled="activeIndex == indexPath || tabstore.getTabIndex(activeIndex) == 0"
+										:disabled="activeIndex === indexPath || tabstore.getTabIndex(activeIndex) === 0"
 										icon="IconCloseBlod"
 										@click="handleClose(2)"
 									>
 										关闭当前标签页左边
 									</el-dropdown-item>
 									<el-dropdown-item
-										:disabled="tabstore.getTabIndex(activeIndex) == tabs.length - 1"
+										:disabled="tabstore.getTabIndex(activeIndex) === tabs.length - 1"
 										icon="IconCloseBlod"
 										@click="handleClose(3)"
 									>
@@ -132,52 +134,52 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
+import type { TabPaneName, TabsPaneContext } from "element-plus";
+import { useRenderIcon } from "@/components/ReIcon";
 import { useUserStore } from "@/stores/user";
 import { useTabStore } from "@/stores/tab";
-import type { TabPaneName, TabsPaneContext } from "element-plus";
+
 // 应用名称
 const appName = import.meta.env.VITE_APP_TITLE;
 // 当前用户信息
 const ustore = useUserStore();
+const { user, menus } = storeToRefs(ustore);
 // 用户信息提示
-const { user } = storeToRefs(ustore);
-const userInfo = ref("欢迎用户：" + (user.value === null ? "游客" : user.value.username));
-// 菜单数据
-const menus = ustore.getMenus;
-// 菜单是是否折叠
+const userInfo = ref(`欢迎用户：${user.value === null ? "游客" : user.value.username}`);
+// 菜单是否折叠
 const isCollapse = ref(false);
 // 路由数据
 const router = useRouter();
 // 标签页数据
 const tabstore = useTabStore();
 const { tabs, activeIndex, indexPath } = storeToRefs(tabstore);
+
+// 根据后端返回的 iconify/旧别名图标字符串渲染菜单图标
+function renderMenuIcon(icon?: string) {
+	return useRenderIcon(icon || "ep/menu");
+}
+
 /** 标签页点击事件 */
 const tabClick = (pane: TabsPaneContext) => {
-	// 如果点击的是操作标签页
-	if (pane.paneName == "tab-operation") return;
-	// 设置激活标签页
+	if (pane.paneName === "tab-operation") return;
 	tabstore.setActiveIndex(pane.paneName as string);
-	// 进行路由跳转
 	router.push({ path: activeIndex.value });
 };
+
 /** 标签页关闭事件 */
-const tabColse = (name: TabPaneName) => {
-	// 如果删除的是当前标签
-	if (activeIndex.value == name) {
-		// 重新设置当前激活标签页为它相邻的标签页
+const tabClose = (name: TabPaneName) => {
+	if (activeIndex.value === name) {
 		const idx = tabstore.getTabIndex(name as string) - 1;
 		if (idx >= 0) activeIndex.value = tabs.value[idx].path;
 		else activeIndex.value = indexPath.value;
-		// 进行路由跳转
 		router.push({ path: activeIndex.value });
 	}
-	// 删除标签
 	tabstore.remTab(name as string);
 };
+
 /** 标签页切换事件 */
 const beforeLeave = (activeName: TabPaneName) => {
-	// 操作标签不做激活操作
-	if (activeName == "tab-operation") return false;
+	if (activeName === "tab-operation") return false;
 	return true;
 };
 
@@ -185,17 +187,13 @@ const beforeLeave = (activeName: TabPaneName) => {
 function handleClose(type: number) {
 	switch (type) {
 		case 1:
-			// 重置标签页数据
 			tabstore.reset();
-			// 跳转到首页
 			router.push({ path: activeIndex.value });
 			break;
 		case 2:
-			// 关闭当前标签页左边
 			tabstore.remBeforeTab(activeIndex.value);
 			break;
 		case 3:
-			// 关闭当前标签页右边
 			tabstore.remAfterTab(activeIndex.value);
 			break;
 		default:
@@ -215,7 +213,7 @@ function handleClose(type: number) {
 		margin-bottom: 0;
 	}
 	.el-tabs__content {
-		padding-top: 0px;
+		padding-top: 0;
 		padding-bottom: 0;
 	}
 	#tab-tab-operation {
@@ -238,10 +236,12 @@ function handleClose(type: number) {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+
 		.app-icon {
 			width: 30px;
 			border-radius: 5px;
 		}
+
 		.app-name {
 			color: white;
 			font-size: 16px;
@@ -263,6 +263,7 @@ function handleClose(type: number) {
 		text-align: right;
 	}
 }
+
 .content-row {
 	height: calc(100vh - var(--home-header-height));
 	display: flex;
