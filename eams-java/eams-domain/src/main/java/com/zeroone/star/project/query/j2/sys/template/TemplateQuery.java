@@ -12,5 +12,5 @@ import lombok.Data;
 @ApiModel("模板查询对象")
 public class TemplateQuery extends PageQuery {
     @ApiModelProperty(value = "模板名", example = "学员模板")
-    private String name;
+    private String fileName;
 }

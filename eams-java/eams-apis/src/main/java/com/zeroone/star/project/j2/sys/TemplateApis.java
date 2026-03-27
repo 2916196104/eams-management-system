@@ -18,11 +18,10 @@ public interface TemplateApis {
 
     /**
      * 获取指定模板文件
-     * @param group 组名
-     * @param storageId storageId
+     * @param templateId 模板id
      * @return 模板文件
      */
-    ResponseEntity<byte[]> downloadFile(String group, String storageId);
+    ResponseEntity<byte[]> downloadFile(String templateId);
 
     /**
      * 获取模板列表（条件+分页）

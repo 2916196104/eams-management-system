@@ -1,4 +1,4 @@
-package com.zeroone.star.sys.mapper.attachment;
+package com.zeroone.star.sys.mapper;
 
 import com.zeroone.star.sys.entity.Attachment;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -6,13 +6,13 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
- * 附件管理表 Mapper 接口
+ * 系统设置表 Mapper 接口
  * </p>
  *
- * @author dapeng
- * @since 2026-03-21
+ * @author 斗气化码
+ * @since 2026-03-27
  */
 @Mapper
-public interface AttachmentMapper extends BaseMapper<Attachment> {
+public interface TemplateMapper extends BaseMapper<Attachment> {
 
 }

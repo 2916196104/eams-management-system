@@ -5,6 +5,7 @@ import com.zeroone.star.project.dto.j2.sys.Template.TemplateDTO;
 import com.zeroone.star.project.j2.sys.TemplateApis;
 import com.zeroone.star.project.query.j2.sys.template.TemplateQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.sys.service.ITemplateService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -28,11 +30,15 @@ public class TemplateController implements TemplateApis {
     /**
      * 负责人：斗气化码
      */
+
+    @Resource
+    ITemplateService templateService;
+
     @GetMapping(value = "/import", produces = "application/octet-stream")
     @ApiOperation(value = "获取指定模板文件")
     @Override
-    public ResponseEntity<byte[]> downloadFile(String group, String storageId) {
-        return null;
+    public ResponseEntity<byte[]> downloadFile(String templateId) {
+        return templateService.downloadFile(templateId);
     }
 
     @GetMapping(value = "/list")
@@ -40,7 +46,7 @@ public class TemplateController implements TemplateApis {
     @ResponseBody
     @Override
     public JsonVO<PageDTO<TemplateDTO>> queryAll(@Validated TemplateQuery condition) {
-        return JsonVO.success(null);
+        return JsonVO.success(templateService.queryAll(condition));
     }
     /**
      * 负责人：Emanon

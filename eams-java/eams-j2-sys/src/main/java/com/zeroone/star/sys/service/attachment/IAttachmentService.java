@@ -8,10 +8,9 @@ import com.zeroone.star.project.query.j2.sys.attachment.AttachmentQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j2.sys.Attachment.AttachmentUploadVO;
 import com.zeroone.star.project.vo.j2.sys.Attachment.AttachmentUpdateVO;
-import com.zeroone.star.sys.entity.attachment.Attachment;
+import com.zeroone.star.sys.entity.Attachment;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
