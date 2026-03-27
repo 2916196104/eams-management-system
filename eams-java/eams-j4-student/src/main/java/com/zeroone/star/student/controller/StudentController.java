@@ -1,5 +1,6 @@
 package com.zeroone.star.student.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j4.student.*;
 import com.zeroone.star.project.dto.j4.student.StudentDTO;
@@ -8,6 +9,7 @@ import com.zeroone.star.project.dto.j4.student.FollowUpDTO;
 import com.zeroone.star.project.j4.student.StudentApis;
 import com.zeroone.star.project.query.j4.student.*;
 import com.zeroone.star.project.vo.j4.student.*;
+import com.zeroone.star.student.entity.StudentCourse;
 import com.zeroone.star.student.service.*;
 import com.zeroone.star.project.query.j4.student.FinanceQuery;
 import com.zeroone.star.project.vo.JsonVO;
@@ -558,9 +560,11 @@ public class StudentController implements StudentApis {
             return JsonVO.fail("学生id为空");
         }
         // 根据学生id查找表student_course
-        List<StudentCourseDO> studentCourseList = studentCourseService.lambdaQuery()
-                .ge(StudentCourseDO::getStudentId, studentId)
-                .list();
+        Page<StudentCourse> page = new Page<>(studentQuery.getPageIndex(), studentQuery.getPageSize());
+        Page<StudentCourse> studentCoursePage = studentCourseService.lambdaQuery()
+                .eq(StudentCourse::getStudentId, studentId)
+                .page(page);
+        List<StudentCourse> studentCourseList = studentCoursePage.getRecords();
 
         // 将student_course转换为VO
         List<CourseCounterVO> courseCounterVOList = msStudentMapper.toCourseCounterVOList(studentCourseList);
@@ -590,11 +594,11 @@ public class StudentController implements StudentApis {
         }
 
         PageDTO<CourseCounterVO> pageDTO = new PageDTO<>();
-        pageDTO.setPageIndex(1);
-        pageDTO.setPageSize(courseCounterVOList == null ? 0 : courseCounterVOList.size());
-        pageDTO.setTotal((long) (courseCounterVOList == null ? 0 : courseCounterVOList.size()));
-        pageDTO.setPages(1L);
+        pageDTO.setTotal(page.getTotal());
         pageDTO.setRows(courseCounterVOList);
+        pageDTO.setPageIndex(studentQuery.getPageIndex());
+        pageDTO.setPageSize(studentQuery.getPageSize());
+        pageDTO.setPages(page.getPages());
 
         return JsonVO.success(pageDTO);
     }

@@ -23,7 +23,7 @@ public class StudentQuery extends PageQuery {
     @ApiModelProperty(value = "年级ID", example = "5")
     private Integer gradeId;
 
-    @ApiModelProperty(value = "学员ID", example = "1")
+    @ApiModelProperty(value = "学员ID", example = "1", required = true)
     private String studentId;
 
     @ApiModelProperty("电话")
