@@ -18,6 +18,9 @@ public class CourseSectionDTO {
     @ApiModelProperty(value = "章节id", example = "1")
     private Long id;
 
+    @ApiModelProperty(value = "所属课程id", example = "1001", required = true)
+    private Long courseId;
+
     @ApiModelProperty(value = "章节标题", example = "素描", required = true)
     private String title;
 
