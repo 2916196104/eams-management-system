@@ -20,7 +20,7 @@ public class CourseCounterVO {
     int totalCount;
 
     @ApiModelProperty(value = "已上课次", example = "2")
-    int completeCount;
+    int countLessonComplete;
 
     @ApiModelProperty(value = "剩余课次", example = "10")
     int remainingCount;

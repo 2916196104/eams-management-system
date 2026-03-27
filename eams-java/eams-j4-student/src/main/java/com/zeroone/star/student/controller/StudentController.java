@@ -14,6 +14,7 @@ import com.zeroone.star.project.vo.JsonVO;
 import io.seata.core.model.Result;
 import com.zeroone.star.project.vo.j4.student.FollowUpVO;
 import com.zeroone.star.student.service.IStudentService;
+import com.zeroone.star.student.service.impl.MsStudentMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -51,6 +52,16 @@ import java.util.List;
 @Api(tags = "学员管理")
 @Validated
 public class StudentController implements StudentApis {
+
+    @Resource
+    private IStudentCourseService studentCourseService;
+    @Resource
+    private MsStudentMapper msStudentMapper;
+    @Resource
+    private ICourseService courseService;
+    @Resource
+    private ISubjectService subjectService;
+
     @Resource
     private IStudentService studentService;
 
@@ -542,7 +553,50 @@ public class StudentController implements StudentApis {
     @PostMapping("/getCourseCounter")
     @ApiOperation(value = "获取课程统计")
     public JsonVO<PageDTO<CourseCounterVO>> getCourseCounter(StudentQuery studentQuery) {
-        return null;
+        String studentId = studentQuery.getStudentId();
+        if(studentId.isEmpty()){
+            return JsonVO.fail("学生id为空");
+        }
+        // 根据学生id查找表student_course
+        List<StudentCourseDO> studentCourseList = studentCourseService.lambdaQuery()
+                .ge(StudentCourseDO::getStudentId, studentId)
+                .list();
+
+        // 将student_course转换为VO
+        List<CourseCounterVO> courseCounterVOList = msStudentMapper.toCourseCounterVOList(studentCourseList);
+
+        // 遍历列表，转换课程名、科目名
+        if (courseCounterVOList != null && !courseCounterVOList.isEmpty()) {
+            for (CourseCounterVO vo : courseCounterVOList) {
+                try {
+                    String courseId = vo.getCourseName();
+                    if (courseId != null && !courseId.trim().isEmpty()) {
+                        String courseName = courseService.getById(courseId).getName();
+                        if (courseName != null) {
+                            vo.setCourseName(courseName);
+                        }
+                    }
+
+                    String subjectId = vo.getSubjectName();
+                    if (subjectId != null && !subjectId.trim().isEmpty()) {
+                        String subjectName = subjectService.getById(subjectId).getName();
+                        if (subjectName != null) {
+                            vo.setSubjectName(subjectName);
+                        }
+                    }
+                } catch (Exception e) {
+                }
+            }
+        }
+
+        PageDTO<CourseCounterVO> pageDTO = new PageDTO<>();
+        pageDTO.setPageIndex(1);
+        pageDTO.setPageSize(courseCounterVOList == null ? 0 : courseCounterVOList.size());
+        pageDTO.setTotal((long) (courseCounterVOList == null ? 0 : courseCounterVOList.size()));
+        pageDTO.setPages(1L);
+        pageDTO.setRows(courseCounterVOList);
+
+        return JsonVO.success(pageDTO);
     }
 
     @Override
