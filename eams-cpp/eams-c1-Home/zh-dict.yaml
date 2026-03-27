@@ -23,7 +23,7 @@ bulletin:
     grade_count: 成绩未读数
     evaluate_count: 点评记录未读数
     homework_count: 作业未读数
-
+    
 #试听卡模块
 listening-card: 
     course: 试听卡课程名
@@ -40,25 +40,35 @@ listening-card:
     tag: 试听卡
     field:
       # 试听卡基本信息
-      id: 主键ID
-      courseId: 课程ID
-      courseName: 课程名称
-      title: 体验卡名称
-      quantity: 发行数量
-      remainingQuantity: 剩余数量
-      lessonCount: 课时数
-      expireDays: 领取后有效天数
-      endDate: 发行结束日期
-      state: 启用状态（1：启用，0：禁用）
-      creator: 创建人
-      editor: 编辑人
+      card: 
+       id: 主键ID
+       courseId: 课程ID
+       courseName: 课程名称
+       title: 体验卡名称
+       quantity: 发行数量
+       remainingQuantity: 剩余数量
+       lessonCount: 课时数
+       expireDays: 领取后有效天数
+       endDate: 发行结束日期
+       state: 启用状态（1：启用，0：禁用）
+       creator: 创建人
+       editor: 编辑人
+       editorName: 编辑人姓名
+       editTime: 编辑时间
+       recordCount: 领取记录数
       # 试听卡使用规则
-      ruleContent: 规则内容
-      ruleDescription: 规则描述
+      rule:
+       id: 规则ID
+       settingId: 规则组ID
+       name: 规则名称
+       code: 规则码
+       value: 规则值
+       valueType: 规则值类型
+       info: 规则说明
+       sortNum: 规则排序
     get:
       list: 获取试听卡列表
       rule: 获取试听卡使用规则
-
 
 #班级模块
 class:
