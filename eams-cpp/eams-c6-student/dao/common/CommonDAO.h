@@ -65,6 +65,11 @@ public:
 private:
 
 };
+class RefundDAO :public BaseDAO {
+public:
+	PtrRefundDO selectByIds(uint64_t student_course_id);
+private:
+};
 
 
 

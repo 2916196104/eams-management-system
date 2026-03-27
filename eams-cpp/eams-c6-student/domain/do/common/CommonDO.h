@@ -116,3 +116,36 @@ public:
 	}
 };
 typedef std::shared_ptr<StudentCourseDO> PtrStudentCourseDO;
+class RefundDO : public BaseDO {
+private:
+	//主键
+	MYSQL_SYNTHESIZE(uint64_t, id, Id);
+	//学生id
+	MYSQL_SYNTHESIZE(uint64_t, studentId, StudentId);
+	//学生课程关联表id
+	MYSQL_SYNTHESIZE(uint64_t, studentCourseId, StudentCourseId);
+	//退费金额
+	MYSQL_SYNTHESIZE(double, refundAmount, RefundAmount);
+	//退费课时
+	MYSQL_SYNTHESIZE(uint64_t, refundLessonCount, RefundLessonCount);
+	//退费发起时间
+	MYSQL_SYNTHESIZE(std::string, applyTime, ApplyTime);
+	//退费说明
+	MYSQL_SYNTHESIZE(std::string, remark, Remark);
+	//退费状态
+	MYSQL_SYNTHESIZE(int, verifyState, VerifyState);
+public:
+	RefundDO():BaseDO("refund") {
+		MYSQL_ADD_FIELD_PK("id", "i", id);
+
+		// 必须填写的核心字段
+		MYSQL_ADD_FIELD("student_id", "i", studentId);
+		MYSQL_ADD_FIELD("student_course_id", "i", studentCourseId);
+		MYSQL_ADD_FIELD("refund_amount", "d", refundAmount);
+		MYSQL_ADD_FIELD("refund_lesson_count", "i", refundLessonCount);
+		MYSQL_ADD_FIELD("apply_time", "s", applyTime);
+		MYSQL_ADD_FIELD("remark", "s", remark);
+		MYSQL_ADD_FIELD("verify_state", "i", verifyState);
+	}
+};
+typedef std::shared_ptr<RefundDO> PtrRefundDO;

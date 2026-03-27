@@ -23,6 +23,8 @@ common:
    pay-amount: 付费总金额
    subject-id: 科目id
    course-id: 课程id
+   lessons: 退课课时
+   reason: 退款原因
   contact-record:
    ids: 跟进记录 ID 列表
   file:

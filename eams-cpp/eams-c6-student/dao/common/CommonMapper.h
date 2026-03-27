@@ -157,6 +157,23 @@ public:
 		return data;
 	}
 };
+class PtrRefundMapper :public Mapper<PtrRefundDO> {
+public:
+	PtrRefundDO mapper(ResultSet* resultSet) const override {
+		auto data = std::make_shared<RefundDO>();
+		data->setStudentCourseId(resultSet->getUInt64("student_course_id"));
+		data->setId(resultSet->getUInt64("id"));
+		data->setStudentId(resultSet->getUInt64("student_id"));
+		data->setStudentCourseId(resultSet->getUInt64("student_course_id"));
+		data->setRefundAmount(resultSet->getDouble("refund_amount"));
+		data->setRefundLessonCount(resultSet->getUInt64("refund_lesson_count"));
+		data->setApplyTime(resultSet->getString("apply_time"));
+		data->setRemark(resultSet->getString("remark"));
+		data->setVerifyState(resultSet->getInt("verify_state"));
+		return data;
+	}
+private:
+};
 class StudentCourseMapper : public Mapper<StudentCourseDO>
 {
 public:

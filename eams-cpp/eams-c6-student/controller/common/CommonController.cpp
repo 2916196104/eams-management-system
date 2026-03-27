@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CommonController.h"
+#include<iostream>
 #include "../../lib-mysql/include/ConnectionPool.h"
 #include "../../domain/do/DoInclude.h"
 #include "../../dao/common/CommonDAO.h"
@@ -152,7 +153,82 @@ PayFeesJsonVO::Wrapper CommonController::exePayFees(const PayFeesDTO::Wrapper& d
 	//pool.ReleaseConnection(conn);
 	//return vo;
 }
+RefundJsonVO::Wrapper CommonController::executeRefund(const RefundDTO::Wrapper& dto) {
+	auto vo = RefundJsonVO::createShared();
+	if (!dto) {
+		vo->setStatus(RS_FAIL);
+		vo->message = "Parameter cannot be empty";
+		return vo;
+	}
+	if (!dto->studentId) {
+		vo->setStatus(RS_FAIL);
+		vo->message = "Student ID cannot be empty";
+		return vo;
+	}
+	if (!dto->courseId) {
+		vo->setStatus(RS_FAIL);
+		vo->message = "The course ID cannot be empty";
+		return vo;
+	}
+	if (!dto->subjectId) {
+		vo->setStatus(RS_FAIL);
+		vo->message = "Subject ID cannot be empty";
+		return vo;
+	}
+	if (dto->lessons <= 0) {
+		vo->setStatus(RS_FAIL);
+		vo->message = "Error in course withdrawal class hour parameter";
+		return vo;
+	}
+	StudentCourseDAO dao;
+	auto data = dao.selectByIds(dto->studentId, dto->courseId, dto->subjectId);
+	if (!data) {
+		vo->setStatus(RS_FAIL);
+		vo->message = "Student course record not found";
+		return vo;
+	}
+	RefundDAO Dao;
+	auto findData = Dao.selectByIds(data->getId());
+	if (findData) {
+		vo->setStatus(RS_FAIL);
+		vo->message = "Application submitted, please do not submit again";
+		return vo;
+	}
+	if (data->getPaidAmount() < dto->refundAmount) {
+		vo->setStatus(RS_FAIL);
+		vo->message = "The refunded amount is greater than the paid amount";
+		return vo;
+	}
+	//std::cout << data->getPaidAmount() << " " << dto->refundAmount;
+	auto insertData = std::make_shared<RefundDO>();
+	time_t now = time(NULL);
+	// 将当前时间转换为本地时间
+	struct tm* local_tm = localtime(&now);
 
+	// 使用 strftime 格式化时间
+	char buffer[80];
+	strftime(buffer, 80, "%Y-%m-%d %H:%M:%S", local_tm);
+	insertData->setApplyTime(buffer);
+	insertData->setRefundAmount(dto->refundAmount);
+	insertData->setRefundLessonCount(dto->lessons);
+	insertData->setRemark(dto->reason);
+	insertData->setStudentCourseId(data->getId());
+	insertData->setVerifyState(0);
+	insertData->setStudentId(dto->studentId);
+	
+
+	auto row = Dao.insertAutoPk(*insertData);
+	if (row == 0) {
+		vo->setStatus(RS_FAIL);
+		vo->message = "Application failed, please try again later";
+		return vo;
+	}
+	else {
+		vo->setStatus(RS_SUCCESS);
+		vo->message = "Application successful";
+		return vo;
+	}
+}
 /**
  * 调整积分执行函数
  */

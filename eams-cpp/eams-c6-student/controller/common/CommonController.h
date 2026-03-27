@@ -278,9 +278,7 @@ private:
 		return{};
 	}
 	PayFeesJsonVO::Wrapper exePayFees(const PayFeesDTO::Wrapper& dto);
-	RefundJsonVO::Wrapper executeRefund(const RefundDTO::Wrapper& dto) {
-		return {};
-	}
+	RefundJsonVO::Wrapper executeRefund(const RefundDTO::Wrapper& dto);
 };
 
 #undef API_TAG

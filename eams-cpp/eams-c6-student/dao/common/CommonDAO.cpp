@@ -197,3 +197,8 @@ int StudentCourseDAO::updatePayStatus(uint64_t id, double paidAmount, int payOff
     params.push_back(SqlParam("id", std::make_shared<uint64_t>(id)));
     return getSqlSession()->executeUpdate(sql, params);
 }
+PtrRefundDO RefundDAO::selectByIds(uint64_t student_course_id) {
+    string sql = "SELECT * FROM refund WHERE student_course_id=" + std::to_string(student_course_id);
+    return getSqlSession()->executeQueryOne<PtrRefundDO>(sql, PtrRefundMapper(), "");
+
+}
