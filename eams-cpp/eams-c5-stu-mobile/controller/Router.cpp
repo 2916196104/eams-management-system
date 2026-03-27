@@ -22,7 +22,8 @@
 #include "home/credit/redeemcredit/RedeemCreditController.h"
 #include "../controller/home/LessonComment/LessonCommentController.h"
 #include "home/EnrollCourse/EnrollCourseController.h"
-
+#include"home/announcement/GetallannouncementController.h"
+#include"home/announcement/GetdisplayedannouncementController.h"
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
 // 简化绑定控制器宏定义
@@ -46,4 +47,6 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(RedeemCreditController);
 	ROUTER_SIMPLE_BIND(LessonCommentController);
 	ROUTER_SIMPLE_BIND(EnrollCourseController);
+	ROUTER_SIMPLE_BIND(GetallannouncementController);
+	ROUTER_SIMPLE_BIND(GetdisplayedannouncementController);
 }
