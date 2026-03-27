@@ -35,7 +35,7 @@ public:
 	ENDPOINT_INFO(queryClassList) {
 		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("class.list"));
 		API_DEF_ADD_AUTH();
-		API_DEF_ADD_RSP_JSON_WRAPPER(ClassDetailPageJsonVO);
+		API_DEF_ADD_RSP_JSON_WRAPPER(ClassPageJsonVO);
 		// 
 		API_DEF_ADD_PAGE_PARAMS();
 		// 
@@ -111,8 +111,8 @@ private:
 	// 业务服务
 	ClassService classService;
 	
-	ClassDetailPageJsonVO::Wrapper execQueryClassList(const ClassQuery::Wrapper& query) {
-		return ClassDetailPageJsonVO::createShared();
+	ClassPageJsonVO::Wrapper execQueryClassList(const ClassQuery::Wrapper& query) {
+		return ClassPageJsonVO::createShared();
 	}
 	ClassDetailJsonVO::Wrapper execQueryClassDetail(const ClassDTO::Wrapper& query) {
 		return ClassDetailJsonVO::createShared();
