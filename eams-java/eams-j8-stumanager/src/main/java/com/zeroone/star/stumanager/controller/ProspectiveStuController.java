@@ -6,7 +6,9 @@ import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.zeroone.star.project.components.easyexcel.EasyExcelComponent;
 import com.zeroone.star.project.j8.stumanager.ProspectiveStuApis;
+import com.zeroone.star.project.query.j8.stumanager.ProspectiveStuQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.project.vo.ResultStatus;
 import com.zeroone.star.project.vo.j8.stumanager.ProspectiveStuVO;
 import com.zeroone.star.stumanager.entity.Student;
 import com.zeroone.star.stumanager.entity.User;
@@ -48,9 +50,10 @@ public class ProspectiveStuController implements ProspectiveStuApis {
     @ApiOperation("导出意向学员Excel")
     @PostMapping("/export")
     @Override
-    public void exportProspectiveStu(HttpServletResponse response, @ApiParam(value = "导出意向学员的id列表", example = "[1, 2, 3]", required = true) @RequestBody List<Long> ids) throws IOException {
+    public void exportProspectiveStu(HttpServletResponse response,
+                                     @RequestBody ProspectiveStuQuery prospectiveStuQuery) throws IOException {
 
-        List<ProspectiveStuVO> list = studentService.queryStudents(ids);
+        List<ProspectiveStuVO> list = studentService.queryStudents(prospectiveStuQuery.getIds());
 
         String filename = "student-" + DateTime.now().toString("yyyyMMddHHmmssS") + ".xlsx";
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -60,7 +63,6 @@ public class ProspectiveStuController implements ProspectiveStuApis {
         try {
             export("student", response.getOutputStream(), ProspectiveStuVO.class, list);
         } catch (Exception e) {
-            e.printStackTrace();
             // 如果流还未提交，可重置响应返回错误；否则只能记录日志
             if (!response.isCommitted()) {
                 response.reset();
@@ -93,11 +95,19 @@ public class ProspectiveStuController implements ProspectiveStuApis {
     @ApiOperation("导入意向学员")
     @PostMapping("/import")
     @Override
-    public JsonVO<String> importProspectiveStu(@ApiParam(value = "意向学员excel数据", required = true) MultipartFile file) throws IOException {
-        InputStream input = file.getInputStream();
-        List<ProspectiveStuVO> list = excel.parseExcel(input, "student", ProspectiveStuVO.class);
-        if(list != null && list.size() > 0) {
+    public JsonVO<String> importProspectiveStu(@ApiParam(value = "意向学员excel数据", required = true) MultipartFile file) {
 
+        String fileName = file.getOriginalFilename();
+        if(fileName == null || !fileName.endsWith(".xlsx") || !fileName.toLowerCase().endsWith(".xls")) {
+            return JsonVO.fail("文件类型错误，仅支持.xlsx和.xls文件的解析");
+        }
+
+        try {
+            InputStream input = file.getInputStream();
+            List<ProspectiveStuVO> list = excel.parseExcel(input, "student", ProspectiveStuVO.class);
+            if(list == null || list.isEmpty()) {
+                return JsonVO.create("文件内容为空", ResultStatus.FAIL.getCode(), "文件没有数据");
+            }
             List<Student> students = list.stream().map(
                     item -> {
                         User user = new User();
@@ -117,11 +127,19 @@ public class ProspectiveStuController implements ProspectiveStuApis {
                     }
             ).collect(Collectors.toList());
 
-            studentService.saveBatch(students);
-
-            return JsonVO.success("导入成功");
-        } else {
-            return JsonVO.fail("导入失败");
+            int success = 0;
+            int fail = 0;
+            for (Student student : students) {
+                if (studentService.save(student)) {
+                    success++;
+                } else {
+                    fail++;
+                }
+            }
+            return JsonVO.success("导入完成, 成功: " + success + "条, 失败: " + fail + "条");
+        } catch (Exception e) {
+            return JsonVO.create("导入学员失败", ResultStatus.FAIL.getCode(), e.getMessage());
         }
+
     }
 }
