@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #ifndef _POSITION_CONTROLLER_
 #define _POSITION_CONTROLLER_
 

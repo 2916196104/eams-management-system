@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef _POSITIONDATA_CONTROLLER_ 
 #define _POSITIONDATA_CONTROLLER_ 
