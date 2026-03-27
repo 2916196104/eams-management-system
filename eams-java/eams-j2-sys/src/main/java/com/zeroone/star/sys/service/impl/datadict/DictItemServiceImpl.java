@@ -1,4 +1,4 @@
-package com.zeroone.star.sys.service.impl;
+package com.zeroone.star.sys.service.impl.datadict;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -6,11 +6,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j2.sys.Datadict.DictItemDTO;
+import com.zeroone.star.project.query.PageQuery;
 import com.zeroone.star.project.query.j2.sys.datadict.DictItemQuery;
 import com.zeroone.star.project.vo.j2.sys.Datadict.DatadictVO;
 import com.zeroone.star.sys.entity.DictItem;
-import com.zeroone.star.sys.mapper.DictItemMapper;
-import com.zeroone.star.sys.service.IDictItemService;
+import com.zeroone.star.sys.mapper.datadict.DictItemMapper;
+import com.zeroone.star.sys.service.datadict.DictItemService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,7 +25,7 @@ import java.util.List;
  * @version 1.0.0
  */
 @Service
-public class DictItemServiceImpl extends ServiceImpl<DictItemMapper, DictItem> implements IDictItemService {
+public class DictItemServiceImpl extends ServiceImpl<DictItemMapper, DictItem> implements DictItemService {
 
     @Resource
     private DictItemMapper dictItemMapper;
@@ -99,6 +100,18 @@ public class DictItemServiceImpl extends ServiceImpl<DictItemMapper, DictItem> i
         wrapper.eq("dict_id", query.getDictId());
         Page<DictItem> resultPage = this.page(mpPage, wrapper);
         return PageDTO.create(resultPage, DictItemDTO.class);
+    }
 
+    @Override
+    public PageDTO<DatadictVO> listDatadictByDictIdPage(Long dictId, PageQuery query) {
+        Page<DictItem> mpPage = new Page<>(query.getPageIndex(), query.getPageSize());
+
+        QueryWrapper<DictItem> wrapper = new QueryWrapper<>();
+        wrapper.eq("dict_id", dictId);
+        wrapper.orderByAsc("sort_num");
+
+        Page<DictItem> resultPage = page(mpPage, wrapper);
+
+        return PageDTO.create(resultPage, DatadictVO.class);
     }
 }

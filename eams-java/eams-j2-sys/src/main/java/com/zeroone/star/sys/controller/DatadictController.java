@@ -5,25 +5,25 @@ import com.zeroone.star.project.dto.j2.sys.Datadict.DictDTO;
 import com.zeroone.star.project.dto.j2.sys.Datadict.DictItemDTO;
 import com.zeroone.star.project.dto.j2.sys.Datadict.DictTypeRemoveDTO;
 import com.zeroone.star.project.dto.j2.sys.Datadict.DictTypeSaveDTO;
-import com.zeroone.star.project.query.j2.sys.datadict.DictItemQuery;
 import com.zeroone.star.project.j2.sys.DatadictApis;
 import com.zeroone.star.project.query.PageQuery;
+import com.zeroone.star.project.query.j2.sys.datadict.DictItemQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j2.sys.Datadict.DatadictVO;
-import com.zeroone.star.sys.service.IDictItemService;
+import com.zeroone.star.sys.entity.Dict;
+import com.zeroone.star.sys.service.datadict.DictService;
+import com.zeroone.star.sys.service.datadict.DictItemService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import com.zeroone.star.sys.entity.Dict;
-import com.zeroone.star.sys.service.DictService;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.stream.Collectors;
-
 import javax.annotation.Resource;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/sys/datadict")
@@ -32,18 +32,19 @@ import java.util.List;
 public class DatadictController implements DatadictApis {
 
     @Resource
-    private IDictItemService IDictItemService;
+    private DictItemService dictItemService;
+
+    @Autowired
+    private DictService dictService;
 
     /**
      * 负责人：开果结苡
      */
-    @Autowired
-    DictService dictService;
-
     @GetMapping("/type-name-list")
     @ApiOperation("获取字典类型名称列表")
     @Override
     public JsonVO<List<DictDTO>> query() {
+
         List<Dict> dictList=dictService.list();
         List<DictDTO> dtoList = dictList.stream().map(dict -> {
             DictDTO dto = new DictDTO();
@@ -56,7 +57,7 @@ public class DatadictController implements DatadictApis {
     @GetMapping("/type")
     @ApiOperation("获取字典类型列表(条件+分页)")
     public JsonVO<PageDTO<DictItemDTO>> queryPage(DictItemQuery condition) {
-        PageDTO<DictItemDTO> pageData = IDictItemService.queryPage(condition);
+        PageDTO<DictItemDTO> pageData = dictItemService.queryPage(condition);
         return JsonVO.success(pageData);
     }
 
@@ -66,21 +67,26 @@ public class DatadictController implements DatadictApis {
     @PostMapping("/save-dict-type")
     @ApiOperation("保存字典类型")
     @Override
-    public JsonVO<Boolean> saveDictType(@RequestBody DictTypeSaveDTO saveDTO){ return null;}
+    public JsonVO<Boolean> saveDictType(@RequestBody DictTypeSaveDTO saveDTO){
+        return JsonVO.success(dictService.saveDictType(saveDTO));
+    }
 
     @DeleteMapping("/remove-dict-type")
     @ApiOperation("删除字典类型")
     @Override
-    public JsonVO<Boolean> removeDictType(@RequestBody DictTypeRemoveDTO removeDTO){ return null;}
+    public JsonVO<Boolean> removeDictType(@RequestBody DictTypeRemoveDTO removeDTO){
+        return JsonVO.success(dictService.removeDictType(removeDTO));
+    }
 
     @GetMapping("/list-by-dict-id")
     @ApiOperation(value = "获取字典名称列表")
     @Override
     public JsonVO<PageDTO<DatadictVO>> listDatadictByDictIdPage(
-            @RequestParam("dictId") Long dictId,
-            @RequestBody PageQuery query) {
-        return null;
+            @NotNull(message = "字典类型ID不能为空") @RequestParam("dictId") Long dictId,
+            @Valid @RequestBody PageQuery query) {
+        return JsonVO.success(dictItemService.listDatadictByDictIdPage(dictId, query));
     }
+
 
     /**
      * 负责人：倾枫
@@ -90,7 +96,7 @@ public class DatadictController implements DatadictApis {
     @GetMapping("/{id}")
     @Override
     public JsonVO<DictItemDTO> getDatadictById(@PathVariable("id") Long id) {
-        DictItemDTO dictItemDTO = IDictItemService.getDatadictById(id);
+        DictItemDTO dictItemDTO = dictItemService.getDatadictById(id);
         return JsonVO.success(dictItemDTO);
     }
 
@@ -98,7 +104,7 @@ public class DatadictController implements DatadictApis {
     @ApiOperation(value = "获取字典列表（条件+分页）", notes = "分页查询数据字典列表")
     @Override
     public JsonVO<PageDTO<DatadictVO>> listDatadict(@Validated DictItemQuery query) {
-        PageDTO<DatadictVO> datadictVOPageDTO = IDictItemService.listDatadictByType(query);
+        PageDTO<DatadictVO> datadictVOPageDTO = dictItemService.listDatadictByType(query);
         return JsonVO.success(datadictVOPageDTO);
     }
 
@@ -106,7 +112,7 @@ public class DatadictController implements DatadictApis {
     @ApiOperation(value = "保存字典", notes = "添加字典")
     @Override
     public JsonVO<String> addDatadict(@Validated @RequestBody DictItemDTO dto) {
-        IDictItemService.addDatadict(dto);
+        dictItemService.addDatadict(dto);
         return JsonVO.success(null);
     }
 
@@ -114,7 +120,7 @@ public class DatadictController implements DatadictApis {
     @ApiOperation(value = "修改字典", notes = "修改字典")
     @Override
     public JsonVO<String> updateDatadict(@Validated @RequestBody DictItemDTO dto) {
-        IDictItemService.updateDatadict(dto);
+        dictItemService.updateDatadict(dto);
         return JsonVO.success(null);
     }
 
@@ -122,7 +128,7 @@ public class DatadictController implements DatadictApis {
     @ApiOperation(value = "删除字典（支持批量）", notes = "删除字典（支持批量）")
     @Override
     public JsonVO<String> deleteDatadict(@RequestBody List<Long> ids) {
-        IDictItemService.deleteDatadict(ids);
+        dictItemService.deleteDatadict(ids);
         return JsonVO.success(null);
     }
 }

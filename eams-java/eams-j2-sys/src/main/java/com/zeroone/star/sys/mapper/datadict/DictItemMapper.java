@@ -1,4 +1,4 @@
-package com.zeroone.star.sys.mapper;
+package com.zeroone.star.sys.mapper.datadict;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

@@ -1,8 +1,10 @@
-package com.zeroone.star.sys.service;
+package com.zeroone.star.sys.service.datadict;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j2.sys.Datadict.DictItemDTO;
+import com.zeroone.star.project.dto.j2.sys.Datadict.DictItemDTO;
+import com.zeroone.star.project.query.PageQuery;
 import com.zeroone.star.project.query.j2.sys.datadict.DictItemQuery;
 import com.zeroone.star.project.vo.j2.sys.Datadict.DatadictVO;
 import com.zeroone.star.sys.entity.DictItem;
@@ -16,7 +18,7 @@ import java.util.List;
  * @author softmaple
  * @version 1.0.0
  */
-public interface IDictItemService extends IService<DictItem> {
+public interface DictItemService extends IService<DictItem> {
     /**
      * 根据ID获取数据字典
      * @param id 字典id
@@ -47,6 +49,7 @@ public interface IDictItemService extends IService<DictItem> {
      */
     void deleteDatadict(List<Long> ids);
 
-
     PageDTO<DictItemDTO> queryPage(DictItemQuery condition);
+
+    PageDTO<DatadictVO> listDatadictByDictIdPage(Long dictId, PageQuery query);
 }
