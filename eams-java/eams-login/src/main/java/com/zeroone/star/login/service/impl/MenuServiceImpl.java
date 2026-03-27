@@ -35,7 +35,6 @@ class LoginMenuTreeVO extends MenuTreeVO {
 }
 
 @Service
-@ConditionalOnBean(DataSource.class)
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IMenuService {
 
     @Override
