@@ -23,6 +23,5 @@ public class SwaggerConfig {
         return SwaggerCore.defaultDocketBuilder("学员模块", "com.zeroone.star.stumanager.controller", "stumanager");
 
     }
-
 }
 
