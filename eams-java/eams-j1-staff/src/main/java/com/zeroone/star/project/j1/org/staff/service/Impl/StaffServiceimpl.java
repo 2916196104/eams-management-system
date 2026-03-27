@@ -39,7 +39,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import cn.hutool.core.convert.Convert;
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayOutputStream;
 import java.net.URLEncoder;
@@ -132,14 +131,11 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
         List<StaffVO> voList = pageInfo.getList().stream()
                 .map(staffDO -> {
                     StaffVO staffVO = new StaffVO();
-
-                    // ====================== 【修复】先复制，再安全赋值 ======================
                     try {
                         BeanUtils.copyProperties(staffDO, staffVO);
                     } catch (Exception e) {
                         // 复制失败跳过，避免整个接口挂掉
                     }
-
                     StaffOrginfo orgInfoDO = staffOrginfoMapper.selectOne(
                             Wrappers.lambdaQuery(StaffOrginfo.class)
                                     .eq(StaffOrginfo::getStaffId, staffDO.getId())
@@ -149,8 +145,6 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
                     if (orgInfoDO != null) {
                         // 只赋值非空字段，绝对不抛异常
                         staffVO.setOrgId(orgId);
-                        staffVO.setPositionId(orgInfoDO.getPositionId());
-
                         if (orgInfoDO.getPositionId() != null) {
                             StaffPosition positionDO = staffPositionMapper.selectById(orgInfoDO.getPositionId());
                             if (positionDO != null) {
@@ -175,9 +169,6 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
 
     @Override
     public JsonVO<StaffDetailsVO> queryStaff(StaffDetailQuery condition) {
-        if (condition.getId() == null) {
-            return JsonVO.fail("员工ID不能为空");
-        }
 
         LambdaQueryWrapper<Staff> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Staff::getId, condition.getId())
@@ -203,17 +194,12 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
 
         if (orgInfoDO != null) {
             staffVO.setOrgId(orgId);
-            staffVO.setGroupId(orgInfoDO.getGroupId());
-            staffVO.setComId(orgInfoDO.getComId());
-            staffVO.setDptId(orgInfoDO.getDptId());
             staffVO.setPositionId(orgInfoDO.getPositionId());
 
             // 设置职位名称
             if (orgInfoDO.getPositionId() != null) {
                 StaffPosition positionDO = staffPositionMapper.selectById(orgInfoDO.getPositionId());
-                if (positionDO != null) {
-                    staffVO.setPositionName(positionDO.getName());
-                }
+
             }
         }
 
@@ -244,16 +230,12 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
         Staff staff = new Staff();
         BeanUtils.copyProperties(condition, staff);
         Long staffId;
-        if (condition.getId() == null) {
+        if (condition.getMobile() == null) {
             this.staffMapper.insert(staff);
             staffId = staff.getId();
-
             StaffOrginfo orgInfoDO = new StaffOrginfo();
             orgInfoDO.setStaffId(staffId);
             orgInfoDO.setOrgId(orgId);
-            orgInfoDO.setGroupId(condition.getGroupId());
-            orgInfoDO.setComId(condition.getComId());
-            orgInfoDO.setDptId(condition.getDptId());
             orgInfoDO.setPositionId(condition.getPositionId());
             orgInfoDO.setDeleted(0);
             staffOrginfoMapper.insert(orgInfoDO);
@@ -264,36 +246,42 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
             orgInfoDO.setStaffId(staffId);
             orgInfoDO.setOrgId(orgId);
             orgInfoDO.setPositionId(condition.getPositionId());
-            orgInfoDO.setGroupId(condition.getGroupId());
-            orgInfoDO.setComId(condition.getComId());
-            orgInfoDO.setDptId(condition.getDptId());
-
             LambdaUpdateWrapper<StaffOrginfo> updateWrapper = new LambdaUpdateWrapper<>();
             updateWrapper.eq(StaffOrginfo::getStaffId, staffId);
             staffOrginfoMapper.update(orgInfoDO, updateWrapper);
         }
-
         return JsonVO.success(staffId);
     }
-
     @Override
     public JsonVO<Long> removeStaff(List<Long> ids) {
         if (ids == null || ids.isEmpty()) {
             return JsonVO.fail("请选择要删除的员工");
         }
 
+        // 1. 先查询要删除的员工，判断是否已经被删除
+        LambdaQueryWrapper<Staff> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.in(Staff::getId, ids).eq(Staff::getDeleted, 1);
+        List<Staff> deletedStaff = staffMapper.selectList(queryWrapper);
+
+        if (!deletedStaff.isEmpty()) {
+            return JsonVO.fail("所选员工中已有已被删除的记录");
+        }
+
+        // 2. 逻辑删除员工
         Staff staff = new Staff();
         staff.setDeleted(1);
         LambdaUpdateWrapper<Staff> staffWrapper = Wrappers.lambdaUpdate();
         staffWrapper.in(Staff::getId, ids);
         int staffDeleteCount = staffMapper.update(staff, staffWrapper);
 
+        // 3. 逻辑删除员工机构信息
         StaffOrginfo orgInfoDO = new StaffOrginfo();
         orgInfoDO.setDeleted(1);
         LambdaUpdateWrapper<StaffOrginfo> orgWrapper = Wrappers.lambdaUpdate();
         orgWrapper.in(StaffOrginfo::getStaffId, ids);
         staffOrginfoMapper.update(orgInfoDO, orgWrapper);
 
+        // 4. 判断删除结果
         if (staffDeleteCount == 0) {
             return JsonVO.fail("删除失败：所选员工不存在或已被删除");
         }
@@ -302,7 +290,7 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
 
     @Override
     public JsonVO<Long> updateStaffStatus(StaffUpdateDTO condition) {
-        List<Long> ids = condition.getIds();
+        List<Long> ids = condition.getStaffIds();
         Integer status = condition.getStatus();
         if (ids == null || ids.isEmpty()) {
             return JsonVO.fail("请选择要操作的员工");
@@ -324,9 +312,14 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
 
     @Override
     public JsonVO<Long> setStaff(StaffSetDTO condition) {
-        List<Long> staffIds = condition.getIds();
+        List<Long> staffIds = condition.getStaffIds(); // 从 getIds() 改为 getStaffIds()
         Long positionId = condition.getPositionId();
+        Long roleId = condition.getRoleId(); // 新增：获取 roleId
 
+        // 新增 roleId 校验
+        if (roleId == null) {
+            return JsonVO.fail("请选择要设置的角色");
+        }
         if (staffIds == null || staffIds.isEmpty()) {
             return JsonVO.fail("请选择要设置角色的员工");
         }
