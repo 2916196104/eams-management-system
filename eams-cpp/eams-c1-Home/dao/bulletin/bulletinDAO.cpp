@@ -27,8 +27,7 @@ ptrbulletinDO bulletinDAO::selectLatest()
 uint64_t bulletinDAO::count()
 {
 	string sql = "SELECT COUNT(*) FROM advertisement WHERE deleted=0 AND state=1";
-
-	return sqlSession->executeQueryNumerical(sql);
+	return static_cast<uint64_t>(sqlSession->executeQueryNumerical(sql));
 }
 
 /**
@@ -55,23 +54,13 @@ std::list<bulletinDO> bulletinDAO::selectWithPage(const PageQuery::Wrapper& quer
 }
 
 /**
- *
- * 获取小红点未读数
- *
+*  未读数查询
+ * 分别查询作业，成绩，点评未读数
  */
- // 用于映射单个整数值的Mapper
-class CountMapper : public Mapper<int32_t>
-{
-public:
-	int32_t mapper(ResultSet* resultSet) const override
-	{
-		return resultSet->getInt(1);
-	}
-};
-
+// 作业未读数查询
 int32_t redDAO::getHomeworkUnreadCount(int64_t studentId)
 {
-	std::cout << "执行作业未读数查询，studentId=" << studentId << std::endl;
+	//std::cout << "执行作业未读数查询，studentId=" << studentId << std::endl;
 
 	// 与数据库验证完全一致的SQL
 	std::ostringstream sql;
@@ -86,7 +75,7 @@ int32_t redDAO::getHomeworkUnreadCount(int64_t studentId)
 		<< ") "
 		<< "AND deleted = 0";
 
-	std::cout << "作业查询SQL: " << sql.str() << std::endl;
+	//std::cout << "作业查询SQL: " << sql.str() << std::endl;
 
 	try {
 		CountMapper mapper;
@@ -94,7 +83,7 @@ int32_t redDAO::getHomeworkUnreadCount(int64_t studentId)
 		auto result = sqlSession->executeQuery<int32_t>(sql.str(), mapper, emptyParams);
 		if (!result.empty()) {
 			int32_t count = result.front();
-			std::cout << "作业未读数查询结果: " << count << std::endl;
+			//std::cout << "作业未读数查询结果: " << count << std::endl;
 			return count;
 		}
 	}
@@ -105,9 +94,10 @@ int32_t redDAO::getHomeworkUnreadCount(int64_t studentId)
 	return 0;
 }
 
+// 点评记录未读数查询
 int32_t redDAO::getEvaluateUnreadCount(int64_t studentId)
 {
-	std::cout << "执行点评未读数查询，studentId=" << studentId << std::endl;
+	//std::cout << "执行点评未读数查询，studentId=" << studentId << std::endl;
 
 	// 先获取学生的redpoint_evaluate
 	std::string redpointEvaluate = "1970-01-01 00:00:00";
@@ -136,7 +126,7 @@ int32_t redDAO::getEvaluateUnreadCount(int64_t studentId)
 		}
 	}
 
-	std::cout << "redpoint_evaluate: " << redpointEvaluate << std::endl;
+	//std::cout << "redpoint_evaluate: " << redpointEvaluate << std::endl;
 
 	// 使用学生的redpoint_evaluate进行查询
 	std::ostringstream sql;
@@ -145,7 +135,7 @@ int32_t redDAO::getEvaluateUnreadCount(int64_t studentId)
 		<< " AND evaluate_time IS NOT NULL "
 		<< "AND evaluate_time > '" << redpointEvaluate << "'";
 
-	std::cout << "点评查询SQL: " << sql.str() << std::endl;
+	//std::cout << "点评查询SQL: " << sql.str() << std::endl;
 
 	try {
 		CountMapper mapper;
@@ -153,7 +143,7 @@ int32_t redDAO::getEvaluateUnreadCount(int64_t studentId)
 		auto result = sqlSession->executeQuery<int32_t>(sql.str(), mapper, emptyParams);
 		if (!result.empty()) {
 			int32_t count = result.front();
-			std::cout << "点评未读数查询结果: " << count << std::endl;
+			//std::cout << "点评未读数查询结果: " << count << std::endl;
 			return count;
 		}
 	}
@@ -164,9 +154,10 @@ int32_t redDAO::getEvaluateUnreadCount(int64_t studentId)
 	return 0;
 }
 
+// 成绩未读数查询
 int32_t redDAO::getGradeUnreadCount(int64_t studentId)
 {
-	std::cout << "执行成绩未读数查询，studentId=" << studentId << std::endl;
+	//std::cout << "执行成绩未读数查询，studentId=" << studentId << std::endl;
 
 	// 先获取学生的redpoint_grade
 	std::string redpointGrade = "1970-01-01 00:00:00";
@@ -195,7 +186,7 @@ int32_t redDAO::getGradeUnreadCount(int64_t studentId)
 		}
 	}
 
-	std::cout << "redpoint_grade: " << redpointGrade << std::endl;
+	//std::cout << "redpoint_grade: " << redpointGrade << std::endl;
 
 	// 使用学生的redpoint_grade进行查询
 	std::ostringstream sql;
@@ -203,7 +194,7 @@ int32_t redDAO::getGradeUnreadCount(int64_t studentId)
 		<< "WHERE student_id = " << studentId
 		<< " AND add_time > '" << redpointGrade << "'";
 
-	std::cout << "成绩查询SQL: " << sql.str() << std::endl;
+	//std::cout << "成绩查询SQL: " << sql.str() << std::endl;
 
 	try {
 		CountMapper mapper;
@@ -211,7 +202,7 @@ int32_t redDAO::getGradeUnreadCount(int64_t studentId)
 		auto result = sqlSession->executeQuery<int32_t>(sql.str(), mapper, emptyParams);
 		if (!result.empty()) {
 			int32_t count = result.front();
-			std::cout << "成绩未读数查询结果: " << count << std::endl;
+			//std::cout << "成绩未读数查询结果: " << count << std::endl;
 			return count;
 		}
 	}
@@ -222,37 +213,38 @@ int32_t redDAO::getGradeUnreadCount(int64_t studentId)
 	return 0;
 }
 
+// 聚合查询所有未读数
 std::shared_ptr<redDO> redDAO::getUnreadCounts(int64_t studentId)
 {
-	std::cout << "=== 开始执行分步查询 ===" << std::endl;
-	std::cout << "studentId: " << studentId << std::endl;
+	/*std::cout << "=== 开始执行分步查询 ===" << std::endl;
+	std::cout << "studentId: " << studentId << std::endl;*/
 
 	auto result = std::make_shared<redDO>();
 
 	// 先测试一个简单查询，确保数据库连接正常
-	{
-		std::ostringstream testSql;
-		testSql << "SELECT COUNT(*) as cnt FROM student WHERE id = " << studentId;
+	//{
+	//	std::ostringstream testSql;
+	//	testSql << "SELECT COUNT(*) as cnt FROM student WHERE id = " << studentId;
 
-		std::cout << "测试SQL: " << testSql.str() << std::endl;
+	//	//std::cout << "测试SQL: " << testSql.str() << std::endl;
 
-		try {
-			CountMapper mapper;
-			SqlParams emptyParams;
-			auto testResult = sqlSession->executeQuery<int32_t>(testSql.str(), mapper, emptyParams);
-			if (!testResult.empty()) {
-				std::cout << "数据库连接测试成功，学生存在: " << testResult.front() << std::endl;
-			}
-			else {
-				std::cout << "警告: 未找到学生ID=" << studentId << std::endl;
-				return result;
-			}
-		}
-		catch (const std::exception& e) {
-			std::cout << "数据库连接测试异常: " << e.what() << std::endl;
-			return result;
-		}
-	}
+	//	try {
+	//		CountMapper mapper;
+	//		SqlParams emptyParams;
+	//		auto testResult = sqlSession->executeQuery<int32_t>(testSql.str(), mapper, emptyParams);
+	//		if (!testResult.empty()) {
+	//			std::cout << "数据库连接测试成功，学生存在: " << testResult.front() << std::endl;
+	//		}
+	//		else {
+	//			std::cout << "警告: 未找到学生ID=" << studentId << std::endl;
+	//			return result;
+	//		}
+	//	}
+	//	catch (const std::exception& e) {
+	//		std::cout << "数据库连接测试异常: " << e.what() << std::endl;
+	//		return result;
+	//	}
+	//}
 
 	// 执行三个查询
 	try {
@@ -264,11 +256,11 @@ std::shared_ptr<redDO> redDAO::getUnreadCounts(int64_t studentId)
 		result->setEvaluateCount(evaluateCount);
 		result->setGradeCount(gradeCount);
 
-		std::cout << "=== 最终结果 ===" << std::endl;
+	/*	std::cout << "=== 最终结果 ===" << std::endl;
 		std::cout << "作业未读数: " << homeworkCount << std::endl;
 		std::cout << "点评未读数: " << evaluateCount << std::endl;
 		std::cout << "成绩未读数: " << gradeCount << std::endl;
-		std::cout << "=== 查询结束 ===" << std::endl;
+		std::cout << "=== 查询结束 ===" << std::endl;*/
 	}
 	catch (const std::exception& e) {
 		std::cout << "查询过程中发生异常: " << e.what() << std::endl;

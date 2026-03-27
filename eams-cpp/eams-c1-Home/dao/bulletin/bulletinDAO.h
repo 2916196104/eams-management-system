@@ -39,4 +39,13 @@ public:
 	int32_t getGradeUnreadCount(int64_t studentId);
 };
 
+// 用于映射单个整数值的Mapper
+class CountMapper : public Mapper<int32_t>
+{
+public:
+	int32_t mapper(ResultSet* resultSet) const override
+	{
+		return resultSet->getInt(1);
+	}
+};
 #endif // !_BULLETIN_DAO_H_
