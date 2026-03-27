@@ -9,14 +9,14 @@
 #include "domain/vo/home/announcement/GetannouncementVO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
-#define API_TAG ZH_WORDS_GETTER("c5.home.Announcement.tag.t1")
+#define API_TAG ZH_WORDS_GETTER("Announcement.tag.t1")
 class GetallannouncementController : public oatpp::web::server::api::ApiController {
 
     //定义控制器访问入口
     API_ACCESS_DECLARE(GetallannouncementController);
 public://定义接口
     ENDPOINT_INFO(Getallannouncement) {
-        info->summary = ZH_WORDS_GETTER("c5.home.Announcement.getallannouncement.summary");//暂时这么搞，中文词典后期要统一
+        info->summary = ZH_WORDS_GETTER("Announcement.getallannouncement.summary");//暂时这么搞，中文词典后期要统一
         //支持授权
         API_DEF_ADD_AUTH();
         // 定义响应参数格式

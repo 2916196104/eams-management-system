@@ -9,14 +9,14 @@
 #include "domain/vo/home/announcement/GetannouncementVO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
-#define API_TAG ZH_WORDS_GETTER("c5.home.Announcement.tag.t1")
+#define API_TAG ZH_WORDS_GETTER("Announcement.tag.t1")
 class GetdisplayedannouncementController : public oatpp::web::server::api::ApiController {
 
     //定义控制器访问入口
     API_ACCESS_DECLARE(GetdisplayedannouncementController);
 public://定义接口
     ENDPOINT_INFO(Getdisplayedannouncement) {
-        info->summary = ZH_WORDS_GETTER("c5.home.Announcement.getdisplayedannouncement.summary");
+        info->summary = ZH_WORDS_GETTER("Announcement.getdisplayedannouncement.summary");
         //支持授权
         API_DEF_ADD_AUTH();
         // 定义响应参数格式
@@ -27,7 +27,7 @@ public://定义接口
         API_DEF_ADD_PAGE_PARAMS();
         //只需要获取显示通知公告
         //似乎只要筛选出最新的那个
-        API_DEF_ADD_QUERY_PARAMS(String, "add_time", ZH_WORDS_GETTER("c5.home.Announcement.getdisplayedannouncement.search1"), ZH_WORDS_GETTER("c5.home.Announcement.getdisplayedannouncement.searchname1"), false);
+        API_DEF_ADD_QUERY_PARAMS(String, "add_time", ZH_WORDS_GETTER("Announcement.getdisplayedannouncement.search1"), ZH_WORDS_GETTER("c5.home.Announcement.getdisplayedannouncement.searchname1"), false);
 
         //API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("getdisplayedannouncement.search1"), ZH_WORDS_GETTER("getdisplayedannouncement.name1"), false);
         //API_DEF_ADD_QUERY_PARAMS(String, "teacher_info", ZH_WORDS_GETTER("getdisplayedannouncement.search2"), "Roin" + ZH_WORDS_GETTER("getdisplayedannouncement.teachername1"), false);

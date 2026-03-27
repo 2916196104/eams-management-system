@@ -74,31 +74,63 @@ EnrollCourse:
     unit_price: 单价
     from_trial: 是否来自于体验试用
     org_id: 报名老师所属组织ID  
-c5:
-  home:
-    Announcement:
-      tag:
-        t1: 公告提醒
-      field:
-        id: 主键ID
-        title: 标题
-        type: 类型
-        content: 发送内容
-        cover:
-        creator: 创建人
-        add_time: 添加时间
-        deleted: 删除标记
-        edit_time: 编辑时间
-        editor: 编辑人
-        state: 状态
-        sort_num:
-        code: 唯一码
-      getallannouncement:
-        summary: 获取所有公告(分页)
-        search1: 添加时间
-        search2: 类型
-        titlename1: 关于处理学生玩原神
-        typename1: 普通公告
-      getdisplayedannouncement:
-        summary: 获取显示通知公告
-        search1: 添加时间    
+
+Announcement:
+  tag:
+    t1: 公告提醒
+  field:
+    id: 主键ID
+    title: 标题
+    type: 类型
+    content: 发送内容
+    cover:
+    creator: 创建人
+    add_time: 添加时间
+    deleted: 删除标记
+    edit_time: 编辑时间
+    editor: 编辑人
+    state: 状态
+    sort_num:
+    code: 唯一码
+  getallannouncement:
+    summary: 获取所有公告(分页)
+    search1: 添加时间
+    search2: 类型
+    titlename1: 关于处理学生玩原神
+    typename1: 普通公告
+  getdisplayedannouncement:
+    summary: 获取显示通知公告
+    search1: 添加时间    
+
+Timeable:
+  tags:
+    t1: 获取课表
+  field:
+    id: 主键ID
+    course_id: 所属课程ID
+    title: 章节标题
+    lesson_count: 计划课时数
+    sn: 课程序号
+    date: 日期
+    start_time: 开始时间
+    end_time: 结束时间
+    teacher_id: 教师ID
+    schedule_id: 排课计划ID
+    teacher_name: 教师姓名
+    sign_state: 签到状态
+    creator: 创建人
+    editor: 编辑者
+    add_time: 添加时间
+    edit_time: 修改时间
+    deleted: 删除标记
+  gettimeable:
+    summary: 获取课表
+    resp: 操作成功
+    search1: 学生id
+    search2: 日期
+    search3: 班级id
+  course:
+    name1: 线性代数
+    teachername1: 老师
+    searchname1: 
+    searchname2:
