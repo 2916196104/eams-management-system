@@ -21,18 +21,12 @@ import java.time.LocalDate;
 @ApiModel(description = "员工保存DTO")
 public class StaffDTO {
 
-   // ==================== 基础信息 ====================
-   @ApiModelProperty(value = "员工ID（新增时不传，编辑时传）", example = "1")
-   private Long id;
-
    @ApiModelProperty(value = "姓名（必填）", example = "张三", required = true)
    private String name;
 
    @ApiModelProperty(value = "电话/登录账号（必填）", example = "13800138000", required = true)
    private String mobile;
 
-   @ApiModelProperty(value = "密码（新增时必填，编辑时可选）", example = "123456")
-   private String password;
 
    // ==================== 机构/职位 ====================
    @ApiModelProperty(value = "所属机构ID（必填）", example = "1", required = true)
@@ -59,9 +53,6 @@ public class StaffDTO {
    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
    private LocalDate hireDate;
 
-   @ApiModelProperty(value = "离职日期（为空则在职）", example = "2025-07-08")
-   @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-   private LocalDate fireDate;
 
    // ==================== 业务费用 ====================
    @ApiModelProperty(value = "上课费/节（元）", example = "120.00")
@@ -80,20 +71,5 @@ public class StaffDTO {
    // ==================== 其他信息 ====================
    @ApiModelProperty(value = "简介", example = "这是一位优秀的员工")
    private String remark;
-
-   @ApiModelProperty(value = "头像URL", example = "http://localhost:8888/xxx.png")
-   private String headImg;
-   @ApiModelProperty("所属集团")
-   private Long groupId;
-   /**
-    * 所属公司
-    */
-   @ApiModelProperty("所属公司")
-   private Long comId;
-   /**
-    * 所属部门
-    */
-   @ApiModelProperty("所属部门")
-   private Long dptId;
 
 }
