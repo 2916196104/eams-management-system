@@ -21,7 +21,9 @@ HomeworkPageDTO::Wrapper HomeworkService::listAll(const HomeworkQuery::Wrapper& 
         auto dto = HomeworkDTO::createShared();
         ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub, class_name, ClassName);
         ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub, title, Title);
-        ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub, submit_status, SubmitStatus);
+
+        if (sub.getSubmitStatus() == 1) dto->submit_status = ZH_WORDS_GETTER("c5.home.homework.field.sub_1");
+        else dto->submit_status = ZH_WORDS_GETTER("c5.home.homework.field.sub_0");
         pages->addData(dto);
     }
     return pages;

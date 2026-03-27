@@ -19,7 +19,7 @@ class HomeworkDTO : public oatpp::DTO
         info->description = ZH_WORDS_GETTER("c5.home.homework.field.title");
     }
 
-    DTO_FIELD(Int32, submit_status);
+    DTO_FIELD(String, submit_status);
     DTO_FIELD_INFO(submit_status) {
         info->description = ZH_WORDS_GETTER("c5.home.homework.field.submit_status");
     }

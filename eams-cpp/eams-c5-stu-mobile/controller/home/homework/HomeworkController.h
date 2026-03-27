@@ -21,7 +21,7 @@ public:
         API_DEF_ADD_RSP_JSON(HomeworkPageJsonVO::Wrapper);
         API_DEF_ADD_PAGE_PARAMS();
 
-        API_DEF_ADD_QUERY_PARAMS(Int64, "class_id", ZH_WORDS_GETTER("c5.home.homework.field.class_id"), 1, true);
+        API_DEF_ADD_QUERY_PARAMS(Int64, "student_id", ZH_WORDS_GETTER("c5.home.homework.field.student_id"), 1, true);
     }
 
     ENDPOINT(API_M_GET, "/c5/home/homework/list", Homework, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME)

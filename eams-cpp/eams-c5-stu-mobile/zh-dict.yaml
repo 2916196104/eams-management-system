@@ -35,4 +35,6 @@ c5:
         deleted: 删除标记
         org_id: 创建者所属组织ID
         class_name: 班级名称
-        submit_status: 提交状态 0=未提交 1=已提交
+        submit_status: 提交状态
+        sub_0: 未交
+        sub_1: 已交
