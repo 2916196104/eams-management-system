@@ -5,3 +5,34 @@ spring:
     name: ${sn.stumanager}
 mybatis:
   mapper-locations: classpath:/mapper/*.xml
+
+#server:
+#  port: 8081
+#
+#spring:
+#  application:
+#    name: stumanager
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/zo_eams?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
+#    username: root
+#    password: 1234
+#  servlet:
+#    multipart:
+#      max-request-size: 20MB
+#      max-file-size: 10MB
+#  cloud:
+#    nacos:
+#      discovery:
+#        enabled: false
+#      config:
+#        enabled: false
+#
+#mybatis:
+#  mapper-locations: classpath:/mapper/*.xml
+#  configuration:
+#    map-underscore-to-camel-case: true
+#
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

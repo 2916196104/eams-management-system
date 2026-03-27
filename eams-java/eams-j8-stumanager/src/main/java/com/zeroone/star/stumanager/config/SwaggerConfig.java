@@ -22,5 +22,9 @@ public class SwaggerConfig {
     Docket loginApi() {
         return SwaggerCore.defaultDocketBuilder("登录模块", "com.zeroone.star.login.controller", "login");
     }
+    @Bean
+    Docket stuManagerApi() {
+        return SwaggerCore.defaultDocketBuilder("学员管理模块", "com.zeroone.star.stumanager.controller", "stumanager");
+    }
 }
 

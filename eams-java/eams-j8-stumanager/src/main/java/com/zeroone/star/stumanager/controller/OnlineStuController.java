@@ -12,6 +12,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -21,6 +25,7 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.io.ByteArrayOutputStream;
+import java.net.URLEncoder;
 import java.util.List;
 /**
  * 在线学员
@@ -38,22 +43,28 @@ public class OnlineStuController implements OnlineStuApis {
     @ApiOperation(value = "修改学员顾问", notes = "根据学员ID修改对应学员的顾问信息")
     @PutMapping("update-advisor")
     @Override
-    public JsonVO<String> updateStudentAdvisor(@RequestBody StudentAdvisorDTO studentAdvisorDTO) {
+    public JsonVO<OnlineStuApis.UpdateAdvisorResult> updateStudentAdvisor(@RequestBody StudentAdvisorDTO studentAdvisorDTO) {
         try {
             // 根据学员ID查询学员信息
             Student student = studentService.getById(studentAdvisorDTO.getStudentId());
             if (student == null) {
-                return JsonVO.create("学员不存在", ResultStatus.FAIL.getCode(), "学员不存在");
+                return JsonVO.create(null, ResultStatus.FAIL.getCode(), "学员不存在");
             }
 
             // 更新顾问信息
             student.setCounselor(studentAdvisorDTO.getAdvisorId());
             studentService.updateById(student);
 
-            return JsonVO.success("修改顾问成功");
+            // 构建返回结果
+            OnlineStuApis.UpdateAdvisorResult result = new OnlineStuApis.UpdateAdvisorResult();
+            result.setStudentId(studentAdvisorDTO.getStudentId());
+            result.setAdvisorId(studentAdvisorDTO.getAdvisorId());
+            result.setAdvisorName(studentAdvisorDTO.getAdvisorName());
+
+            return JsonVO.success(result);
         } catch (Exception e) {
             e.printStackTrace();
-            return JsonVO.create("修改顾问失败", ResultStatus.FAIL.getCode(), e.getMessage());
+            return JsonVO.create(null, ResultStatus.FAIL.getCode(), "修改顾问失败: " + e.getMessage());
         }
     }
 
@@ -64,15 +75,24 @@ public class OnlineStuController implements OnlineStuApis {
 //        // TODO: 实现导入学员逻辑
 //        return JsonVO.success("导入学员成功");
 //    }
-@ApiOperation(value = "导入学员", notes = "通过Excel文件导入学员数据")
+@ApiOperation(value = "导入学员", notes = "通过Excel文件导入学员数据，支持xls和xlsx格式，模板包含：姓名、手机号、登录密码、家长姓名、性别、出生日期、身份证号")
 @PostMapping("import")
 @Override
-public JsonVO<String> importStudents(@ApiParam(value = "学员数据Excel文件", required = true) MultipartFile file) {
+public JsonVO<OnlineStuApis.ImportStudentsResult> importStudents(@ApiParam(value = "学员数据Excel文件，支持xls和xlsx格式", required = true) MultipartFile file) {
     try {
         // 1. 校验文件类型
         String fileName = file.getOriginalFilename();
         if (fileName == null || (!fileName.endsWith(".xls") && !fileName.endsWith(".xlsx"))) {
-            return JsonVO.create("文件类型错误，仅支持xls和xlsx格式", ResultStatus.FAIL.getCode(), "文件类型错误");
+            OnlineStuApis.ImportStudentsResult result = new OnlineStuApis.ImportStudentsResult();
+            result.setSuccessCount(0);
+            result.setFailCount(1);
+            java.util.List<OnlineStuApis.FailItem> failList = new java.util.ArrayList<>();
+            OnlineStuApis.FailItem failItem = new OnlineStuApis.FailItem();
+            failItem.setRowIndex(0);
+            failItem.setReason("文件类型错误，仅支持xls和xlsx格式");
+            failList.add(failItem);
+            result.setFailList(failList);
+            return JsonVO.success(result);
         }
 
         // 2. 解析Excel
@@ -87,19 +107,38 @@ public JsonVO<String> importStudents(@ApiParam(value = "学员数据Excel文件"
         Sheet sheet = workbook.getSheetAt(0);
         if (sheet == null) {
             workbook.close();
-            return JsonVO.create("Excel文件为空", ResultStatus.FAIL.getCode(), "Excel文件为空");
+            OnlineStuApis.ImportStudentsResult result = new OnlineStuApis.ImportStudentsResult();
+            result.setSuccessCount(0);
+            result.setFailCount(1);
+            java.util.List<OnlineStuApis.FailItem> failList = new java.util.ArrayList<>();
+            OnlineStuApis.FailItem failItem = new OnlineStuApis.FailItem();
+            failItem.setRowIndex(0);
+            failItem.setReason("Excel文件为空");
+            failList.add(failItem);
+            result.setFailList(failList);
+            return JsonVO.success(result);
         }
 
         int rowCount = sheet.getPhysicalNumberOfRows();
         if (rowCount < 2) {
             workbook.close();
-            return JsonVO.create("Excel没有数据", ResultStatus.FAIL.getCode(), "Excel没有数据");
+            OnlineStuApis.ImportStudentsResult result = new OnlineStuApis.ImportStudentsResult();
+            result.setSuccessCount(0);
+            result.setFailCount(1);
+            java.util.List<OnlineStuApis.FailItem> failList = new java.util.ArrayList<>();
+            OnlineStuApis.FailItem failItem = new OnlineStuApis.FailItem();
+            failItem.setRowIndex(0);
+            failItem.setReason("Excel没有数据");
+            failList.add(failItem);
+            result.setFailList(failList);
+            return JsonVO.success(result);
         }
 
         // 3. 日期格式化
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         int successCount = 0;
         int failCount = 0;
+        java.util.List<OnlineStuApis.FailItem> failList = new java.util.ArrayList<>();
 
         // 4. 从第二行开始遍历（第一行是表头）
         for (int i = 1; i < rowCount; i++) {
@@ -121,14 +160,26 @@ public JsonVO<String> importStudents(@ApiParam(value = "学员数据Excel文件"
                 // 校验必填字段
                 if (studentName == null || studentName.trim().isEmpty()) {
                     failCount++;
+                    OnlineStuApis.FailItem failItem = new OnlineStuApis.FailItem();
+                    failItem.setRowIndex(i + 1); // 行号从1开始
+                    failItem.setReason("姓名不能为空");
+                    failList.add(failItem);
                     continue;
                 }
                 if (mobile == null || mobile.trim().isEmpty()) {
                     failCount++;
+                    OnlineStuApis.FailItem failItem = new OnlineStuApis.FailItem();
+                    failItem.setRowIndex(i + 1);
+                    failItem.setReason("手机号不能为空");
+                    failList.add(failItem);
                     continue;
                 }
                 if (password == null || password.trim().isEmpty()) {
                     failCount++;
+                    OnlineStuApis.FailItem failItem = new OnlineStuApis.FailItem();
+                    failItem.setRowIndex(i + 1);
+                    failItem.setReason("登录密码不能为空");
+                    failList.add(failItem);
                     continue;
                 }
 
@@ -149,7 +200,16 @@ public JsonVO<String> importStudents(@ApiParam(value = "学员数据Excel文件"
 
                 // 解析出生日期
                 if (birthdayStr != null && !birthdayStr.trim().isEmpty()) {
-                    student.setBirthday(LocalDate.parse(birthdayStr, dateFormatter));
+                    try {
+                        student.setBirthday(LocalDate.parse(birthdayStr, dateFormatter));
+                    } catch (Exception e) {
+                        failCount++;
+                        OnlineStuApis.FailItem failItem = new OnlineStuApis.FailItem();
+                        failItem.setRowIndex(i + 1);
+                        failItem.setReason("出生日期格式错误，应为yyyy-MM-dd");
+                        failList.add(failItem);
+                        continue;
+                    }
                 }
 
                 // 设置默认值
@@ -161,17 +221,85 @@ public JsonVO<String> importStudents(@ApiParam(value = "学员数据Excel文件"
 
             } catch (Exception e) {
                 failCount++;
+                OnlineStuApis.FailItem failItem = new OnlineStuApis.FailItem();
+                failItem.setRowIndex(i + 1);
+                failItem.setReason("导入失败: " + e.getMessage());
+                failList.add(failItem);
             }
         }
 
         workbook.close();
 
-        return JsonVO.success("导入学员成功，成功：" + successCount + "条，失败：" + failCount + "条");
+        // 构建返回结果
+        OnlineStuApis.ImportStudentsResult result = new OnlineStuApis.ImportStudentsResult();
+        result.setSuccessCount(successCount);
+        result.setFailCount(failCount);
+        result.setFailList(failList);
+
+        return JsonVO.success(result);
     } catch (Exception e) {
         e.printStackTrace();
-        return JsonVO.create("导入学员失败", ResultStatus.FAIL.getCode(), e.getMessage());
+        OnlineStuApis.ImportStudentsResult result = new OnlineStuApis.ImportStudentsResult();
+        result.setSuccessCount(0);
+        result.setFailCount(1);
+        java.util.List<OnlineStuApis.FailItem> failList = new java.util.ArrayList<>();
+        OnlineStuApis.FailItem failItem = new OnlineStuApis.FailItem();
+        failItem.setRowIndex(0);
+        failItem.setReason("导入学员失败: " + e.getMessage());
+        failList.add(failItem);
+        result.setFailList(failList);
+        return JsonVO.success(result);
     }
 }
+
+//@ApiOperation(value = "下载导入模板", notes = "下载学员导入Excel模板")
+//@GetMapping("download-template")
+//@Override
+//public ResponseEntity<byte[]> downloadTemplate() {
+//    try {
+//        // 创建工作簿
+//        Workbook workbook = new HSSFWorkbook();
+//        Sheet sheet = workbook.createSheet("学员导入模板");
+//
+//        // 创建表头
+//        Row headerRow = sheet.createRow(0);
+//        String[] headers = {"姓名", "手机号", "登录密码", "家长姓名", "性别", "出生日期", "身份证号"};
+//        for (int i = 0; i < headers.length; i++) {
+//            Cell cell = headerRow.createCell(i);
+//            cell.setCellValue(headers[i]);
+//        }
+//
+//        // 添加示例数据
+//        Row exampleRow = sheet.createRow(1);
+//        exampleRow.createCell(0).setCellValue("张三");
+//        exampleRow.createCell(1).setCellValue("13800138000");
+//        exampleRow.createCell(2).setCellValue("123456");
+//        exampleRow.createCell(3).setCellValue("张父");
+//        exampleRow.createCell(4).setCellValue("男");
+//        exampleRow.createCell(5).setCellValue("2000-01-01");
+//        exampleRow.createCell(6).setCellValue("110101200001011234");
+//
+//        // 转换为字节数组
+//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//        workbook.write(outputStream);
+//        workbook.close();
+//        byte[] bytes = outputStream.toByteArray();
+//        outputStream.close();
+//
+//        // 设置响应头
+//        HttpHeaders header = new HttpHeaders();
+//        header.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//        String fileName = URLEncoder.encode("学员导入模板.xls", "UTF-8");
+//        header.setContentDispositionFormData("attachment", fileName);
+//        header.setContentLength(bytes.length);
+//
+//        // 返回ResponseEntity
+//        return new ResponseEntity<>(bytes, header, HttpStatus.OK);
+//    } catch (Exception e) {
+//        e.printStackTrace();
+//        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
+//}
     /**
      * 获取单元格字符串值
      */
@@ -211,7 +339,7 @@ public JsonVO<String> importStudents(@ApiParam(value = "学员数据Excel文件"
 @ApiOperation(value = "导出学员", notes = "根据条件导出学员数据为Excel文件")
 @GetMapping("export")
 @Override
-public JsonVO<byte[]> exportStudents(@ApiParam(value = "导出条件", required = false) @RequestParam(required = false) String condition) {
+public ResponseEntity<byte[]> exportStudents(@ApiParam(value = "导出条件", required = false) @RequestParam(required = false) String condition) {
     try {
         // 1. 查询所有在线学员
         List<Student> studentList = studentService.list();
@@ -272,10 +400,19 @@ public JsonVO<byte[]> exportStudents(@ApiParam(value = "导出条件", required 
         byte[] bytes = outputStream.toByteArray();
         outputStream.close();
 
-        return JsonVO.success(bytes);
+        // 6. 设置响应头
+        HttpHeaders header = new HttpHeaders();
+        header.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        String fileName = URLEncoder.encode("在线学员信息.xls", "UTF-8");
+        header.setContentDispositionFormData("attachment", fileName);
+        header.setContentLength(bytes.length);
+
+        // 7. 返回ResponseEntity
+        return new ResponseEntity<>(bytes, header, HttpStatus.OK);
     } catch (Exception e) {
         e.printStackTrace();
-        return JsonVO.create(null, ResultStatus.FAIL.getCode(), "导出学员失败: " + e.getMessage());
+        // 返回错误响应
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
 }
