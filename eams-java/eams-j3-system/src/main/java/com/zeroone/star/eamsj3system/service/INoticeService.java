@@ -34,14 +34,14 @@ public interface INoticeService extends IService<Notice> {
     /**
      * 保存公告
      * @param noticeDTO 公告数据传输对象
-     * @return 是否成功
+     * @return 保存结果
      */
-    boolean saveNotice(NoticeDTO noticeDTO);
+    String saveNotice(NoticeDTO noticeDTO);
 
     /**
      * 删除公告（支持批量删除）
      * @param ids 公告 ID 列表
-     * @return 是否成功
+     * @return 删除结果
      */
-    boolean deleteByIds(List<Long> ids);
+    String deleteByIds(List<Long> ids);
 }

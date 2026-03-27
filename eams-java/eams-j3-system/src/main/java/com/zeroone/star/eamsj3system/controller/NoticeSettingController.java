@@ -1,16 +1,13 @@
-package com.zeroone.star.eamsj3system.Controller;
+package com.zeroone.star.eamsj3system.controller;
 
 import com.zeroone.star.eamsj3system.service.ISettingNoticeService;
 import com.zeroone.star.project.dto.j3.notice.NoticeSettingDTO;
 import com.zeroone.star.project.j3.notice.NoticeApis;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.vo.j3.notice.NoticeSettingListVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController("j3/system")
 @RequestMapping("/noticesetting")
