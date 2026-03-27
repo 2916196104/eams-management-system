@@ -32,7 +32,7 @@ const routes = [
 		path: "/org/org-manage",
 		name: "OrgManage",
 		meta: {
-			label: "组织管理",
+			label: "机构管理",
 		},
 		component: () => import("@/views/org/org-manage/Index.vue"),
 	},

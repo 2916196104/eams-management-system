@@ -13,7 +13,7 @@
 						<el-skeleton v-if="loadingAge" :rows="6" animated />
 						<PieChart
 							v-else
-							:title="'在学学员成绩构成'"
+							:title="'在学学员年龄构成'"
 							:series-data="pieSeriesData"
 							:radius="'68%'"
 							:rose-type="false"

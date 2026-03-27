@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { queryClassHourRank, queryLeadTrend, queryStudentFunnelByMonth, queryStudentScorePieByMonth } from "@/apis/data/studentStatistics";
+import { queryClassHourRank, queryLeadTrend, queryStudentAgeComposition, queryStudentFunnelByMonth } from "@/apis/data/studentStatistics";
 import type { FunnelSeriesItem } from "@/components/mychart/FunnelChart.vue";
 import type { ClassHourRankResult, LeadTrendResult, ScorePieItem } from "@/apis/data/studentStatistics";
 
@@ -120,10 +120,11 @@ export const useStudentStatisticsStore = defineStore("studentStatistics", {
 		async fetchScorePieData() {
 			this.loading.age = true;
 			try {
-				const data = await queryStudentScorePieByMonth({ month: this.month });
-				this.scorePieData = data;
+				// Apifox 已发布的是“年龄构成”，先用真实接口保证页面不是静态数据
+				const data = await queryStudentAgeComposition();
+				this.scorePieData = data.map((i) => ({ name: i.age, value: i.count })) as ScorePieItem[];
 			} catch (e: any) {
-				this.error = e?.message || "获取成绩构成数据失败";
+				this.error = e?.message || "获取构成数据失败";
 			} finally {
 				this.loading.age = false;
 			}

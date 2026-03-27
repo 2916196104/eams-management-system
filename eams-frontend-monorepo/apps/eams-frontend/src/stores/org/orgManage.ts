@@ -27,7 +27,7 @@ export const useOrgManageStore = defineStore("orgManage", {
 				this.tree = await queryOrgManageTree();
 				this.expandedIds = this.collectIds(this.tree);
 			} catch (e: any) {
-				this.error = e?.message || "获取组织树失败";
+				this.error = e?.message || "获取机构树失败";
 			} finally {
 				this.loading = false;
 			}

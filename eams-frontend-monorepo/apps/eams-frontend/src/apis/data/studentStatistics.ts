@@ -18,6 +18,11 @@ export interface ClassHourRankResult {
 	seriesData: ChartSeriesData[];
 }
 
+export interface StudentAgeCompositionItem {
+	age: string;
+	count: number;
+}
+
 function hashToNumber(str: string) {
 	let h = 0;
 	for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) % 100000;
@@ -47,37 +52,69 @@ function mockMonth(month: string) {
 }
 
 export async function queryStudentFunnelByMonth(params: { month: string }): Promise<FunnelSeriesItem[]> {
-	// 文档：GET /app/common/statis/funnel（无入参）
+	// 文档（旧）：GET /app/common/statis/funnel（无入参）
+	// Apifox（现）：GET /j3/statis/sales-funnel（无入参），返回 data: [{ code, count, name }]
 	void params;
 	try {
 		const http = useHttp();
-		const res = await http.get<unknown>("/app/common/statis/funnel");
+		const res = await http.get<unknown>("/j3/statis/sales-funnel");
 		const raw = res.data;
 		if (Array.isArray(raw)) {
-			// 兼容后端直接返回 [{ name, value }, ...] 或 [{ stageName, count }, ...]
-			return raw
+			// 兼容后端返回 [{ code, count, name }, ...] / [{ name, value }, ...]
+			const mapped = raw
 				.map((item) => {
 					if (!item || typeof item !== "object") return null;
 					const o = item as Record<string, unknown>;
 					const name = (o.name ?? o.stageName ?? o.label) as string | undefined;
 					const value = Number(o.value ?? o.count ?? o.num ?? 0);
+					const code = Number(o.code ?? o.stageCode ?? -1);
 					if (!name) return null;
-					return { name, value } as FunnelSeriesItem;
+					return { name, value, _code: Number.isFinite(code) ? code : -1 } as FunnelSeriesItem & { _code: number };
 				})
-				.filter((i): i is FunnelSeriesItem => Boolean(i));
+				.filter((i): i is FunnelSeriesItem & { _code: number } => Boolean(i));
+
+			// 如果返回带 code，则按 code 升序固定漏斗阶段顺序，避免图形顺序漂移
+			const hasCode = mapped.some((i) => i._code >= 0);
+			const sorted = hasCode ? [...mapped].sort((a, b) => a._code - b._code) : mapped;
+			return sorted.map(({ _code, ...rest }) => rest);
 		}
-	} catch {
-		// ignore -> fallback mock
+		throw new Error("销售漏斗接口返回格式不正确");
+	} catch (e) {
+		const err = e as Error;
+		throw new Error(err?.message || "获取销售漏斗失败");
 	}
-	const mock = mockMonth(params.month);
-	return new Promise((resolve) => setTimeout(() => resolve(mock.stage), 250));
 }
 
 export async function queryStudentScorePieByMonth(params: { month: string }): Promise<ScorePieItem[]> {
-	// 文档里对应的是“在学学生年龄统计”GET /app/common/statis/studentAgeStatis，但当前页面展示的是“成绩构成”
+	// 当前页面展示的是“成绩构成”，但文档/Apifox 现有的是“年龄构成”
 	// 在真实“成绩构成”接口未明确前，先保留 mock，等你在 Apifox 给到接口后再替换。
 	const mock = mockMonth(params.month);
 	return new Promise((resolve) => setTimeout(() => resolve(mock.score), 450));
+}
+
+export async function queryStudentAgeComposition(): Promise<StudentAgeCompositionItem[]> {
+	// Apifox：GET /j3/statis/student-age-composition（无入参），返回 data: [{ age, count }]
+	try {
+		const http = useHttp();
+		const res = await http.get<unknown>("/j3/statis/student-age-composition");
+		const raw = res.data;
+		if (Array.isArray(raw)) {
+			return raw
+				.map((item) => {
+					if (!item || typeof item !== "object") return null;
+					const o = item as Record<string, unknown>;
+					const age = String(o.age ?? "");
+					const count = Number(o.count ?? o.value ?? 0);
+					if (!age) return null;
+					return { age, count: Number.isFinite(count) ? count : 0 } as StudentAgeCompositionItem;
+				})
+				.filter((i): i is StudentAgeCompositionItem => Boolean(i));
+		}
+		throw new Error("年龄构成接口返回格式不正确");
+	} catch (e) {
+		const err = e as Error;
+		throw new Error(err?.message || "获取年龄构成失败");
+	}
 }
 
 export async function queryLeadTrend(params: { startDate: string; endDate: string }): Promise<LeadTrendResult> {
@@ -106,29 +143,11 @@ export async function queryLeadTrend(params: { startDate: string; endDate: strin
 				seriesData: [{ name: "新增线索", data, color: "#e91e63" }],
 			};
 		}
-	} catch {
-		// ignore -> fallback mock
+		throw new Error("新学员趋势接口返回格式不正确");
+	} catch (e) {
+		const err = e as Error;
+		throw new Error(err?.message || "获取新学员趋势失败");
 	}
-	const seed = hashToNumber(`${params.startDate}-${params.endDate}`);
-	const days = 12;
-	const xAxisData = Array.from({ length: days }, (_, i) => `D${i + 1}`);
-	const data = xAxisData.map((_, i) => 50 + ((seed + i * 77) % 80));
-	return new Promise((resolve) =>
-		setTimeout(
-			() =>
-				resolve({
-					xAxisData,
-					seriesData: [
-						{
-							name: "新增线索",
-							data,
-							color: "#e91e63",
-						},
-					],
-				}),
-			500,
-		),
-	);
 }
 
 export async function queryClassHourRank(params: { startDate: string; endDate: string; top?: number }): Promise<ClassHourRankResult> {
@@ -159,28 +178,10 @@ export async function queryClassHourRank(params: { startDate: string; endDate: s
 				seriesData: [{ name: "课时数", data: sliced.map((i) => i.value), color: "#40c9c6" }],
 			};
 		}
-	} catch {
-		// ignore -> fallback mock
+		throw new Error("学员课时排行接口返回格式不正确");
+	} catch (e) {
+		const err = e as Error;
+		throw new Error(err?.message || "获取学员课时排行失败");
 	}
-	const seed = hashToNumber(`${params.startDate}-${params.endDate}`);
-	const top = params.top ?? 10;
-	const xAxisData = Array.from({ length: top }, (_, i) => `学员${i + 1}`);
-	const data = xAxisData.map((_, i) => 100 + ((seed + i * 13) % 900));
-	return new Promise((resolve) =>
-		setTimeout(
-			() =>
-				resolve({
-					xAxisData,
-					seriesData: [
-						{
-							name: "课时数",
-							data,
-							color: "#40c9c6",
-						},
-					],
-				}),
-			500,
-		),
-	);
 }
 
