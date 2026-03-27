@@ -12,19 +12,19 @@ string AppointmentDAO::generateSnowFlakeId()
 	return std::to_string(SnowFlake(0, 0).nextId());
 }
 
-std::string AppointmentDAO::getCurrentDateTime() {
-	// 1. 获取当前系统时间（精确到秒）
-	auto now = std::chrono::system_clock::now();
-	// 2. 转换为time_t类型（兼容传统时间接口）
-	std::time_t now_c = std::chrono::system_clock::to_time_t(now);
-	// 3. 转换为本地时间（避免UTC时差）
-	std::tm now_tm = *std::localtime(&now_c);
-
-	// 4. 格式化输出（YYYY-MM-DD HH:MM:SS）
-	std::ostringstream oss;
-	oss << std::put_time(&now_tm, "%Y-%m-%d %H:%M:%S");
-	return oss.str();
-}
+//std::string AppointmentDAO::getCurrentDateTime() {
+//	// 1. 获取当前系统时间（精确到秒）
+//	auto now = std::chrono::system_clock::now();
+//	// 2. 转换为time_t类型（兼容传统时间接口）
+//	std::time_t now_c = std::chrono::system_clock::to_time_t(now);
+//	// 3. 转换为本地时间（避免UTC时差）
+//	std::tm now_tm = *std::localtime(&now_c);
+//
+//	// 4. 格式化输出（YYYY-MM-DD HH:MM:SS）
+//	std::ostringstream oss;
+//	oss << std::put_time(&now_tm, "%Y-%m-%d %H:%M:%S");
+//	return oss.str();
+//}
 
 std::string AppointmentDAO::getCounselorId(const AppointmentAddDTO::Wrapper& dto)
 {
@@ -56,7 +56,6 @@ std::string AppointmentDAO::insertAppointment(const AppointmentAddDTO::Wrapper& 
 	string id = generateSnowFlakeId();
 	string lessonId = getLessonId(dto);
 	string counselorId = getCounselorId(dto);
-	string currentDateTime = getCurrentDateTime();
 	std::stringstream sql;
 	sql << "INSERT INTO appointment (id, lesson_id, student_id, add_time, course_id, counselor)";
 	sql << " VALUES ( ?, ?, ?, ?, ?, ? )";
@@ -71,7 +70,7 @@ std::string AppointmentDAO::insertAppointment(const AppointmentAddDTO::Wrapper& 
 	if (dto->studentId) SQLPARAMS_PUSH(params, "s", std::string, dto->studentId.getValue(""));
 	else return ZH_WORDS_GETTER("schedule.appointment.errmsg");
 	// 预约时间
-	if(currentDateTime.size()) SQLPARAMS_PUSH(params, "s", std::string, currentDateTime);
+	if(dto->date) SQLPARAMS_PUSH(params, "s", std::string, dto->date.getValue(""));
 	else return ZH_WORDS_GETTER("schedule.appointment.errmsg");
 	// 预约课程id
 	if (dto->courseId) SQLPARAMS_PUSH(params, "s", std::string, dto->courseId.getValue(""));

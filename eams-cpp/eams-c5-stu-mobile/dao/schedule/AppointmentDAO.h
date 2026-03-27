@@ -17,7 +17,7 @@ private:
 	// 获取顾问id
 	std::string getCounselorId(const AppointmentAddDTO::Wrapper& dto);
 	// 获取当前时间
-	std::string getCurrentDateTime();
+	/*std::string getCurrentDateTime();*/
 public:
 	std::string insertAppointment(const AppointmentAddDTO::Wrapper& dto);
 };

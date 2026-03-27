@@ -9,7 +9,7 @@ class AppointmentAddDTO : public oatpp::DTO
 {
 	DTO_INIT(AppointmentAddDTO, DTO);
 
-	// 预约日期
+	// 预约时间
 	DTO_FIELD(String, date);
 	DTO_FIELD_INFO(date) {
 		info->description = ZH_WORDS_GETTER("schedule.appointment.date");

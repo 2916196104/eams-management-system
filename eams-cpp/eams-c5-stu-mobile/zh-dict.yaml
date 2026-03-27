@@ -38,7 +38,7 @@ schedule:
   appointment:
     info: "预约"
     id: "预约ID"
-    date: "预约日期"
+    date: "预约时间"
     courseId: "课程ID"
     lessonId: "试听课次ID"
     addTime: "预约时间"
