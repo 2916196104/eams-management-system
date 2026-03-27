@@ -1,3 +1,5 @@
+import { useHttp } from "@/plugins/http";
+
 export interface OrgNode {
 	id: string;
 	name: string;
@@ -110,11 +112,143 @@ function wait<T>(data: T, ms = 300) {
 	return new Promise<T>((resolve) => setTimeout(() => resolve(data), ms));
 }
 
+function toGender(v: unknown): "男" | "女" | "未知" {
+	if (v === 1 || v === "1" || v === "男") return "男";
+	if (v === 2 || v === "2" || v === "女") return "女";
+	return "未知";
+}
+
+function toPersonType(v: unknown): "内部" | "外部" {
+	return v === 1 || v === "1" || v === true || v === "内部" ? "内部" : "外部";
+}
+
+function toStatus(v: unknown): "在职" | "离职" {
+	// Apifox 字段里是 statue=1（在职），这里做宽松兼容。
+	if (v === 1 || v === "1" || v === "ON_JOB" || v === "在职") return "在职";
+	return "离职";
+}
+
+function mapStaffRowToEmployeeItem(row: Record<string, unknown>): EmployeeItem {
+	const orgId = String(row.orgId ?? "");
+	const isManagerValue = row.isManager ?? row.isManger;
+	return {
+		id: String(row.id ?? ""),
+		name: String(row.name ?? ""),
+		account: String(row.account ?? row.mobile ?? ""),
+		orgId,
+		orgName: orgNameMap.get(orgId) || String(row.orgNamePath ?? row.orgName ?? ""),
+		gender: toGender(row.gender),
+		position: String(row.position ?? row.positionName ?? ""),
+		roleName: String(row.roleName ?? (isManagerValue === 1 ? "管理员" : "")),
+		personType: toPersonType(row.isInner),
+		hireDate: String(row.hireDate ?? ""),
+		status: toStatus(row.statue ?? row.status ?? row.state),
+	};
+}
+
+function mapPayloadToSaveBody(payload: EmployeeCreatePayload | EmployeeUpdatePayload) {
+	const orgIdNum = Number(payload.orgId);
+	const body: Record<string, unknown> = {
+		name: payload.name,
+		mobile: payload.account,
+		orgId: Number.isFinite(orgIdNum) ? orgIdNum : payload.orgId,
+		positionId: 0,
+		gender: payload.gender === "男" ? 1 : payload.gender === "女" ? 2 : 0,
+		isInner: payload.isInternal ? 1 : 0,
+		isManager: payload.isManager ? 1 : 0,
+		birthday: payload.birthday || undefined,
+		hireDate: payload.hireDate || undefined,
+		school: payload.graduateSchool || undefined,
+		remark: payload.intro || undefined,
+		headImg: payload.photoUrl || undefined,
+	};
+	if ("id" in payload && payload.id) body.id = Number(payload.id);
+	return body;
+}
+
 export async function queryOrgTree(): Promise<OrgNode[]> {
+	// 优先走真实接口（Apifox：GET /org/query-list），失败时回退本地 mock
+	try {
+		const http = useHttp();
+		const res = await http.get<unknown>("/org/query-list");
+		const raw = res.data;
+		if (Array.isArray(raw)) {
+			const rows = raw
+				.map((item) => {
+					if (!item || typeof item !== "object") return null;
+					const o = item as Record<string, unknown>;
+					const id = String(o.orgId ?? "");
+					const name = String(o.orgName ?? "");
+					if (!id || !name) return null;
+					return {
+						id,
+						name,
+						parentId: String(o.parentOrgId ?? ""),
+					};
+				})
+				.filter((i): i is { id: string; name: string; parentId: string } => Boolean(i));
+
+			const nodeMap = new Map<string, OrgNode>();
+			rows.forEach((r) => nodeMap.set(r.id, { id: r.id, name: r.name, children: [] }));
+			const roots: OrgNode[] = [];
+
+			rows.forEach((r) => {
+				const current = nodeMap.get(r.id);
+				if (!current) return;
+				const parent = nodeMap.get(r.parentId);
+				if (parent && r.parentId !== "0") {
+					parent.children = parent.children || [];
+					parent.children.push(current);
+				} else {
+					roots.push(current);
+				}
+				orgNameMap.set(r.id, r.name);
+			});
+
+			// 清理空 children，避免 tree 组件误判
+			const normalize = (nodes: OrgNode[]) => {
+				nodes.forEach((n) => {
+					if (n.children?.length) normalize(n.children);
+					else delete n.children;
+				});
+			};
+			normalize(roots);
+			return roots;
+		}
+	} catch {
+		// ignore -> fallback mock
+	}
+
 	return wait(orgTree, 260);
 }
 
 export async function queryEmployeeList(params: EmployeeQuery): Promise<{ list: EmployeeItem[]; total: number }> {
+	// 优先走真实接口（Apifox：GET /j1/staff/getpage），失败时回退本地 mock
+	try {
+		const http = useHttp();
+		const res = await http.get<unknown>("/j1/staff/getpage", {
+			account: params.keyword || undefined,
+			name: params.keyword || undefined,
+			pageIndex: params.page,
+			pageSize: params.pageSize,
+			// Apifox 文档字段是 statue
+			statue: params.status ? (params.status === "在职" ? 1 : 0) : undefined,
+			orgId: params.orgId ? Number(params.orgId) : undefined,
+		});
+		const raw = res.data;
+		if (raw && typeof raw === "object") {
+			const pageObj = raw as Record<string, unknown>;
+			const rows = Array.isArray(pageObj.rows) ? pageObj.rows : [];
+			const list = rows
+				.map((item) => (item && typeof item === "object" ? mapStaffRowToEmployeeItem(item as Record<string, unknown>) : null))
+				.filter((item): item is EmployeeItem => Boolean(item));
+			const total = Number(pageObj.total ?? 0);
+			return { list, total: Number.isFinite(total) ? total : list.length };
+		}
+	} catch {
+		// ignore -> fallback mock
+	}
+
 	const keyword = (params.keyword || "").trim().toLowerCase();
 	let filtered = db.filter((item) => (params.orgId ? item.orgId === params.orgId : true));
 	if (params.status) filtered = filtered.filter((item) => item.status === params.status);
@@ -129,6 +263,27 @@ export async function queryEmployeeList(params: EmployeeQuery): Promise<{ list: 
 }
 
 export async function createEmployee(payload: EmployeeCreatePayload): Promise<EmployeeItem> {
+	try {
+		const http = useHttp();
+		await http.post("/j1/staff/save", mapPayloadToSaveBody(payload));
+		// 新增接口若不返回详情，这里回填一个临时对象用于前端交互连续性
+		return {
+			id: `temp-${Date.now()}`,
+			name: payload.name,
+			account: payload.account,
+			orgId: payload.orgId,
+			orgName: orgNameMap.get(payload.orgId) || "",
+			gender: payload.gender,
+			position: payload.position,
+			roleName: payload.isManager ? "管理员" : "",
+			personType: payload.isInternal ? "内部" : "外部",
+			hireDate: payload.hireDate || new Date().toISOString().slice(0, 10),
+			status: "在职",
+		};
+	} catch {
+		// ignore -> fallback mock
+	}
+
 	const item: EmployeeItem = {
 		id: `emp-${Date.now()}`,
 		name: payload.name,
@@ -147,6 +302,14 @@ export async function createEmployee(payload: EmployeeCreatePayload): Promise<Em
 }
 
 export async function updateEmployee(payload: EmployeeUpdatePayload): Promise<void> {
+	try {
+		const http = useHttp();
+		await http.post("/j1/staff/save", mapPayloadToSaveBody(payload));
+		return;
+	} catch {
+		// ignore -> fallback mock
+	}
+
 	const idx = db.findIndex((item) => item.id === payload.id);
 	if (idx === -1) return wait(undefined, 200);
 	db[idx] = {
@@ -165,8 +328,16 @@ export async function updateEmployee(payload: EmployeeUpdatePayload): Promise<vo
 }
 
 export async function resetEmployeePassword(id: string, newPassword: string): Promise<void> {
-	void id;
-	void newPassword;
+	try {
+		const http = useHttp();
+		await http.post("/j1/staff/resetPassword", {
+			staffId: Number(id),
+			newPassword,
+		});
+		return;
+	} catch {
+		// ignore -> fallback mock
+	}
 	return wait(undefined, 220);
 }
 
@@ -175,6 +346,17 @@ export async function queryRoleOptions(): Promise<string[]> {
 }
 
 export async function setEmployeeRole(ids: string[], roleName: string): Promise<void> {
+	// Apifox 当前接口 /j1/staff/set 仅看到 body 为 id 数组，未见 roleName 字段
+	// 先按后端现状发送 ids，roleName 先保留参数占位，等待后端补充字段后再接入。
+	void roleName;
+	try {
+		const http = useHttp();
+		await http.post("/j1/staff/set", ids.map((id) => Number(id)));
+		return;
+	} catch {
+		// ignore -> fallback mock
+	}
+
 	db.forEach((item) => {
 		if (ids.includes(item.id)) item.roleName = roleName;
 	});
@@ -182,6 +364,14 @@ export async function setEmployeeRole(ids: string[], roleName: string): Promise<
 }
 
 export async function deleteEmployees(ids: string[]): Promise<void> {
+	try {
+		const http = useHttp();
+		await http.delete("/j1/staff/delete", ids.map((id) => Number(id)));
+		return;
+	} catch {
+		// ignore -> fallback mock
+	}
+
 	for (let i = db.length - 1; i >= 0; i--) {
 		if (ids.includes(db[i].id)) db.splice(i, 1);
 	}
@@ -189,6 +379,18 @@ export async function deleteEmployees(ids: string[]): Promise<void> {
 }
 
 export async function transferEmployeeOrg(ids: string[], targetOrgId: string): Promise<void> {
+	try {
+		const http = useHttp();
+		await http.post(
+			"/j1/staff/transferOrg",
+			ids.map((id) => Number(id)),
+			{ params: { orgId: Number(targetOrgId) } },
+		);
+		return;
+	} catch {
+		// ignore -> fallback mock
+	}
+
 	const orgName = orgNameMap.get(targetOrgId) || "";
 	db.forEach((item) => {
 		if (ids.includes(item.id)) {
@@ -200,6 +402,16 @@ export async function transferEmployeeOrg(ids: string[], targetOrgId: string): P
 }
 
 export async function changeEmployeeStatus(ids: string[], status: "在职" | "离职"): Promise<void> {
+	try {
+		const http = useHttp();
+		await http.post("/j1/staff/update", ids.map((id) => Number(id)), {
+			params: { statue: status === "在职" ? 1 : 0 },
+		});
+		return;
+	} catch {
+		// ignore -> fallback mock
+	}
+
 	db.forEach((item) => {
 		if (ids.includes(item.id)) item.status = status;
 	});

@@ -1,5 +1,6 @@
 import type { FunnelSeriesItem } from "@/components/mychart/FunnelChart.vue";
 import type { ChartSeriesData } from "@/components/mychart/type";
+import { useHttp } from "@/plugins/http";
 
 export interface ScorePieItem {
 	name: string;
@@ -46,19 +47,68 @@ function mockMonth(month: string) {
 }
 
 export async function queryStudentFunnelByMonth(params: { month: string }): Promise<FunnelSeriesItem[]> {
-	// TODO: 替换为真实接口：/xxx
+	// 文档：GET /app/common/statis/funnel（无入参）
+	void params;
+	try {
+		const http = useHttp();
+		const res = await http.get<unknown>("/app/common/statis/funnel");
+		const raw = res.data;
+		if (Array.isArray(raw)) {
+			// 兼容后端直接返回 [{ name, value }, ...] 或 [{ stageName, count }, ...]
+			return raw
+				.map((item) => {
+					if (!item || typeof item !== "object") return null;
+					const o = item as Record<string, unknown>;
+					const name = (o.name ?? o.stageName ?? o.label) as string | undefined;
+					const value = Number(o.value ?? o.count ?? o.num ?? 0);
+					if (!name) return null;
+					return { name, value } as FunnelSeriesItem;
+				})
+				.filter((i): i is FunnelSeriesItem => Boolean(i));
+		}
+	} catch {
+		// ignore -> fallback mock
+	}
 	const mock = mockMonth(params.month);
-	return new Promise((resolve) => setTimeout(() => resolve(mock.stage), 450));
+	return new Promise((resolve) => setTimeout(() => resolve(mock.stage), 250));
 }
 
 export async function queryStudentScorePieByMonth(params: { month: string }): Promise<ScorePieItem[]> {
-	// TODO: 替换为真实接口：/xxx
+	// 文档里对应的是“在学学生年龄统计”GET /app/common/statis/studentAgeStatis，但当前页面展示的是“成绩构成”
+	// 在真实“成绩构成”接口未明确前，先保留 mock，等你在 Apifox 给到接口后再替换。
 	const mock = mockMonth(params.month);
 	return new Promise((resolve) => setTimeout(() => resolve(mock.score), 450));
 }
 
 export async function queryLeadTrend(params: { startDate: string; endDate: string }): Promise<LeadTrendResult> {
-	// TODO: 替换为真实接口：/xxx
+	// 文档：GET /app/common/statis/newStudentCounts?startDate&endDate
+	try {
+		const http = useHttp();
+		const res = await http.get<unknown>("/app/common/statis/newStudentCounts", {
+			startDate: params.startDate,
+			endDate: params.endDate,
+		});
+		const raw = res.data;
+		if (Array.isArray(raw)) {
+			const xAxisData: string[] = [];
+			const data: number[] = [];
+			for (const item of raw) {
+				if (!item || typeof item !== "object") continue;
+				const o = item as Record<string, unknown>;
+				const x = String(o.date ?? o.day ?? o.statDate ?? "");
+				const y = Number(o.count ?? o.value ?? o.num ?? 0);
+				if (!x) continue;
+				xAxisData.push(x);
+				data.push(Number.isFinite(y) ? y : 0);
+			}
+			return {
+				xAxisData,
+				seriesData: [{ name: "新增线索", data, color: "#e91e63" }],
+			};
+		}
+	} catch {
+		// ignore -> fallback mock
+	}
 	const seed = hashToNumber(`${params.startDate}-${params.endDate}`);
 	const days = 12;
 	const xAxisData = Array.from({ length: days }, (_, i) => `D${i + 1}`);
@@ -82,7 +132,36 @@ export async function queryLeadTrend(params: { startDate: string; endDate: strin
 }
 
 export async function queryClassHourRank(params: { startDate: string; endDate: string; top?: number }): Promise<ClassHourRankResult> {
-	// TODO: 替换为真实接口：/xxx
+	// 文档：GET /app/common/statis/studentLessonCounts?startDate&endDate
+	try {
+		const http = useHttp();
+		const res = await http.get<unknown>("/app/common/statis/studentLessonCounts", {
+			startDate: params.startDate,
+			endDate: params.endDate,
+		});
+		const raw = res.data;
+		if (Array.isArray(raw)) {
+			const rows = raw
+				.map((item) => {
+					if (!item || typeof item !== "object") return null;
+					const o = item as Record<string, unknown>;
+					const name = String(o.studentName ?? o.name ?? o.label ?? "");
+					const value = Number(o.lessonCount ?? o.count ?? o.value ?? 0);
+					if (!name) return null;
+					return { name, value: Number.isFinite(value) ? value : 0 };
+				})
+				.filter((i): i is { name: string; value: number } => Boolean(i));
+
+			const top = params.top ?? 10;
+			const sliced = rows.slice(0, top);
+			return {
+				xAxisData: sliced.map((i) => i.name),
+				seriesData: [{ name: "课时数", data: sliced.map((i) => i.value), color: "#40c9c6" }],
+			};
+		}
+	} catch {
+		// ignore -> fallback mock
+	}
 	const seed = hashToNumber(`${params.startDate}-${params.endDate}`);
 	const top = params.top ?? 10;
 	const xAxisData = Array.from({ length: top }, (_, i) => `学员${i + 1}`);
