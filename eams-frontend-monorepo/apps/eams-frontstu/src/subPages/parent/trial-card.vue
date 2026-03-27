@@ -88,13 +88,11 @@ async function loadPageData() {
 	loading.value = true;
 	try {
 		await Promise.all([loadTrialCards(), loadTrialCardRule()]);
-	}
-	catch {
+	} catch {
 		cards.value = [];
 		rule.value = null;
 		uni.showToast({ title: "试听卡加载失败", icon: "none" });
-	}
-	finally {
+	} finally {
 		loading.value = false;
 	}
 }
@@ -153,11 +151,9 @@ async function claimCard(item: TrialCardItem) {
 		updateClaimedState(item);
 		activeTab.value = "claimed";
 		globalToast.success(res?.message || "领取成功");
-	}
-	catch {
+	} catch {
 		globalToast.error("领取试听卡失败");
-	}
-	finally {
+	} finally {
 		receivingId.value = null;
 	}
 }
@@ -222,7 +218,10 @@ onMounted(() => {
 					<view
 						v-if="activeTab === 'unclaimed'"
 						class="trial-card__action"
-						:class="{ 'trial-card__action--disabled': item.state === 0 || (item.remainingQuantity || 0) <= 0 || receivingId === item.id }"
+						:class="{
+							'trial-card__action--disabled':
+								item.state === 0 || (item.remainingQuantity || 0) <= 0 || receivingId === item.id,
+						}"
 						@click="confirmClaim(item)"
 					>
 						{{

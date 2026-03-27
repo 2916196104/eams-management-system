@@ -40,8 +40,8 @@ const filteredGoods = computed(() => {
 	const value = keyword.value.trim().toLowerCase();
 	if (!value) return goodsList.value;
 
-	return goodsList.value.filter(item =>
-		[item.name, item.categoryName, item.schoolName, item.content].some(text =>
+	return goodsList.value.filter((item) =>
+		[item.name, item.categoryName, item.schoolName, item.content].some((text) =>
 			String(text || "")
 				.toLowerCase()
 				.includes(value),
@@ -86,12 +86,10 @@ async function loadGoods(nextPage = 1, append = false) {
 		pages.value = Number(pageData.pages || 0);
 		total.value = Number(pageData.total || 0);
 		goodsList.value = append ? [...goodsList.value, ...rows] : rows;
-	}
-	catch {
+	} catch {
 		if (!append) goodsList.value = [];
 		uni.showToast({ title: "礼品列表加载失败", icon: "none" });
-	}
-	finally {
+	} finally {
 		targetLoading.value = false;
 	}
 }
@@ -140,12 +138,7 @@ onMounted(() => {
 			<!-- 礼品卡片列表 -->
 			<view v-if="filteredGoods.length" class="goods-list">
 				<view v-for="item in filteredGoods" :key="item.id" class="goods-card" @click="openGoodsDetail(item.id)">
-					<image
-						v-if="item.cover"
-						:src="item.cover"
-						class="goods-card__cover"
-						mode="aspectFill"
-					/>
+					<image v-if="item.cover" :src="item.cover" class="goods-card__cover" mode="aspectFill" />
 					<view v-else class="goods-card__cover goods-card__cover--placeholder">
 						<view class="i-carbon:gift text-34px text-#bcc4d1" />
 					</view>

@@ -77,12 +77,10 @@ async function loadReviews(nextPage = 1, append = false) {
 		pages.value = Number(pageData.pages || 0);
 		total.value = Number(pageData.total || 0);
 		reviews.value = append ? [...reviews.value, ...rows] : rows;
-	}
-	catch {
+	} catch {
 		if (!append) reviews.value = [];
 		uni.showToast({ title: "点评记录加载失败", icon: "none" });
-	}
-	finally {
+	} finally {
 		targetLoading.value = false;
 	}
 }

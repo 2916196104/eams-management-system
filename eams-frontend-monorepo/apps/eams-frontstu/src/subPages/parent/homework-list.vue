@@ -51,12 +51,10 @@ async function loadHomework(nextPage = 1, append = false) {
 		pages.value = Number(pageData.pages || 0);
 		total.value = Number(pageData.total || 0);
 		homeworkList.value = append ? [...homeworkList.value, ...rows] : rows;
-	}
-	catch {
+	} catch {
 		if (!append) homeworkList.value = [];
 		uni.showToast({ title: "作业列表加载失败", icon: "none" });
-	}
-	finally {
+	} finally {
 		targetLoading.value = false;
 	}
 }

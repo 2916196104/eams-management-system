@@ -75,15 +75,7 @@ function debugEnterHome() {
 	<view class="btn-box">
 		<wd-button type="primary" :round="false" size="large" block @click="login">登录</wd-button>
 		<wd-button type="success" :round="false" size="large" plain block @click="navigateTo('register')">注册</wd-button>
-		<wd-button
-			v-if="isDevMode"
-			type="warning"
-			:round="false"
-			size="large"
-			plain
-			block
-			@click="debugEnterHome"
-		>
+		<wd-button v-if="isDevMode" type="warning" :round="false" size="large" plain block @click="debugEnterHome">
 			开发调试进入首页
 		</wd-button>
 	</view>

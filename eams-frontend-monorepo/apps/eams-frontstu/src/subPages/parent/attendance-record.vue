@@ -108,7 +108,9 @@ function getStatusClass(record: AttendanceRecordItem) {
 function getTimeRange(record: AttendanceRecordItem) {
 	const dateText = record.date || "未设置日期";
 	const timeText =
-		record.startTime && record.endTime ? `${record.startTime} - ${record.endTime}` : record.startTime || record.endTime || "未设置时间";
+		record.startTime && record.endTime
+			? `${record.startTime} - ${record.endTime}`
+			: record.startTime || record.endTime || "未设置时间";
 	return `${dateText} ${timeText}`;
 }
 
@@ -151,12 +153,10 @@ async function loadAttendanceRecords() {
 			},
 		});
 		records.value = normalizeRows(res?.data);
-	}
-	catch {
+	} catch {
 		records.value = [];
 		uni.showToast({ title: "上课记录加载失败", icon: "none" });
-	}
-	finally {
+	} finally {
 		loading.value = false;
 	}
 }
@@ -176,11 +176,9 @@ async function handleEvaluate(record: AttendanceRecordItem) {
 			title: "课次评价信息",
 			msg: buildEvaluateMessage(res?.data),
 		});
-	}
-	catch {
+	} catch {
 		uni.showToast({ title: "评价信息加载失败", icon: "none" });
-	}
-	finally {
+	} finally {
 		actionLoadingId.value = null;
 	}
 }

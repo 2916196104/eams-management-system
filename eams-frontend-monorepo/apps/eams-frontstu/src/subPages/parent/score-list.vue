@@ -82,12 +82,10 @@ async function loadScores(nextPage = 1, append = false) {
 		pages.value = Number(pageData.pages || 0);
 		total.value = Number(pageData.total || 0);
 		scoreList.value = append ? [...scoreList.value, ...rows] : rows;
-	}
-	catch {
+	} catch {
 		if (!append) scoreList.value = [];
 		uni.showToast({ title: "成绩列表加载失败", icon: "none" });
-	}
-	finally {
+	} finally {
 		targetLoading.value = false;
 	}
 }
