@@ -93,7 +93,7 @@ const goodsId = computed(() => Number(route.query?.id || 0));
 const detailImages = computed(() =>
 	String(detail.value?.detailImages || "")
 		.split(",")
-		.map(item => item.trim())
+		.map((item) => item.trim())
 		.filter(Boolean),
 );
 const canSubmit = computed(() => {
@@ -213,11 +213,9 @@ async function submitExchange() {
 				exchangeResult.value = response?.data || null;
 				showApplyPopup.value = false;
 				globalToast.success(response?.data?.message || response?.message || "兑换申请已提交");
-			}
-			catch {
+			} catch {
 				globalToast.error("兑换申请提交失败");
-			}
-			finally {
+			} finally {
 				submitLoading.value = false;
 			}
 		},
@@ -253,13 +251,11 @@ async function loadDetail() {
 
 		detail.value = detailRes?.data || null;
 		exchangeRule.value = ruleRes?.data || null;
-	}
-	catch {
+	} catch {
 		detail.value = null;
 		exchangeRule.value = null;
 		uni.showToast({ title: "礼品详情加载失败", icon: "none" });
-	}
-	finally {
+	} finally {
 		loading.value = false;
 	}
 }
@@ -412,11 +408,7 @@ onMounted(() => {
 
 				<view class="apply-popup__field">
 					<text class="apply-popup__label">收货地址</text>
-					<textarea
-						v-model="form.receiverAddress"
-						class="apply-popup__textarea"
-						placeholder="请输入收货地址"
-					/>
+					<textarea v-model="form.receiverAddress" class="apply-popup__textarea" placeholder="请输入收货地址" />
 				</view>
 
 				<view class="apply-popup__field">

@@ -1,6 +1,7 @@
-import { defineStore } from "pinia";
 import type { Menu, Oauth2TokenDTO, UserInfo } from "@/apis/login/type";
+import { mergeStudentMenuBranch } from "@/config/studentMenuMerge";
 import { DataUpType, useHttp } from "@/plugins/http";
+import { defineStore } from "pinia";
 
 // 前端临时补充的菜单项，用于在正式管理端左侧展示当前已完成的 12 个页面。
 // 图标统一使用 iconify 风格字符串，便于和后端后续菜单数据保持一致。
@@ -105,6 +106,19 @@ const tempMenus: Array<Menu> = [
 			},
 		],
 	},
+	{
+		id: "temp-system",
+		text: "系统",
+		icon: "ep/setting",
+		children: [
+			{
+				id: "temp-system-notice",
+				text: "系统公告",
+				icon: "ep/setting",
+				href: "/notice",
+			},
+		],
+	},
 ];
 
 // 深拷贝菜单，避免直接修改后端返回的原始数据。
@@ -139,11 +153,11 @@ function mergeMenus(sourceMenus: Array<Menu> = []) {
 
 export const useUserStore = defineStore("user", {
 	state: () => ({
-		// 记录 token
+		// 记录token
 		token: null as string | null,
-		// 记录 refreshToken
+		// 记录refreshToken
 		refreshToken: null as string | null,
-		// 指示登录后需要加载的初始化数据是否完成
+		// 保存一个标识信息，指示登陆后需要加载的初始化数据是否完成
 		loaded: false,
 		// 保存当前用户
 		user: null as UserInfo | null,
@@ -151,9 +165,9 @@ export const useUserStore = defineStore("user", {
 		menus: [] as Array<Menu>,
 	}),
 	getters: {
-		// 获取 token
+		// 获取token
 		getToken: (state) => state.token || localStorage.getItem("token"),
-		// 是否加载完成
+		// 是否已加载
 		isLoaded: (state) => state.loaded,
 		// 获取当前用户
 		getUser: (state) => state.user,
@@ -163,6 +177,7 @@ export const useUserStore = defineStore("user", {
 	actions: {
 		// 加载用户
 		async loadUser() {
+			// 发送获取当前用户信息请求
 			const data = await useHttp().get<UserInfo>("/login/current-user");
 			if (data.data) this.user = data.data;
 			if (!this.user?.avatar) {
@@ -174,16 +189,24 @@ export const useUserStore = defineStore("user", {
 		},
 		// 加载菜单
 		async loadMenus() {
-			const data = await useHttp().get<Array<Menu>>("/login/get-menus");
-			this.menus = mergeMenus(data.data || []);
+			try {
+				const data = await useHttp().get<Array<Menu>>("/login/get-menus");
+				const raw = Array.isArray(data.data) ? data.data : [];
+				this.menus = mergeStudentMenuBranch(raw);
+			} catch {
+				// 接口失败时仍展示本地「学员」分支，避免无法进入在学学员等页面
+				this.menus = mergeStudentMenuBranch([]);
+			}
 		},
 		// 加载刷新凭证
 		loadRefreshToken() {
 			if (!this.refreshToken) this.refreshToken = localStorage.getItem("refreshToken");
 		},
-		// 刷新 token
+		// 刷新token
 		async reloadToken() {
+			// 先加载刷新凭证
 			this.loadRefreshToken();
+			// 发送刷新凭证请求
 			const data = await useHttp().post<Oauth2TokenDTO>(
 				"/login/refresh-token",
 				{
@@ -194,13 +217,14 @@ export const useUserStore = defineStore("user", {
 					upType: DataUpType.form,
 				},
 			);
+			//设置Token相关属性
 			this.setToken(data.data);
 		},
 		// 设置是否加载完成
 		setLoaded(loaded: boolean) {
 			this.loaded = loaded;
 		},
-		// 设置 token
+		// 设置token
 		setToken(data: any) {
 			this.token = data.token;
 			this.refreshToken = data.refreshToken;

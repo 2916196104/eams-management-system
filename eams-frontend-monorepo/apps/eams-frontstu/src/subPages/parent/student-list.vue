@@ -132,6 +132,8 @@ onShow(() => {
 		</view>
 
 		<view class="student-page__content">
+
+=======
 			<template v-if="hasStudents">
 				<view v-for="student in students" :key="student.id" class="student-item" @click="editStudent(student.id)">
 					<view class="student-item__info">
@@ -146,6 +148,7 @@ onShow(() => {
 						@click.stop="switchStudent(student.id)"
 					>
 						切换
+>>>>>>> 012ead345edc460ba6e7c7d0c26175e024a9b4ae
 					</view>
 				</view>
 			</template>

@@ -37,7 +37,10 @@ export default {
 	"sCenter.get_app_sCenter_advertisement": ["GET", "/app/sCenter/advertisement"],
 	"sCenter.get_app_sCenter_advertisementList": ["GET", "/app/sCenter/advertisementList"],
 	"sCenter.get_app_sCenter_student_redpoint": ["GET", "/app/sCenter/student/redpoint"],
-	"home.get_home_attendance_records_page_query_by_student_id": ["GET", "/home/attendance_records/page/query-by-student_id"],
+	"home.get_home_attendance_records_page_query_by_student_id": [
+		"GET",
+		"/home/attendance_records/page/query-by-student_id",
+	],
 	"home.post_home_attendance_records_evaluate": ["POST", "/home/attendance_records/evaluate"],
 	"home.get_home_class_info_query_by_class_id": ["GET", "/home/class/info/query-by-class_id"],
 	"home.get_home_class_page_query_by_student_id": ["GET", "/home/class/page/query-by-student_id"],

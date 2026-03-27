@@ -65,12 +65,10 @@ async function loadHomeworkDetail() {
 			},
 		});
 		detail.value = res?.data || null;
-	}
-	catch {
+	} catch {
 		detail.value = null;
 		uni.showToast({ title: "作业详情加载失败", icon: "none" });
-	}
-	finally {
+	} finally {
 		loading.value = false;
 	}
 }
@@ -115,11 +113,9 @@ async function submitHomework(content: string) {
 
 		submitResult.value = normalizeSubmitResult(res);
 		globalToast.success("作业提交成功");
-	}
-	catch {
+	} catch {
 		globalToast.error("作业提交失败");
-	}
-	finally {
+	} finally {
 		submitLoading.value = false;
 	}
 }
@@ -153,11 +149,9 @@ async function deleteHomework() {
 		setTimeout(() => {
 			uni.navigateBack();
 		}, 250);
-	}
-	catch {
+	} catch {
 		globalToast.error("删除作业失败");
-	}
-	finally {
+	} finally {
 		deleteLoading.value = false;
 	}
 }

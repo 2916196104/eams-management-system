@@ -90,12 +90,10 @@ async function loadRecords(nextPage = 1, append = false) {
 		pages.value = Number(pageData.pages || 0);
 		total.value = Number(pageData.total || 0);
 		records.value = append ? [...records.value, ...rows] : rows;
-	}
-	catch {
+	} catch {
 		if (!append) records.value = [];
 		uni.showToast({ title: "报名记录加载失败", icon: "none" });
-	}
-	finally {
+	} finally {
 		targetLoading.value = false;
 	}
 }
@@ -124,9 +122,13 @@ function openClassList(item: RegistrationRecordItem) {
 	} as any);
 }
 
-watch(studentId, () => {
-	loadRecords(1, false);
-}, { immediate: true });
+watch(
+	studentId,
+	() => {
+		loadRecords(1, false);
+	},
+	{ immediate: true },
+);
 
 watch(excludeExpired, () => {
 	loadRecords(1, false);
