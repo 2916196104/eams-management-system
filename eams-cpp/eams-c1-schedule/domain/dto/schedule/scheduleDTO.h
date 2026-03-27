@@ -30,10 +30,30 @@
 class ScheduleAppointmentDTO : public oatpp::DTO {
 	DTO_INIT(ScheduleAppointmentDTO, DTO);
 	//预约课次ID
-	API_DTO_FIELD_REQUIRE(UInt64, scheduleId, ZH_WORDS_GETTER("schedule.appointment.scheduleId"), true);
+	API_DTO_FIELD_REQUIRE(UInt64, lessonId, ZH_WORDS_GETTER("schedule.appointment.scheduleId"), true);
 	//预约学生ID
 	API_DTO_FIELD_REQUIRE(UInt64, studentId, ZH_WORDS_GETTER("schedule.appointment.studentId"), true);
+	// 关联一个PayloadDTO负载数据对象
+	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
+public:
+	// 数据校验
+	std::string validate()
+	{
+		// 1. 校验预约课次 ID
+		// !scheduleId 检查前端有没有传这个字段
+		// scheduleId.getValue(0) <= 0 检查传过来的数值是不是非法
+		if (!lessonId || lessonId.getValue(0) <= 0) {
+			return "预约课次ID(scheduleId)无效或不能为空！";
+		}
 
+		// 2. 校验预约学生 ID
+		if (!studentId || studentId.getValue(0) <= 0) {
+			return "预约学生ID(studentId)无效或不能为空！";
+		}
+
+		// 3. 所有基础规则通过，返回空字符串表示“放行”
+		return "";
+	}
 };
 
 /**
@@ -43,11 +63,37 @@ class ScheduleLeaveDTO : public oatpp::DTO {
     DTO_INIT(ScheduleLeaveDTO, DTO);
 
     // 请假课次ID
-    API_DTO_FIELD_REQUIRE(UInt64, scheduleId, ZH_WORDS_GETTER("schedule.leave.scheduleId"), true);
+    API_DTO_FIELD_REQUIRE(UInt64, lessonId, ZH_WORDS_GETTER("schedule.leave.scheduleId"), true);
     // 请假学生ID
     API_DTO_FIELD_REQUIRE(UInt64, studentId, ZH_WORDS_GETTER("schedule.leave.studentId"), true);
     // 请假原因
     API_DTO_FIELD_REQUIRE(String, reason, ZH_WORDS_GETTER("schedule.leave.reason"), true);
+	// 关联一个PayloadDTO负载数据对象
+	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
+public:
+	std::string validate()
+	{
+		// 1. 校验请假课次 ID
+		if (!lessonId || lessonId.getValue(0) <= 0) {
+			return "请假课次ID无效或不能为空！ ";
+		}
+
+		// 2. 校验请假学生 ID
+		if (!studentId || studentId.getValue(0) <= 0) {
+			return "请假学生ID无效或不能为空！ ";
+		}
+
+		// 3. 校验请假原因 (查空 + 防恶意超长文本)
+		if (!reason || reason->empty()) {
+			return "请假原因不能为空！ ";
+		}
+		// 假设数据库 reason 字段最大长度是 255，我们在入口处卡死 200
+		if (reason->length() > 200) {
+			return "请假原因过长，请精简至200字以内！";
+		}
+
+		return "";
+	}
 };
 
 /**
@@ -58,13 +104,13 @@ class SignInDTO : public oatpp::DTO
 	DTO_INIT(SignInDTO, DTO);
 
 	// 排课ID
-	API_DTO_FIELD_REQUIRE(UInt64, scheduleId, ZH_WORDS_GETTER("schedule.field.scheduleId"), true);
+	API_DTO_FIELD_REQUIRE(UInt64, lessonId, ZH_WORDS_GETTER("schedule.field.scheduleId"), true);
 
 public:
 	// 参数校验逻辑
 	std::string validate()
 	{
-		if (!scheduleId || scheduleId <= 0) {
+		if (!lessonId || lessonId <= 0) {
 			return "scheduleId invalidate.";
 		}
 		return "";

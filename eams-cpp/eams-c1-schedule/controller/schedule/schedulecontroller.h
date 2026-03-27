@@ -9,7 +9,7 @@
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
 
-	  https://www.apache.org/licenses/LICENSE-2.0
+      https://www.apache.org/licenses/LICENSE-2.0
 
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,9 +35,9 @@
 #define API_TAG ZH_WORDS_GETTER("schedule.tag")
 class ScheduleController : public oatpp::web::server::api::ApiController
 {
-	// 定义控制器访问入口
-	API_ACCESS_DECLARE(ScheduleController);
-public: 
+    // 定义控制器访问入口
+    API_ACCESS_DECLARE(ScheduleController);
+public:
     // =======================================================
     // 接口 1：家长提交课程预约申请
     // =======================================================
@@ -51,7 +51,7 @@ public:
     // 3.2 定义新增预约接口处理
     API_HANDLER_ENDPOINT_AUTH(
         API_M_POST,
-        "schedule/appointment",
+        "/app/sCenter/lesson/appoint",
         addAppointment,
         BODY_DTO(ScheduleAppointmentDTO::Wrapper, dto),
         execAddAppointment(dto, authObject->getPayload()) // 传递 DTO 和 Payload (通常包含当前用户/家长信息)
@@ -69,7 +69,7 @@ public:
     // 3.2 定义新增请假接口处理
     API_HANDLER_ENDPOINT_AUTH(
         API_M_POST,
-        "schedule/leave",
+        "/app/sCenter/lesson/leave",
         addLeave,
         BODY_DTO(ScheduleLeaveDTO::Wrapper, dto),
         execAddLeave(dto, authObject->getPayload())

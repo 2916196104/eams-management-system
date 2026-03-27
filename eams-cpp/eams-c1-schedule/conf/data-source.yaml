@@ -8,7 +8,7 @@ spring:
   redis:
     host: 127.0.0.1
     port: 6379
-    password: 01star
+    password: hsb9510..
   data:
     mongodb:
-      uri: mongodb://awei:123456@192.168.220.128:27017/firstDb
+      uri: mongodb://awei:123456@192.168.202.131:27017/firstDb
