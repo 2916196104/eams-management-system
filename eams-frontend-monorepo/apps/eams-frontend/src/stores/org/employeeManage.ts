@@ -3,6 +3,7 @@ import {
 	changeEmployeeStatus,
 	createEmployee,
 	deleteEmployees,
+	exportEmployees,
 	queryEmployeeList,
 	queryOrgTree,
 	queryRoleOptions,
@@ -94,6 +95,20 @@ export const useEmployeeManageStore = defineStore("employeeManage", {
 				this.loading.list = false;
 			}
 		},
+		async exportEmployeeList() {
+			this.loading.batch = true;
+			try {
+				await exportEmployees({
+					orgId: this.selectedOrgId || undefined,
+					keyword: this.keyword,
+					status: this.status,
+					page: this.page,
+					pageSize: this.pageSize,
+				});
+			} finally {
+				this.loading.batch = false;
+			}
+		},
 		setOrgAndQuery(orgId: string) {
 			this.selectedOrgId = orgId;
 			this.page = 1;
@@ -179,10 +194,10 @@ export const useEmployeeManageStore = defineStore("employeeManage", {
 				this.loading.batch = false;
 			}
 		},
-		async batchChangeStatus(ids: string[], status: "在职" | "离职") {
+		async batchChangeStatus(ids: string[], status: "在职" | "离职", date?: string) {
 			this.loading.batch = true;
 			try {
-				await changeEmployeeStatus(ids, status);
+				await changeEmployeeStatus(ids, status, date);
 				await this.fetchEmployeeList();
 			} finally {
 				this.loading.batch = false;

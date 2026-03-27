@@ -338,8 +338,13 @@ function handlePrint() {
 	window.print();
 }
 
-function handleExport() {
-	ElMessage.info("导出功能暂未接入");
+async function handleExport() {
+	try {
+		await store.exportEmployeeList();
+		ElMessage.success("已发起导出请求");
+	} catch (e: any) {
+		ElMessage.error(e?.message || "导出失败");
+	}
 }
 
 async function handleDelete() {
