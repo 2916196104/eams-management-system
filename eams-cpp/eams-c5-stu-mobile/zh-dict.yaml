@@ -1,7 +1,7 @@
 LessonComment:
   tag: 点评记录
   query-all:
-    summary: 查询所有点评
+    summary: 获取点评记录（条件+分页）
   field:
     id: 主键ID
     lesson_id: 课程id
