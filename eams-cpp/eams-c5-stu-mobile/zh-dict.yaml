@@ -1,0 +1,28 @@
+﻿c5:
+  home:
+    Announcement:
+      tag:
+        t1: 公告提醒
+      field:
+        id: 主键ID
+        title: 标题
+        type: 类型
+        content: 发送内容
+        cover:
+        creator: 创建人
+        add_time: 添加时间
+        deleted: 删除标记
+        edit_time: 编辑时间
+        editor: 编辑人
+        state: 状态
+        sort_num:
+        code: 唯一码
+      getallannouncement:
+        summary: 获取所有公告(分页)
+        search1: 添加时间
+        search2: 类型
+        titlename1: 关于处理学生玩原神
+        typename1: 普通公告
+      getdisplayedannouncement:
+        summary: 获取显示通知公告
+        search1: 添加时间    

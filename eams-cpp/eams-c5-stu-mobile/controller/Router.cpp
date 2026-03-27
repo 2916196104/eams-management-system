@@ -19,7 +19,8 @@
 #include "stdafx.h"
 #include "Router.h"
 #include "ApiHelper.h"
-
+#include"home/announcement/GetallannouncementController.h"
+#include"home/announcement/GetdisplayedannouncementController.h"
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
 // 简化绑定控制器宏定义
@@ -40,5 +41,6 @@ Router::Router(Endpoints* docEndpoints, HttpRouter* router)
 void Router::initRouter()
 {
 	//#TIP :系统扩展路由定义，写在这个后面
-	
+	ROUTER_SIMPLE_BIND(GetallannouncementController);
+	ROUTER_SIMPLE_BIND(GetdisplayedannouncementController);
 }
