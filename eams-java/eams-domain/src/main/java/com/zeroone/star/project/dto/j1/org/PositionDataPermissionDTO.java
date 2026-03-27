@@ -3,28 +3,32 @@ package com.zeroone.star.project.dto.j1.org;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.hibernate.validator.constraints.Range;
 
-/**
- *  组织界面里职位管理的数据权限类
- */
-@ApiModel("数据权限实体类")
+import javax.validation.constraints.NotBlank;
+
+@ApiModel("职位数据权限DTO")
 @Data
 public class PositionDataPermissionDTO {
 
     @ApiModelProperty(value = "数据权限记录ID（新增不传，修改必传）", example = "1")
     private Long id;
 
+    @ApiModelProperty(value = "职位ID", required = true, example = "100")
+    @NotBlank(message = "职位ID不能为空")
+    private Long positionId;
+
     @ApiModelProperty(value = "数据表表名", required = true, example = "staff")
-    private String entity_name;
+    @NotBlank(message = "数据表表名不能为空")
+    private String entityName;
 
-    @ApiModelProperty(value = "数据权限范围类型（不填则表示按系统默认）", required = true, example = "1全部 2本校 3本部门 4自己")
-    private Integer scope_type;
+    @ApiModelProperty(value = "数据权限范围类型", required = true, example = "1")
+    @Range(min = 0, max = 255, message = "数据权限范围在0-255之间")
+    private Integer scopeType;
 
+    @ApiModelProperty(value = "负责人字段", example = "creator")
+    private String ownerField;
 
-    @ApiModelProperty(value = "负责人字段（如果是修改数据,则要传,新增则不用）", example = "creator")
-    private String owner_field;
-
-    @ApiModelProperty(value = "数据所属组织字段名（不填则表示按系统默认）", example = "org_id")
-    private String owner_org_field;
-
+    @ApiModelProperty(value = "数据所属组织字段名", example = "orgId")
+    private String ownerOrgField;
 }

@@ -35,5 +35,15 @@ public class User implements Serializable {
      */
     private String password;
 
+    /**
+     * 所属机构ID
+     */
+    private Long orgId;
+
+    /**
+     * 用户名称
+     */
+    private String name;
+
 
 }

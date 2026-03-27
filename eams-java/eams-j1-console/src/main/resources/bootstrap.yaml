@@ -1,6 +1,6 @@
-spring:
-  application:
-    name: eams-j1-console
+#spring:
+#  application:
+#    name: eams-j1-console
 # 临时禁用Nacos配置中心
 #  cloud:
 #    nacos:

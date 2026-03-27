@@ -1,21 +1,26 @@
 package com.zeroone.star.project.j1.org.staff;
 
+import com.zeroone.star.project.dto.ExtendPageDTO;
 import com.zeroone.star.project.dto.PageDTO;
 
-import com.zeroone.star.project.dto.j1.org.ResetPasswordDTO;
-import com.zeroone.star.project.dto.j1.org.StaffDTO;
-import com.zeroone.star.project.dto.j1.org.StaffSetDTO;
-import com.zeroone.star.project.dto.j1.org.StaffUpdateDTO;
+import com.zeroone.star.project.dto.j1.org.*;
 import com.zeroone.star.project.query.j1.org.ClassRecordQuery;
+import com.zeroone.star.project.query.j1.org.LessonRecordQuery;
+import com.zeroone.star.project.query.j1.org.StaffDetailQuery;
 import com.zeroone.star.project.query.j1.org.StaffQuery;
-import com.zeroone.star.project.query.j1.org.TeachRecordQuery;
+//import com.zeroone.star.project.query.j1.org.TeachRecordQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j1.org.ClassRecordVO;
+import com.zeroone.star.project.vo.j1.org.LessonRecordVO;
 import com.zeroone.star.project.vo.j1.org.StaffDetailsVO;
 import com.zeroone.star.project.vo.j1.org.StaffVO;
-import com.zeroone.star.project.vo.j1.org.TeachRecordVO;
+//import com.zeroone.star.project.vo.j1.org.TeachRecordVO;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -38,7 +43,7 @@ public interface StaffMangerApis {
      * @param condition
      * @return 员工信息
      **/
-    JsonVO<StaffDetailsVO> queryStaff(StaffQuery condition);
+    JsonVO<StaffDetailsVO> queryStaff(StaffDetailQuery condition);
     /**
      *保存员工
      * @param condition
@@ -63,47 +68,46 @@ public interface StaffMangerApis {
      * @return 员工信息
      **/
     JsonVO<Long> updateStaffStatus(StaffUpdateDTO condition);
+
     /**
-     * 批量转出员工机构
-     * @param staffIds 员工ID集合
-     * @param orgId 目标机构ID
+     * 管理员批量转出员工机构
+     * @param dto 转出机构请求参数（员工ID列表、目标机构ID）
      * @return 操作结果
-     **/
-    JsonVO<List<Long>> transferStaffOrg(List<Long> staffIds, Long orgId);
+     */
+    @ApiOperation("转出机构（支持批量）")
+    @PostMapping("/transfer")
+    JsonVO<Void> batchTransferOrg(@Valid @RequestBody AdminTransferOrgDTO dto);
 
     /**
      * 重置员工密码
-     * @param dto 重置参数
-     * @return 结果
-     **/
-    JsonVO<Boolean> resetStaffPassword(ResetPasswordDTO dto);
-
+     * @param resetPasswordDTO 重置密码参数
+     * @return 操作结果
+     */
+    @ApiOperation("修改密码")
+    @PostMapping("/reset-password")
+    JsonVO<Void> resetPassword(@Valid @RequestBody ResetPasswordDTO resetPasswordDTO);
     /**
-     * 导出员工列表
-     * @param condition 查询条件
-     * @return 导出结果
-     **/
-    JsonVO<Void> exportStaffList(StaffQuery condition);
-
-    /**
-     * 修改员工头像
-     * @param staffId 员工ID
-     * @param file 头像文件
-     * @return 头像地址
-     **/
-    JsonVO<String> updateStaffAvatar(Long staffId, MultipartFile file);
-
-    /**
-     * 获取授课记录
+     * 导出员工信息到Excel
      * @param query 查询条件
-     * @return 记录列表
-     **/
-    JsonVO<PageDTO<TeachRecordVO>> getTeachRecord(TeachRecordQuery query);
-
+     */
+    @ApiOperation("导出数据")
+    @GetMapping("/export")
+    ResponseEntity<byte[]> exportStaffExcel(StaffQuery query);
     /**
-     * 获取带班记录
-     * @param query 查询条件
-     * @return 记录列表
-     **/
-    JsonVO<PageDTO<ClassRecordVO>> getClassRecord(ClassRecordQuery query);
+     * 修改员工头像（URL方式，适配已有文件URL场景）
+     * @param dto 头像修改DTO
+     * @return 操作结果
+     */
+    @PutMapping("/{staffId}/url")
+    @ApiOperation("修改头像")
+    JsonVO<Void> updateStaffAvatarByUrl(AdminUpdateStaffAvatarDTO dto);
+
+    @ApiOperation("获取授课记录（条件+分页）")
+    @GetMapping("/{staffId}/lesson")
+    JsonVO<PageDTO<LessonRecordVO>> pageQueryLessonRecord(@RequestBody LessonRecordQuery query);
+
+    @ApiOperation("获取授课记录（条件+分页）")
+    @GetMapping("/{staffId}/class")
+    JsonVO<PageDTO<ClassRecordVO>> pageQueryClassRecord(@RequestBody ClassRecordQuery query);
+
 }

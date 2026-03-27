@@ -1,17 +1,20 @@
 package com.zeroone.star.j1.console.controller;
 
-import com.zeroone.star.project.query.j1.console.*;
 import com.zeroone.star.j1.console.service.IConsoleService;
+import com.zeroone.star.project.j1.ConsoleApis;
+import com.zeroone.star.project.query.j1.console.*;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j1.console.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
- * 描述：控制台控制器
+ * 控制台管理控制器
  * </p>
  * <p>版权：&copy;01 星球</p>
  * <p>地址：01 星球总部</p>
@@ -20,44 +23,43 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @Api(tags = "控制台管理")
-@RequestMapping("/console")
-public class ConsoleController {
-    
-    @Autowired
+public class ConsoleController implements ConsoleApis {
+
+    @Resource
     private IConsoleService consoleService;
-    
-    @ApiOperation(value = "获取统计面板数据", notes = "返回教务系统关键统计数据，包括学生数、教师数、课程数等")
-    @GetMapping("/statistics")
+
+    @Override
+    @GetMapping("/console/statistics")
+    @ApiOperation(value = "统计面板", notes = "获取控制台统计面板数据")
     public JsonVO<ConsoleStatisticsVO> getStatistics() {
-        ConsoleStatisticsVO vo = consoleService.getStatistics();
-        return JsonVO.success(vo);
+        return JsonVO.success(consoleService.getStatistics());
     }
-    
-    @ApiOperation(value = "获取本月报名统计数据", notes = "返回指定月份的报名趋势和每日报名数据")
-    @PostMapping("/month-enrollment")
-    public JsonVO<MonthEnrollmentVO> getMonthEnrollment(@RequestBody MonthEnrollmentQuery query) {
-        MonthEnrollmentVO vo = consoleService.getMonthEnrollment(query);
-        return JsonVO.success(vo);
+
+    @Override
+    @GetMapping("/console/month-enrollment")
+    @ApiOperation(value = "本月报名", notes = "获取本月报名走势数据")
+    public JsonVO<MonthEnrollmentVO> getMonthEnrollment(MonthEnrollmentQuery query) {
+        return JsonVO.success(consoleService.getMonthEnrollment(query));
     }
-    
-    @ApiOperation(value = "获取课程报名统计", notes = "返回所有课程的报名情况统计，支持条件筛选")
-    @PostMapping("/course-enrollment")
-    public JsonVO<CourseEnrollmentVO> getCourseEnrollment(@RequestBody CourseEnrollmentQuery query) {
-        CourseEnrollmentVO vo = consoleService.getCourseEnrollment(query);
-        return JsonVO.success(vo);
+
+    @Override
+    @GetMapping("/console/course-enrollment-rank")
+    @ApiOperation(value = "课程报名排行", notes = "获取课程报名金额前5排行")
+    public JsonVO<List<CourseEnrollmentRankVO>> getCourseEnrollmentRank() {
+        return JsonVO.success(consoleService.getCourseEnrollmentRank());
     }
-    
-    @ApiOperation(value = "获取我的课表", notes = "返回指定用户的课程安排表")
-    @PostMapping("/schedule")
-    public JsonVO<ScheduleVO> getSchedule(@RequestBody ScheduleQuery query) {
-        ScheduleVO vo = consoleService.getSchedule(query);
-        return JsonVO.success(vo);
+
+    @Override
+    @PostMapping("/console/schedule")
+    @ApiOperation(value = "课表日历", notes = "查询控制台课表日历数据")
+    public JsonVO<TimetableCalendarVO> getSchedule(@RequestBody TimetableCalendarQuery query) {
+        return JsonVO.success(consoleService.getTimetableCalendar(query));
     }
-    
-    @ApiOperation(value = "获取我的客户列表", notes = "返回负责的客户信息及跟进状态统计")
-    @PostMapping("/customer")
-    public JsonVO<CustomerVO> getCustomers(@RequestBody CustomerQuery query) {
-        CustomerVO vo = consoleService.getCustomers(query);
-        return JsonVO.success(vo);
+
+    @Override
+    @PostMapping("/console/my-customer")
+    @ApiOperation(value = "我的客户", notes = "分页查询我的客户列表")
+    public JsonVO<MyCustomerVO> getMyCustomerList(@RequestBody MyCustomerQuery query) {
+        return JsonVO.success(consoleService.getMyCustomerList(query));
     }
 }

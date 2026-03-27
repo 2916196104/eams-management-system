@@ -12,6 +12,9 @@ import org.yaml.snakeyaml.util.UriEncoder;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+//测试用添加了导入的一个类
+import java.util.ArrayList;
+
 /**
  * <p>
  * 描述：获取登录用户信息
@@ -54,6 +57,7 @@ public class UserHolder {
 //        userJsonObject = new JSONObject();
 //        userJsonObject.putOnce("id", 1);
 //        userJsonObject.putOnce("user_name", "王麻子");
+//        userJsonObject.putOnce("org_id", 1);
 //        ArrayList<Object> roles = new ArrayList<>();
 //        roles.add("ROLE_ADMIN");
 //        userJsonObject.putOnce("authorities", roles);
@@ -64,8 +68,11 @@ public class UserHolder {
                 .username(userJsonObject.getStr("user_name"))
                 .isEnabled(Convert.toByte(1))
                 .roles(Convert.toList(String.class, userJsonObject.get("authorities")))
+                .orgId(Convert.toLong(userJsonObject.get("org_id")))
                 .build();
     }
+
+
 
     /**
      * 从请求头中获取当前请求的token
