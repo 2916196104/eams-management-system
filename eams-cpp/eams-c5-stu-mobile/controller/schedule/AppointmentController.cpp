@@ -2,11 +2,14 @@
 #include "AppointmentController.h"
 #include "service/schedule/AppointmentService.h"
 
-NoDataJsonVO::Wrapper AppointmentController::executeAppointment(const AppointmentQuery::Wrapper& query)
+StringJsonVO::Wrapper AppointmentController::executeAppointment(const AppointmentAddDTO::Wrapper& dto, const PayloadDTO& payload)
 {
-	NoDataJsonVO::Wrapper jvo = NoDataJsonVO::createShared();
-	ResultStatus res = AppointmentService().insert(query);
+	auto jvo = StringJsonVO::createShared();
+
+	dto->setPayload(&payload);
+	std::string msg = AppointmentService().insert(dto);
+	if (msg.front() >= '0' && msg.front() <= '9') jvo->success(msg);
+	else jvo->fail(msg);
 	
-	jvo->init(res);
 	return jvo;
 }

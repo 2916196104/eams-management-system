@@ -2,22 +2,13 @@
 #include "RegisterController.h"
 #include "service/login/RegisterService.h"
 
-NoDataJsonVO::Wrapper RegisterController::executeRegister(const RegisterQuery::Wrapper& query)
+StringJsonVO::Wrapper RegisterController::executeRegister(const RegisterAddDTO::Wrapper& dto, const PayloadDTO& payload)
 {
-	NoDataJsonVO::Wrapper jvo = NoDataJsonVO::createShared();
-	
-	std::string msg = RegisterService().validate(query);
-	if (msg == "success")
-	{
-		RegisterService().insert(query);
-		ResultStatus status(msg, 200);
-		jvo->init(status);
-	}
-	else
-	{
-		ResultStatus status(msg, 400);
-		jvo->init(status);
-	}
+	StringJsonVO::Wrapper jvo = StringJsonVO::createShared();
+	dto->setPayload(&payload);
+	std::string msg = RegisterService().validate(dto);
+	if (msg.front() >= '0' && msg.front() <= '9') jvo->success(msg);
+	else jvo->fail(msg);
 
 	return jvo;
 }

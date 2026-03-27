@@ -4,28 +4,28 @@
 #include "../lib-common/include/bcrypt/bcrypt.h"
 #include "Macros.h"
 
-void RegisterService::insert(RegisterQuery::Wrapper query)
+std::string RegisterService::insert(RegisterAddDTO::Wrapper dto)
 {
     RegisterDAO dao;
     PtrRegisterDO pdo = std::make_shared<RegisterDO>();
 
-    std::string pwd = encrpyPassword(query->password.getValue(""));
+    std::string pwd = encrpyPassword(dto->password.getValue(""));
     pdo->setPassword(pwd);
-    pdo->setMobile(query->mobile.getValue(""));
-    pdo->setName(query->name.getValue(""));
+    pdo->setMobile(dto->mobile.getValue(""));
+    pdo->setName(dto->name.getValue(""));
 
-    dao.insertUser(pdo);
+    return dao.insertUser(pdo);
 }
 
-std::string RegisterService::validate(const RegisterQuery::Wrapper query)
+std::string RegisterService::validate(const RegisterAddDTO::Wrapper dto)
 {
-	if (!checkPassword(query->password.getValue(""))) return ZH_WORDS_GETTER("login.register.field.password.errMsg");
-	if (!checkMobile(query->mobile.getValue(""))) return ZH_WORDS_GETTER("login.register.field.telephoneNumber.errMsg");
-	if (!checkVertificationCode(std::to_string(query->vertificationCode.getValue(1))))
+	if (!checkPassword(dto->password.getValue(""))) return ZH_WORDS_GETTER("login.register.field.password.errMsg");
+	if (!checkMobile(dto->mobile.getValue(""))) return ZH_WORDS_GETTER("login.register.field.telephoneNumber.errMsg");
+	if (!checkVertificationCode(std::to_string(dto->vertificationCode.getValue(1))))
 		return ZH_WORDS_GETTER("login.register.field.vertificationCode.errMsg");
-	if (RegisterDAO().isMobileExist(query->mobile.getValue(""))) 
+	if (RegisterDAO().isMobileExist(dto->mobile.getValue("")))
         return ZH_WORDS_GETTER("login.register.field.telephoneNumber.errMsgExist");
-	return "success";
+    return insert(dto);
 }
 // º”√‹√‹¬Î
 std::string RegisterService::encrpyPassword(std::string password)

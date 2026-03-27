@@ -2,10 +2,9 @@
 #include "AppointmentService.h"
 #include "domain/dto/schedule/AppointmentDTO.h"
 
-ResultStatus AppointmentService::insert(const AppointmentQuery::Wrapper& query)
+std::string AppointmentService::insert(const AppointmentAddDTO::Wrapper& dto)
 {
 	AppointmentDAO dao;
-	std::string msg = dao.insertAppointment(query);
-	if (msg == "success") return ResultStatus(msg, 200);
-	else return ResultStatus(msg, 400);
+	std::string msg = dao.insertAppointment(dto);
+	return msg;
 }

@@ -9,22 +9,40 @@ class AppointmentAddDTO : public oatpp::DTO
 {
 	DTO_INIT(AppointmentAddDTO, DTO);
 
-	// 课程名称
-	DTO_FIELD(String, courseId);
-	DTO_FIELD_INFO(courseId) {
-		info->description = ZH_WORDS_GETTER("schedule.appointment.courseId");
-	};
-
-	// 试听课次id
-	DTO_FIELD(String, lessonId);
-	DTO_FIELD_INFO(lessonId) {
-		info->description = ZH_WORDS_GETTER("schedule.appointment.lessonId");
+	// 预约日期
+	DTO_FIELD(String, date);
+	DTO_FIELD_INFO(date) {
+		info->description = ZH_WORDS_GETTER("schedule.appointment.date");
 	};
 
 	// 学生id
 	DTO_FIELD(String, studentId);
 	DTO_FIELD_INFO(studentId) {
 		info->description = ZH_WORDS_GETTER("student.id");
+	};
+
+	// 课程id
+	DTO_FIELD(String, courseId);
+	DTO_FIELD_INFO(courseId) {
+		info->description = ZH_WORDS_GETTER("schedule.appointment.courseId");
+	};
+
+	// 关联一个PayloadDTO负载数据对象
+protected: const PayloadDTO* _payload; public: const PayloadDTO* getPayload(void) const {
+	return _payload;
+}public: void setPayload(const PayloadDTO* var) {
+	_payload = var;
+};
+};
+
+class AppointmentDTO : public AppointmentAddDTO
+{
+	DTO_INIT(AppointmentDTO, AppointmentAddDTO);
+
+	// 预约id
+	DTO_FIELD(String, id);
+	DTO_FIELD_INFO(id) {
+		info->description = ZH_WORDS_GETTER("schedule.appointment.id");
 	};
 
 	// 预约时间
@@ -40,23 +58,13 @@ class AppointmentAddDTO : public oatpp::DTO
 	}
 
 
-	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
-};
-
-class AppointmentDTO : public AppointmentAddDTO
-{
-	DTO_INIT(AppointmentDTO, AppointmentAddDTO);
-
-	DTO_FIELD(String, id);
-	DTO_FIELD_INFO(id) {
-		info->description = ZH_WORDS_GETTER("schedule.appointment.id");
+	// 试听课次id
+	DTO_FIELD(String, lessonId);
+	DTO_FIELD_INFO(lessonId) {
+		info->description = ZH_WORDS_GETTER("schedule.appointment.lessonId");
 	};
 };
 
-//class AppointmentPageDTO : public PageDTO<AppointmentDTO::Wrapper>
-//{
-//	DTO_INIT(AppointmentPageDTO, PageDTO<AppointmentDTO::Wrapper>);
-//};
 
 #include OATPP_CODEGEN_END(DTO)
 

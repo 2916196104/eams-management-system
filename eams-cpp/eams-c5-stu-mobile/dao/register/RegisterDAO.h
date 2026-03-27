@@ -15,7 +15,7 @@ private:
 public:
 	// 判断当前数据库中是否存在相同手机号的用户
 	bool isMobileExist(const std::string& mobile);
-	void insertUser(const PtrRegisterDO query);
+	std::string insertUser(const PtrRegisterDO query);
 };
 
 #endif

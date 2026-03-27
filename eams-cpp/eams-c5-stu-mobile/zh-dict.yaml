@@ -1,5 +1,6 @@
 home:
   trialCard:
+    summary: "试听卡"
     name: "试听卡名称"
     courseName: "试听卡课程名称"
     lessonCount: "试听卡课时"
@@ -14,8 +15,9 @@ student:
   email: "学生邮箱"
   getStudentInfo: "获取学生信息"
 login:
+  summary: "登录"
   register:
-    summary: "注册"
+    summary: "注册账号"
     field:
       id: "编号ID"          
       telephoneNumber:      
@@ -32,6 +34,7 @@ login:
         info: "密码"
         errMsg: "密码必须是包含数字和字母且不少于8位"
 schedule:
+  summary: "课表"
   appointment:
     info: "预约"
     id: "预约ID"

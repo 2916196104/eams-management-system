@@ -2,7 +2,6 @@
 #ifndef _REGISTER_SERVICE_H_
 #define _REGISTER_SERVICE_H_
 
-#include "domain/vo/register/RegisterVO.h"
 #include "domain/dto/login/RegisterDTO.h"
 #include "domain/query/register/RegisterQuery.h"
 
@@ -18,9 +17,9 @@ private:
 	// 校验验证码
 	bool checkVertificationCode(std::string vertificationCode);
 public:
-	void insert(const RegisterQuery::Wrapper query);
+	std::string insert(const RegisterAddDTO::Wrapper dto);
 	// 数据校验,如果有错误，返回错误提示
-	std::string validate(const RegisterQuery::Wrapper query);
+	std::string validate(const RegisterAddDTO::Wrapper dto);
 };
 
 #endif

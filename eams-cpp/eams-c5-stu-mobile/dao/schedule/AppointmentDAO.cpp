@@ -3,6 +3,7 @@
 #include <sstream>
 #include <iomanip>
 #include <chrono>
+#include "domain/dto/schedule/AppointmentDTO.h"
 #include "string"
 #include "../../../lib-common/include/id/SnowFlake.h"
 
@@ -25,36 +26,36 @@ std::string AppointmentDAO::getCurrentDateTime() {
 	return oss.str();
 }
 
-std::string AppointmentDAO::getCounselorId(const AppointmentQuery::Wrapper& query)
+std::string AppointmentDAO::getCounselorId(const AppointmentAddDTO::Wrapper& dto)
 {
 	std::stringstream sql;
 	sql << "SELECT counselor FROM student WHERE id = ? LIMIT 1";
 	SqlParams params;
-	if (query->studentId) SQLPARAMS_PUSH(params, "s", std::string, query->studentId.getValue(""));
+	if (dto->studentId) SQLPARAMS_PUSH(params, "s", std::string, dto->studentId.getValue(""));
 
 	uint64_t counselorId = sqlSession->executeQueryNumerical(sql.str(), params);
 
 	return std::to_string(counselorId);
 }
 
-std::string AppointmentDAO::getLessonId(const AppointmentQuery::Wrapper& query)
+std::string AppointmentDAO::getLessonId(const AppointmentAddDTO::Wrapper& dto)
 {
 	std::stringstream sql;
 	sql << "SELECT id FROM lesson WHERE course_id = ? AND date = ? LIMIT 1";
 	SqlParams params;
-	if (query->courseId) SQLPARAMS_PUSH(params, "s", std::string, query->courseId.getValue(""));
-	if (query->date) SQLPARAMS_PUSH(params, "s", std::string, query->date.getValue(""));
+	if (dto->courseId) SQLPARAMS_PUSH(params, "s", std::string, dto->courseId.getValue(""));
+	if (dto->date) SQLPARAMS_PUSH(params, "s", std::string, dto->date.getValue(""));
 
 	uint64_t lessonId = sqlSession->executeQueryNumerical(sql.str(), params);
 	
 	return std::to_string(lessonId);
 }
 
-std::string AppointmentDAO::insertAppointment(const AppointmentQuery::Wrapper& query)
+std::string AppointmentDAO::insertAppointment(const AppointmentAddDTO::Wrapper& dto)
 {
 	string id = generateSnowFlakeId();
-	string lessonId = getLessonId(query);
-	string counselorId = getCounselorId(query);
+	string lessonId = getLessonId(dto);
+	string counselorId = getCounselorId(dto);
 	string currentDateTime = getCurrentDateTime();
 	std::stringstream sql;
 	sql << "INSERT INTO appointment (id, lesson_id, student_id, add_time, course_id, counselor)";
@@ -67,18 +68,18 @@ std::string AppointmentDAO::insertAppointment(const AppointmentQuery::Wrapper& q
 	if (lessonId.size()) SQLPARAMS_PUSH(params, "s", std::string, lessonId);
 	else return ZH_WORDS_GETTER("schedule.appointment.errmsg");
 	// 学生id
-	if (query->studentId) SQLPARAMS_PUSH(params, "s", std::string, query->studentId.getValue(""));
+	if (dto->studentId) SQLPARAMS_PUSH(params, "s", std::string, dto->studentId.getValue(""));
 	else return ZH_WORDS_GETTER("schedule.appointment.errmsg");
 	// 预约时间
 	if(currentDateTime.size()) SQLPARAMS_PUSH(params, "s", std::string, currentDateTime);
 	else return ZH_WORDS_GETTER("schedule.appointment.errmsg");
 	// 预约课程id
-	if (query->courseId) SQLPARAMS_PUSH(params, "s", std::string,query->courseId.getValue(""));
+	if (dto->courseId) SQLPARAMS_PUSH(params, "s", std::string, dto->courseId.getValue(""));
 	else return ZH_WORDS_GETTER("schedule.appointment.errmsg");
 	// 顾问id
 	if (counselorId.size()) SQLPARAMS_PUSH(params, "s", std::string, counselorId);
 	else return ZH_WORDS_GETTER("schedule.appointment.errmsg");
 
 	sqlSession->executeUpdate(sql.str(), params);
-	return "success";
+	return id;
 }

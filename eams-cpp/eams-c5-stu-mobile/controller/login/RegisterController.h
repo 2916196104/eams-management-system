@@ -6,8 +6,9 @@
 
 #include OATPP_CODEGEN_BEGIN(ApiController) 
 #include "ApiHelper.h"
-#include "domain/vo/register/RegisterVO.h"
+#include "domain/vo/BaseJsonVO.h"
 #include "domain/query/register/RegisterQuery.h"
+#include "domain/dto/login/RegisterDTO.h"
 
 // 注册控制器
 class RegisterController : public oatpp::web::server::api::ApiController
@@ -15,28 +16,14 @@ class RegisterController : public oatpp::web::server::api::ApiController
 	// 定义访问入口
 	API_ACCESS_DECLARE(RegisterController);
 public:
-    ENDPOINT_INFO(Register) { // 端点名称改为Register
-		// 定义接口标题
-		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("login.register.summary"));
-		// 定义默认授权参数（可选定义，如果定义了，下面ENDPOINT里面需要加入API_HANDLER_AUTH_PARAME）
-		API_DEF_ADD_AUTH();
-		// 定义响应参数格式
-		API_DEF_ADD_RSP_JSON_WRAPPER(NoDataJsonVO);
-		// 定义标签
-		API_DEF_ADD_TAG("login");
-		// 定义其他查询参数描述
-		API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("login.register.field.name.info"), "", true);
-		API_DEF_ADD_QUERY_PARAMS(String, "mobile", ZH_WORDS_GETTER("login.register.field.telephoneNumber.info"), "", true);
-		API_DEF_ADD_QUERY_PARAMS(String, "vertificationCode", ZH_WORDS_GETTER("login.register.field.vertificationCode.info"), "", true);
-		API_DEF_ADD_QUERY_PARAMS(String, "password", ZH_WORDS_GETTER("login.register.field.password.info"), "", true);
-    }
 
-    ENDPOINT("POST", "/c5/login/register", Register, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
-        API_HANDLER_QUERY_PARAM(query, RegisterQuery, params);
-        API_HANDLER_RESP_VO(executeRegister(query));
-    }
+	// 3.1 定义新增接口描述
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("login.register.summary"), Register, StringJsonVO::Wrapper, ZH_WORDS_GETTER("login.summary"));
+	// 3.2 定义新增接口处理
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c5/login/register", Register, BODY_DTO(RegisterAddDTO::Wrapper, dto), executeRegister(dto, authObject->getPayload()));
+
 private:
-	NoDataJsonVO::Wrapper executeRegister(const RegisterQuery::Wrapper& query);
+	StringJsonVO::Wrapper executeRegister(const RegisterAddDTO::Wrapper& dto, const PayloadDTO& payload);
 
 };
 

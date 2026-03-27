@@ -33,7 +33,7 @@ bool RegisterDAO::isMobileExist(const std::string& mobile)
 	return res == 0 ? false : true;
 }
 
-void RegisterDAO::insertUser(const PtrRegisterDO pdo)
+std::string RegisterDAO::insertUser(const PtrRegisterDO pdo)
 {
 	std::string id = generateSnowFlakeId();
 	std::string currentDateTime = getCurrentDateTime();
@@ -53,4 +53,5 @@ void RegisterDAO::insertUser(const PtrRegisterDO pdo)
 	if (currentDateTime.size()) SQLPARAMS_PUSH(params, "s", std::string, currentDateTime);
 
 	sqlSession->executeUpdate(sql.str(), params);
+	return id;
 }
