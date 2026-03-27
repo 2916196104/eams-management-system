@@ -28,6 +28,8 @@
 #include "login/RegisterController.h"
 #include "controller/home/trialCard/GetTrialCardListController.h"
 #include "controller/schedule/AppointmentController.h"
+#include "home/homework/HomeworkController.h"
+#include"home/class/ClassStudentController.h"
 
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
@@ -58,4 +60,6 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(RegisterController);
 	ROUTER_SIMPLE_BIND(GetTrialCardListController);
 	ROUTER_SIMPLE_BIND(AppointmentController);
+	ROUTER_SIMPLE_BIND(HomeworkController);
+	ROUTER_SIMPLE_BIND(ClassStudentController);
 }
