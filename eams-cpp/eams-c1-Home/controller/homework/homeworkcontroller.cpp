@@ -18,14 +18,18 @@
 */
 #include "stdafx.h"
 #include "homeworkcontroller.h"
+#include "service/homework/homeworkservice.h"
+
 HomeworkPageJsonVO::Wrapper HomeworkController::execQueryPage(const HomeworkQuery::Wrapper& query)
 {
-	return {};
+	HomeworkService service;
+	return service.queryPage(query);
 }
 
 HomeworkDetailJsonVO::Wrapper HomeworkController::execQueryDetail(const UInt64& id)
 {
-	return {};
+	HomeworkService service;
+	return service.queryDetail(id.getValue(0));
 }
 
 HomeworkJsonVO::Wrapper HomeworkController::execHomeworkSubmit(const UInt32& studentId){
