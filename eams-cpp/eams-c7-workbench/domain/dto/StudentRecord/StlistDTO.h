@@ -9,26 +9,20 @@ class StlistDTO :public oatpp::DTO
 {
 	DTO_INIT(StlistDTO, DTO);
 
-	// 编号
-	DTO_FIELD(String, id);
-	DTO_FIELD_INFO(id) {
-		info->description = ZH_WORDS_GETTER("stlist.dto.id");
-	}
-
 	//学生姓名
 	DTO_FIELD(String, name);
 	DTO_FIELD_INFO(name) {
 		info->description = ZH_WORDS_GETTER("stlist.dto.name");
 	}
 	//学生手机号
-	DTO_FIELD(String, telephone);
-	DTO_FIELD_INFO(telephone) {
-		info->description = ZH_WORDS_GETTER("stlist.dto.telephone");
+	DTO_FIELD(String, mobile);
+	DTO_FIELD_INFO(mobile) {
+		info->description = ZH_WORDS_GETTER("stlist.dto.mobile");
 	}
 	//学生剩余课时
-	DTO_FIELD(Int32, lesson_count);
-	DTO_FIELD_INFO(lesson_count) {
-		info->description = ZH_WORDS_GETTER("stlist.dto.lesson_count");
+	DTO_FIELD(Int32, closeTime);
+	DTO_FIELD_INFO(closeTime) {
+		info->description = ZH_WORDS_GETTER("stlist.dto.closeTime");
 	}
 
 	//学生性别
@@ -40,11 +34,11 @@ public:
 	// 数据校验
 	std::string validate()
 	{
-		if (lesson_count < 0)
-			return "lesson_count invalidate.";
+		if (closeTime < 0)
+			return "timeRemaining invalidate.";
 		if (!name || name->empty())
 			return "name invalidate.";
-		if (!telephone || telephone->empty())
+		if (!mobile || mobile->empty())
 			return "telephone invalidate.";
 		return "";
 	}

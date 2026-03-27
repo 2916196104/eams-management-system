@@ -82,7 +82,7 @@ add_executable(${appName}
     "domain/vo/StudentRecord/student_courseVO.h"
     "domain/vo/AddStudent/AddStudentVO.h"
     "domain/vo/RegistRecord/RegistRecordVO.h"
-)
+ "dao/StudentRecord/StclassRecordDAO.cpp" "dao/StudentRecord/StclassRecordDAO.h" "dao/StudentRecord/StclassRecordMapper.h" "dao/StudentRecord/StlistDAO.cpp" "dao/StudentRecord/StlistDAO.h" "dao/StudentRecord/StlistMapper.h" "dao/StudentRecord/StprofileDetailsDAO.cpp" "dao/StudentRecord/StprofileDetailsDAO.h" "dao/StudentRecord/StprofileDetailsMapper.h" "domain/do/StudentRecord/stclassrecord/StclassRecordDO.h" "domain/do/StudentRecord/stlist/StlistDO.h" "domain/do/StudentRecord/stprofiledetails/StprofileDetailsDO.h" "service/StudentRecord/stclassrecord/StclassRecordService.cpp" "service/StudentRecord/stclassrecord/StclassRecordService.h" "service/StudentRecord/stlist/StlistService.cpp" "service/StudentRecord/stlist/StlistService.h" "service/StudentRecord/stprofiledetails/StprofileDetailsService.cpp" "service/StudentRecord/stprofiledetails/StprofileDetailsService.h")
 # 发布Swagger文档包宏定义
 if(DEFINED _RELEASE_DOC_)
 	target_compile_definitions(${appName} PRIVATE _RELEASE_DOC_)

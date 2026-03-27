@@ -12,8 +12,8 @@ class StprofileDetailsJsonVO :public JsonVO<StprofileDetailsDTO::Wrapper>
 };
 
 //分页对象
-class StprofileDetailsPageJsonVO :public JsonVO<StprofileDetailPageDTO::Wrapper>
+class StprofileDetailsPageJsonVO :public JsonVO<StprofileDetailsPageDTO::Wrapper>
 {
-	DTO_INIT(StprofileDetailsPageJsonVO, JsonVO<StprofileDetailPageDTO::Wrapper>);
+	DTO_INIT(StprofileDetailsPageJsonVO, JsonVO<StprofileDetailsPageDTO::Wrapper>);
 };
 #include OATPP_CODEGEN_END(DTO)

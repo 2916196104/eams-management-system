@@ -26,8 +26,8 @@ public:
 		// 定义分页查询参数描述
 		API_DEF_ADD_PAGE_PARAMS();
 		// 定义其他查询参数描述
-		API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("stlist.controller.name"), "li ming", false);
-		API_DEF_ADD_QUERY_PARAMS(String, "telephone", ZH_WORDS_GETTER("stlist.controller.sex"), "18967892991", false);
+		API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("stlist.controller.name"), "li", false);
+		API_DEF_ADD_QUERY_PARAMS(String, "mobile", ZH_WORDS_GETTER("stlist.controller.mobile"), "", false);
 	}
 	//定义查询接口处理
 	ENDPOINT(API_M_GET, "/QueryOne", querystList, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
@@ -43,4 +43,5 @@ private:
 	StlistPageJsonVO::Wrapper execQuerySample(const StlistQuery::Wrapper& query);
 };
 
+#undef API_TAG1
 #include OATPP_CODEGEN_END(ApiController)

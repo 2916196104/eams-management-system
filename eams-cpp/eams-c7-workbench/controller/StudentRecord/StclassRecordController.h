@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "domain/vo/BaseJsonVO.h"
+#include "../../domain/query/StudentRecord/StlistQuery.h"
 #include "../../domain/dto/StudentRecord/StclassRecordDTO.h"
 #include "../../domain/query/StudentRecord/StclassRecordQuery.h"
 #include "../../domain/vo/StudentRecord/StclassRecordVO.h"
@@ -28,12 +29,13 @@ public:
 	// 3.2 定义查询接口处理
 	ENDPOINT(API_M_GET, "/QueryClass", queryStclassRecord, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
 		// 解析查询参数为Query领域模型
-		API_HANDLER_QUERY_PARAM(userQuery, StclassRecordQuery, queryParams);
+		API_HANDLER_QUERY_PARAM(userQuery, StlistQuery, queryParams);
 		// 呼叫执行函数响应结果
 		API_HANDLER_RESP_VO(execQuerySample(userQuery));
 	}
 private:
-	StclassRecordPageJsonVO::Wrapper execQuerySample(const StclassRecordQuery::Wrapper& query);
+	StclassRecordPageJsonVO::Wrapper execQuerySample(const StlistQuery::Wrapper& query);
 };
 
+#undef API_TAG2
 #include OATPP_CODEGEN_END(ApiController)

@@ -6,17 +6,17 @@
 
 class StlistQuery : public PageQuery
 {
-	DTO_INIT(StlistQuery,PageQuery);
+	DTO_INIT(StlistQuery, PageQuery);
 	//姓名
 	DTO_FIELD(String, name);
 	DTO_FIELD_INFO(name) {
-		info->description = ZH_WORDS_GETTER("stList.query.telephone");
+		info->description = ZH_WORDS_GETTER("stlist.query.name");
 	}
 
 	//电话号码
-	DTO_FIELD(String, telephone);
-	DTO_FIELD_INFO(telephone) {
-		info->description = ZH_WORDS_GETTER("stList.query.telephone");
+	DTO_FIELD(String, mobile);
+	DTO_FIELD_INFO(mobile) {
+		info->description = ZH_WORDS_GETTER("stlist.query.mobile");
 	}
 };
 
