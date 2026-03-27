@@ -21,9 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -56,7 +53,7 @@ public class PositionController implements PositionApis {
             @ApiImplicitParam(name = "name", value = "职位名称", required = false, paramType = "query",
                     dataTypeClass = String.class, defaultValue = "")
     })
-    public JsonVO<PageDTO<PositionDTO>> list(@Valid PositionQueryCondition condition) {
+    public JsonVO<PageDTO<PositionDTO>> list(PositionQueryCondition condition) {
         return JsonVO.success(positionService.list(condition));
     }
 
@@ -64,7 +61,7 @@ public class PositionController implements PositionApis {
     @PostMapping("/save")
     @ApiOperation(value = "保存职位", notes = "ID为空时新增，有ID时修改")
     @ApiOperationSupport(order = 3)
-    public JsonVO<String> save(@Valid @RequestBody PositionDTO dto) {
+    public JsonVO<String> save(@RequestBody PositionDTO dto) {
         boolean result = positionService.save(dto);
         return result ? JsonVO.success(dto.getId() == null ? "创建职位成功" : "修改职位成功") : JsonVO.fail("操作失败");
     }
@@ -74,7 +71,7 @@ public class PositionController implements PositionApis {
     @ApiOperation(value = "批量删除职位", notes = "支持批量删除，传职位ID列表")
     @ApiOperationSupport(order = 4)
     public JsonVO<String> delete(@ApiParam(value = "职位ID列表", required = true, example = "[1,2,3]")
-                                 @RequestBody @NotEmpty(message = "职位ID列表不能为空") List<@NotNull(message = "职位ID不能为空") Long> ids) {
+                                 @RequestBody List<Long> ids) {
         boolean result = positionService.delete(ids);
         return result ? JsonVO.success(String.format("成功删除 %d 个职位", ids.size())) : JsonVO.fail("删除职位失败");
     }
