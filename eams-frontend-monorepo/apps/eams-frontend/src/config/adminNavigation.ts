@@ -114,6 +114,31 @@ export const ADMIN_NAVIGATION: AdminNavSection[] = [
 				text: "学员请假",
 				path: "/academic/studentLeave",
 			},
+			{
+				id: "academic-schedule-plan",
+				text: "排课计划",
+				path: "/academic/schedule-plan",
+			},
+			{
+				id: "academic-appointment",
+				text: "预约管理",
+				path: "/academic/appointment",
+			},
+			{
+				id: "academic-class",
+				text: "班级管理",
+				path: "/academic/class",
+			},
+			{
+				id: "academic-classroom",
+				text: "教室管理",
+				path: "/academic/classroom",
+			},
+			{
+				id: "academic-grade",
+				text: "年级管理",
+				path: "/academic/grade",
+			},
 		],
 	},
 	{
