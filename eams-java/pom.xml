@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.zeroone.star</groupId>
+        <artifactId>zero-one-cloud-build</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
+    <artifactId>eams-java</artifactId>
+    <version>${revision}</version>
+    <packaging>pom</packaging>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>awei</name>
+            <organization>Zero One Star</organization>
+        </developer>
+    </developers>
+    <repositories>
+        <repository>
+            <id>aliyun</id>
+            <url>https://maven.aliyun.com/repository/public</url>
+        </repository>
+    </repositories>
+    <modules>
+        <module>eams-common</module>
+        <module>eams-domain</module>
+        <module>eams-apis</module>
+        <module>eams-oauth2</module>
+        <module>eams-gateway</module>
+        <module>eams-login</module>
+        <module>eams-doc</module>
+        <module>eams-sample</module>
+        <module>eams-j5-classmanager</module>
+        <module>eams-j5-courseplan</module>
+        <module>eams-j5-courseschedule</module>
+        <module>eams-j5-studentleave</module>
+        <module>eams-j5-appoint</module>
+    </modules>
+    <properties>
+        <!-- 项目版本号 -->
+        <revision>1.0.0-SNAPSHOT</revision>
+    </properties>
+    <dependencyManagement>
+        <dependencies>
+            <!-- 系统内容公用模块定义 -->
+            <dependency>
+                <groupId>com.zeroone.star</groupId>
+                <artifactId>eams-apis</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zeroone.star</groupId>
+                <artifactId>eams-common</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zeroone.star</groupId>
+                <artifactId>eams-domain</artifactId>
+                <version>${revision}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
