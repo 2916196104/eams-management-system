@@ -86,6 +86,7 @@ export const useTeachingStatisticsStore = defineStore("teachingStatistics", {
 				this.classHourData = await queryTeachClassHour(this.classHourRange);
 			} catch (e: any) {
 				this.error = e?.message || "获取授课统计失败";
+				this.classHourData = null;
 			} finally {
 				this.loading.classHour = false;
 			}
@@ -96,6 +97,7 @@ export const useTeachingStatisticsStore = defineStore("teachingStatistics", {
 				this.scoreRankData = await queryTeachScoreRank(this.scoreRange);
 			} catch (e: any) {
 				this.error = e?.message || "获取学评教得分失败";
+				this.scoreRankData = [];
 			} finally {
 				this.loading.scoreRank = false;
 			}
