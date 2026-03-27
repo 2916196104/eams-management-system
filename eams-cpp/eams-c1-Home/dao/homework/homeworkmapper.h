@@ -12,9 +12,10 @@ public:
     {
         auto dto = HomeworkDTO::createShared();
         dto->id = rs->getUInt64("id");
+        dto->classId = rs->getUInt64("class_id");
         dto->title = rs->getString("title").asStdString();
-        dto->courseName = rs->getString("course_name").asStdString();
-        dto->teacherName = rs->getString("teacher_name").asStdString();
+        dto->addTime = rs->getString("add_time").asStdString();
+        dto->creator = rs->getUInt64("creator");
         return dto;
     }
 };
@@ -26,11 +27,14 @@ public:
     {
         auto dto = HomeworkDetailDTO::createShared();
         dto->id = rs->getUInt64("id");
+        dto->classId = rs->getUInt64("class_id");
         dto->title = rs->getString("title").asStdString();
-        dto->courseName = rs->getString("course_name").asStdString();
-        dto->startTime = rs->getString("start_time").asStdString();
-        dto->endTime = rs->getString("end_time").asStdString();
-        dto->teacherName = rs->getString("teacher_name").asStdString();
+        dto->content = rs->getString("content").asStdString();
+        dto->creator = rs->getUInt64("creator");
+        dto->editor = rs->getUInt64("editor");
+        dto->addTime = rs->getString("add_time").asStdString();
+        dto->editTime = rs->getString("edit_time").asStdString();
+        dto->orgId = rs->getUInt64("org_id");
         return dto;
     }
 };

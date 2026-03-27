@@ -38,16 +38,16 @@ class HomeworkController : public oatpp::web::server::api::ApiController
 	API_ACCESS_DECLARE(HomeworkController);
 public: // 定义接口
 
-	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("homework.tag"), queryPage, HomeworkQuery, HomeworkPageJsonVO::Wrapper, API_TAG);
-	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c1/homework", queryPage, QUERIES(QueryParams, queryParams),
+	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("homework.get_homework_page"), queryPage, HomeworkQuery, HomeworkPageJsonVO::Wrapper, API_TAG);
+	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c1/homework/list", queryPage, QUERIES(QueryParams, queryParams),
 		API_HANDLER_QUERY_PARAM(query, HomeworkQuery, queryParams); API_HANDLER_RESP_VO(execQueryPage(query)););
 
 	API_DEF_ENDPOINT_INFO_AUTH(
-		ZH_WORDS_GETTER("homework.field.title"), queryDetail, HomeworkDetailJsonVO::Wrapper, API_TAG,
+		ZH_WORDS_GETTER("homework.get_homework_info"), queryDetail, HomeworkDetailJsonVO::Wrapper, API_TAG,
 		API_DEF_ADD_QUERY_PARAMS(UInt64, "id", ZH_WORDS_GETTER("homework.field.id"), nullptr, true);
 	);
 
-	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c1/homework/detail", queryDetail, QUERY(UInt64, id), execQueryDetail(id));
+	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c1/homework/info", queryDetail, QUERY(UInt64, id), execQueryDetail(id));
 private: // 定义接口执行函数
 	HomeworkPageJsonVO::Wrapper execQueryPage(const HomeworkQuery::Wrapper& query);
 	HomeworkDetailJsonVO::Wrapper execQueryDetail(const UInt64& id);

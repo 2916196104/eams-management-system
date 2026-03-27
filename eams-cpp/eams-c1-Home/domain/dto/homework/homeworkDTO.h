@@ -32,20 +32,30 @@ class HomeworkDTO : public oatpp::DTO
 
 	API_DTO_FIELD_DEFAULT(UInt64, id, ZH_WORDS_GETTER("homework.field.id"));
 	API_DTO_FIELD_DEFAULT(String, title, ZH_WORDS_GETTER("homework.field.title"));
-	API_DTO_FIELD_DEFAULT(String, courseName, ZH_WORDS_GETTER("homework.field.courseName"));
-	API_DTO_FIELD_DEFAULT(String, teacherName, ZH_WORDS_GETTER("homework.field.teacherName"));
+	API_DTO_FIELD_DEFAULT(UInt64, classId, ZH_WORDS_GETTER("homework.field.classId"));
+	API_DTO_FIELD_DEFAULT(String, addTime, ZH_WORDS_GETTER("homework.field.addTime"));
+	API_DTO_FIELD_DEFAULT(UInt64, creator, ZH_WORDS_GETTER("homework.field.creator"));
 };
 
-class HomeworkDetailDTO : public oatpp::DTO
+class HomeworkDetailDTO : public HomeworkDTO
 {
-	DTO_INIT(HomeworkDetailDTO, DTO);
+	DTO_INIT(HomeworkDetailDTO, HomeworkDTO);
 
-	API_DTO_FIELD_DEFAULT(UInt64, id, ZH_WORDS_GETTER("homework.field.id"));
+	API_DTO_FIELD_DEFAULT(String, content, ZH_WORDS_GETTER("homework.field.content"));
+	API_DTO_FIELD_DEFAULT(UInt64, editor, ZH_WORDS_GETTER("homework.field.editor"));
+	API_DTO_FIELD_DEFAULT(String, editTime, ZH_WORDS_GETTER("homework.field.editTime"));
+	API_DTO_FIELD_DEFAULT(UInt64, orgId, ZH_WORDS_GETTER("homework.field.orgId"));
+};
+
+class HomeworkAddDTO : public oatpp::DTO
+{
+	DTO_INIT(HomeworkAddDTO, DTO);
+
 	API_DTO_FIELD_DEFAULT(String, title, ZH_WORDS_GETTER("homework.field.title"));
-	API_DTO_FIELD_DEFAULT(String, courseName, ZH_WORDS_GETTER("homework.field.courseName"));
-	API_DTO_FIELD_DEFAULT(String, startTime, ZH_WORDS_GETTER("homework.field.startTime"));
-	API_DTO_FIELD_DEFAULT(String, endTime, ZH_WORDS_GETTER("homework.field.endTime"));
-	API_DTO_FIELD_DEFAULT(String, teacherName, ZH_WORDS_GETTER("homework.field.teacherName"));
+	API_DTO_FIELD_DEFAULT(String, content, ZH_WORDS_GETTER("homework.field.content"));
+	API_DTO_FIELD_DEFAULT(UInt64, classId, ZH_WORDS_GETTER("homework.field.classId"));
+	API_DTO_FIELD_DEFAULT(UInt64, creator, ZH_WORDS_GETTER("homework.field.creator"));
+	API_DTO_FIELD_DEFAULT(UInt64, orgId, ZH_WORDS_GETTER("homework.field.orgId"));
 };
 
 class HomeworkPageDTO : public PageDTO<HomeworkDTO::Wrapper>

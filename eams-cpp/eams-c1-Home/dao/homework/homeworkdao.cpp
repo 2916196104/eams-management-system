@@ -6,7 +6,7 @@
 uint64_t HomeworkDAO::count(const HomeworkQuery::Wrapper& query)
 {
     std::stringstream sql;
-    sql << "SELECT COUNT(1) FROM homework WHERE 1=1";
+    sql << "SELECT COUNT(1) FROM homework WHERE deleted = 0";
 
     if (query->title && !query->title->empty()) {
         sql << " AND title LIKE '%" << query->title->c_str() << "%'";
@@ -19,7 +19,7 @@ uint64_t HomeworkDAO::count(const HomeworkQuery::Wrapper& query)
 std::vector<HomeworkDTO::Wrapper> HomeworkDAO::selectPage(const HomeworkQuery::Wrapper& query)
 {
     std::stringstream sql;
-    sql << "SELECT id, title, '' AS course_name, publisher AS teacher_name FROM homework WHERE 1=1";
+    sql << "SELECT id, class_id, title, creator, add_time FROM homework WHERE deleted = 0";
 
     if (query->title && !query->title->empty()) {
         sql << " AND title LIKE '%" << query->title->c_str() << "%'";
@@ -37,9 +37,24 @@ std::vector<HomeworkDTO::Wrapper> HomeworkDAO::selectPage(const HomeworkQuery::W
 HomeworkDetailDTO::Wrapper HomeworkDAO::selectDetail(uint64_t id)
 {
     std::stringstream sql;
-    sql << "SELECT id, title, '' AS course_name, '' AS start_time, '' AS end_time, publisher AS teacher_name "
-        << "FROM homework WHERE id = " << id;
+    sql << "SELECT id, class_id, title, content, creator, editor, add_time, edit_time, org_id "
+        << "FROM homework WHERE deleted = 0 AND id = " << id;
 
     HomeworkDetailMapper mapper;
     return sqlSession->executeQueryOne<HomeworkDetailDTO::Wrapper>(sql.str(), mapper);
 }
+
+uint64_t HomeworkDAO::insert(const HomeworkDO& obj)
+{
+    std::stringstream sql;
+    sql << "INSERT INTO homework (id, class_id, title, content, creator, org_id, add_time, deleted) VALUES ("
+        << obj.getId() << ", "
+        << obj.getClassId() << ", "
+        << "'" << obj.getTitle() << "', "
+        << "'" << obj.getContent() << "', "
+        << obj.getCreator() << ", "
+        << obj.getOrgId() << ", "
+        << "NOW(), 0)";
+    return sqlSession->executeUpdate(sql.str());
+}
+

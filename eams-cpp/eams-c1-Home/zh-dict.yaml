@@ -1,9 +1,22 @@
 homework:
-  tag: "作业"
+  tag: 作业
+  get_homework_page: 获取作业列表（条件+分页）
+  get_homework_info: 获取作业详情
   field:
-    id: "作业ID"
-    title: "作业标题"
-    courseName: "所属课程"
-    startTime: "开始时间"
-    endTime: "截止时间"
-    teacherName: "发布教师"
+    id: 作业ID
+    title: 作业标题
+    courseName: 所属课程
+    startTime: 开始时间
+    endTime: 截止时间
+    teacherName: 发布教师
+  submit: 提交作业
+  delete: 删除作业
+  whichId: 作业id
+  editor: 编辑人
+  content: 作业内容
+  record:
+    student_id: 学生id
+    homework_id: 作业id
+    content: 作业内容
+    images: 作业图片
+    id: 作业记录id
