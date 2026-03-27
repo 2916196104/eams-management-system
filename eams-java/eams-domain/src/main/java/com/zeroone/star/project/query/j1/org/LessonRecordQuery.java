@@ -15,7 +15,7 @@ import java.time.LocalDate;
  * @version 1.0.0
  */
 @Data
-public class TeachRecordQuery extends PageQuery {
+public class LessonRecordQuery extends PageQuery {
     @ApiModelProperty(value = "员工ID", example = "1")
     private Integer staffId;
 
