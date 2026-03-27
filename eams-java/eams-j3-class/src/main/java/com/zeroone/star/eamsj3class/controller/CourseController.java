@@ -18,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -36,8 +37,6 @@ public class CourseController implements CourseApis {
     @Resource
     private ISubjectService subjectService;
 
-
-
     @GetMapping("/query-courses-list")
     @ApiOperation("获取课程列表（条件 + 分页）")
     @Override
@@ -49,7 +48,7 @@ public class CourseController implements CourseApis {
     @Override
     @ApiOperation("获取课程详情")
     public JsonVO<CourseDetailVO> queryCourseDetail(@PathVariable Long courseId) {
-        return null;
+       return null;
     }
 
     @PostMapping("/add-course")
@@ -68,22 +67,22 @@ public class CourseController implements CourseApis {
     @GetMapping("query-subject-list")
     @Override
     @ApiOperation("获取科目列表（条件 + 分页）")
-    public JsonVO<PageDTO<SubjectDTO>> queryCourseList(@Validated SubjectQuery courseListQuery) {
-        return null;
+    public JsonVO<PageDTO<SubjectDTO>> querySubjectList(@Validated SubjectQuery courseListQuery) {
+        return JsonVO.success(subjectService.querySubjectList(courseListQuery));
     }
 
     @GetMapping("query-subject-names")
     @ApiOperation(value = "查询科目名称列表")
     @Override
     public JsonVO<List<String>> querySubjectNames() {
-        return null;
+        return JsonVO.success(subjectService.querySubjectNames());
     }
 
     @PutMapping("save-subject")
     @ApiOperation(value = "保存科目")
     @Override
     public JsonVO<String> saveSubject(@Validated @RequestBody SubjectDTO subjectDto) {
-        return null;
+        return subjectService.saveSubject(subjectDto) ? JsonVO.success("保存成功") : JsonVO.fail("保存失败");
     }
 
 
@@ -102,7 +101,7 @@ public class CourseController implements CourseApis {
             @ApiParam(value = "编号列表", required = true)
             @RequestBody
             List<String> subjectIds) {
-        return null;
+        return subjectService.deleteSubjects(subjectIds) ? JsonVO.success("删除成功") : JsonVO.fail("删除失败");
     }
 
 
