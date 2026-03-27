@@ -1,4 +1,5 @@
 package com.zeroone.star.org.service.impl;
+
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -19,7 +20,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * 机构Service实现
+ * <p>
+ * 机构管理 服务实现类
+ * </p>
+ *
+ * @author 阿伟学长
+ * @since 1.0.0
  */
 @Service
 public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgDO> implements IOrgService {
@@ -34,10 +40,69 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgDO> implements IOr
      */
     private static final String[] STATE_DESC = {"禁用", "启用"};
 
+    /**
+     * 判断是否为系统管理员（根机构级别，可以操作所有机构）
+     * @param operatorOrgId 操作人所属机构ID
+     * @return 是否为管理员
+     */
+    private boolean isAdmin(Long operatorOrgId) {
+        // 如果orgId为null、0、1或1000，认为是管理员，可以操作所有机构
+        // 1=学校总部, 1000=零壹教育集团，都是根机构
+        return operatorOrgId == null || operatorOrgId == 0L || operatorOrgId == 1L || operatorOrgId == 1000L;
+    }
+
+    /**
+     * 构建数据权限过滤的idPath前缀
+     * @param operatorOrgId 操作人所属机构ID
+     * @return idPath前缀，如 "/1/"；如果是管理员返回null表示不限
+     */
+    private String buildIdPathPrefix(Long operatorOrgId) {
+        // 管理员不限制数据权限
+        if (isAdmin(operatorOrgId)) {
+            return null;
+        }
+        // 查询操作人所属机构的idPath
+        String idPath = baseMapper.selectIdPathById(operatorOrgId);
+        if (StrUtil.isBlank(idPath)) {
+            // 如果查不到，使用默认格式
+            return "/" + operatorOrgId + "/";
+        }
+        return idPath;
+    }
+
+    /**
+     * 校验机构是否在操作人权限范围内
+     * @param orgId 要操作的机构ID
+     * @param operatorOrgId 操作人所属机构ID
+     * @return 是否有权限
+     */
+    private boolean checkOrgPermission(Long orgId, Long operatorOrgId) {
+        if (orgId == null) {
+            return false;
+        }
+        // 管理员有所有权限
+        if (isAdmin(operatorOrgId)) {
+            return true;
+        }
+        if (operatorOrgId == null) {
+            return false;
+        }
+        // 查询机构详情（带权限过滤）
+        OrgDO org = baseMapper.selectDetailById(orgId, buildIdPathPrefix(operatorOrgId));
+        return org != null;
+    }
+
     @Override
-    public List<OrgTreeVO> queryOrgTree(Long parentOrgId) {
+    public List<OrgTreeVO> queryOrgTree(Long parentOrgId, Long operatorOrgId) {
+        String idPathPrefix = buildIdPathPrefix(operatorOrgId);
         Long pid = (parentOrgId == null || parentOrgId == 0) ? 0L : parentOrgId;
-        List<OrgDO> orgList = baseMapper.selectChildrenByPid(pid);
+
+        // 校验是否有权限查看该父机构下的数据（管理员跳过）
+        if (!isAdmin(operatorOrgId) && pid != 0 && !checkOrgPermission(pid, operatorOrgId)) {
+            return new ArrayList<>();
+        }
+
+        List<OrgDO> orgList = baseMapper.selectChildrenByPid(pid, idPathPrefix);
 
         if (CollUtil.isEmpty(orgList)) {
             return new ArrayList<>();
@@ -48,18 +113,28 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgDO> implements IOr
             vo.setOrgId(org.getId());
             vo.setOrgName(org.getName());
             vo.setParentOrgId(org.getPid());
-            vo.setHasChildren(baseMapper.countChildrenByOrgId(org.getId()) > 0);
+            vo.setHasChildren(baseMapper.countChildrenByOrgId(org.getId(), idPathPrefix) > 0);
             return vo;
         }).collect(Collectors.toList());
     }
 
     @Override
-    public List<OrgListVO> queryOrgList(OrgQuery query) {
+    public List<OrgListVO> queryOrgList(OrgQuery query, Long operatorOrgId) {
+        String idPathPrefix = buildIdPathPrefix(operatorOrgId);
+
+        // 如果指定了父机构ID，校验权限（管理员跳过）
+        if (!isAdmin(operatorOrgId) && query != null && query.getParentOrgId() != null && query.getParentOrgId() != 0) {
+            if (!checkOrgPermission(query.getParentOrgId(), operatorOrgId)) {
+                return new ArrayList<>();
+            }
+        }
+
         List<OrgDO> orgList = baseMapper.selectListByCondition(
-                query.getOrgName(),
-                query.getParentOrgId(),
-                query.getOrgType(),
-                query.getStatus()
+                query != null ? query.getOrgName() : null,
+                query != null ? query.getParentOrgId() : null,
+                query != null ? query.getOrgType() : null,
+                query != null ? query.getStatus() : null,
+                idPathPrefix
         );
 
         if (CollUtil.isEmpty(orgList)) {
@@ -70,26 +145,35 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgDO> implements IOr
     }
 
     @Override
-    public OrgDetailVO queryOrgDetail(Long orgId) {
+    public OrgDetailVO queryOrgDetail(Long orgId, Long operatorOrgId) {
         if (orgId == null) {
             return null;
         }
 
-        OrgDO org = baseMapper.selectDetailById(orgId);
+        String idPathPrefix = buildIdPathPrefix(operatorOrgId);
+        OrgDO org = baseMapper.selectDetailById(orgId, idPathPrefix);
         if (org == null) {
             return null;
         }
 
-        return convertToDetailVO(org);
+        return convertToDetailVO(org, idPathPrefix);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long saveOrg(OrgSaveDTO saveDTO, Long operatorId) {
+    public Long saveOrg(OrgSaveDTO saveDTO, Long operatorId, Long operatorOrgId) {
+        // 数据权限校验：只能在自己机构范围内新增/修改
+        String idPathPrefix = buildIdPathPrefix(operatorOrgId);
+
         OrgDO orgDO = new OrgDO();
         LocalDateTime now = LocalDateTime.now();
 
         if (saveDTO.getOrgId() == null) {
+            // 新增：校验父机构权限（管理员跳过）
+            if (!isAdmin(operatorOrgId) && !checkOrgPermission(saveDTO.getParentOrgId(), operatorOrgId)) {
+                throw new RuntimeException("无权在该父机构下创建子机构");
+            }
+
             orgDO.setPid(saveDTO.getParentOrgId());
             orgDO.setName(saveDTO.getOrgName());
             orgDO.setShortname(saveDTO.getOrgShortName());
@@ -110,12 +194,21 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgDO> implements IOr
 
             buildAndUpdatePath(orgDO);
         } else {
-            orgDO = baseMapper.selectById(saveDTO.getOrgId());
+            // 修改：校验当前机构权限（管理员跳过）
+            if (!isAdmin(operatorOrgId) && !checkOrgPermission(saveDTO.getOrgId(), operatorOrgId)) {
+                throw new RuntimeException("无权修改该机构");
+            }
+
+            orgDO = baseMapper.selectDetailById(saveDTO.getOrgId(), idPathPrefix);
             if (orgDO == null) {
                 throw new RuntimeException("机构不存在");
             }
 
+            // 如果修改了父机构，校验新父机构权限（管理员跳过）
             boolean pidChanged = !orgDO.getPid().equals(saveDTO.getParentOrgId());
+            if (!isAdmin(operatorOrgId) && pidChanged && !checkOrgPermission(saveDTO.getParentOrgId(), operatorOrgId)) {
+                throw new RuntimeException("无权将该机构移动到目标父机构下");
+            }
 
             orgDO.setPid(saveDTO.getParentOrgId());
             orgDO.setName(saveDTO.getOrgName());
@@ -145,20 +238,21 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgDO> implements IOr
         return orgDO.getId();
     }
 
-
-
-    /**
-     * 删除机构时多表查询校验是否有剩余员工
-     */
-
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean removeOrg(Long orgId) {
+    public boolean removeOrg(Long orgId, Long operatorOrgId) {
         if (orgId == null) {
             return false;
         }
 
-        int childCount = baseMapper.countChildrenByOrgId(orgId);
+        // 数据权限校验（管理员跳过）
+        if (!isAdmin(operatorOrgId) && !checkOrgPermission(orgId, operatorOrgId)) {
+            throw new RuntimeException("无权删除该机构");
+        }
+
+        String idPathPrefix = buildIdPathPrefix(operatorOrgId);
+
+        int childCount = baseMapper.countChildrenByOrgId(orgId, idPathPrefix);
         if (childCount > 0) {
             throw new RuntimeException("该机构存在子机构，不允许删除");
         }
@@ -171,10 +265,6 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgDO> implements IOr
         return removeById(orgId);
     }
 
-
-
-
-
     /**
      * 构建并更新路径
      */
@@ -186,7 +276,7 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgDO> implements IOr
             idPath = "/" + org.getId() + "/";
             namePath = "/" + org.getName() + "/";
         } else {
-            OrgDO parent = baseMapper.selectDetailById(org.getPid());
+            OrgDO parent = baseMapper.selectById(org.getPid());
             if (parent != null) {
                 idPath = parent.getIdPath() + org.getId() + "/";
                 namePath = parent.getNamePath() + org.getName() + "/";
@@ -222,7 +312,7 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgDO> implements IOr
     /**
      * 转换为详情VO
      */
-    private OrgDetailVO convertToDetailVO(OrgDO org) {
+    private OrgDetailVO convertToDetailVO(OrgDO org, String idPathPrefix) {
         OrgDetailVO vo = new OrgDetailVO();
         vo.setOrgId(org.getId());
         vo.setOrgName(org.getName());
@@ -242,7 +332,7 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgDO> implements IOr
         vo.setParentOrgId(org.getPid());
 
         if (org.getPid() != null && org.getPid() > 0) {
-            String parentName = baseMapper.selectParentNameById(org.getPid());
+            String parentName = baseMapper.selectParentNameById(org.getPid(), idPathPrefix);
             vo.setParentOrgName(parentName);
         }
 
