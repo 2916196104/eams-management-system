@@ -1,7 +1,7 @@
 EnrollCourse:
   tag: 报名记录
   query-all:
-    summary: 分页查询报名的课程
+    summary: 获取报名的课程（条件+分页）
   field:
     id: 主键ID
     student_id: 学生id
