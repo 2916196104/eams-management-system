@@ -5,7 +5,7 @@ import com.zeroone.star.project.dto.j5.appoint.AppointmentDTO;
 import com.zeroone.star.project.query.j5.appoint.AppointmentCalendarQuery;
 import com.zeroone.star.project.query.j5.appoint.AppointmentQuery;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.vo.j5.appoint.AppointmentCalendarVO;
+import com.zeroone.star.project.dto.j5.appoint.AppointmentCalendarDTO;
 import com.zeroone.star.project.vo.j5.appoint.AppointmentDetailVO;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public interface AppointmentApis {
      * @param appointmentCalendarQuery
      * @return
      */
-    JsonVO<List<AppointmentCalendarVO>> queryAppointmentCalendar(AppointmentCalendarQuery appointmentCalendarQuery);
+    JsonVO<List<AppointmentCalendarDTO>> queryAppointmentCalendar(AppointmentCalendarQuery appointmentCalendarQuery);
 
     /**
      * 分页查询预约列表

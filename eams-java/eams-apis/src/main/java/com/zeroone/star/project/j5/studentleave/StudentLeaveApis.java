@@ -1,8 +1,9 @@
 package com.zeroone.star.project.j5.studentleave;
 
+import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j5.studentleave.StudentLeaveListDTO;
 import com.zeroone.star.project.query.j5.studentleave.StudentLeaveQuery;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.vo.j5.studentleave.StudentLeaveListVO;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public interface StudentLeaveApis {
      * @param studentLeaveQuery     查询参数
      * @return                      查询结果
      */
-    JsonVO<List<StudentLeaveListVO>> queryStudentLeaveList(StudentLeaveQuery studentLeaveQuery);
+    JsonVO<PageDTO<StudentLeaveListDTO>> queryStudentLeaveList(StudentLeaveQuery studentLeaveQuery);
 
 
 }

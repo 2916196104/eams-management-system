@@ -32,7 +32,6 @@ public class StudentLeaveQuery extends PageQuery {
     @ApiModelProperty(value = "教师 id", example = "2008418408985583617")
     private Long teacherId;
 
-
     @ApiModelProperty(value = "开始时间", example = "2026-01-01")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;

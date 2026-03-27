@@ -5,6 +5,9 @@ spring:
     name: ${sn.student-leave}
 knife4j:
   enableAggregation: true
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true  # 开启下划线转驼峰
 #  nacos:
 #    enable: true
 #    serviceUrl: http://${nacos.addr}/${nacos.contextPath}/

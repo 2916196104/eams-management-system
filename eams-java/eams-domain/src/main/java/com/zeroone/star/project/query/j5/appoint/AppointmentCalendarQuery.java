@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -28,10 +29,12 @@ public class AppointmentCalendarQuery implements Serializable {
 
     @ApiModelProperty(value = "开始时间", example = "2026-02-23")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "开始时间不能为空")
     private LocalDate startDate;
 
     @ApiModelProperty(value = "结束时间", example = "2026-04-05")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "结束时间不能为空")
     private LocalDate endDate;
 
 }

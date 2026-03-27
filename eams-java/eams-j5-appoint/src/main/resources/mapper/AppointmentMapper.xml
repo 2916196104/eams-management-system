@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.j5.appoint.mapper.AppointmentMapper">
+
+    <select id="selectAppointmentInfoTimeInterval"
+            resultType="com.zeroone.star.j5.appoint.VO.AppointmentCalendarVO">
+        select a.id, s.name as student_name, u.mobile, l.title as lesson_title,
+               l.date, l.start_time, a.add_time as appoint_time, st.name as verify_staff, a.remark,
+               case a.verify_state
+                    when 1 then '未审核'
+                    when 2 then '审核通过'
+                    when 3 then '已驳回'
+               end as verify_state
+            from appointment a
+            left join student s on s.id = a.student_id
+            left join user u on s.user_id = u.id
+            left join lesson l on a.lesson_id = l.id
+            left join staff st on a.verify_staff = st.id
+            <where>
+                <if test="startDate != null">
+                    and l.date >= #{startDate}
+                </if>
+                <if test="endDate != null">
+                    and l.date &lt;= #{endDate}
+                </if>
+            </where>
+            order by l.date asc
+    </select>
+
+
+</mapper>

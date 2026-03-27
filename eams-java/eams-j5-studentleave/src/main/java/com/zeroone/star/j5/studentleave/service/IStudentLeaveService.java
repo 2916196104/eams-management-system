@@ -2,6 +2,13 @@ package com.zeroone.star.j5.studentleave.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zeroone.star.j5.studentleave.DO.StudentLeaveDO;
+import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j5.studentleave.StudentLeaveListDTO;
+import com.zeroone.star.project.query.j5.studentleave.StudentLeaveQuery;
+import com.zeroone.star.project.vo.JsonVO;
+import io.swagger.models.auth.In;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +20,7 @@ import com.zeroone.star.j5.studentleave.DO.StudentLeaveDO;
  */
 public interface IStudentLeaveService extends IService<StudentLeaveDO> {
 
+    PageDTO<StudentLeaveListDTO> listStudentLeave(StudentLeaveQuery studentLeaveQuery);
+
+    JsonVO<Integer> cancelLeaveRequest(List<Long> ids);
 }
