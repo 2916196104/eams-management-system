@@ -1,8 +1,8 @@
-package com.homework.eamsj3supplies.services.impl;
+package com.zeroone.star.eamsj3supplies.services.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.homework.eamsj3supplies.mapper.MaterialMapper;
-import com.homework.eamsj3supplies.services.IMaterialService;
+import com.zeroone.star.eamsj3supplies.mapper.MaterialMapper;
+import com.zeroone.star.eamsj3supplies.services.IMaterialService;
 import com.zeroone.star.project.DO.Material;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j3.supplies.MaterialDTO;

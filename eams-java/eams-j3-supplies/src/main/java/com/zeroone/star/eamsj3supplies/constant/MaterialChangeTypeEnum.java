@@ -1,4 +1,4 @@
-package com.homework.eamsj3supplies.constant;
+package com.zeroone.star.eamsj3supplies.constant;
 
 public enum MaterialChangeTypeEnum {
     INBOUND(1),

@@ -1,4 +1,4 @@
-package com.homework.eamsj3supplies.mapper;
+package com.zeroone.star.eamsj3supplies.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zeroone.star.project.DO.MaterialRecord;

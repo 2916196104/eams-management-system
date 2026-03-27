@@ -1,11 +1,11 @@
-package com.homework.eamsj3supplies;
+package com.zeroone.star.eamsj3supplies;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.homework.eamsj3supplies.mapper")
+@MapperScan("com.zeroone.star.eamsj3supplies.mapper")
 public class EamsJ3SuppliesApplication {
 
     public static void main(String[] args) {

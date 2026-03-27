@@ -1,4 +1,4 @@
-package com.homework.eamsj3supplies.config;
+package com.zeroone.star.eamsj3supplies.config;
 
 import com.zeroone.star.project.config.swagger.SwaggerCore;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +12,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 public class SwaggerConfig {
     @Bean
     Docket sampleApi(){
-        return SwaggerCore.defaultDocketBuilder("物料模块","com.homework.eamsj3supplies.controller","物料");
+        return SwaggerCore.defaultDocketBuilder("物料模块","com.zeroone.star.eamsj3supplies.controller","物料");
     }
 
 }

@@ -1,4 +1,4 @@
-package com.homework.eamsj3supplies.mapstruct;
+package com.zeroone.star.eamsj3supplies.mapstruct;
 
 import com.zeroone.star.project.DO.MaterialRecord;
 import com.zeroone.star.project.dto.j3.supplies.MaterialStockChangedDTO;
