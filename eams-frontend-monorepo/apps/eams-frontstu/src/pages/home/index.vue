@@ -22,15 +22,47 @@ interface AdvertisementItem {
 	addTime?: string;
 }
 
+interface ScheduleItem {
+	id?: number;
+	startTime?: string;
+	endTime?: string;
+	courseStatusText?: string;
+	scheduleType?: number;
+	className?: string;
+	courseName?: string;
+	teacherName?: string;
+	classroomName?: string;
+	signInStatusText?: string;
+	canSignIn?: boolean;
+	canLeave?: boolean;
+	canReserve?: boolean;
+}
+
+interface RegistrationRecordItem {
+	id?: number;
+	course_id?: number;
+	course_name?: string;
+	subject_name?: string;
+	expire_date?: string;
+	count_lesson_total?: number;
+	count_lesson_remaining?: number;
+	verify_state?: string;
+	expired?: boolean;
+}
+
 const router = useRouter();
 const userStore = useUserStore();
 const { currentStudent, parentHomeActions } = storeToRefs(userStore);
+
 const topNotice = ref<AdvertisementItem | null>(null);
 const noticeLoading = ref(false);
+const scheduleLoading = ref(false);
+const coursesLoading = ref(false);
+const todayScheduleList = ref<Array<ScheduleItem>>([]);
+const myCourseList = ref<Array<RegistrationRecordItem>>([]);
 
-// 公告提醒文本
+const studentId = computed(() => Number(currentStudent.value?.id || 0));
 const noticeText = computed(() => topNotice.value?.title || "暂无公告提醒");
-// 顶部公告卡背景
 const bannerStyle = computed(() => {
 	if (topNotice.value?.cover) {
 		return {
@@ -40,6 +72,7 @@ const bannerStyle = computed(() => {
 
 	return {};
 });
+const scheduleRightText = computed(() => (todayScheduleList.value.length ? "全部" : "无课"));
 
 // 公告数据标准化
 function normalizeNotice(data: any): AdvertisementItem | null {
@@ -51,6 +84,17 @@ function normalizeNotice(data: any): AdvertisementItem | null {
 		cover: data.cover,
 		addTime: data.addTime,
 	};
+}
+
+// 课表数据标准化，仅保留普通课表
+function normalizeScheduleList(data: any): Array<ScheduleItem> {
+	if (!Array.isArray(data)) return [];
+	return data.filter((item) => item && item.scheduleType !== 2 && !item.canReserve);
+}
+
+// 我的课程列表数据标准化
+function normalizeCourseRows(data: any): Array<RegistrationRecordItem> {
+	return Array.isArray(data?.rows) ? data.rows : [];
 }
 
 // 获取顶部公告
@@ -81,6 +125,54 @@ function loadRedPoints() {
 		});
 }
 
+// 首页“今日课表”复用课表接口
+async function loadTodaySchedule() {
+	scheduleLoading.value = true;
+	try {
+		const today = new Date();
+		const queryDate = `${today.getFullYear()}-${`${today.getMonth() + 1}`.padStart(2, "0")}-${`${today.getDate()}`.padStart(2, "0")}`;
+		const res: any = await Apis.schedule.get_schedule_query({
+			params: {
+				queryDate,
+			},
+		});
+		todayScheduleList.value = normalizeScheduleList(res?.data).slice(0, 3);
+	}
+	catch {
+		todayScheduleList.value = [];
+	}
+	finally {
+		scheduleLoading.value = false;
+	}
+}
+
+// 首页“我的课程”复用报名记录接口
+async function loadMyCourses() {
+	if (!studentId.value) {
+		myCourseList.value = [];
+		return;
+	}
+
+	coursesLoading.value = true;
+	try {
+		const res: any = await Apis.home.get_c1_registration_records_query_records({
+			params: {
+				student_id: studentId.value,
+				exclude_expired: true,
+				pageIndex: 1,
+				pageSize: 3,
+			},
+		});
+		myCourseList.value = normalizeCourseRows(res?.data).slice(0, 3);
+	}
+	catch {
+		myCourseList.value = [];
+	}
+	finally {
+		coursesLoading.value = false;
+	}
+}
+
 // 页面跳转
 function navigateTo(name: string) {
 	if (!name) return;
@@ -92,9 +184,9 @@ function openScheduleTab() {
 	router.pushTab({ name: "schedule" });
 }
 
-// 打开我的课程 tab
-function openSelectTab() {
-	router.pushTab({ name: "select" });
+// 打开我的课程列表
+function openMyCourses() {
+	router.push({ name: "signupRecord" });
 }
 
 // 打开公告列表
@@ -102,9 +194,36 @@ function openNoticeList() {
 	router.push({ name: "noticeList" });
 }
 
-onMounted(() => {
+// 进入课程关联页面
+function openCourse(item: RegistrationRecordItem) {
+	if (!item.course_id) {
+		openMyCourses();
+		return;
+	}
+
+	router.push({
+		path: "/subPages/parent/class-page",
+		query: {
+			course_id: String(item.course_id),
+		},
+	} as any);
+}
+
+// 首页统一加载逻辑
+function loadHomeData() {
 	loadTopNotice();
 	loadRedPoints();
+	loadTodaySchedule();
+	loadMyCourses();
+}
+
+watch(studentId, () => {
+	loadTodaySchedule();
+	loadMyCourses();
+});
+
+onShow(() => {
+	loadHomeData();
 });
 </script>
 
@@ -167,13 +286,39 @@ onMounted(() => {
 			</view>
 
 			<!-- 今日课表 -->
-			<ParentSectionCard title="今日课表" right-text="无课" @right-click="openScheduleTab">
-				<ParentEmptyState text="今日无课" min-height="136px" />
+			<ParentSectionCard title="今日课表" :right-text="scheduleRightText" @right-click="openScheduleTab">
+				<view v-if="todayScheduleList.length" class="home-list">
+					<view v-for="item in todayScheduleList" :key="item.id" class="home-list__item" @click="openScheduleTab">
+						<view class="home-list__main">
+							<view class="home-list__title">{{ item.courseName || item.className || "未命名课程" }}</view>
+							<view class="home-list__sub">{{ item.teacherName || "未安排老师" }} · {{ item.classroomName || "待定教室" }}</view>
+						</view>
+						<view class="home-list__side">
+							<view class="home-list__time">{{ item.startTime }}-{{ item.endTime }}</view>
+							<view class="home-list__tag">{{ item.courseStatusText || item.signInStatusText || "待上课" }}</view>
+						</view>
+					</view>
+				</view>
+				<ParentEmptyState v-else :text="scheduleLoading ? '加载中...' : '今日无课'" min-height="136px" />
 			</ParentSectionCard>
 
 			<!-- 我的课程 -->
-			<ParentSectionCard title="我的课程" right-text="全部" @right-click="openSelectTab">
-				<ParentEmptyState text="未报名课程" min-height="136px" />
+			<ParentSectionCard title="我的课程" right-text="全部" @right-click="openMyCourses">
+				<view v-if="myCourseList.length" class="home-list">
+					<view v-for="item in myCourseList" :key="item.id" class="home-list__item" @click="openCourse(item)">
+						<view class="home-list__main">
+							<view class="home-list__title">{{ item.course_name || "未命名课程" }}</view>
+							<view class="home-list__sub">{{ item.subject_name || "未设置科目" }}</view>
+						</view>
+						<view class="home-list__side">
+							<view class="home-list__time">{{ item.count_lesson_remaining ?? 0 }}/{{ item.count_lesson_total ?? 0 }} 课次</view>
+							<view class="home-list__tag" :class="{ 'home-list__tag--expired': item.expired }">
+								{{ item.expired ? "已过期" : item.verify_state || "学习中" }}
+							</view>
+						</view>
+					</view>
+				</view>
+				<ParentEmptyState v-else :text="coursesLoading ? '加载中...' : '未报名课程'" min-height="136px" />
 			</ParentSectionCard>
 		</view>
 	</view>
@@ -359,5 +504,64 @@ onMounted(() => {
 	gap: 4px;
 	font-size: 14px;
 	font-weight: 500;
+}
+
+.home-list {
+	padding: 8px 0;
+}
+
+.home-list__item {
+	padding: 12px 16px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	border-bottom: 1px solid #f1f3f7;
+}
+
+.home-list__item:last-child {
+	border-bottom: none;
+}
+
+.home-list__main {
+	flex: 1;
+	min-width: 0;
+}
+
+.home-list__title {
+	font-size: 15px;
+	font-weight: 600;
+	color: #1f2937;
+}
+
+.home-list__sub {
+	margin-top: 6px;
+	font-size: 12px;
+	color: #8b95a7;
+}
+
+.home-list__side {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 6px;
+}
+
+.home-list__time {
+	font-size: 12px;
+	color: #4b5563;
+}
+
+.home-list__tag {
+	padding: 4px 8px;
+	border-radius: 999px;
+	background: rgba(49, 199, 165, 0.12);
+	font-size: 12px;
+	color: #1ca386;
+}
+
+.home-list__tag--expired {
+	background: rgba(255, 109, 109, 0.12);
+	color: #ff6b6b;
 }
 </style>

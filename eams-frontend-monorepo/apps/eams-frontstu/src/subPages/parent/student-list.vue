@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { computed, ref } from "vue";
 import { storeToRefs } from "pinia";
-import { useUserStore } from "@/store/userStore";
+import ParentEmptyState from "@/components/parent/ParentEmptyState.vue";
+import { useUserStore, type ParentStudent } from "@/store/userStore";
 
 definePage({
 	name: "studentList",
@@ -10,12 +12,77 @@ definePage({
 	},
 });
 
+const router = useRouter();
 const userStore = useUserStore();
 const { students, currentStudent } = storeToRefs(userStore);
+const loading = ref(false);
 
-function switchStudent(id: string) {
-	userStore.setCurrentStudent(id);
-	uni.navigateBack();
+const hasStudents = computed(() => students.value.length > 0);
+
+function normalizeStudent(item: any, index: number): ParentStudent {
+	const raw = typeof item === "string" ? tryParseStudent(item) : item;
+	const gender = raw?.gender === "女" || raw?.sex === "女" ? "女" : "男";
+	const name = raw?.name || raw?.studentName || raw?.nickName || `学生${index + 1}`;
+	const id = String(raw?.id || raw?.studentId || raw?.userId || index + 1);
+
+	return {
+		id,
+		name,
+		gender,
+		avatarText: (name || "学").charAt(0).toUpperCase(),
+		relation: raw?.relation || raw?.identity || raw?.identityName || "妈妈",
+		grade: raw?.grade || raw?.gradeName || "",
+		idCard: raw?.idCard || raw?.idNumber || "",
+		birthday: raw?.birthday || raw?.birthDate || "",
+	};
+}
+
+function tryParseStudent(raw: string) {
+	try {
+		return JSON.parse(raw);
+	}
+	catch {
+		return {
+			name: raw,
+		};
+	}
+}
+
+async function loadStudentList(showError = true) {
+	loading.value = true;
+	try {
+		const res: any = await (Apis as any).me.get_me_getStudentList({
+			params: {
+				pageIndex: 1,
+				pageSize: 50,
+			},
+		});
+		const rows = Array.isArray(res?.data?.rows) ? res.data.rows : [];
+		userStore.setStudents(rows.map(normalizeStudent));
+	}
+	catch {
+		if (showError) {
+			uni.showToast({ title: "学员列表加载失败", icon: "none" });
+		}
+	}
+	finally {
+		loading.value = false;
+	}
+}
+
+async function switchStudent(id: string) {
+	try {
+		await (Apis as any).me.get_me_switchStudent({
+			params: {
+				id: Number(id),
+			},
+		});
+		userStore.setCurrentStudent(id);
+		uni.navigateBack();
+	}
+	catch {
+		uni.showToast({ title: "切换学员失败", icon: "none" });
+	}
 }
 
 function goBack() {
@@ -23,12 +90,28 @@ function goBack() {
 }
 
 function addStudent() {
-	uni.showToast({ title: "后续接入添加学生", icon: "none" });
+	router.push({
+		path: "/subPages/parent/student-edit",
+	} as any);
 }
 
-function refreshPage() {
+function editStudent(id: string) {
+	router.push({
+		path: "/subPages/parent/student-edit",
+		query: {
+			id,
+		},
+	} as any);
+}
+
+async function refreshPage() {
+	await loadStudentList(false);
 	uni.showToast({ title: "已刷新", icon: "none" });
 }
+
+onShow(() => {
+	loadStudentList();
+});
 </script>
 
 <template>
@@ -49,21 +132,24 @@ function refreshPage() {
 		</view>
 
 		<view class="student-page__content">
-			<view v-for="student in students" :key="student.id" class="student-item">
-				<view class="student-item__info">
-					<view class="student-item__icon i-carbon:user-avatar-filled-alt text-34px text-#30c7a6" />
-					<view class="student-item__name">
-						{{ student.name }}<text class="student-item__gender">{{ student.gender === "男" ? "♂" : "♀" }}</text>
+			<template v-if="hasStudents">
+				<view v-for="student in students" :key="student.id" class="student-item" @click="editStudent(student.id)">
+					<view class="student-item__info">
+						<view class="student-item__icon i-carbon:user-avatar-filled-alt text-34px text-#30c7a6" />
+						<view class="student-item__name">
+							{{ student.name }}<text class="student-item__gender">{{ student.gender === "男" ? "♂" : "♀" }}</text>
+						</view>
+					</view>
+					<view
+						class="student-item__switch"
+						:class="{ 'student-item__switch--active': currentStudent?.id === student.id }"
+						@click.stop="switchStudent(student.id)"
+					>
+						切换
 					</view>
 				</view>
-				<view
-					class="student-item__switch"
-					:class="{ 'student-item__switch--active': currentStudent?.id === student.id }"
-					@click="switchStudent(student.id)"
-				>
-					切换
-				</view>
-			</view>
+			</template>
+			<ParentEmptyState v-else :text="loading ? '加载中...' : '暂无学员'" min-height="180px" />
 
 			<view class="student-page__add-btn" @click="addStudent">添加学生</view>
 		</view>
