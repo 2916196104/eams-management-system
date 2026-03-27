@@ -20,6 +20,7 @@
 #include "ListeningCardListService.h"
 #include"../domain/dto/listening-card/cardDTO.h"
 #include "SimpleDateTimeFormat.h"
+#include"../../lib-common/include/id/SnowFlake.h"
 
 ListeningCardPageDTO::Wrapper ListeningCardListService::listAll(const oatpp::String& userId)
 {
@@ -49,8 +50,11 @@ bool ListeningCardListService::claimCard(const receiveCardDTO::Wrapper& dto)
 	ZO_STAR_DOMAIN_DTO_TO_DO(data, dto, TrialId, trialId, StudentId, studentId, CourseId, courseId);
 	ZO_STAR_DOMAIN_DTO_TO_DO(data, dto, UserId, userId , EndDate, endDate);
 	ZO_STAR_DOMAIN_DTO_TO_DO(data, dto, LessonCount, lessonCount, SchoolId, schoolId);
-	ZO_STAR_DOMAIN_DTO_TO_DO(data, dto, Counselor, counselor, Id, id);
+	ZO_STAR_DOMAIN_DTO_TO_DO(data, dto, Counselor, counselor);
 	ZO_STAR_DOMAIN_DTO_TO_DO(data, dto, StudentCourseId, studentCourseId, AddTime, addTime);
+	SnowFlake sf(1, 1);
+	//雪花算法插入id
+	data.setId(sf.nextId());
 	// 执行数据修改
 	ListeningCardDAO dao;
 	return  dao.insert(data) == 1;

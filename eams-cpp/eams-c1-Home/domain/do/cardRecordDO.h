@@ -27,7 +27,7 @@
 class cardRecordDO : public BaseDO
 {
 	// 主键
-	MYSQL_SYNTHESIZE(long, id, Id);
+	MYSQL_SYNTHESIZE(unsigned long long, id, Id);
 	// 体验卡ID
 	MYSQL_SYNTHESIZE(long, trialId, TrialId);
 	// 学生ID
@@ -52,7 +52,7 @@ class cardRecordDO : public BaseDO
 public:
 	cardRecordDO() : BaseDO("course_trial_record")
 	{
-		MYSQL_ADD_FIELD_PK("id", "i", id);
+		MYSQL_ADD_FIELD_PK("id", "ui", id);
 		MYSQL_ADD_FIELD("trial_id", "i", trialId);
 		MYSQL_ADD_FIELD("student_id", "i", studentId);
 		MYSQL_ADD_FIELD("course_id", "i", courseId);
