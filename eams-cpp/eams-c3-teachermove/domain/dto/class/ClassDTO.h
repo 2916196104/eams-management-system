@@ -56,8 +56,8 @@ class ClassDTO : public oatpp::DTO {
 	API_DTO_FIELD_DEFAULT(String, startTime, ZH_WORDS_GETTER("class.dto.ClassDTO.startTime"));
 	// 结束时间
 	API_DTO_FIELD_DEFAULT(String, endTime, ZH_WORDS_GETTER("class.dto.ClassDTO.endTime"));
-	// 参与人数
-	API_DTO_FIELD_DEFAULT(Int32, participantCount, ZH_WORDS_GETTER("class.dto.ClassDTO.participantCount"));
+	// 参与人数（已参与/预估人数）
+	API_DTO_FIELD_DEFAULT(String, participantCount, ZH_WORDS_GETTER("class.dto.ClassDTO.participantCount"));
 };
 
 // 班级分页DTO

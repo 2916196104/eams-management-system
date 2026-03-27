@@ -17,6 +17,9 @@ public:
     // 1. 获取学员总数量 (用于分页)
     uint64_t count(const StuListQuery::Wrapper& query);
 
+    // 按班级统计参与人数
+    uint64_t countByClassId(uint64_t classId);
+
     // 2. 分页查询班级下的学员列表
     std::list<PtrClassStudentDO> selectAll(const StuListQuery::Wrapper& query);
 

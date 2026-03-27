@@ -1,5 +1,9 @@
 #include "stdafx.h"
 #include "ClassService.h"
+#include "dao/class/ClassDao.h"
+#include "dao/staff/StaffDao.h"
+#include "dao/course/CourseDao.h"
+#include "dao/class_student/ClassStudentDao.h"
 
 // 获取班级学员详情
 oatpp::Object<StudentDetailDTO> ClassService::getStudentDetail(const oatpp::String& studentId) {
@@ -12,6 +16,67 @@ oatpp::Object<StudentDetailDTO> ClassService::getStudentDetail(const oatpp::Stri
 	studentDetail->birthday = "2008-01-01";
 	
 	return studentDetail;
+}
+
+oatpp::Object<ClassPageDTO> ClassService::getClassList(const ClassQuery::Wrapper& query)
+{
+	ClassDao classDao;
+	StaffDao staffDao;
+	CourseDao courseDao;
+	ClassStudentDAO classStudentDao;
+
+	auto page = ClassPageDTO::createShared();
+
+	v_uint64 pageIndex = query && query->pageIndex ? query->pageIndex.getValue(1) : static_cast<v_uint64>(1);
+	v_uint64 pageSize = query && query->pageSize ? query->pageSize.getValue(10) : static_cast<v_uint64>(10);
+	if (pageIndex == 0) pageIndex = 1;
+	if (pageSize == 0) pageSize = 10;
+	page->pageIndex = pageIndex;
+	page->pageSize = pageSize;
+
+	const uint64_t total = classDao.count(query);
+	page->total = static_cast<v_int64>(total);
+
+	auto rows = oatpp::List<oatpp::Object<ClassDTO>>::createShared();
+	auto classList = classDao.selectWithPage(query);
+	for (const auto& classItem : classList)
+	{
+		auto dto = ClassDTO::createShared();
+		dto->classNo = std::to_string(classItem.getId());
+		dto->className = classItem.getName();
+		dto->startTime = classItem.getStartDate();
+		dto->endTime = classItem.getEndDate();
+
+		dto->teacherName = "";
+		if (classItem.getTeacherIdPtr())
+		{
+			auto staff = staffDao.selectById(static_cast<uint64_t>(classItem.getTeacherId()));
+			if (staff && staff->getNamePtr())
+			{
+				dto->teacherName = staff->getName();
+			}
+		}
+
+		dto->courseName = "";
+		if (classItem.getCourseIdPtr())
+		{
+			auto course = courseDao.selectById(static_cast<uint64_t>(classItem.getCourseId()));
+			if (course && course->getNamePtr())
+			{
+				dto->courseName = course->getName();
+			}
+		}
+
+		const uint64_t joinedCount = classStudentDao.countByClassId(classItem.getId());
+		const int32_t plannedCount = classItem.getPlannedStudentCountPtr() ? classItem.getPlannedStudentCount() : 0;
+		dto->participantCount = std::to_string(joinedCount) + "/" + std::to_string(plannedCount);
+
+		rows->push_back(dto);
+	}
+	page->rows = rows;
+	page->calcPages();
+
+	return page;
 }
 
 // 获取班级学员课程列表（分页）

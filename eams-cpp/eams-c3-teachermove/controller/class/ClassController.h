@@ -112,7 +112,10 @@ private:
 	ClassService classService;
 	
 	ClassPageJsonVO::Wrapper execQueryClassList(const ClassQuery::Wrapper& query) {
-		return ClassPageJsonVO::createShared();
+		auto vo = ClassPageJsonVO::createShared();
+		vo->data = classService.getClassList(query);
+		vo->success(vo->data);
+		return vo;
 	}
 	ClassDetailJsonVO::Wrapper execQueryClassDetail(const ClassDTO::Wrapper& query) {
 		return ClassDetailJsonVO::createShared();

@@ -14,6 +14,12 @@ uint64_t ClassStudentDAO::count(const StuListQuery::Wrapper& query)
     return sqlSession->executeQueryNumerical(sql, params);
 }
 
+uint64_t ClassStudentDAO::countByClassId(uint64_t classId)
+{
+    string sql = "SELECT count(id) FROM class_student WHERE deleted = 0 AND class_id = ?";
+    return sqlSession->executeQueryNumerical(sql, "%ull", classId);
+}
+
 // 2. 分页查询列表
 std::list<PtrClassStudentDO> ClassStudentDAO::selectAll(const StuListQuery::Wrapper& query)
 {
