@@ -5,11 +5,9 @@ import com.zeroone.star.login.entity.Menu;
 import com.zeroone.star.login.mapper.MenuMapper;
 import com.zeroone.star.login.service.IMenuService;
 import com.zeroone.star.project.vo.login.MenuTreeVO;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
