@@ -1,85 +1,71 @@
 package com.zeroone.star.project.j1;
 
-import com.zeroone.star.project.dto.j1.Console.StatisticsPanelDTO;
-import com.zeroone.star.project.dto.j1.customer.MyCustomerDTO;
-import com.zeroone.star.project.dto.j1.schedule.MyScheduleDTO;
-import com.zeroone.star.project.query.j1.console.CourseEnrollmentQuery;
-import com.zeroone.star.project.query.j1.console.CustomerQuery;
-import com.zeroone.star.project.query.j1.console.MonthEnrollmentQuery;
-import com.zeroone.star.project.query.j1.console.ScheduleQuery;
-import com.zeroone.star.project.query.j1.customer.MyCustomerQuery;
-import com.zeroone.star.project.query.j1.schedule.MyScheduleQuery;
+import com.zeroone.star.project.query.j1.console.*;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.vo.j1.console.ConsoleStatisticsVO;
-import com.zeroone.star.project.vo.j1.console.CourseEnrollmentVO;
-import com.zeroone.star.project.vo.j1.console.CustomerVO;
-import com.zeroone.star.project.vo.j1.console.MonthEnrollmentVO;
-import com.zeroone.star.project.vo.j1.console.ScheduleVO;
-import com.zeroone.star.project.vo.j1.console.StatisticsPanelVO;
-import com.zeroone.star.project.vo.j1.customer.MyCustomerVO;
-import com.zeroone.star.project.vo.j1.enrollment.MonthlyEnrollmentVO;
-import com.zeroone.star.project.vo.j1.schedule.MyScheduleVO;
+import com.zeroone.star.project.vo.j1.console.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
  * <p>
- * 描述：控制台相关 API 接口
+ * 描述：控制台 API 接口定义
  * </p>
- *
+ * <p>版权：&copy;01 星球</p>
+ * <p>地址：01 星球总部</p>
  * @author hxb
  * @version 1.0.0
  */
 @Api(tags = "控制台管理")
 public interface ConsoleApis {
-    JsonVO<StatisticsPanelVO> getStatisticsPanel();
 
-    JsonVO<List<MonthlyEnrollmentVO>> getMonthlyEnrollments();
-
-    JsonVO<List<CourseEnrollmentVO>> getCourseEnrollments();
-
-    JsonVO<List<MyScheduleVO>> getMySchedules(MyScheduleQuery query);
-
-    JsonVO<MyScheduleVO> getMyScheduleDetail(Long id);
-
-    JsonVO<Void> addMySchedule(MyScheduleDTO dto);
-
-    JsonVO<Void> modifyMySchedule(MyScheduleDTO dto);
-
-    JsonVO<Void> removeMySchedule(Long id);
-
-    JsonVO<List<MyCustomerVO>> getMyCustomers(MyCustomerQuery query);
-
-    JsonVO<MyCustomerVO> getMyCustomerDetail(Long id);
-
-    JsonVO<Void> addMyCustomer(MyCustomerDTO dto);
-
-    JsonVO<Void> modifyMyCustomer(MyCustomerDTO dto);
-
-    JsonVO<Void> removeMyCustomer(Long id);
-
-    @ApiOperation(value = "获取统计面板数据", notes = "返回教务系统关键统计数据，包括学生数、教师数、课程数等")
+    /**
+     * 统计面板
+     *
+     * @return 统计面板数据
+     */
+    @ApiOperation(value = "统计面板", notes = "获取控制台统计面板数据")
     @GetMapping("/console/statistics")
-    ConsoleStatisticsVO getStatistics();
+    JsonVO<ConsoleStatisticsVO> getStatistics();
 
-    @ApiOperation(value = "获取本月报名统计数据", notes = "返回指定月份的报名趋势和每日报名数据")
-    @PostMapping("/console/month-enrollment")
-    MonthEnrollmentVO getMonthEnrollment(@RequestBody MonthEnrollmentQuery query);
+    /**
+     * 本月报名走势
+     *
+     * @param query 查询参数（年份、月份）
+     * @return 本月报名走势数据
+     */
+    @ApiOperation(value = "本月报名", notes = "获取本月报名走势数据")
+    @GetMapping("/console/month-enrollment")
+    JsonVO<MonthEnrollmentVO> getMonthEnrollment(MonthEnrollmentQuery query);
 
-    @ApiOperation(value = "获取课程报名统计", notes = "返回所有课程的报名情况统计，支持条件筛选")
-    @PostMapping("/console/course-enrollment")
-    CourseEnrollmentVO getCourseEnrollment(@RequestBody CourseEnrollmentQuery query);
+    /**
+     * 课程报名金额排行（前5）
+     *
+     * @return 课程报名金额排行列表
+     */
+    @ApiOperation(value = "课程报名排行", notes = "获取课程报名金额前5排行")
+    @GetMapping("/console/course-enrollment-rank")
+    JsonVO<List<CourseEnrollmentRankVO>> getCourseEnrollmentRank();
 
-    @ApiOperation(value = "获取我的课表", notes = "返回指定用户的课程安排表")
+    /**
+     * 课表日历
+     *
+     * @param query 查询参数（周期、班级、课程、科目、老师、学生）
+     * @return 课表日历数据
+     */
+    @ApiOperation(value = "课表日历", notes = "查询指定周期的课表日历数据")
     @PostMapping("/console/schedule")
-    ScheduleVO getSchedule(@RequestBody ScheduleQuery query);
+    JsonVO<TimetableCalendarVO> getSchedule(@RequestBody TimetableCalendarQuery query);
 
-    @ApiOperation(value = "获取我的客户列表", notes = "返回负责的客户信息及跟进状态统计")
-    @PostMapping("/console/customer")
-    CustomerVO getCustomers(@RequestBody CustomerQuery query);
+    /**
+     * 我的客户（分页查询）
+     *
+     * @param query 查询参数（学员姓名、联系电话、学习阶段、性别、日期范围、分页）
+     * @return 客户列表
+     */
+    @ApiOperation(value = "我的客户", notes = "分页查询我的客户列表")
+    @PostMapping("/console/my-customer")
+    JsonVO<MyCustomerVO> getMyCustomerList(@RequestBody MyCustomerQuery query);
 }

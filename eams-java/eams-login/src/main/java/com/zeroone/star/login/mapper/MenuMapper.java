@@ -3,21 +3,29 @@ package com.zeroone.star.login.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zeroone.star.login.entity.Menu;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
- * <p>
- * 菜单 Mapper 接口
- * </p>
- * @author 阿伟
+ * Menu mapper.
  */
 @Mapper
 public interface MenuMapper extends BaseMapper<Menu> {
+
     /**
-     * 通过角色名获取对应的菜单资源
-     * @param roleName 角色名
-     * @return 返回菜单列表
+     * Query menus by role codes with a single SQL statement.
+     *
+     * @param roleCodes current user role codes
+     * @return menu list
      */
-    List<Menu> selectByRoleName(String roleName);
+    List<Menu> selectByRoleCodes(@Param("roleCodes") List<String> roleCodes);
+
+    /**
+     * Query ancestor menus by ids.
+     *
+     * @param menuIds ancestor menu ids
+     * @return ancestor menu list
+     */
+    List<Menu> selectByIds(@Param("menuIds") List<Integer> menuIds);
 }

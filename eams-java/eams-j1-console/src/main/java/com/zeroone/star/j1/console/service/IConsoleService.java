@@ -3,6 +3,8 @@ package com.zeroone.star.j1.console.service;
 import com.zeroone.star.project.query.j1.console.*;
 import com.zeroone.star.project.vo.j1.console.*;
 
+import java.util.List;
+
 /**
  * <p>
  * 描述：控制台服务接口
@@ -24,32 +26,31 @@ public interface IConsoleService {
     /**
      * 获取本月报名统计数据
      * 
-     * @param query 查询参数（年份、月份、课程 ID）
+     * @param query 查询参数（年份、月份）
      * @return 本月报名统计数据
      */
     MonthEnrollmentVO getMonthEnrollment(MonthEnrollmentQuery query);
     
     /**
-     * 获取课程报名统计
+     * 获取课程报名金额排行（前5）
      * 
-     * @param query 查询参数（课程名称、教师 ID、报名状态）
-     * @return 课程报名统计数据
+     * @return 课程报名金额排行列表
      */
-    CourseEnrollmentVO getCourseEnrollment(CourseEnrollmentQuery query);
+    List<CourseEnrollmentRankVO> getCourseEnrollmentRank();
     
     /**
-     * 获取我的课表
-     * 
-     * @param query 查询参数（用户 ID、用户类型、周次）
-     * @return 个人课表数据
+     * 获取课表日历数据
+     *
+     * @param query 查询参数
+     * @return 课表日历数据
      */
-    ScheduleVO getSchedule(ScheduleQuery query);
-    
+    TimetableCalendarVO getTimetableCalendar(TimetableCalendarQuery query);
+
     /**
-     * 获取我的客户列表
-     * 
-     * @param query 查询参数（客户姓名、电话、状态、意向课程）
-     * @return 客户列表及统计信息
+     * 获取我的客户列表（分页）
+     *
+     * @param query 查询参数
+     * @return 我的客户分页数据
      */
-    CustomerVO getCustomers(CustomerQuery query);
+    MyCustomerVO getMyCustomerList(MyCustomerQuery query);
 }

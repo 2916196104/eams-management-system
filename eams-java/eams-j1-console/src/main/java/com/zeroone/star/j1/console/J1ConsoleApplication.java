@@ -14,7 +14,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @version 1.0.0
  */
 @SpringBootApplication
-// @EnableDiscoveryClient  // 临时禁用Nacos服务注册
+@EnableDiscoveryClient
 public class J1ConsoleApplication {
     public static void main(String[] args) {
         SpringApplication.run(J1ConsoleApplication.class, args);

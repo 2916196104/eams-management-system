@@ -21,12 +21,11 @@ import java.util.Map;
 public class JwtTokenEnhancerDataServiceImpl implements JwtTokenEnhancerDataService {
     @Override
     public Map<String, Object> enhance(SecurityUser securityUser) {
-        // 获取数据库用户DO对象
         User user = (User) securityUser.getExtendsObject();
-        Map<String, Object> info = new HashMap<>(1);
-        // FIXME: 如果要扩展凭证中的负载数据,需要修改这里的代码
-        // 把用户ID设置到JWT中
+        Map<String, Object> info = new HashMap<>(4);
         info.put("id", user.getId());
+        info.put("org_id", user.getOrgId());
+        info.put("name", user.getName());
         return info;
     }
 }
