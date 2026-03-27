@@ -33,7 +33,10 @@ public class OrgController implements OrgApi {
     @Override
     public JsonVO<List<OrgTreeVO>> queryOrgTree(Long parentOrgId) {
         try {
-            List<OrgTreeVO> treeList = orgService.queryOrgTree(parentOrgId);
+            UserDTO currentUser = userHolder.getCurrentUser();
+            Long operatorOrgId = currentUser != null ? currentUser.getOrgId() : null;
+
+            List<OrgTreeVO> treeList = orgService.queryOrgTree(parentOrgId, operatorOrgId);
             return JsonVO.success(treeList);
         } catch (Exception e) {
             log.error("查询机构树失败: {}", e.getMessage(), e);
@@ -44,10 +47,13 @@ public class OrgController implements OrgApi {
     @Override
     public JsonVO<List<OrgListVO>> queryOrgList(OrgQuery query) {
         try {
+            UserDTO currentUser = userHolder.getCurrentUser();
+            Long operatorOrgId = currentUser != null ? currentUser.getOrgId() : null;
+
             if (query == null) {
                 query = new OrgQuery();
             }
-            List<OrgListVO> listVO = orgService.queryOrgList(query);
+            List<OrgListVO> listVO = orgService.queryOrgList(query, operatorOrgId);
             return JsonVO.success(listVO);
         } catch (Exception e) {
             log.error("查询机构列表失败: {}", e.getMessage(), e);
@@ -62,9 +68,12 @@ public class OrgController implements OrgApi {
                 return JsonVO.create(null, ResultStatus.PARAMS_INVALID.getCode(), "机构ID不能为空");
             }
 
-            OrgDetailVO detailVO = orgService.queryOrgDetail(orgId);
+            UserDTO currentUser = userHolder.getCurrentUser();
+            Long operatorOrgId = currentUser != null ? currentUser.getOrgId() : null;
+
+            OrgDetailVO detailVO = orgService.queryOrgDetail(orgId, operatorOrgId);
             if (detailVO == null) {
-                return JsonVO.create(null, ResultStatus.FAIL.getCode(), "机构不存在");
+                return JsonVO.create(null, ResultStatus.FAIL.getCode(), "机构不存在或无权限查看");
             }
             return JsonVO.success(detailVO);
         } catch (Exception e) {
@@ -89,7 +98,7 @@ public class OrgController implements OrgApi {
                 return JsonVO.create(null, ResultStatus.PARAMS_INVALID.getCode(), "不能将自己设为父机构");
             }
 
-            Long orgId = orgService.saveOrg(saveDTO, operatorId);
+            Long orgId = orgService.saveOrg(saveDTO, operatorId, operatorOrgId);
 
             String message = saveDTO.getOrgId() == null ?
                     "新增机构成功，机构ID：" + orgId :
@@ -97,6 +106,9 @@ public class OrgController implements OrgApi {
             log.info("{} - 操作人ID: {}, 所属机构ID: {}", message, operatorId, operatorOrgId);
 
             return JsonVO.success(message);
+        } catch (RuntimeException e) {
+            log.warn("保存机构失败: {}", e.getMessage());
+            return JsonVO.create(null, ResultStatus.FAIL.getCode(), e.getMessage());
         } catch (Exception e) {
             log.error("保存机构失败: {}", e.getMessage(), e);
             return JsonVO.create(null, ResultStatus.FAIL.getCode(), "保存机构失败：" + e.getMessage());
@@ -111,10 +123,9 @@ public class OrgController implements OrgApi {
             }
 
             UserDTO currentUser = userHolder.getCurrentUser();
-            Long operatorId = currentUser != null ? Long.valueOf(currentUser.getId()) : null;
             Long operatorOrgId = currentUser != null ? currentUser.getOrgId() : null;
 
-            boolean result = orgService.removeOrg(orgId);
+            boolean result = orgService.removeOrg(orgId, operatorOrgId);
             if (result) {
                 return JsonVO.success(true);
             } else {

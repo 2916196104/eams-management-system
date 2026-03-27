@@ -20,6 +20,9 @@ public class StaffDO implements Serializable {
 
     private String mobile;
 
+    @TableField("head_img")
+    private String headImg;
+
     private String password;
 
     private Byte state;

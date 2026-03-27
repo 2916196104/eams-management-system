@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.models.auth.In;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
@@ -31,12 +32,13 @@ public class StaffVO {
    @ApiModelProperty
    private Integer gender;
    @ApiModelProperty
-   private String position;
+   private Long positionId;
 @ApiModelProperty
    private Integer isManger;
  @ApiModelProperty
 private Integer isInner;
    @JsonFormat(pattern = "yyyy-MM-dd")
    private LocalDate hireDate;
-
+   @ApiModelProperty
+   private String positionName;
 }

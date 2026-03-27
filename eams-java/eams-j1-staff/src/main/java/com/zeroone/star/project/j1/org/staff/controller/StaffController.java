@@ -1,24 +1,33 @@
 package com.zeroone.star.project.j1.org.staff.controller;
 
+import com.zeroone.star.project.dto.ExtendPageDTO;
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.dto.j1.org.StaffDTO;
-import com.zeroone.star.project.dto.j1.org.ResetPasswordDTO;
+import com.zeroone.star.project.dto.j1.org.*;
 import com.zeroone.star.project.j1.org.staff.StaffMangerApis;
+import com.zeroone.star.project.j1.org.staff.service.StaffService;
+import com.zeroone.star.project.query.j1.org.LessonRecordQuery;
+import com.zeroone.star.project.query.j1.org.StaffDetailQuery;
 import com.zeroone.star.project.query.j1.org.StaffQuery;
 import com.zeroone.star.project.query.j1.org.ClassRecordQuery;
-import com.zeroone.star.project.query.j1.org.TeachRecordQuery;
+//import com.zeroone.star.project.query.j1.org.TeachRecordQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.project.vo.ResultStatus;
+import com.zeroone.star.project.vo.j1.org.LessonRecordVO;
+import com.zeroone.star.project.vo.j1.org.StaffDetailsVO;
 import com.zeroone.star.project.vo.j1.org.StaffVO;
 import com.zeroone.star.project.vo.j1.org.ClassRecordVO;
-import com.zeroone.star.project.vo.j1.org.TeachRecordVO;
+//import com.zeroone.star.project.vo.j1.org.TeachRecordVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+//import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Collections;
+//import java.util.Collections;
 
 /**
  * <p>
@@ -34,82 +43,77 @@ import java.util.Collections;
 @Api(tags="员工管理")
 @Slf4j
 public class StaffController implements StaffMangerApis {
+    @Autowired
+    private StaffService staffService;
     @GetMapping("/getpage")
     @ApiOperation("获取员工列表（条件+分页）")
     @Override
     public JsonVO<PageDTO<StaffVO>> queryPage(StaffQuery condition) {
-        return null;
+        return staffService.queryPage(condition);
     }
     @GetMapping("/get")
     @Override
     @ApiOperation("获取员工详情")
-    public JsonVO<StaffVO> queryStaff(StaffQuery condition) {
-        return null;
+    public JsonVO<StaffDetailsVO> queryStaff(StaffDetailQuery condition) {
+        return staffService.queryStaff(condition);
     }
        @PostMapping("/save")
     @Override
     @ApiOperation("保存员工")
     public JsonVO<Long> saveStaff(@RequestBody  StaffDTO condition) {
-        return null;
+
+        return  staffService.saveStaff(condition);
     }
 @DeleteMapping("/delete")
     @Override
     @ApiOperation("删除员工（支持批量）")
-    public JsonVO<List<Long>> removeStaff(@RequestBody List<Long> ids) {
-        return null;
+    public JsonVO<Long> removeStaff(@RequestBody List<Long> ids) {
+        return  staffService.removeStaff(ids);
     }
 
 @PostMapping("/set")
     @Override
     @ApiOperation("设置角色（支持批量）")
-    public JsonVO<List<Long>> setStaff(@RequestBody List<Long> ids) {
-        return null;
+    public JsonVO<Long> setStaff(@RequestBody StaffSetDTO condition) {
+        return staffService.setStaff(condition);
     }
-@PostMapping("/update")
+
+    @PostMapping("/update")
     @Override
     @ApiOperation("在职状态（支持批量）")
-    public JsonVO<List<Long>> updateStaffStatus(@RequestBody List<Long> ids) {
-        return null;
-    }
-    @PostMapping("/transferOrg")
-    @ApiOperation("批量转出员工机构")
-    @Override
-    public JsonVO<List<Long>> transferStaffOrg(@RequestBody List<Long> staffIds, @RequestParam Long orgId) {
-        return null;
+    public JsonVO<Long> updateStaffStatus(@RequestBody StaffUpdateDTO condition) {
+        return staffService.updateStaffStatus(condition);
     }
 
-    @PostMapping("/resetPassword")
-    @ApiOperation("重置员工密码")
+
     @Override
-    public JsonVO<Boolean> resetStaffPassword(@RequestBody ResetPasswordDTO dto) {
-        return null;
+    public JsonVO<Void> batchTransferOrg(@Valid @RequestBody AdminTransferOrgDTO dto) {
+        return staffService.batchTransferOrg(dto);
     }
 
-    @GetMapping("/export")
-    @ApiOperation("导出员工列表（Excel）")
     @Override
-    public JsonVO<Void> exportStaffList(StaffQuery condition) {
-        return null;
+    public JsonVO<Void> resetPassword(@Valid ResetPasswordDTO resetPasswordDTO) {
+        return staffService.resetPassword(resetPasswordDTO);
     }
-
-    @PostMapping("/updateAvatar")
-    @ApiOperation("修改员工头像")
     @Override
-    public JsonVO<String> updateStaffAvatar(@RequestParam Long staffId, @RequestParam MultipartFile file) {
-        return null;
+    public ResponseEntity<byte[]> exportStaffExcel(StaffQuery query) {
+        return staffService.exportStaffExcel(query);
     }
-
-    @GetMapping("/getTeachRecord")
-    @ApiOperation("获取员工授课记录（条件+分页）")
     @Override
-    public JsonVO<PageDTO<TeachRecordVO>> getTeachRecord(TeachRecordQuery query) {
-        return null;
+    public JsonVO<Void> updateStaffAvatarByUrl(@Valid @RequestBody AdminUpdateStaffAvatarDTO dto) {
+        try {
+            staffService.updateStaffAvatarByUrl(dto);
+            return JsonVO.success(null);
+        } catch (Exception e) {
+            return JsonVO.create(null, ResultStatus.FAIL.getCode(), e.getMessage());
+        }
     }
-
-    @GetMapping("/getClassRecord")
-    @ApiOperation("获取员工带班记录（条件+分页）")
     @Override
-    public JsonVO<PageDTO<ClassRecordVO>> getClassRecord(ClassRecordQuery query) {
-        return null;
+    public JsonVO<PageDTO<LessonRecordVO>> pageQueryLessonRecord(LessonRecordQuery query) {
+        return staffService.getLessonRecord(query);
+    }
+    @Override
+    public JsonVO<PageDTO<ClassRecordVO>> pageQueryClassRecord(ClassRecordQuery query) {
+        return staffService.getClassRecord(query);
     }
 }

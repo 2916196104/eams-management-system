@@ -1,6 +1,5 @@
 package com.zeroone.star.oauth2.service.impl.oauth2;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zeroone.cloud.oauth2.entity.SecurityUser;
 import com.zeroone.cloud.starter.oauth2.service.LoadUserDetailService;
 import com.zeroone.star.oauth2.entity.Role;
@@ -26,24 +25,20 @@ import java.util.stream.Collectors;
 @Service
 public class LoadUserDetailServiceImpl implements LoadUserDetailService {
     @Resource
-    IUserService userService;
+    private IUserService userService;
+
     @Resource
-    IRoleService roleService;
+    private IRoleService roleService;
 
     @Override
     public SecurityUser loadUserDetailForMgr(String username) throws UsernameNotFoundException {
-        // TODO：通过用户名查询用户,需要根据你的数据库设计来修改代码
-        // 1 通过用户名查找用户对象
-        User userQuery = new User();
-        userQuery.setUsername(username);
-        User user = userService.getOne(new QueryWrapper<>(userQuery));
+        User user = userService.getByMobile(username);
         if (user == null) {
             throw new UsernameNotFoundException("用户名或密码错误");
         }
         // TODO：通过用户编号查询角色,需要根据你的数据库设计来修改代码
         // 2 通过用户ID获取角色列表
         List<Role> roles = roleService.listRoleByUserId(user.getId());
-        // 3 构建权限角色对象
         return SecurityUser.create(user, user.getUsername(), user.getPassword(),
                 roles.stream().map(Role::getKeyword).collect(Collectors.toList()));
     }

@@ -22,6 +22,5 @@ public class StaffQuery extends PageQuery {
     private String account;
     @ApiModelProperty(value = "在职状态",example ="1" )
     private Integer statue;
-    @ApiModelProperty(value ="员工id",example="1")
-    private  Integer id;
+
 }

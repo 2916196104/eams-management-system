@@ -83,4 +83,17 @@ public class StaffDTO {
 
    @ApiModelProperty(value = "头像URL", example = "http://localhost:8888/xxx.png")
    private String headImg;
+   @ApiModelProperty("所属集团")
+   private Long groupId;
+   /**
+    * 所属公司
+    */
+   @ApiModelProperty("所属公司")
+   private Long comId;
+   /**
+    * 所属部门
+    */
+   @ApiModelProperty("所属部门")
+   private Long dptId;
+
 }
