@@ -12,6 +12,12 @@ type _LocationUrl =
   "/subPages/login/forget" |
   "/subPages/login/register" |
   "/subPages/mine/about" |
+  "/subPages/mine/help-detail" |
+  "/subPages/mine/help" |
+  "/subPages/mine/order-list" |
+  "/subPages/mine/password" |
+  "/subPages/mine/point-record" |
+  "/subPages/mine/profile" |
   "/subPages/mine/them" |
   "/subPages/parent/attendance-record" |
   "/subPages/parent/class-page" |
@@ -24,8 +30,10 @@ type _LocationUrl =
   "/subPages/parent/points-record" |
   "/subPages/parent/score-list" |
   "/subPages/parent/signup-record" |
+  "/subPages/parent/student-edit" |
   "/subPages/parent/student-list" |
-  "/subPages/parent/trial-card";
+  "/subPages/parent/trial-card" |
+  "/subPages/select/course-detail";
 
 interface NavigateToOptions {
 	url: _LocationUrl;
