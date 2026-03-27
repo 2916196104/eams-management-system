@@ -1,4 +1,4 @@
-package com.zeroone.star.project.j1.orgmanager.entity;
+package com.zeroone.star.project.entity.j1.orgmanager;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -8,14 +8,6 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-/**
- * <p>
- * 描述：员工组织信息表DO
- * </p>
- *
- * @author gzx
- * @version 1.0.0
- */
 @Data
 @TableName("staff_orginfo")
 public class StaffOrgInfo {

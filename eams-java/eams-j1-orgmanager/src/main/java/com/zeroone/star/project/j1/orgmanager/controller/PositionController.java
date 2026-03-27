@@ -12,12 +12,13 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -25,14 +26,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-/**
- * <p>
- * 描述：职位管理接口文档控制器
- * </p>
- *
- * @author gzx
- * @version 1.0.0
- */
 @RestController
 @Validated
 @RequestMapping("/common/position")
@@ -53,7 +46,7 @@ public class PositionController implements PositionApis {
 
     @Override
     @GetMapping("/list")
-    @ApiOperation(value = "职位列表", notes = "支持按职位名称模糊搜索，返回分页数据")
+    @ApiOperation(value = "获取职位列表", notes = "支持按职位名称模糊搜索，返回分页数据")
     @ApiOperationSupport(order = 2)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "页码", required = false, paramType = "query",
@@ -69,7 +62,7 @@ public class PositionController implements PositionApis {
 
     @Override
     @PostMapping("/save")
-    @ApiOperation(value = "创建和修改职位", notes = "ID为空时新增，有ID时修改")
+    @ApiOperation(value = "保存职位", notes = "ID为空时新增，有ID时修改")
     @ApiOperationSupport(order = 3)
     public JsonVO<String> save(@Valid @RequestBody PositionDTO dto) {
         boolean result = positionService.save(dto);
@@ -77,8 +70,8 @@ public class PositionController implements PositionApis {
     }
 
     @Override
-    @PostMapping("/delete")
-    @ApiOperation(value = "删除职位", notes = "支持批量删除，传职位ID列表")
+    @DeleteMapping("/delete")
+    @ApiOperation(value = "批量删除职位", notes = "支持批量删除，传职位ID列表")
     @ApiOperationSupport(order = 4)
     public JsonVO<String> delete(@ApiParam(value = "职位ID列表", required = true, example = "[1,2,3]")
                                  @RequestBody @NotEmpty(message = "职位ID列表不能为空") List<@NotNull(message = "职位ID不能为空") Long> ids) {

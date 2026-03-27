@@ -6,8 +6,8 @@ import com.zeroone.star.project.components.user.UserDTO;
 import com.zeroone.star.project.components.user.UserHolder;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j1.orgmanager.PositionDTO;
-import com.zeroone.star.project.j1.orgmanager.entity.Position;
-import com.zeroone.star.project.j1.orgmanager.entity.StaffOrgInfo;
+import com.zeroone.star.project.entity.j1.orgmanager.Position;
+import com.zeroone.star.project.entity.j1.orgmanager.StaffOrgInfo;
 import com.zeroone.star.project.j1.orgmanager.mapper.PositionMapper;
 import com.zeroone.star.project.j1.orgmanager.mapper.StaffOrgInfoMapper;
 import com.zeroone.star.project.j1.orgmanager.service.IPositionService;
@@ -21,14 +21,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-/**
- * <p>
- * 描述：职位业务层实现
- * </p>
- *
- * @author gzx
- * @version 1.0.0
- */
 @Service
 public class PositionServiceImpl implements IPositionService {
     @Resource
@@ -94,6 +86,7 @@ public class PositionServiceImpl implements IPositionService {
         if (positionMapper.selectCount(existsWrapper) == 0) {
             throw new IllegalArgumentException("职位不存在");
         }
+
         Position entity = new Position();
         entity.setId(dto.getId());
         entity.setName(name);

@@ -6,14 +6,6 @@ import com.zeroone.star.project.query.j1.orgmanager.PositionQueryCondition;
 
 import java.util.List;
 
-/**
- * <p>
- * 描述：职位业务层接口
- * </p>
- *
- * @author gzx
- * @version 1.0.0
- */
 public interface IPositionService {
     List<String> listNames(String name);
 
