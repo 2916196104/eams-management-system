@@ -35,6 +35,14 @@ import EpUploadFilled from "~icons/ep/upload-filled";
 import EpUser from "~icons/ep/user";
 import EpVideoPause from "~icons/ep/video-pause";
 import EpVideoPlay from "~icons/ep/video-play";
+import RiApps2Line from "~icons/ri/apps-2-line";
+import RiBookOpenLine from "~icons/ri/book-open-line";
+import RiBuilding2Line from "~icons/ri/building-2-line";
+import RiComputerLine from "~icons/ri/computer-line";
+import RiDatabase2Line from "~icons/ri/database-2-line";
+import RiMailLine from "~icons/ri/mail-line";
+import RiShoppingBag3Line from "~icons/ri/shopping-bag-3-line";
+import RiWallet3Line from "~icons/ri/wallet-3-line";
 
 const offlineIcons = {
 	"ep/arrow-down-bold": markRaw(EpArrowDownBold),
@@ -72,6 +80,15 @@ const offlineIcons = {
 	"ep/user": markRaw(EpUser),
 	"ep/video-pause": markRaw(EpVideoPause),
 	"ep/video-play": markRaw(EpVideoPlay),
+	// 后台一级菜单会直接消费这些图标键，必须在这里注册，否则菜单配置里写了图标名也不会显示。
+	"ri/apps-2-line": markRaw(RiApps2Line),
+	"ri/book-open-line": markRaw(RiBookOpenLine),
+	"ri/building-2-line": markRaw(RiBuilding2Line),
+	"ri/computer-line": markRaw(RiComputerLine),
+	"ri/database-2-line": markRaw(RiDatabase2Line),
+	"ri/mail-line": markRaw(RiMailLine),
+	"ri/shopping-bag-3-line": markRaw(RiShoppingBag3Line),
+	"ri/wallet-3-line": markRaw(RiWallet3Line),
 } satisfies Record<string, Component>;
 
 const aliasIcons = {

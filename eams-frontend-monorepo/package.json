@@ -59,5 +59,10 @@
 		"@eams-monorepo/vue-element-cui": "workspace:^",
 		"@eams-monorepo/vue-element-cui-nuxt": "workspace:^",
 		"camunda-bpmn-moddle": "^7.0.1"
+	},
+	"pnpm": {
+		"patchedDependencies": {
+			"wot-design-uni@1.14.0": "patches/wot-design-uni@1.14.0.patch"
+		}
 	}
 }

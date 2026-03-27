@@ -3,9 +3,65 @@ import { mergeStudentMenuBranch } from "@/config/studentMenuMerge";
 import { DataUpType, useHttp } from "@/plugins/http";
 import { defineStore } from "pinia";
 
-// 前端临时补充的菜单项，用于在正式管理端左侧展示这 5 个页面。
-// 图标统一改成 iconify 风格字符串，便于和后端存储格式保持一致。
+// 前端临时补充的菜单项，用于在正式管理端左侧展示当前已经完成的菜单入口。
+// 图标统一使用 iconify 风格字符串，便于和后端后续菜单数据保持一致。
 const tempMenus: Array<Menu> = [
+	{
+		id: "temp-dashboard",
+		text: "工作台",
+		icon: "ep/home-filled",
+		children: [
+			{
+				id: "temp-dashboard-overview",
+				text: "首页概览",
+				icon: "ep/monitor",
+				href: "/dashboard",
+			},
+		],
+	},
+	{
+		id: "temp-console",
+		text: "控制台",
+		icon: "ep/office-building",
+		children: [
+			{
+				id: "temp-console-index",
+				text: "首页",
+				icon: "ep/house",
+				href: "/index",
+			},
+			{
+				id: "temp-console-curriculum",
+				text: "我的课表",
+				icon: "ep/calendar",
+				href: "/curriculum",
+			},
+			{
+				id: "temp-console-client",
+				text: "我的客户",
+				icon: "ep/user",
+				href: "/client",
+			},
+			{
+				id: "temp-console-signup",
+				text: "我的报名",
+				icon: "ep/tickets",
+				href: "/signup",
+			},
+			{
+				id: "temp-console-payment",
+				text: "我的请款",
+				icon: "ep/money",
+				href: "/payment",
+			},
+			{
+				id: "temp-console-follow",
+				text: "我的跟进",
+				icon: "ep/flag",
+				href: "/follow",
+			},
+		],
+	},
 	{
 		id: "temp-finance",
 		text: "财务",
@@ -73,7 +129,7 @@ function cloneMenu(menu: Menu): Menu {
 	};
 }
 
-// 合并后端菜单与前端临时菜单，尽量复用已有“财务/数据”分组。
+// 合并后端菜单与前端临时菜单，尽量复用已有分组。
 function mergeMenus(sourceMenus: Array<Menu> = []) {
 	const menus = sourceMenus.map(cloneMenu);
 
@@ -97,11 +153,11 @@ function mergeMenus(sourceMenus: Array<Menu> = []) {
 
 export const useUserStore = defineStore("user", {
 	state: () => ({
-		// 记录token
+		// 记录 token
 		token: null as string | null,
-		// 记录refreshToken
+		// 记录 refreshToken
 		refreshToken: null as string | null,
-		// 保存一个标识信息，指示登陆后需要加载的初始化数据是否完成
+		// 保存一个标识信息，指示登录后需要加载的初始化数据是否完成
 		loaded: false,
 		// 保存当前用户
 		user: null as UserInfo | null,
@@ -109,7 +165,7 @@ export const useUserStore = defineStore("user", {
 		menus: [] as Array<Menu>,
 	}),
 	getters: {
-		// 获取token
+		// 获取 token
 		getToken: (state) => state.token || localStorage.getItem("token"),
 		// 是否已加载
 		isLoaded: (state) => state.loaded,
@@ -121,7 +177,6 @@ export const useUserStore = defineStore("user", {
 	actions: {
 		// 加载用户
 		async loadUser() {
-			// 发送获取当前用户信息请求
 			const data = await useHttp().get<UserInfo>("/login/current-user");
 			if (data.data) this.user = data.data;
 			if (!this.user?.avatar) {
@@ -136,21 +191,24 @@ export const useUserStore = defineStore("user", {
 			try {
 				const data = await useHttp().get<Array<Menu>>("/login/get-menus");
 				const raw = Array.isArray(data.data) ? data.data : [];
-				this.menus = mergeStudentMenuBranch(raw);
+
+				// 关键约束：这里必须先执行 mergeMenus(raw)，再执行 mergeStudentMenuBranch(...)。
+				// mergeMenus(...) 负责恢复前端本地补充菜单，包括原来的 5 个页面和后续补充的菜单入口。
+				// 如果直接把 raw 交给 mergeStudentMenuBranch(...)，这些菜单会从左侧栏里消失。
+				// 这条注释是留给后续维护者和组员 AI 看的，不要调整这两个步骤的先后顺序。
+				this.menus = mergeStudentMenuBranch(mergeMenus(raw));
 			} catch {
-				// 接口失败时仍展示本地「学员」分支，避免无法进入在学学员等页面
-				this.menus = mergeStudentMenuBranch([]);
+				// 接口失败时也要保持同样的合并顺序，确保本地补充菜单和 student/follow 兜底入口仍然显示在侧边栏。
+				this.menus = mergeStudentMenuBranch(mergeMenus([]));
 			}
 		},
 		// 加载刷新凭证
 		loadRefreshToken() {
 			if (!this.refreshToken) this.refreshToken = localStorage.getItem("refreshToken");
 		},
-		// 刷新token
+		// 刷新 token
 		async reloadToken() {
-			// 先加载刷新凭证
 			this.loadRefreshToken();
-			// 发送刷新凭证请求
 			const data = await useHttp().post<Oauth2TokenDTO>(
 				"/login/refresh-token",
 				{
@@ -161,14 +219,13 @@ export const useUserStore = defineStore("user", {
 					upType: DataUpType.form,
 				},
 			);
-			//设置Token相关属性
 			this.setToken(data.data);
 		},
 		// 设置是否加载完成
 		setLoaded(loaded: boolean) {
 			this.loaded = loaded;
 		},
-		// 设置token
+		// 设置 token
 		setToken(data: any) {
 			this.token = data.token;
 			this.refreshToken = data.refreshToken;
