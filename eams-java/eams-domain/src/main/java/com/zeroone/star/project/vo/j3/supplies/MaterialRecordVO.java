@@ -3,6 +3,11 @@ package com.zeroone.star.project.vo.j3.supplies;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.Date;
 
 /**
  * <p>
@@ -15,28 +20,79 @@ import lombok.Data;
 @ApiModel("物料出入库记录显示对象")
 public class MaterialRecordVO {
 
-    @ApiModelProperty(value = "记录ID", example = "1")
-    private Long id;
-
-    @ApiModelProperty(value = "物料名称", example = "笔记本")
-    private String materialName;
-
-    @ApiModelProperty(value = "变动数量，入库为正，出库为负", example = "100")
+    /**
+     * 变动数量
+     */
+    @ApiModelProperty("变动数量")
     private Integer amount;
-
-    @ApiModelProperty(value = "申请员工名称", example = "张老师")
-    private String applyStaffName;
-
-    @ApiModelProperty(value = "涉及学生名称", example = "张小明")
-    private String studentName;
-
-    @ApiModelProperty(value = "变动类型 1入库 2出库 3积分商城出库", example = "1")
+    /**
+     * 变动原因说明
+     */
+    @Size(max= 50,message="编码长度不能超过50")
+    @ApiModelProperty("变动原因说明")
+    @Length(max= 50,message="编码长度不能超过50")
+    private String reason;
+    /**
+     * 变动类型1入库2出库3积分商城出库
+     */
+    @ApiModelProperty("变动类型1入库2出库3积分商城出库 ")
     private Integer changeType;
-
-    @ApiModelProperty(value = "变动类型名称", example = "入库")
-    private String changeTypeName;
-
-    @ApiModelProperty(value = "变动时间，格式：yyyy-MM-dd HH:mm:ss", example = "2026-03-16 10:00:00")
-    private String changeTime;
+    /**
+     * 变动对象id如积分商城里的商品id
+     */
+    @ApiModelProperty("变动对象id如积分商城里的商品id")
+    private Long changeTargetId;
+    /**
+     * 备注信息
+     */
+    @Size(max= 100,message="编码长度不能超过100")
+    @ApiModelProperty("备注信息")
+    @Length(max= 100,message="编码长度不能超过100")
+    private String remark;
+    /**
+     * 创建人
+     */
+    @ApiModelProperty("创建人")
+    private Long creator;
+    /**
+     * 编辑人
+     */
+    @ApiModelProperty("编辑人")
+    private Long editor;
+    /**
+     * 变动时间
+     */
+    @ApiModelProperty("变动时间")
+    private Date addTime;
+    /**
+     * 编辑时间
+     */
+    @ApiModelProperty("编辑时间")
+    private Date editTime;
+    /**
+     * 删除标记
+     */
+    @ApiModelProperty("删除标记")
+    private Integer deleted;
+    /**
+     * 涉及学生id
+     */
+    @ApiModelProperty("涉及学生id")
+    private Long studentId;
+    /**
+     * 涉及员工id
+     */
+    @ApiModelProperty("涉及员工id")
+    private Long staffId;
+    /**
+     * 所属物料的组织ID
+     */
+    @ApiModelProperty("所属物料的组织ID")
+    private Long orgId;
+    /**
+     * 学校id
+     */
+    @ApiModelProperty("学校id")
+    private Long schoolId;
 }
 
