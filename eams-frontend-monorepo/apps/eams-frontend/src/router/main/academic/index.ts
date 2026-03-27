@@ -8,6 +8,14 @@ const routes = [
 		component: () => import("@/views/academic/Schedule.vue"),
 	},
 	{
+		path: "/academic/schedule-calendar",
+		name: "scheduleCalendar",
+		meta: {
+			label: "课表日历",
+		},
+		component: () => import("@/views/academic/ScheduleCalendar.vue"),
+	},
+	{
 		path: "/academic/studentLeave",
 		name: "studentLeave",
 		meta: {

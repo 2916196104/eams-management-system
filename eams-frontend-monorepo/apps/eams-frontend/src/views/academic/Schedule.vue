@@ -1,7 +1,6 @@
 <template>
 	<div class="schedule-container">
 		<div class="schedule-content">
-			<!-- 筛选区域 -->
 			<div class="filter-area">
 				<div class="filter-row">
 					<div class="filter-item">
@@ -77,10 +76,8 @@
 				</div>
 			</div>
 
-			<!-- 批量操作栏：使用 icon 插槽实现图标与文字对齐 -->
 			<div class="batch-actions">
 				<el-button type="primary" @click="handleScheduleCalendar">
-					<!-- 使用 #icon 插槽包裹图标，Element Plus 会自动处理图标与文本的间距和对齐 -->
 					<template #icon>
 						<IconifyIconOffline icon="ep/calendar" width="14" height="14" />
 					</template>
@@ -136,7 +133,6 @@
 				</el-button>
 			</div>
 
-			<!-- 表格区域 -->
 			<my-table
 				:istabmultiple="true"
 				:tabattr="tableAttr"
@@ -163,12 +159,15 @@
 
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from "vue";
+import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import { IconifyIconOffline } from "@/components/ReIcon";
 import MyTable from "@/components/mytable/MyTable.vue";
 import { createPageDTO, type MyTableAttr, type MyTableColumn, type PageDTO } from "@/components/mytable/type";
 import { getCourseListPage } from "@/apis/academic";
 import type { CourseListVO } from "@/apis/academic/type";
+
+const router = useRouter();
 
 const filters = reactive({
 	pageIndex: 1,
@@ -260,7 +259,7 @@ function handleCustomColumn() {
 }
 
 function handleScheduleCalendar() {
-	ElMessage.info("课表日历功能待接入");
+	router.push({ name: "scheduleCalendar" });
 }
 
 function handleRepeatSchedule() {
@@ -306,7 +305,6 @@ function handlePageChange(data: PageDTO<CourseListVO>) {
 }
 
 function handleSelectionChange(_rows: CourseListVO[]) {
-	// 处理选中行变化
 }
 
 async function loadData() {
@@ -401,7 +399,6 @@ onMounted(() => {
 	flex-shrink: 0;
 }
 
-/* 批量操作栏样式 */
 .batch-actions {
 	display: flex;
 	gap: 12px;
@@ -411,21 +408,18 @@ onMounted(() => {
 	align-items: center;
 }
 
-/* 按钮使用 inline-flex 布局，确保图标与文本对齐 */
 .batch-actions .el-button {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 }
 
-/* 图标容器使用 flex 布局，确保 SVG 居中 */
 .batch-actions .el-button .el-icon {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 }
 
-/* 强制设置 SVG 图标尺寸，并使用 vertical-align 实现垂直居中 */
 .batch-actions .el-button .el-icon svg {
 	width: 14px !important;
 	height: 13px !important;
