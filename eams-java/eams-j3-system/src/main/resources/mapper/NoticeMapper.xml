@@ -2,23 +2,4 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zeroone.star.eamsj3system.mapper.NoticeMapper">
 
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zeroone.star.project.DO.Notice">
-        <id column="id" property="id" />
-        <result column="title" property="title" />
-        <result column="content" property="content" />
-        <result column="type" property="type" />
-        <result column="publisher" property="publisher" />
-        <result column="publish_time" property="publishTime" />
-        <result column="is_top" property="isTop" />
-        <result column="is_enable" property="isEnable" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-    </resultMap>
-
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, title, content, type, publisher, publish_time, is_top, is_enable, create_time, update_time
-    </sql>
-
 </mapper>

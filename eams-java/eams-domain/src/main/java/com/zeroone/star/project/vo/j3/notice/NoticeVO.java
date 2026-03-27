@@ -1,14 +1,13 @@
 package com.zeroone.star.project.vo.j3.notice;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <p>
- * 内部公告视图对象
+ * 内部公告展示对象
  * </p>
  * @author 阿伟
  */
@@ -17,33 +16,43 @@ public class NoticeVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "公告 ID")
+    /**
+     * 公告 ID
+     */
     private Long id;
 
-    @Schema(description = "公告标题")
+    /**
+     * 公告标题
+     */
     private String title;
 
-    @Schema(description = "公告内容")
+    /**
+     * 公告内容
+     */
     private String content;
 
-    @Schema(description = "公告类型（1-通知 2-公告 3-通告）")
-    private Integer type;
+    /**
+     * 浏览次数
+     */
+    private Integer viewNum;
 
-    @Schema(description = "发布人")
-    private String publisher;
+    /**
+     * 创建人
+     */
+    private Long creator;
 
-    @Schema(description = "发布时间")
-    private LocalDateTime publishTime;
+    /**
+     * 编辑人
+     */
+    private Long editor;
 
-    @Schema(description = "是否置顶（0-否 1-是）")
-    private Integer isTop;
+    /**
+     * 添加时间
+     */
+    private Date addTime;
 
-    @Schema(description = "是否启用（0-禁用 1-启用）")
-    private Integer isEnable;
-
-    @Schema(description = "创建时间")
-    private LocalDateTime createTime;
-
-    @Schema(description = "更新时间")
-    private LocalDateTime updateTime;
+    /**
+     * 编辑时间
+     */
+    private Date editTime;
 }
