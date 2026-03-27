@@ -2,9 +2,65 @@ import { defineStore } from "pinia";
 import type { Menu, Oauth2TokenDTO, UserInfo } from "@/apis/login/type";
 import { DataUpType, useHttp } from "@/plugins/http";
 
-// 前端临时补充的菜单项，用于在正式管理端左侧展示这 5 个页面。
-// 图标统一改成 iconify 风格字符串，便于和后端存储格式保持一致。
+// 前端临时补充的菜单项，用于在正式管理端左侧展示当前已完成的 12 个页面。
+// 图标统一使用 iconify 风格字符串，便于和后端后续菜单数据保持一致。
 const tempMenus: Array<Menu> = [
+	{
+		id: "temp-dashboard",
+		text: "工作台",
+		icon: "ep/home-filled",
+		children: [
+			{
+				id: "temp-dashboard-overview",
+				text: "首页概览",
+				icon: "ep/monitor",
+				href: "/dashboard",
+			},
+		],
+	},
+	{
+		id: "temp-console",
+		text: "控制台",
+		icon: "ep/office-building",
+		children: [
+			{
+				id: "temp-console-index",
+				text: "首页",
+				icon: "ep/house",
+				href: "/index",
+			},
+			{
+				id: "temp-console-curriculum",
+				text: "我的课表",
+				icon: "ep/calendar",
+				href: "/curriculum",
+			},
+			{
+				id: "temp-console-client",
+				text: "我的客户",
+				icon: "ep/user",
+				href: "/client",
+			},
+			{
+				id: "temp-console-signup",
+				text: "我的报名",
+				icon: "ep/tickets",
+				href: "/signup",
+			},
+			{
+				id: "temp-console-payment",
+				text: "我的请款",
+				icon: "ep/money",
+				href: "/payment",
+			},
+			{
+				id: "temp-console-follow",
+				text: "我的跟进",
+				icon: "ep/flag",
+				href: "/follow",
+			},
+		],
+	},
 	{
 		id: "temp-finance",
 		text: "财务",
@@ -59,7 +115,7 @@ function cloneMenu(menu: Menu): Menu {
 	};
 }
 
-// 合并后端菜单与前端临时菜单，尽量复用已有“财务/数据”分组。
+// 合并后端菜单与前端临时菜单，尽量复用已有分组。
 function mergeMenus(sourceMenus: Array<Menu> = []) {
 	const menus = sourceMenus.map(cloneMenu);
 
@@ -72,9 +128,7 @@ function mergeMenus(sourceMenus: Array<Menu> = []) {
 
 		const currentChildren = currentGroup.children || [];
 		for (const tempChild of tempGroup.children || []) {
-			const exists = currentChildren.some(
-				(item) => item.href === tempChild.href || item.text === tempChild.text,
-			);
+			const exists = currentChildren.some((item) => item.href === tempChild.href || item.text === tempChild.text);
 			if (!exists) currentChildren.push(cloneMenu(tempChild));
 		}
 		currentGroup.children = currentChildren;
