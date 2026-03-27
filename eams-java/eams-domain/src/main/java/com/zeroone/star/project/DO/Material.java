@@ -107,105 +107,105 @@ public class Material implements Serializable {
     /**
     * 主键
     */
-    private void setId(Long id){
+    public void setId(Long id){
     this.id = id;
     }
 
     /**
     * 所属学校
     */
-    private void setSchoolId(Long schoolId){
+    public void setSchoolId(Long schoolId){
     this.schoolId = schoolId;
     }
 
     /**
     * 所属分类ID
     */
-    private void setCategoryId(Long categoryId){
+    public void setCategoryId(Long categoryId){
     this.categoryId = categoryId;
     }
 
     /**
     * 分类名
     */
-    private void setCategoryName(String categoryName){
+    public void setCategoryName(String categoryName){
     this.categoryName = categoryName;
     }
 
     /**
     * 物料名称
     */
-    private void setName(String name){
+    public void setName(String name){
     this.name = name;
     }
 
     /**
     * 库存量
     */
-    private void setStorage(Integer storage){
+    public void setStorage(Integer storage){
     this.storage = storage;
     }
 
     /**
     * 物料说明
     */
-    private void setInfo(String info){
+    public void setInfo(String info){
     this.info = info;
     }
 
     /**
     * 封面图
     */
-    private void setCover(String cover){
+    public void setCover(String cover){
     this.cover = cover;
     }
 
     /**
     * 创建人
     */
-    private void setCreator(Long creator){
+    public void setCreator(Long creator){
     this.creator = creator;
     }
 
     /**
     * 编辑人
     */
-    private void setEditor(Long editor){
+    public void setEditor(Long editor){
     this.editor = editor;
     }
 
     /**
     * 添加时间
     */
-    private void setAddTime(Date addTime){
+    public void setAddTime(Date addTime){
     this.addTime = addTime;
     }
 
     /**
     * 编辑时间
     */
-    private void setEditTime(Date editTime){
+    public void setEditTime(Date editTime){
     this.editTime = editTime;
     }
 
     /**
     * 删除标记
     */
-    private void setDeleted(Integer deleted){
+    public void setDeleted(Integer deleted){
     this.deleted = deleted;
     }
 
     /**
     * 启用状态
     */
-    private void setState(Integer state){
+    public void setState(Integer state){
     this.state = state;
     }
 
     /**
     * 创建者所属组织ID
     */
-    private void setOrgId(Long orgId){
+    public void setOrgId(Long orgId){
     this.orgId = orgId;
     }
 
@@ -213,105 +213,105 @@ public class Material implements Serializable {
     /**
     * 主键
     */
-    private Long getId(){
+    public Long getId(){
     return this.id;
     }
 
     /**
     * 所属学校
     */
-    private Long getSchoolId(){
+    public Long getSchoolId(){
     return this.schoolId;
     }
 
     /**
     * 所属分类ID
     */
-    private Long getCategoryId(){
+    public Long getCategoryId(){
     return this.categoryId;
     }
 
     /**
     * 分类名
     */
-    private String getCategoryName(){
+    public String getCategoryName(){
     return this.categoryName;
     }
 
     /**
     * 物料名称
     */
-    private String getName(){
+    public String getName(){
     return this.name;
     }
 
     /**
     * 库存量
     */
-    private Integer getStorage(){
+    public Integer getStorage(){
     return this.storage;
     }
 
     /**
     * 物料说明
     */
-    private String getInfo(){
+    public String getInfo(){
     return this.info;
     }
 
     /**
     * 封面图
     */
-    private String getCover(){
+    public String getCover(){
     return this.cover;
     }
 
     /**
     * 创建人
     */
-    private Long getCreator(){
+    public Long getCreator(){
     return this.creator;
     }
 
     /**
     * 编辑人
     */
-    private Long getEditor(){
+    public Long getEditor(){
     return this.editor;
     }
 
     /**
     * 添加时间
     */
-    private Date getAddTime(){
+    public Date getAddTime(){
     return this.addTime;
     }
 
     /**
     * 编辑时间
     */
-    private Date getEditTime(){
+    public Date getEditTime(){
     return this.editTime;
     }
 
     /**
     * 删除标记
     */
-    private Integer getDeleted(){
+    public Integer getDeleted(){
     return this.deleted;
     }
 
     /**
     * 启用状态
     */
-    private Integer getState(){
+    public Integer getState(){
     return this.state;
     }
 
     /**
     * 创建者所属组织ID
     */
-    private Long getOrgId(){
+    public Long getOrgId(){
     return this.orgId;
     }
 
