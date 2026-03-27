@@ -58,8 +58,6 @@ class ListeningCardPageDTO :public PageDTO<ListeningCardDTO::Wrapper>
 class receiveCardDTO : public oatpp::DTO {
     DTO_INIT(receiveCardDTO, DTO);
 
-    //主键订单ID
-    API_DTO_FIELD_REQUIRE(Int64, id, ZH_WORDS_GETTER("listening-card.recordID"), true);
     // 用户要领取的体验卡ID
     API_DTO_FIELD_REQUIRE(Int64, trialId, ZH_WORDS_GETTER("listening-card.trialID"), true);
     // 领取用户的账号ID (对应 course_trial_record.user_id)
