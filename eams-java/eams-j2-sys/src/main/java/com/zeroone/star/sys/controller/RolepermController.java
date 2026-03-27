@@ -169,12 +169,6 @@ public class RolepermController implements RolepermApis {
     /**
      * 负责人：Yaco
      */
-    @Override
-    @GetMapping("/query/list/permission")
-    @ApiOperation("获取可分配的权限")
-    public JsonVO<PermissionGroupVO> queryPermission() {
-        return null;
-    }
 
     @Override
     @GetMapping("/query/list/select/{roleId}")

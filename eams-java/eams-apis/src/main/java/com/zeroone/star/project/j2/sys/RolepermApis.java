@@ -67,8 +67,6 @@ public interface RolepermApis {
      */
     JsonVO<String> removeRolepermStaff(String id);
 
-    @ApiModelProperty("获取可分配的权限")
-    JsonVO<PermissionGroupVO> queryPermission();
     /**
      * 根据角色id查询对应的权限
      * @param roleId 用户id
