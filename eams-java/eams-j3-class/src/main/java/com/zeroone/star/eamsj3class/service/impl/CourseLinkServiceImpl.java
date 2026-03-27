@@ -1,7 +1,7 @@
 package com.zeroone.star.eamsj3class.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zeroone.star.eamsj3class.entity.CourseLink;
 import com.zeroone.star.eamsj3class.mapper.CourseLinkMapper;
 import com.zeroone.star.eamsj3class.service.ICourseLinkService;
@@ -16,13 +16,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 /**
  * <p>
  * 课程关联表 服务实现类
  * </p>
  *
- * @author j3-class-kinghog
- * @since 2026-03-25
  */
 @Service
 public class CourseLinkServiceImpl extends ServiceImpl<CourseLinkMapper, CourseLink> implements ICourseLinkService {
@@ -88,5 +87,9 @@ public class CourseLinkServiceImpl extends ServiceImpl<CourseLinkMapper, CourseL
         //删除
         int affected = baseMapper.deleteBatchIds(existingIds);
         return affected > 0 ? existingIds : Collections.emptyList();
+    }
+    @Override
+    public List<CourseLink> getCourseLinks(List<Long> courseIds) {
+        return this.baseMapper.getCourseLinks(courseIds);
     }
 }

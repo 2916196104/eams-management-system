@@ -6,19 +6,20 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j3.course.CourseLinkDTO;
 import com.zeroone.star.project.query.j3.course.CourseLinkQuery;
+import com.zeroone.star.eamsj3class.entity.CourseLink;
 
 import java.util.List;
+
 
 /**
  * <p>
  * 课程关联表 服务类
  * </p>
  *
- * @author j3-class-kinghog
- * @since 2026-03-25
  */
 public interface ICourseLinkService extends IService<CourseLink> {
 
+    List<CourseLink> getCourseLinks(List<Long> courseIds);
     /**
      * 获取关联课程列表（条件 + 分页）
      * @param query 查询参数

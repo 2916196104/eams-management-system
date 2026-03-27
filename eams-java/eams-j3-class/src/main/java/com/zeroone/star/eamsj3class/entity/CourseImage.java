@@ -1,5 +1,11 @@
 package com.zeroone.star.eamsj3class.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -7,7 +13,7 @@ import lombok.Setter;
 
 /**
  * <p>
- * 科目
+ * 课程介绍图片
  * </p>
  *
  * @author heavydrink
@@ -15,7 +21,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Subject implements Serializable {
+@TableName("course_image")
+public class CourseImage implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -25,14 +32,14 @@ public class Subject implements Serializable {
     private Long id;
 
     /**
-     * 科目
+     * 所属课程
      */
-    private String name;
+    private Long courseId;
 
     /**
-     * 简介
+     * 图片地址
      */
-    private String info;
+    private String imageUrl;
 
     /**
      * 创建人
@@ -40,34 +47,24 @@ public class Subject implements Serializable {
     private Long creator;
 
     /**
-     * 编辑者
+     * 编辑人
      */
     private Long editor;
 
     /**
-     * 新增时间
+     * 添加时间
      */
     private LocalDateTime addTime;
 
     /**
-     * 修改时间
+     * 编辑时间
      */
     private LocalDateTime editTime;
 
     /**
      * 删除标记
      */
-    private Integer deleted;
-
-    /**
-     * 排序值
-     */
-    private Integer sortNum;
-
-    /**
-     * 创建者所属组织ID
-     */
-    private Long orgId;
+    private Boolean deleted;
 
 
 }

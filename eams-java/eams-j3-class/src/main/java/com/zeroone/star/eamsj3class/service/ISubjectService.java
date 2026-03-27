@@ -13,8 +13,8 @@ import java.util.List;
  * 科目 服务类
  * </p>
  *
- * @author fish
- * @since 2026-03-17
+ * @author heavydrink
+ * @since 2026-03-23
  */
 public interface ISubjectService extends IService<Subject> {
 

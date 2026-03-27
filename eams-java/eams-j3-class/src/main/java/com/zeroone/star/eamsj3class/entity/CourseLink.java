@@ -3,6 +3,10 @@ package com.zeroone.star.eamsj3class.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,8 +16,6 @@ import lombok.Setter;
  * 课程关联表
  * </p>
  *
- * @author j3-class-kinghog
- * @since 2026-03-25
  */
 @Getter
 @Setter
