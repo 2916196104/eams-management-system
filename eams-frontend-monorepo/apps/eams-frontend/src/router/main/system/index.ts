@@ -1,7 +1,16 @@
 const routes = [
 	{
 		path: "/system",
-		redirect: { name: "SystemDataDictionary" },
+		redirect: { name: "SystemInternalNotice" },
+	},
+	{
+		path: "/system/internal-notice",
+		alias: "/notice",
+		name: "SystemInternalNotice",
+		meta: {
+			label: "内部公告",
+		},
+		component: () => import("@/views/system/system-notice.vue"),
 	},
 	{
 		path: "/system/data-dictionary",
