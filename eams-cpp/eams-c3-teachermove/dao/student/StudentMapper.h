@@ -23,7 +23,7 @@ public:
 };
 
 /**
- * 示例表字段匹配映射-创建智能指针对象
+ * 创建智能指针对象
  */
 class PtrStudentMapper : public Mapper<PtrStudentDO>
 {
