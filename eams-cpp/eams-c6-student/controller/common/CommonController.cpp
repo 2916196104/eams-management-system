@@ -27,16 +27,11 @@ PayFeesJsonVO::Wrapper helper(const PayFeesDTO::Wrapper& dto) {
 		vo->message = "The amount paid exceeds the amount due";
 		return vo;
 	}
-	//std::cout << data->getPaidAmount() << "\n";
-	//std::cout << data->getId() << "\n";
 	double newPaidAmount = round((dto->payAmount + tempPaidAmount) * 100) / 100.0;
 	data->setPaidAmount(newPaidAmount);
-	//data->setPaidAmount(9);
-	//std::cout << data->getPaidAmount() << "\n";
 	if (std::fabs(toPay - dto->payAmount) <= 1e-6) {
 		data->setPayOff(1);
 	}
-	//data->setId(2);
 	int rows = dao.update(*data);
 	if (rows == 0) {
 		vo->setStatus(RS_FAIL);
