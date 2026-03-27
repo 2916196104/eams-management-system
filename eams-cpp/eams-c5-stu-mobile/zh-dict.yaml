@@ -1,4 +1,4 @@
-﻿redeemcredit:
+redeemcredit:
   tag: 积分兑换
   summary: 兑换礼品
   request-success: 兑换成功
@@ -134,3 +134,55 @@ Timeable:
     teachername1: 老师
     searchname1: 
     searchname2:
+
+home:
+  trialCard:
+    summary: "试听卡"
+    name: "试听卡名称"
+    courseName: "试听卡课程名称"
+    lessonCount: "试听卡课时"
+    remainingQuantity: "试听卡剩余数量"
+    endData: "试听卡截止时间"
+    getTrialCardList:
+      info: "获取试听卡列表"
+student:
+  id: "学生ID"
+  name: "学生姓名"
+  phone: "学生手机号"
+  email: "学生邮箱"
+  getStudentInfo: "获取学生信息"
+login:
+  summary: "登录"
+  register:
+    summary: "注册账号"
+    field:
+      id: "编号ID"          
+      telephoneNumber:      
+        info: "手机号"
+        errMsg: "手机号格式有误"
+        errMsgExist: "当前手机号已被注册"
+      vertificationCode:    
+        info: "验证码"
+        errMsg: "验证码有误"
+      name:                
+        info: "姓名"
+        errMsg: "姓名为空"
+      password:
+        info: "密码"
+        errMsg: "密码必须是包含数字和字母且不少于8位"
+schedule:
+  summary: "课表"
+  appointment:
+    info: "预约"
+    id: "预约ID"
+    date: "预约时间"
+    courseId: "课程ID"
+    lessonId: "试听课次ID"
+    addTime: "预约时间"
+    teacher: "教师"
+    classroom: "教室"
+    startTime: "开始时间"
+    endTime: "结束时间"
+    team: "班级"
+    counselorId: "顾问ID"
+    errmsg: "参数为空"
