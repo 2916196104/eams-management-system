@@ -37,7 +37,7 @@ class GetHomeworkListQuery : public PageQuery {
 		info->description = ZH_WORDS_GETTER("homework.gethomeworklist.class_id");
 	}
 	// 发布者
-	DTO_FIELD(String, creator);
+	DTO_FIELD(Int64, creator);
 	DTO_FIELD_INFO(creator) {
 		info->description = ZH_WORDS_GETTER("homework.gethomeworklist.creator");
 	}

@@ -211,7 +211,7 @@ std::string HomeworkDao::queryConditionBuilder(const GetHomeworkListQuery::Wrapp
     if (query->creator) {
 
         sqlCondition << " AND creator=?";
-        SQLPARAMS_PUSH(params, "s", std::string, query->creator.getValue(0));
+        SQLPARAMS_PUSH(params, "bi", std::int64_t, query->creator.getValue(0));
     }
     return sqlCondition.str();
 }

@@ -30,8 +30,8 @@ public:		//定义接口
 		ZH_WORDS_GETTER("homework.gethomeworklist.summary"), GetHomeworkList, GetHomeworkListJsonVO::Wrapper, API_TAG,
 		API_DEF_ADD_PAGE_PARAMS();                                                                                                 //分页参数
 		API_DEF_ADD_QUERY_PARAMS(String, "title", ZH_WORDS_GETTER("homework.gethomeworklist.title"), "title", false);              //查询作业的标题
-		API_DEF_ADD_QUERY_PARAMS(String, "class_id", ZH_WORDS_GETTER("homework.gethomeworklist.class_id"), "class_id", false);  //查询哪个班级的作业
-		API_DEF_ADD_QUERY_PARAMS(String, "creator", ZH_WORDS_GETTER("homework.gethomeworklist.creator"), "creator", false);       //查询作业的发布者/创建人
+		API_DEF_ADD_QUERY_PARAMS(UInt64, "class_id", ZH_WORDS_GETTER("homework.gethomeworklist.class_id"), 123, false);  //查询哪个班级的作业
+		API_DEF_ADD_QUERY_PARAMS(UInt64, "creator", ZH_WORDS_GETTER("homework.gethomeworklist.creator"), 123, false);       //查询作业的发布者/创建人
 );
 	//定义查询作业列表（条件+分页）处理，GetHomeworkList
 	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "org/backhomework/get-homework-list", GetHomeworkList, QUERIES(QueryParams, queryParams),
@@ -43,7 +43,7 @@ public:		//定义接口
 	//流程中点击，应该是传作业id，返回作业的标题，班级，内容
 	API_DEF_ENDPOINT_INFO_AUTH(
 		ZH_WORDS_GETTER("homework.gethomeworkdetail.summary"), GetHomeworkDetail, GetHomeworkDetailJsonVO::Wrapper, API_TAG,
-		API_DEF_ADD_QUERY_PARAMS(UInt64, "id", ZH_WORDS_GETTER("homework.gethomeworkdetail.id"), 123456789, true);  //查询作业，必须传作业id
+		API_DEF_ADD_QUERY_PARAMS(UInt64, "id", ZH_WORDS_GETTER("homework.gethomeworkdetail.id"), 1, true);  //查询作业，必须传作业id
 	);
 	//定义获取作业描述处理，GetHomeworkDetail
 	API_HANDLER_ENDPOINT_AUTH("GET", "org/backhomework/get-homework-detail", GetHomeworkDetail, QUERY(UInt64, id), execGetHomeworkDetail(id));
