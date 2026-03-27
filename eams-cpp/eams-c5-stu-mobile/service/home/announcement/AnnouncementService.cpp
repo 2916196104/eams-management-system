@@ -47,6 +47,9 @@ AnnouncementPageDTO::Wrapper AnnouncementService::listAll(const AnnouncementQuer
 
 		// 7. DO.editor ¡ú DTO.Editor£¨±à¼­ÈËID£©
 		ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub, editor, Editor);
+
+		//8.coverÍ¼Æ¬µØÖ·
+		ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub, cover, Cover);
 		pages->addData(dto);
 	}
 	return pages;

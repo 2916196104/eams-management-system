@@ -22,6 +22,7 @@ public:
         data.setAdd_time(resultSet->getString(5)); // add_time (datetime ¡ú string)
         data.setEdit_time(resultSet->getString(6));// edit_time (datetime ¡ú string)
         data.setEditor(resultSet->getUInt64(7));   // editor (bigint ¡ú uint64_t)
+        data.setCover(resultSet->getString(8));
         return data;
     }
 };
@@ -41,6 +42,7 @@ public:
         data->setAdd_time(resultSet->getString(5));
         data->setEdit_time(resultSet->getString(6));
         data->setEditor(resultSet->getUInt64(7));
+        data->setCover(resultSet->getString(8));
         return data;
     }
 };

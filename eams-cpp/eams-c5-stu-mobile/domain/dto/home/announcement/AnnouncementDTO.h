@@ -53,7 +53,11 @@ class AnnouncementDTO : public oatpp::DTO
     DTO_FIELD_INFO(editor) {
         info->description = ZH_WORDS_GETTER("c5.home.Announcement.field.editor"); // 编辑人ID
     }
-
+    //8.cover(图片地址)varchar(255)
+    DTO_FIELD(String, cover);
+    DTO_FIELD_INFO(cover) {
+        info->description = ZH_WORDS_GETTER("c5.home.Announcement.field.cover"); // 编辑人ID
+    }
     // ========== 保留原有Payload字段（统一业务规范） ==========
     CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
 };

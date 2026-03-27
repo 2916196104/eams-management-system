@@ -23,6 +23,8 @@ class AnnouncementDO : public BaseDO
     MYSQL_SYNTHESIZE(std::string, edit_time, Edit_time);
     // 编辑人（bigint → 对应表中 editor）
     MYSQL_SYNTHESIZE(uint64_t, editor, Editor);
+    //图片地址
+    MYSQL_SYNTHESIZE(std::string, cover, Cover);
 
 public:
     AnnouncementDO() : BaseDO("announcement") // 表名修正为 announcement（非 sample）
@@ -35,6 +37,7 @@ public:
         MYSQL_ADD_FIELD("add_time", "s", add_time);       // datetime → "s"
         MYSQL_ADD_FIELD("edit_time", "s", edit_time);     // datetime → "s"
         MYSQL_ADD_FIELD("editor", "i", editor);          // bigint → "ll"
+        MYSQL_ADD_FIELD("cover", "s", cover);//varchar(255) → "s"
     }
 };
 
