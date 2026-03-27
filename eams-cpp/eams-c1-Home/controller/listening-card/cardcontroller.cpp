@@ -44,12 +44,37 @@ cardRuleJsonVO::Wrapper cardController::executeCardRuleQuery() {
 	return jvo;
 }
 
-ListeningCardListJsonVO::Wrapper cardController::execQueryCardList(const oatpp::String& userName)
+ListeningCardPageJsonVO::Wrapper cardController::execQueryMyCardList(const oatpp::String& userId)
 {
-	return {};
+	// 查询数据
+	auto result = ListeningCardListService().listAll(userId);
+	// 响应结果
+	auto jvo = ListeningCardPageJsonVO::createShared();
+	jvo->success(result);
+
+	return jvo;
 }
 
-StringJsonVO::Wrapper cardController::execModifyCard(const receiveCardDTO::Wrapper& dto, const PayloadDTO& payload)
+StringJsonVO::Wrapper cardController::execReceiveCard(const receiveCardDTO::Wrapper& dto, const PayloadDTO& payload)
 {
-	return{};
+	// 定义返回数据对象
+	auto jvo = StringJsonVO::createShared();
+	// 参数校验
+	if ((!dto->trialId) || (!dto->userId))
+	{
+		jvo->init(nullptr, RS_PARAMS_INVALID);
+		return jvo;
+	}
+
+	// 执行数据修改
+	dto->setPayload(&payload);
+	if (ListeningCardListService().claimCard(dto)) {
+		jvo->success("OK");
+	}
+	else
+	{
+		jvo->fail("ERROR");
+	}
+	// 响应结果
+	return jvo;
 }
