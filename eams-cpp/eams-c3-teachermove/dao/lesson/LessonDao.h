@@ -14,10 +14,11 @@ private:
 public:
     uint64_t count(const LessonQuery::Wrapper& query);
     std::list<LessonDO> selectWithPage(const LessonQuery::Wrapper& query);
-    PtrLessonDO selectById(long long id);
-    int insert(const LessonDO& data);
-    int updateById(const LessonDO& data);
-    int deleteById(long long id);
+    PtrLessonDO selectById(uint64_t id);
+    uint64_t sumFinishedDecCountByClassId(uint64_t classId);
+    uint64_t insert(const LessonDO& data);
+    uint64_t updateById(const LessonDO& data);
+    uint64_t deleteById(uint64_t id);
 };
 
 #endif // !_LESSON_DAO_

@@ -8,6 +8,13 @@
 
 using PtrClassStudentDO = std::shared_ptr<ClassStudentDO>;
 
+struct ClassStudentBaseInfo
+{
+    uint64_t studentId = 0;
+    std::string studentName;
+    int32_t gender = 0;
+};
+
 /**
  * 班级学员关联表 数据操作层
  */
@@ -25,6 +32,9 @@ public:
 
     // 3. 根据学员ID查询他所报名的课程信息
     std::list<PtrClassStudentDO> selectByStudentId(const std::string& studentId);
+
+    // 查询班级学员基础信息（关联 student）
+    std::list<ClassStudentBaseInfo> selectStudentBaseWithPage(uint64_t classId, uint64_t pageIndex, uint64_t pageSize);
 
     // 4. 新增学员到班级 (用于“添加学员到课次”接口)
     uint64_t insert(const PtrClassStudentDO& doObj);

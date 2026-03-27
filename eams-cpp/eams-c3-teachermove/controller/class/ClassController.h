@@ -54,18 +54,13 @@ public:
 		API_DEF_ADD_TITLE(ZH_WORDS_GETTER("class.detail"));
 		API_DEF_ADD_AUTH();
 		API_DEF_ADD_RSP_JSON_WRAPPER(ClassDetailJsonVO);
-		//// 
-		//API_DEF_ADD_PAGE_PARAMS();
-		// 
-		API_DEF_ADD_QUERY_PARAMS(String, "teacher_id", ZH_WORDS_GETTER("class.teacher"), "", true);   // ID
+		API_DEF_ADD_QUERY_PARAMS(String, "class_id", ZH_WORDS_GETTER("class.detail"), "", true);
 		API_DEF_ADD_TAG(API_TAG);
 	}
 
 	ENDPOINT(API_M_GET, "class/class-detail", queryClassDetail, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
-		// Qu
-		API_HANDLER_QUERY_PARAM(userQuery, ClassDTO, queryParams);
-		//
-		API_HANDLER_RESP_VO(execQueryClassDetail(userQuery));
+		auto classId = queryParams.get("class_id");
+		API_HANDLER_RESP_VO(execQueryClassDetail(classId));
 	}
 
 	ENDPOINT_INFO(queryClassStudentList) {
@@ -117,11 +112,18 @@ private:
 		vo->success(vo->data);
 		return vo;
 	}
-	ClassDetailJsonVO::Wrapper execQueryClassDetail(const ClassDTO::Wrapper& query) {
-		return ClassDetailJsonVO::createShared();
+	ClassDetailJsonVO::Wrapper execQueryClassDetail(const oatpp::String& classId) {
+		auto vo = ClassDetailJsonVO::createShared();
+		vo->data = classService.getClassDetail(classId);
+		vo->success(vo->data);
+		return vo;
 	}
 	ClassStudentPageJsonVO::Wrapper execQueryClassStudentList(const ClassStudentQuery::Wrapper& query) {
-		return ClassStudentPageJsonVO::createShared();
+		auto vo = ClassStudentPageJsonVO::createShared();
+		auto classId = query && query->class_id ? query->class_id : "";
+		vo->data = classService.getClassStudentList(classId);
+		vo->success(vo->data);
+		return vo;
 	}
 	// 3.3 执行获取班级学员详情
 	oatpp::Object<StudentDetailDTO> execGetStudentDetail(const String& studentId) {

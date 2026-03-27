@@ -1,6 +1,7 @@
-﻿#pragma once
+#pragma once
 
-#include "domain/do/DoInclude.h"
+#include "BaseDO.h"
+#include "SqlHelper.h"
 
 class LessonStudentDO : public BaseDO
 {
@@ -15,8 +16,10 @@ public:
 		MYSQL_ADD_FIELD("lesson_count", "i", lesson_count);
 		MYSQL_ADD_FIELD("teacher_id", "ll", teacher_id);
 		MYSQL_ADD_FIELD("sign_time", "dt", sign_time);
+		MYSQL_ADD_FIELD("sign_type", "i", sign_type);
 		MYSQL_ADD_FIELD("sign_state", "i", sign_state);
 		MYSQL_ADD_FIELD("score", "i", score);
+		MYSQL_ADD_FIELD("evaluation", "s", evaluation);
 		MYSQL_ADD_FIELD("evaluate_time", "dt", evaluate_time);
 		MYSQL_ADD_FIELD("evaluate_teacher", "ll", evaluate_teacher);
 		MYSQL_ADD_FIELD("consume_course_id", "ll", consume_course_id);
@@ -34,16 +37,18 @@ public:
 	MYSQL_SYNTHESIZE(int32_t, dec_lesson_count, DecLessonCount);
 	MYSQL_SYNTHESIZE(int32_t, lesson_count, LessonCount);
 	MYSQL_SYNTHESIZE(int64_t, teacher_id, TeacherId);
-	MYSQL_SYNTHESIZE(string, sign_time, SignTime);
+	MYSQL_SYNTHESIZE(std::string, sign_time, SignTime);
+	MYSQL_SYNTHESIZE(int32_t, sign_type, SignType);
 	MYSQL_SYNTHESIZE(int32_t, sign_state, SignState);
 	MYSQL_SYNTHESIZE(int32_t, score, Score);
-	MYSQL_SYNTHESIZE(string, evaluate_time, EvaluateTime);
+	MYSQL_SYNTHESIZE(std::string, evaluation, Evaluation);
+	MYSQL_SYNTHESIZE(std::string, evaluate_time, EvaluateTime);
 	MYSQL_SYNTHESIZE(int64_t, evaluate_teacher, EvaluateTeacher);
 	MYSQL_SYNTHESIZE(int64_t, consume_course_id, ConsumeCourseId);
 	MYSQL_SYNTHESIZE(int64_t, consume_student_course_id, ConsumeStudentCourseId);
 	MYSQL_SYNTHESIZE(int64_t, counselor, Counselor);
-	MYSQL_SYNTHESIZE(string, add_time, AddTime);
+	MYSQL_SYNTHESIZE(std::string, add_time, AddTime);
 	MYSQL_SYNTHESIZE(int64_t, org_id, OrgId);
 };
 
-using PtrLessonStudentDO = shared_ptr<LessonStudentDO>;
+using PtrLessonStudentDO = std::shared_ptr<LessonStudentDO>;
