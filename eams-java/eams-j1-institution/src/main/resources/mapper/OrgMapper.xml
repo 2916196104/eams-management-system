@@ -46,12 +46,20 @@
         province, city, district, address, sort_num, license, info, id_path, name_path
     </sql>
 
+    <!-- 数据权限过滤条件 -->
+    <sql id="Data_Permission_Filter">
+        <if test="idPathPrefix != null and idPathPrefix != ''">
+            AND id_path LIKE CONCAT(#{idPathPrefix}, '%')
+        </if>
+    </sql>
+
     <select id="selectChildrenByPid" resultMap="BaseResultMap">
         SELECT
             <include refid="Tree_Column_List"/>
         FROM org
         WHERE pid = #{pid}
           AND deleted = 0
+        <include refid="Data_Permission_Filter"/>
         ORDER BY sort_num ASC
     </select>
 
@@ -60,6 +68,7 @@
         FROM org
         WHERE pid = #{orgId}
           AND deleted = 0
+        <include refid="Data_Permission_Filter"/>
     </select>
 
     <select id="selectDetailById" resultMap="BaseResultMap">
@@ -68,6 +77,7 @@
         FROM org
         WHERE id = #{orgId}
           AND deleted = 0
+        <include refid="Data_Permission_Filter"/>
     </select>
 
     <select id="selectListByCondition" resultMap="BaseResultMap">
@@ -86,6 +96,7 @@
         <if test="status != null">
             AND state = #{status}
         </if>
+        <include refid="Data_Permission_Filter"/>
         ORDER BY sort_num ASC, id ASC
     </select>
 
@@ -94,6 +105,7 @@
         FROM org
         WHERE id = #{pid}
           AND deleted = 0
+        <include refid="Data_Permission_Filter"/>
     </select>
 
     <select id="countStaffByOrgId" resultType="int">
@@ -103,6 +115,13 @@
         WHERE so.org_id = #{orgId}
           AND so.deleted = 0
           AND s.deleted = 0
+    </select>
+
+    <select id="selectIdPathById" resultType="java.lang.String">
+        SELECT id_path
+        FROM org
+        WHERE id = #{orgId}
+          AND deleted = 0
     </select>
 
 </mapper>
