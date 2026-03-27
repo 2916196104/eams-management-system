@@ -1,15 +1,20 @@
-package com.zeroone.star.project.query.j3.data;
+package com.zeroone.star.project.vo.j3.data;
 
-import com.zeroone.star.project.query.PageQuery;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
-
 @Data
-public class ClassHourStatsQuery extends PageQuery {
+public class ClassHourStatsVO {
+    @ApiModelProperty(value = "老师姓名", example = "刘")
+    private String teacherName;
+
+    @ApiModelProperty(value = "总课时数", example = "100")
+    private Double totalHours;
+
     /**
      * 开始日期
      */
