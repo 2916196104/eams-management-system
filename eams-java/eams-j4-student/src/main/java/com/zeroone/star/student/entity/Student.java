@@ -14,6 +14,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Year;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * <p>
  * 描述：学员实体
@@ -28,121 +32,161 @@ public class Student implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "主键")
     @TableId(value = "id", type = IdType.ASSIGN_ID)
+    /**
+     * 主键
+     */
     private Long id;
 
-    @ApiModelProperty(value = "家长id")
-    @TableField("user_id")
+    /**
+     * 家长id
+     */
     private Long userId;
 
-    @ApiModelProperty(value = "家庭关系")
-    @TableField("family_rel")
+    /**
+     * 家庭关系
+     */
     private Integer familyRel;
 
-    @ApiModelProperty(value = "家长默认查看的学员")
-    @TableField("as_default")
+    /**
+     * 家长默认查看的学员
+     */
     private Boolean asDefault;
 
-    @ApiModelProperty(value = "所属分校")
-    @TableField("school_id")
+    /**
+     * 所属分校
+     */
     private Long schoolId;
 
-    @ApiModelProperty(value = "姓名")
-    @TableField("name")
+    /**
+     * 姓名
+     */
     private String name;
 
-    @ApiModelProperty(value = "逻辑删除")
-    @TableField("deleted")
+    /**
+     * 逻辑删除
+     */
     private Integer deleted;
 
-    @ApiModelProperty(value = "阶段状态0意向学员")
-    @TableField("stage")
+    /**
+     * 阶段状态0意向学员
+     */
     private Integer stage;
 
-    @ApiModelProperty(value = "性别")
-    @TableField("gender")
+    /**
+     * 性别
+     */
     private Integer gender;
 
-    @ApiModelProperty(value = "生日")
-    @TableField("birthday")
+    /**
+     * 生日
+     */
     private LocalDate birthday;
 
-    @ApiModelProperty(value = "头像")
-    @TableField("head_img")
+    /**
+     * 头像
+     */
     private String headImg;
 
-    @ApiModelProperty(value = "加入方式")
-    @TableField("join_way")
+    /**
+     * 加入方式
+     */
     private Long joinWay;
 
-    @ApiModelProperty(value = "备注")
-    @TableField("remark")
+    /**
+     * 备注
+     */
     private String remark;
 
-    @ApiModelProperty(value = "结业日期")
-    @TableField("graduation_date")
+    /**
+     * 结业日期
+     */
     private LocalDate graduationDate;
 
-    @ApiModelProperty(value = "结业原因")
-    @TableField("graduation_reason")
+    /**
+     * 结业原因
+     */
     private String graduationReason;
 
-    @ApiModelProperty(value = "加入时间")
-    @TableField("add_time")
+    /**
+     * 加入时间
+     */
     private LocalDateTime addTime;
 
-    @ApiModelProperty(value = "顾问")
-    @TableField("counselor")
+    /**
+     * 顾问
+     */
     private Long counselor;
 
-    @ApiModelProperty(value = "创建者")
-    @TableField("creator")
+    /**
+     * 创建者
+     */
     private Long creator;
 
-    @ApiModelProperty(value = "编辑人")
-    @TableField("editor")
+    /**
+     * 编辑人
+     */
     private Long editor;
 
-    @ApiModelProperty(value = "编辑时间")
-    @TableField("edit_time")
+    /**
+     * 编辑时间
+     */
     private LocalDateTime editTime;
 
-    @ApiModelProperty(value = "身份证号")
-    @TableField("idcard")
+    /**
+     * 身份证号
+     */
     private String idcard;
 
-    @ApiModelProperty(value = "红点标记成绩最后查看时间")
-    @TableField("redpoint_grade")
+    /**
+     * 红点标记成绩最后查看时间
+     */
     private LocalDateTime redpointGrade;
 
-    @ApiModelProperty(value = "红点标记点评最后查看时间")
-    @TableField("redpoint_evaluate")
+    /**
+     * 红点标记点评最后查看时间
+     */
     private LocalDateTime redpointEvaluate;
 
-    @ApiModelProperty(value = "入学年份")
-    @TableField("grade")
+    /**
+     * 入学年份
+     */
     private Year grade;
 
-    @ApiModelProperty(value = "入学日期")
-    @TableField("join_date")
+    /**
+     * 入学日期
+     */
     private LocalDate joinDate;
 
-    @ApiModelProperty(value = "微信登录记录id")
-    @TableField("wx_access_id")
+    /**
+     * 微信登录记录id
+     */
     private Long wxAccessId;
 
-    @ApiModelProperty(value = "学生积分")
-    @TableField("credit")
+    /**
+     * 学生积分
+     */
     private Integer credit;
 
-    @ApiModelProperty(value = "创建者所属组织ID")
-    @TableField("org_id")
+    /**
+     * 创建者所属组织ID
+     */
     private Long orgId;
 
-    @ApiModelProperty(value = "年级ID")
-    @TableField("grade_id")
+    /**
+     * 年级ID
+     */
     private Integer gradeId;
 
+    @ApiModelProperty(value = "手机号")
+    private String mobile;       // 家长手机号
 
+    @ApiModelProperty(value = "家长姓名")
+    private String userName;     // 家长姓名
+
+    @ApiModelProperty(value = "来源")
+    private String source;       // 来源
+
+    @ApiModelProperty(value = "入学时间")
+    private LocalDateTime admissionTime; // 入学时间
 }

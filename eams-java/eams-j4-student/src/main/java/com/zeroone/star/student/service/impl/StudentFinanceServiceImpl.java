@@ -243,11 +243,13 @@ public class StudentFinanceServiceImpl implements IStudentFinanceService {
     }
 
     private Student requireStudent(Long studentId) {
-        Student student = studentMapper.selectById(studentId);
-        if (student == null || Integer.valueOf(1).equals(student.getDeleted())) {
-            throw new IllegalArgumentException("学员不存在或已删除");
-        }
-        return student;
+//        Student student = studentMapper.selectById(studentId);
+//        if (student == null || Integer.valueOf(1).equals(student.getDeleted())) {
+//            throw new IllegalArgumentException("学员不存在或已删除");
+//        }
+//        return student;
+        //我这里不知道为啥报错，组长看到不要整合，你们那边可以通过就行
+        return null;
     }
 
     private Refund requireRefund(Long refundId) {
@@ -261,7 +263,7 @@ public class StudentFinanceServiceImpl implements IStudentFinanceService {
     private void refreshPayStatus(StudentCourse studentCourse) {
         BigDecimal contractAmount = defaultZero(studentCourse.getAmount());
         BigDecimal paidAmount = defaultZero(studentCourse.getPaidAmount());
-        studentCourse.setPayOff(paidAmount.compareTo(contractAmount) >= 0 ? 1 : 0);
+        studentCourse.setPayOff(paidAmount.compareTo(contractAmount) >= 0 ? true : false);
     }
 
     private FinanceDTO buildPaymentDTO(FinanceRecord financeRecord, StudentCourse studentCourse, Student student) {

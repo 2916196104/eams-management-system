@@ -22,8 +22,6 @@ public class StudentDTO {
     @ApiModelProperty(value = "学员ID", example = "1001", required = true)
     private String studentId;
 
-    @ApiModelProperty(value = "学员姓名", example = "张三")
-    private String studentName;
 
     @ApiModelProperty(value = "学员id", example = "1")
     private Long id;
@@ -74,5 +72,7 @@ public class StudentDTO {
     @ApiModelProperty(value = "头像地址", example = "group1/M00/00/01/a.png")
     private String headImg; // 对应 student.head_img
 
+    @ApiModelProperty(value = "家长ID")
+    private Long userId;   // 必须加
 
 }

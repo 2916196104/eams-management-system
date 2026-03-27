@@ -116,11 +116,14 @@ public interface StudentApis {
 
     @ApiOperation("获取学员课次数据")
     @GetMapping("/student/query-course-times")
-    JsonVO<StudentDetailVO> queryCourseTimes(@RequestParam String studentId);
+    JsonVO<List<StudentDetailVO>> queryCourseTimes(@RequestParam String studentId);
 
-    @ApiOperation("获取课时汇总列表")
-    @PostMapping("/student/list-hour-summary")
-    JsonVO<PageDTO<LessonSummaryVO>> listHourSummary(@RequestBody StudentQuery query);
+    // 改成这样（去掉 @RequestBody）：
+    @GetMapping("/list-hour-summary")
+    @ApiOperation(value = "获取课时汇总列表")
+
+
+    JsonVO<PageDTO<LessonSummaryVO>> listHourSummary(StudentQuery query);
 
     JsonVO<PageDTO<ResponseDTO>> queryCourseStudent(CourseQuery condition);
 

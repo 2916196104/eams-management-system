@@ -32,4 +32,24 @@ public interface StudentMapper extends BaseMapper<Student> {
             "LEFT JOIN staff st ON s.counselor = st.id " +
             "WHERE s.stage = 0 AND s.deleted = 0")
     List<StudentExportExcelVO> selectIntentionStudentExportData();
+
+    /**
+     * 1. 保存学员 → 直接使用 BaseMapper 的 insert 方法，无需写SQL
+     * 已自带：int insert(Student student);
+     */
+
+    /**
+     * 2. 根据ID查询学员（给课次/课时汇总关联姓名用）
+     */
+    @Select("SELECT id, name FROM student WHERE id = #{studentId} AND deleted = 0")
+    Student selectStudentNameById(Long studentId);
+
+    /**
+     * 3. 分页查询学员列表（给课时汇总关联姓名用）
+     */
+    @Select("<script>" +
+            "SELECT id, name FROM student WHERE deleted = 0 " +
+            "<if test='name != null and name != \"\"'>AND name LIKE CONCAT('%', #{name}, '%')</if>" +
+            "</script>")
+    List<Student> selectStudentList(String name);
 }

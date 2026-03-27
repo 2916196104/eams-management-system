@@ -1,5 +1,8 @@
 package com.zeroone.star.student.controller;
 
+import com.alibaba.cloud.commons.lang.StringUtils;
+import com.alibaba.nacos.client.naming.utils.CollectionUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j4.student.*;
 import com.zeroone.star.project.dto.j4.student.StudentDTO;
@@ -9,23 +12,28 @@ import com.zeroone.star.project.dto.j4.student.GraduateStudentImportBatchDTO;
 import com.zeroone.star.project.j4.student.StudentApis;
 import com.zeroone.star.project.query.j4.student.*;
 import com.zeroone.star.project.vo.j4.student.*;
+import com.zeroone.star.student.entity.Student;
+import com.zeroone.star.student.entity.StudentCourse;
+import com.zeroone.star.student.entity.User;
 import com.zeroone.star.student.service.IStudentFinanceService;
 import com.zeroone.star.student.service.IStudentService;
 import com.zeroone.star.project.query.j4.student.FinanceQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import com.zeroone.star.student.service.IUserService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import io.swagger.annotations.ApiParam;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
@@ -37,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -48,6 +57,9 @@ import java.util.List;
 public class StudentController implements StudentApis {
     @Resource
     private IStudentFinanceService studentFinanceService;
+    @Resource
+    private IUserService userService;
+
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 
@@ -206,86 +218,174 @@ public class StudentController implements StudentApis {
     public void importIntentionStudent(@RequestPart("file") MultipartFile file, HttpServletResponse response) throws Exception {
         studentService.importIntentionStudent(file, response);
     }
-    /**
-     * 保存学员信息
-     * @param dto 学员DTO（包含ID、姓名等基础信息）
-     * @return 保存结果
-     */
+    // ===================== 1. 保存学员（匹配 Apis） =====================
     @Override
-    public JsonVO<String> saveStudent(StudentDTO dto) {
-        // 安全处理：防止dto或字段为空导致NPE
-        String studentId = (dto.getStudentId() == null) ? "未知ID" : dto.getStudentId();
-        String studentName = (dto.getStudentName() == null) ? "未知姓名" : dto.getStudentName();
-        return JsonVO.success(String.format("学员保存成功：ID=%s，姓名=%s", studentId, studentName));
+    @PostMapping("/save-student")
+    @ApiOperation(value = "保存学员")
+    public JsonVO<String> saveStudent(@Validated @RequestBody StudentDTO dto) {
+        // ====================== 统一数据校验 ======================
+
+        // 1. 姓名校验：2-6个汉字
+        String name = dto.getName();
+        if (name == null || !name.matches("^[\\u4e00-\\u9fa5]{2,6}$")) {
+            return JsonVO.fail("姓名必须是 2-6 个汉字");
+        }
+
+        // 2. 手机号校验（中国大陆）
+        String mobile = dto.getMobile();
+        if (mobile == null || !mobile.matches("^1[3-9]\\d{9}$")) {
+            return JsonVO.fail("请输入有效的中国大陆手机号");
+        }
+
+
+        // 4. 性别校验：0-女，1-男
+        Integer gender = dto.getGender();
+        if (gender == null || (gender != 0 && gender != 1)) {
+            return JsonVO.fail("性别必须为 0（女）或 1（男）");
+        }
+
+        // 5. 校区不能为空
+        if (dto.getSchoolId() == null || dto.getSchoolId() <= 0) {
+            return JsonVO.fail("所属校区不能为空");
+        }
+
+        // 6. 顾问不能为空
+        if (dto.getCounselor() == null || dto.getCounselor() <= 0) {
+            return JsonVO.fail("顾问不能为空");
+        }
+
+        // 7. 出生日期不能为空
+        if (dto.getBirthday() == null) {
+            return JsonVO.fail("出生年月不能为空");
+        }
+
+        // 8. 家长姓名不能为空
+        if (dto.getUserName() == null || dto.getUserName().trim().isEmpty()) {
+            return JsonVO.fail("家长姓名不能为空");
+        }
+
+        // 9. 亲属关系不能为空
+        if (dto.getFamilyRel() == null) {
+            return JsonVO.fail("亲属关系不能为空");
+        }
+
+        // ====================== 1. 保存家长（严格只给 User 表有的字段）======================
+        User user = new User();
+        user.setName(dto.getUserName());       // 家长姓名（你表里有）
+        user.setMobile(dto.getMobile());       // 手机号（你表里有）
+        user.setAddTime(LocalDateTime.now());  // 创建时间
+        user.setState(true);                   // 账号启用
+        user.setSchoolId(dto.getSchoolId());   // 所属校区
+        userService.save(user);
+
+        // ====================== 2. 保存学生（严格只给 Student 表有的字段）======================
+        Student student = new Student();
+        student.setName(dto.getName().trim());
+        student.setUserId(user.getId());       // 关联家长ID ✅
+        student.setFamilyRel(dto.getFamilyRel());
+        student.setSchoolId(dto.getSchoolId());
+        student.setGender(dto.getGender());
+        student.setBirthday(dto.getBirthday());
+        student.setHeadImg(dto.getHeadImg());
+        student.setRemark(dto.getRemark());
+        student.setIdcard(dto.getIdCard());
+        student.setCounselor(dto.getCounselor());
+        student.setGradeId(dto.getGradeId());
+        student.setStage(dto.getStage() != null ? dto.getStage() : 0);
+
+        // 默认值
+        student.setDeleted(0);
+        student.setAddTime(LocalDateTime.now());
+
+        // ====================== 3. 保存 ======================
+        try {
+            boolean success = studentService.saveStudent(student);
+            return success
+                    ? JsonVO.success("保存成功：学员ID=" + student.getId() + " | 家长ID=" + user.getId())
+                    : JsonVO.fail("保存失败");
+        } catch (IllegalArgumentException e) {
+            return JsonVO.fail(e.getMessage());
+        }
     }
 
-    /**
-     * 查询学员课程次数
-     * @param studentId 学员ID（字符串类型）
-     * @return 学员课次详情
-     */
-    @Override
-    public JsonVO<StudentDetailVO> queryCourseTimes(String studentId) {
-        // 1. 安全处理：防止传入的 studentId 为空
-        String targetStudentId = (studentId == null || studentId.trim().isEmpty()) ? "1" : studentId;
+    @GetMapping("/query-course-times")
+    @ApiOperation(value = "获取学员课次数据")
+    public JsonVO<List<StudentDetailVO>> queryCourseTimes(@RequestParam String studentId) {
+        if (StringUtils.isBlank(studentId)) {
+            return JsonVO.fail("学员ID不能为空");
+        }
 
-        // 2. 构造 VO 对象，严格匹配 StudentDetailVO 的所有字段
-        StudentDetailVO vo = new StudentDetailVO();
-        vo.setStudentId(targetStudentId);
-        vo.setStudentName("sdadadsdsadd");
-        vo.setCountLessonTotal(20);          // 总课时数
-        vo.setCountLessonComplet(12);        // 已完成课时数
-        vo.setCountLessonRefund(2);          // 已退款课时数
-        vo.setRemainingTimes(6);             // 剩余课时数
-        vo.setStartDate(LocalDate.of(2025, 3, 1)); // 课程开始日期
-        vo.setExpireDate(LocalDate.of(2026, 3, 1)); // 课程过期日期
-        vo.setCourseAmount(new BigDecimal("2000.00")); // 课程总金额
-        vo.setPaidAmount(new BigDecimal("1800.00"));   // 实付金额
+        // 查询该学员所有课程
+        List<StudentCourse> courseList = studentService.listCourseTimesByStudentId(Long.valueOf(studentId));
+        if (CollectionUtils.isEmpty(courseList)) {
+            return JsonVO.fail("未找到课次信息");
+        }
 
-        // 3. 返回成功结果
-        return JsonVO.success(vo);
+        List<StudentDetailVO> voList = new ArrayList<>();
+        for (StudentCourse course : courseList) {
+            StudentDetailVO vo = new StudentDetailVO();
+            vo.setStudentId(studentId);
+            vo.setStudentName(course.getName());
+            vo.setCourseName(course.getCourseName());
+            vo.setCountLessonTotal(course.getCountLessonTotal());
+            vo.setCountLessonComplet(course.getCountLessonComplete());
+            vo.setCountLessonRefund(course.getCountLessonRefund());
+
+            int remaining = course.getCountLessonTotal()
+                    - course.getCountLessonComplete()
+                    - course.getCountLessonRefund();
+            vo.setRemainingTimes(remaining);
+
+            vo.setStartDate(course.getStartDate());
+            vo.setExpireDate(course.getExpireDate());
+            vo.setCourseAmount(course.getCourseAmount());
+            vo.setPaidAmount(course.getPaidAmount());
+
+            voList.add(vo);
+        }
+
+        return JsonVO.success(voList);
     }
 
-    /**
-     * 分页查询学员课时汇总
-     * @param query 查询条件（包含学员ID+分页参数）
-     * @return 分页课时汇总数据
-     */
     @Override
+    @GetMapping("/list-hour-summary")
+    @ApiOperation(value = "获取课时汇总列表")
     public JsonVO<PageDTO<LessonSummaryVO>> listHourSummary(StudentQuery query) {
-        // 1. 构造课时汇总数据
-        LessonSummaryVO summary = new LessonSummaryVO();
-        summary.setId(1L);
-        summary.setLessonId(1001L);
-        summary.setClassId(2001);
+        // 关键：只保留 courseId，清空其他所有条件！
+        query.setStudentId(null);
+        query.setName(null);
+        query.setPhone(null);
+        query.setStatus(null);
+        query.setAdvisorId(null);
+        // 只保留 courseId 生效
+        // 其他条件全部置为 null，让 SQL 不拼接它们
 
-        // 处理空值
-        summary.setStudentId(query == null || query.getStudentId() == null ? "1" : query.getStudentId());
-        summary.setName(query == null || query.getName() == null ? "sdadadsdsadd" : query.getName());
-        summary.setMobile(query == null || query.getMobile() == null ? "18864216425" : query.getMobile());
+        long pageIndex = query.getPageIndex() != null ? query.getPageIndex() : 1;
+        long pageSize = query.getPageSize() != null ? query.getPageSize() : 10;
+        Page<StudentCourse> page = new Page<>(pageIndex, pageSize);
 
-        summary.setDecLessonCount(1);
-        summary.setLessonCount(10);
-        summary.setTeacherId(3001L);
-        summary.setSignTime(LocalDateTime.of(2025, 3, 18, 14, 30));
-        summary.setSignType(1);
-        summary.setSignState(1);
+        Page<StudentCourse> result = studentService.getLessonSummaryPage(page, query);
 
-        // 2. 构造分页数据
-        List<LessonSummaryVO> rows = Collections.singletonList(summary);
-        PageDTO<LessonSummaryVO> pageDTO = new PageDTO<>();
+        // 封装VO
+        List<LessonSummaryVO> rows = result.getRecords().stream().map(sc -> {
+            LessonSummaryVO vo = new LessonSummaryVO();
+            vo.setId(sc.getId());
+            vo.setStudentId(sc.getStudentId() == null ? "" : sc.getStudentId().toString());
+            vo.setName(sc.getName() == null ? "" : sc.getName());
+            vo.setLessonCount(sc.getLessonCount() == null ? 0 : sc.getLessonCount());
+            vo.setDecLessonCount(sc.getDecLessonCount() == null ? 0 : sc.getDecLessonCount());
+            return vo;
+        }).collect(Collectors.toList());
 
-        // 处理分页参数（变量类型改为 long，和返回类型一致）
-        long pageIndex = (query == null) ? 1L : query.getPageIndex();
-        long pageSize = (query == null) ? 30L : query.getPageSize();
+        // 封装分页
+        PageDTO<LessonSummaryVO> dto = new PageDTO<>();
+        dto.setPageIndex(result.getCurrent());
+        dto.setPageSize(result.getSize());
+        dto.setTotal(result.getTotal());
+        dto.setPages(result.getPages());
+        dto.setRows(rows);
 
-        pageDTO.setPageIndex(pageIndex);
-        pageDTO.setPageSize(pageSize);
-        pageDTO.setTotal(1L);
-        pageDTO.setPages(1L);
-        pageDTO.setRows(rows);
-
-        return JsonVO.success(pageDTO);
+        return JsonVO.success(dto);
     }
     @Override
     @GetMapping("/studentList")
