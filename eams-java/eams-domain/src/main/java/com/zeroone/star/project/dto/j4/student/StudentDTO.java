@@ -74,5 +74,22 @@ public class StudentDTO {
     @ApiModelProperty(value = "头像地址", example = "group1/M00/00/01/a.png")
     private String headImg; // 对应 student.head_img
 
+    @ApiModelProperty(value = "入班日期")
+    private LocalDateTime joinDate;
+
+    @ApiModelProperty(value = "微信OpenID关联")
+    private String wxAccessId;
+
+    @ApiModelProperty(value = "信誉度/积分", example = "0")
+    private Integer credit;
+
+    @ApiModelProperty(value = "机构ID", example = "1")
+    private Long orgId;
+
+
+    // --- 业务扩展属性 ---
+    @ApiModelProperty(value = "业务专用：关联课程ID", example = "1")
+    private Long courseId;
+
 
 }

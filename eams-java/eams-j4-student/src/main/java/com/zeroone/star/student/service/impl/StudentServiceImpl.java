@@ -2,6 +2,7 @@ package com.zeroone.star.student.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.cloud.commons.lang.StringUtils;
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -23,17 +24,28 @@ import com.zeroone.star.student.entity.*;
 import com.zeroone.star.project.vo.j4.student.StudentExportExcelVO;
 import com.zeroone.star.project.vo.j4.student.StudentImportExcelVO;
 import com.zeroone.star.student.mapper.*;
+import com.zeroone.star.project.vo.j4.student.FollowUpVO;
+import com.zeroone.star.student.entity.ClassStudentDO;
+import com.zeroone.star.student.entity.ContactRecordDO;
+import com.zeroone.star.student.mapper.ClassMapper;
+import com.zeroone.star.student.mapper.ClassStudentMapper;
+import com.zeroone.star.student.mapper.ContactRecordMapper;
 import com.zeroone.star.student.service.IStudentService;
 import com.zeroone.star.student.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -68,6 +80,9 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
 
     @Resource
     private ClassMapper classMapper;
+
+    @Autowired
+    private StudentMapper studentMapper;
 
     @Resource
     private ClassStudentMapper classStudentMapper;
@@ -333,17 +348,138 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
      * @return
      */
     @Override
-    public Boolean importOnlineStudents(MultipartFile file) {
-        return null;
+    @Transactional(rollbackFor = Exception.class) // 开启事务，保证整个导入过程的原子性
+    public Boolean importOnlineStudents(MultipartFile file) throws IOException {
+
+        // 当前用户ID作为顾问
+        Long currentStaffId = null;
+        try {
+            currentStaffId = Long.valueOf(userHolder.getCurrentUser().getId());
+        } catch (Exception e) {
+            log.warn("无法获取当前登录用户信息，导入的意向学员顾问字段为空",e);
+        }
+
+        List<StudentImportExcelVO> list = easyExcelComponent.parseExcel(file.getInputStream(),"Sheet1",StudentImportExcelVO.class);
+
+        List<StudentImportExcelVO> errorList = new ArrayList<>();
+
+        List<Student> studentsToSave = new ArrayList<>();
+
+        for (StudentImportExcelVO vo : list) {
+
+            if (StringUtils.isBlank(vo.getStudentName()) || vo.getStudentName().contains("学员导入模板") || "*姓名".equals(vo.getStudentName())) {
+                continue; // 直接跳过，不纳入错误列表
+            }
+
+            if (StringUtils.isBlank(vo.getStudentName()) || StringUtils.isBlank(vo.getPassword())) {
+                vo.setErrorMessage("姓名和登录密码不能为空");
+                errorList.add(vo);
+                continue;
+            }
+
+            if (StringUtils.isBlank(vo.getPhone()) || !PHONE_PATTERN.matcher(vo.getPhone()).matches()) {
+                vo.setErrorMessage("手机号为空或格式不正确");
+                errorList.add(vo);
+                continue;
+            }
+
+            LocalDate birthDate = null;
+
+            if (StringUtils.isNotBlank(vo.getBirthday())) {
+                try {
+                    String originDate = vo.getBirthday().trim().replace("/", "-");
+
+                    String[] parts = originDate.split("-");
+                    if (parts.length == 3) {
+                        StringBuilder sb = new StringBuilder();
+                        sb.append(parts[0]).append("-"); // 年
+                        sb.append(parts[1].length() == 1 ? "0" + parts[1] : parts[1]).append("-"); // 月补零
+                        sb.append(parts[2].length() == 1 ? "0" + parts[2] : parts[2]); // 日补零
+                        originDate = sb.toString();
+                    }
+
+
+                    if (originDate.length() > 10) {
+                        originDate = originDate.substring(0, 10);
+                    }
+
+                    birthDate = LocalDate.parse(originDate, DATE_FORMATTER);
+                } catch (Exception e) {
+                    vo.setErrorMessage("日期解析失败，请确保格式类似 2015-05-15");
+                    errorList.add(vo);
+                    continue;
+                }
+            }
+
+            User user = userService.getOne(new LambdaQueryWrapper<User>().eq(User::getMobile, vo.getPhone()));
+            if (user == null) {
+                user = new User();
+                user.setMobile(vo.getPhone());
+                user.setName(vo.getParentName());
+                user.setPassword(vo.getPassword());
+                user.setState(true);
+                userService.save(user);
+            }
+
+            Student existingStudent = this.getOne(new LambdaQueryWrapper<Student>()
+                    .eq(Student::getUserId, user.getId())
+                    .eq(Student::getName, vo.getStudentName())
+                    .eq(Student::getDeleted, 0)); // 没被删除的才算重复
+
+            if (existingStudent != null) {
+
+                vo.setErrorMessage("该家长名下已存在名为【" + vo.getStudentName() + "】的学员，请勿重复导入");
+                errorList.add(vo);
+                continue;
+            }
+
+            Student student = new Student();
+            student.setUserId(user.getId());
+            student.setName(vo.getStudentName());
+            student.setIdcard(vo.getIdcard());
+            student.setBirthday(birthDate);
+
+
+            if (currentStaffId != null) {
+                student.setCounselor(currentStaffId);
+            }
+
+            student.setStage(1);
+            student.setDeleted(0);
+            student.setAsDefault(true);
+
+            student.setGender("男".equals(vo.getGender()) ? 1 : ("女".equals(vo.getGender()) ? 2 : 0));
+            // 亲属关系默认为0
+            student.setFamilyRel(0);
+
+            studentsToSave.add(student);
+        }
+
+        if (!studentsToSave.isEmpty()) {
+            this.saveBatch(studentsToSave);
+        }
+
+        // 处理错误列表（如果你现在的接口定义只能返回 Boolean，那么抛出异常，或者建议修改接口返回类型/响应写出逻辑）
+        if (!errorList.isEmpty()) {
+            log.warn("在线学员导入有 {} 条失败记录", errorList.size());
+            return false;
+        }
+
+        return true;
     }
 
     /**
      * 导出在线学员
-     * @return
+     * @param outputStream
      */
     @Override
-    public byte[] exportOnlineStudent() {
-        return new byte[0];
+    public void exportOnlineStudent(ServletOutputStream outputStream) {
+        List<StudentExportExcelVO> exportData = this.baseMapper.selectOnlineStudentExportData();
+
+        // 将装配好的 VO 列表使用 EasyExcel 写入输出流
+        EasyExcel.write(outputStream, StudentExportExcelVO.class)
+                .sheet("在线学员")
+                .doWrite(exportData);
     }
 
     @Override
@@ -451,30 +587,61 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     }
 
     @Override
-    public PageDTO<FollowUpDTO> queryFollowUpPage(FollowUpQuery condition) {
+    public PageDTO<FollowUpVO> queryFollowUpPage(FollowUpQuery condition) {
         // 1. 创建分页参数对象
-        Page<FollowUpDTO> pageParam = new Page<>(condition.getPageIndex(), condition.getPageSize());
+        Page<FollowUpVO> pageParam = new Page<>(condition.getPageIndex(), condition.getPageSize());
 
         // 2. 执行查询，返回 IPage
-        IPage<FollowUpDTO> iPage = contactRecordMapper.selectFollowUpPage(pageParam, condition);
+        pageParam.setOptimizeCountSql(false);
+        IPage<FollowUpVO> iPage = contactRecordMapper.selectFollowUpPage(pageParam, condition);
 
-        // 3. 强转并转换成 PageDTO
-        return PageDTO.create((Page<FollowUpDTO>) iPage);
+        // 3. 转换成 PageDTO 返回
+        return PageDTO.create((Page<FollowUpVO>) iPage);
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Long saveFollowUp(FollowUpDTO dto) {
         ContactRecordDO recordDO = new ContactRecordDO();
-        BeanUtil.copyProperties(dto, recordDO); // 使用文档提到的 BeanUtil
 
-        if (dto.getId() == null) {
-            recordDO.setAddTime(LocalDateTime.now());
-            contactRecordMapper.insert(recordDO);
-        } else {
-            contactRecordMapper.updateById(recordDO);
+        // 1. 手动映射业务字段 (解决字段名不一致问题)
+        recordDO.setStudentId(dto.getStudentId());
+        recordDO.setStage(dto.getProgressStage());
+        recordDO.setContactType(dto.getContactChannel());
+        recordDO.setContactTime(dto.getContactTime());
+        recordDO.setInfo(dto.getFollowUpContent());
+        recordDO.setContactNextTime(dto.getNextContactTime());
+        recordDO.setContactPhone(dto.getContactDetail());
+
+        // 2. 自动填充系统字段 (请替换为实际获取逻辑)
+        Long currentUserId = getCurrentUserId();
+        Long currentOrgId = getCurrentUserOrgId();
+
+        recordDO.setCreator(currentUserId);
+        recordDO.setOrgId(currentOrgId);
+        recordDO.setAddTime(LocalDateTime.now());
+        recordDO.setDeleted(0);
+
+        int result = contactRecordMapper.insert(recordDO);
+
+        // 校验插入结果
+        if (result <= 0) {
+            throw new RuntimeException("跟进记录保存失败，受影响行数为: " + result);
         }
+
+        // MyBatis-Plus 会在 insert 成功后自动将自增主键回填到 recordDO.getId()
         return recordDO.getId();
+    }
+
+    // 模拟获取当前用户信息的方法，请替换为你项目的实际实现 (如 StpUtil.getLoginId() 或 SecurityContextHolder)
+    private Long getCurrentUserId() {
+        // TODO: 从线程上下文或 Token 中解析真实用户ID
+        return 1L;
+    }
+
+    private Long getCurrentUserOrgId() {
+        // TODO: 从线程上下文或 Token 中解析真实组织ID
+        return 1L;
     }
 
     @Override
@@ -543,5 +710,38 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         result.setRows(responseDTOS);
 
         return result;
+    }
+
+    /**
+     * 学员阶段设置
+     * @param studentDTO
+     * @return
+     */
+    public boolean updateStudentStage(StudentDTO studentDTO) {
+        // 判断 Mapper 受影响行数是否大于 0
+        return studentMapper.updateStudentStage(studentDTO) > 0;
+    }
+
+    @Transactional(rollbackFor = Exception.class) // 保证两个表同时成功
+    public boolean saveStudentEnroll(StudentEnrollDTO enrollDTO) {
+
+        // 1. 写入报名主表
+        int count1 = studentMapper.insertStudentCourse(enrollDTO);
+
+        // 2. 写入课时流水表
+        int count2 = studentMapper.insertEnrollLog(enrollDTO);
+
+        return count1 > 0 && count2 > 0;
+    }
+
+
+    /**
+     * 获取学员信息
+     * @param id
+     * @return
+     */
+    public StudentDTO getStudentDetail(Integer id) {
+        // 直接返回查询到的数据，不进行 Result 包装
+        return studentMapper.selectStudentDetail(id);
     }
 }

@@ -10,9 +10,12 @@ import com.zeroone.star.project.query.j4.student.FollowUpQuery;
 import com.zeroone.star.project.query.j4.student.StudentQuery;
 import com.zeroone.star.student.entity.Student;
 import org.springframework.web.multipart.MultipartFile;
+import com.zeroone.star.project.vo.j4.student.FollowUpVO;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.io.IOException;
 
 /**
  * <p>
@@ -41,13 +44,13 @@ public interface IStudentService extends IService<Student> {
      * @param file
      * @return
      */
-    Boolean importOnlineStudents(MultipartFile file);
+    Boolean importOnlineStudents(MultipartFile file) throws IOException;
 
     /**
      * 导出在线学员
-     * @return
+     * @param outputStream
      */
-    byte[] exportOnlineStudent();
+    void exportOnlineStudent(ServletOutputStream outputStream);
 
     PageDTO<ResponseDTO> listall(StudentQuery condition);
 
@@ -68,11 +71,21 @@ public interface IStudentService extends IService<Student> {
      */
     List<Long> quitClass(Long classId, Long studentId);
 
-    PageDTO<FollowUpDTO> queryFollowUpPage(FollowUpQuery condition);
+    PageDTO<FollowUpVO> queryFollowUpPage(FollowUpQuery condition);
 
     Long saveFollowUp(FollowUpDTO followUpDTO);
 
     Long removeFollowUp(Long id);
 
     FollowUpDTO getFollowUpDetail(Long id);
+
+    /** 更新学员阶段，返回执行成败 */
+    boolean updateStudentStage(StudentDTO studentDTO);
+
+    /** 保存报名信息，返回执行成败 */
+    boolean saveStudentEnroll(StudentEnrollDTO enrollDTO);
+
+    /** 获取学员详情，返回原始数据对象 */
+    StudentDTO getStudentDetail(Integer id);
+
 }

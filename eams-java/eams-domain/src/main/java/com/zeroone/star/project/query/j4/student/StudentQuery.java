@@ -11,19 +11,23 @@ import javax.validation.constraints.NotNull;
 @Data
 @ApiModel(description = "学员查询条件")
 public class StudentQuery extends PageQuery {
-
-    @ApiModelProperty(value = "学员ID", example = "1001")
-    private String studentId;
-
-    @ApiModelProperty("姓名")
+    @ApiModelProperty(value = "学员姓名", example = "张三")
     private String name;
+
+    @ApiModelProperty(value = "手机号", example = "18864216425")
+    private String mobile;
+
+    @ApiModelProperty(value = "阶段", example = "在学学员")
+    private String stage;
+
+    @ApiModelProperty(value = "年级ID", example = "5")
+    private Integer gradeId;
+
+    @ApiModelProperty(value = "学员ID", example = "1")
+    private String studentId;
 
     @ApiModelProperty("电话")
     private String phone;
-
-    @ApiModelProperty("状态")
-    @NotNull(message = "状态不能为空")
-    private String stage ;
 
     @ApiModelProperty("顾问ID")
     private String advisorId;

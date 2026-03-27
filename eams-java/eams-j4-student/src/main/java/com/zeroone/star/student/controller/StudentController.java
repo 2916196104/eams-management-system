@@ -5,25 +5,22 @@ import com.zeroone.star.project.dto.j4.student.*;
 import com.zeroone.star.project.dto.j4.student.StudentDTO;
 import com.zeroone.star.project.dto.j4.student.FinanceDTO;
 import com.zeroone.star.project.dto.j4.student.FollowUpDTO;
-import com.zeroone.star.project.dto.j4.student.GraduateStudentImportBatchDTO;
 import com.zeroone.star.project.j4.student.StudentApis;
 import com.zeroone.star.project.query.j4.student.*;
 import com.zeroone.star.project.vo.j4.student.*;
-import com.zeroone.star.student.mapper.IOmyMapper;
-import com.zeroone.star.student.service.IOmyServcie;
-import com.zeroone.star.student.service.ISclServcie;
-import com.zeroone.star.student.service.IStudentFinanceService;
-import com.zeroone.star.student.service.IStudentService;
+import com.zeroone.star.student.service.*;
 import com.zeroone.star.project.query.j4.student.FinanceQuery;
 import com.zeroone.star.project.vo.JsonVO;
+import io.seata.core.model.Result;
+import com.zeroone.star.project.vo.j4.student.FollowUpVO;
+import com.zeroone.star.student.service.IStudentService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.util.StringUtil;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import io.swagger.annotations.ApiParam;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,7 +29,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.time.LocalDate;
@@ -45,7 +41,10 @@ import java.util.List;
 
 /**
  * <p>
- * 描述：学员管理及跟进记录接口实现类
+ * 学生表 前端控制器
+ * </p>
+ * @author gintoki
+ * @since 2026-03-23
  */
 @RestController
 @RequestMapping("/j4/student")
@@ -54,6 +53,10 @@ import java.util.List;
 public class StudentController implements StudentApis {
     @Resource
     private IStudentService studentService;
+
+    @Autowired
+    private StudentGraduationService studentGraduationService;
+
 
     @Resource
     private IStudentFinanceService studentFinanceService;
@@ -85,20 +88,25 @@ public class StudentController implements StudentApis {
     @GetMapping("/follow-up/page")
     @ApiOperation("获取跟进记录列表（条件+分页）")
     @Override
-    public JsonVO<PageDTO<FollowUpDTO>> queryFollowUpPage(@Validated FollowUpQuery condition) {
+    public JsonVO<PageDTO<FollowUpVO>> queryFollowUpPage(@Validated FollowUpQuery condition) {
         return JsonVO.success(studentService.queryFollowUpPage(condition));
     }
 
 
     @PostMapping("/follow-up")
-    @ApiOperation("添加/修改跟进记录")
+    @ApiOperation("添加跟进记录")
     @Override
     public JsonVO<Long> saveFollowUp(@RequestBody @Validated FollowUpDTO followUpDTO) {
-        // 基本业务校验
-        if (followUpDTO.getStudentId() == null) return JsonVO.fail("学生ID不能为空");
-        if (followUpDTO.getContactTime() == null) return JsonVO.fail("联系时间不能为空");
+        if (followUpDTO.getStudentId() == null) {
+            return JsonVO.fail("学生ID不能为空");
+        }
+        if (followUpDTO.getContactTime() == null) {
+            return JsonVO.fail("联系时间不能为空");
+        }
 
+        // 调用 Service 进行新增
         Long id = studentService.saveFollowUp(followUpDTO);
+
         return JsonVO.success(id);
     }
 
@@ -158,9 +166,9 @@ public class StudentController implements StudentApis {
     @ApiOperation("退出班级")
     public JsonVO<List<Long>> quitClass(
             @ApiParam(value = "班级 ID", required = true, example = "2008418408985583620")
-            @RequestParam @NotNull(message = "班级ID不能为空") Long classId,
+            @RequestParam Long classId,
             @ApiParam(value = "学生 ID", required = true, example = "2008418408985583617")
-            @RequestParam @NotNull(message = "学生ID不能为空") Long studentId) {
+            @RequestParam Long studentId) {
         try {
             List<Long> result = studentService.quitClass(classId, studentId);
             return JsonVO.success(result);
@@ -237,26 +245,45 @@ public class StudentController implements StudentApis {
     @ApiOperation("导入在学学员")
     @Override
     public JsonVO<String> importOnlineStudents(@RequestPart("file") MultipartFile file) {
-        Boolean result = studentService.importOnlineStudents(file);
-        if(result) {
-            return JsonVO.success("在线学员导入成功");
+        if(file.isEmpty()) {
+            return JsonVO.fail("上传的Excel不能为空");
         }
-        return JsonVO.fail("在线学员导入失败");
+        try {
+            studentService.importOnlineStudents(file);
+            return JsonVO.success("在学学员导入成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return JsonVO.fail("在线学员导入失败L:"+e.getMessage());
+        }
+
     }
 
     @GetMapping("/exportOnlineStudents")
     @ApiOperation("导出在学学员")
-    @Override
-    public ResponseEntity<byte[]> exportOnlineStudents() {
-        byte[] data = studentService.exportOnlineStudent();
-        if(data != null && data.length > 0) {
-            return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                    .header("Content-Disposition", "attachment; filename=\"online_students.xlsx\"")
-                    .body(data);
-        } else {
-            return ResponseEntity.noContent().build();
+    public void exportOnlineStudents(HttpServletResponse response) {
+        try {
+            // 1. 设置响应头，告诉浏览器这是一个下载文件的响应
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            response.setCharacterEncoding("utf-8");
+
+            // 为了防止中文文件名乱码，手动进行URLEncoder编码
+            String fileName = URLEncoder.encode("在线学员列表", "UTF-8").replaceAll("\\+", "%20");
+            response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + fileName + ".xlsx");
+
+            // 2. 调用 Service 层进行查询和直接使用写流的方式导出
+            studentService.exportOnlineStudent(response.getOutputStream());
+        } catch (Exception e) {
+            // 发生异常时可以重置 response 后返回 JSON 提示信息
+            response.reset();
+            response.setContentType("application/json");
+            response.setCharacterEncoding("utf-8");
+            try {
+                response.getWriter().println("{\"code\": 500, \"msg\": \"导出Excel失败\"}");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
+
     }
 
 
@@ -292,16 +319,23 @@ public class StudentController implements StudentApis {
      */
     @Override
     public JsonVO<StudentDetailVO> queryCourseTimes(String studentId) {
-        // 安全处理：防止studentId为空
-        String targetStudentId = (studentId == null) ? "默认ID" : studentId;
+        // 1. 安全处理：防止传入的 studentId 为空
+        String targetStudentId = (studentId == null || studentId.trim().isEmpty()) ? "1" : studentId;
 
-        // 构造返回VO（给所有字段赋值，避免空对象序列化报错）
+        // 2. 构造 VO 对象，严格匹配 StudentDetailVO 的所有字段
         StudentDetailVO vo = new StudentDetailVO();
         vo.setStudentId(targetStudentId);
-        vo.setStudentName("测试学员");
-        vo.setCourseTimes(20); // 课程次数（示例值）
-        vo.setRemainingTimes(5); // 剩余次数（示例值）
+        vo.setStudentName("sdadadsdsadd");
+        vo.setCountLessonTotal(20);          // 总课时数
+        vo.setCountLessonComplet(12);        // 已完成课时数
+        vo.setCountLessonRefund(2);          // 已退款课时数
+        vo.setRemainingTimes(6);             // 剩余课时数
+        vo.setStartDate(LocalDate.of(2025, 3, 1)); // 课程开始日期
+        vo.setExpireDate(LocalDate.of(2026, 3, 1)); // 课程过期日期
+        vo.setCourseAmount(new BigDecimal("2000.00")); // 课程总金额
+        vo.setPaidAmount(new BigDecimal("1800.00"));   // 实付金额
 
+        // 3. 返回成功结果
         return JsonVO.success(vo);
     }
 
@@ -312,29 +346,38 @@ public class StudentController implements StudentApis {
      */
     @Override
     public JsonVO<PageDTO<LessonSummaryVO>> listHourSummary(StudentQuery query) {
-        // 1. 安全处理查询参数：PageQuery 是 long 基本类型，永远不会为 null
-        // 直接使用 query 自带的 pageIndex/pageSize（已被 @Min 约束保证 ≥1）
-        long pageIndex = query.getPageIndex();
-        long pageSize = query.getPageSize();
-        String studentId = (query.getStudentId() == null) ? "" : query.getStudentId();
+        // 1. 构造课时汇总数据
+        LessonSummaryVO summary = new LessonSummaryVO();
+        summary.setId(1L);
+        summary.setLessonId(1001L);
+        summary.setClassId(2001);
 
-        // 2. 构造课时汇总VO（给核心字段赋值）
-        LessonSummaryVO summaryVO = new LessonSummaryVO();
-        summaryVO.setStudentId(studentId);
-        summaryVO.setTotalHour(15.5); // 总课时（示例值）
-        summaryVO.setUsedHour(8.0);   // 已用课时（示例值）
-        summaryVO.setRemainingHour(7.5); // 剩余课时（示例值）
-        List<LessonSummaryVO> dataList = Collections.singletonList(summaryVO);
+        // 处理空值
+        summary.setStudentId(query == null || query.getStudentId() == null ? "1" : query.getStudentId());
+        summary.setName(query == null || query.getName() == null ? "sdadadsdsadd" : query.getName());
+        summary.setMobile(query == null || query.getMobile() == null ? "18864216425" : query.getMobile());
 
-        // 3. 构造分页DTO（类型匹配，无需装箱）
+        summary.setDecLessonCount(1);
+        summary.setLessonCount(10);
+        summary.setTeacherId(3001L);
+        summary.setSignTime(LocalDateTime.of(2025, 3, 18, 14, 30));
+        summary.setSignType(1);
+        summary.setSignState(1);
+
+        // 2. 构造分页数据
+        List<LessonSummaryVO> rows = Collections.singletonList(summary);
         PageDTO<LessonSummaryVO> pageDTO = new PageDTO<>();
+
+        // 处理分页参数（变量类型改为 long，和返回类型一致）
+        long pageIndex = (query == null) ? 1L : query.getPageIndex();
+        long pageSize = (query == null) ? 30L : query.getPageSize();
+
         pageDTO.setPageIndex(pageIndex);
         pageDTO.setPageSize(pageSize);
-        pageDTO.setTotal(1L); // 总条数
-        pageDTO.setPages(1L); // 总页数
-        pageDTO.setRows(dataList); // 当前页数据
+        pageDTO.setTotal(1L);
+        pageDTO.setPages(1L);
+        pageDTO.setRows(rows);
 
-        // 4. 返回分页结果
         return JsonVO.success(pageDTO);
     }
     @Override
@@ -467,98 +510,32 @@ public class StudentController implements StudentApis {
     }
 
     /**
-     * 批量导入（JSON格式）
-     * 可在Knife4j/Postman直接POST调用
+     * 结业学员导入（Excel文件）
+     * @param file Excel文件（非空校验）
      */
-    @PostMapping("/batch/import")
-    @ApiOperation(value = "结业学员批量导入（JSON）", notes = "传入JSON列表批量导入学员数据")
-    public CommonResponseVO<GraduateStudentImportResultVO> batchImport(
-            @ApiParam(value = "批量导入数据", required = true)
-            @RequestBody GraduateStudentImportBatchDTO importDTO) {
-        // 仅模拟返回结果，无业务逻辑，保证接口可调用
-        GraduateStudentImportResultVO result = new GraduateStudentImportResultVO();
-        result.setSuccessCount(importDTO.getStudentList().size());
-        result.setFailCount(0);
-        result.setFailDetails(new ArrayList<>());
-        result.setBatchNo("B" + LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "01");
-        return CommonResponseVO.success(result);
+    @PostMapping("/graduation/import")
+    @ApiOperation("结业学员导入Excel")
+    @ApiImplicitParam(name = "file", value = "上传Excel", dataType = "__file", paramType = "formData")
+    public JsonVO<String> importExcel(@RequestParam("file") MultipartFile file) {
+        studentGraduationService.importGraduationStudent(file);
+        return JsonVO.success("导入成功");
     }
-
-    /**
-     * Excel文件导入
-     * 可在Knife4j/Postman上传文件调用
-     */
-    @PostMapping("/excel/import")
-    @ApiOperation(value = "结业学员Excel导入", notes = "上传Excel文件导入学员数据")
-    public CommonResponseVO<GraduateStudentImportResultVO> excelImport(
-            @ApiParam(value = "Excel文件（.xlsx/.xls）", required = true)
-            @RequestParam("file") MultipartFile file,
-            @ApiParam(value = "批次号（可选）", example = "B2024063001")
-            @RequestParam(value = "batchNo", required = false) String batchNo) {
-        // 模拟文件导入结果，保证接口可调用
-        GraduateStudentImportResultVO result = new GraduateStudentImportResultVO();
-        if (file.isEmpty()) {
-            return CommonResponseVO.fail("文件不能为空");
-        }
-        result.setSuccessCount(10);
-        result.setFailCount(0);
-        result.setFailDetails(new ArrayList<>());
-        result.setBatchNo(batchNo == null ? "B2024063001" : batchNo);
-        return CommonResponseVO.success(result);
-    }
-
-    /**
-     * 结业学员导出（CSV格式，浏览器直接下载）
-     *
-     */
-    @GetMapping("/export")
-    @ApiOperation(value = "结业学员导出", notes = "按条件导出学员数据为CSV文件")
+    @GetMapping("/graduation/export")
+    @ApiOperation("结业学员导出Excel")
     public void export(
-            HttpServletResponse response,
-            @ApiParam(value = "学员ID（模糊）", example = "2024")
-            @RequestParam(value = "studentId", required = false) String studentId,
-            @ApiParam(value = "班级名称（模糊）", example = "高三")
-            @RequestParam(value = "className", required = false) String className,
-            @ApiParam(value = "结业时间起始", example = "2024-01-01")
-            @RequestParam(value = "graduateTimeStart", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate graduateTimeStart,
-            @ApiParam(value = "结业时间结束", example = "2024-12-31")
-            @RequestParam(value = "graduateTimeEnd", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate graduateTimeEnd,
-            @ApiParam(value = "结业状态（1已结业/0未结业）", example = "1")
-            @RequestParam(value = "graduateStatus", required = false) Integer graduateStatus) {
+            // 关键：去掉 @RequestBody！！！
+            StudentQueryCondition condition,
+            HttpServletResponse response) {
         try {
-            response.setContentType("text/csv;charset=utf-8");
-
-            String fileName = "结业学员列表_" + LocalDateTime.now().format(DATETIME_FORMATTER);
-            String encodedFileName = URLEncoder.encode(fileName, "UTF-8");
-            response.setHeader("Content-Disposition", "attachment; filename=" + encodedFileName + ".csv");
-
-            OutputStream os = response.getOutputStream();
-            // CSV表头
-            String header = "学员ID,学员姓名,性别,身份证号,班级,结业时间,结业状态,联系方式,备注\n";
-            String data = String.format(
-                    "2024001,张三,1,110101199001011234,高三1班,%s,1,13800138000,无\n",
-                    LocalDate.of(2024, 6, 30).format(DATE_FORMATTER)
-            );
-
-            os.write(header.getBytes("UTF-8"));
-            os.write(data.getBytes("UTF-8"));
-            os.flush();
-            os.close();
-        } catch (IOException e) {
-            response.setContentType("application/json;charset=utf-8");
-            try {
-                response.getWriter().write("{\"code\":200,\"msg\":\"导出成功\",\"data\":null}");
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            // 设置下载头（自动弹出保存）
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            response.setCharacterEncoding("utf-8");
+            String fileName = URLEncoder.encode("结业学员列表", "UTF-8");
+            response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ".xlsx");
+            // 执行导出
+            studentGraduationService.exportGraduationStudent(condition, response);
         } catch (Exception e) {
-            // 兜底：捕获所有异常，避免返回9994错误
-            response.setContentType("application/json;charset=utf-8");
-            try {
-                response.getWriter().write("{\"code\":200,\"msg\":\"导出成功（模拟）\",\"data\":null}");
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            throw new RuntimeException("导出失败");
         }
     }
     @Override
@@ -573,5 +550,41 @@ public class StudentController implements StudentApis {
     @ApiOperation(value = "获取课表")
     public JsonVO<StudentScheduleVO> getStudentSchedule(StudentQuery studentQuery) {
         return null;
+    }
+
+    /**
+     * 学员阶段设置
+     */
+    @PutMapping("/modify-stage")
+    @ApiOperation(value = "设置学员阶段状态", notes = "修改学员当前学习阶段")
+    public Result<Boolean> modifyStudentStage(@RequestBody StudentDTO studentDTO) {
+        // Service 返回原始 boolean
+        boolean success = studentService.updateStudentStage(studentDTO);
+        // 在 Controller 层进行 Result 包装
+        return success ? Result.ok() : Result.build(false, "阶段更新失败");
+    }
+
+    @PostMapping("/add-enroll")
+    @ApiOperation(value = "新增学员报名", notes = "关联课程并初始化课时流水")
+    public Result<Boolean> addStudentEnroll(@RequestBody StudentEnrollDTO enrollDTO) {
+        // 基础校验
+        if (enrollDTO.getStudentId() == null || enrollDTO.getCourseId() == null) {
+            return Result.build(false, "报名失败：学员ID和课程ID不能为空");
+        }
+
+        boolean isSuccess = studentService.saveStudentEnroll(enrollDTO);
+        return isSuccess ? Result.ok() : Result.build(false, "报名存入数据库失败");
+    }
+
+    /**
+     * 获取学员详情
+     */
+    @GetMapping("/query-detail/id")
+    @ApiOperation(value = "获取学员详细资料", notes = "根据ID查询单条详情")
+    public Result<StudentDTO> queryStudentDetail(Integer id) {
+        // Service 返回原始 DTO 对象
+        StudentDTO detail = studentService.getStudentDetail(id);
+        // 包装进 Result 的 result 字段
+        return Result.build(detail);
     }
 }

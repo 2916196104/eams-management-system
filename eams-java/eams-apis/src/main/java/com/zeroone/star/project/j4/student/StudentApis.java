@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import com.zeroone.star.project.vo.j4.student.FollowUpVO;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public interface StudentApis {
      * 获取跟进记录列表（条件+分页）
      * GET /j4/student/follow-up/page
      */
-    JsonVO<PageDTO<FollowUpDTO>> queryFollowUpPage(FollowUpQuery condition);
+    JsonVO<PageDTO<FollowUpVO>> queryFollowUpPage(FollowUpQuery condition);
 
     /**
      * 添加跟进记录
@@ -105,20 +106,16 @@ public interface StudentApis {
      */
     JsonVO<String> importOnlineStudents(MultipartFile file);
 
-    /**
-     * 导出在线学员
-     */
-    ResponseEntity<byte[]> exportOnlineStudents();
 
-    @ApiOperation("Save student information")
+    @ApiOperation("保存学员")
     @PostMapping("/student/save-student")
     JsonVO<String> saveStudent(@RequestBody StudentDTO dto);
 
-    @ApiOperation("Query student course times")
+    @ApiOperation("获取学员课次数据")
     @GetMapping("/student/query-course-times")
     JsonVO<StudentDetailVO> queryCourseTimes(@RequestParam String studentId);
 
-    @ApiOperation("List hour summary with condition and pagination")
+    @ApiOperation("获取课时汇总列表")
     @PostMapping("/student/list-hour-summary")
     JsonVO<PageDTO<LessonSummaryVO>> listHourSummary(@RequestBody StudentQuery query);
 
