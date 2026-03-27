@@ -42,14 +42,19 @@ public class ClassStudentServiceImpl extends ServiceImpl<ClassStudentMapper, Cla
             throw new IllegalArgumentException("班级 ID 必须大于 0");
         }
 
+//
 //        // 2. 获取当前登录用户 ID
 //        Long currentUserId = null;
 //        try {
-//            currentUserId = Long.valueOf(userHolder.getCurrentUser().getId());
-//
+//            String userIdStr = userHolder.getCurrentUser().getId();
+//            if (userIdStr != null && !userIdStr.isEmpty()) {
+//                currentUserId = Long.valueOf(userIdStr);
+//            } else {
+//                throw new RuntimeException("用户 ID 为空");
+//            }
 //        } catch (Exception e) {
-//            // 如果无法获取当前用户，使用默认值或抛出异常
-//            throw new RuntimeException("获取当前用户信息失败", e);
+//            log.error("获取当前用户信息失败", e);
+//            throw new RuntimeException("获取当前用户信息失败：" + e.getMessage(), e);
 //        }
 
         // 3. 创建待插入的学员记录列表
@@ -69,6 +74,7 @@ public class ClassStudentServiceImpl extends ServiceImpl<ClassStudentMapper, Cla
             classStudent.setCreator(currentUserId);            // 设置创建人
             classStudent.setDeleted(0);                        // 设置删除标记 (0-未删除)
             classStudent.setReason(1);                         // 设置加入原因 (1-正常加入)
+            classStudent.setRemark("加入班级");               // 设置备注
             classStudent.setConsume_course_id(consumeCourseId);           // 设置消费课程 ID
             studentRecords.add(classStudent);
         }
