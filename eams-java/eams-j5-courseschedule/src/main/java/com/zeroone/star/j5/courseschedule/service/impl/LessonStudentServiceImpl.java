@@ -41,16 +41,19 @@ public class LessonStudentServiceImpl extends ServiceImpl<LessonStudentMapper, L
 
     @Override
     public PageDTO<Map<String, Object>> queryStatusList(StudentStatusQuery query) {
-        long pageIndex = query != null && query.getPageIndex() > 0 ? query.getPageIndex() : 1L;
-        long pageSize = query != null && query.getPageSize() > 0 ? query.getPageSize() : 10L;
+        if (query == null || query.getLessonId() == null) {
+            throw new RuntimeException("lessonId不能为空");
+        }
+        long pageIndex = query.getPageIndex() > 0 ? query.getPageIndex() : 1L;
+        long pageSize = query.getPageSize() > 0 ? query.getPageSize() : 10L;
 
-        // 从 query 对象中提取 courseId
-        Long courseId = query != null ? query.getCourseId() : null;
-        String keyword = query != null ? query.getKeyword() : null;
-        String status = query != null ? query.getStatus() : null;
+        // 从 query 对象中提取 lessonId
+        Long lessonId = query.getLessonId();
+        String keyword = query.getKeyword();
+        String status = query.getStatus();
 
         Page<Map<String, Object>> page = new Page<>(pageIndex, pageSize);
-        IPage<Map<String, Object>> result = baseMapper.selectStudentStatusPage(page, courseId, keyword, status);
+        IPage<Map<String, Object>> result = baseMapper.selectStudentStatusPage(page, lessonId, keyword, status);
         return toPageDTO(result);
     }
 

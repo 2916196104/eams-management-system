@@ -1,7 +1,9 @@
 package com.zeroone.star.j5.courseschedule;
 
+import com.zeroone.star.project.config.mybatis.MybatisPlusConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
 
 /**
  * <p>
@@ -13,6 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @version 1.0.0
  */
 @SpringBootApplication
+@Import(MybatisPlusConfig.class)
 public class CourseScheduleApplication {
 
     public static void main(String[] args) {

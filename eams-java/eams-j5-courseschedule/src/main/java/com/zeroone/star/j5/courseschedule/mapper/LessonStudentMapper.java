@@ -20,21 +20,31 @@ public interface LessonStudentMapper extends BaseMapper<LessonStudent> {
     LessonStudent selectByLessonAndStudent(@Param("lessonId") Long lessonId, @Param("studentId") Long studentId);
 
     @Select("<script>" +
-            "SELECT ls.*, l.title lesson_title, l.date lesson_date, l.start_time, l.end_time, " +
-            "s.name student_name, u.mobile student_mobile, cls.name class_name " +
+            "SELECT ls.*, ls.id lesson_student_id, l.title lesson_title, l.date lesson_date, l.start_time, l.end_time, " +
+            "s.name student_name, u.mobile student_mobile, cls.name class_name, " +
+            "c.name consume_course_name, " +
+            "ls.lesson_count expected_lesson_count, ls.dec_lesson_count actual_lesson_count, " +
+            "ls.sign_type, ls.sign_state, " +
+            "CASE ls.sign_state " +
+            "WHEN 0 THEN '未签到' " +
+            "WHEN 1 THEN '已签到' " +
+            "WHEN 2 THEN '迟到' " +
+            "WHEN 3 THEN '请假' " +
+            "WHEN 4 THEN '旷课' " +
+            "ELSE '未知' END sign_state_name " +
             "FROM lesson_student ls " +
             "LEFT JOIN lesson l ON ls.lesson_id = l.id " +
             "LEFT JOIN student s ON ls.student_id = s.id " +
             "LEFT JOIN `user` u ON s.user_id = u.id " +
             "LEFT JOIN `class` cls ON ls.class_id = cls.id " +
-            "WHERE ls.id IS NOT NULL " +
-            "<if test='courseId != null'>AND l.course_id = #{courseId}</if>" +
+            "LEFT JOIN course c ON ls.consume_course_id = c.id " +
+            "WHERE ls.lesson_id = #{lessonId} " +
             "<if test='keyword != null and keyword != \"\"'>AND (s.name LIKE CONCAT('%', #{keyword}, '%') OR u.mobile LIKE CONCAT('%', #{keyword}, '%'))</if>" +
             "<if test='status != null and status != \"\"'>AND ls.sign_state = #{status}</if>" +
             "ORDER BY l.date DESC, l.start_time DESC" +
             "</script>")
     IPage<Map<String, Object>> selectStudentStatusPage(Page<Map<String, Object>> page,
-                                                        @Param("courseId") Long courseId,
+                                                        @Param("lessonId") Long lessonId,
                                                         @Param("keyword") String keyword,
                                                         @Param("status") String status);
 

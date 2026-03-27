@@ -6,8 +6,8 @@ import lombok.Data;
 
 @Data
 public class StudentStatusQuery extends PageQuery {
-    @ApiModelProperty(value = "课程ID", example = "1")
-    private Long courseId;
+    @ApiModelProperty(value = "课次ID", example = "1", required = true)
+    private Long lessonId;
 
     @ApiModelProperty(value = "搜索关键字(学员姓名/手机号)", example = "张三")
     private String keyword;

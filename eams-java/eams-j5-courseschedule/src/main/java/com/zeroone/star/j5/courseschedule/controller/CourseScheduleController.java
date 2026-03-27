@@ -117,12 +117,12 @@ public class CourseScheduleController implements CourseScheduleApis {
     }
 
 
-    @PutMapping("resume")
+    @PutMapping({"resume", "pause-resume"})
     @ApiOperation("停/复课")
     @Override
     public JsonVO<Integer> resumeLesson(@RequestBody CoursePauseResumeDTO coursePauseResumeDTO) {
         return JsonVO.success(lessonStudentService.pauseOrResumeLesson(
-                coursePauseResumeDTO.getCourseIds(),
+                coursePauseResumeDTO.getLessonIds(),
                 coursePauseResumeDTO.getIsResume()));
     }
 

@@ -60,6 +60,7 @@ class LessonStudentServiceImplTest {
     void queryStatusList_shouldReturnPagedResults() {
         // Arrange
         StudentStatusQuery query = new StudentStatusQuery();
+        query.setLessonId(1L);
         query.setPageIndex(1L);
         query.setPageSize(10L);
         query.setKeyword("keyword");
@@ -73,7 +74,7 @@ class LessonStudentServiceImplTest {
         page.setTotal(1);
         page.setRecords(new ArrayList<>(Arrays.asList(record)));
 
-        when(baseMapper.selectStudentStatusPage(any(Page.class), eq(null), eq("keyword"), eq("status")))
+        when(baseMapper.selectStudentStatusPage(any(Page.class), eq(1L), eq("keyword"), eq("status")))
             .thenReturn(page);
 
         // Act
@@ -86,22 +87,11 @@ class LessonStudentServiceImplTest {
     }
 
     @Test
-    void queryStatusList_shouldUseDefaultPagination_whenQueryNull() {
-        // Arrange
-        Page<Map<String, Object>> page = new Page<>(1, 10);
-        page.setTotal(0);
-        page.setRecords(new ArrayList<>());
-
-        when(baseMapper.selectStudentStatusPage(any(Page.class), any(), any(), any()))
-            .thenReturn(page);
-
-        // Act
-        PageDTO<Map<String, Object>> result = lessonStudentService.queryStatusList(null);
-
-        // Assert
-        assertThat(result).isNotNull();
-        assertThat(result.getPageIndex()).isEqualTo(1);
-        assertThat(result.getPageSize()).isEqualTo(10);
+    void queryStatusList_shouldThrowException_whenQueryNull() {
+        assertThatThrownBy(() -> lessonStudentService.queryStatusList(null))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("lessonId不能为空");
+        verify(baseMapper, never()).selectStudentStatusPage(any(Page.class), any(), any(), any());
     }
 
     @Test
@@ -461,12 +451,12 @@ class LessonStudentServiceImplTest {
     // ==================== 补充边界条件测试 ====================
 
     @Test
-    void queryStatusList_shouldWorkWithCourseIdFilter() {
-        // Arrange - 使用 StudentStatusQuery（包含 courseId）
+    void queryStatusList_shouldWorkWithLessonIdFilter() {
+        // Arrange - 使用 StudentStatusQuery（包含 lessonId）
         StudentStatusQuery query = new StudentStatusQuery();
         query.setPageIndex(1L);
         query.setPageSize(20L);
-        query.setCourseId(100L);
+        query.setLessonId(100L);
 
         Map<String, Object> record = new HashMap<>();
         record.put("id", 1L);
@@ -476,7 +466,7 @@ class LessonStudentServiceImplTest {
         page.setTotal(1);
         page.setRecords(new ArrayList<>(Arrays.asList(record)));
 
-        // 传入的 keyword 和 status 为 null，courseId 为 100L
+        // 传入的 keyword 和 status 为 null，lessonId 为 100L
         when(baseMapper.selectStudentStatusPage(any(Page.class), eq(100L), isNull(), isNull()))
             .thenReturn(page);
 
@@ -496,7 +486,7 @@ class LessonStudentServiceImplTest {
         StudentStatusQuery query = new StudentStatusQuery();
         query.setPageIndex(1L);
         query.setPageSize(10L);
-        query.setCourseId(100L);
+        query.setLessonId(100L);
         query.setKeyword("张三");
         query.setStatus("1");
 
@@ -649,6 +639,7 @@ class LessonStudentServiceImplTest {
     void queryStatusList_shouldPassCorrectPageIndexAndSize() {
         // Arrange
         StudentStatusQuery query = new StudentStatusQuery();
+        query.setLessonId(200L);
         query.setPageIndex(3L);
         query.setPageSize(20L);
 
@@ -674,6 +665,7 @@ class LessonStudentServiceImplTest {
     void queryStatusList_shouldUseDefaultPageIndex_whenZero() {
         // Arrange - pageIndex 为 0 时应使用默认值 1
         StudentStatusQuery query = new StudentStatusQuery();
+        query.setLessonId(200L);
         query.setPageIndex(0L);
         query.setPageSize(10L);
 
@@ -698,6 +690,7 @@ class LessonStudentServiceImplTest {
     void queryStatusList_shouldUseDefaultPageSize_whenNegative() {
         // Arrange - pageSize 为负数时应使用默认值 10
         StudentStatusQuery query = new StudentStatusQuery();
+        query.setLessonId(200L);
         query.setPageIndex(1L);
         query.setPageSize(-5L);
 

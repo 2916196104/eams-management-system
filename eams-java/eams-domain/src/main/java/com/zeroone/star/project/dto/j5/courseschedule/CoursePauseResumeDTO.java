@@ -11,7 +11,7 @@ import java.util.List;
 public class CoursePauseResumeDTO {
 
     @ApiModelProperty(value = "课次ID列表", required = true, example = "[1001, 1002]")
-    List<Long> courseIds;
+    private List<Long> lessonIds;
 
 
     @ApiModelProperty(value = "是否复课", notes = "true=复课，false=停课",
