@@ -265,7 +265,7 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
 
     @Override
     public JsonVO<Long> updateStaffStatus(StaffUpdateDTO condition) {
-        List<Long> ids = condition.getIds();
+        List<Long> ids = condition.getStaffIds();
         Integer status = condition.getStatus();
         if (ids == null || ids.isEmpty()) {
             return JsonVO.fail("请选择要操作的员工");
@@ -287,9 +287,14 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
 
     @Override
     public JsonVO<Long> setStaff(StaffSetDTO condition) {
-        List<Long> staffIds = condition.getIds();
+        List<Long> staffIds = condition.getStaffIds(); // 从 getIds() 改为 getStaffIds()
         Long positionId = condition.getPositionId();
+        Long roleId = condition.getRoleId(); // 新增：获取 roleId
 
+        // 新增 roleId 校验
+        if (roleId == null) {
+            return JsonVO.fail("请选择要设置的角色");
+        }
         if (staffIds == null || staffIds.isEmpty()) {
             return JsonVO.fail("请选择要设置角色的员工");
         }

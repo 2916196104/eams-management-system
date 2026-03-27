@@ -7,9 +7,10 @@ import java.util.List;
 
 @Data
 public class StaffSetDTO {
-    @ApiModelProperty(value = "员工ID（新增时不传，编辑时传）", example = "1")
-    private List<Long> ids;
-
-    @ApiModelProperty(value = "员工职位", example = "1")
-    private long positionId ;
+    @ApiModelProperty(value = "员工id", required = true, example = "[1]")
+    private List<Long> staffIds;
+    @ApiModelProperty(value = "角色id", required = true, example = "1")
+    private Long roleId;
+    @ApiModelProperty(value = "职位id", required = true, example = "1")
+    private Long positionId;
 }
