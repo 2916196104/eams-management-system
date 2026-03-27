@@ -18,6 +18,8 @@ import com.zeroone.star.project.vo.j1.org.StaffVO;
 import com.zeroone.star.project.vo.j1.org.ClassRecordVO;
 //import com.zeroone.star.project.vo.j1.org.TeachRecordVO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,18 +47,47 @@ import java.util.List;
 public class StaffController implements StaffMangerApis {
     @Autowired
     private StaffService staffService;
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "Authorization",
+                    value = "认证Token（登录后获取）",
+                    required = true, // 标记为必填，前端就知道必须传
+                    dataType = "string",
+                    paramType = "header"
+            )
+    })
     @GetMapping("/getpage")
     @ApiOperation("获取员工列表（条件+分页）")
     @Override
     public JsonVO<PageDTO<StaffVO>> queryPage(StaffQuery condition) {
         return staffService.queryPage(condition);
     }
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "Authorization",
+                    value = "认证Token（登录后获取）",
+                    required = true, // 标记为必填，前端就知道必须传
+                    dataType = "string",
+                    paramType = "header"
+            )
+    })
     @GetMapping("/get")
     @Override
     @ApiOperation("获取员工详情")
     public JsonVO<StaffDetailsVO> queryStaff(StaffDetailQuery condition) {
         return staffService.queryStaff(condition);
     }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "Authorization",
+                    value = "认证Token（登录后获取）",
+                    required = true, // 标记为必填，前端就知道必须传
+                    dataType = "string",
+                    paramType = "header"
+            )
+    })
        @PostMapping("/save")
     @Override
     @ApiOperation("保存员工")
