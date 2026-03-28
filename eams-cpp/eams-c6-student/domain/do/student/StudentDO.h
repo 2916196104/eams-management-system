@@ -365,5 +365,73 @@ public:
 };
 typedef std::shared_ptr<JoinclassDO> PtrJoinclassDO;
 
+/**
+*  Excel导入导出数据库实体类
+**/
+class ExcelStudentDO : public BaseDO
+{
+	MYSQL_SYNTHESIZE(string, id, Id);
+	MYSQL_SYNTHESIZE(string, userId, UserId);
+	MYSQL_SYNTHESIZE(int, familyRel, FamilyRel);
+	MYSQL_SYNTHESIZE(string, schoolId, SchoolId);
+	MYSQL_SYNTHESIZE(string, name, Name);
+	MYSQL_SYNTHESIZE(int, deleted, Deleted);
+	MYSQL_SYNTHESIZE(int, stage, Stage);
+	MYSQL_SYNTHESIZE(int, gender, Gender);
+	MYSQL_SYNTHESIZE(string, birthday, Birthday);
+	MYSQL_SYNTHESIZE(string, headImg, HeadImg);
+	MYSQL_SYNTHESIZE(string, joinWay, JoinWay);
+	MYSQL_SYNTHESIZE(string, remark, Remark);
+	MYSQL_SYNTHESIZE(string, graduationDate, GraduationDate);
+	MYSQL_SYNTHESIZE(string, graduationReason, GraduationReason);
+	MYSQL_SYNTHESIZE(string, addTime, AddTime);
+	MYSQL_SYNTHESIZE(string, counselor, Counselor);
+	MYSQL_SYNTHESIZE(string, creator, Creator);
+	MYSQL_SYNTHESIZE(string, editor, Editor);
+	MYSQL_SYNTHESIZE(string, editTime, EditTime);
+	MYSQL_SYNTHESIZE(string, idcard, Idcard);
+	MYSQL_SYNTHESIZE(string, redpointGrade, RedpointGrade);
+	MYSQL_SYNTHESIZE(string, redpointEvaluate, RedpointEvaluate);
+	MYSQL_SYNTHESIZE(int, grade, Grade);
+	MYSQL_SYNTHESIZE(string, joinDate, JoinDate);
+	MYSQL_SYNTHESIZE(string, wxAccessId, WxAccessId);
+	MYSQL_SYNTHESIZE(int, credit, Credit);
+	MYSQL_SYNTHESIZE(string, orgId, OrgId);
+	MYSQL_SYNTHESIZE(int, gradeId, GradeId);
+
+public:
+	ExcelStudentDO() : BaseDO("student")
+	{
+		MYSQL_ADD_FIELD_PK("id", "s", id);
+		MYSQL_ADD_FIELD("user_id", "s", userId);
+		MYSQL_ADD_FIELD("family_rel", "i", familyRel);
+		MYSQL_ADD_FIELD("school_id", "s", schoolId);
+		MYSQL_ADD_FIELD("name", "s", name);
+		MYSQL_ADD_FIELD("deleted", "i", deleted);
+		MYSQL_ADD_FIELD("stage", "i", stage);
+		MYSQL_ADD_FIELD("gender", "i", gender);
+		MYSQL_ADD_FIELD("birthday", "s", birthday);
+		MYSQL_ADD_FIELD("head_img", "s", headImg);
+		MYSQL_ADD_FIELD("join_way", "s", joinWay);
+		MYSQL_ADD_FIELD("remark", "s", remark);
+		MYSQL_ADD_FIELD("graduation_date", "s", graduationDate);
+		MYSQL_ADD_FIELD("graduation_reason", "s", graduationReason);
+		MYSQL_ADD_FIELD("add_time", "s", addTime);
+		MYSQL_ADD_FIELD("counselor", "s", counselor);
+		MYSQL_ADD_FIELD("creator", "s", creator);
+		MYSQL_ADD_FIELD("editor", "s", editor);
+		MYSQL_ADD_FIELD("edit_time", "s", editTime);
+		MYSQL_ADD_FIELD("idcard", "s", idcard);
+		MYSQL_ADD_FIELD("redpoint_grade", "s", redpointGrade);
+		MYSQL_ADD_FIELD("redpoint_evaluate", "s", redpointEvaluate);
+		MYSQL_ADD_FIELD("grade", "i", grade);
+		MYSQL_ADD_FIELD("join_date", "s", joinDate);
+		MYSQL_ADD_FIELD("wx_access_id", "s", wxAccessId);
+		MYSQL_ADD_FIELD("credit", "i", credit);
+		MYSQL_ADD_FIELD("org_id", "s", orgId);
+		MYSQL_ADD_FIELD("grade_id", "i", gradeId);
+	}
+};
+typedef std::shared_ptr<ExcelStudentDO> PtrExcelStudentDO;
 
 #endif

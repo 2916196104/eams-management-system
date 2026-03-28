@@ -29,23 +29,23 @@ public:
 	);
 	// 定义导出接口处理
 	API_HANDLER_ENDPOINT_OPTION_AUTH(
-		API_M_GET,
+		API_M_POST,
 		"/c6/student/intended/export",
 		exportExcel,
 		BODY_DTO(List<String>, ids),
 		auto response = execExportExcel(ids);
-		return response;  // 直接返回 Response，不经过 createDtoResponse
-	);
+	return response;
+		);
 
 	// 定义导入接口描述
 	API_DEF_ENDPOINT_INFO_FILE_AUTH(
 		ZH_WORDS_GETTER("intendedstudent.interface.import"),		// 标题
 		importExcel,												// 函数名
-		IntendImportDTO::Wrapper,									// 文件表单DTO
+		IntendedImportDTO::Wrapper,									// 文件表单DTO
 		StringJsonVO::Wrapper,										// 响应JSON
 		API_TAG														// 标签
 	);
-	// 定义导出接口处理
+	// 定义导入接口处理
 	API_HANDLER_ENDPOINT_AUTH(
 		API_M_POST,													// POST方法
 		"/c6/student/intended/import",								// URL
