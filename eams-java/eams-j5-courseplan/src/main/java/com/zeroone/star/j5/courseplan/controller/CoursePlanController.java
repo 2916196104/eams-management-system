@@ -3,6 +3,7 @@ package com.zeroone.star.j5.courseplan.controller;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.zeroone.star.j5.courseplan.service.ClassService;
+import com.zeroone.star.j5.courseplan.service.ICoursePlanService;
 import com.zeroone.star.j5.courseplan.service.ScheduleService;
 import com.zeroone.star.j5.courseplan.service.StaffService;
 import com.zeroone.star.project.dto.PageDTO;
@@ -22,6 +23,7 @@ import com.zeroone.star.project.vo.j5.courseschedule.ConflictCheckVO;
 import com.zeroone.star.project.vo.j5.courseschedule.DeleteLessonResultVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +45,7 @@ import java.util.List;
 @Api(tags = "排课计划管理", description = "排课计划的批量生成课表、冲突检查、删除课表等操作接口")
 @ApiSupport(author = "j5-courseschedule", order = 1)
 @Validated
+@RequiredArgsConstructor
 public class CoursePlanController implements CoursePlanApi {
     @Resource
     private ScheduleService scheduleService;
@@ -50,6 +53,8 @@ public class CoursePlanController implements CoursePlanApi {
     private ClassService classService;
     @Resource
     private StaffService staffService;
+
+    private final ICoursePlanService coursePlanService;
 
 
 
@@ -120,7 +125,8 @@ public class CoursePlanController implements CoursePlanApi {
     @ApiOperationSupport(order = 1, author = "j5-courseschedule")
     public JsonVO<BatchGenerateLessonVO> batchGenerateLessons(
             @Valid @RequestBody BatchGenerateLessonDTO dto) {
-        return null;
+        BatchGenerateLessonVO result = coursePlanService.batchGenerateLessons(dto);
+        return JsonVO.success(result);
     }
 
     /**
@@ -136,7 +142,8 @@ public class CoursePlanController implements CoursePlanApi {
     @ApiOperationSupport(order = 2, author = "j5-courseschedule")
     public JsonVO<ConflictCheckVO> checkConflict(
             @Valid @RequestBody ConflictCheckDTO dto) {
-        return null;
+        ConflictCheckVO result = coursePlanService.checkConflict(dto);
+        return JsonVO.success(result);
     }
 
     /**
@@ -152,7 +159,7 @@ public class CoursePlanController implements CoursePlanApi {
     @ApiOperationSupport(order = 3, author = "j5-courseschedule")
     public JsonVO<DeleteLessonResultVO> deleteLessons(
             @Valid @RequestBody DeleteLessonDTO dto) {
-        // 模拟返回测试数据
-        return null;
+        DeleteLessonResultVO result = coursePlanService.deleteLessons(dto);
+        return JsonVO.success(result);
     }
 }
