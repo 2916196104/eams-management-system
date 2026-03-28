@@ -1,6 +1,7 @@
 package com.zeroone.star.student.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zeroone.star.j4.entity.Course;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j4.student.*;
 import com.zeroone.star.project.dto.j4.student.StudentDTO;
@@ -9,7 +10,9 @@ import com.zeroone.star.project.dto.j4.student.FollowUpDTO;
 import com.zeroone.star.project.j4.student.StudentApis;
 import com.zeroone.star.project.query.j4.student.*;
 import com.zeroone.star.project.vo.j4.student.*;
+import com.zeroone.star.student.entity.CourseDO;
 import com.zeroone.star.student.entity.StudentCourse;
+import com.zeroone.star.student.entity.SubjectDO;
 import com.zeroone.star.student.service.*;
 import com.zeroone.star.project.query.j4.student.FinanceQuery;
 import com.zeroone.star.project.vo.JsonVO;
@@ -37,10 +40,9 @@ import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
-import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -564,41 +566,34 @@ public class StudentController implements StudentApis {
         Page<StudentCourse> studentCoursePage = studentCourseService.lambdaQuery()
                 .eq(StudentCourse::getStudentId, studentId)
                 .page(page);
-        List<StudentCourse> studentCourseList = studentCoursePage.getRecords();
 
-        // 将student_course转换为VO
-        List<CourseCounterVO> courseCounterVOList = msStudentMapper.toCourseCounterVOList(studentCourseList);
-
-        // 遍历列表，转换课程名、科目名
-        if (courseCounterVOList != null && !courseCounterVOList.isEmpty()) {
-            for (CourseCounterVO vo : courseCounterVOList) {
-                try {
-                    String courseId = vo.getCourseName();
-                    if (courseId != null && !courseId.trim().isEmpty()) {
-                        String courseName = courseService.getById(courseId).getName();
-                        if (courseName != null) {
-                            vo.setCourseName(courseName);
-                        }
-                    }
-
-                    String subjectId = vo.getSubjectName();
-                    if (subjectId != null && !subjectId.trim().isEmpty()) {
-                        String subjectName = subjectService.getById(subjectId).getName();
-                        if (subjectName != null) {
-                            vo.setSubjectName(subjectName);
-                        }
-                    }
-                } catch (Exception e) {
-                }
-            }
+        List<StudentCourse> records = studentCoursePage.getRecords();
+        if (records == null || records.isEmpty()) {
+            // 如果没有数据，直接利用您之前的静态方法返回空的分页对象
+            return JsonVO.success(null);
         }
 
-        PageDTO<CourseCounterVO> pageDTO = new PageDTO<>();
-        pageDTO.setTotal(page.getTotal());
-        pageDTO.setRows(courseCounterVOList);
-        pageDTO.setPageIndex(studentQuery.getPageIndex());
-        pageDTO.setPageSize(studentQuery.getPageSize());
-        pageDTO.setPages(page.getPages());
+        // 提取当前页所有的 courseId 和 subjectId
+        Set<Long> courseIds = records.stream().map(StudentCourse::getCourseId).collect(Collectors.toSet());
+        Set<Long> subjectIds = records.stream().map(StudentCourse::getSubjectId).collect(Collectors.toSet());
+
+        // 一次性查出当前页涉及的所有课程和科目
+        Map<Long, String> courseNameMap = courseService.listByIds(courseIds).stream()
+                .collect(Collectors.toMap(CourseDO::getId, CourseDO::getName));
+        Map<Long, String> subjectNameMap = subjectService.listByIds(subjectIds).stream()
+                .collect(Collectors.toMap(SubjectDO::getId, SubjectDO::getName));
+
+        // ================= 组装数据并返回 =================
+        PageDTO<CourseCounterVO> pageDTO = PageDTO.create(studentCoursePage, entity -> {
+            // 先用 Mapper 做基础转换
+            CourseCounterVO vo = msStudentMapper.toCourseCounterVO(entity);
+
+            // 再补全缺失的名称字段 (直接从内存 Map 中取，极快)
+            vo.setCourseName(courseNameMap.getOrDefault(entity.getCourseId(), "未知课程"));
+            vo.setSubjectName(subjectNameMap.getOrDefault(entity.getSubjectId(), "未知科目"));
+
+            return vo;
+        });
 
         return JsonVO.success(pageDTO);
     }
@@ -607,7 +602,7 @@ public class StudentController implements StudentApis {
     @PostMapping("/getStudentSchedule")
     @ApiOperation(value = "获取课表")
     public JsonVO<StudentScheduleVO> getStudentSchedule(StudentQuery studentQuery) {
-        return null;
+
     }
 
     /**
