@@ -28,6 +28,15 @@ export type CalendarCourse = {
 	title: string;
 };
 
+export const COURSE_STATUS_COLOR_MAP: Record<string, string> = {
+	正常: "#67c23a",
+	待上课: "#409eff",
+	进行中: "#e6a23c",
+	调课: "#8b5cf6",
+	停课: "#f56c6c",
+	已完成: "#909399",
+};
+
 export function formatDate(date: Date) {
 	const year = date.getFullYear();
 	const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -49,6 +58,20 @@ export function normalizeLessonCalendarRows(rows: LessonCalendarVO[] | undefined
 		endTime: item.endTime || "",
 		title: item.title || item.courseName || "-",
 	}));
+}
+
+export function getCourseStatusLabel(status?: string) {
+	return (status || "").trim() || "未设置";
+}
+
+export function getCourseStatusColor(status?: string) {
+	const label = getCourseStatusLabel(status);
+	if (COURSE_STATUS_COLOR_MAP[label]) return COURSE_STATUS_COLOR_MAP[label];
+	if (label.includes("停")) return COURSE_STATUS_COLOR_MAP.停课;
+	if (label.includes("正常") || label.includes("开")) return COURSE_STATUS_COLOR_MAP.正常;
+	if (label.includes("进行")) return COURSE_STATUS_COLOR_MAP.进行中;
+	if (label.includes("完成") || label.includes("结束")) return COURSE_STATUS_COLOR_MAP.已完成;
+	return "#6b7280";
 }
 
 export function mapViewModeToViewType(viewMode: ScheduleCalendarViewMode) {

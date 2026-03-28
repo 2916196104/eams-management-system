@@ -598,10 +598,6 @@ function handleCellClick(cell: CalendarCell) {
 	background: #fff;
 }
 
-.week-cell:hover {
-	background-color: #f5f7fa;
-}
-
 .week-cell:nth-child(7n + 1) {
 	border-right: 1px solid #ebeef5;
 }
