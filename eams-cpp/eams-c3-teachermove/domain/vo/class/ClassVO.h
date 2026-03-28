@@ -28,6 +28,12 @@ class ClassDetailJsonVO : public JsonVO<ClassDetailDTO::Wrapper> {
 class ClassDetailPageJsonVO : public JsonVO<ClassDetailPageDTO::Wrapper> {
 	DTO_INIT(ClassDetailPageJsonVO, JsonVO<ClassDetailPageDTO::Wrapper>);
 };
+
+// 学员详情JsonVO
+class StudentDetailJsonVO : public JsonVO<oatpp::Object<StudentDetailDTO>> {
+	DTO_INIT(StudentDetailJsonVO, JsonVO<oatpp::Object<StudentDetailDTO>>);
+};
+
 #include OATPP_CODEGEN_END(DTO)
 
 #endif

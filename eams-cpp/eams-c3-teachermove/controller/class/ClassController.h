@@ -80,7 +80,7 @@ public:
  // 定义接口
 	// 3.1 定义获取班级学员详情接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(
-		ZH_WORDS_GETTER("class.endpoints.getStudentDetail.title"), getStudentDetail, oatpp::Object<StudentDetailDTO>, API_TAG,
+		ZH_WORDS_GETTER("class.endpoints.getStudentDetail.title"), getStudentDetail, StudentDetailJsonVO::Wrapper, API_TAG,
 		API_DEF_ADD_QUERY_PARAMS(String, "studentId", ZH_WORDS_GETTER("class.endpoints.getStudentDetail.params.studentId"), "studentId", true);
 	);
 	// 3.2 定义获取班级学员详情接口处理
@@ -121,13 +121,9 @@ private:
 		return ClassStudentPageJsonVO::createShared();
 	}
 	// 3.3 执行获取班级学员详情
-	oatpp::Object<StudentDetailDTO> execGetStudentDetail(const String& studentId) {
-		return classService.getStudentDetail(studentId);
-	}
+	StudentDetailJsonVO::Wrapper execGetStudentDetail(const String& studentId);
 	// 3.3 执行获取班级学员课程列表
-	CoursePageJsonVO::Wrapper execGetStudentCourseList(const oatpp::String& studentId, const oatpp::String& pageIndex, const oatpp::String& pageSize, const PayloadDTO& payload) {
-		return classService.getStudentCourseList(studentId, pageIndex, pageSize, payload);
-	}
+	CoursePageJsonVO::Wrapper execGetStudentCourseList(const oatpp::String& studentId, const oatpp::String& pageIndex, const oatpp::String& pageSize, const PayloadDTO& payload);
 };
 
 #undef API_TAG
