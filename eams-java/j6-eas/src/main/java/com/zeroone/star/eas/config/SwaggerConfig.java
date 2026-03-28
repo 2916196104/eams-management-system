@@ -6,14 +6,12 @@ import org.springframework.context.annotation.Configuration;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
-/**
- * Swagger配置类
- */
 @Configuration
 @EnableSwagger2WebMvc
 public class SwaggerConfig {
+
     @Bean
-    Docket gradeManagerApi() {
+    public Docket financeApi() {
         return SwaggerCore.defaultDocketBuilder(
             "年级管理模块",
             "com.zeroone.star.eas.controller",

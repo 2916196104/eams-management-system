@@ -98,7 +98,18 @@ public class CashoutController implements CashoutApis {
     @ApiOperationSupport(order = 1)
     @Override
     public JsonVO<Void> batchPass(@RequestBody BatchVerifyDTO dto) {
-        return null;
+        try {
+            // 校验ID列表不能为空
+            if (dto.getIds() == null || dto.getIds().isEmpty()) {
+                return JsonVO.fail("请选择至少一条请款记录");
+            }
+            // 设置审核状态为通过（1）
+            dto.setVerifyState(1);
+            cashoutService.batchVerify(dto);
+            return JsonVO.success(null);
+        } catch (Exception e) {
+            return JsonVO.fail("批量通过请款失败：" + e.getMessage());
+        }
     }
 
     /**
@@ -109,6 +120,21 @@ public class CashoutController implements CashoutApis {
     @ApiOperationSupport(order = 2)
     @Override
     public JsonVO<Void> batchReject(@RequestBody BatchVerifyDTO dto) {
-        return null;
+        try {
+            // 校验ID列表不能为空
+            if (dto.getIds() == null || dto.getIds().isEmpty()) {
+                return JsonVO.fail("请选择至少一条请款记录");
+            }
+            // 校验驳回备注必填
+            if (dto.getVerifyRemark() == null || dto.getVerifyRemark().trim().isEmpty()) {
+                return JsonVO.fail("驳回请款时必须填写备注");
+            }
+            // 设置审核状态为驳回（2）
+            dto.setVerifyState(2);
+            cashoutService.batchVerify(dto);
+            return JsonVO.success(null);
+        } catch (Exception e) {
+            return JsonVO.fail("批量驳回请款失败：" + e.getMessage());
+        }
     }
 }

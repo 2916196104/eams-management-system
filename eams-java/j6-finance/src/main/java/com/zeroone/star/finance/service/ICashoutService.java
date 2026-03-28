@@ -3,6 +3,7 @@ package com.zeroone.star.finance.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zeroone.star.project.dataobject.j6.finance.CashoutDO;
 import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j6.finance.BatchVerifyDTO;
 import com.zeroone.star.project.dto.j6.finance.CashoutAddDTO;
 import com.zeroone.star.project.query.j6.finance.CashoutListQuery;
 import com.zeroone.star.project.vo.j6.finance.CashoutDetailVO;
@@ -39,4 +40,10 @@ public interface ICashoutService extends IService<CashoutDO> {
      * @param id 请款ID
      */
     void cancelCashout(Long id);
+
+    /**
+     * 批量审核请款（通过/驳回）
+     * @param dto 批量审核参数
+     */
+    void batchVerify(BatchVerifyDTO dto);
 }

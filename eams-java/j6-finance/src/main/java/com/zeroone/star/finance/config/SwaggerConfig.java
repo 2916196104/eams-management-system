@@ -1,5 +1,7 @@
 package com.zeroone.star.finance.config;
 
+import com.zeroone.star.project.components.jwt.JwtComponent;
+import com.zeroone.star.project.components.user.UserHolder;
 import com.zeroone.star.project.config.swagger.SwaggerCore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,5 +21,15 @@ public class SwaggerConfig {
             "com.zeroone.star.finance.controller",
             "finance"
         );
+    }
+
+    @Bean
+    public JwtComponent jwtComponent() {
+        return new JwtComponent(); // 创建JwtComponent实例并交给Spring管理
+    }
+
+    @Bean
+    public UserHolder userHolder() {
+        return new UserHolder();
     }
 }
