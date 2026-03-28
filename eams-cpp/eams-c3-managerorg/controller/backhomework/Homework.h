@@ -37,7 +37,6 @@ public:		//定义接口
 	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "org/backhomework/get-homework-list", GetHomeworkList, QUERIES(QueryParams, queryParams),
 		API_HANDLER_QUERY_PARAM(query, GetHomeworkListQuery, queryParams); API_HANDLER_RESP_VO(execGetHomeworkList(query)););
 
-
 	//定义获取作业详情描述
 	// GetHomeworkDetail，获取指定行的详细数据，用于编辑或查看
 	//流程中点击，应该是传作业id，返回作业的标题，班级，内容
@@ -47,7 +46,6 @@ public:		//定义接口
 	);
 	//定义获取作业描述处理，GetHomeworkDetail
 	API_HANDLER_ENDPOINT_AUTH("GET", "org/backhomework/get-homework-detail", GetHomeworkDetail, QUERY(UInt64, id), execGetHomeworkDetail(id));
-
 
 	//定义保存作业描述，SaveHomework
 	//新增不用上传唯一id，修改要上传唯一id

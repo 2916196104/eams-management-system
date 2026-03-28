@@ -4,6 +4,8 @@
 #include "../../service/backhomework/HomeworkService.h"
 
 //获取作业列表（条件+分页）
+//修改前端该传入的数据，在query中
+//修改后端该传出的数据，在Service中ZO_STAR_DOMAIN_DO_TO_DTO，DAO中sql编写，VO，Mapper
 GetHomeworkListJsonVO::Wrapper Homework::execGetHomeworkList(const GetHomeworkListQuery::Wrapper& query) {
 	// 查询数据
 	auto result = HomeworkService().gethomeworklist(query);
@@ -26,7 +28,7 @@ GetHomeworkDetailJsonVO::Wrapper Homework::execGetHomeworkDetail(UInt64 id) {
 		return jvo;
 	}
 
-	// 执行数据新增
+	// 执行
 	auto res = HomeworkService().gethomeworkdetail(id.getValue({}));
 	jvo->success(res);
 
@@ -50,13 +52,9 @@ StringJsonVO::Wrapper Homework::execSaveHomework(const SaveHomeworkDTO::Wrapper&
 	// 执行
 	dto->setPayload(&payload);
 	bool id = HomeworkService().saveHomework(dto);
-	if (id == true) {
-		jvo->success("success");
-	}
-	else
-	{
-		jvo->fail("");
-	}
+	if (id == true) {jvo->success("success");}
+	else{jvo->fail("");}
+
 	//响应结果
 	return jvo;
 }

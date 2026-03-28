@@ -44,12 +44,6 @@ class GetHomeworkListQuery : public PageQuery {
 };
 
 
-//获取作业详情
-class GetHomeworkDetailQuery : public PageQuery {
-	DTO_INIT(GetHomeworkListQuery, PageQuery);
-
-};
-
 #include OATPP_CODEGEN_END(DTO)
 
 #endif

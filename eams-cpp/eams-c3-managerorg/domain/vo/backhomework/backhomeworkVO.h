@@ -97,14 +97,13 @@ public:
 
 
 //获取作业列表（条件+分页）
-//返回了标题，班级，提交量（数据库没这个功能），发布人，发布时间
+//返回了id（虽然没看的，但下一步获取作业详情要id）,标题，班级，提交量（数据库没这个功能），发布人，发布时间
 class GetHomeworkListJsonVO : public JsonVO<GetHomeworkListPageDTO::Wrapper> {
 	DTO_INIT(GetHomeworkListJsonVO, JsonVO<GetHomeworkListPageDTO::Wrapper>);
 
 	DTO_FIELD(oatpp::Int64, id);
 	DTO_FIELD(oatpp::String, title);
 	DTO_FIELD(oatpp::Int64, class_id);
-	DTO_FIELD(oatpp::String, content);
 	DTO_FIELD(oatpp::Int64, creator);
 	DTO_FIELD(oatpp::String, addtime);
 };

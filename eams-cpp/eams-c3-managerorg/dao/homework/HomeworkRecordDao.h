@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef _HOMEWORK_DAO_
-#define _HOMEWORK_DAO_
+#ifndef _HOMEWORK_RECORD_DAO_
+#define _HOMEWORK_RECORD_DAO_
 #include "BaseDAO.h"
 #include "../../domain/do/homework/HomeworkRecordDO.h"
 #include "../../domain/do/homework/HomeworkDO.h"
@@ -19,4 +19,4 @@ class HomeworkRecordDAO : public BaseDAO
 {
 
 };
-#endif // !_HOMEWORK_DAO_
+#endif
