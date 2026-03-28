@@ -62,10 +62,35 @@
 					<el-button circle @click="handlePrint">
 						<IconifyIconOffline icon="ep/printer" width="16" height="16" />
 					</el-button>
-					<el-button circle @click="handleCustomSort">
-						<IconifyIconOffline icon="ep/menu" width="16" height="16" />
-					</el-button>
-					<el-button circle @click="handleExport">
+					<el-popover v-model:visible="columnPopoverVisible" placement="bottom-end" :width="640">
+						<template #reference>
+							<span class="column-trigger-wrap">
+								<el-button circle @click="openColumnPopover">
+									<IconifyIconOffline icon="ep/menu" width="16" height="16" />
+								</el-button>
+							</span>
+						</template>
+						<div class="column-popover">
+							<div class="column-title">自定义显示列：</div>
+							<div class="column-options">
+								<el-checkbox v-model="columnDraft.addTime">报名时间</el-checkbox>
+								<el-checkbox v-model="columnDraft.studentName">学员</el-checkbox>
+								<el-checkbox v-model="columnDraft.courseName">课程</el-checkbox>
+								<el-checkbox v-model="columnDraft.subjectName">科目</el-checkbox>
+								<el-checkbox v-model="columnDraft.operatorName">经办人</el-checkbox>
+								<el-checkbox v-model="columnDraft.amount">金额</el-checkbox>
+								<el-checkbox v-model="columnDraft.countLessonComplete">已完成课时</el-checkbox>
+								<el-checkbox v-model="columnDraft.countLessonTotal">总课时</el-checkbox>
+								<el-checkbox v-model="columnDraft.remainingLessons">剩余课次</el-checkbox>
+								<el-checkbox v-model="columnDraft.verifyState">审核状态</el-checkbox>
+							</div>
+							<div class="column-actions">
+								<el-button link @click="restoreColumns">恢复</el-button>
+								<el-button link type="primary" @click="confirmColumns">确认</el-button>
+							</div>
+						</div>
+					</el-popover>
+					<el-button circle @click="handleExport" :loading="exporting">
 						<IconifyIconOffline icon="ep/download" width="16" height="16" />
 					</el-button>
 				</div>
@@ -138,7 +163,7 @@ const tableAttr: MyTableAttr = {
 	"highlight-current-row": true,
 };
 // 报名记录表格列
-const tableColumns: MyTableColumn[] = [
+const baseTableColumns: MyTableColumn[] = [
 	{ prop: "addTime", label: "报名时间", width: "160px", align: "center" },
 	{ prop: "studentName", label: "学员", "min-width": 120 },
 	{ prop: "courseName", label: "课程", "min-width": 120 },
@@ -151,10 +176,32 @@ const tableColumns: MyTableColumn[] = [
 	{ prop: "verifyState", label: "审核状态", width: "100px", align: "center" },
 ];
 
+const tableColumns = computed(() => {
+	return baseTableColumns.filter((col) => visibleColumns[col.prop as keyof typeof visibleColumns] !== false);
+});
+
 const pageIndex = ref(1);
 const pageSize = ref(20);
 const pageData = ref(createPageDTO<SignupRecordItemDTO>());
 const selectedRows = ref<SignupRecordItemDTO[]>([]);
+const exporting = ref(false);
+
+// 自定义列状态管理
+const columnPopoverVisible = ref(false);
+const defaultColumns = {
+	addTime: true,
+	studentName: true,
+	courseName: true,
+	subjectName: true,
+	operatorName: true,
+	amount: true,
+	countLessonComplete: true,
+	countLessonTotal: true,
+	remainingLessons: true,
+	verifyState: true,
+};
+const visibleColumns = reactive({ ...defaultColumns });
+const columnDraft = reactive({ ...defaultColumns });
 
 const displayPageData = computed(() => {
 	return pageData.value;
@@ -190,15 +237,37 @@ function handleReset() {
 function handleRefresh() {
 	loadData();
 }
+
+function openColumnPopover() {
+	Object.assign(columnDraft, visibleColumns);
+	columnPopoverVisible.value = true;
+}
+
+function restoreColumns() {
+	Object.assign(columnDraft, defaultColumns);
+	Object.assign(visibleColumns, defaultColumns);
+	columnPopoverVisible.value = false;
+}
+
+function confirmColumns() {
+	const picked = Object.values(columnDraft).some(Boolean);
+	if (!picked) {
+		ElMessage.warning("至少保留一列");
+		return;
+	}
+	Object.assign(visibleColumns, columnDraft);
+	columnPopoverVisible.value = false;
+}
+
 // 打印
 function handlePrint() {
 	// 生成表头
-	const tableHeader = tableColumns.map((col) => `<th>${col.label}</th>`).join("");
+	const tableHeader = tableColumns.value.map((col) => `<th>${col.label}</th>`).join("");
 
 	// 生成表格数据行
 	const rowsHtml = (pageData.value.rows || [])
 		.map((row) => {
-			const tds = tableColumns
+			const tds = tableColumns.value
 				.map((col) => {
 					let value = (row as any)[col.prop];
 					// 特殊处理审核状态字段
@@ -246,7 +315,7 @@ function handlePrint() {
 		<h2>报名记录列表</h2>
 		<table>
 			<thead><tr>${tableHeader}</tr></thead>
-			<tbody>${rowsHtml || `<tr><td colspan="${tableColumns.length}">暂无数据</td></tr>`}</tbody>
+			<tbody>${rowsHtml || `<tr><td colspan="${tableColumns.value.length}">暂无数据</td></tr>`}</tbody>
 		</table>
 	</body>
 	</html>
@@ -263,12 +332,9 @@ function handlePrint() {
 	win.focus();
 	win.print();
 }
-// 自定义排序
-function handleCustomSort() {
-	ElMessage.info("自定义排序功能待接入");
-}
 
 async function handleExport() {
+	exporting.value = true;
 	try {
 		const params: ExportSignupRecordRequest = {
 			studentName: filters.studentName,
@@ -292,6 +358,8 @@ async function handleExport() {
 	} catch (error) {
 		console.error("导出失败:", error);
 		ElMessage.error("导出失败");
+	} finally {
+		exporting.value = false;
 	}
 }
 
@@ -499,6 +567,36 @@ onMounted(() => {
 :deep(.cell-verify-state) {
 	color: #e6a23c;
 	font-weight: bold;
+}
+
+.column-trigger-wrap {
+	display: inline-block;
+}
+
+.column-popover {
+	.column-title {
+		font-size: 14px;
+		font-weight: 500;
+		color: #303133;
+		margin-bottom: 12px;
+	}
+
+	.column-options {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 12px;
+		margin-bottom: 16px;
+
+		.el-checkbox {
+			margin-right: 0;
+		}
+	}
+
+	.column-actions {
+		display: flex;
+		justify-content: flex-end;
+		gap: 12px;
+	}
 }
 
 @media (max-width: 1200px) {

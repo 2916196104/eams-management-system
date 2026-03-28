@@ -35,9 +35,32 @@
 					<el-button circle @click="handlePrint">
 						<IconifyIconOffline icon="ep/printer" width="16" height="16" />
 					</el-button>
-					<el-button circle @click="handleCustomSort">
-						<IconifyIconOffline icon="ep/menu" width="16" height="16" />
-					</el-button>
+					<el-popover v-model:visible="columnPopoverVisible" placement="bottom-end" :width="640">
+						<template #reference>
+							<span class="column-trigger-wrap">
+								<el-button circle @click="openColumnPopover">
+									<IconifyIconOffline icon="ep/menu" width="16" height="16" />
+								</el-button>
+							</span>
+						</template>
+						<div class="column-popover">
+							<div class="column-title">自定义显示列：</div>
+							<div class="column-options">
+								<el-checkbox v-model="columnDraft.courseName">课程名称</el-checkbox>
+								<el-checkbox v-model="columnDraft.subjectName">科目名称</el-checkbox>
+								<el-checkbox v-model="columnDraft.totalCount">总数量</el-checkbox>
+								<el-checkbox v-model="columnDraft.completeCount">已完成数量</el-checkbox>
+								<el-checkbox v-model="columnDraft.remainingCount">剩余数量</el-checkbox>
+								<el-checkbox v-model="columnDraft.remainingAmount">剩余金额</el-checkbox>
+								<el-checkbox v-model="columnDraft.unitPrice">单价</el-checkbox>
+								<el-checkbox v-model="columnDraft.expireDate">过期日期</el-checkbox>
+							</div>
+							<div class="column-actions">
+								<el-button link @click="restoreColumns">恢复</el-button>
+								<el-button link type="primary" @click="confirmColumns">确认</el-button>
+							</div>
+						</div>
+					</el-popover>
 				</div>
 			</div>
 			<my-table
@@ -85,7 +108,7 @@ const tableAttr: MyTableAttr = {
 	"highlight-current-row": true,
 };
 
-const tableColumns: MyTableColumn[] = [
+const baseTableColumns: MyTableColumn[] = [
 	{ prop: "courseName", label: "课程名称", "min-width": 150 },
 	{ prop: "subjectName", label: "科目名称", "min-width": 120 },
 	{ prop: "totalCount", label: "总数量", width: "100px", align: "center" },
@@ -96,10 +119,29 @@ const tableColumns: MyTableColumn[] = [
 	{ prop: "expireDate", label: "过期日期", width: "150px", align: "center" },
 ];
 
+const tableColumns = computed(() => {
+	return baseTableColumns.filter((col) => visibleColumns[col.prop as keyof typeof visibleColumns] !== false);
+});
+
 const pageIndex = ref(1);
 const pageSize = ref(20);
 const pageData = ref(createPageDTO<ClassSummaryItemDTO>());
 const selectedRows = ref<ClassSummaryItemDTO[]>([]);
+
+// 自定义列状态管理
+const columnPopoverVisible = ref(false);
+const defaultColumns = {
+	courseName: true,
+	subjectName: true,
+	totalCount: true,
+	completeCount: true,
+	remainingCount: true,
+	remainingAmount: true,
+	unitPrice: true,
+	expireDate: true,
+};
+const visibleColumns = reactive({ ...defaultColumns });
+const columnDraft = reactive({ ...defaultColumns });
 
 const displayPageData = computed(() => {
 	return pageData.value;
@@ -133,14 +175,35 @@ function handleRefresh() {
 	loadData();
 }
 
+function openColumnPopover() {
+	Object.assign(columnDraft, visibleColumns);
+	columnPopoverVisible.value = true;
+}
+
+function restoreColumns() {
+	Object.assign(columnDraft, defaultColumns);
+	Object.assign(visibleColumns, defaultColumns);
+	columnPopoverVisible.value = false;
+}
+
+function confirmColumns() {
+	const picked = Object.values(columnDraft).some(Boolean);
+	if (!picked) {
+		ElMessage.warning("至少保留一列");
+		return;
+	}
+	Object.assign(visibleColumns, columnDraft);
+	columnPopoverVisible.value = false;
+}
+
 function handlePrint() {
 	// 生成表头
-	const tableHeader = tableColumns.map((col) => `<th>${col.label}</th>`).join("");
+	const tableHeader = tableColumns.value.map((col) => `<th>${col.label}</th>`).join("");
 
 	// 生成表格数据行
 	const rowsHtml = (pageData.value.rows || [])
 		.map((row) => {
-			const tds = tableColumns
+			const tds = tableColumns.value
 				.map((col) => {
 					const value = (row as any)[col.prop];
 					return `<td>${String(value ?? "-")}</td>`;
@@ -179,7 +242,7 @@ function handlePrint() {
 		<h2>课时汇总列表</h2>
 		<table>
 			<thead><tr>${tableHeader}</tr></thead>
-			<tbody>${rowsHtml || `<tr><td colspan="${tableColumns.length}">暂无数据</td></tr>`}</tbody>
+			<tbody>${rowsHtml || `<tr><td colspan="${tableColumns.value.length}">暂无数据</td></tr>`}</tbody>
 		</table>
 	</body>
 	</html>
@@ -195,10 +258,6 @@ function handlePrint() {
 	win.document.close();
 	win.focus();
 	win.print();
-}
-
-function handleCustomSort() {
-	ElMessage.info("自定义排序功能待接入");
 }
 
 function handlePageChange(data: PageDTO<ClassSummaryItemDTO>) {
@@ -337,6 +396,36 @@ onMounted(() => {
 :deep(.cell-remaining) {
 	color: #f56c6c;
 	font-weight: bold;
+}
+
+.column-trigger-wrap {
+	display: inline-block;
+}
+
+.column-popover {
+	.column-title {
+		font-size: 14px;
+		font-weight: 500;
+		color: #303133;
+		margin-bottom: 12px;
+	}
+
+	.column-options {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 12px;
+		margin-bottom: 16px;
+
+		.el-checkbox {
+			margin-right: 0;
+		}
+	}
+
+	.column-actions {
+		display: flex;
+		justify-content: flex-end;
+		gap: 12px;
+	}
 }
 
 @media (max-width: 1200px) {
