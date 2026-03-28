@@ -1,4 +1,4 @@
-﻿﻿staff:
+﻿staff:
   tag: 员工管理
   # 接口级中文描述（可选，对齐add-address的summary格式）
   query-all:
@@ -128,6 +128,7 @@ position:
       ownerorgfield: 数据实体表单条中描述记录所属组织的字段
       positionid: 该职位id
       scopetype: 数据权限范围类型
+
 
 institution:
   field:

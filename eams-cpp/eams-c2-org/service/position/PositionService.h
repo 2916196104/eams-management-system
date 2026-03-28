@@ -18,6 +18,7 @@ public:
                                     const oatpp::String &keyWord);
 
   int64_t savePosition(const PositionSaveRequestDTO::Wrapper &dto);
+  bool deletePositions(const std::vector<int64_t>& ids);
 };
 
 #endif

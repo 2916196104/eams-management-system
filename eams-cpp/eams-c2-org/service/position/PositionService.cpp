@@ -109,3 +109,9 @@ PositionService::savePosition(const PositionSaveRequestDTO::Wrapper &dto) {
   const int rows = dao.updatePositionNameById(dto->id, name);
   return rows > 0 ? 0 : -1;
 }
+
+bool PositionService::deletePositions(const std::vector<int64_t>& ids) {
+    if (ids.empty()) return false;
+    PositionDAO dao;
+    return dao.deleteByIds(ids);
+}
