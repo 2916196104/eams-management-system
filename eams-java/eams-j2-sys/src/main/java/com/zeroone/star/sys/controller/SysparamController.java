@@ -26,6 +26,7 @@ public class SysparamController implements SysparamApis {
 
     @Resource
     private ISettingOptionService settingOptionService;
+    @Resource
     private ISettingService settingService;
 
 

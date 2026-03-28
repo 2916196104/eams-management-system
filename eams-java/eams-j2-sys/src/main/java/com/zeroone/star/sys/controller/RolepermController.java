@@ -53,11 +53,14 @@ public class RolepermController implements RolepermApis {
 
     @Resource
     private StaffMapper staffMapper;
+    @Resource
     private MsPermissionMapper msPermissionMapper;
+    @Resource
     private SysRoleService roleService;
 
     @Resource
     private SysRoleService sysRoleService;
+    @Resource
     private SysPermissionService PermissionService;
 
     /**
