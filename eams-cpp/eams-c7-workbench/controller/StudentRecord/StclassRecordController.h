@@ -27,7 +27,7 @@ public:
 		// 定义其他查询参数描述
 	}
 	// 3.2 定义查询接口处理
-	ENDPOINT(API_M_GET, "/QueryClass", queryStclassRecord, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_GET, "/c7/workbanch/StclassRecord", queryStclassRecord, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
 		// 解析查询参数为Query领域模型
 		API_HANDLER_QUERY_PARAM(userQuery, StlistQuery, queryParams);
 		// 呼叫执行函数响应结果

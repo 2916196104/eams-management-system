@@ -30,7 +30,7 @@ public:
 		API_DEF_ADD_QUERY_PARAMS(String, "mobile", ZH_WORDS_GETTER("stlist.controller.mobile"), "", false);
 	}
 	//定义查询接口处理
-	ENDPOINT(API_M_GET, "/QueryOne", querystList, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_GET, "/c7/workbench/Stlist", querystList, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
 		// 解析查询参数为Query领域模型
 		API_HANDLER_QUERY_PARAM(userQuery, StlistQuery, queryParams);
 		// 呼叫执行函数响应结果

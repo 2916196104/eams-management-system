@@ -234,8 +234,8 @@ stclassrecord:
   startTime: 课程开始时间
   endTime: 课程结束时间
  controller:
-  tag2: 学生上课记录
-  title: 学生上课记录查询
+  tag2: 获取学员课表（分页）
+  title: 获取学员课表（分页）
 
 stlist:
  query:
@@ -248,7 +248,7 @@ stlist:
   gender: 学生性别
  controller:
   tag1: 学生档案列表
-  title: 学生档案列表查询（分页）
+  title: 获取学生档案列表（条件+分页）
   name: 姓名
   mobile: 电话号码
  
@@ -270,8 +270,8 @@ stprofiledetails:
   joinDate: 入学日期
   addTime: 加入时间   
  controller:
-  tag3: 学生档案详情
-  title: 学生档案详细查询
+  tag3: 获取学员档案详情
+  title: 获取学员档案详情
 
 
 
