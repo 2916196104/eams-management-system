@@ -134,7 +134,67 @@ function handleRefresh() {
 }
 
 function handlePrint() {
-	ElMessage.info("打印功能待接入");
+	// 生成表头
+	const tableHeader = tableColumns.map((col) => `<th>${col.label}</th>`).join("");
+
+	// 生成表格数据行
+	const rowsHtml = (pageData.value.rows || [])
+		.map((row) => {
+			const tds = tableColumns
+				.map((col) => {
+					const value = (row as any)[col.prop];
+					return `<td>${String(value ?? "-")}</td>`;
+				})
+				.join("");
+			return `<tr>${tds}</tr>`;
+		})
+		.join("");
+
+	// 生成完整的 HTML 文档
+	const html = `
+	<!doctype html>
+	<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>课时汇总列表</title>
+		<style>
+			body { font-family: Arial, "Microsoft YaHei", sans-serif; padding: 20px; }
+			h2 { margin: 0 0 12px; color: #303133; }
+			table { border-collapse: collapse; width: 100%; }
+			th, td { border: 1px solid #dcdfe6; padding: 8px; text-align: left; font-size: 12px; }
+			th { background: #f5f7fa; color: #606266; font-weight: 600; }
+			tr:nth-child(even) { background: #fafafa; }
+			.cell-total { color: #409eff; font-weight: bold; }
+			.cell-completed { color: #67c23a; font-weight: bold; }
+			.cell-remaining { color: #f56c6c; font-weight: bold; }
+			@media print {
+				body { padding: 0; }
+				h2 { font-size: 16px; }
+				table { font-size: 10px; }
+				th, td { padding: 4px; }
+			}
+		</style>
+	</head>
+	<body>
+		<h2>课时汇总列表</h2>
+		<table>
+			<thead><tr>${tableHeader}</tr></thead>
+			<tbody>${rowsHtml || `<tr><td colspan="${tableColumns.length}">暂无数据</td></tr>`}</tbody>
+		</table>
+	</body>
+	</html>
+	`;
+
+	const win = window.open("", "_blank");
+	if (!win) {
+		ElMessage.warning("浏览器阻止了打印窗口，请允许弹窗后重试");
+		return;
+	}
+	win.document.open();
+	win.document.write(html);
+	win.document.close();
+	win.focus();
+	win.print();
 }
 
 function handleCustomSort() {
