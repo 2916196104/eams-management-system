@@ -1,36 +1,36 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "LessonStudentDao.h"
 #include "LessonStudentMapper.h"
 
-list<PtrLessonStudentDO> LessonStudentDao::SelectLessonStudentWithPage(int64_t lessonId, const GetStuListQuery::Wrapper& query)
+list<PtrLessonStudentDO> LessonStudentDao::SelectLessonStudentWithPage(int64_t lesson_id, const GetStuListQuery::Wrapper& query)
 {
-	uint64_t pageIndex = query && query->page_index ? query->page_index.getValue(1) : 1;
-	uint64_t pageSize = query && query->page_size ? query->page_size.getValue(10) : 10;
-	pageIndex = NormalizePageIndex(pageIndex);
-	pageSize = NormalizePageSize(pageSize);
+	uint64_t page_index = query && query->page_index ? query->page_index.getValue(1) : 1;
+	uint64_t page_size = query && query->page_size ? query->page_size.getValue(10) : 10;
+	page_index = NormalizePageIndex(page_index);
+	page_size = NormalizePageSize(page_size);
 
-	uint64_t offset = (pageIndex - 1) * pageSize;
+	uint64_t offset = (page_index - 1) * page_size;
 
 	const std::string sql =
 		"SELECT * FROM lesson_student WHERE lesson_id = ? ORDER BY id LIMIT ?, ?";
 
-	return sqlSession->executeQuery<PtrLessonStudentDO>(sql, LessonStudentMapper(), "%ll%ull%ull", lessonId, offset, pageSize);
+	return sqlSession->executeQuery<PtrLessonStudentDO>(sql, LessonStudentMapper(), "%ll%ull%ull", lesson_id, offset, page_size);
 }
 
-uint64_t LessonStudentDao::CountLessonStudent(int64_t lessonId)
+uint64_t LessonStudentDao::CountLessonStudent(int64_t lesson_id)
 {
 	const std::string sql = "SELECT COUNT(1) FROM lesson_student WHERE lesson_id = ? ";
-	return sqlSession->executeQueryNumerical(sql, "%ll", lessonId);
+	return sqlSession->executeQueryNumerical(sql, "%ll", lesson_id);
 }
 
-list<PtrLessonStudentDO> LessonStudentDao::SelectEvaluationWithPage(int64_t lessonId, const EvaluationQuery::Wrapper& query)
+list<PtrLessonStudentDO> LessonStudentDao::SelectEvaluationWithPage(int64_t lesson_id, const EvaluationQuery::Wrapper& query)
 {
-	uint64_t pageIndex = query && query->pageIndex ? query->pageIndex.getValue(1) : 1;
-	uint64_t pageSize = query && query->pageSize ? query->pageSize.getValue(10) : 10;
-	pageIndex = NormalizePageIndex(pageIndex);
-	pageSize = NormalizePageSize(pageSize);
+	uint64_t page_index = 1;
+	uint64_t page_size = 10;
+	page_index = NormalizePageIndex(page_index);
+	page_size = NormalizePageSize(page_size);
 
-	uint64_t offset = (pageIndex - 1) * pageSize;
+	uint64_t offset = (page_index - 1) * page_size;
 
 	std::string sql =
 		"SELECT "
@@ -41,18 +41,15 @@ list<PtrLessonStudentDO> LessonStudentDao::SelectEvaluationWithPage(int64_t less
 		"WHERE ls.lesson_id = ? ";
 
 	SqlParams params;
-	SQLPARAMS_PUSH(params, "ll", int64_t, lessonId);
-
-	AppendEvaluationFilters(sql, params, query);
+	SQLPARAMS_PUSH(params, "ll", int64_t, lesson_id);
 
 	sql += " ORDER BY ls.id DESC LIMIT ?, ? ";
 	SQLPARAMS_PUSH(params, "ull", uint64_t, offset);
-	SQLPARAMS_PUSH(params, "ull", uint64_t, pageSize);
-
+	SQLPARAMS_PUSH(params, "ull", uint64_t, page_size);
 	return sqlSession->executeQuery<PtrLessonStudentDO>(sql, LessonStudentMapper(), params);
 }
 
-uint64_t LessonStudentDao::CountEvaluation(int64_t lessonId, const EvaluationQuery::Wrapper& query)
+uint64_t LessonStudentDao::CountEvaluation(int64_t lesson_id, const EvaluationQuery::Wrapper& query)
 {
 	std::string sql =
 		"SELECT COUNT(1) "
@@ -61,14 +58,12 @@ uint64_t LessonStudentDao::CountEvaluation(int64_t lessonId, const EvaluationQue
 		"WHERE ls.lesson_id = ? ";
 
 	SqlParams params;
-	SQLPARAMS_PUSH(params, "ll", int64_t, lessonId);
-
-	AppendEvaluationFilters(sql, params, query);
+	SQLPARAMS_PUSH(params, "ll", int64_t, lesson_id);
 
 	return sqlSession->executeQueryNumerical(sql, params);
 }
 
-int LessonStudentDao::UpdateSignStatus(uint64_t lessonStudentId, int32_t signType, int32_t signState, int32_t decLessonCount)
+int LessonStudentDao::UpdateSignStatus(uint64_t lesson_student_id, int32_t sign_type, int32_t sign_state, int32_t dec_lesson_count)
 {
 	// sign_time 直接写 NOW()
 	const std::string sql =
@@ -77,15 +72,15 @@ int LessonStudentDao::UpdateSignStatus(uint64_t lessonStudentId, int32_t signTyp
 		"WHERE id = ? ";
 
 	SqlParams params;
-	SQLPARAMS_PUSH(params, "i", int32_t, signType);
-	SQLPARAMS_PUSH(params, "i", int32_t, signState);
-	SQLPARAMS_PUSH(params, "i", int32_t, decLessonCount);
-	SQLPARAMS_PUSH(params, "ull", uint64_t, lessonStudentId);
+	SQLPARAMS_PUSH(params, "i", int32_t, sign_type);
+	SQLPARAMS_PUSH(params, "i", int32_t, sign_state);
+	SQLPARAMS_PUSH(params, "i", int32_t, dec_lesson_count);
+	SQLPARAMS_PUSH(params, "ull", uint64_t, lesson_student_id);
 
 	return sqlSession->executeUpdate(sql, params);
 }
 
-int LessonStudentDao::UpdateEvaluation(uint64_t lessonStudentId, int32_t score, const std::string& evaluation, int64_t evaluateTeacherId)
+int LessonStudentDao::UpdateEvaluation(uint64_t lesson_student_id, int32_t score, const std::string& evaluation, int64_t evaluate_teacher_id)
 {
 	const std::string sql =
 		"UPDATE lesson_student "
@@ -95,18 +90,16 @@ int LessonStudentDao::UpdateEvaluation(uint64_t lessonStudentId, int32_t score, 
 	SqlParams params;
 	SQLPARAMS_PUSH(params, "i", int32_t, score);
 	SQLPARAMS_PUSH(params, "s", std::string, evaluation);
-	SQLPARAMS_PUSH(params, "ll", int64_t, evaluateTeacherId);
-	SQLPARAMS_PUSH(params, "ull", uint64_t, lessonStudentId);
+	SQLPARAMS_PUSH(params, "ll", int64_t, evaluate_teacher_id);
+	SQLPARAMS_PUSH(params, "ull", uint64_t, lesson_student_id);
 
 	return sqlSession->executeUpdate(sql, params);
 }
 
-int LessonStudentDao::InsertStudentsToLesson(int64_t lessonId, const std::list<int64_t>& studentIds, int32_t classId, int64_t teacherId, int64_t orgId)
+int LessonStudentDao::InsertStudentsToLesson(int64_t lesson_id, const std::list<int64_t>& student_ids, int32_t class_id, int64_t teacher_id, int64_t org_id)
 {
-	if (studentIds.empty())
-	{
+	if (student_ids.empty())
 		return 0;
-	}
 
 	const std::string sql =
 		"INSERT INTO lesson_student(lesson_id, class_id, student_id, teacher_id, org_id, add_time) "
@@ -116,9 +109,9 @@ int LessonStudentDao::InsertStudentsToLesson(int64_t lessonId, const std::list<i
 	sqlSession->beginTransaction();
 	try
 	{
-		for (auto studentId : studentIds)
+		for (auto student_id : student_ids)
 		{
-			rows += sqlSession->executeUpdate(sql, "%ll%i%ll%ll%ll", lessonId, classId, studentId, teacherId, orgId);
+			rows += sqlSession->executeUpdate(sql, "%ll%i%ll%ll%ll", lesson_id, class_id, student_id, teacher_id, org_id);
 		}
 		sqlSession->commitTransaction();
 	}
@@ -131,60 +124,12 @@ int LessonStudentDao::InsertStudentsToLesson(int64_t lessonId, const std::list<i
 	return rows;
 }
 
-uint64_t LessonStudentDao::NormalizePageIndex(uint64_t pageIndex)
+uint64_t LessonStudentDao::NormalizePageIndex(uint64_t page_index)
 {
-	return pageIndex == 0 ? 1 : pageIndex;
+	return page_index == 0 ? 1 : page_index;
 }
 
-uint64_t LessonStudentDao::NormalizePageSize(uint64_t pageSize)
+uint64_t LessonStudentDao::NormalizePageSize(uint64_t page_size)
 {
-	return pageSize == 0 ? 10 : pageSize;
-}
-
-void LessonStudentDao::AppendEvaluationFilters(
-	std::string& sql,
-	SqlParams& params,
-	const EvaluationQuery::Wrapper& query)
-{
-	(void)query;
-
-	// name: 需要 join student 表才可过滤
-	if (query && query->name && !query->name->empty())
-	{
-		sql += " AND s.name LIKE CONCAT('%', ?, '%') ";
-		SQLPARAMS_PUSH(params, "s", std::string, query->name.getValue(""));
-	}
-
-	// score
-	if (query && query->score)
-	{
-		sql += " AND ls.score = ? ";
-		SQLPARAMS_PUSH(params, "i", int32_t, static_cast<int32_t>(query->score.getValue(0)));
-	}
-
-	// isSign：这里按 sign_state 是否为 0 简化
-	if (query && query->isSign)
-	{
-		if (query->isSign.getValue(false))
-		{
-			sql += " AND ls.sign_state <> 0 ";
-		}
-		else
-		{
-			sql += " AND ls.sign_state = 0 ";
-		}
-	}
-
-	// isEvaluate：按 evaluation 是否为空简化
-	if (query && query->isEvaluate)
-	{
-		if (query->isEvaluate.getValue(false))
-		{
-			sql += " AND ls.evaluation IS NOT NULL AND ls.evaluation <> '' ";
-		}
-		else
-		{
-			sql += " AND (ls.evaluation IS NULL OR ls.evaluation = '') ";
-		}
-	}
+	return page_size == 0 ? 10 : page_size;
 }

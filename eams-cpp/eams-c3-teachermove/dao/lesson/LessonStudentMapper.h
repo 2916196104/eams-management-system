@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <memory>
 
@@ -32,6 +32,4 @@ public:
 
 		return lesson_student_do;
 	}
-
-	
 };
