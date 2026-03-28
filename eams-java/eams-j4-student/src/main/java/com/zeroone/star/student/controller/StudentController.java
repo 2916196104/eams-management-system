@@ -1,5 +1,6 @@
 package com.zeroone.star.student.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zeroone.star.j4.entity.Course;
 import com.zeroone.star.project.dto.PageDTO;
@@ -10,9 +11,19 @@ import com.zeroone.star.project.dto.j4.student.FollowUpDTO;
 import com.zeroone.star.project.j4.student.StudentApis;
 import com.zeroone.star.project.query.j4.student.*;
 import com.zeroone.star.project.vo.j4.student.*;
+import com.zeroone.star.student.entity.ClassDO;
+import com.zeroone.star.student.entity.ClassroomDO;
 import com.zeroone.star.student.entity.CourseDO;
+import com.zeroone.star.student.entity.LessonDO;
+import com.zeroone.star.student.entity.LessonStudentDO;
+import com.zeroone.star.student.entity.Staff;
 import com.zeroone.star.student.entity.StudentCourse;
 import com.zeroone.star.student.entity.SubjectDO;
+import com.zeroone.star.student.mapper.ClassMapper;
+import com.zeroone.star.student.mapper.ClassroomMapper;
+import com.zeroone.star.student.mapper.LessonMapper;
+import com.zeroone.star.student.mapper.LessonStudentMapper;
+import com.zeroone.star.student.mapper.StaffMapper;
 import com.zeroone.star.student.service.*;
 import com.zeroone.star.project.query.j4.student.FinanceQuery;
 import com.zeroone.star.project.vo.JsonVO;
@@ -65,6 +76,17 @@ public class StudentController implements StudentApis {
     private ICourseService courseService;
     @Resource
     private ISubjectService subjectService;
+
+    @Resource
+    private LessonStudentMapper lessonStudentMapper;
+    @Resource
+    private LessonMapper lessonMapper;
+    @Resource
+    private StaffMapper staffMapper;
+    @Resource
+    private ClassMapper classMapper;
+    @Resource
+    private ClassroomMapper classroomMapper;
 
     @Resource
     private IStudentService studentService;
@@ -601,8 +623,140 @@ public class StudentController implements StudentApis {
     @Override
     @PostMapping("/getStudentSchedule")
     @ApiOperation(value = "获取课表")
-    public JsonVO<StudentScheduleVO> getStudentSchedule(StudentQuery studentQuery) {
+    public JsonVO<List<StudentScheduleVO>> getStudentSchedule(StudentQuery studentQuery) {
+        if (studentQuery == null || StringUtils.isBlank(studentQuery.getStudentId())) {
+            return JsonVO.fail("学生id为空");
+        }
 
+        Long studentId;
+        try {
+            studentId = Long.valueOf(studentQuery.getStudentId());
+        } catch (NumberFormatException e) {
+            return JsonVO.fail("学生id格式错误");
+        }
+
+        // 根据学生id从 lesson_student 中查询全部记录
+        List<LessonStudentDO> lessonStudentList = lessonStudentMapper.selectList(
+                new LambdaQueryWrapper<LessonStudentDO>()
+                        .eq(LessonStudentDO::getStudentId, studentId)
+                        .orderByDesc(LessonStudentDO::getAddTime)
+                .orderByDesc(LessonStudentDO::getId)
+        );
+        if (lessonStudentList == null || lessonStudentList.isEmpty()) {
+            return JsonVO.success(Collections.emptyList());
+        }
+
+        Set<Long> lessonIds = lessonStudentList.stream()
+            .map(LessonStudentDO::getLessonId)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet());
+        if (lessonIds.isEmpty()) {
+            return JsonVO.success(Collections.emptyList());
+        }
+
+        Map<Long, LessonDO> lessonMap = lessonMapper.selectBatchIds(lessonIds).stream()
+            .collect(Collectors.toMap(LessonDO::getId, lesson -> lesson, (a, b) -> a));
+        if (lessonMap.isEmpty()) {
+            return JsonVO.success(Collections.emptyList());
+        }
+
+        Set<Long> courseIds = lessonMap.values().stream()
+            .map(LessonDO::getCourseId)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet());
+        Set<Long> teacherIds = lessonMap.values().stream()
+            .map(LessonDO::getTeacherId)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet());
+        Set<Long> classIds = lessonMap.values().stream()
+            .map(LessonDO::getClassId)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet());
+        Set<Long> roomIds = lessonMap.values().stream()
+            .map(LessonDO::getRoomId)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet());
+
+        Map<Long, String> courseNameMap = courseIds.isEmpty()
+            ? Collections.emptyMap()
+            : courseService.listByIds(courseIds).stream()
+                .collect(Collectors.toMap(CourseDO::getId, CourseDO::getName, (a, b) -> a));
+
+        Map<Long, String> teacherNameMap = teacherIds.isEmpty()
+            ? Collections.emptyMap()
+            : staffMapper.selectBatchIds(teacherIds).stream()
+                .collect(Collectors.toMap(Staff::getId, Staff::getName, (a, b) -> a));
+
+        Map<Long, String> classNameMap = classIds.isEmpty()
+            ? Collections.emptyMap()
+            : classMapper.selectBatchIds(classIds).stream()
+                .collect(Collectors.toMap(ClassDO::getId, ClassDO::getName, (a, b) -> a));
+
+        Map<Long, String> classroomNameMap = roomIds.isEmpty()
+            ? Collections.emptyMap()
+            : classroomMapper.selectBatchIds(roomIds).stream()
+                .collect(Collectors.toMap(ClassroomDO::getId, ClassroomDO::getName, (a, b) -> a));
+
+        List<StudentScheduleVO> scheduleList = lessonStudentList.stream()
+            .map(lessonStudent -> {
+                LessonDO lesson = lessonMap.get(lessonStudent.getLessonId());
+                if (lesson == null) {
+                return null;
+                }
+
+                StudentScheduleVO scheduleVO = new StudentScheduleVO();
+                scheduleVO.setDate(lesson.getDate());
+                scheduleVO.setStartTime(lesson.getStartTime());
+                scheduleVO.setEndTime(lesson.getEndTime());
+                scheduleVO.setTeachType(mapTeachType(lesson.getTeachType()));
+                scheduleVO.setDecLessonCount(lessonStudent.getDecLessonCount() == null
+                    ? BigDecimal.ZERO
+                    : BigDecimal.valueOf(lessonStudent.getDecLessonCount()));
+                scheduleVO.setSignState(mapSignState(lessonStudent.getSignState()));
+                scheduleVO.setCourseName(courseNameMap.getOrDefault(lesson.getCourseId(), "未知课程"));
+                scheduleVO.setTeacherName(teacherNameMap.getOrDefault(lesson.getTeacherId(), "未知教师"));
+                scheduleVO.setClassName(classNameMap.getOrDefault(lesson.getClassId(), "未知班级"));
+                scheduleVO.setClassroomName(classroomNameMap.getOrDefault(lesson.getRoomId(), "未知教室"));
+                return scheduleVO;
+            })
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
+
+        return JsonVO.success(scheduleList);
+    }
+
+    private String mapTeachType(Integer teachType) {
+        if (teachType == null) {
+            return "未知方式";
+        }
+        switch (teachType) {
+            case 1:
+                return "面授";
+            case 2:
+                return "线上";
+            case 3:
+                return "录播";
+            default:
+                return "未知方式";
+        }
+    }
+
+    private String mapSignState(Integer signState) {
+        if (signState == null) {
+            return "未知状态";
+        }
+        switch (signState) {
+            case 0:
+                return "未签到";
+            case 1:
+                return "已签到";
+            case 2:
+                return "请假";
+            case 3:
+                return "旷课";
+            default:
+                return "未知状态";
+        }
     }
 
     /**

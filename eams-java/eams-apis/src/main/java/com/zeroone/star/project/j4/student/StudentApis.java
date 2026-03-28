@@ -182,7 +182,7 @@ public interface StudentApis {
     /**
      * 获取课表
      * @param studentQuery
-     * @return 课表
+     * @return 课表列表
      */
-    JsonVO<StudentScheduleVO> getStudentSchedule(StudentQuery studentQuery);
+    JsonVO<List<StudentScheduleVO>> getStudentSchedule(StudentQuery studentQuery);
 }
