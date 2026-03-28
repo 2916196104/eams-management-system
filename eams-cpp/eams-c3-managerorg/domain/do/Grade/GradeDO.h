@@ -44,6 +44,7 @@ public:
 		MYSQL_ADD_FIELD("edit_time", "s", edit_time);
 		MYSQL_ADD_FIELD("org_id", "bi", org_id);
 	}
+
 private:
 	// ========== grade 表字段 ==========
 	// 主键
@@ -64,7 +65,7 @@ private:
 	MYSQL_SYNTHESIZE(int64_t, org_id, OrgId);
 
 	// ========== 联查字段（来自 grade_record 表） ==========
-	// 这里无需关联完整的表
+    // 这里无需关联完整的表
 	// 成绩记录ID（grade_record.id）
 	MYSQL_SYNTHESIZE(int64_t, record_id, RecordId);
 	// 学生成绩（grade_record.score）

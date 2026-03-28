@@ -23,6 +23,16 @@ class GradeManageDTO : public oatpp::DTO
 	API_DTO_FIELD_DEFAULT(Float32, score, ZH_WORDS_GETTER("Grade.field.sc"));
 	//操作
 	API_DTO_FIELD_DEFAULT(String, operation, ZH_WORDS_GETTER("Grade.field.operation"));
+
+public:
+
+	// 数据校验
+	std::string validate()
+	{
+		if (!item || item->empty())
+			return "item invalidate.";
+		return "";
+	}
 };
 
 

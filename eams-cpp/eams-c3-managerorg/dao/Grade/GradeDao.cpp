@@ -10,7 +10,7 @@ std::string GradeDao::queryConditionBuilder(const GradeManageQuery::Wrapper& que
 {
 	stringstream sqlCondition;
 
-	sqlCondition << " WHERE 1=1";
+    sqlCondition << " WHERE 1=1";
 	// grade 表逻辑删除过滤
 	sqlCondition << " AND g.deleted=0";
 	// 按考核项标题筛选
@@ -27,9 +27,9 @@ std::string GradeDao::queryConditionBuilder(const GradeManageQuery::Wrapper& que
  */
 
 static const char* GRADE_JOIN_SQL =
-"FROM grade g "
-"INNER JOIN grade_record gr ON g.id = gr.grade_id "
-"INNER JOIN student s ON gr.student_id = s.id ";
+	"FROM grade g "
+	"INNER JOIN grade_record gr ON g.id = gr.grade_id "
+	"INNER JOIN student s ON gr.student_id = s.id ";
 /**
  * 统计满足条件的数据条数
  */
