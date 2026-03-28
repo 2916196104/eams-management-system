@@ -1,8 +1,11 @@
-class:
+﻿class:
   tag: 班级
-  query-class-student-list.summary: 获取班级学员列表（分页）
-  query-class-student-detail.summary: 获取班级学员详情
-  query-class-student-course-list.summary: 获取班级学员课程列表（分页）
+  query-class-student-list:
+    summary: 获取班级学员列表（分页）
+  query-class-student-detail:
+    summary: 获取班级学员详情
+  query-class-student-course-list:
+    summary: 获取班级学员课程列表（分页）
   field:
     classId: 班级ID
     classStudentId: 班级学员关系ID

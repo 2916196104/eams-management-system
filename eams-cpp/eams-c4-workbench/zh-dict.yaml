@@ -1,4 +1,4 @@
-enrollment:
+﻿enrollment:
     summary1: 获取报名记录
     summary2: 获取报名记录详情
     summary3: 保存报名
@@ -22,17 +22,6 @@ class:
  tag: 排课
  query:
   summary: 获取班级列表   
-
-
-
-
-
-
-
-
-
-
-
 
 comment:
   teacherid: 教师id
@@ -202,7 +191,8 @@ StudentFile:
    
 workbench-he:
   tag: 用户相关
-  query-current-user-info.summary: 获取当前用户信息
+  query-current-user-info:
+    summary: 获取当前用户信息
   current-user:
     field:
       id: 当前用户唯一标识
@@ -271,4 +261,5 @@ homework:
     score: 评分
     content: 点评内容
   commentVo:
-    data: 点评数据
+    data: 点评数据      
+    authorities: 当前用户管理权限
