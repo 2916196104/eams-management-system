@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
-@ApiModel("请款列表行VO")
+@ApiModel("请款单VO")
 public class CashoutListVO {
 
     @ApiModelProperty("请款单ID")
@@ -17,16 +17,10 @@ public class CashoutListVO {
     @ApiModelProperty("请款项目名")
     private String title;
 
-    @ApiModelProperty("请款类型（数值：1-广告宣传/2-物业费/3-办公耗材/4-水费/5-差旅费/6-其他）")
+    @ApiModelProperty("请款类型")
     private Integer type;
 
-    @ApiModelProperty("请款类型名称")
-    private String typeName;
-
-    @ApiModelProperty("申请人ID")
-    private Long creator;
-
-    @ApiModelProperty("申请人名称")
+    @ApiModelProperty("申请人")
     private String creatorName;
 
     @ApiModelProperty("收款人")
@@ -38,14 +32,11 @@ public class CashoutListVO {
     @ApiModelProperty("请款金额")
     private BigDecimal amount;
 
-    @ApiModelProperty("请款说明")
+    @ApiModelProperty("请款信息")
     private String info;
 
-    @ApiModelProperty("审批状态（0-待审核/1-审核通过/2-已驳回/3-已作废）")
+    @ApiModelProperty("审批状态")
     private Integer verifyState;
-
-    @ApiModelProperty("审批状态名称")
-    private String verifyStateName;
 
     @ApiModelProperty("审核备注")
     private String verifyRemark;

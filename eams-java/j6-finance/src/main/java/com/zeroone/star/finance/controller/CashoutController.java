@@ -1,5 +1,6 @@
 package com.zeroone.star.finance.controller;
 
+import com.zeroone.star.finance.service.ICashoutService;
 import com.zeroone.star.finance.service.impl.CashoutServiceImpl;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j6.finance.BatchVerifyDTO;
@@ -25,16 +26,22 @@ import javax.annotation.Resource;
 @Api(tags = "请款管理")
 public class CashoutController implements CashoutApis {
 
+    @Resource
+    ICashoutService cashoutService;
     /**
      * 请款列表查询（条件+分页）
      */
     @GetMapping("/list")
     @ApiOperation("请款列表查询（条件+分页）")
-    @ApiOperationSupport(order = 1) // Knife4j 注解，可按需补充 author、params 等
+    @ApiOperationSupport(order = 1)
     @Override
     public JsonVO<PageDTO<CashoutListVO>> queryCashoutPage(CashoutListQuery query) {
-        // TODO 调用 Service 完成查询，这里先返回 null
-        return null;
+        try {
+            PageDTO<CashoutListVO> page = cashoutService.queryCashoutPage(query);
+            return JsonVO.success(page);
+        } catch (Exception e) {
+            return JsonVO.fail(e.getMessage());
+        }
     }
 
     /**
@@ -45,35 +52,25 @@ public class CashoutController implements CashoutApis {
     @ApiOperationSupport(order = 2)
     @Override
     public JsonVO<CashoutDetailVO> getCashoutDetail(@PathVariable("id") Long id) {
-        // TODO 调用 Service 查询详情，这里先返回 null
-        return null;
+        CashoutDetailVO detail = cashoutService.getCashoutDetail(id);
+        if (detail == null) {
+            return JsonVO.fail("请款记录不存在");
+        }
+        return JsonVO.success(detail);
     }
-
-    @Resource
-    private CashoutServiceImpl cashoutService;
 
     @PostMapping("/save")
     @ApiOperation(value = "保存请款申请")
     @Override
     public JsonVO<Long> saveCashout(@Validated @RequestBody CashoutAddDTO cashoutAddDTO) {
-        try {
-            Long id = cashoutService.saveCashout(cashoutAddDTO);
-            return JsonVO.success(id);
-        } catch (Exception e) {
-            return JsonVO.fail(e.getMessage());
-        }
+        return null;
     }
 
     @PutMapping("/cancel/{id}")
     @ApiOperation(value = "作废请款申请")
     @Override
     public JsonVO<Long> cancelCashout(@PathVariable Long id) {
-        try {
-            cashoutService.cancelCashout(id);
-            return JsonVO.success(id);
-        } catch (Exception e) {
-            return JsonVO.fail(e.getMessage());
-        }
+        return null;
     }
 
     /**
