@@ -1,7 +1,7 @@
 #pragma once
 #ifndef _LessonSchedule_DO_
 #define _LessonSchedule_DO_
-#include "../DoInclude.h"
+#include "DoInclude.h"
 
 /**
  * 根据数据库表生成的实体类
@@ -24,7 +24,7 @@ class LessonScheduleDO : public BaseDO
 	MYSQL_SYNTHESIZE(string, endDate, EndDate);
 	// 课次
 	MYSQL_SYNTHESIZE(int, decLessonCount, DecLessonCount);
-	// 上课时间
+	// 排课次数
 	MYSQL_SYNTHESIZE(string, times, Times);
 	// 是否排除节假日
 	MYSQL_SYNTHESIZE(int, excludeHoliday, ExcludeHoliday);
@@ -45,7 +45,7 @@ class LessonScheduleDO : public BaseDO
 	//创建者所属组织ID
 	MYSQL_SYNTHESIZE(string, orgId, OrgId);
 public:
-	LessonScheduleDO() : BaseDO("LessonScheduleDO")
+	LessonScheduleDO() : BaseDO("lesson_schedule")
 	{
 		MYSQL_ADD_FIELD_PK("id", "s", id);
 		MYSQL_ADD_FIELD("class_id", "s", classId);
@@ -70,5 +70,5 @@ public:
 };
 
 // 给 LessonScheduleDO 智能指针设定一个别名方便使用
-typedef std::shared_ptr<LessonScheduleDO> LessonScheduleDO;
+typedef std::shared_ptr<LessonScheduleDO> PtrLessonScheduleDO;
 #endif // !_LessonSchedule_DO_
