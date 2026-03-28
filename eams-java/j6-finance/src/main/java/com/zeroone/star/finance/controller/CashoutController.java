@@ -1,7 +1,6 @@
 package com.zeroone.star.finance.controller;
 
 import com.zeroone.star.finance.service.ICashoutService;
-import com.zeroone.star.finance.service.impl.CashoutServiceImpl;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j6.finance.BatchVerifyDTO;
 import com.zeroone.star.project.dto.j6.finance.CashoutAddDTO;
@@ -59,18 +58,36 @@ public class CashoutController implements CashoutApis {
         return JsonVO.success(detail);
     }
 
+    /**
+     * 保存请款申请
+     */
     @PostMapping("/save")
     @ApiOperation(value = "保存请款申请")
+    @ApiOperationSupport(order = 3)
     @Override
     public JsonVO<Long> saveCashout(@Validated @RequestBody CashoutAddDTO cashoutAddDTO) {
-        return null;
+        try {
+            Long id = cashoutService.saveCashout(cashoutAddDTO);
+            return JsonVO.success(id);
+        } catch (Exception e) {
+            return JsonVO.fail(e.getMessage());
+        }
     }
 
+    /**
+     * 作废请款申请
+     */
     @PutMapping("/cancel/{id}")
     @ApiOperation(value = "作废请款申请")
+    @ApiOperationSupport(order = 4)
     @Override
     public JsonVO<Long> cancelCashout(@PathVariable Long id) {
-        return null;
+        try {
+            cashoutService.cancelCashout(id);
+            return JsonVO.success(id);
+        } catch (Exception e) {
+            return JsonVO.fail(e.getMessage());
+        }
     }
 
     /**
