@@ -3,6 +3,7 @@
 #include "homeworkmapper.h"
 #include <sstream>
 
+// 1. 获取列表总数
 uint64_t HomeworkDAO::count(const HomeworkQuery::Wrapper& query)
 {
     std::stringstream sql;
@@ -12,10 +13,10 @@ uint64_t HomeworkDAO::count(const HomeworkQuery::Wrapper& query)
         sql << " AND title LIKE '%" << query->title->c_str() << "%'";
     }
 
-    std::string sqlStr = sql.str();
-    return sqlSession->executeQueryNumerical(sqlStr);
+    return sqlSession->executeQueryNumerical(sql.str());
 }
 
+// 2. 获取分页列表
 std::vector<HomeworkDTO::Wrapper> HomeworkDAO::selectPage(const HomeworkQuery::Wrapper& query)
 {
     std::stringstream sql;
@@ -25,15 +26,19 @@ std::vector<HomeworkDTO::Wrapper> HomeworkDAO::selectPage(const HomeworkQuery::W
         sql << " AND title LIKE '%" << query->title->c_str() << "%'";
     }
 
-    sql << " LIMIT " << (query->pageIndex - 1) * query->pageSize << ", " << query->pageSize;
+    uint64_t pageIndex = (query->pageIndex > 0) ? query->pageIndex : 1;
+    uint64_t pageSize = (query->pageSize > 0) ? query->pageSize : 10;
+    uint64_t offset = (pageIndex - 1) * pageSize;
+
+    sql << " LIMIT " << offset << ", " << pageSize;
 
     HomeworkMapper mapper;
     auto list = sqlSession->executeQuery<HomeworkDTO::Wrapper>(sql.str(), mapper);
-    
-    std::vector<HomeworkDTO::Wrapper> vec(list.begin(), list.end());
-    return vec;
+
+    return std::vector<HomeworkDTO::Wrapper>(list.begin(), list.end());
 }
 
+// 3. 获取作业详情
 HomeworkDetailDTO::Wrapper HomeworkDAO::selectDetail(uint64_t id)
 {
     std::stringstream sql;
@@ -43,18 +48,3 @@ HomeworkDetailDTO::Wrapper HomeworkDAO::selectDetail(uint64_t id)
     HomeworkDetailMapper mapper;
     return sqlSession->executeQueryOne<HomeworkDetailDTO::Wrapper>(sql.str(), mapper);
 }
-
-uint64_t HomeworkDAO::insert(const HomeworkDO& obj)
-{
-    std::stringstream sql;
-    sql << "INSERT INTO homework (id, class_id, title, content, creator, org_id, add_time, deleted) VALUES ("
-        << obj.getId() << ", "
-        << obj.getClassId() << ", "
-        << "'" << obj.getTitle() << "', "
-        << "'" << obj.getContent() << "', "
-        << obj.getCreator() << ", "
-        << obj.getOrgId() << ", "
-        << "NOW(), 0)";
-    return sqlSession->executeUpdate(sql.str());
-}
-
