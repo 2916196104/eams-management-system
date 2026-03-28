@@ -13,7 +13,6 @@ public:
     uint64_t count(const HomeworkQuery::Wrapper& query);
     std::vector<HomeworkDTO::Wrapper> selectPage(const HomeworkQuery::Wrapper& query);
     HomeworkDetailDTO::Wrapper selectDetail(uint64_t id);
-    uint64_t insert(const HomeworkDO& obj);
 };
 
 #endif 

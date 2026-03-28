@@ -93,7 +93,13 @@ homework:
   get_homework_page: 获取作业列表（条件+分页）
   get_homework_info: 获取作业详情
   field:
+    addTime: 添加时间
+    classId: 班级ID
+    content: 作业内容
+    creater: 创建人
+    editTime: 编辑时间
     id: 作业ID
+    orgId: 创建者所属组织ID
     title: 作业标题
     courseName: 所属课程
     startTime: 开始时间
@@ -110,7 +116,9 @@ homework:
     content: 作业内容
     images: 作业图片
     id: 作业记录id
-
+  detail:
+    notfound: 未找到有关作业信息
+        
 
 
 
