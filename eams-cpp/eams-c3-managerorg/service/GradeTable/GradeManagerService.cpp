@@ -36,8 +36,8 @@ GradeManagePageDTO::Wrapper GradeManagerService::listAll(const GradeManageQuery:
 		auto dto = GradeManageDTO::createShared();
 		// 考核项（grade.title）
 		dto->item = sub->getTitle();
-		// 从关联的 grade_record 对象中取 id 和 score
-		dto->id = sub->getId();
+		// 从联查字段取 grade_record.id 和 grade_record.score
+		dto->id = sub->getRecordId();
 		dto->score = (float)sub->getScore();
 		
 		// 从关联的 student 对象中取学生姓名

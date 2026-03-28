@@ -21,11 +21,9 @@ public:
 		// grade.title -> 考核项
 		data->setTitle(resultSet->getString(2));
 
-		// 关联 grade_record（取 id 和 score）
-		auto record = std::make_shared<GradeRecordDO>();
-		record->setId(resultSet->getInt64(1));    // gr.id
-		record->setScore(resultSet->getInt(3));   // gr.score
-		data->setGradeRecord(record);
+		// grade_record 字段
+		data->setRecordId(resultSet->getInt64(1));  // gr.id
+		data->setScore(resultSet->getInt(3));       // gr.score
 
 		// 关联 student（取 name）
 		auto student = std::make_shared<StudentDO>();
@@ -46,15 +44,13 @@ public:
 		// grade.title -> 考核项
 		data.setTitle(resultSet->getString(2));
 
-		// 关联 grade_record（取 id 和 score）
-		GradeRecordDO record;
-		record.setId(resultSet->getInt64(1));    // gr.id
-		record.setScore(resultSet->getInt(3));   // gr.score
-		data.setGradeRecord(record);
+		// grade_record 字段
+		data.setRecordId(resultSet->getInt64(1));  // gr.id
+		data.setScore(resultSet->getInt(3));       // gr.score
 
 		// 关联 student（取 name）
-		StudentDO student;
-		student.setName(resultSet->getString(4)); // s.name
+		auto student = std::make_shared<StudentDO>();
+		student->setName(resultSet->getString(4)); // s.name
 		data.setStudent(student);
 
 		return data;
