@@ -1,64 +1,20 @@
 #include "stdafx.h"
 #include "Record_name.h"
 #include "service/timetable/RecordnameService.h"
+#include "dao/class_student/ClassStudentDao.h"
 
 
 
 GetDetailCSJsonVO::Wrapper Record_name::execGetDetailCS(const GetDetailCSQuery::Wrapper& query)
 {
-	auto data = GetDetailCSDTO::createShared();
-	data->lesson_id = query && query->lesson_id ? query->lesson_id : oatpp::UInt64(10002);
-	data->lesson_date = "2026-02-28";
-	data->start_time = "15:12";
-	data->end_time = "16:12";
-	data->period_count = oatpp::UInt32(static_cast<v_uint32>(1));
-	data->course_title = "Piano Beginner";
-	data->teacher_name = "Zhang San";
-	data->normal_count = oatpp::UInt32(static_cast<v_uint32>(0));
-	data->leave_count = oatpp::UInt32(static_cast<v_uint32>(0));
-	data->absent_count = oatpp::UInt32(static_cast<v_uint32>(0));
-	data->makeup_count = oatpp::UInt32(static_cast<v_uint32>(0));
-	data->can_comment_after_class = true;
-	data->can_add_student = true;
-
-	auto vo = GetDetailCSJsonVO::createShared();
-	vo->success(data);
-	return vo;
+	RecordnameService service;
+	return service.getDetailCS(query);
 }
 
 GetStuListJsonVO::Wrapper Record_name::execGetStuList(const GetStuListQuery::Wrapper& query)
 {
-	v_uint64 lessonId = static_cast<v_uint64>(10002);
-	v_uint64 pageIndex = query && query->page_index ? query->page_index.getValue(1) : static_cast<v_uint64>(1);
-	v_uint64 pageSize = query && query->page_size ? query->page_size.getValue(10) : static_cast<v_uint64>(10);
-	if (pageIndex == 0)
-	{
-		pageIndex = 1;
-	}
-	if (pageSize == 0)
-	{
-		pageSize = 10;
-	}
-
-	v_uint64 total = static_cast<v_uint64>(1);
-	v_uint64 totalPage = total == 0 ? 0 : (total + pageSize - 1) / pageSize;
-
-	auto data = GetStuListDTO::createShared();
-	data->lesson_id = oatpp::UInt64(lessonId);
-	data->page_index = oatpp::UInt64(pageIndex);
-	data->page_size = oatpp::UInt64(pageSize);
-	data->total = oatpp::UInt64(total);
-	data->total_page = oatpp::UInt64(totalPage);
-	data->student_id = oatpp::UInt64(70001);
-	data->unsigned_count = oatpp::UInt32(static_cast<v_uint32>(1));
-	data->is_change_course = false;
-	data->is_leave = false;
-	data->is_absent = false;
-	data->is_signed = false;
-
-	auto vo = GetStuListJsonVO::createShared();
-	vo->success(data);
-	return vo;
+	RecordnameService service;
+	return service.getCSStuList(query);
 }
 
 SetStudyStatusRspJsonVO::Wrapper Record_name::updateModifyStatus(const SetStudyStatusDTO::Wrapper& dto, const PayloadDTO& payload)
@@ -88,12 +44,28 @@ SetStudyStatusRspJsonVO::Wrapper Record_name::updateModifyStatus(const SetStudyS
 // Endpoint 1: Implementation of Get Student List (with conditions + pagination)
 TimetableStudentPageJsonVO::Wrapper Record_name::execGetStuList(const StuListQuery::Wrapper& query, const PayloadDTO& payload)
 {
+	(void)payload;
 	// Create outer response object VO
 	auto jvo = TimetableStudentPageJsonVO::createShared();
+	auto pages = PageDTO<TimetableStudentDTO::Wrapper>::createShared();
+	pages->pageIndex = query && query->pageIndex ? query->pageIndex : oatpp::UInt64(1);
+	pages->pageSize = query && query->pageSize ? query->pageSize : oatpp::UInt64(10);
 
-	ClassStudentService service;
+	ClassStudentDAO dao;
+	pages->total = static_cast<v_int64>(dao.count(query));
+	pages->calcPages();
 
-	auto pages = service.getStudentList(query);
+	auto records = dao.selectAll(query);
+	for (const auto& one : records)
+	{
+		auto row = TimetableStudentDTO::createShared();
+		row->id = std::to_string(one->getStudentId()).c_str();
+		row->name = "";
+		row->phone = "";
+		row->gender = "";
+		row->rest_hour = 0;
+		pages->addData(row);
+	}
 
 	// Success response
 	jvo->success(pages);
@@ -104,10 +76,55 @@ TimetableStudentPageJsonVO::Wrapper Record_name::execGetStuList(const StuListQue
 StringJsonVO::Wrapper Record_name::execInsertStuToCS(const AddStudentToLessonDTO::Wrapper& dto, const PayloadDTO& payload)
 {
 	auto jvo = StringJsonVO::createShared();
+	ClassStudentDAO dao;
+	uint64_t successCount = 0;
+	int64_t classId = 0;
+	if (dto && dto->course_id && !dto->course_id->empty())
+	{
+		try
+		{
+			classId = std::stoll(dto->course_id.getValue("0"));
+		}
+		catch (...)
+		{
+			classId = 0;
+		}
+	}
 
-	ClassStudentService service;
+	if (dto && dto->studentIds)
+	{
+		for (const auto& sid : *dto->studentIds)
+		{
+			if (!sid || sid->empty())
+			{
+				continue;
+			}
 
-	if (service.addStudentToLesson(dto)) {
+			int64_t studentId = 0;
+			try
+			{
+				studentId = std::stoll(sid.getValue("0"));
+			}
+			catch (...)
+			{
+				continue;
+			}
+
+			auto item = std::make_shared<ClassStudentDO>();
+			item->setClassId(classId);
+			item->setStudentId(studentId);
+			item->setConsumeCourseId(classId);
+			item->setReason(0);
+			item->setDeleted(false);
+			item->setRemark("");
+			item->setAddTime("");
+			item->setCreator(payload.getId().empty() ? 0 : std::stoll(payload.getId()));
+
+			successCount += dao.insert(item);
+		}
+	}
+
+	if (successCount > 0) {
 		jvo->success("successAdd");
 	}
 	else {
@@ -120,6 +137,7 @@ StringJsonVO::Wrapper Record_name::execInsertStuToCS(const AddStudentToLessonDTO
 // Endpoint 3: Implementation of Get Student Course List
 ListJsonVO<TimetableStudentCourseDTO::Wrapper>::Wrapper Record_name::execGetStuClassList(const StuClassQuery::Wrapper& query, const PayloadDTO& payload)
 {
+	(void)payload;
 	auto jvo = ListJsonVO<TimetableStudentCourseDTO::Wrapper>::createShared();
 
 	if (!query->id) {
@@ -128,8 +146,19 @@ ListJsonVO<TimetableStudentCourseDTO::Wrapper>::Wrapper Record_name::execGetStuC
 		return jvo;
 	}
 
-	ClassStudentService service;
-	auto list = service.getStudentCourseList(query);
+	ClassStudentDAO dao;
+	auto rows = dao.selectByStudentId(query->id.getValue(""));
+	auto list = oatpp::List<TimetableStudentCourseDTO::Wrapper>::createShared();
+	for (const auto& one : rows)
+	{
+		auto item = TimetableStudentCourseDTO::createShared();
+		item->course_id = std::to_string(one->getConsumeCourseId()).c_str();
+		item->rest_hour = 0;
+		item->title = "";
+		item->teacher_id = "";
+		item->sn = "";
+		list->push_back(item);
+	}
 
 	// Success response
 	jvo->success(list);

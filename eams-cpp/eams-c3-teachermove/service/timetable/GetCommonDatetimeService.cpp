@@ -1,5 +1,6 @@
 #include "GetCommonDatetimeService.h"
-#include "dao/timetable/CommonDatetimeDao.h"
+#include "dao/lesson/LessonDao.h"
+#include "domain/query/lesson/LessonQuery.h"
 
 namespace
 {
@@ -29,25 +30,35 @@ namespace
 CommonDatetimeJsonVO::Wrapper GetCommonDatetimeService::getCommonDatetime(const GetCommonDatetimeQuery::Wrapper& query) const
 {
 	auto queryDate = query && query->date ? query->date : oatpp::String("2026-03-15");
-	CommonDatetimeDao dao;
-	auto rows = dao.selectByDate(queryDate.getValue(""));
+	LessonDAO dao;
+	auto lessonQuery = LessonQuery::createShared();
+	lessonQuery->pageIndex = 1;
+	lessonQuery->pageSize = 200;
+	auto rows = dao.selectWithPage(lessonQuery);
 
 	auto data = CommonDatetimeDTO::createShared();
-	data->lesson_count = oatpp::UInt32(static_cast<v_uint32>(rows.size()));
+	data->lesson_count = oatpp::UInt32(static_cast<v_uint32>(0));
 	data->lessons = {};
 
 	for (const auto& row : rows)
 	{
+		if (queryDate && queryDate->size() > 0 && row.getDate() != queryDate.getValue(""))
+		{
+			continue;
+		}
+
 		data->lessons->push_back(buildLesson(
-			row.lesson_count,
-			row.start_time.c_str(),
-			row.end_time.c_str(),
-			row.teacher_id,
-			row.classroom_id,
-			row.is_signed,
-			row.is_leave,
-			row.is_reserved));
+			static_cast<v_uint32>(row.getDecCount()),
+			row.getStartTime().c_str(),
+			row.getEndTime().c_str(),
+			static_cast<v_uint64>(row.getTeacherId()),
+			static_cast<v_uint64>(row.getRoomId()),
+			false,
+			false,
+			false));
 	}
+
+	data->lesson_count = oatpp::UInt32(static_cast<v_uint32>(data->lessons->size()));
 
 	auto vo = CommonDatetimeJsonVO::createShared();
 	vo->success(data);
