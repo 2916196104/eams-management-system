@@ -2,7 +2,7 @@
 #ifndef HOMEWORKDO_H
 #define HOMEWORKDO_H
 
-#include "../DoInclude.h"
+#include "DoInclude.h"
 
 /**
  * homework表数据库实体类

@@ -1,4 +1,4 @@
-﻿# CMakeList.txt: lib-common 的 CMake 项目，在此处包括源代码并定义
+# CMakeList.txt: lib-common 的 CMake 项目，在此处包括源代码并定义
 # 项目特定的逻辑。
 #
 cmake_minimum_required (VERSION 3.8)
@@ -17,6 +17,11 @@ endif()
 
 # 生成静态库
 add_library (lib-common STATIC ${SC_FILES})
+
+# MSVC：源文件按 UTF-8 解析，避免中文注释乱码
+if (MSVC)
+	target_compile_options (lib-common PRIVATE /utf-8)
+endif ()
 
 # 静态库输出名修改
 set_target_properties (lib-common PROPERTIES OUTPUT_NAME common)

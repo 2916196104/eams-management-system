@@ -52,7 +52,7 @@ class ClassDO :public BaseDO {
 	//年级id
 	MYSQL_SYNTHESIZE(int, grade_id, Grade_id);
 public:
-	ClassDO : BaseDO("class") {
+	ClassDO() : BaseDO("class") {
 		//主键 班级id
 		MYSQL_ADD_FIELD_PK("id", "s", id);
 		MYSQL_ADD_FIELD_NULLABLE("name", "s", name, false);

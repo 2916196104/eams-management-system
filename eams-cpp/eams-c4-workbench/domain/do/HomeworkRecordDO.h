@@ -30,7 +30,7 @@ class HomeworkRecordDO :public BaseDO {
 	//ͼƬ
 	MYSQL_SYNTHESIZE(string, images, Images);
 public:
-	HomeworkRecordDO : BaseDO("homework_record") {
+	HomeworkRecordDO() : BaseDO("homework_record") {
 		MYSQL_ADD_FIELD_PK("id", "s", id);
 		MYSQL_ADD_FIELD("homework_id", "s", homework_id);
 		MYSQL_ADD_FIELD("student_id", "s", student_id);

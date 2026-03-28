@@ -38,9 +38,32 @@ if (__VAR_SERVER__ == NULL) { \
 
 #else
 
-#include <atlstr.h>
+#include <windows.h>
+#include <tchar.h>
 
-//超过5M的文件不做处理
+namespace {
+/** 替代 ATL CA2T：将 UTF-8 或系统 ANSI 写入 TCHAR 缓冲区，无需 atlstr.h。 */
+inline void copyStdStringToTCharBuffer(const char* src, TCHAR* dest, size_t destCharCount) {
+	if (!dest || destCharCount == 0)
+		return;
+	if (!src) {
+		dest[0] = 0;
+		return;
+	}
+#ifdef UNICODE
+	int n = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, src, -1, dest, static_cast<int>(destCharCount));
+	if (n == 0)
+		MultiByteToWideChar(CP_ACP, 0, src, -1, dest, static_cast<int>(destCharCount));
+#else
+	strncpy_s(dest, destCharCount, src, _TRUNCATE);
+#endif
+}
+inline void copyStdStringToTCharBuffer(const std::string& s, TCHAR* dest, size_t destCharCount) {
+	copyStdStringToTCharBuffer(s.c_str(), dest, destCharCount);
+}
+}
+
+// 超过 5M 的文件不做处理
 BYTE byFileBuff[5 * 1024 * 1024];
 
 #endif
@@ -51,7 +74,7 @@ void FastDfsClient::init()
 	// 初始化日志
 	log_init();
 	g_log_context.log_level = m_nLevelLog;
-	// 初始化fastfds客户端
+	// 初始化 FastDFS 客户端
 	int result = -1;
 	if (m_configPath != "")
 		result = fdfs_client_init(m_configPath.c_str());
@@ -91,7 +114,7 @@ void FastDfsClient::init()
 	m_func_CheckConfiguration = (func_CheckConfiguration)GetProcAddress(m_hDll, "FDFSC_CheckConfiguration");
 
 	TCHAR szProxyAddr[IP_ADDRESS_SIZE];
-	_tcscpy_s(szProxyAddr, CA2T(this->serverAddr.c_str()));
+	copyStdStringToTCharBuffer(this->serverAddr, szProxyAddr, _countof(szProxyAddr));
 	ServerAddress addr[2];
 	addr[0].nPort = this->port;
 	memcpy(addr[0].szIP, szProxyAddr, strlen(szProxyAddr) + 1);
@@ -111,7 +134,7 @@ void FastDfsClient::init()
 
 bool FastDfsClient::checkOrCreateDir(const std::string& fileName)
 {
-	//判断目录是否存在，不存在创建目录
+	// 判断目录是否存在，不存在则创建目录
 	auto dir = fileName.substr(0, fileName.find_last_of("/") + 1);
 	const size_t dirLen = dir.length();
 	if (dirLen > MAX_DIR_LEN)
@@ -120,7 +143,7 @@ bool FastDfsClient::checkOrCreateDir(const std::string& fileName)
 		return false;
 	}
 
-	//循环创建目录
+	// 循环创建目录
 	char tmpDirPath[MAX_DIR_LEN] = { 0 };
 	for (size_t i = 0; i < dirLen; i++)
 	{
@@ -144,13 +167,13 @@ bool FastDfsClient::checkOrCreateDir(const std::string& fileName)
 
 FastDfsClient::FastDfsClient(const std::string& fdsConfig, bool isPath /*= true*/, int logLevel /*= 3*/)
 {
-	//初始化成员变量
+	// 初始化成员变量
 	if (isPath)
 		m_configPath = fdsConfig;
 	else
 		m_configContent = fdsConfig;
 	m_nLevelLog = logLevel;
-	//呼叫初始化
+	// 调用初始化
 	this->init();
 }
 
@@ -164,11 +187,11 @@ FastDfsClient::~FastDfsClient()
 
 FastDfsClient::FastDfsClient(std::string serverAddr, unsigned int port /*= 22122*/)
 {
-	//初始化成员变量
+	// 初始化成员变量
 	this->serverAddr = serverAddr;
 	this->port = port;
 	this->isInit = false;
-	//呼叫初始化
+	// 调用初始化
 	this->init();
 }
 
@@ -233,7 +256,7 @@ std::string FastDfsClient::uploadFile(const std::string& fileName)
 	}
 
 #else
-	//判断是否能够打开文件
+	// 判断是否能够打开文件
 	fsRead.open(fileName.c_str(), std::ios::in | std::ios::binary);
 	if (!fsRead)
 	{
@@ -241,7 +264,7 @@ std::string FastDfsClient::uploadFile(const std::string& fileName)
 		return "";
 	}
 
-	//读取文件
+	// 读取文件
 	fsRead.seekg(0, std::ios::end);
 	size_t size = static_cast<size_t>(fsRead.tellg());
 	fsRead.seekg(0, std::ios::beg);
@@ -249,13 +272,13 @@ std::string FastDfsClient::uploadFile(const std::string& fileName)
 	fsRead.read(buff, size);
 	fsRead.close();
 
-	//定义上传参数
+	// 定义上传参数
 	BYTE byGroupName[FDFS_GROUP_NAME_MAX_LEN + 1];
 	BYTE byRemoteFileName[FDFS_REMOTE_FILE_NAME_MAX_LEN + 1];
 	BYTE byFileExtName[10];
 	memcpy(byFileExtName, extName.c_str(), extName.length() + 1);
 
-	//组装上传文件数据
+	// 组装上传文件数据
 	BYTE* byFile = new BYTE[size];
 	for (size_t i = 0; i < size; i++)
 	{
@@ -263,7 +286,7 @@ std::string FastDfsClient::uploadFile(const std::string& fileName)
 	}
 	delete[] buff;
 
-	//执行文件上传
+	// 执行文件上传
 	std::string remoteFileld = "";
 	UINT32 nRet = m_func_UploadFile(byFile, static_cast<UINT32>(size), byFileExtName, byGroupName, byRemoteFileName);
 	delete[] byFile;
@@ -334,20 +357,20 @@ std::string FastDfsClient::uploadFile(const char* buff, size_t size, const std::
 		return "";
 	}
 #else
-	//定义上传参数
+	// 定义上传参数
 	BYTE byGroupName[FDFS_GROUP_NAME_MAX_LEN + 1];
 	BYTE byRemoteFileName[FDFS_REMOTE_FILE_NAME_MAX_LEN + 1];
 	BYTE byFileExtName[10];
 	memcpy(byFileExtName, extName.c_str(), extName.length() + 1);
 
-	//组装上传文件数据
+	// 组装上传文件数据
 	BYTE* byFile = new BYTE[size];
 	for (size_t i = 0; i < size; i++)
 	{
 		byFile[i] = buff[i];
 	}
 
-	//执行文件上传
+	// 执行文件上传
 	std::string remoteFileld = "";
 	UINT32 nRet = m_func_UploadFile(byFile, static_cast<UINT32>(size), byFileExtName, byGroupName, byRemoteFileName);
 	delete[] byFile;
@@ -367,20 +390,20 @@ std::string FastDfsClient::uploadFile(const char* buff, size_t size, const std::
 
 std::string FastDfsClient::downloadFile(const std::string& fieldName, std::string* savePath)
 {
-	//连接是否初始化成功
+	// 连接是否初始化成功
 	if (!this->isInit)
 	{
 		std::cerr << "Not initialize succeed" << std::endl;
 		return "";
 	}
 
-	//构建保存路径
+	// 构建保存路径
 	StringUtil::replace(savePath, "\\", "/");
 	stringstream ss;
 	ss << savePath->c_str() << "/" << fieldName;
 	std::string fileName = ss.str();
 
-	//判断文件夹与创建
+	// 判断文件夹与创建
 	if (!checkOrCreateDir(fileName)) {
 		return "";
 	}
@@ -416,12 +439,12 @@ std::string FastDfsClient::downloadFile(const std::string& fieldName, std::strin
 	return fileName;
 #else
 
-	//定义方法调用参数
+	// 定义方法调用参数
 	TCHAR szFileID[260] = { 0 };
 	UINT32 nFileSize = 0;
-	_tcscpy_s(szFileID, CA2T(fieldName.c_str()));
+	copyStdStringToTCharBuffer(fieldName, szFileID, _countof(szFileID));
 
-	//下载文件
+	// 下载文件
 	UINT32 nRet = m_func_DownloadFileByID(reinterpret_cast<BYTE*>(szFileID), byFileBuff, &nFileSize);
 	if (nRet != enumSuccess_FDFS)
 	{
@@ -429,7 +452,7 @@ std::string FastDfsClient::downloadFile(const std::string& fieldName, std::strin
 		return "";
 	}
 
-	//保存文件
+	// 保存文件
 	fsWrite.open(fileName, std::ios::out | std::ios::binary);
 	char* buff = new char[nFileSize];
 	for (size_t i = 0; i < nFileSize; i++)
@@ -440,14 +463,14 @@ std::string FastDfsClient::downloadFile(const std::string& fieldName, std::strin
 	fsWrite.close();
 	delete[] buff;
 
-	//返回文件名
+	// 返回文件名
 	return fileName;
 #endif
 }
 
 bool FastDfsClient::deleteFile(const std::string& fieldName)
 {
-	//连接是否初始化成功
+	// 连接是否初始化成功
 	if (!this->isInit)
 	{
 		std::cerr << "Not initialize succeed" << std::endl;
@@ -478,11 +501,11 @@ bool FastDfsClient::deleteFile(const std::string& fieldName)
 	return true;
 #else
 
-	//定义方法调用参数
+	// 定义方法调用参数
 	TCHAR szFileID[260] = { 0 };
-	_tcscpy_s(szFileID, CA2T(fieldName.c_str()));
+	copyStdStringToTCharBuffer(fieldName, szFileID, _countof(szFileID));
 
-	//删除文件
+	// 删除文件
 	UINT32 nRet = m_func_DeleteFileByID(reinterpret_cast<BYTE*>(szFileID));
 	if (nRet != enumSuccess_FDFS)
 	{

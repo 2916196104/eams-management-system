@@ -3,8 +3,8 @@
 #define COMMON_RESPONSE_DTO_H
 
 #include "../../GlobalInclude.h"
-#include "ServerInfo.h"
-#include "Macros.h"
+#include "ServerInfo.h" // 中文字典需要引入的头文件
+#include "Macros.h"     // 中文字典需要引入的头文件
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
@@ -27,171 +27,123 @@ class CommonResponseDTO : public oatpp::DTO {
 
 class HomeworkListRowDTO : public oatpp::DTO {
   DTO_INIT(HomeworkListRowDTO, DTO);
-
-  DTO_FIELD(String, homework_id) = "";
-  DTO_FIELD_INFO(homework_id) {
-    info->description = u8"\u4F5C\u4E1AID";
-  }
-  DTO_FIELD(String, title) = "";
-  DTO_FIELD_INFO(title) {
-    info->description = u8"\u4F5C\u4E1A\u6807\u9898";
-  }
-  DTO_FIELD(String, class_name) = "";
-  DTO_FIELD_INFO(class_name) {
-    info->description = u8"\u73ED\u7EA7\u540D\u79F0";
-  }
-  DTO_FIELD(Int32, submit_count) = 0;
-  DTO_FIELD_INFO(submit_count) {
-    info->description = u8"\u63D0\u4EA4\u4EBA\u6570";
-  }
-  DTO_FIELD(String, create_time) = "";
-  DTO_FIELD_INFO(create_time) {
-    info->description = u8"\u521B\u5EFA\u65F6\u95F4";
-  }
+  // 作业ID
+  API_DTO_FIELD(String, homework_id, ZH_WORDS_GETTER("homework.listRow.homework_id"), false, "");
+  // 作业标题
+  API_DTO_FIELD(String, title, ZH_WORDS_GETTER("homework.listRow.title"), false, "");
+  // 班级名称
+  API_DTO_FIELD(String, class_name, ZH_WORDS_GETTER("homework.listRow.class_name"), false, "");
+  // 提交人数
+  API_DTO_FIELD(Int32, submit_count, ZH_WORDS_GETTER("homework.listRow.submit_count"), false, 0);
+  // 创建时间
+  API_DTO_FIELD(String, create_time, ZH_WORDS_GETTER("homework.listRow.create_time"), false, "");
 };
+
+
+using HomeworkListRows = oatpp::List<oatpp::Object<HomeworkListRowDTO>>;
 
 class HomeworkListPageDTO : public oatpp::DTO {
   DTO_INIT(HomeworkListPageDTO, DTO);
-
-  DTO_FIELD(UInt64, pageIndex) = 1;
-  DTO_FIELD_INFO(pageIndex) {
-    info->description = u8"\u5F53\u524D\u9875\u7801";
-  }
-  DTO_FIELD(UInt64, pageSize) = 5;
-  DTO_FIELD_INFO(pageSize) {
-    info->description = u8"\u6BCF\u9875\u6570\u636E\u6761\u6570";
-  }
-  DTO_FIELD(Int64, total) = v_int64(0);
-  DTO_FIELD_INFO(total) {
-    info->description = u8"\u6570\u636E\u603B\u6761\u6570";
-  }
-  DTO_FIELD(Int64, pages) = v_int64(0);
-  DTO_FIELD_INFO(pages) {
-    info->description = u8"\u6570\u636E\u603B\u9875\u6570";
-  }
-  DTO_FIELD(List<Object<HomeworkListRowDTO>>, rows) = {};
-  DTO_FIELD_INFO(rows) {
-    info->description = u8"\u5F53\u524D\u9875\u6570\u636E\u5217\u8868";
-  }
+  API_DTO_FIELD(UInt64, pageIndex, ZH_WORDS_GETTER("homework.page.pageIndex"), false, 1);
+  API_DTO_FIELD(UInt64, pageSize, ZH_WORDS_GETTER("homework.page.pageSize"), false, 5);
+  /** Int64 默认值勿写裸 0，MSVC 下会与 oatpp::Int64 的 operator= 产生二义性 */
+  API_DTO_FIELD(Int64, total, ZH_WORDS_GETTER("homework.page.total"), false, static_cast<v_int64>(0));
+  API_DTO_FIELD(Int64, pages, ZH_WORDS_GETTER("homework.page.pages"), false, static_cast<v_int64>(0));
+  API_DTO_FIELD(HomeworkListRows, rows, ZH_WORDS_GETTER("homework.page.rows"), false, {});
 };
 
 class HomeworkListPageJsonVO : public oatpp::DTO {
   DTO_INIT(HomeworkListPageJsonVO, DTO);
+  // 状态码
+  API_DTO_FIELD(Int32, code, ZH_WORDS_GETTER("homework.rsp.code"), false, 10000);
+  // 提示信息
+  API_DTO_FIELD(String, message, ZH_WORDS_GETTER("homework.rsp.message"), false, "success");
+  // 分页数据
+  API_DTO_FIELD_DEFAULT(Object<HomeworkListPageDTO>, data, ZH_WORDS_GETTER("homework.listPageVo.data"));
+};
 
-  DTO_FIELD(Int32, code) = 10000;
-  DTO_FIELD_INFO(code) {
-    info->description = u8"\u72B6\u6001\u7801";
-  }
-  DTO_FIELD(String, message) = "success";
-  DTO_FIELD_INFO(message) {
-    info->description = u8"\u63D0\u793A\u4FE1\u606F";
-  }
-  DTO_FIELD(Object<HomeworkListPageDTO>, data);
-  DTO_FIELD_INFO(data) {
-    info->description = u8"\u5206\u9875\u6570\u636E";
-  }
+class HomeworkSubmitRecordDTO : public oatpp::DTO {
+  DTO_INIT(HomeworkSubmitRecordDTO, DTO);
+  // 提交记录ID
+  API_DTO_FIELD(String, record_id, ZH_WORDS_GETTER("homework.submitRecord.record_id"), false, "");
+  // 学生ID
+  API_DTO_FIELD(String, student_id, ZH_WORDS_GETTER("homework.submitRecord.student_id"), false, "");
+  // 提交内容
+  API_DTO_FIELD(String, submit_content, ZH_WORDS_GETTER("homework.submitRecord.submit_content"), false, "");
+  // 提交时间
+  API_DTO_FIELD(String, submit_time, ZH_WORDS_GETTER("homework.submitRecord.submit_time"), false, "");
+  // 点评分数
+  API_DTO_FIELD(Int32, score, ZH_WORDS_GETTER("homework.submitRecord.score"), false, 0);
+  // 点评文字
+  API_DTO_FIELD(String, comment, ZH_WORDS_GETTER("homework.submitRecord.comment"), false, "");
+  // 点评时间
+  API_DTO_FIELD(String, comment_time, ZH_WORDS_GETTER("homework.submitRecord.comment_time"), false, "");
+  // 点评教师
+  API_DTO_FIELD(String, comment_teacher, ZH_WORDS_GETTER("homework.submitRecord.comment_teacher"), false, "");
 };
 
 class HomeworkDetailDataDTO : public oatpp::DTO {
   DTO_INIT(HomeworkDetailDataDTO, DTO);
-
-  DTO_FIELD(String, homework_id) = "";
-  DTO_FIELD_INFO(homework_id) {
-    info->description = u8"\u4F5C\u4E1AID";
-  }
-  DTO_FIELD(String, title) = "";
-  DTO_FIELD_INFO(title) {
-    info->description = u8"\u4F5C\u4E1A\u6807\u9898";
-  }
-  DTO_FIELD(String, class_name) = "";
-  DTO_FIELD_INFO(class_name) {
-    info->description = u8"\u73ED\u7EA7\u540D\u79F0";
-  }
-  DTO_FIELD(String, content) = "";
-  DTO_FIELD_INFO(content) {
-    info->description = u8"\u4F5C\u4E1A\u5185\u5BB9";
-  }
+  // 作业ID
+  API_DTO_FIELD(String, homework_id, ZH_WORDS_GETTER("homework.detailData.homework_id"), false, "");
+  // 作业标题
+  API_DTO_FIELD(String, title, ZH_WORDS_GETTER("homework.detailData.title"), false, "");
+  // 班级名称
+  API_DTO_FIELD(String, class_name, ZH_WORDS_GETTER("homework.detailData.class_name"), false, "");
+  // 作业内容
+  API_DTO_FIELD(String, content, ZH_WORDS_GETTER("homework.detailData.content"), false, "");
+  // 附件说明（无表字段时可为空）
+  API_DTO_FIELD(String, attachment, ZH_WORDS_GETTER("homework.detailData.attachment"), false, "");
+  // 提交记录列表（无提交时为空列表）
+  API_DTO_FIELD(List<Object<HomeworkSubmitRecordDTO>>, submit_list, ZH_WORDS_GETTER("homework.detailData.submit_list"), false, {});
 };
 
 class HomeworkDetailJsonVO : public oatpp::DTO {
   DTO_INIT(HomeworkDetailJsonVO, DTO);
-
-  DTO_FIELD(Int32, code) = 10000;
-  DTO_FIELD_INFO(code) {
-    info->description = u8"\u72B6\u6001\u7801";
-  }
-  DTO_FIELD(String, message) = "success";
-  DTO_FIELD_INFO(message) {
-    info->description = u8"\u63D0\u793A\u4FE1\u606F";
-  }
-  DTO_FIELD(Object<HomeworkDetailDataDTO>, data);
-  DTO_FIELD_INFO(data) {
-    info->description = u8"\u8BE6\u60C5\u6570\u636E";
-  }
+  // 状态码
+  API_DTO_FIELD(Int32, code, ZH_WORDS_GETTER("homework.rsp.code"), false, 10000);
+  // 提示信息
+  API_DTO_FIELD(String, message, ZH_WORDS_GETTER("homework.rsp.message"), false, "success");
+  // 详情数据
+  API_DTO_FIELD_DEFAULT(Object<HomeworkDetailDataDTO>, data, ZH_WORDS_GETTER("homework.detailVo.data"));
 };
 
 class HomeworkAddDataDTO : public oatpp::DTO {
   DTO_INIT(HomeworkAddDataDTO, DTO);
-
-  DTO_FIELD(String, homework_id) = "";
-  DTO_FIELD_INFO(homework_id) {
-    info->description = u8"\u4F5C\u4E1AID";
-  }
-  DTO_FIELD(String, title) = "";
-  DTO_FIELD_INFO(title) {
-    info->description = u8"\u4F5C\u4E1A\u6807\u9898";
-  }
+  // 作业ID
+  API_DTO_FIELD(String, homework_id, ZH_WORDS_GETTER("homework.addData.homework_id"), false, "");
+  // 作业标题
+  API_DTO_FIELD(String, title, ZH_WORDS_GETTER("homework.addData.title"), false, "");
 };
 
 class HomeworkAddJsonVO : public oatpp::DTO {
   DTO_INIT(HomeworkAddJsonVO, DTO);
-
-  DTO_FIELD(Int32, code) = 10000;
-  DTO_FIELD_INFO(code) {
-    info->description = u8"\u72B6\u6001\u7801";
-  }
-  DTO_FIELD(String, message) = "success";
-  DTO_FIELD_INFO(message) {
-    info->description = u8"\u63D0\u793A\u4FE1\u606F";
-  }
-  DTO_FIELD(Object<HomeworkAddDataDTO>, data);
-  DTO_FIELD_INFO(data) {
-    info->description = u8"\u65B0\u589E\u4F5C\u4E1A\u6570\u636E";
-  }
+  // 状态码
+  API_DTO_FIELD(Int32, code, ZH_WORDS_GETTER("homework.rsp.code"), false, 10000);
+  // 提示信息
+  API_DTO_FIELD(String, message, ZH_WORDS_GETTER("homework.rsp.message"), false, "success");
+  // 新增作业数据
+  API_DTO_FIELD_DEFAULT(Object<HomeworkAddDataDTO>, data, ZH_WORDS_GETTER("homework.addVo.data"));
 };
 
 class HomeworkCommentDataDTO : public oatpp::DTO {
   DTO_INIT(HomeworkCommentDataDTO, DTO);
-
-  DTO_FIELD(String, comment_id) = "";
-  DTO_FIELD_INFO(comment_id) {
-    info->description = u8"\u70B9\u8BC4ID";
-  }
-  DTO_FIELD(Int32, score) = 0;
-  DTO_FIELD_INFO(score) {
-    info->description = u8"\u8BC4\u5206";
-  }
-  DTO_FIELD(String, content) = "";
-  DTO_FIELD_INFO(content) {
-    info->description = u8"\u70B9\u8BC4\u5185\u5BB9";
-  }
+  // 点评ID
+  API_DTO_FIELD(String, comment_id, ZH_WORDS_GETTER("homework.commentData.comment_id"), false, "");
+  // 评分
+  API_DTO_FIELD(Int32, score, ZH_WORDS_GETTER("homework.commentData.score"), false, 0);
+  // 点评内容
+  API_DTO_FIELD(String, content, ZH_WORDS_GETTER("homework.commentData.content"), false, "");
 };
 
 class HomeworkCommentJsonVO : public oatpp::DTO {
   DTO_INIT(HomeworkCommentJsonVO, DTO);
-
-  DTO_FIELD(Int32, code) = 10000;
-  DTO_FIELD_INFO(code) {
-    info->description = u8"\u72B6\u6001\u7801";
-  }
-  DTO_FIELD(String, message) = "success";
-  DTO_FIELD_INFO(message) {
-    info->description = u8"\u63D0\u793A\u4FE1\u606F";
-  }
-  DTO_FIELD(Object<HomeworkCommentDataDTO>, data);
-  DTO_FIELD_INFO(data) {
-    info->description = u8"\u70B9\u8BC4\u6570\u636E";
-  }
+  // 状态码
+  API_DTO_FIELD(Int32, code, ZH_WORDS_GETTER("homework.rsp.code"), false, 10000);
+  // 提示信息
+  API_DTO_FIELD(String, message, ZH_WORDS_GETTER("homework.rsp.message"), false, "success");
+  // 点评数据
+  API_DTO_FIELD_DEFAULT(Object<HomeworkCommentDataDTO>, data, ZH_WORDS_GETTER("homework.commentVo.data"));
 };
 
 #include OATPP_CODEGEN_END(DTO)
