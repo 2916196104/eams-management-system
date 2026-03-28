@@ -19,11 +19,9 @@ class BoardQuery : public PageQuery
 	// 公告标题
 	API_DTO_FIELD_DEFAULT(String, boardTitle, ZH_WORDS_GETTER("board.field.boardTitle"));
 	// 公告发布者名称
-	API_DTO_FIELD_DEFAULT(String, boardPublisherName, ZH_WORDS_GETTER("board.field.boardPublisherName"));
+	//API_DTO_FIELD_DEFAULT(String, boardPublisherName, ZH_WORDS_GETTER("board.field.boardPublisherName"));
 	// 公告发布者id
-	API_DTO_FIELD_DEFAULT(String, boardPublisherId, ZH_WORDS_GETTER("board.field.boardPublisherId"));
-	// 公告类型
-	API_DTO_FIELD_DEFAULT(Int8, boardType, ZH_WORDS_GETTER("board.field.boardType"));
+	API_DTO_FIELD_DEFAULT(Int64, boardPublisherId, ZH_WORDS_GETTER("board.field.boardPublisherId"));
 };
 
 #include OATPP_CODEGEN_END(DTO)

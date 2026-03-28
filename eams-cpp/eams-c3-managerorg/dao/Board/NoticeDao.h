@@ -1,25 +1,24 @@
 ﻿#pragma once
-#ifndef _NOTICE_DAO_
-#define _NOTICE_DAO_
+#ifndef _NOTICE_DAO_H_
+#define _NOTICE_DAO_H_
 
 #include "BaseDAO.h"
-#include "../../domain/do/Board/NoticeDO.h"
-#include "../../domain/query/BoardManager/BoardManagerQuery.h"
+#include "domain/do/Board/NoticeDO.h"
+#include "domain/query/BoardManager/BoardManagerQuery.h"
 
-/**
- * 通知设置数据访问对象
- */
 class NoticeDAO : public BaseDAO
 {
+private:
+    inline std::string queryConditionBuilder(const BoardQuery::Wrapper& query, SqlParams& params);
 public:
-    // 查询所有通知配置
-    std::list<PtrNoticeSettingDO> selectAll();
-
-    // 根据ID查询通知配置
-    PtrNoticeSettingDO selectById(int id);
-
-    // 根据通知编码（code）查询通知配置
-    PtrNoticeSettingDO selectByCode(const std::string& code);
+    std::list<PtrNoticeDO> selectAll(const BoardQuery::Wrapper& query);
+    PtrNoticeDO selectById(oatpp::UInt64 id);
+    std::list<PtrNoticeDO> selectByTitle(const std::string& title);
+    int insert(const NoticeDO& notice);
+    bool update(const NoticeDO& notice);
+    uint64_t count(const BoardQuery::Wrapper& query);
+    bool update1(const NoticeDO& notice);
+    bool update2(const NoticeDO& notice);
 };
 
-#endif // !_NOTICE_DAO_
+#endif // _NOTICE_DAO_H_
