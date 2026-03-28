@@ -1,6 +1,7 @@
 package com.zeroone.star.project.j2.sys;
 
 import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j2.sys.Template.TemplateAttachmentDTO;
 import com.zeroone.star.project.dto.j2.sys.Template.TemplateDTO;
 import com.zeroone.star.project.query.j2.sys.template.TemplateQuery;
 import com.zeroone.star.project.vo.JsonVO;
@@ -10,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 /**
- * 描述：模板管理
- * @author 斗气化码
- * @version 1.0.0
+ * 描述：模板管理接口声明
  */
 public interface TemplateApis {
 
@@ -28,7 +27,8 @@ public interface TemplateApis {
      * @param condition 查询条件
      * @return 查询结果
      */
-    JsonVO<PageDTO<TemplateDTO>> queryAll(TemplateQuery condition);
+    JsonVO<PageDTO<TemplateAttachmentDTO>> queryAll(TemplateQuery condition);
+
     /**
      * 新增模版
      * @param dto 新增模版数据

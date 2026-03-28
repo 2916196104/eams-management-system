@@ -1,15 +1,17 @@
-package com.zeroone.star.sys.service.impl;
+package com.zeroone.star.sys.service.impl.template;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j2.sys.Template.TemplateAttachmentDTO;
 import com.zeroone.star.project.dto.j2.sys.Template.TemplateDTO;
 import com.zeroone.star.project.query.j2.sys.template.TemplateQuery;
 import com.zeroone.star.sys.entity.Attachment;
-import com.zeroone.star.sys.mapper.MsTemplateMapper;
-import com.zeroone.star.sys.mapper.TemplateMapper;
-import com.zeroone.star.sys.service.ITemplateService;
+import com.zeroone.star.sys.entity.template.SettingNotice;
+import com.zeroone.star.sys.mapper.attachment.AttachmentMapper;
+import com.zeroone.star.sys.mapper.template.TemplateMapper;
+import com.zeroone.star.sys.service.template.ITemplateService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
@@ -25,6 +27,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * <p>
@@ -35,10 +38,13 @@ import java.time.LocalDate;
  * @since 2026-03-27
  */
 @Service
-public class TemplateServiceImpl extends ServiceImpl<TemplateMapper, Attachment> implements ITemplateService {
+public class TemplateServiceImpl extends ServiceImpl<AttachmentMapper, Attachment> implements ITemplateService {
 
     @Resource
     MsTemplateMapper msTemplateMapper;
+
+    @Resource
+    AttachmentMapper attachmentMapper;
 
     @Resource
     TemplateMapper templateMapper;
@@ -47,7 +53,7 @@ public class TemplateServiceImpl extends ServiceImpl<TemplateMapper, Attachment>
     @Transactional
     @Override
     public ResponseEntity<byte[]> downloadFile(String templateId) {
-        Attachment attachment = templateMapper.selectById(templateId);
+        Attachment attachment = attachmentMapper.selectById(templateId);
         String fileUrl = attachment.getUrl();
         String name = attachment.getName();
 
@@ -77,7 +83,7 @@ public class TemplateServiceImpl extends ServiceImpl<TemplateMapper, Attachment>
 
     @Transactional
     @Override
-    public PageDTO<TemplateDTO> queryAll(TemplateQuery query) {
+    public PageDTO<TemplateAttachmentDTO> queryAll(TemplateQuery query) {
         // 构建分页查询对象
         Page<Attachment> page = new Page<>(query.getPageIndex(), query.getPageSize());
         // 构建查询条件
@@ -86,5 +92,53 @@ public class TemplateServiceImpl extends ServiceImpl<TemplateMapper, Attachment>
         // 分页查询
         Page<Attachment> result = baseMapper.selectPage(page, queryWrapper);
         return PageDTO.create(result, src -> msTemplateMapper.toDTO(src));
+    }
+
+    /**
+     * 新增模板列表
+     * @param templateDTO
+     * @return
+     */
+    @Override
+    @Transactional
+    public boolean addTemplateList(TemplateDTO templateDTO) {
+        SettingNotice settingNotice = msTemplateMapper.toSettingNotice(templateDTO);
+        if(templateMapper.insert(settingNotice) > 0){
+            return true;
+        }else {
+            throw new RuntimeException("新增模版数据失败");
+        }
+    }
+
+    /**
+     * 删除模板列表
+     * @param templateIds
+     * @return
+     */
+    @Override
+    @Transactional
+    public boolean deleteTemplateList(List<String> templateIds) {
+        for(String templateId : templateIds){
+            if(templateMapper.deleteById(templateId) <= 0){
+                throw new RuntimeException("删除模版数据失败");
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 修改模板列表
+     * @param templateDTO
+     * @return
+     */
+    @Override
+    @Transactional
+    public boolean updateTemplateList(TemplateDTO templateDTO) {
+        SettingNotice settingNotice = msTemplateMapper.toSettingNotice(templateDTO);
+        if (templateMapper.updateById(settingNotice) > 0){
+            return true;
+        }else {
+            throw new RuntimeException("修改模版数据失败");
+        }
     }
 }

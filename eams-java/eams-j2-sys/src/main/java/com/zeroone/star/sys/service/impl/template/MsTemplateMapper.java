@@ -1,7 +1,9 @@
-package com.zeroone.star.sys.mapper;
+package com.zeroone.star.sys.service.impl.template;
 
+import com.zeroone.star.project.dto.j2.sys.Template.TemplateAttachmentDTO;
 import com.zeroone.star.project.dto.j2.sys.Template.TemplateDTO;
 import com.zeroone.star.sys.entity.Attachment;
+import com.zeroone.star.sys.entity.template.SettingNotice;
 import org.mapstruct.Mapper;
 
 /**
@@ -12,9 +14,11 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface MsTemplateMapper {
     /**
-     * attachment 转换 TemplateDTO
+     * attachment 转换 TemplateAttachmentDTO
      * @param attachment 源对象
      * @return 目标对象
      */
-    TemplateDTO toDTO(Attachment attachment);
+    TemplateAttachmentDTO toDTO(Attachment attachment);
+
+    SettingNotice toSettingNotice(TemplateDTO dto);
 }

@@ -1,15 +1,15 @@
 package com.zeroone.star.sys.controller;
 
 import com.zeroone.star.project.dto.PageDTO;
+import com.zeroone.star.project.dto.j2.sys.Template.TemplateAttachmentDTO;
 import com.zeroone.star.project.dto.j2.sys.Template.TemplateDTO;
 import com.zeroone.star.project.j2.sys.TemplateApis;
 import com.zeroone.star.project.query.j2.sys.template.TemplateQuery;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.sys.service.ITemplateService;
+import com.zeroone.star.sys.service.template.ITemplateService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +22,7 @@ import java.util.List;
  * </p>
  * @since 2026-03-18
  */
-@Controller
+@RestController
 @RequestMapping("/sys/template")
 @Api(tags = "模板管理")
 @Validated
@@ -43,32 +43,50 @@ public class TemplateController implements TemplateApis {
 
     @GetMapping(value = "/list")
     @ApiOperation(value = "获取模板列表（条件+分页）")
-    @ResponseBody
     @Override
-    public JsonVO<PageDTO<TemplateDTO>> queryAll(@Validated TemplateQuery condition) {
+    public JsonVO<PageDTO<TemplateAttachmentDTO>> queryAll(@Validated TemplateQuery condition) {
         return JsonVO.success(templateService.queryAll(condition));
     }
+
     /**
      * 负责人：Emanon
      */
     @PostMapping("/add")
-    @ApiOperation(value = "新增模版")
+    @ApiOperation(value = "新增模版数据")
     @Override
     public JsonVO<String> addTemplate(@RequestBody TemplateDTO dto) {
-        return null;
+        if(dto == null){
+            return JsonVO.fail("请选择要添加的模版数据");
+        }
+        if(templateService.addTemplateList(dto)){
+            return JsonVO.success("新增模版数据成功");
+        }
+        return JsonVO.fail("新增模版数据失败");
     }
 
     @PostMapping("/update")
-    @ApiOperation(value = "修改模版")
+    @ApiOperation(value = "修改模版数据")
     @Override
     public JsonVO<String> modifyTemplate(@RequestBody TemplateDTO dto) {
-        return null;
+        if(dto.getId() == null){
+            return JsonVO.fail("请选择要修改的模版数据");
+        }
+        if(templateService.updateTemplateList(dto)){
+            return JsonVO.success("修改模版数据成功");
+        }
+        return JsonVO.fail("修改模版数据失败");
     }
 
     @DeleteMapping("/delete")
-    @ApiOperation(value = "删除模版")
+    @ApiOperation(value = "删除模版数据")
     @Override
     public JsonVO<String> removeTemplate(List<String> ids) {
-        return null;
+        if(ids.isEmpty()){
+            return JsonVO.fail("请选择要删除的模版数据");
+        }
+        if (templateService.deleteTemplateList(ids)){
+            return JsonVO.success("删除模版数据成功");
+        }
+        return JsonVO.fail("删除模版数据失败");
     }
 }
