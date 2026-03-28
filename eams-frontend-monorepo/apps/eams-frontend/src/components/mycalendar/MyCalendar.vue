@@ -25,7 +25,7 @@
 				<span class="current-month">{{ displayTitle }}</span>
 			</div>
 			<div class="toolbar-right">
-				<el-button class="today-btn" size="default" @click="goToday">今天</el-button>
+				<el-button type="primary" class="today-btn" size="default" @click="goToday">今天</el-button>
 				<el-button type="primary" size="default" class="nav-btn" @click="prev">&lt;</el-button>
 				<el-button type="primary" size="default" class="nav-btn" @click="next">&gt;</el-button>
 			</div>
@@ -451,17 +451,9 @@ function handleCellClick(cell: CalendarCell) {
 	font-weight: 500;
 }
 
-/* 今天按钮：黑色背景 */
+/* 今天按钮样式 */
 .today-btn {
-	background-color: #000;
-	border-color: #000;
-	color: #fff;
-}
-.today-btn:hover,
-.today-btn:focus {
-	background-color: #333;
-	border-color: #333;
-	color: #fff;
+	/* 使用 primary 类型的默认蓝色 */
 }
 
 .nav-btn {
