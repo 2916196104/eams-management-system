@@ -1,5 +1,6 @@
 package com.zeroone.star.project.j5.classmanager;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zeroone.star.project.dto.j5.classmanager.ClassDTO;
 import com.zeroone.star.project.dto.j5.classmanager.ClassStudentDTO;
@@ -18,9 +19,9 @@ public interface ClassStudentApis {
     JsonVO<Page<ClassOptionsVO>> queryClassOptions(ClassOptionsQuery query);
 
 
-    JsonVO<Page<ClassListVO>> queryClassByPage(ClassPageQuery query);
+    JsonVO<IPage<ClassListVO>> pageClass(ClassPageQuery query);
     JsonVO<ClassListVO> getClassDetail(Long id);
-    JsonVO<Page<ClassStudentVO>> pageStudent(Long classId, ClassStudentQuery query);
+    JsonVO<IPage<ClassStudentVO>> pageStudent(Long classId, ClassStudentQuery query);
 
 
     JsonVO<Integer> addClassStudent(ClassStudentDTO classStudentDTO);

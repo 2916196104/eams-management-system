@@ -1,8 +1,10 @@
 package com.zeroone.star.j5.classmanager.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zeroone.star.j5.classmanager.service.ClassService;
 import com.zeroone.star.j5.classmanager.service.ClassStudentService;
+import com.zeroone.star.project.DO.j5.classmanager.ClassDO;
 import com.zeroone.star.project.dto.j5.classmanager.ClassDTO;
 import com.zeroone.star.project.dto.j5.classmanager.ClassStudentDTO;
 import com.zeroone.star.project.dto.j5.classmanager.TransClassStudentDTO;
@@ -53,7 +55,7 @@ public class ClassManagerController implements ClassStudentApis {
             @ApiImplicitParam(name = "teacherName", value = "班主任姓名（模糊匹配）", dataType = "string", paramType = "form", example = "张老师"),
             @ApiImplicitParam(name = "classroomName", value = "教室名称（模糊匹配）", dataType = "string", paramType = "form", example = "A101"),
             @ApiImplicitParam(name = "gradeName", value = "年级名称（模糊匹配）", dataType = "string", paramType = "form", example = "三年级"),
-            @ApiImplicitParam(name = "pageNum", value = "当前页码", dataType = "int", paramType = "form", example = "1", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageIndex", value = "当前页码", dataType = "int", paramType = "form", example = "1", defaultValue = "1"),
             @ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", paramType = "form", example = "30", defaultValue = "30")
     })
     @ApiResponses({
@@ -63,14 +65,12 @@ public class ClassManagerController implements ClassStudentApis {
             @ApiResponse(code = 404, message = "Not Found")
     })
     @Override
-    public JsonVO<Page<ClassListVO>> queryClassByPage(
+    public JsonVO<IPage<ClassListVO>> pageClass(
             @ModelAttribute ClassPageQuery queryDTO
     ) {
-        // 实际业务中需调用 service 进行关联查询，此处模拟返回
-        Page<ClassListVO> pageInfo = new Page<>();
-        pageInfo.setTotal(58L);
+        IPage<ClassListVO> page = classService.queryClassPage(queryDTO);
         // 设置列表数据（略）
-        return JsonVO.success(pageInfo);
+        return JsonVO.success(page);
     }
 
     // ... 已有的 pageQuery 方法 ...
@@ -93,20 +93,10 @@ public class ClassManagerController implements ClassStudentApis {
     public JsonVO<ClassListVO> getClassDetail(
             @PathVariable("id") Long id
     ) {
-        // 实际业务中调用 service 查询班级详情并组装关联名称
-        // 此处模拟返回
-        ClassListVO detail = new ClassListVO();
-        detail.setId(id);
-        detail.setName("三年二班");
-        detail.setCourseId(5L);
-        detail.setCourseName("数学");
-        detail.setClassroomId(10L);
-        detail.setClassroomName("A101");
-        detail.setTeacherId(3L);
-        detail.setTeacherName("张老师");
-        detail.setGradeId(2);
-        detail.setGradeName("三年级");
-        // ... 其他字段
+        ClassListVO detail = classService.getClassDetail(id);
+        if (detail == null) {
+            return JsonVO.fail("班级不存在");
+        }
         return JsonVO.success(detail);
     }
 
@@ -120,9 +110,8 @@ public class ClassManagerController implements ClassStudentApis {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "classId", value = "班级ID", required = true, dataType = "long", paramType = "path", example = "1"),
             @ApiImplicitParam(name = "studentName", value = "学员姓名（模糊匹配）", dataType = "string", paramType = "form", example = "张"),
-            @ApiImplicitParam(name = "studentNo", value = "学号（模糊匹配）", dataType = "string", paramType = "form", example = "2023"),
             @ApiImplicitParam(name = "gender", value = "性别 1 男 2 女", dataType = "int", paramType = "form", example = "1"),
-            @ApiImplicitParam(name = "pageNum", value = "当前页码", dataType = "int", paramType = "form", example = "1", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageIndex", value = "当前页码", dataType = "int", paramType = "form", example = "1", defaultValue = "1"),
             @ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", paramType = "form", example = "30", defaultValue = "30")
     })
     @ApiResponses({
@@ -130,16 +119,16 @@ public class ClassManagerController implements ClassStudentApis {
             @ApiResponse(code = 404, message = "班级不存在")
     })
     @Override
-    public JsonVO<Page<ClassStudentVO>> pageStudent(
+    public JsonVO<IPage<ClassStudentVO>> pageStudent(
             @PathVariable("classId") Long classId,
             @ModelAttribute ClassStudentQuery queryDTO
     ) {
-        // 实际业务中需根据 classId 和 queryDTO 条件查询学员
-        // 模拟返回
-        Page<ClassStudentVO> pageInfo = new Page<>();
-        pageInfo.setTotal(30L);
-        // 设置学员列表（略）
-        return JsonVO.success(pageInfo);
+        ClassDO clazz = classService.getById(classId);
+        if (clazz == null) {
+            return JsonVO.fail("班级不存在");
+        }
+        IPage<ClassStudentVO> page = classStudentService.queryClassStudentPage(classId, queryDTO);
+        return JsonVO.success(page);
     }
 
     @PostMapping

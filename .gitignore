@@ -5,6 +5,10 @@
 
 # Log file
 *.log
+<<<<<<< HEAD
+!log/
+=======
+>>>>>>> 66668c3da900cc7861594a2b33d98c36f16c1d48
 
 # BlueJ files
 *.ctxt
@@ -21,9 +25,12 @@
 *.rar
 *.7z
 *.exe
+<<<<<<< HEAD
+=======
 !documents/05、环境搭建/06、Docker部署Sentinel/资源/sentinel-dashboard/*.jar
 !documents/05、环境搭建/07、Docker部署RocketMQ/资源/*.zip
 !documents/05、环境搭建/09、Docker部署FastDFS/资源/*.zip
+>>>>>>> 66668c3da900cc7861594a2b33d98c36f16c1d48
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
@@ -44,6 +51,9 @@ target
 *.tmp
 
 # Maven ignore
+<<<<<<< HEAD
+.flattened-pom.xml
+=======
 .flattened-pom.xml
 
 # User-specific files
@@ -82,3 +92,4 @@ auto-imports.d.ts
 components.d.ts
 package-lock.json
 node_modules
+>>>>>>> 66668c3da900cc7861594a2b33d98c36f16c1d48
