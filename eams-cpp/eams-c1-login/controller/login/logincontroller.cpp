@@ -19,44 +19,40 @@
 #include "stdafx.h"
 #include "logincontroller.h"
 #include "service/login/loginService.h"
-//å®žçŽ°æŽ¥å£æ‰§è¡Œå‡½æ•°
+//ÊµÏÖ½Ó¿ÚÖ´ÐÐº¯Êý
 
-// å‘é€éªŒè¯ç 
+// ·¢ËÍÑéÖ¤Âë
 SendResetCodeJsonVO::Wrapper loginController::executeSendResetCode(const SendResetCodeDTO::Wrapper& dto)
 {
 	loginService ls;
 	auto vo = SendResetCodeJsonVO::createShared();
 	vo->success(ls.sendResetCode(dto));
 	return vo;
-	return {};
 }
 
-// ä¿®æ”¹å¯†ç 
+// ÐÞ¸ÄÃÜÂë
 UpdatePasswordJsonVO::Wrapper loginController::executeModifyPassword(const UpdatePasswordDTO::Wrapper& dto)
 {
 	loginService ls;
 	auto vo = UpdatePasswordJsonVO::createShared();
     vo->success(ls.updatePassword(dto));
 	return vo;
-	return {};
 }
 
-//å‘é€æ³¨å†ŒçŸ­ä¿¡éªŒè¯
-SendRegisterCodeJsonVO::Wrapper loginController::executeSendRegisterCode(const SendResetCodeDTO::Wrapper& dto)
+//·¢ËÍ×¢²á¶ÌÐÅÑéÖ¤
+SendRegisterCodeJsonVO::Wrapper loginController::executeSendRegisterCode(const SendRegisterCodeDTO::Wrapper& dto)
 {
-	/*loginService ls;
+	loginService ls;
 	auto vo = SendRegisterCodeJsonVO::createShared();
-	vo->data = (ls.sendRegisterCode(dto));
-	return vo;*/
-	return {};
+	vo->success(ls.sendRegisterCode(dto));
+	return vo;
 }
 
-//æ³¨å†Œè´¦å·
-RegisterJsonVO::Wrapper loginController::executeRegister(const RegisterDTO::Wrapper& dto)
+//×¢²áÕËºÅ
+RegisterJsonVO::Wrapper loginController::executeAddAccount(const RegisterDTO::Wrapper& dto)
 {
-	/*loginService ls;
+	loginService ls;
 	auto vo = RegisterJsonVO::createShared();
-	vo->data = (ls.registerAccount(dto));
-	return vo;*/
-	return {};
+	vo->success(ls.saveAccount(dto));
+	return vo;
 }

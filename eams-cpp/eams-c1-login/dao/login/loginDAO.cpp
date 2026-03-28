@@ -3,7 +3,7 @@
 #include "NacosClient.h"
 #include "RedisClient.h"
 #include "ServerInfo.h"
-
+#include "domain/do/login/loginDO.h"
 
 // 查找数据库中是否有该用户
 int LoginDAO::count(const std::string& mobile)
@@ -13,6 +13,8 @@ int LoginDAO::count(const std::string& mobile)
 	SQLPARAMS_PUSH(params, "s", std::string, mobile);
 	return sqlSession->executeQueryNumerical(sql, params);
 }
+
+
 
 // 获取Redis中的验证码
 std::string LoginDAO::getValue(const std::string& key)
@@ -65,4 +67,3 @@ bool LoginDAO::updatePassword(const std::string& mobile, const std::string& emai
 	string sql = "UPDATE `user` SET `password` = ? WHERE `mobile` = ? AND `email` = ?";
 	return sqlSession->executeUpdate(sql, "%s%s%s", newPassword, mobile, email) > 0;
 }
-

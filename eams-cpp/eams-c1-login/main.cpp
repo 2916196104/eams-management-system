@@ -46,8 +46,8 @@ void parseServerArgs(int argc, char* argv[]) {
 	int dbMax = -1;
 #ifdef LINUX
 	// Nacos≈‰÷√≤Œ ˝
-	std::string nacosAddr = "";
-	std::string nacosNs = "";
+	std::string nacosAddr = "192.168.153.15";
+	std::string nacosNs = "eams-cpp-dev";
 	std::string serviceName = "";
 	std::string regIp = "";
 #endif
