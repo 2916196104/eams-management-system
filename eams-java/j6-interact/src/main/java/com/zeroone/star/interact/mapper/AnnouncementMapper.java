@@ -5,8 +5,12 @@ import com.zeroone.star.interact.entity.Advertisement;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 广告/通知管理 Mapper 接口
+ * 公告管理Mapper接口
+ *
+ * @author maban
+ * @since 2026-03-28
  */
 @Mapper
-public interface AdvertisementMapper extends BaseMapper<Advertisement> {
+public interface AnnouncementMapper extends BaseMapper<Advertisement> {
+
 }

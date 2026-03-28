@@ -13,7 +13,8 @@ import org.springframework.context.annotation.ComponentScan;
 @MapperScan("com.zeroone.star.interact.mapper")
 @ComponentScan(basePackages = {
         "com.zeroone.star.interact",
-        "com.zeroone.star.project.config.mybatis"
+        "com.zeroone.star.project.config.mybatis",
+        "com.zeroone.star.project.components.fastdfs"
 })
 public class InteractApplication {
 
