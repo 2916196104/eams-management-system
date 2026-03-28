@@ -35,9 +35,10 @@ public interface FundManageApis {
     JsonVO<List<Long>> refuse(List<Long> ids);
 
     /**
-     * 导出
+     * 导出，返回下载链接
      * @param response
+     * @return 下载链接
      * @throws IOException
      */
-    void download(HttpServletResponse response) throws IOException;
+    JsonVO<String> download(HttpServletResponse response) throws IOException;
 }
