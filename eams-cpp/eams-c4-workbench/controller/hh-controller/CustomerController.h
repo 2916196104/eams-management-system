@@ -22,7 +22,7 @@ public:
 	);
 	// 1.客户分页查询接口处理
 	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c4/customer", queryCustomer, CustomerQuery,
-		execQueryCustomer(query));
+		execQueryCustomer(query, authObject->getPayload()));
 	// 2.客户详情查询接口（通过ID查询）
 	API_DEF_ENDPOINT_INFO_AUTH(
 		ZH_WORDS_GETTER("customer.detail.summary"), queryDetailById, CustomerDetailJsonVO::Wrapper, API_TAG,
@@ -37,7 +37,7 @@ public:
 	);
 	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c4/customer/lesson", queryLessonById, QUERY(String, id), execQueryLessonById(id));
 private:
-	CustomerPageJsonVO::Wrapper execQueryCustomer(const CustomerQuery::Wrapper& query);
+	CustomerPageJsonVO::Wrapper execQueryCustomer(const CustomerQuery::Wrapper& query, const PayloadDTO& payload);
 	CustomerDetailJsonVO::Wrapper execQueryDetailById(const String& id);
 	CustomerLessonListJsonVO::Wrapper execQueryLessonById(const String& id);
 };

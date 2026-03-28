@@ -1,6 +1,6 @@
 #ifndef _COURSE_DO_
 #define _COURSE_DO_
-#include "../DoInclude.h"
+#include "DoInclude.h"
 
 class CourseDO : public BaseDO {
 	// 主键
@@ -65,7 +65,7 @@ class CourseDO : public BaseDO {
 	MYSQL_SYNTHESIZE(string, grade_names, Grade_names);
 
 public:
-	CourseDO : BaseDO("course") {
+	CourseDO() : BaseDO("course") {
 		// 主键
 		MYSQL_ADD_FIELD_PK("id", "s", id);
 		// 科目id

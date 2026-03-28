@@ -124,6 +124,14 @@ customer:
   summary: 客户详情查询
  lesson:
   summary: 客户课程查询
+ enum:
+  gender:
+   male: 男
+   female: 女
+   unknown: 未知
+  stage:
+   intention: 意向学员
+   studying: 在学学员
  field:
   id: 客户ID
   name: 姓名
