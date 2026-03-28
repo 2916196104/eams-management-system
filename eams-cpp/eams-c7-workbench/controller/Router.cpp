@@ -41,6 +41,7 @@
 #include "RegistRecord/GetRegistRecordDetailsController.h"
 #include "RegistRecord/GetRegistRecordListController.h"
 #include "AddStudent/PostStudentInfo.h"
+#include "Course/RegisterController.h"
 
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
@@ -84,4 +85,5 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(GetRegistRecordDetailsController);
 	ROUTER_SIMPLE_BIND(GetRegistRecordListController);
 	ROUTER_SIMPLE_BIND(PostStudentInfoController);
+	ROUTER_SIMPLE_BIND(RegisterController);
 }

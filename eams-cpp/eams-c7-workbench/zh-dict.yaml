@@ -26,14 +26,19 @@
   head_img: 头像地址
   file: 要上传的文件
 
+#qiu
 course:
     detail:
         summary: 课程详情
+        id: 课程id
     list:
         summary: 课程列表
-    saveReg:
-        summary: 保存报名
+    type:
+        1: 大课
+        2: 小班课
+        3: 1v1
     field:
+        course: 课程
         reportType: 报名类型
         stuName: 学生姓名
         courseName: 课程名称
@@ -44,6 +49,25 @@ course:
         actualPayment: 实际支付
         discountPrice: 优惠金额
         tip: 备注
+        subjectName: 所属科目
+        expireMonths: 有效时间
+register:
+    save:
+        summary: 保存报名
+    field:
+        register: 报名
+        reportType: 报名类型
+        stuName: 学生姓名
+        courseName: 课程名称
+        startTime: 开始时间
+        endTime: 结束时间
+        courseNum: 课程数
+        coursePrice: 课程价格
+        actualPayment: 实际支付
+        discountPrice: 优惠金额
+        tip: 备注
+        subjectName: 所属科目
+        expireMonths: 有效时间
 cus:
   tag: 我的客户
   get-list:

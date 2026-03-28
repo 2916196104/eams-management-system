@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #ifndef _COURSEQUERY_H_
 #define _COURSEQUERY_H_
 #include "../../GlobalInclude.h"

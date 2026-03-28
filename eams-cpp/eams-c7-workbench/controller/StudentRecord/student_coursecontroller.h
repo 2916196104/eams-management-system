@@ -99,3 +99,4 @@ namespace StudentRecord {
 #include OATPP_CODEGEN_END(ApiController) 
 }
 #endif
+#undef API_TAG
