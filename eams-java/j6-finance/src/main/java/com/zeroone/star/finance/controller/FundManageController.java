@@ -3,7 +3,7 @@ package com.zeroone.star.finance.controller;
 import com.alibaba.excel.EasyExcel;
 import com.zeroone.star.finance.service.FinanceRecordService;
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.vo.j6.finance.FinanceRecordVO;
+import com.zeroone.star.project.dto.j6.finance.FinanceRecordDTO;
 import com.zeroone.star.project.j6.finance.FundManageApis;
 import com.zeroone.star.project.query.j6.finance.FinanceRecordQuery;
 import com.zeroone.star.project.vo.JsonVO;
@@ -38,7 +38,7 @@ public class FundManageController implements FundManageApis {
     @GetMapping("/list")
     @ApiOperation("获取款项列表（条件+分页）")
     @Override
-    public JsonVO<PageDTO<FinanceRecordVO>> queryPage(FinanceRecordQuery condition) {
+    public JsonVO<PageDTO<FinanceRecordDTO>> queryPage(FinanceRecordQuery condition) {
         return financeRecordService.queryPage(condition);
     }
 
@@ -89,10 +89,10 @@ public class FundManageController implements FundManageApis {
         response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ".xlsx");
         //todo
         // 2. 准备数据
-        List<FinanceRecordVO> dataList = null;
+        List<FinanceRecordDTO> dataList = null;
 
         // 3. 使用EasyExcel写入数据并输出到响应流
-        EasyExcel.write(response.getOutputStream(), FinanceRecordVO.class)
+        EasyExcel.write(response.getOutputStream(), FinanceRecordDTO.class)
                 .sheet("项款记录表") // 设置Sheet名称
                 .doWrite(dataList); // 写入数据
     }

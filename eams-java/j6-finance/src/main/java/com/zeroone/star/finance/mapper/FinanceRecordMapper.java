@@ -4,7 +4,7 @@ package com.zeroone.star.finance.mapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zeroone.star.project.query.j6.finance.FinanceRecordQuery;
-import com.zeroone.star.project.vo.j6.finance.FinanceRecordVO;
+import com.zeroone.star.project.dto.j6.finance.FinanceRecordDTO;
 import feign.Param;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -18,7 +18,7 @@ public interface FinanceRecordMapper {
      * @param condition 查询条件
      * @return 分页结果
      */
-    IPage<FinanceRecordVO> selectPageVO(Page<FinanceRecordVO> page, @Param("condition") FinanceRecordQuery condition);
+    IPage<FinanceRecordDTO> selectPageDTO(Page<FinanceRecordDTO> page, @Param("condition") FinanceRecordQuery condition);
 
     /**
     * 批量确认款项

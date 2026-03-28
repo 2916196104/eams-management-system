@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zeroone.star.finance.mapper.FinanceRecordMapper">
 
-    <select id="selectPageVO" resultType="com.zeroone.star.project.vo.j6.finance.FinanceRecordVO">
+    <select id="selectPageDTO" resultType="com.zeroone.star.project.dto.j6.finance.FinanceRecordDTO">
         SELECT
         t.id,
         t.item_type AS itemType,

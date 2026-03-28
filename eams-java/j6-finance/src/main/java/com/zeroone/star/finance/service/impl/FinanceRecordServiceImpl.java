@@ -7,7 +7,7 @@ import com.zeroone.star.finance.service.FinanceRecordService;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.query.j6.finance.FinanceRecordQuery;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.vo.j6.finance.FinanceRecordVO;
+import com.zeroone.star.project.dto.j6.finance.FinanceRecordDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +20,11 @@ public class FinanceRecordServiceImpl implements FinanceRecordService {
     private FinanceRecordMapper financeRecordMapper;
 
     @Override
-    public JsonVO<PageDTO<FinanceRecordVO>> queryPage(FinanceRecordQuery condition) {
-        Page<FinanceRecordVO> page = new Page<>(condition.getPageIndex(), condition.getPageSize());
-        IPage<FinanceRecordVO> recordIPage = financeRecordMapper.selectPageVO(page, condition);
+    public JsonVO<PageDTO<FinanceRecordDTO>> queryPage(FinanceRecordQuery condition) {
+        Page<FinanceRecordDTO> page = new Page<>(condition.getPageIndex(), condition.getPageSize());
+        IPage<FinanceRecordDTO> recordIPage = financeRecordMapper.selectPageDTO(page, condition);
 
-        PageDTO<FinanceRecordVO> pageDTO = new PageDTO<>();
+        PageDTO<FinanceRecordDTO> pageDTO = new PageDTO<>();
         pageDTO.setPageIndex(recordIPage.getCurrent());
         pageDTO.setPageSize(recordIPage.getSize());
         pageDTO.setTotal(recordIPage.getTotal());
