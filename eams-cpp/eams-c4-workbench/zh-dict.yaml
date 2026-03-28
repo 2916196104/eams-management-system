@@ -7,7 +7,8 @@ teacher:
  field:
   id: 教师id
   name: 教师姓名
-  position: 教师职务
+  position: 教师职务id
+  position_name: 教师职务名称
  query:
   summary: 获取教师列表
 
@@ -16,7 +17,7 @@ class:
  field:
   id: 班级id
   name: 班级名
-  grade: 年级
+  grade: 年级id
 
  tag: 排课
  query:

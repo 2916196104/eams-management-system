@@ -14,8 +14,8 @@ class ClassDTO :public oatpp::DTO {
 	API_DTO_FIELD_REQUIRE(String, id, ZH_WORDS_GETTER("class.field.id"), true);
 	//班级名
 	API_DTO_FIELD_REQUIRE(String, name, ZH_WORDS_GETTER("class.field.name"), true);
-	//班级年级
-	API_DTO_FIELD_REQUIRE(Int32, grade, ZH_WORDS_GETTER("class.field.grade"), false);
+	//班级年级id
+	API_DTO_FIELD_REQUIRE(Int32, grade_id, ZH_WORDS_GETTER("class.field.grade"), false);
 };
 
 /*

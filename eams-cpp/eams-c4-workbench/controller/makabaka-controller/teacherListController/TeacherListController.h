@@ -1,5 +1,7 @@
 #pragma once
 	
+#ifndef _TEACHERLISTCONTROLLER_H_
+#define _TEACHERLISTCONTROLLER_H_
 #include"domain/vo/makabaka-vo/teacher/teacherVO.h"
 #include"domain/query/makabaka-query/teacher/teacherQuery.h"
 #include"domain/vo/BaseJsonVO.h"
@@ -17,7 +19,11 @@ public:
 	//定义描述
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("teacher.query.summary"), getTeacherList, TeacherQuery, TeacherPageJsonVO::Wrapper, API_TAG);
 	//定义教师查询端点
-	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c4/teacher/list", getTeacherList, TeacherQuery, executeGetTeacherList(query));
+	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c4/teacher/list", getTeacherList, QUERIES(QueryParams,queryParams),
+		API_HANDLER_QUERY_PARAM(query, TeacherQuery, queryParams);
+		auto result = executeGetTeacherList(query);
+		return createDtoResponse(Status::CODE_200, result);
+		);
 private:
 	//查询教师列表
 	TeacherPageJsonVO::Wrapper executeGetTeacherList(const TeacherQuery::Wrapper& query);
@@ -25,3 +31,5 @@ private:
 
 #undef API_TAG
 #include OATPP_CODEGEN_END(ApiController)	
+
+#endif // !_TEACHERLISTCONTROLLER_H_

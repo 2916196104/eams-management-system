@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef _CLASSLISTCONTROLLER_H_
+#define _CLASSLISTCONTROLLER_H_
 #include"domain/query/makabaka-query/class/classQuery.h"
 #include"domain/vo/makabaka-vo/class/classVO.h"
 #include"domain/vo/BaseJsonVO.h"
@@ -17,11 +19,17 @@ public:
 	//定义描述
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("class.query.summary"), getClassList, ClassQuery, ClassPageJsonVO::Wrapper, API_TAG);
 	//定义班级查询端点
-	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c4/class/list", getClassList, ClassQuery, executeGetClassList(query));
+	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c4/class/list", getClassList, QUERIES(QueryParams, queryParams), 
+		API_HANDLER_QUERY_PARAM(query, ClassQuery, queryParams); 
+		auto result = executeGetClassList(query);
+		return createDtoResponse(Status::CODE_200, result);
+	);
 private:
-	//查询教师列表
+	//查询班级列表
 	ClassPageJsonVO::Wrapper executeGetClassList(const ClassQuery::Wrapper& query);
 };
 
 #undef API_TAG
 #include OATPP_CODEGEN_END(ApiController)
+
+#endif //!_CLASSLISTCONTROLLER_H_

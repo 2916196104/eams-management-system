@@ -13,8 +13,10 @@ class ClassQuery :public PageQuery {
 	DTO_INIT(ClassQuery, PageQuery);
 	//班级名
 	API_DTO_FIELD_DEFAULT(String, name, ZH_WORDS_GETTER("class.field.name"));
-	//班级年级
+	//班级年级id
 	API_DTO_FIELD_DEFAULT(Int32, grade, ZH_WORDS_GETTER("class.field.grade"));
+	//班级id
+	API_DTO_FIELD_DEFAULT(String, id, ZH_WORDS_GETTER("class.field.id"));
 };
 
 #include OATPP_CODEGEN_END(DTO)
