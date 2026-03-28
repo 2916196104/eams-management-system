@@ -8,7 +8,7 @@ std::list<PtrNoticeDO> NoticeDAO::selectAll(const BoardQuery::Wrapper& query)
     SqlParams params;
     std::string sql = "SELECT id, title, content, view_num, creator, editor, add_time, edit_time, deleted FROM notice ";
     sql += queryConditionBuilder(query, params);
-    sql += "ORDER BY add_time DESC";
+    sql += " ORDER BY add_time DESC";
     sql += " LIMIT " + std::to_string(((query->pageIndex - 1) * query->pageSize)) + "," + std::to_string(query->pageSize);
     return sqlSession->executeQuery<PtrNoticeDO>(sql, PtrNoticeMapper());
 }
