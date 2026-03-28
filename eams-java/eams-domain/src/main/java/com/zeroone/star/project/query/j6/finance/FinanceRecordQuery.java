@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * 款项列表查询条件构造
  */
@@ -14,7 +16,7 @@ public class FinanceRecordQuery extends PageQuery {
     @ApiModelProperty(value = "标题",example = "样例标题")
     private String title;
 
-    @ApiModelProperty(value = "经办人姓名",example = "张三")
+    @ApiModelProperty(value = "经手人",example = "张三")
     private String handlerName;
 
     @ApiModelProperty(value = "付款人",example = "李四")
@@ -23,6 +25,14 @@ public class FinanceRecordQuery extends PageQuery {
     @ApiModelProperty(value = "认款状态,0：审核中 1：已审核 2：已拒绝",example = "0")
     private Integer verifyState;
 
-    @ApiModelProperty(value = "收入项类型",example = "0")
+    @ApiModelProperty(value = "类型",example = "0")
     private Integer itemType;
+
+    @NotNull(message = "页码pageIndex不能为空")
+    @ApiModelProperty(value = "页码", required = true, example = "1")
+    private long pageIndex;
+
+    @NotNull(message = "每页条数pageSize不能为空")
+    @ApiModelProperty(value = "每页条数", required = true, example = "10")
+    private long pageSize;
 }

@@ -1,13 +1,16 @@
 package com.zeroone.star.finance.controller;
 
 import com.alibaba.excel.EasyExcel;
+import com.zeroone.star.finance.service.FinanceRecordService;
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.vo.j6.finance.FinanceRecordVo;
+import com.zeroone.star.project.vo.j6.finance.FinanceRecordVO;
 import com.zeroone.star.project.j6.finance.FundManageApis;
 import com.zeroone.star.project.query.j6.finance.FinanceRecordQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +26,8 @@ import java.util.List;
 @Api(tags = "款项管理")
 public class FundManageController implements FundManageApis {
 
+    @Autowired
+    private FinanceRecordService financeRecordService;
 
     /**
      * 获取款项列表（条件+分页）
@@ -30,11 +35,11 @@ public class FundManageController implements FundManageApis {
      * @param condition 查询条件
      * @return 款项信息
      */
-    @GetMapping
+    @GetMapping("/list")
     @ApiOperation("获取款项列表（条件+分页）")
     @Override
-    public JsonVO<PageDTO<FinanceRecordVo>> queryPage(FinanceRecordQuery condition) {
-        return null;
+    public JsonVO<PageDTO<FinanceRecordVO>> queryPage(FinanceRecordQuery condition) {
+        return financeRecordService.queryPage(condition);
     }
 
     /**
@@ -47,7 +52,10 @@ public class FundManageController implements FundManageApis {
     @ApiOperation("批量确认")
     @Override
     public JsonVO<List<Long>> confirm(@RequestBody List<Long> ids) {
-        return null;
+        if (ids == null || ids.isEmpty()) {
+            return JsonVO.fail("请选择要确认的款项");
+        }
+        return financeRecordService.confirm(ids);
     }
 
     /**
@@ -60,7 +68,10 @@ public class FundManageController implements FundManageApis {
     @ApiOperation("批量拒绝")
     @Override
     public JsonVO<List<Long>> refuse(@RequestBody List<Long> ids) {
-        return null;
+        if (ids == null || ids.isEmpty()) {
+            return JsonVO.fail("请选择要拒绝的款项");
+        }
+        return financeRecordService.refuse(ids);
     }
 
     /**
@@ -78,10 +89,10 @@ public class FundManageController implements FundManageApis {
         response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ".xlsx");
         //todo
         // 2. 准备数据
-        List<FinanceRecordVo> dataList = null;
+        List<FinanceRecordVO> dataList = null;
 
         // 3. 使用EasyExcel写入数据并输出到响应流
-        EasyExcel.write(response.getOutputStream(), FinanceRecordVo.class)
+        EasyExcel.write(response.getOutputStream(), FinanceRecordVO.class)
                 .sheet("项款记录表") // 设置Sheet名称
                 .doWrite(dataList); // 写入数据
     }
