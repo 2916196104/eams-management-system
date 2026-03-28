@@ -8,16 +8,16 @@ class rollcallDTO : public oatpp::DTO
 {
 	DTO_INIT(rollcallDTO, DTO);
 	//学生姓名
-	API_DTO_FIELD_REQUIRE(String, stunameid, ZH_WORDS_GETTER("rollcall.stuname"), true);
+	API_DTO_FIELD_REQUIRE(String, stuname, ZH_WORDS_GETTER("rollcall.stuname"), true);
 	//签到时间
 	API_DTO_FIELD_REQUIRE(String, checkindate, ZH_WORDS_GETTER("rollcall.checkindate"), true);
-	
-
+	//签到结果
+	API_DTO_FIELD_REQUIRE(Int8, checkinresult, ZH_WORDS_GETTER("rollcall.checkinresult"), true);
 };
 
 class rollcallPageDTO : public PageDTO<rollcallDTO::Wrapper>
 {
-	DTO_INIT(rollcallDTO, PageDTO<rollcallDTO::Wrapper>);
+	DTO_INIT(rollcallPageDTO, PageDTO<rollcallDTO::Wrapper>);
 };
 
 #include OATPP_CODEGEN_END(DTO)

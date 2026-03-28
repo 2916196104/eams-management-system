@@ -10,15 +10,29 @@ teacher:
   position: 教师职务
  query:
   summary: 获取教师列表
+
  tag: 排课
 class:
  field:
   id: 班级id
   name: 班级名
   grade: 年级
+
  tag: 排课
  query:
   summary: 获取班级列表   
+
+
+
+
+
+
+
+
+
+
+
+
 comment:
   teacherid: 教师id
   stuname: 学生姓名
@@ -26,12 +40,15 @@ comment:
   text: 评论内容
   score: 综合评价
   getcomment: 获取点评记录
+  anonymity: 是否匿名评价
+  anonymityname: 匿名用户 
 rollcall:
   teacherid: 教师id
   courseid: 课程id
   stuname: 学生姓名
   checkindate: 签到时间
   getrollrecord: 获取点名记录
+  checkinresult: 签到结果
 intendedstudent:
  stuname: 学生姓名
  phonenumber: 手机号
@@ -40,6 +57,7 @@ intendedstudent:
  birthday: 出生年月
  cardid: 身份证号
  text: 备注信息
+
  text2: 添加学员
 workbench:
  tag: 学生档案
@@ -74,6 +92,7 @@ workbench:
   summary: 使用声明式服务查询一条数据
  query-all:
   summary: 使用声明式服务查询多条数据
+
 schedule:
   field:
     classId: 班级ID
@@ -97,9 +116,11 @@ schedule:
   api:
     createRepeat: 创建重复排课
     createFree: 创建自由排课
+
     tag: 排课
 test:
   repeat: 重复排课创建成功  
+
   free: 自由排课创建成功
 customer:
  tags: 

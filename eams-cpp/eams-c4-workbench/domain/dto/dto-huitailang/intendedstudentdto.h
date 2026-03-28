@@ -22,6 +22,18 @@ class intendedstudentDTO : public oatpp::DTO
 	API_DTO_FIELD_DEFAULT(String, cardid, ZH_WORDS_GETTER("intendedstudent.cardid"));
 	//备注信息
 	API_DTO_FIELD_DEFAULT(String, text, ZH_WORDS_GETTER("intendedstudent.text"));
+	// 关联一个PayloadDTO负载数据对象
+	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
+public:
+	//数据校验
+	std::string validate()
+	{
+		if (!stuname || stuname->empty())
+			return "name invalidate.";
+		if (!phonenumber || phonenumber->empty())
+			return "phonenumber invalidate.";
+		return "";
+	}
 };
 
 
