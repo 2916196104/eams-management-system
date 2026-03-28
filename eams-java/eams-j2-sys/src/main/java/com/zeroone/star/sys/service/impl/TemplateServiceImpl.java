@@ -7,6 +7,7 @@ import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j2.sys.Template.TemplateDTO;
 import com.zeroone.star.project.query.j2.sys.template.TemplateQuery;
 import com.zeroone.star.sys.entity.Attachment;
+import com.zeroone.star.sys.mapper.MsTemplateMapper;
 import com.zeroone.star.sys.mapper.TemplateMapper;
 import com.zeroone.star.sys.service.ITemplateService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

@@ -1,4 +1,4 @@
-package com.zeroone.star.sys.service.impl;
+package com.zeroone.star.sys.mapper;
 
 import com.zeroone.star.project.dto.j2.sys.Template.TemplateDTO;
 import com.zeroone.star.sys.entity.Attachment;
