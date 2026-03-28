@@ -76,6 +76,7 @@ evaluate:
     evaluation: 点评
     operator: 点评人
     operation_time: 操作时间
+    lesson_id: 课程ID号
   response:
     code: 错误码
     message: 错误信息
@@ -124,3 +125,15 @@ timetable:
   message:
     paramIncomplete: 参数不完整：课程ID或学员列表不能为空
     studentIdEmpty: 学员ID不能为空
+
+student:
+ field:
+  name: 姓名
+  stage: 阶段（意向、在学、结业）
+
+lesson:
+  title: 课程名称，支持模糊匹配
+  school: 适用学校ID
+  course: 科目ID
+  state: 状态（1:正常 2:已关闭）
+  classId: 适用年级ID

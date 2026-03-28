@@ -20,11 +20,10 @@
 #ifndef _SetStudyStatus_DAO_
 #define _SetStudyStatus_DAO_
 #include "BaseDAO.h"
-#include "../../domain/do/sample/SampleDO.h"
-#include "../../domain/query/sample/SampleQuery.h"
 
 
-class SampleDAO : public BaseDAO
+
+class setStatusDAO : public BaseDAO
 {
 private:
 	//************************************
@@ -36,15 +35,8 @@ private:
 	// Parameter:   SqlParams& params 存放查询数据的参数对象
 	// Description: 查询条件构建器，根据SampleQuery对象动态构建查询条件相关参数
 	//************************************
-	inline std::string queryConditionBuilder(const SampleQuery::Wrapper& query, SqlParams& params);
+
 public:
-	// 统计数据条数
-	uint64_t count(const SampleQuery::Wrapper& query);
-	// 分页查询数据
-	std::list<SampleDO> selectWithPage(const SampleQuery::Wrapper& query);
-	// 通过姓名查询数据
-	std::list<SampleDO> selectByName(const string& name);
-	// 通过ID查询数据
-	PtrSampleDO selectById(std::string id);
+	bool couldBeModifyById(const string& stu_id);		
 };
 #endif // !_SetStudyStatus_DAO_

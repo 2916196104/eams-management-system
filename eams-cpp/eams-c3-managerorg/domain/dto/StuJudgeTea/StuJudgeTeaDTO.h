@@ -38,8 +38,9 @@ class StuJudgeTeaDTO : public oatpp::DTO
 		API_DTO_FIELD_DEFAULT(String, evaluateTime, ZH_WORDS_GETTER("StuJudgeTeaDTO.evaluateTime"))
 		// 8. 教师所属组织id
 		API_DTO_FIELD_DEFAULT(UInt64, orgId, ZH_WORDS_GETTER("StuJudgeTeaDTO.orgId"))
+		API_DTO_FIELD_DEFAULT(String, orgName, ZH_WORDS_GETTER("StuJudgeTeaDTO.orgName"))
 		// 9. 是否匿名
-		API_DTO_FIELD_DEFAULT(Boolean, anonymity, ZH_WORDS_GETTER("StuJudgeTeaDTO.anonymity"))
+		API_DTO_FIELD_DEFAULT(Int8, anonymity, ZH_WORDS_GETTER("StuJudgeTeaDTO.anonymity"))
 };
 
 //学评教分页类

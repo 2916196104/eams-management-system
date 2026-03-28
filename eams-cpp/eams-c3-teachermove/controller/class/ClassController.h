@@ -12,6 +12,7 @@
 #include "domain/vo/class/ClassStudentVO.h"
 #include "domain/query/class/ClassQuery.h"
 #include "domain/query/class/ClassStudentQuery.h"
+#include "service/class/ClassService.h"
 
 using namespace oatpp;
 using namespace oatpp::web;
@@ -107,6 +108,9 @@ public:
 private: 
 	// 定义接口执行函数
 	
+	// 业务服务
+	ClassService classService;
+	
 	ClassDetailPageJsonVO::Wrapper execQueryClassList(const ClassQuery::Wrapper& query) {
 		return ClassDetailPageJsonVO::createShared();
 	}
@@ -117,9 +121,13 @@ private:
 		return ClassStudentPageJsonVO::createShared();
 	}
 	// 3.3 执行获取班级学员详情
-	oatpp::Object<StudentDetailDTO> execGetStudentDetail(const String& studentId);
+	oatpp::Object<StudentDetailDTO> execGetStudentDetail(const String& studentId) {
+		return classService.getStudentDetail(studentId);
+	}
 	// 3.3 执行获取班级学员课程列表
-	CoursePageJsonVO::Wrapper execGetStudentCourseList(const oatpp::String& studentId, const oatpp::String& pageIndex, const oatpp::String& pageSize, const PayloadDTO& payload);
+	CoursePageJsonVO::Wrapper execGetStudentCourseList(const oatpp::String& studentId, const oatpp::String& pageIndex, const oatpp::String& pageSize, const PayloadDTO& payload) {
+		return classService.getStudentCourseList(studentId, pageIndex, pageSize, payload);
+	}
 };
 
 #undef API_TAG

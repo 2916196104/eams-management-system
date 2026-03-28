@@ -4,34 +4,119 @@
 #include "../DoInclude.h"
 
 /**
- * Ñ§½ÌÆÀÊı¾İ¿âÊµÌåÀà
+ * è¯¾ç¨‹æ•°æ®åº“å®ä½“ç±»
+ */
+class LessonDO : public BaseDO
+{
+	// ç¼–å·
+	MYSQL_SYNTHESIZE(uint64_t, id, Id);
+	MYSQL_SYNTHESIZE(string, title, Title);
+public:
+	LessonDO() : BaseDO("lesson")
+	{
+		MYSQL_ADD_FIELD_PK("id", "ull", id);
+		MYSQL_ADD_FIELD("title", "s", title);
+	}
+};
+
+// ç»™StuJudgeTeaDOæ™ºèƒ½æŒ‡é’ˆè®¾å®šä¸€ä¸ªåˆ«åæ–¹ä¾¿ä½¿ç”¨
+typedef std::shared_ptr<LessonDO> PtrLessonDO;
+
+/**
+ * èŒå‘˜æ•°æ®åº“å®ä½“ç±»
+ */
+class OrgDO : public BaseDO
+{
+	// ç¼–å·
+	MYSQL_SYNTHESIZE(uint64_t, id, Id);
+	MYSQL_SYNTHESIZE(string, name, Name);
+public:
+	OrgDO() : BaseDO("org")
+	{
+		MYSQL_ADD_FIELD_PK("id", "ull", id);
+		MYSQL_ADD_FIELD("name", "s", name);
+	}
+};
+
+// ç»™StuJudgeTeaDOæ™ºèƒ½æŒ‡é’ˆè®¾å®šä¸€ä¸ªåˆ«åæ–¹ä¾¿ä½¿ç”¨
+typedef std::shared_ptr<OrgDO> PtrOrgDO;
+
+
+/**
+ * èŒå‘˜æ•°æ®åº“å®ä½“ç±»
+ */
+class UserDO : public BaseDO
+{
+	// ç¼–å·
+	MYSQL_SYNTHESIZE(uint64_t, id, Id);
+	MYSQL_SYNTHESIZE(string, name, Name);
+public:
+	UserDO() : BaseDO("user")
+	{
+		MYSQL_ADD_FIELD_PK("id", "ull", id);
+		MYSQL_ADD_FIELD("name", "s", name);
+	}
+};
+
+// ç»™StuJudgeTeaDOæ™ºèƒ½æŒ‡é’ˆè®¾å®šä¸€ä¸ªåˆ«åæ–¹ä¾¿ä½¿ç”¨
+typedef std::shared_ptr<UserDO> PtrUserDO;
+
+
+/**
+ * èŒå‘˜æ•°æ®åº“å®ä½“ç±»
+ */
+class StaffDO : public BaseDO
+{
+	// ç¼–å·
+	MYSQL_SYNTHESIZE(uint64_t, id, Id);
+	MYSQL_SYNTHESIZE(string, name, Name);
+public:
+	StaffDO() : BaseDO("staff")
+	{
+		MYSQL_ADD_FIELD_PK("id", "ull", id);
+		MYSQL_ADD_FIELD("name", "s", name);
+	}
+};
+
+// ç»™StuJudgeTeaDOæ™ºèƒ½æŒ‡é’ˆè®¾å®šä¸€ä¸ªåˆ«åæ–¹ä¾¿ä½¿ç”¨
+typedef std::shared_ptr<StaffDO> PtrStaffDO;
+
+
+/**
+ * å­¦æ•™è¯„æ•°æ®åº“å®ä½“ç±»
  */
 class StuJudgeTeaDO : public BaseDO
 {
-	// ±àºÅ
+	// ç¼–å·
 	MYSQL_SYNTHESIZE(uint64_t, id, Id);
-	// ¿Î³Ì±àºÅ
+	// è¯¾ç¨‹ç¼–å·
 	MYSQL_SYNTHESIZE(uint64_t, lesson_id, LessonId);
-	// ÀÏÊ¦±àºÅ
+	// è€å¸ˆç¼–å·
 	MYSQL_SYNTHESIZE(uint64_t, teacher_id, TeacherId);
-	// µÚÒ»ÏîÆÀ·Ö
+	// ç¬¬ä¸€é¡¹è¯„åˆ†
 	MYSQL_SYNTHESIZE(uint32_t, score1, Score1);
-	// µÚ¶şÏîÆÀ·Ö
+	// ç¬¬äºŒé¡¹è¯„åˆ†
 	MYSQL_SYNTHESIZE(uint32_t, score2, Score2);
-	// µÚÈıÏîÆÀ·Ö
+	// ç¬¬ä¸‰é¡¹è¯„åˆ†
 	MYSQL_SYNTHESIZE(uint32_t, score3, Score3);
-	// µÚËÄÏîÆÀ·Ö
+	// ç¬¬å››é¡¹è¯„åˆ†
 	MYSQL_SYNTHESIZE(uint32_t, score4, Score4);
-	// ÆÀ¼ÛÄÚÈİ
+	// è¯„ä»·å†…å®¹
 	MYSQL_SYNTHESIZE(string, content, Content);
-	// ÆÀ¼ÛÊ±¼ä
+	// è¯„ä»·æ—¶é—´
 	MYSQL_SYNTHESIZE(string, add_time, AddTime);
-	// Ñ§Éú±àºÅ
+	// å­¦ç”Ÿç¼–å·
 	MYSQL_SYNTHESIZE(uint64_t, student_id, StudentId);
-	// ÊÇ·ñÄäÃû
+	// æ˜¯å¦åŒ¿å
 	MYSQL_SYNTHESIZE(int, anonymity, Anonymity);
-	// ÀÏÊ¦ËùÊô×éÖ¯±àºÅ
+	// è€å¸ˆæ‰€å±ç»„ç»‡ç¼–å·
 	MYSQL_SYNTHESIZE(uint64_t, org_id, OrgId);
+
+	// å…³è”ä¸€ä¸ªæ–‡ä»¶å®ä½“ï¼Œå­˜å‚¨å¤´åƒæ–‡ä»¶ä¿¡æ¯
+	CC_SYNTHESIZE(PtrStaffDO, staff, Staff);
+	CC_SYNTHESIZE(PtrLessonDO, lesson, Lesson);
+	CC_SYNTHESIZE(PtrOrgDO, org, Org);
+	CC_SYNTHESIZE(PtrUserDO, user, User);
 public:
 	StuJudgeTeaDO() : BaseDO("teach_evaluation")
 	{
@@ -50,6 +135,6 @@ public:
 	}
 };
 
-// ¸øStuJudgeTeaDOÖÇÄÜÖ¸ÕëÉè¶¨Ò»¸ö±ğÃû·½±ãÊ¹ÓÃ
+// ç»™StuJudgeTeaDOæ™ºèƒ½æŒ‡é’ˆè®¾å®šä¸€ä¸ªåˆ«åæ–¹ä¾¿ä½¿ç”¨
 typedef std::shared_ptr<StuJudgeTeaDO> PtrStuJudgeTeaDO;
 #endif // !_STUJUDGETEA_DO_

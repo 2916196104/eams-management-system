@@ -25,41 +25,41 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * å‰åç«¯æ•°æ®å¯¹æ¥æ•°æ®å¯¹è±¡
+ * Ç°ºó¶ËÊı¾İ¶Ô½ÓÊı¾İ¶ÔÏó
  */
 template<class T>
 class JsonVO : public NoDataJsonVO
 {
-	// åˆå§‹åŒ–å®šä¹‰
+	// ³õÊ¼»¯¶¨Òå
 	DTO_INIT(JsonVO, NoDataJsonVO);
 
-	// æ•°æ®å¯¹è±¡
+	// Êı¾İ¶ÔÏó
 	DTO_FIELD(T, data, "data");
 	DTO_FIELD_INFO(data) {
 #ifndef LINUX
-		info->description = u8"æ•°æ®å¯¹è±¡";
+		info->description = u8"Êı¾İ¶ÔÏó";
 #else
 		info->description = "data object";
 #endif
 	}
 
 public:
-	// è®¾ç½®çŠ¶æ€
+	// ÉèÖÃ×´Ì¬
 	void setStatus(ResultStatus resultStatus) {
 		this->message = resultStatus.getMessage();
 		this->code = resultStatus.getCode();
 	}
-	// åˆå§‹åŒ–
+	// ³õÊ¼»¯
 	void init(T data, ResultStatus resultStatus) {
 		this->data = data;
 		this->setStatus(resultStatus);
 	}
-	// æ„å»ºæˆåŠŸæ¶ˆæ¯
+	// ¹¹½¨³É¹¦ÏûÏ¢
 	void success(T data) {
 		this->setStatus(RS_SUCCESS);
 		this->data = data;
 	}
-	// æ„å»ºå¤±è´¥æ¶ˆæ¯
+	// ¹¹½¨Ê§°ÜÏûÏ¢
 	void fail(T data) {
 		this->setStatus(RS_FAIL);
 		this->data = data;

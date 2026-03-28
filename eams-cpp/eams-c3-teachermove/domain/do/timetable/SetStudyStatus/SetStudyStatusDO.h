@@ -21,9 +21,7 @@
 #define _SETSTUDYSTATUSDO_H_
 #include "../../DoInclude.h"
 
-/**
- * 测试菜单数据库实体
- */
+
 class StatusDO : public BaseDO
 {
 	// 唯一编号

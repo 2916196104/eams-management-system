@@ -5,11 +5,6 @@
 #include "domain/query/PageQuery.h"
 
 
-#include "../../GlobalInclude.h"
-#include "domain/query/PageQuery.h"
-
-
-
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 // Timetable query parameters
@@ -37,26 +32,37 @@ class StuClassQuery : public oatpp::DTO {
 class EvaluationQuery : public PageQuery
 {
 	DTO_INIT(EvaluationQuery, PageQuery);
-	// 姓名
+
+	// 课程id
+	DTO_FIELD(Int32, lesson_id);
+	DTO_FIELD_INFO(lesson_id) {
+		info->description = ZH_WORDS_GETTER("evaluation.field.lesson_id");
+	}
+
+	// 学生姓名
 	DTO_FIELD(String, name);
 	DTO_FIELD_INFO(name) {
-		info->description = ZH_WORDS_GETTER("evaluate.field.name");
+		info->description = ZH_WORDS_GETTER("evaluation.field.name");
 	}
-	// 分数
-	DTO_FIELD(Int8, score);
+
+	// 评分
+	DTO_FIELD(Int32, score);
 	DTO_FIELD_INFO(score) {
-		info->description = ZH_WORDS_GETTER("evaluate.field.score");
+		info->description = ZH_WORDS_GETTER("evaluation.field.score");
 	}
+
 	// 是否签到
 	DTO_FIELD(Boolean, isSign);
 	DTO_FIELD_INFO(isSign) {
-		info->description = ZH_WORDS_GETTER("evaluate.field.has_sign");
+		info->description = ZH_WORDS_GETTER("evaluation.field.has_sign");
 	}
+
 	// 是否点评
 	DTO_FIELD(Boolean, isEvaluate);
 	DTO_FIELD_INFO(isEvaluate) {
-		info->description = ZH_WORDS_GETTER("evaluate.field.has_evaluation");
+		info->description = ZH_WORDS_GETTER("evaluation.field.has_evaluation");
 	}
+
 };
 
 

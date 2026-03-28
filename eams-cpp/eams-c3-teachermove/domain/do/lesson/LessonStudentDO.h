@@ -26,7 +26,7 @@ public:
 		MYSQL_ADD_FIELD("org_id", "ll", org_id);
 	}
 
-private:
+public:
 	MYSQL_SYNTHESIZE(uint64_t, id, Id);
 	MYSQL_SYNTHESIZE(int64_t, lesson_id, LessonId);
 	MYSQL_SYNTHESIZE(int32_t, class_id, ClassId);
@@ -45,3 +45,5 @@ private:
 	MYSQL_SYNTHESIZE(string, add_time, AddTime);
 	MYSQL_SYNTHESIZE(int64_t, org_id, OrgId);
 };
+
+using PtrLessonStudentDO = shared_ptr<LessonStudentDO>;
