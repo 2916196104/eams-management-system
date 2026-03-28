@@ -20,7 +20,6 @@
 #include "Router.h"
 #include "ApiHelper.h"
 #include "schedule/schedulecontroller.h"
-#include "lesson/LessonController.h"
 
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
@@ -43,5 +42,4 @@ void Router::initRouter()
 {
 	//#TIP :系统扩展路由定义，写在这个后面
 	ROUTER_SIMPLE_BIND(ScheduleController);
-	ROUTER_SIMPLE_BIND(LessonController);
 }
