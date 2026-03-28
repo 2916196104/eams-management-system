@@ -88,7 +88,10 @@ class ClassDTO : public oatpp::DTO
     API_DTO_FIELD_DEFAULT(Int32, status, ZH_WORDS_GETTER("class.field.status"));
 
     // 开始创建时间
-    API_DTO_FIELD_DEFAULT(String, CreateTime, ZH_WORDS_GETTER("class.field.createtime"));
+    API_DTO_FIELD_DEFAULT(String, StartDate, ZH_WORDS_GETTER("class.field.createtime"));
+
+    // 截止时间 
+    API_DTO_FIELD_DEFAULT(String, endDate, ZH_WORDS_GETTER("class.field.enddate"));
 
     //教室
     API_DTO_FIELD_DEFAULT(String, classroom, ZH_WORDS_GETTER("class.field.classroom"));

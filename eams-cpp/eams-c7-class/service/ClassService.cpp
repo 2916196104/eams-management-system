@@ -63,17 +63,18 @@ ClassPageDTO::Wrapper ClassService::listAll(const ClassQuery::Wrapper& query)
 	{
 		auto dto = ClassDTO::createShared();
 
-		
+
 		dto->class_id = sub.getId();
-		dto->classname = oatpp::String(sub.getName());  
+		dto->classname = oatpp::String(sub.getName());
 		dto->num_of_people = static_cast<int64_t>(sub.getPlannedStudentCount());
 		dto->status = sub.getBeOver() ? 1 : 0;
-		dto->CreateTime = oatpp::String(sub.getAddTime());  
-		dto->classroom = oatpp::String(std::to_string(sub.getClassroomId()));  
-		dto->remarks = oatpp::String(sub.getRemark());  
-		dto->homeroom_teacher = oatpp::String(sub.getTeacherName());  
-		dto->course_name = oatpp::String(sub.getCourseName());  
-		dto->enrollment_progress = "";  
+		dto->StartDate = oatpp::String(sub.getStartDate());
+		dto->endDate = oatpp::String(sub.getEndDate());
+		dto->classroom = oatpp::String(std::to_string(sub.getClassroomId()));
+		dto->remarks = oatpp::String(sub.getRemark());
+		dto->homeroom_teacher = oatpp::String(sub.getTeacherName());
+		dto->course_name = oatpp::String(sub.getCourseName());
+		dto->enrollment_progress = "";
 		dto->course_progress = "";
 		pages->addData(dto);
 	}
@@ -91,7 +92,7 @@ ClassDTO::Wrapper ClassService::getById(int64_t id)
 {
 	ClassDAO dao;
 	auto res = dao.selectById(id);
-	if (res.safeGetId() <= 0) 
+	if (res.safeGetId() <= 0)
 	{
 		return nullptr;
 	}
@@ -100,15 +101,16 @@ ClassDTO::Wrapper ClassService::getById(int64_t id)
 	auto dto = ClassDTO::createShared();
 
 	dto->class_id = res.getId();
-	dto->classname = oatpp::String(res.getName());  
-	dto->homeroom_teacher = oatpp::String(res.getTeacherName()); 
-	dto->course_name = oatpp::String(res.getCourseName());  
+	dto->classname = oatpp::String(res.getName());
+	dto->homeroom_teacher = oatpp::String(res.getTeacherName());
+	dto->course_name = oatpp::String(res.getCourseName());
 	dto->num_of_people = static_cast<int64_t>(res.getPlannedStudentCount());
 	dto->status = res.getBeOver() ? 1 : 0;
-	dto->CreateTime = oatpp::String(res.getAddTime());  
-	dto->classroom = oatpp::String(std::to_string(res.getClassroomId()));  
-	dto->remarks = oatpp::String(res.getRemark());  
+	dto->StartDate = oatpp::String(res.getStartDate());
+	dto->classroom = oatpp::String(std::to_string(res.getClassroomId()));
+	dto->remarks = oatpp::String(res.getRemark());
 	dto->enrollment_progress = "";
+	dto->endDate = oatpp::String(res.getEndDate());
 	dto->course_progress = "";
 
 	return dto;
@@ -120,7 +122,7 @@ ClassDTO::Wrapper ClassService::getByName(const std::string& name)
 	ClassDAO dao;
 	auto res = dao.selectByName(name);
 
-	if (res.safeGetId() <= 0) 
+	if (res.safeGetId() <= 0)
 	{
 		return nullptr;
 	}
@@ -129,14 +131,14 @@ ClassDTO::Wrapper ClassService::getByName(const std::string& name)
 	auto dto = ClassDTO::createShared();
 
 	dto->class_id = res.safeGetId();
-	dto->classname = oatpp::String(res.getName());  
-	dto->homeroom_teacher = oatpp::String(res.getTeacherName()); 
-	dto->course_name = oatpp::String(res.getCourseName()); 
+	dto->classname = oatpp::String(res.getName());
+	dto->homeroom_teacher = oatpp::String(res.getTeacherName());
+	dto->course_name = oatpp::String(res.getCourseName());
 	dto->num_of_people = static_cast<int64_t>(res.getPlannedStudentCount());
 	dto->status = res.getBeOver() ? 1 : 0;
-	dto->CreateTime = oatpp::String(res.getAddTime());  
-	dto->classroom = oatpp::String(std::to_string(res.getClassroomId()));  
-	dto->remarks = oatpp::String(res.getRemark());  
+	dto->CreateTime = oatpp::String(res.getAddTime());
+	dto->classroom = oatpp::String(std::to_string(res.getClassroomId()));
+	dto->remarks = oatpp::String(res.getRemark());
 	dto->enrollment_progress = "";
 	dto->course_progress = "";
 
