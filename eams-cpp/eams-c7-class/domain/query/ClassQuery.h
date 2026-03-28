@@ -9,7 +9,7 @@
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
 
-	  https://www.apache.org/licenses/LICENSE-2.0
+      https://www.apache.org/licenses/LICENSE-2.0
 
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,7 +28,7 @@
 /**
  * 班级列表查询类
  */
-class ClassQuery : public PageQuery 
+class ClassQuery : public PageQuery
 {
     DTO_INIT(ClassQuery, PageQuery);
 
@@ -36,7 +36,7 @@ class ClassQuery : public PageQuery
     API_DTO_FIELD_DEFAULT(String, className, ZH_WORDS_GETTER("class.field.classname"));
 
     // 课程
-    API_DTO_FIELD_DEFAULT(String, course, ZH_WORDS_GETTER("class.field.course"));
+    API_DTO_FIELD_DEFAULT(Int64, course, ZH_WORDS_GETTER("class.field.course"));
 
     // 班主任
     API_DTO_FIELD_DEFAULT(String, homeroom_teacher, ZH_WORDS_GETTER("class.field.homeroom-teacher"));

@@ -17,8 +17,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#ifndef _GETCLASSDETAILSCONTROLLER_
-#define _GETCLASSDETAILSCONTROLLER_
+#ifndef _GETCLASSCONTROLLER_
+#define _GETCLASSCONTROLLER_
 
 #include "domain/vo/BaseJsonVO.h"
 #include "ApiHelper.h"
@@ -30,7 +30,7 @@
 
 #define API_TAG ZH_WORDS_GETTER("class.tag")
 
-//获取班级的controller
+//获取班级列表
 class GetClassController : public oatpp::web::server::api::ApiController
 {
 	// 添加访问定义
@@ -38,25 +38,25 @@ class GetClassController : public oatpp::web::server::api::ApiController
 public:
 	// 定义获取班级详情接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(
-		ZH_WORDS_GETTER("class.query-classdetails.summary"), queryClassDetail, ClassListJsonVO::Wrapper, API_TAG,
-		API_DEF_ADD_QUERY_PARAMS(String, "classname", ZH_WORDS_GETTER("class.field.classname"), "classname", false);
+		ZH_WORDS_GETTER("class.query-classdetails.summary"), queryClassDetail, ClassJsonVO::Wrapper, API_TAG,
+		API_DEF_ADD_QUERY_PARAMS(Int64, "classId", ZH_WORDS_GETTER("class.field.id"), 123, false);
 	);
 
 	//定义获取班级详情接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c7/class/byname", queryClassDetail, QUERY(String, classname), execQueryClassList(classname));
+	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c7/class/classid", queryClassDetail, QUERY(Int64, classId), execQueryClassDetail(classId));
 
 	// 定义获取班级列表（条件+分页）接口描述
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("class.query-classlist.summary"), QueryPage, ClassQuery, ClassPageJsonVO::Wrapper, API_TAG);
 	// 定义获取班级列表（条件+分页）接口处理
-	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c7/class", QueryPage, QUERIES(QueryParams, queryParams),
-		API_HANDLER_QUERY_PARAM(query, ClassQuery, queryParams); API_HANDLER_RESP_VO(execQueryPage(query)););
+	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c7/class", QueryPage, ClassQuery, execQueryPage(query));
+
 private:
 	//定义获取班级详情接口执行函数
-	ClassListJsonVO::Wrapper execQueryClassList(const oatpp::String& classname);
+	ClassJsonVO::Wrapper execQueryClassDetail(const oatpp::Int64& classId);
 	//定义获取班级列表（条件+分页）接口执行函数
-	ClassListJsonVO::Wrapper execQueryPage(const ClassQuery::Wrapper& query);
+	ClassPageJsonVO::Wrapper execQueryPage(const ClassQuery::Wrapper& query);
 };
 #undef API_TAG
 #include OATPP_CODEGEN_END(ApiController) //<- End Codegen
 
-#endif // _GETCLASSDETAILSCONTROLLER_
+#endif // _GETCLASSCONTROLLER_

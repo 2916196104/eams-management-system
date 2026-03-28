@@ -26,14 +26,14 @@
 /**
  * 班级分页显示对象
  */
-class ClassPageJsonVO : public JsonVO<ClassPageAddDTO::Wrapper> 
+class ClassPageJsonVO : public JsonVO<ClassPageDTO::Wrapper>
 {
-	DTO_INIT(ClassPageJsonVO, JsonVO<ClassPageAddDTO::Wrapper>);
+	DTO_INIT(ClassPageJsonVO, JsonVO<ClassPageDTO::Wrapper>);
 };
 
-class ClassListJsonVO : public ListJsonVO<ClassAddDTO::Wrapper>
+class ClassJsonVO : public JsonVO<ClassDTO::Wrapper>
 {
-	DTO_INIT(ClassListJsonVO, ListJsonVO<ClassAddDTO::Wrapper>);
+	DTO_INIT(ClassJsonVO, JsonVO<ClassDTO::Wrapper>);
 };
 #include OATPP_CODEGEN_END(DTO)
 
