@@ -16,6 +16,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+
+        </dependency>
+
         <!-- knife4j -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
@@ -31,6 +37,11 @@
         <dependency>
             <groupId>com.zeroone.star</groupId>
             <artifactId>eams-apis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zeroone.star</groupId>
+            <artifactId>eams-domain</artifactId>
         </dependency>
 
         <!-- alibaba nacos config -->
@@ -58,11 +69,11 @@
         </dependency>
 
         <!-- 数据库相关 -->
-        <!-- mp -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
+
         <!-- druid -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -88,6 +99,29 @@
                     <mainClass>com.zeroone.star.j5.courseschedule.CourseScheduleApplication</mainClass>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>com.zeroone.star</groupId>
+                <artifactId>mp-code-generator-plugin</artifactId>
+                <configuration>
+                    <!-- 数据库连接信息配置 -->
+                    <dbConfig>
+                        <!-- 数据库主机地址 -->
+                        <host>172.23.204.112</host>
+                        <!-- 数据库端口 -->
+                        <port>3306</port>
+                        <!-- 数据库名称 -->
+                        <dbname>hzm_ems</dbname>
+                        <!-- 数据库用户名 -->
+                        <username>root</username>
+                        <!-- 数据库密码 -->
+                        <password>123456</password>
+                    </dbConfig>
+                    <!-- 生成代码输出根目录 -->
+                    <outDir>${project.basedir}/src/main/java</outDir>
+                </configuration>
+        </plugin>
+
             <plugin>
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>

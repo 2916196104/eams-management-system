@@ -1,8 +1,8 @@
 server:
-  port: ${sp.doc}
+  port: ${sp.appoint}
 spring:
   application:
-    name: ${sn.doc}
+    name: ${sn.appoint}
 knife4j:
   enableAggregation: true
   nacos:

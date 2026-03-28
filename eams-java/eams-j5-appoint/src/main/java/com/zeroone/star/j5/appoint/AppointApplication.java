@@ -1,4 +1,7 @@
+
 package com.zeroone.star.j5.appoint;
+
+
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,5 +21,6 @@ public class AppointApplication {
     public static void main(String[] args) {
         SpringApplication.run(AppointApplication.class, args);
     }
-
 }
+
+

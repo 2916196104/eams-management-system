@@ -16,6 +16,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+
+        </dependency>
+
         <!-- knife4j -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>

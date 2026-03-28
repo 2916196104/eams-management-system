@@ -13,9 +13,10 @@ import java.util.List;
 @ApiModel(value = "班级学生传输对象", description = "往班级添加学员的请求参数")
 public class ClassStudentDTO {
     @ApiModelProperty(value = "加入的班级id", required = true, example = "1")
-    private int classId;
+    private Long classId;
 
     @ApiModelProperty(value = "添加的所有学生的id", required = true, example = "1,2,3")
-    private List<Integer> studentIds;
+    private List<Long> studentIds;
 
 }
+
