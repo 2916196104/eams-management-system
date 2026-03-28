@@ -22,7 +22,7 @@ Uint64JsonVO::Wrapper GradeManage::execSave(const GradeManageDTO::Wrapper& dto, 
     std::string errmsg = dto->validate();
     if (errmsg != "")
     {
-        jvo->init(errmsg, RS_PARAMS_INVALID);
+        jvo->init(nullptr, RS_PARAMS_INVALID);
         return jvo;
     }
 
@@ -34,7 +34,7 @@ Uint64JsonVO::Wrapper GradeManage::execSave(const GradeManageDTO::Wrapper& dto, 
     }
     else
     {
-        jvo->fail(0);
+        jvo->fail({});
     }
     return jvo;
 }
@@ -55,13 +55,13 @@ ListJsonVO<String>::Wrapper GradeManage::execRemove(const List<String>& ids)
     }
     else
     {
-        jvo->fail(nullptr);
+        jvo->fail({});
     }
     return jvo;
 }
 
 StringJsonVO::Wrapper  GradeManage::execImportScore(const std::shared_ptr<IncomingRequest>& request, const PayloadDTO& payload)
-//{	// 0 定义返回数据对象
+{	// 0 定义返回数据对象
 //	auto jvo = StringJsonVO::createShared();
 //	// 1 初始化
 //	API_MULTIPART_INIT(container, reader);
@@ -124,4 +124,5 @@ StringJsonVO::Wrapper  GradeManage::execImportScore(const std::shared_ptr<Incomi
 //	jvo->fail(nullptr);
 //	return jvo;
 //    
+    return {};
 }

@@ -27,7 +27,7 @@ public:
 	// 统计数据条数（联查）
 	uint64_t count(const GradeManageQuery::Wrapper& query);
 	// 分页查询数据（联查 grade + grade_record + student）
-	std::list<PtrGradeDO> selectWithPage(const GradeManageQuery::Wrapper& query);
+	std::list<GradeDO> selectWithPage(const GradeManageQuery::Wrapper& query);
 	// 根据考核项标题查询 grade.id
 	int64_t selectGradeIdByTitle(const std::string& title);
 	// 根据学生姓名查询 student.id

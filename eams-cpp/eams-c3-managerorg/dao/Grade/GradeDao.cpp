@@ -47,7 +47,7 @@ uint64_t GradeDao::count(const GradeManageQuery::Wrapper& query)
  * SQL 字段顺序与 GradeManageMapper 一一对应：
  *   gr.id, g.title, gr.score, s.name
  */
-std::list<PtrGradeDO> GradeDao::selectWithPage(const GradeManageQuery::Wrapper& query)
+std::list<GradeDO> GradeDao::selectWithPage(const GradeManageQuery::Wrapper& query)
 {
 	SqlParams params;
 	string sql = "SELECT gr.id, g.title, gr.score, s.name ";
@@ -55,7 +55,7 @@ std::list<PtrGradeDO> GradeDao::selectWithPage(const GradeManageQuery::Wrapper& 
 	sql += queryConditionBuilder(query, params);
 	sql += " ORDER BY gr.add_time DESC, gr.id DESC";
 	sql += " LIMIT " + std::to_string((query->pageIndex - 1) * query->pageSize) + "," + std::to_string(query->pageSize);
-	return sqlSession->executeQuery<PtrGradeDO>(sql, GradeManageMapper(), params);
+	return sqlSession->executeQuery<GradeDO>(sql, GradeManageMapper(), params);
 }
 
 /**

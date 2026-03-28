@@ -28,22 +28,22 @@ GradeManagePageDTO::Wrapper GradeManagerService::listAll(const GradeManageQuery:
 	// 分页查询数据
 	pages->total = count;
 	pages->calcPages();
-	std::list<PtrGradeDO> result = dao.selectWithPage(query);
+	std::list<GradeDO> result = dao.selectWithPage(query);
 
 	// DO -> DTO 转换
-	for (PtrGradeDO& sub : result)
+	for (GradeDO& sub : result)
 	{
 		auto dto = GradeManageDTO::createShared();
 		// 考核项（grade.title）
-		dto->item = sub->getTitle();
+		dto->item = sub.getTitle();
 		// 从联查字段取 grade_record.id 和 grade_record.score
-		dto->id = sub->getRecordId();
-		dto->score = (float)sub->getScore();
+		dto->id = sub.getRecordId();
+		dto->score = (float)sub.getScore();
 		
 		// 从关联的 student 对象中取学生姓名
-		if (sub->getStudent())
+		if (sub.getStudent())
 		{
-			dto->name = sub->getStudent()->getName();
+			dto->name = sub.getStudent()->getName();
 		}
 		pages->addData(dto);
 	}
