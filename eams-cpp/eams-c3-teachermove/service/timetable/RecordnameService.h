@@ -20,8 +20,11 @@
 #ifndef __RECORDNAME_SERVICE_H__
 #define __RECORDNAME_SERVICE_H__
 
+#include "domain/GlobalInclude.h"
 #include "domain/query/timetable/GetDetailCSQuery.h"
 #include "domain/query/timetable/GetStuListQuery.h"
+#include "domain/query/timetable/TimetableQuery.h"
+#include "domain/dto/timetable/TimetableDTO.h"
 #include "domain/vo/timetable/GetDetailCSVO.h"
 #include "domain/vo/timetable/GetStuListVO.h"
 
@@ -30,6 +33,9 @@ class RecordnameService
 public:
 	GetDetailCSJsonVO::Wrapper getDetailCS(const GetDetailCSQuery::Wrapper& query);
 	GetStuListJsonVO::Wrapper getCSStuList(const GetStuListQuery::Wrapper& query);
+	TimetableStudentPageJsonVO::Wrapper getStudentList(const StuListQuery::Wrapper& query, const PayloadDTO& payload);
+	StringJsonVO::Wrapper insertStudentToCourse(const AddStudentToLessonDTO::Wrapper& dto, const PayloadDTO& payload);
+	ListJsonVO<TimetableStudentCourseDTO::Wrapper>::Wrapper getStudentCourseList(const StuClassQuery::Wrapper& query, const PayloadDTO& payload);
 };
 
 #endif // __RECORDNAME_SERVICE_H__
