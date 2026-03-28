@@ -5,27 +5,29 @@
 				<div class="filter-row">
 					<div class="filter-item">
 						<label class="filter-label">周期:</label>
-						<el-select v-model="filters.cycle" placeholder="请选择" clearable class="filter-input">
-							<el-option label="本周" :value="1" />
-							<el-option label="上周" :value="2" />
-							<el-option label="本周及以后" :value="3" />
+						<el-select v-model="filters.period" placeholder="请选择" class="filter-input">
+							<el-option v-for="option in periodOptions" :key="option" :label="option" :value="option" />
 						</el-select>
 					</div>
 					<div class="filter-item">
 						<label class="filter-label">班级:</label>
-						<el-input v-model="filters.className" placeholder="请输入班级名" clearable class="filter-input" />
+						<el-input v-model="filters.className" placeholder="请输入班级名称" clearable class="filter-input" />
 					</div>
 					<div class="filter-item">
 						<label class="filter-label">课程:</label>
-						<el-input v-model="filters.courseName" placeholder="请输入课程名" clearable class="filter-input" />
+						<el-input v-model="filters.courseName" placeholder="请输入课程名称" clearable class="filter-input" />
 					</div>
 					<div class="filter-item">
 						<label class="filter-label">老师:</label>
 						<el-input v-model="filters.teacherName" placeholder="请输入老师姓名" clearable class="filter-input" />
 					</div>
 					<div class="filter-item">
-						<label class="filter-label">学生:</label>
-						<el-input v-model="filters.studentName" placeholder="请输入学生姓名" clearable class="filter-input" />
+						<label class="filter-label">科目:</label>
+						<el-input v-model="filters.subjectName" placeholder="请输入科目名称" clearable class="filter-input" />
+					</div>
+					<div class="filter-item">
+						<label class="filter-label">教室:</label>
+						<el-input v-model="filters.classroomName" placeholder="请输入教室名称" clearable class="filter-input" />
 					</div>
 					<div class="filter-item">
 						<label class="filter-label">开始日期:</label>
@@ -37,6 +39,7 @@
 							class="filter-input"
 							format="YYYY-MM-DD"
 							value-format="YYYY-MM-DD"
+							:disabled="filters.period !== '自定义'"
 						/>
 					</div>
 					<div class="filter-item">
@@ -49,6 +52,7 @@
 							class="filter-input"
 							format="YYYY-MM-DD"
 							value-format="YYYY-MM-DD"
+							:disabled="filters.period !== '自定义'"
 						/>
 					</div>
 					<div class="filter-buttons">
@@ -61,23 +65,25 @@
 					</div>
 				</div>
 				<div class="filter-actions">
-					<el-button circle @click="handleRefresh">
+					<el-button circle :loading="loading" @click="handleRefresh">
 						<IconifyIconOffline icon="ep/refresh" width="16" height="16" />
 					</el-button>
 				</div>
 			</div>
 
 			<my-calendar
-				title="课程表"
+				title="课程日历"
 				v-model:selected-date="selectedCalendarDate"
 				v-model:view-mode="calendarViewMode"
+				v-model:year="calendarYear"
+				v-model:month="calendarMonth"
 				@date-select="onDateSelect"
 			>
 				<template #cell="{ cell }">
 					<div v-if="getCoursesByDate(cell.date).length > 0" class="course-dots">
 						<div
 							v-for="course in getCoursesByDate(cell.date).slice(0, 3)"
-							:key="course.id"
+							:key="`${course.id}-${course.startTime}`"
 							class="course-dot"
 							:style="{ backgroundColor: getCourseColor(course.courseName) }"
 						></div>
@@ -87,9 +93,9 @@
 				<template #week-cell="{ date, hour }">
 					<div
 						v-for="course in getCoursesByDateAndHour(date, hour)"
-						:key="course.id"
+						:key="`${course.id}-${course.startTime}`"
 						class="week-cell-course"
-						:style="{ backgroundColor: getCourseColor(course.courseName) + '20', borderLeftColor: getCourseColor(course.courseName) }"
+						:style="{ backgroundColor: `${getCourseColor(course.courseName)}20`, borderLeftColor: getCourseColor(course.courseName) }"
 					>
 						<div class="week-cell-course-name">{{ course.courseName }}</div>
 						<div class="week-cell-course-class">{{ course.className }} - {{ course.classroomName }}</div>
@@ -99,22 +105,27 @@
 				<template #day-cell="{ date, hour }">
 					<div
 						v-for="course in getCoursesByDateAndHour(date, hour)"
-						:key="course.id"
+						:key="`${course.id}-${course.startTime}`"
 						class="day-cell-course"
-						:style="{ backgroundColor: getCourseColor(course.courseName) + '20', borderLeftColor: getCourseColor(course.courseName) }"
+						:style="{ backgroundColor: `${getCourseColor(course.courseName)}20`, borderLeftColor: getCourseColor(course.courseName) }"
 					>
 						<div class="day-cell-course-header">
 							<span class="day-cell-course-name">{{ course.courseName }}</span>
-							<span class="day-cell-course-time">{{ formatCourseTime(course.lessonTimeText) }}</span>
+							<span class="day-cell-course-time">{{ formatCourseTime(course) }}</span>
 						</div>
 						<div class="day-cell-course-info">
 							<span>{{ course.className }}</span>
-							<span>{{ course.teacherNames }}</span>
+							<span>{{ course.teacherName }}</span>
 							<span>{{ course.classroomName }}</span>
 						</div>
 					</div>
 				</template>
 			</my-calendar>
+
+			<div class="calendar-meta">
+				<span class="calendar-range">当前查询范围：{{ currentRangeText }}</span>
+				<span class="calendar-count">共 {{ allCourses.length }} 条课次</span>
+			</div>
 
 			<div class="calendar-legend">
 				<span class="legend-title">图例：</span>
@@ -128,29 +139,56 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref, watch } from "vue";
 import { ElMessage } from "element-plus";
 import { IconifyIconOffline } from "@/components/ReIcon";
 import MyCalendar from "@/components/mycalendar/MyCalendar.vue";
-import { getCourseListPage } from "@/apis/academic";
-import type { CourseListVO } from "@/apis/academic/type";
+import { getLessonCalendar } from "@/apis/academic";
+import type { LessonCalendarQueryDTO } from "@/apis/academic/type";
+import type { CalendarCourse, ScheduleCalendarPeriod, ScheduleCalendarViewMode } from "./schedule-calendar";
+import {
+	buildLessonCalendarQuery,
+	formatDate,
+	getPeriodOptions,
+	isCourseInHour,
+	normalizeLessonCalendarRows,
+} from "./schedule-calendar";
 
-const filters = reactive({
-	cycle: undefined as number | undefined,
+type FilterState = {
+	className: string;
+	courseName: string;
+	teacherName: string;
+	subjectName: string;
+	classroomName: string;
+	startDate: string;
+	endDate: string;
+	period: ScheduleCalendarPeriod;
+};
+
+const defaultFilters = (): FilterState => ({
 	className: "",
 	courseName: "",
 	teacherName: "",
-	studentName: "",
+	subjectName: "",
+	classroomName: "",
 	startDate: "",
 	endDate: "",
+	period: "本月",
 });
 
-const selectedCalendarDate = ref<Date>(new Date());
-const calendarViewMode = ref<"month" | "week" | "day">("month");
-const allCourses = ref<CourseListVO[]>([]);
+const filters = reactive<FilterState>(defaultFilters());
+const appliedFilters = reactive<FilterState>(defaultFilters());
+
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
+const selectedCalendarDate = ref<Date>(new Date(today));
+const calendarViewMode = ref<ScheduleCalendarViewMode>("month");
+const calendarYear = ref(today.getFullYear());
+const calendarMonth = ref(today.getMonth());
+const allCourses = ref<CalendarCourse[]>([]);
 const loading = ref(false);
 
-// 课程颜色映射
 const courseColorMap: Record<string, string> = {
 	语文: "#409eff",
 	数学: "#67c23a",
@@ -166,42 +204,19 @@ const courseColorMap: Record<string, string> = {
 	美术: "#a855f7",
 };
 
-function getCourseColor(courseName: string | undefined): string {
-	if (!courseName) return "#6b7280";
-	return courseColorMap[courseName] || "#6b7280";
-}
+const periodOptions = computed(() => getPeriodOptions(calendarViewMode.value));
 
-function getCoursesByDate(date: Date): CourseListVO[] {
-	const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-	return allCourses.value.filter((course) => {
-		if (!course.lessonTimeText) return false;
-		return course.lessonTimeText.startsWith(dateStr);
-	});
-}
+const currentQuery = computed<LessonCalendarQueryDTO>(() =>
+	buildLessonCalendarQuery(
+		appliedFilters,
+		calendarViewMode.value,
+		selectedCalendarDate.value,
+		calendarYear.value,
+		calendarMonth.value,
+	),
+);
 
-function getCoursesByDateAndHour(date: Date, hour: number): CourseListVO[] {
-	const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-	return allCourses.value.filter((course) => {
-		if (!course.lessonTimeText) return false;
-		const courseDate = course.lessonTimeText.split(" ")[0];
-		if (courseDate !== dateStr) return false;
-
-		const timePart = course.lessonTimeText.split(" ")[1];
-		if (!timePart) return false;
-
-		const courseHour = parseInt(timePart.split(":")[0], 10);
-		return courseHour === hour;
-	});
-}
-
-function formatCourseTime(timeText: string | undefined): string {
-	if (!timeText) return "--:--";
-	const parts = timeText.split(" ");
-	if (parts.length < 2) return "--:--";
-	const time = parts[1].split(":");
-	if (time.length < 2) return "--:--";
-	return `${time[0]}:${time[1]}`;
-}
+const currentRangeText = computed(() => `${currentQuery.value.startDate || "-"} 至 ${currentQuery.value.endDate || "-"}`);
 
 const uniqueCourseNames = computed(() => {
 	const names = new Set<string>();
@@ -213,36 +228,59 @@ const uniqueCourseNames = computed(() => {
 	return Array.from(names);
 });
 
+watch(
+	periodOptions,
+	(options) => {
+		if (!options.includes(filters.period)) {
+			filters.period = options[0];
+		}
+		if (!options.includes(appliedFilters.period)) {
+			appliedFilters.period = options[0];
+		}
+	},
+	{ immediate: true },
+);
+
+watch(
+	[selectedCalendarDate, calendarViewMode, calendarYear, calendarMonth],
+	() => {
+		loadData();
+	},
+	{ deep: false },
+);
+
+function getCourseColor(courseName: string | undefined): string {
+	if (!courseName) return "#6b7280";
+	return courseColorMap[courseName] || "#6b7280";
+}
+
+function getCoursesByDate(date: Date): CalendarCourse[] {
+	const dateStr = formatDate(date);
+	return allCourses.value.filter((course) => course.lessonDate === dateStr);
+}
+
+function getCoursesByDateAndHour(date: Date, hour: number): CalendarCourse[] {
+	const dateStr = formatDate(date);
+	return allCourses.value.filter((course) => course.lessonDate === dateStr && isCourseInHour(course, hour));
+}
+
+function formatCourseTime(course: CalendarCourse): string {
+	if (!course.startTime || !course.endTime) return "--:--";
+	return `${course.startTime.slice(0, 5)} - ${course.endTime.slice(0, 5)}`;
+}
+
 function onDateSelect(date: Date) {
-	console.log("选中日期:", date);
+	selectedCalendarDate.value = new Date(date);
 }
 
 async function loadData() {
 	loading.value = true;
 	try {
-		const params: any = {
-			pageIndex: 1,
-			pageSize: 1000,
-		};
-
-		if (filters.cycle) params.cycle = filters.cycle;
-		if (filters.className) params.className = filters.className;
-		if (filters.courseName) params.courseName = filters.courseName;
-		if (filters.teacherName) params.teacherName = filters.teacherName;
-		if (filters.studentName) params.studentName = filters.studentName;
-		if (filters.startDate) params.startDate = filters.startDate;
-		if (filters.endDate) params.endDate = filters.endDate;
-
-		const res = await getCourseListPage(params);
-
-		if (res.rows) {
-			allCourses.value = res.rows;
-		} else {
-			allCourses.value = [];
-		}
+		const res = await getLessonCalendar(currentQuery.value);
+		allCourses.value = normalizeLessonCalendarRows(res.data);
 	} catch (error) {
-		console.error("加载课程数据失败:", error);
-		ElMessage.error("加载课程数据失败");
+		console.error("加载课程日历失败:", error);
+		ElMessage.error("加载课程日历失败");
 		allCourses.value = [];
 	} finally {
 		loading.value = false;
@@ -250,20 +288,31 @@ async function loadData() {
 }
 
 function handleSearch() {
+	if (filters.period === "自定义" && (!filters.startDate || !filters.endDate)) {
+		ElMessage.warning("自定义周期时请完整选择开始和结束日期");
+		return;
+	}
+	if (filters.period === "自定义" && filters.startDate > filters.endDate) {
+		ElMessage.warning("结束日期不能早于开始日期");
+		return;
+	}
+
+	Object.assign(appliedFilters, filters);
 	loadData();
 	ElMessage.success("筛选条件已应用");
 }
 
 function handleReset() {
-	Object.assign(filters, {
-		cycle: undefined,
-		className: "",
-		courseName: "",
-		teacherName: "",
-		studentName: "",
-		startDate: "",
-		endDate: "",
-	});
+	const nextFilters = defaultFilters();
+	nextFilters.period = periodOptions.value[0];
+	Object.assign(filters, nextFilters);
+	Object.assign(appliedFilters, nextFilters);
+
+	selectedCalendarDate.value = new Date(today);
+	calendarViewMode.value = "month";
+	calendarYear.value = today.getFullYear();
+	calendarMonth.value = today.getMonth();
+
 	loadData();
 	ElMessage.info("筛选条件已重置");
 }
@@ -407,6 +456,17 @@ onMounted(() => {
 	display: flex;
 	gap: 12px;
 	font-size: 12px;
+	color: #606266;
+	flex-wrap: wrap;
+}
+
+.calendar-meta {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+	flex-wrap: wrap;
+	font-size: 13px;
 	color: #606266;
 }
 

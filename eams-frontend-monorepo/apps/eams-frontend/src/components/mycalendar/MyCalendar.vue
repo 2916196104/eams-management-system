@@ -188,8 +188,6 @@ const displayTitle = computed(() => {
 	return formatDay(viewCursor.value);
 });
 
-const displayYearMonth = computed(() => `${currentYear.value}年${currentMonth.value + 1}月`);
-
 function isSameDay(a: Date, b: Date | null) {
 	if (!b) return false;
 	return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
@@ -277,7 +275,6 @@ const monthCells = computed<CalendarCell[]>(() => {
 	const month = currentMonth.value;
 	const first = new Date(year, month, 1);
 	const firstWeekday = (first.getDay() + 6) % 7;
-	const totalDays = new Date(year, month + 1, 0).getDate();
 	const startOffset = 1 - firstWeekday;
 	const cells: CalendarCell[] = [];
 	const today = new Date();
@@ -313,6 +310,12 @@ function addDays(d: Date, delta: number): Date {
 	return r;
 }
 
+function syncSelectedDateByCursor() {
+	const nextDate = new Date(viewCursor.value.getFullYear(), viewCursor.value.getMonth(), viewCursor.value.getDate());
+	selectedDate.value = nextDate;
+	emit("date-select", nextDate);
+}
+
 function prev() {
 	if (viewMode.value === "month") {
 		if (currentMonth.value === 0) {
@@ -323,8 +326,10 @@ function prev() {
 		}
 	} else if (viewMode.value === "week") {
 		viewCursor.value = addDays(viewCursor.value, -7);
+		syncSelectedDateByCursor();
 	} else {
 		viewCursor.value = addDays(viewCursor.value, -1);
+		syncSelectedDateByCursor();
 	}
 }
 
@@ -338,8 +343,10 @@ function next() {
 		}
 	} else if (viewMode.value === "week") {
 		viewCursor.value = addDays(viewCursor.value, 7);
+		syncSelectedDateByCursor();
 	} else {
 		viewCursor.value = addDays(viewCursor.value, 1);
+		syncSelectedDateByCursor();
 	}
 }
 
