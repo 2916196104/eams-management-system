@@ -44,9 +44,11 @@ public:			 //定义接口
 	//定义获取用户信息接口实现
 	API_HANDLER_ENDPOINT_NOPARAM_AUTH(API_M_GET, "/C7/workbench/Information", queryUserInformation, execQuaryUserInformation(authObject->getPayload()))
 
+
 private:		 //定义执行函数
 	//定义获取用户信息接口执行函数
 	UserRelatedVO::Wrapper execQuaryUserInformation(const PayloadDTO& payload);
+
 };
 
 #undef API_TAG2

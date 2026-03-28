@@ -28,9 +28,9 @@
 /*
 * 用户相关显示对象
 */
-class UserRelatedVO : public JsonVO<UserRelatedDTO::Wrapper>
+class UserRelatedVO : public JsonVO<UserInformationDTO::Wrapper>
 {
-	DTO_INIT(UserRelatedVO, JsonVO<UserRelatedDTO::Wrapper>);
+	DTO_INIT(UserRelatedVO, JsonVO<UserInformationDTO::Wrapper>);
 };
 
 

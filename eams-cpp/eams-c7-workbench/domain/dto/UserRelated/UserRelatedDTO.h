@@ -27,20 +27,20 @@
 /*
 * 用户信息传输对象
 */
-class UserRelatedDTO : public oatpp::DTO
+class UserInformationDTO : public oatpp::DTO
 {
-	DTO_INIT(UserRelatedDTO, DTO);
+	DTO_INIT(UserInformationDTO, DTO);
 
 	// 用户权限（用于按钮控制）
-	API_DTO_FIELD_REQUIRE(List<String>, permissions, ZH_WORDS_GETTER("file.field.ft"), true);
+	API_DTO_FIELD_REQUIRE(List<String>, permissions, ZH_WORDS_GETTER("user.field.permission"), true);
 	// 角色编码
-	API_DTO_FIELD_REQUIRE(List<String>, role, ZH_WORDS_GETTER("file.field.ft"), true);
+	API_DTO_FIELD_REQUIRE(List<String>, role, ZH_WORDS_GETTER("user.field.role"), true);
 	//用户ID
 	API_DTO_FIELD_REQUIRE(Int64, ID, ZH_WORDS_GETTER("user.field.id"), true);
 	//用户姓名
 	API_DTO_FIELD_REQUIRE(String, name, ZH_WORDS_GETTER("user.field.name"), true);
 	//用户手机号
-	API_DTO_FIELD_REQUIRE(String, mobile, ZH_WORDS_GETTER("file.field.ft"), true);
+	API_DTO_FIELD_REQUIRE(String, mobile, ZH_WORDS_GETTER("user.field.mobile"), true);
 
 	// 关联一个PayloadDTO负载数据对象
 	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
@@ -55,36 +55,36 @@ public:
 class UserProfileDTO : public oatpp::DTO
 {
 	DTO_INIT(UserProfileDTO, DTO);
-	//用户ID
-	API_DTO_FIELD_REQUIRE(Int64, ID, ZH_WORDS_GETTER("user.field.id"), true);
+	////用户ID
+	//API_DTO_FIELD_REQUIRE(Int64, ID, ZH_WORDS_GETTER("user.field.id"), true);
 	//用户姓名
 	API_DTO_FIELD_REQUIRE(String, name, ZH_WORDS_GETTER("user.field.name"), true);
 	//用户手机号
 	API_DTO_FIELD_REQUIRE(String, mobile, ZH_WORDS_GETTER("user.field.mobile"), true);
-	// 用户年龄
-	API_DTO_FIELD_REQUIRE(Int64, age, ZH_WORDS_GETTER("user.field.age"), true);
+	//// 用户年龄
+	//API_DTO_FIELD_REQUIRE(Int64, age, ZH_WORDS_GETTER("user.field.age"), true);
 	// 用户生日
 	API_DTO_FIELD_REQUIRE(String, birthday, ZH_WORDS_GETTER("user.field.birthday"), true);
 	// 用户性别
 	API_DTO_FIELD_REQUIRE(String, gender, ZH_WORDS_GETTER("user.field.gender"), true);
-	// 用户身份证
-	API_DTO_FIELD_REQUIRE(String, idcard, ZH_WORDS_GETTER("user.field.idcard"), true);
-	//毕业学校
-	API_DTO_FIELD_REQUIRE(String, school, ZH_WORDS_GETTER("user.field.school"), true);
-	//学历
-	API_DTO_FIELD_REQUIRE(String, degree, ZH_WORDS_GETTER("user.field.degree"), true);
-	//备注
-	API_DTO_FIELD_REQUIRE(String, remark, ZH_WORDS_GETTER("user.field.remark"), true);
-	//在职状态
-	API_DTO_FIELD_REQUIRE(String, state, ZH_WORDS_GETTER("user.field.state"), true);
+	//// 用户身份证
+	//API_DTO_FIELD_REQUIRE(String, idcard, ZH_WORDS_GETTER("user.field.idcard"), true);
+	////毕业学校
+	//API_DTO_FIELD_REQUIRE(String, school, ZH_WORDS_GETTER("user.field.school"), true);
+	////学历
+	//API_DTO_FIELD_REQUIRE(String, degree, ZH_WORDS_GETTER("user.field.degree"), true);
+	////备注
+	//API_DTO_FIELD_REQUIRE(String, remark, ZH_WORDS_GETTER("user.field.remark"), true);
+	////在职状态
+	//API_DTO_FIELD_REQUIRE(String, state, ZH_WORDS_GETTER("user.field.state"), true);
 	//头像地址
 	API_DTO_FIELD_REQUIRE(String, headimg, ZH_WORDS_GETTER("user.field.heading"), true);
-	//入职时间
-	API_DTO_FIELD_REQUIRE(String, hireDate, ZH_WORDS_GETTER("user.field.hireDate"), true);
-	//离职时间
-	API_DTO_FIELD_REQUIRE(String, fireDate, ZH_WORDS_GETTER("user.field.fireDate"), true);
-	//是否在职
-	API_DTO_FIELD_REQUIRE(Boolean, isInner, ZH_WORDS_GETTER("user.field.isInner"), true);
+	////入职时间
+	//API_DTO_FIELD_REQUIRE(String, hireDate, ZH_WORDS_GETTER("user.field.hireDate"), true);
+	////离职时间
+	//API_DTO_FIELD_REQUIRE(String, fireDate, ZH_WORDS_GETTER("user.field.fireDate"), true);
+	////是否在职
+	//API_DTO_FIELD_REQUIRE(Boolean, isInner, ZH_WORDS_GETTER("user.field.isInner"), true);
 
 	// 关联一个PayloadDTO负载数据对象
 	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
@@ -113,6 +113,9 @@ class ChangePictureDTO : public oatpp::DTO
 
 	// 图片url地址
 	API_DTO_FIELD_DEFAULT(String, head_img, ZH_WORDS_GETTER("user.field.head_img"));
+
+	// 关联一个PayloadDTO负载数据对象
+	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
 
 public:
 
