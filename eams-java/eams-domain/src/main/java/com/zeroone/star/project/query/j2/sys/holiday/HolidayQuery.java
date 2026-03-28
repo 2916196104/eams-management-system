@@ -20,6 +20,6 @@ import java.util.List;
 @Data
 @ApiModel("节日查询对象")
 public class HolidayQuery extends PageQuery {
-    @ApiModelProperty(value = "节日列表", example = "[2027-01-01,2027-05-26]")
-    private List<LocalDate> holidayList;
+    @ApiModelProperty(value = "节日年份", example = "2026")
+    private Integer year;
 }
