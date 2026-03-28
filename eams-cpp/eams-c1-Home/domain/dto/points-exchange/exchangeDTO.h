@@ -118,8 +118,8 @@ class GoodsDetailDTO : public GoodsDTO
 	API_DTO_FIELD_DEFAULT(String, specs, ZH_WORDS_GETTER("exchange.field.specs")); // 商品规格
 	API_DTO_FIELD_DEFAULT(String, deliveryInfo, ZH_WORDS_GETTER("exchange.field.delivery_info")); // 配送信息
 	API_DTO_FIELD_DEFAULT(Int64, limitNum, ZH_WORDS_GETTER("exchange.field.limit_num")); // 限购数量
-	API_DTO_FIELD_DEFAULT(Int64, exchangeStartTime, ZH_WORDS_GETTER("exchange.field.exchange_start_time")); // 兑换开始时间
-	API_DTO_FIELD_DEFAULT(Int64, exchangeEndTime, ZH_WORDS_GETTER("exchange.field.exchange_end_time")); // 兑换结束时间
+	API_DTO_FIELD_DEFAULT(String, exchangeStartTime, ZH_WORDS_GETTER("exchange.field.exchange_start_time")); // 兑换开始时间
+	API_DTO_FIELD_DEFAULT(String, exchangeEndTime, ZH_WORDS_GETTER("exchange.field.exchange_end_time")); // 兑换结束时间
 };
 
 // 发起兑换请求DTO
@@ -129,9 +129,7 @@ class ExchangeSubmitDTO : public oatpp::DTO
 
 	API_DTO_FIELD_DEFAULT(Int64, goodsId, ZH_WORDS_GETTER("exchange.field.id")); // 礼品ID
 	API_DTO_FIELD_DEFAULT(Int64, num, ZH_WORDS_GETTER("exchange.field.num")); // 兑换数量
-	API_DTO_FIELD_DEFAULT(String, receiverName, ZH_WORDS_GETTER("exchange.field.receiver_name")); // 收货人姓名
-	API_DTO_FIELD_DEFAULT(String, receiverPhone, ZH_WORDS_GETTER("exchange.field.receiver_phone")); // 收货人电话
-	API_DTO_FIELD_DEFAULT(String, receiverAddress, ZH_WORDS_GETTER("exchange.field.receiver_address")); // 收货地址
+	API_DTO_FIELD_DEFAULT(Int64, studentId, ZH_WORDS_GETTER("exchange.field.student_id"));//xue
 	API_DTO_FIELD_DEFAULT(String, remark, ZH_WORDS_GETTER("exchange.field.remark")); // 备注
 };
 
@@ -143,8 +141,8 @@ class ExchangeResultDTO : public oatpp::DTO
 	API_DTO_FIELD_DEFAULT(Int64, exchangeId, ZH_WORDS_GETTER("exchange.field.id")); // 兑换记录ID
 	API_DTO_FIELD_DEFAULT(String, orderNo, ZH_WORDS_GETTER("exchange.field.order_no")); // 订单号
 	API_DTO_FIELD_DEFAULT(Int64, totalCredit, ZH_WORDS_GETTER("exchange.field.total_credit")); // 消耗总积分
-	API_DTO_FIELD_DEFAULT(Int64, status, ZH_WORDS_GETTER("exchange.field.status")); // 兑换状态
-	API_DTO_FIELD_DEFAULT(String, message, ZH_WORDS_GETTER("exchange.field.message")); // 提示信息
+	API_DTO_FIELD_DEFAULT(Int32, status, ZH_WORDS_GETTER("exchange.field.status")); // 兑换状态 这个也是
+	API_DTO_FIELD_DEFAULT(String, message, ZH_WORDS_GETTER("exchange.field.message")); // 提示信息 在控制层自己写
 };
 #include OATPP_CODEGEN_END(DTO)
 

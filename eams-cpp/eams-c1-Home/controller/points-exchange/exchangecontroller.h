@@ -27,6 +27,7 @@
 #include "domain/query/PageQuery.h"
 #include "domain/vo/points-exchange/exchangeVO.h"
 #include "domain/query/points-exchange/exchangequery.h"
+#include"service/points-exchange/points-ExchangeService.h"
 
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
@@ -68,19 +69,21 @@ public: // 定义接口
 
 	// 5. 定义兑换礼品接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("exchange.submit-exchange.summary"), submitExchange, ExchangeResultJsonVO::Wrapper, API_TAG,
-		// POST请求无法使用API_DEF_ADD_QUERY_PARAMS，所以这里留空，或者可以添加其他信息
+
 		);
+
 	// 5.2 定义兑换礼品接口处理
 	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c1/exchange/submit", submitExchange,
 		BODY_DTO(ExchangeSubmitDTO::Wrapper, request),
-		executeSubmitExchange(request));
+		executeSubmitExchange(request, authObject->getPayload())
+	);
 
 private: // 定义接口执行函数
 	GoodsPageJsonVO::Wrapper executeQueryAll(const PageQuery::Wrapper& query);
-	GoodsDetailJsonVO::Wrapper executeGetGoodsDetail(const Int64& id);
+	GoodsDetailJsonVO::Wrapper executeGetGoodsDetail(const INT64& id);
 	AcceptGoodsPageJsonVO::Wrapper executeQueryAcceptGoods(const AcceptGoodsQuery::Wrapper& acceptGoods);
 	SettingJsonVO::Wrapper executeQueryRule(const UInt64& id);
-	ExchangeResultJsonVO::Wrapper executeSubmitExchange(const ExchangeSubmitDTO::Wrapper& request);
+	ExchangeResultJsonVO::Wrapper executeSubmitExchange(const ExchangeSubmitDTO::Wrapper& request, const PayloadDTO& payload);
 
 };
 

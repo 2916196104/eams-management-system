@@ -50,18 +50,105 @@ SettingJsonVO::Wrapper exchangeController::executeQueryRule(const UInt64& id)
 	return vo;
 }
 
+
 /*
 查询积分兑换记录详情
 */
-GoodsDetailJsonVO::Wrapper exchangeController::executeGetGoodsDetail(const Int64& id)
+GoodsDetailJsonVO::Wrapper exchangeController::executeGetGoodsDetail(const INT64& id)
 {
-	return {};
+
+    try
+    {
+        ExchangeService service;
+        auto data = service.getGoodsDetail(id);
+
+        auto result = GoodsDetailJsonVO::createShared();
+        result->success(data);
+        return result;
+    }
+    catch (const std::invalid_argument& e)
+    {
+        // 参数错误 - 传入空数据
+        auto result = GoodsDetailJsonVO::createShared();
+        GoodsDetailDTO::Wrapper emptyData = GoodsDetailDTO::createShared();
+        result->fail(emptyData);
+        // 如果需要自定义错误消息，可以手动设置
+        result->code = 400;
+        result->message = e.what();
+        return result;
+    }
+    catch (const std::runtime_error& e)
+    {
+        // 业务错误 - 传入空数据
+        auto result = GoodsDetailJsonVO::createShared();
+        GoodsDetailDTO::Wrapper emptyData = GoodsDetailDTO::createShared();
+        result->fail(emptyData);
+        result->code = 404;
+        result->message = e.what();
+        return result;
+    }
+    catch (const std::exception& e)
+    {
+        // 系统错误 - 传入空数据
+        auto result = GoodsDetailJsonVO::createShared();
+        GoodsDetailDTO::Wrapper emptyData = GoodsDetailDTO::createShared();
+        result->fail(emptyData);
+        result->code = 500;
+        result->message = "system error";
+        return result;
+    }
+
+
+
 }
 
 /*
 兑换礼品功能的业务处理
 */
-ExchangeResultJsonVO::Wrapper exchangeController::executeSubmitExchange(const ExchangeSubmitDTO::Wrapper& request)
+ExchangeResultJsonVO::Wrapper exchangeController::executeSubmitExchange(const ExchangeSubmitDTO::Wrapper& request, const PayloadDTO& payload)
 {
-	return {};
+
+
+    try
+    {
+        ExchangeService service;
+
+
+        Int64 userid = std::stoi(payload.getId());
+        auto data = service.submitExchange(request, userid);
+
+        auto result = ExchangeResultJsonVO::createShared();
+        result->success(data);
+        return result;
+    }
+    catch (const std::invalid_argument& e)
+    {
+        // 参数错误
+        auto result = ExchangeResultJsonVO::createShared();
+        ExchangeResultDTO::Wrapper emptyData = ExchangeResultDTO::createShared();
+        result->fail(emptyData);
+        result->code = 400;
+        result->message = e.what();
+        return result;
+    }
+    catch (const std::runtime_error& e)
+    {
+        // 业务错误
+        auto result = ExchangeResultJsonVO::createShared();
+        ExchangeResultDTO::Wrapper emptyData = ExchangeResultDTO::createShared();
+        result->fail(emptyData);
+        result->code = 500;
+        result->message = e.what();
+        return result;
+    }
+    catch (const std::exception& e)
+    {
+        // 系统错误
+        auto result = ExchangeResultJsonVO::createShared();
+        ExchangeResultDTO::Wrapper emptyData = ExchangeResultDTO::createShared();
+        result->fail(emptyData);
+        result->code = 500;
+        result->message = "system error";
+        return result;
+    }
 }

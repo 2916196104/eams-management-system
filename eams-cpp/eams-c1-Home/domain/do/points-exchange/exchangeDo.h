@@ -128,6 +128,9 @@ class SettingDO : public BaseDO
 typedef std::shared_ptr<SettingDO> PtrSettingDO;
 typedef std::shared_ptr<AcceptGoodsDO> PtrAcceptGoodsDO;
 typedef std::shared_ptr<GoodsDO> PtrGoodsDO;
+// 智能指针别名
+typedef std::shared_ptr<AcceptGoodsDO> PtrExchangeDO;
+typedef std::shared_ptr<GoodsDO> PtrGoodsDetailDO;
 
 
 
