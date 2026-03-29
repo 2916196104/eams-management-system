@@ -1,11 +1,19 @@
 #include"EnrolledRecordController.h"
+#include"../../service/EnrollmentService/EnrolledRecordService.h"
 #include"stdafx.h"
 
 EnrolledRecordListJsonVO::Wrapper EnrolledRecordController:: execQueryNameList(const EnrolledQuery::Wrapper& name)
 {
-	return {};
+	auto result = EnrolledRecordService().getEnrolledRecordList(name);
+	auto Jvo = EnrolledRecordListJsonVO::createShared();
+	Jvo->success(result);
+
+	return Jvo;
 }
-EnrolledRecordListJsonVO::Wrapper EnrolledRecordController::execEnrolledDetail(const EnrolledQuery::Wrapper& name)
+EnrolledRecordDetailJsonVO::Wrapper EnrolledRecordController::execEnrolledDetail(const Int32 &id)
 {
-	return {};
+	auto result = EnrolledRecordService().getEnrolledRecordDetail(id);
+	auto Jvo = EnrolledRecordDetailJsonVO::createShared();
+	Jvo->success(result);
+	return Jvo;
 }

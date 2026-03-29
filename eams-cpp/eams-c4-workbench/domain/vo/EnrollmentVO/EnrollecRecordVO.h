@@ -15,9 +15,9 @@ class EnrolledRecordPageJsonVO :public JsonVO<EnrolledRecordPageDTO::Wrapper>
 /*
 * 报名记录列表显示对象
 */
-class EnrolledRecordListJsonVO :public ListJsonVO<EnrolledRecordDTO::Wrapper>
+class EnrolledRecordListJsonVO :public JsonVO<EnrolledRecordPageDTO::Wrapper>
 {
-	DTO_INIT(EnrolledRecordListJsonVO, ListJsonVO<EnrolledRecordDTO::Wrapper>);
+	DTO_INIT(EnrolledRecordListJsonVO, JsonVO<EnrolledRecordPageDTO::Wrapper>);
 };
 /*
 * 报名记录详情显示对象

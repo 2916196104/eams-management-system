@@ -31,9 +31,9 @@
 #include "huitailang-controller/commentrecordcontroller.h"
 #include "huitailang-controller/getrollcallrecord.h"
 
-#include "controller_zhong\Student_Class_Hour Records\ClassHourRecordsController.h"
-#include "controller_zhong\Student_Course_Progress\StudentCourseProgressController.h"
-#include "controller_zhong\Student_Enrollment_Records\StudentEnrollmentRecordsController.h"
+//#include "controller_zhong\Student_Class_Hour Records\ClassHourRecordsController.h"
+//#include "controller_zhong\Student_Course_Progress\StudentCourseProgressController.h"
+//#include "controller_zhong\Student_Enrollment_Records\StudentEnrollmentRecordsController.h"
 
 #include"makabaka-controller/SchedulingController.h"
 
@@ -76,9 +76,9 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(getrollrecllrecord);
 	ROUTER_SIMPLE_BIND(addintendedstudent);
 
-	ROUTER_SIMPLE_BIND(ClassHourRecordsController);
-	ROUTER_SIMPLE_BIND(CourseProgressController);
-	ROUTER_SIMPLE_BIND(EnrollmentRecordsController);
+	//ROUTER_SIMPLE_BIND(ClassHourRecordsController);
+	//ROUTER_SIMPLE_BIND(CourseProgressController);
+	//ROUTER_SIMPLE_BIND(EnrollmentRecordsController);
 
 	ROUTER_SIMPLE_BIND(SchedulingController);
 

@@ -2,7 +2,7 @@
 #ifndef STUDENTCOURSEDO_H
 #define STUDENTCOURSEDO_H
 
-#include "../DoInclude.h"
+#include "../do/DoInclude.h"
 
 /**
  * student_course表数据库实体类

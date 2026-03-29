@@ -1,4 +1,3 @@
-
 #pragma once
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/vo/Student_Class_Hour Records/StudentClassHourRecordsVO.h"

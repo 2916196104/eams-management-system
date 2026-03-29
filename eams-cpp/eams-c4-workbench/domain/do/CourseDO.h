@@ -1,6 +1,6 @@
 #ifndef _COURSE_DO_
 #define _COURSE_DO_
-#include "DoInclude.h"
+#include "../do/DoInclude.h"
 
 class CourseDO : public BaseDO {
 	// Ö÷¼ü
@@ -129,5 +129,6 @@ public:
 	}
 };
 
+typedef std::shared_ptr<CourseDO> PtrCourseDO;
 
 #endif
