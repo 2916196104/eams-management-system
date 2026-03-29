@@ -48,18 +48,29 @@ bool ClassStudentService::addStudentToLesson(const AddStudentToLessonDTO::Wrappe
 	ClassStudentDAO dao;
 	int64_t classId = std::stoll(dto->course_id.getValue("0"));
 
+	uint64_t baseId = std::time(nullptr) * 1000;
+	int index = 0;
+
 	// 遍历前端传过来的所有学生 ID，批量插入数据库
 	for (auto stuIdStr : *dto->studentIds) {
 		auto doObj = std::make_shared<ClassStudentDO>();
 
 		// 组装要插入的数据库对象
+		doObj->setId(baseId + index);
+		index++;
 		doObj->setClassId(classId);
 		doObj->setStudentId(std::stoll(stuIdStr.getValue("0")));
 		doObj->setAddTime("2025-3-23 10:00:00");
 		doObj->setDeleted(0);
+		doObj->setCreator(0);
+		doObj->setReason(0);
+		doObj->setRemark("");
+		doObj->setConsumeCourseId(0);
 
 		// 调用 DAO 执行插入
-		dao.insert(doObj);
+		if (dao.insert(doObj) <= 0) {
+			return false;
+		}
 	}
 	return true;
 }

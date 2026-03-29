@@ -8,7 +8,6 @@ uint64_t ClassStudentDAO::count(const StuListQuery::Wrapper& query)
     string sql = "SELECT count(id) FROM class_student ";
     SqlParams params;
 
-    // 假设需要排除被标记为删除的记录
     sql += "WHERE deleted = 0 ";
 
     // 执行查询并返回数字
@@ -35,14 +34,13 @@ std::list<PtrClassStudentDO> ClassStudentDAO::selectByStudentId(const std::strin
 {
     string sql = "SELECT id, class_id, student_id, add_time, creator, reason, deleted, remark, consume_course_id FROM class_student WHERE deleted = 0 AND student_id = ?";
 
-    // 单个参数可以直接通过占位符 "%s" 传入执行
     return sqlSession->executeQuery<PtrClassStudentDO>(sql, ClassStudentMapper(), "%s", studentId);
 }
 
 // 4. 插入一条新数据
 uint64_t ClassStudentDAO::insert(const PtrClassStudentDO& doObj)
 {
-    string sql = "INSERT INTO class_student (class_id, student_id, add_time, creator, reason, deleted, remark, consume_course_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    string sql = "INSERT INTO class_student (id, class_id, student_id, add_time, creator, reason, deleted, remark, consume_course_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     SqlParams params;
 
     // 绑定每一个字段参数
@@ -55,6 +53,5 @@ uint64_t ClassStudentDAO::insert(const PtrClassStudentDO& doObj)
     SQLPARAMS_PUSH(params, "s", std::string, doObj->getRemark());
     SQLPARAMS_PUSH(params, "ll", int64_t, doObj->getConsumeCourseId());
 
-    // 执行插入，通常底层框架封装了 executeUpdate
     return sqlSession->executeUpdate(sql, params);
 }
