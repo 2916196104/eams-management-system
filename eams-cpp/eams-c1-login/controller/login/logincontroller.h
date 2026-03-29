@@ -83,7 +83,7 @@ public: // 定义接口
 		API_M_POST,
 		"/c1/login/send-register-code",
 		sendRegisterCode,
-		BODY_DTO(SendResetCodeDTO::Wrapper, dto),
+		BODY_DTO(SendRegisterCodeDTO::Wrapper, dto),
 		executeSendRegisterCode(dto)
 	);
 	// 定义注册接口信息
@@ -96,10 +96,10 @@ public: // 定义接口
 	// 注册接口
 	API_HANDLER_ENDPOINT_AUTH(
 		API_M_POST,
-		"/c1/login/register",
+		"/c1/login/add-account",
 		registerAccount,
 		BODY_DTO(RegisterDTO::Wrapper, dto),
-		executeRegister(dto)
+		executeAddAccount(dto)
 	);
 	
 
@@ -109,9 +109,9 @@ private: // 定义接口执行函数
 	// 修改密码
 	UpdatePasswordJsonVO::Wrapper executeModifyPassword(const UpdatePasswordDTO::Wrapper& dto);
 	// 发送注册短信验证
-	SendRegisterCodeJsonVO::Wrapper executeSendRegisterCode(const SendResetCodeDTO::Wrapper& dto);
+	SendRegisterCodeJsonVO::Wrapper executeSendRegisterCode(const SendRegisterCodeDTO::Wrapper& dto);
 	// 注册账号
-	RegisterJsonVO::Wrapper executeRegister(const RegisterDTO::Wrapper& dto);
+	RegisterJsonVO::Wrapper executeAddAccount(const RegisterDTO::Wrapper& dto);
 };
 
 #include OATPP_CODEGEN_END(ApiController)

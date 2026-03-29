@@ -3,6 +3,7 @@
 #define _LOGINDAO_H_
 
 #include "BaseDAO.h"
+#include "domain/do/login/loginDO.h"
 
 class LoginDAO : public BaseDAO
 {
