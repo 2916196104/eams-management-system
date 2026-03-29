@@ -3,16 +3,20 @@ package com.zeroone.star.stumanager.controller.common;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zeroone.star.project.dto.j8.stumanager.CourseStatisticsDTO;
 import com.zeroone.star.project.j8.stumanager.common.ClassScheduleApis;
+import com.zeroone.star.project.query.j8.stumanager.common.LessonCountRecordQuery;
 import com.zeroone.star.project.query.j8.stumanager.common.StuClassQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.ResultStatus;
+import com.zeroone.star.project.vo.j8.stumanager.common.LessonCountRecordVO;
 import com.zeroone.star.stumanager.entity.ClassStudent;
 import com.zeroone.star.stumanager.mapper.StudentMapper;
 import com.zeroone.star.stumanager.service.IClassService;
 import com.zeroone.star.stumanager.entity.Course;
 import com.zeroone.star.stumanager.service.IClassStudentService;
+import com.zeroone.star.stumanager.service.IStudentLessonCountLogService;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.vo.j8.stumanager.ClassScheduleVO;
@@ -41,6 +45,8 @@ public class ClassScheduleController implements ClassScheduleApis {
     private IClassService classService;
     @Autowired
     private StudentMapper studentMapper;
+    @Resource
+    private IStudentLessonCountLogService studentLessonCountLogService;
 
     // 仅保留实际使用的Service，消除未使用字段警告
     @Autowired
@@ -192,6 +198,17 @@ public class ClassScheduleController implements ClassScheduleApis {
         stuClassQuery.setEndTime(endTime);
         PageDTO<ClassScheduleVO> classSchedule = classService.listClassSchedule(pageNo, pageSize, stuClassQuery);
         return JsonVO.success(classSchedule);
+    }
+
+    @ApiOperation("获取消课记录")
+    @GetMapping("/query-lesson-count-records")
+    @Override
+    public JsonVO<PageDTO<LessonCountRecordVO>> queryLessonCountRecords(@Validated LessonCountRecordQuery query) {
+        try {
+            return JsonVO.success(studentLessonCountLogService.queryLessonCountRecords(query));
+        } catch (IllegalArgumentException exception) {
+            return JsonVO.fail(exception.getMessage());
+        }
     }
 
 }

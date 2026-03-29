@@ -61,7 +61,7 @@ public class GraduatedStuController implements GraduatedStuApis {
                         GraduatedStuVO vo = new GraduatedStuVO();
                         vo.setId(student.getId());
                         vo.setName(student.getName());
-                        vo.setPhone(student.getPhone());
+                        // vo.setPhone(student.getPhone());
                         vo.setSex(student.getGender() == 0 ? "男" : "女");
                         vo.setBirthday(student.getBirthday());
                         // 这里可以根据实际情况设置其他字段
@@ -119,7 +119,7 @@ public class GraduatedStuController implements GraduatedStuApis {
                         student.setName(item.getName());
                         student.setGender(item.getSex().equals("男") ? 0 : 1);
                         student.setBirthday(item.getBirthday());
-                        student.setPhone(item.getPhone());
+                        // student.setPhone(item.getPhone());
                         student.setUserId(user.getId());
                         student.setStage(2); // 设置为结业状态
                         student.setFamilyRel(item.getFamilyRel().equals("非直系亲属") ? 1 : 0);

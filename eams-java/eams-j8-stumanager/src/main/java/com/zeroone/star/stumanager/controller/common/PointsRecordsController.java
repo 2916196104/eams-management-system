@@ -21,7 +21,7 @@ import javax.annotation.Resource;
 @RestController
 @Validated
 @RequestMapping("/stu/common/points-records")
-@Api(tags = "学员公用接口 - 积分记录")
+@Api(tags = "公用接口 - 积分记录")
 public class PointsRecordsController implements PointsRecordsApis {
 
     @Resource
