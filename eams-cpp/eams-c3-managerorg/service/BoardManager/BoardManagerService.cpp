@@ -120,3 +120,53 @@ bool BoardService::removeData(const oatpp::List<oatpp::String>& ids)
 		return true;
 	return false;
 }
+
+GetBoardDetailJsonVO::Wrapper BoardService::getBoardDetail(const oatpp::String& boardId, const oatpp::String& boardTitle, const oatpp::String& boardType)
+{
+	auto response = GetBoardDetailJsonVO::createShared();
+
+	// 创建公告详情DTO
+	auto detail = GetBoardDetailDTO::createShared();
+
+	// 查询公告详情
+	NoticeDAO dao;
+	PtrNoticeDO notice = nullptr;
+
+	if (boardId && boardId->size() > 0)
+	{
+		// 根据ID查询
+		oatpp::UInt64 id = std::stoull(boardId->c_str());
+		notice = dao.selectById(id);
+	}
+	else if (boardTitle && boardTitle->size() > 0)
+	{
+		// 根据标题查询
+		std::list<PtrNoticeDO> notices = dao.selectByTitle(boardTitle->c_str());
+		if (!notices.empty())
+		{
+			notice = notices.front();
+		}
+	}
+
+	if (notice)
+	{
+		// 设置公告详情
+		detail->boardtitle = notice->getTitle();
+		detail->boardtext = notice->getContent();
+		detail->boardtype = boardType ? boardType : oatpp::String("");
+		detail->boardstatus = notice->getDeleted() == 0 ? oatpp::String("1") : oatpp::String("0");
+
+		response->success(detail);
+	}
+	else
+	{
+		// 失败时也需要设置一个空的 detail 对象
+		detail->boardtitle = "";
+		detail->boardtext = "";
+		detail->boardtype = "";
+		detail->boardstatus = "";
+		response->fail(detail);
+	}
+
+	return response;
+}
