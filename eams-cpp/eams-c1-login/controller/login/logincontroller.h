@@ -48,7 +48,7 @@ public: // 定义接口
 	// 发送验证码接口
 	API_HANDLER_ENDPOINT_AUTH(
 		API_M_POST,
-		"/c1/login/send-code",
+		"/app/common/open/sendSms",
 		sendResetCode,
 		BODY_DTO(SendResetCodeDTO::Wrapper, dto),
 		executeSendResetCode(dto)
@@ -65,7 +65,7 @@ public: // 定义接口
 	// 修改密码接口
 	API_HANDLER_ENDPOINT_AUTH(
 		API_M_PUT,
-		"/c1/login/modify-password",
+		"/app/common/open/forgetPwd",
 		resetPassword,
 		BODY_DTO(UpdatePasswordDTO::Wrapper, dto),
 		executeModifyPassword(dto)
@@ -81,7 +81,7 @@ public: // 定义接口
 	// 发送注册验证码接口
 	API_HANDLER_ENDPOINT_AUTH(
 		API_M_POST,
-		"/c1/login/send-register-code",
+		"/app/common/open/regist/sendSms",
 		sendRegisterCode,
 		BODY_DTO(SendRegisterCodeDTO::Wrapper, dto),
 		executeSendRegisterCode(dto)
@@ -96,7 +96,7 @@ public: // 定义接口
 	// 注册接口
 	API_HANDLER_ENDPOINT_AUTH(
 		API_M_POST,
-		"/c1/login/add-account",
+		"/app/common/open/register",
 		registerAccount,
 		BODY_DTO(RegisterDTO::Wrapper, dto),
 		executeAddAccount(dto)
