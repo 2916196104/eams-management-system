@@ -7,7 +7,6 @@
 #include "domain/query/timetable/GetCommonDatetimeQuery.h"
 #include "domain/vo/timetable/CommonDatetimeVO.h"
 
-#include "domain/GlobalInclude.h"
 #include "oatpp/web/server/api/ApiController.hpp"
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
