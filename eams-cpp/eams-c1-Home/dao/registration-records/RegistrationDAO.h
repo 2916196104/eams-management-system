@@ -9,7 +9,7 @@
 
 #include "BaseDAO.h"
 #include "domain/do/registration-records/RegistrationDO.h"
-#include "domain/query/registration-records/registrationQuery.h"
+#include "domain/query/registration-records/registrationquery.h"
 
 /**
  * 报名记录查询操作

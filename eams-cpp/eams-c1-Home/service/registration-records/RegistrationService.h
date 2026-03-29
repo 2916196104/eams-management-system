@@ -9,7 +9,7 @@
 #define _REGISTRATION_SERVICE_H_ 
 
 #include "domain/dto/registration-records/registrationDTO.h"
-#include "domain/query/registration-records/registrationQuery.h"
+#include "domain/query/registration-records/registrationquery.h"
 
 class RegistrationService
 {

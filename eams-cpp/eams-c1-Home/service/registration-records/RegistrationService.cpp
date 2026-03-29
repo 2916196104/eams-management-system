@@ -1,8 +1,7 @@
-#include "RegistrationService.h"
-
-#include "dao/registration-records/RegistrationDAO.h"
-#include "domain/do/registration-records/RegistrationDO.h"
 #include "stdafx.h"
+#include "RegistrationService.h"
+#include "domain/do/registration-records/RegistrationDO.h"
+#include "dao/registration-records/RegistrationDAO.h"
 // 使用Redis需要的相关头文件
 #include "Macros.h"
 #include "NacosClient.h"
