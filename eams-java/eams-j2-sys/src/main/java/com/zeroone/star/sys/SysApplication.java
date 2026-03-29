@@ -16,7 +16,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@MapperScan("com.zeroone.star.sys.mapper")
 public class SysApplication {
 
     public static void main(String[] args) {

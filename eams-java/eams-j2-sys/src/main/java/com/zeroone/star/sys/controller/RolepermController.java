@@ -88,7 +88,7 @@ public class RolepermController implements RolepermApis {
         QueryWrapper<SysRole> wrapper = new QueryWrapper<>();
         if (query.getName() != null) wrapper.like("name", query.getName());
         if (query.getCode() != null) wrapper.eq("code", query.getCode());
-        List<SysRole> sysRoles = roleService.list(wrapper);
+        List<SysRole> sysRoles = sysRoleService.list(wrapper);
         List<RolepermDTO> dtoList = sysRoles.stream().map(this::toDto).collect(Collectors.toList());
         return JsonVO.success(dtoList);
     }
@@ -105,7 +105,7 @@ public class RolepermController implements RolepermApis {
         if (query.getCode() != null) wrapper.eq("code", query.getCode());
         wrapper.orderByDesc("id");
 
-        Page<SysRole> result = roleService.page(page, wrapper);
+        Page<SysRole> result = sysRoleService.page(page, wrapper);
         List<RolepermDTO> dtoList = result.getRecords().stream().map(this::toDto).collect(Collectors.toList());
         return JsonVO.success(dtoList);
     }
@@ -119,9 +119,9 @@ public class RolepermController implements RolepermApis {
         SysRole sysRole = toEntity(dto);
         boolean saved;
         if (dto.getId() != null) {
-            saved = roleService.updateById(sysRole);
-        } else {
-            saved = roleService.save(sysRole);
+            saved = sysRoleService.save(sysRole);
+        } else {                  //updateById()
+            saved = sysRoleService.save(sysRole);
             dto.setId(sysRole.getId() == null ? null : sysRole.getId().longValue());
         }
         return saved ? JsonVO.success(dto) : JsonVO.fail("保存失败");
