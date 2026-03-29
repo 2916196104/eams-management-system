@@ -1,6 +1,7 @@
 package com.zeroone.star.j1.console.controller;
 
 import com.zeroone.star.j1.console.service.IConsoleService;
+import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.j1.ConsoleApis;
 import com.zeroone.star.project.query.j1.console.*;
 import com.zeroone.star.project.vo.JsonVO;
@@ -61,5 +62,40 @@ public class ConsoleController implements ConsoleApis {
     @ApiOperation(value = "我的客户", notes = "分页查询我的客户列表")
     public JsonVO<MyCustomerVO> getMyCustomerList(@RequestBody MyCustomerQuery query) {
         return JsonVO.success(consoleService.getMyCustomerList(query));
+    }
+
+    @Override
+    @PostMapping("/console/my-enrollment")
+    @ApiOperation(value = "获取我的报名列表", notes = "返回当前用户的报名记录，支持分页")
+    public JsonVO<PageDTO<MyEnrollmentVO>> getMyEnrollment(@RequestBody MyEnrollmentQuery query) {
+        return JsonVO.success(consoleService.getMyEnrollment(query));
+    }
+
+    @Override
+    @PostMapping("/console/announcement")
+    @ApiOperation(value = "获取控制台公告列表", notes = "返回公告列表，支持分页")
+    public JsonVO<PageDTO<AnnouncementVO>> getAnnouncement(@RequestBody AnnouncementQuery query) {
+        return JsonVO.success(consoleService.getAnnouncement(query));
+    }
+
+    @Override
+    @PostMapping("/console/my-follow")
+    @ApiOperation(value = "获取我的跟进列表", notes = "返回跟进记录，支持分页")
+    public JsonVO<PageDTO<MyFollowVO>> getMyFollow(@RequestBody MyFollowQuery query) {
+        return JsonVO.success(consoleService.getMyFollow(query));
+    }
+
+    @Override
+    @PostMapping("/console/my-payment")
+    @ApiOperation(value = "获取我的请款列表", notes = "返回请款记录，支持分页")
+    public JsonVO<PageDTO<MyPaymentVO>> getMyPayment(@RequestBody MyPaymentQuery query) {
+        return JsonVO.success(consoleService.getMyPayment(query));
+    }
+
+    @Override
+    @PostMapping("/console/schedule-calendar")
+    @ApiOperation(value = "获取课表日历数据", notes = "返回课表列表，支持分页")
+    public JsonVO<PageDTO<ScheduleCalendarVO>> getScheduleCalendar(@RequestBody ScheduleCalendarQuery query) {
+        return JsonVO.success(consoleService.getScheduleCalendar(query));
     }
 }

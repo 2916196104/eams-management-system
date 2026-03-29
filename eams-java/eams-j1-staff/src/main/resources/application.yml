@@ -1,5 +1,0 @@
-server:
-  port: ${sp.j1-staff}
-spring:
-  application:
-    name: ${sn.j1-staff}

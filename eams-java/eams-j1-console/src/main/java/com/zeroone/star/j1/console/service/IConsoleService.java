@@ -1,5 +1,6 @@
 package com.zeroone.star.j1.console.service;
 
+import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.query.j1.console.*;
 import com.zeroone.star.project.vo.j1.console.*;
 
@@ -53,4 +54,44 @@ public interface IConsoleService {
      * @return 我的客户分页数据
      */
     MyCustomerVO getMyCustomerList(MyCustomerQuery query);
+
+    /**
+     * 获取我的报名列表（分页）
+     *
+     * @param query 查询参数
+     * @return 报名记录分页数据
+     */
+    PageDTO<MyEnrollmentVO> getMyEnrollment(MyEnrollmentQuery query);
+
+    /**
+     * 获取控制台公告列表（分页）
+     *
+     * @param query 查询参数
+     * @return 公告分页数据
+     */
+    PageDTO<AnnouncementVO> getAnnouncement(AnnouncementQuery query);
+
+    /**
+     * 获取我的跟进列表（分页）
+     *
+     * @param query 查询参数
+     * @return 跟进记录分页数据
+     */
+    PageDTO<MyFollowVO> getMyFollow(MyFollowQuery query);
+
+    /**
+     * 获取我的请款列表（分页）
+     *
+     * @param query 查询参数
+     * @return 请款记录分页数据
+     */
+    PageDTO<MyPaymentVO> getMyPayment(MyPaymentQuery query);
+
+    /**
+     * 获取课表日历数据（分页）
+     *
+     * @param query 查询参数
+     * @return 课表分页数据
+     */
+    PageDTO<ScheduleCalendarVO> getScheduleCalendar(ScheduleCalendarQuery query);
 }

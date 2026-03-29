@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zeroone.star.j1.console.entity.*;
 import com.zeroone.star.j1.console.mapper.*;
 import com.zeroone.star.j1.console.service.IConsoleService;
+import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.query.j1.console.*;
 import com.zeroone.star.project.vo.j1.console.*;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,10 @@ public class ConsoleServiceImpl implements IConsoleService {
     private StudentCourseMapper studentCourseMapper;
     @Resource
     private ContactRecordMapper contactRecordMapper;
+    @Resource
+    private CashoutMapper cashoutMapper;
+    @Resource
+    private NoticeMapper noticeMapper;
     @Resource
     private CourseMapper courseMapper;
     @Resource
@@ -228,6 +233,153 @@ public class ConsoleServiceImpl implements IConsoleService {
         vo.setTotal(studentPage.getTotal());
         vo.setList(voList);
         return vo;
+    }
+
+    @Override
+    public PageDTO<MyEnrollmentVO> getMyEnrollment(MyEnrollmentQuery query) {
+        Page<StudentCourseDO> page = new Page<>(query.getPageIndex(), query.getPageSize());
+        LambdaQueryWrapper<StudentCourseDO> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(StudentCourseDO::getDeleted, 0);
+        if (query.getStartDateBegin() != null && !query.getStartDateBegin().isEmpty()) {
+            wrapper.ge(StudentCourseDO::getStartDate, query.getStartDateBegin());
+        }
+        if (query.getStartDateEnd() != null && !query.getStartDateEnd().isEmpty()) {
+            wrapper.le(StudentCourseDO::getStartDate, query.getStartDateEnd());
+        }
+        wrapper.orderByDesc(StudentCourseDO::getAddTime);
+
+        Page<StudentCourseDO> resultPage = studentCourseMapper.selectPage(page, wrapper);
+        return PageDTO.create(resultPage, doItem -> {
+            MyEnrollmentVO vo = new MyEnrollmentVO();
+            vo.setId(doItem.getId());
+            vo.setEnrollmentTime(doItem.getAddTime() != null ? doItem.getAddTime().toString() : null);
+            vo.setPurchaseLessonCount(doItem.getCountLessonTotal());
+            vo.setUnitPrice(doItem.getUnitPrice());
+            vo.setContractAmount(doItem.getAmount());
+            vo.setPaidAmount(doItem.getPaidAmount());
+            if (doItem.getAmount() != null && doItem.getPaidAmount() != null) {
+                vo.setArrearsAmount(doItem.getAmount().subtract(doItem.getPaidAmount()));
+            }
+            vo.setStartDate(doItem.getStartDate() != null ? doItem.getStartDate().toString() : null);
+            vo.setExpireDate(doItem.getExpireDate() != null ? doItem.getExpireDate().toString() : null);
+            return vo;
+        });
+    }
+
+    @Override
+    public PageDTO<AnnouncementVO> getAnnouncement(AnnouncementQuery query) {
+        Page<NoticeDO> page = new Page<>(query.getPageIndex(), query.getPageSize());
+        LambdaQueryWrapper<NoticeDO> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(NoticeDO::getDeleted, 0);
+        if (query.getTitle() != null && !query.getTitle().isEmpty()) {
+            wrapper.like(NoticeDO::getTitle, query.getTitle());
+        }
+        wrapper.orderByDesc(NoticeDO::getAddTime);
+
+        Page<NoticeDO> resultPage = noticeMapper.selectPage(page, wrapper);
+        return PageDTO.create(resultPage, doItem -> {
+            AnnouncementVO vo = new AnnouncementVO();
+            vo.setId(doItem.getId());
+            vo.setTitle(doItem.getTitle());
+            vo.setAddTime(doItem.getAddTime() != null ? doItem.getAddTime().toString() : null);
+            vo.setEditTime(doItem.getEditTime() != null ? doItem.getEditTime().toString() : null);
+            return vo;
+        });
+    }
+
+    @Override
+    public PageDTO<MyFollowVO> getMyFollow(MyFollowQuery query) {
+        Page<ContactRecordDO> page = new Page<>(query.getPageIndex(), query.getPageSize());
+        LambdaQueryWrapper<ContactRecordDO> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(ContactRecordDO::getDeleted, 0);
+        if (query.getStage() != null) {
+            wrapper.eq(ContactRecordDO::getStage, query.getStage());
+        }
+        wrapper.orderByDesc(ContactRecordDO::getContactTime);
+
+        Page<ContactRecordDO> resultPage = contactRecordMapper.selectPage(page, wrapper);
+        return PageDTO.create(resultPage, doItem -> {
+            MyFollowVO vo = new MyFollowVO();
+            vo.setId(doItem.getId());
+            vo.setFollowTime(doItem.getContactTime() != null ? doItem.getContactTime().toString() : null);
+            vo.setStage(doItem.getStage());
+            vo.setContactType(doItem.getContactType());
+            vo.setNextFollowTime(doItem.getContactNextTime() != null ? doItem.getContactNextTime().toString() : null);
+            vo.setRecordTime(doItem.getAddTime() != null ? doItem.getAddTime().toString() : null);
+            vo.setContent(doItem.getInfo());
+            return vo;
+        });
+    }
+
+    @Override
+    public PageDTO<MyPaymentVO> getMyPayment(MyPaymentQuery query) {
+        Page<CashoutDO> page = new Page<>(query.getPageIndex(), query.getPageSize());
+        LambdaQueryWrapper<CashoutDO> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(CashoutDO::getDeleted, 0);
+        if (query.getTitle() != null && !query.getTitle().isEmpty()) {
+            wrapper.like(CashoutDO::getTitle, query.getTitle());
+        }
+        if (query.getType() != null) {
+            wrapper.eq(CashoutDO::getType, query.getType());
+        }
+        if (query.getPayeeName() != null && !query.getPayeeName().isEmpty()) {
+            wrapper.like(CashoutDO::getPayeeName, query.getPayeeName());
+        }
+        wrapper.orderByDesc(CashoutDO::getAddTime);
+
+        Page<CashoutDO> resultPage = cashoutMapper.selectPage(page, wrapper);
+        return PageDTO.create(resultPage, doItem -> {
+            MyPaymentVO vo = new MyPaymentVO();
+            vo.setId(doItem.getId());
+            vo.setTitle(doItem.getTitle());
+            vo.setType(doItem.getType());
+            vo.setPayeeName(doItem.getPayeeName());
+            vo.setAmount(doItem.getAmount());
+            vo.setApplyTime(doItem.getAddTime() != null ? doItem.getAddTime().toString() : null);
+            vo.setAccount(doItem.getAccount());
+            vo.setInfo(doItem.getInfo());
+            vo.setVerifyState(doItem.getVerifyState());
+            vo.setVerifyRemark(doItem.getVerifyRemark());
+            return vo;
+        });
+    }
+
+    @Override
+    public PageDTO<ScheduleCalendarVO> getScheduleCalendar(ScheduleCalendarQuery query) {
+        Page<LessonDO> page = new Page<>(query.getPageIndex(), query.getPageSize());
+        LambdaQueryWrapper<LessonDO> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(LessonDO::getDeleted, 0);
+        if (query.getDateBegin() != null && !query.getDateBegin().isEmpty()) {
+            wrapper.ge(LessonDO::getDate, query.getDateBegin());
+        }
+        if (query.getDateEnd() != null && !query.getDateEnd().isEmpty()) {
+            wrapper.le(LessonDO::getDate, query.getDateEnd());
+        }
+        if (query.getClassId() != null) {
+            wrapper.eq(LessonDO::getClassId, query.getClassId());
+        }
+        if (query.getCourseId() != null) {
+            wrapper.eq(LessonDO::getCourseId, query.getCourseId());
+        }
+        wrapper.orderByAsc(LessonDO::getDate).orderByAsc(LessonDO::getStartTime);
+
+        Page<LessonDO> resultPage = lessonMapper.selectPage(page, wrapper);
+        return PageDTO.create(resultPage, doItem -> {
+            ScheduleCalendarVO vo = new ScheduleCalendarVO();
+            vo.setId(doItem.getId());
+            String classTime = "";
+            if (doItem.getDate() != null) {
+                classTime = doItem.getDate().toString();
+                if (doItem.getStartTime() != null) {
+                    classTime += " " + doItem.getStartTime().toString();
+                }
+            }
+            vo.setClassTime(classTime);
+            vo.setTeachType(doItem.getTeachType());
+            vo.setDecCount(doItem.getDecCount());
+            vo.setState(doItem.getState());
+            return vo;
+        });
     }
 
     /**

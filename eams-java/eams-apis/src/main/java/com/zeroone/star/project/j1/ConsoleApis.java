@@ -1,5 +1,6 @@
 package com.zeroone.star.project.j1;
 
+import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.query.j1.console.*;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j1.console.*;
@@ -68,4 +69,24 @@ public interface ConsoleApis {
     @ApiOperation(value = "我的客户", notes = "分页查询我的客户列表")
     @PostMapping("/console/my-customer")
     JsonVO<MyCustomerVO> getMyCustomerList(@RequestBody MyCustomerQuery query);
+
+    @ApiOperation(value = "获取我的报名列表", notes = "返回当前用户的报名记录，支持分页")
+    @PostMapping("/console/my-enrollment")
+    JsonVO<PageDTO<MyEnrollmentVO>> getMyEnrollment(@RequestBody MyEnrollmentQuery query);
+
+    @ApiOperation(value = "获取控制台公告列表", notes = "返回公告列表，支持分页")
+    @PostMapping("/console/announcement")
+    JsonVO<PageDTO<AnnouncementVO>> getAnnouncement(@RequestBody AnnouncementQuery query);
+
+    @ApiOperation(value = "获取我的跟进列表", notes = "返回跟进记录，支持分页")
+    @PostMapping("/console/my-follow")
+    JsonVO<PageDTO<MyFollowVO>> getMyFollow(@RequestBody MyFollowQuery query);
+
+    @ApiOperation(value = "获取我的请款列表", notes = "返回请款记录，支持分页")
+    @PostMapping("/console/my-payment")
+    JsonVO<PageDTO<MyPaymentVO>> getMyPayment(@RequestBody MyPaymentQuery query);
+
+    @ApiOperation(value = "获取课表日历数据", notes = "返回课表列表，支持分页")
+    @PostMapping("/console/schedule-calendar")
+    JsonVO<PageDTO<ScheduleCalendarVO>> getScheduleCalendar(@RequestBody ScheduleCalendarQuery query);
 }
