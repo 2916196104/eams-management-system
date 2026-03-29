@@ -1,7 +1,7 @@
-package com.zeroone.star.org.service;
+package com.zeroone.star.project.j1.orgmanager.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zeroone.star.project.Do.j1.PositionDataPermissionDO;
+import com.zeroone.star.project.DO.PositionDataPermissionDO;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j1.org.PositionDataPermissionDTO;
 import com.zeroone.star.project.query.j1.org.PositionDataPermissionQuery;

@@ -1,7 +1,7 @@
-package com.zeroone.star.org.service;
+package com.zeroone.star.project.j1.orgmanager.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zeroone.star.org.entity.OrgDO;
+import com.zeroone.star.project.DO.OrgDO;
 import com.zeroone.star.project.dto.j1.org.OrgSaveDTO;
 import com.zeroone.star.project.query.j1.org.OrgQuery;
 import com.zeroone.star.project.vo.j1.org.OrgDetailVO;

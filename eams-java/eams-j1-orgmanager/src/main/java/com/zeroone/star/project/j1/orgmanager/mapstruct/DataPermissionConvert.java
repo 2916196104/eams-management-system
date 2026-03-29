@@ -1,6 +1,6 @@
-package com.zeroone.star.org.mapstruct;
+package com.zeroone.star.project.j1.orgmanager.mapstruct;
 
-import com.zeroone.star.project.Do.j1.PositionDataPermissionDO;
+import com.zeroone.star.project.DO.PositionDataPermissionDO;
 import com.zeroone.star.project.dto.j1.org.PositionDataPermissionDTO;
 import org.mapstruct.Mapper;
 

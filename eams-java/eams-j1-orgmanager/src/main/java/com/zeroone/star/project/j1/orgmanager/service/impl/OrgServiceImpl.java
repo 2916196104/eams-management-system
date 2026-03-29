@@ -1,12 +1,12 @@
-package com.zeroone.star.org.service.impl;
+package com.zeroone.star.project.j1.orgmanager.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zeroone.star.org.entity.OrgDO;
-import com.zeroone.star.org.mapper.OrgMapper;
-import com.zeroone.star.org.service.IOrgService;
+import com.zeroone.star.project.DO.OrgDO;
 import com.zeroone.star.project.dto.j1.org.OrgSaveDTO;
+import com.zeroone.star.project.j1.orgmanager.mapper.OrgMapper;
+import com.zeroone.star.project.j1.orgmanager.service.IOrgService;
 import com.zeroone.star.project.query.j1.org.OrgQuery;
 import com.zeroone.star.project.vo.j1.org.OrgDetailVO;
 import com.zeroone.star.project.vo.j1.org.OrgListVO;

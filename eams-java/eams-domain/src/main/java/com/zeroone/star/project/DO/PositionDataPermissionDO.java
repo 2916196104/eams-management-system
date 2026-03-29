@@ -1,4 +1,4 @@
-package com.zeroone.star.project.Do.j1;
+package com.zeroone.star.project.DO;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;

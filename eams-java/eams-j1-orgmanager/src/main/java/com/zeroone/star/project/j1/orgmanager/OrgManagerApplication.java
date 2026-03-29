@@ -12,13 +12,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 
 @SpringBootApplication
-@MapperScan({"com.zeroone.star.project.j1.orgmanager.mapper", "com.zeroone.star.org.mapper"})
+@MapperScan({"com.zeroone.star.project.j1.orgmanager.mapper"})
 @ComponentScan(
         basePackages = {
                 "com.zeroone.star.project",
                 "com.zeroone.star.org.controller",
                 "com.zeroone.star.org.service",
-                "com.zeroone.star.org.mapstruct"
+                "com.zeroone.star.project.j1.orgmanager.mapstruct"
         },
         excludeFilters = @ComponentScan.Filter(
                 type = FilterType.ASSIGNABLE_TYPE,

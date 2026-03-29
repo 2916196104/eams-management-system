@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zeroone.star.org.mapper.OrgMapper">
+<mapper namespace="com.zeroone.star.project.j1.orgmanager.mapper.OrgMapper">
 
-    <resultMap id="BaseResultMap" type="com.zeroone.star.org.entity.OrgDO">
+    <resultMap id="BaseResultMap" type="com.zeroone.star.project.DO.OrgDO">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="pid" column="pid" jdbcType="BIGINT"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>

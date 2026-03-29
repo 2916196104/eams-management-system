@@ -1,4 +1,4 @@
-package com.zeroone.star.org.entity;
+package com.zeroone.star.project.DO;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;

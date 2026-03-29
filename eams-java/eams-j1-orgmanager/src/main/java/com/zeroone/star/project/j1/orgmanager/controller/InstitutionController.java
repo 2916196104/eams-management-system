@@ -1,10 +1,10 @@
-package com.zeroone.star.org.controller;
+package com.zeroone.star.project.j1.orgmanager.controller;
 
-import com.zeroone.star.org.service.IOrgService;
 import com.zeroone.star.project.components.user.UserDTO;
 import com.zeroone.star.project.components.user.UserHolder;
 import com.zeroone.star.project.dto.j1.org.OrgSaveDTO;
 import com.zeroone.star.project.j1.org.OrgApi;
+import com.zeroone.star.project.j1.orgmanager.service.IOrgService;
 import com.zeroone.star.project.query.j1.org.OrgQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.ResultStatus;
@@ -22,8 +22,9 @@ import java.util.List;
 @RestController
 @Slf4j
 @Validated
-public class OrgController implements OrgApi {
+public class InstitutionController implements OrgApi {
 
+    /*----   以下是机构管理模块的Controller -------*/
     @Resource
     private IOrgService orgService;
 
