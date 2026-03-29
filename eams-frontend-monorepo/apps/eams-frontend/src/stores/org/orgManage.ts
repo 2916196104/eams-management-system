@@ -1,70 +1,73 @@
 import { defineStore } from "pinia";
-import { createOrg, deleteOrg, queryOrgManageTree, updateOrg, type OrgEditPayload, type OrgManageNode } from "@/apis/org/orgManage";
+import { ElMessage } from "element-plus";
+import {
+	buildOrgTreeFromList,
+	queryOrgDetail,
+	queryOrgList,
+	removeOrg,
+	saveOrg,
+	type OrgDetail,
+	type OrgListQuery,
+	type OrgSavePayload,
+	type OrgTreeRow,
+} from "@/apis/org/orgManage";
+import { toZhUserMessage } from "@/utils/apiError";
 
 interface OrgManageState {
-	tree: OrgManageNode[];
-	expandedIds: string[];
+	tree: OrgTreeRow[];
+	listQuery: OrgListQuery;
 	loading: boolean;
 	submitting: boolean;
-	error: string | null;
+	detailLoading: boolean;
 }
 
 export const useOrgManageStore = defineStore("orgManage", {
 	state: (): OrgManageState => ({
 		tree: [],
-		expandedIds: [],
+		listQuery: {},
 		loading: false,
 		submitting: false,
-		error: null,
+		detailLoading: false,
 	}),
 	actions: {
 		async initPage() {
 			await this.fetchTree();
 		},
+		setListQuery(q: OrgListQuery) {
+			this.listQuery = { ...q };
+		},
 		async fetchTree() {
 			this.loading = true;
 			try {
-				this.tree = await queryOrgManageTree();
-				this.expandedIds = this.collectIds(this.tree);
-			} catch (e: any) {
-				this.error = e?.message || "获取机构树失败";
+				const flat = await queryOrgList(this.listQuery);
+				this.tree = buildOrgTreeFromList(flat);
+			} catch (e: unknown) {
+				ElMessage.error(toZhUserMessage(e, "获取机构列表失败"));
 			} finally {
 				this.loading = false;
 			}
 		},
-		collectIds(nodes: OrgManageNode[]) {
-			const ids: string[] = [];
-			const walk = (items: OrgManageNode[]) => {
-				items.forEach((i) => {
-					ids.push(i.id);
-					if (i.children?.length) walk(i.children);
-				});
-			};
-			walk(nodes);
-			return ids;
+		async loadDetail(orgId: number): Promise<OrgDetail | undefined> {
+			this.detailLoading = true;
+			try {
+				return await queryOrgDetail(orgId);
+			} finally {
+				this.detailLoading = false;
+			}
 		},
-		async addNode(payload: OrgEditPayload) {
+		async save(payload: OrgSavePayload) {
 			this.submitting = true;
 			try {
-				await createOrg(payload);
+				await saveOrg(payload);
 				await this.fetchTree();
 			} finally {
 				this.submitting = false;
 			}
 		},
-		async editNode(payload: OrgEditPayload) {
+		async removeNode(orgId: number) {
 			this.submitting = true;
 			try {
-				await updateOrg(payload);
-				await this.fetchTree();
-			} finally {
-				this.submitting = false;
-			}
-		},
-		async removeNode(id: string) {
-			this.submitting = true;
-			try {
-				await deleteOrg(id);
+				await removeOrg(orgId);
 				await this.fetchTree();
 			} finally {
 				this.submitting = false;
@@ -72,4 +75,3 @@ export const useOrgManageStore = defineStore("orgManage", {
 		},
 	},
 });
-

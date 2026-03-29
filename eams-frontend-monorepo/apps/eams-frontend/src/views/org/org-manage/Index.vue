@@ -1,54 +1,123 @@
 <template>
 	<div class="org-manage-page">
-		<el-alert v-if="store.error" class="error-alert" type="error" :closable="false" :title="store.error" />
+		<el-card shadow="never" class="filter-card">
+			<el-form :inline="true" class="filter-form" @submit.prevent="handleSearch">
+				<el-form-item label="机构名称">
+					<el-input v-model="filterOrgName" clearable placeholder="模糊查询" style="width: 200px" />
+				</el-form-item>
+				<el-form-item label="机构级别">
+					<el-select v-model="filterOrgType" clearable placeholder="全部" style="width: 120px">
+						<el-option label="集团" :value="1" />
+						<el-option label="分校" :value="2" />
+						<el-option label="部门" :value="3" />
+					</el-select>
+				</el-form-item>
+				<el-form-item label="状态">
+					<el-select v-model="filterStatus" clearable placeholder="全部" style="width: 120px">
+						<el-option label="启用" :value="1" />
+						<el-option label="禁用" :value="0" />
+					</el-select>
+				</el-form-item>
+				<el-form-item>
+					<el-button type="primary" @click="handleSearch">查询</el-button>
+					<el-button @click="handleReset">重置</el-button>
+					<el-button type="primary" plain @click="openAddRoot">新增顶级机构</el-button>
+				</el-form-item>
+			</el-form>
+		</el-card>
+
 		<el-card shadow="never">
 			<el-table
-				ref="tableRef"
 				v-loading="store.loading"
 				:data="store.tree"
-				row-key="id"
+				row-key="orgId"
 				border
 				:tree-props="{ children: 'children' }"
-				:default-expand-all="false"
+				default-expand-all
 			>
-				<el-table-column prop="name" label="机构名称" min-width="220" />
-				<el-table-column prop="fullName" label="全称" min-width="300" />
-				<el-table-column prop="level" label="级别" min-width="90" />
-				<el-table-column prop="contact" label="联系人" min-width="90" />
-				<el-table-column prop="phone" label="电话" min-width="140" />
-				<el-table-column label="操作" min-width="220" fixed="right">
-					<template #default="scope">
-						<el-button link type="primary" @click="openAdd(scope.row)">添加子机构</el-button>
-						<el-button link type="primary" @click="openEdit(scope.row)">编辑</el-button>
-						<el-button link type="primary" @click="handleDelete(scope.row)">删除</el-button>
-						<el-button link type="primary" @click="handleView(scope.row)">查看</el-button>
+				<el-table-column prop="orgName" label="机构名称" min-width="200" />
+				<el-table-column prop="orgFullName" label="全称" min-width="280" show-overflow-tooltip />
+				<el-table-column prop="orgTypeDesc" label="级别" min-width="90" />
+				<el-table-column prop="contact" label="联系人" min-width="100" />
+				<el-table-column prop="phone" label="电话" min-width="130" />
+				<el-table-column label="操作" min-width="280" fixed="right">
+					<template #default="{ row }">
+						<el-button link type="primary" @click="openAddChild(row)">添加子机构</el-button>
+						<el-button link type="primary" @click="openEdit(row)">编辑</el-button>
+						<el-button link type="danger" @click="handleDelete(row)">删除</el-button>
+						<el-button link type="primary" @click="handleView(row)">查看</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
 		</el-card>
 
-		<el-dialog v-model="editVisible" :title="dialogTitle" width="760px" @close="handleCloseDialog">
-			<el-form ref="formRef" :model="formModel" :rules="rules" label-width="100px">
-				<el-form-item label="机构名" prop="name" required><el-input v-model="formModel.name" /></el-form-item>
-				<el-form-item label="级别" prop="level" required>
-					<el-select v-model="formModel.level" class="full-width">
-						<el-option label="机构" value="机构" />
-						<el-option label="分校" value="分校" />
+		<el-dialog v-model="editVisible" :title="dialogTitle" width="780px" destroy-on-close @closed="resetForm">
+			<el-form ref="formRef" :model="formModel" :rules="rules" label-width="110px">
+				<el-form-item label="机构名称" prop="orgName" required>
+					<el-input v-model="formModel.orgName" />
+				</el-form-item>
+				<el-form-item label="机构级别" prop="orgType" required>
+					<el-select v-model="formModel.orgType" class="full-width">
+						<el-option label="集团" :value="1" />
+						<el-option label="分校" :value="2" />
+						<el-option label="部门" :value="3" />
 					</el-select>
 				</el-form-item>
-				<el-form-item label="简称"><el-input v-model="formModel.shortName" /></el-form-item>
-				<el-form-item label="联系人"><el-input v-model="formModel.contact" /></el-form-item>
-				<el-form-item label="电话"><el-input v-model="formModel.phone" /></el-form-item>
-				<el-form-item label="传真"><el-input v-model="formModel.fax" /></el-form-item>
-				<el-form-item label="邮箱"><el-input v-model="formModel.email" /></el-form-item>
-				<el-form-item label="排序"><el-input-number v-model="formModel.sortNo" :min="0" class="full-width" /></el-form-item>
-				<el-form-item label="状态"><el-switch v-model="formModel.enabled" /></el-form-item>
-				<el-form-item label="说明"><el-input v-model="formModel.desc" type="textarea" :rows="4" /></el-form-item>
+				<el-form-item label="父机构ID">
+					<el-input :model-value="String(formModel.parentOrgId)" disabled />
+				</el-form-item>
+				<el-form-item label="简称">
+					<el-input v-model="formModel.orgShortName" />
+				</el-form-item>
+				<el-form-item label="联系人">
+					<el-input v-model="formModel.contact" />
+				</el-form-item>
+				<el-form-item label="电话">
+					<el-input v-model="formModel.phone" />
+				</el-form-item>
+				<el-form-item label="传真">
+					<el-input v-model="formModel.fax" />
+				</el-form-item>
+				<el-form-item label="邮箱">
+					<el-input v-model="formModel.email" />
+				</el-form-item>
+				<el-form-item label="排序号">
+					<el-input-number v-model="formModel.sortOrder" :min="0" class="full-width" />
+				</el-form-item>
+				<el-form-item label="状态">
+					<el-radio-group v-model="formModel.status">
+						<el-radio :label="1">启用</el-radio>
+						<el-radio :label="0">禁用</el-radio>
+					</el-radio-group>
+				</el-form-item>
+				<el-form-item label="说明">
+					<el-input v-model="formModel.remark" type="textarea" :rows="3" />
+				</el-form-item>
 			</el-form>
 			<template #footer>
-				<el-button @click="handleCloseDialog">取消</el-button>
-				<el-button type="primary" :loading="store.submitting" @click="handleSubmit">提交</el-button>
+				<el-button @click="editVisible = false">取消</el-button>
+				<el-button type="primary" :loading="store.submitting" @click="handleSubmit">保存</el-button>
 			</template>
+		</el-dialog>
+
+		<el-dialog v-model="viewVisible" title="机构详情" width="640px" destroy-on-close>
+			<div v-loading="store.detailLoading">
+				<el-descriptions v-if="viewDetail" :column="1" border>
+					<el-descriptions-item label="机构名称">{{ viewDetail.orgName }}</el-descriptions-item>
+					<el-descriptions-item label="简称">{{ viewDetail.orgShortName || "—" }}</el-descriptions-item>
+					<el-descriptions-item label="级别">{{ viewDetail.orgTypeDesc || "—" }}</el-descriptions-item>
+					<el-descriptions-item label="父机构">{{ viewDetail.parentOrgName || viewDetail.parentOrgId }}</el-descriptions-item>
+					<el-descriptions-item label="联系人">{{ viewDetail.contact || "—" }}</el-descriptions-item>
+					<el-descriptions-item label="电话">{{ viewDetail.phone || "—" }}</el-descriptions-item>
+					<el-descriptions-item label="传真">{{ viewDetail.fax || "—" }}</el-descriptions-item>
+					<el-descriptions-item label="邮箱">{{ viewDetail.email || "—" }}</el-descriptions-item>
+					<el-descriptions-item label="地区">{{ viewDetail.region || "—" }}</el-descriptions-item>
+					<el-descriptions-item label="营业执照">{{ viewDetail.businessLicense || "—" }}</el-descriptions-item>
+					<el-descriptions-item label="排序号">{{ viewDetail.sortOrder ?? "—" }}</el-descriptions-item>
+					<el-descriptions-item label="状态">{{ viewDetail.statusDesc || "—" }}</el-descriptions-item>
+					<el-descriptions-item label="说明">{{ viewDetail.remark || "—" }}</el-descriptions-item>
+				</el-descriptions>
+			</div>
 		</el-dialog>
 	</div>
 </template>
@@ -57,129 +126,170 @@
 import { computed, onMounted, ref } from "vue";
 import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from "element-plus";
 import { useOrgManageStore } from "@/stores/org/orgManage";
-import type { OrgEditPayload, OrgManageNode } from "@/apis/org/orgManage";
+import type { OrgDetail, OrgSavePayload, OrgTreeRow } from "@/apis/org/orgManage";
+import { toZhUserMessage } from "@/utils/apiError";
 
 const store = useOrgManageStore();
-const tableRef = ref();
 const editVisible = ref(false);
+const viewVisible = ref(false);
+const viewDetail = ref<OrgDetail | null>(null);
 const mode = ref<"add" | "edit">("add");
-const DRAFT_KEY = "org-manage-form-draft:v1";
 const formRef = ref<FormInstance>();
-const formModel = ref<OrgEditPayload>({
-	id: "",
-	parentId: "",
-	name: "",
-	level: "分校",
-	shortName: "",
+
+const filterOrgName = ref("");
+const filterOrgType = ref<number | "">("");
+const filterStatus = ref<number | "">("");
+
+type FormModel = OrgSavePayload;
+
+const emptyForm = (): FormModel => ({
+	parentOrgId: 0,
+	orgName: "",
+	orgShortName: "",
+	orgType: 2,
 	contact: "",
 	phone: "",
-	fax: "",
 	email: "",
-	sortNo: 0,
-	enabled: true,
-	desc: "",
+	fax: "",
+	remark: "",
+	sortOrder: 0,
+	status: 1,
 });
 
+const formModel = ref<FormModel>(emptyForm());
+
 const rules: FormRules = {
-	name: [{ required: true, message: "请输入机构名", trigger: "blur" }],
-	level: [{ required: true, message: "请选择级别", trigger: "change" }],
+	orgName: [{ required: true, message: "请输入机构名称", trigger: "blur" }],
+	orgType: [{ required: true, message: "请选择机构级别", trigger: "change" }],
 };
 
-const dialogTitle = computed(() => (mode.value === "add" ? "新增子机构" : "修改机构信息"));
+const dialogTitle = computed(() => (mode.value === "add" ? "新增机构" : "编辑机构"));
 
 onMounted(async () => {
 	await store.initPage();
 });
 
-function openAdd(row: OrgManageNode) {
-	mode.value = "add";
-	formModel.value = { parentId: row.id, name: "", level: "分校", shortName: "", contact: "", phone: "", fax: "", email: "", sortNo: 0, enabled: true, desc: "" };
-	restoreDraft("add");
-	editVisible.value = true;
+async function handleSearch() {
+	store.setListQuery({
+		orgName: filterOrgName.value.trim() || undefined,
+		orgType: filterOrgType.value === "" ? undefined : Number(filterOrgType.value),
+		status: filterStatus.value === "" ? undefined : Number(filterStatus.value),
+	});
+	await store.fetchTree();
 }
 
-function openEdit(row: OrgManageNode) {
-	mode.value = "edit";
-	formModel.value = {
-		id: row.id,
-		parentId: row.parentId,
-		name: row.name,
-		level: row.level,
-		shortName: row.shortName || "",
-		contact: row.contact || "",
-		phone: row.phone || "",
-		fax: row.fax || "",
-		email: row.email || "",
-		sortNo: row.sortNo || 0,
-		enabled: row.enabled,
-		desc: row.desc || "",
+async function handleReset() {
+	filterOrgName.value = "";
+	filterOrgType.value = "";
+	filterStatus.value = "";
+	store.setListQuery({});
+	await store.fetchTree();
+}
+
+function mapDetailToForm(d: OrgDetail | undefined, row: OrgTreeRow): FormModel {
+	const base = d ?? {};
+	return {
+		orgId: base.orgId ?? row.orgId,
+		parentOrgId: base.parentOrgId ?? row.parentOrgId ?? 0,
+		orgName: base.orgName ?? row.orgName ?? "",
+		orgShortName: base.orgShortName ?? "",
+		orgType: base.orgType ?? row.orgType ?? 2,
+		contact: base.contact ?? row.contact ?? "",
+		phone: base.phone != null ? String(base.phone) : (row.phone ?? ""),
+		email: base.email ?? "",
+		fax: base.fax ?? "",
+		remark: base.remark ?? "",
+		sortOrder: base.sortOrder ?? 0,
+		status: base.status ?? 1,
 	};
-	restoreDraft(`edit:${row.id}`);
+}
+
+function openAddRoot() {
+	mode.value = "add";
+	formModel.value = { ...emptyForm(), parentOrgId: 0 };
 	editVisible.value = true;
 }
 
-async function handleDelete(row: OrgManageNode) {
+function openAddChild(row: OrgTreeRow) {
+	if (row.orgId == null) return;
+	mode.value = "add";
+	formModel.value = { ...emptyForm(), parentOrgId: row.orgId };
+	editVisible.value = true;
+}
+
+async function openEdit(row: OrgTreeRow) {
+	if (row.orgId == null) return;
+	mode.value = "edit";
 	try {
-		await ElMessageBox.confirm(`确定删除机构【${row.name}】吗？`, "提示", { type: "warning" });
-		await store.removeNode(row.id);
+		const d = await store.loadDetail(row.orgId);
+		formModel.value = mapDetailToForm(d, row);
+		editVisible.value = true;
+	} catch (e: unknown) {
+		ElMessage.error(toZhUserMessage(e, "获取机构详情失败"));
+	}
+}
+
+async function handleView(row: OrgTreeRow) {
+	if (row.orgId == null) return;
+	viewDetail.value = null;
+	viewVisible.value = true;
+	try {
+		viewDetail.value = (await store.loadDetail(row.orgId)) ?? null;
+	} catch (e: unknown) {
+		ElMessage.error(toZhUserMessage(e, "获取机构详情失败"));
+		viewVisible.value = false;
+	}
+}
+
+async function handleDelete(row: OrgTreeRow) {
+	if (row.orgId == null) return;
+	try {
+		await ElMessageBox.confirm(`确定删除机构「${row.orgName}」吗？若存在子机构，后端将拒绝删除。`, "提示", { type: "warning" });
+	} catch {
+		return;
+	}
+	try {
+		await store.removeNode(row.orgId);
 		ElMessage.success("删除成功");
-	} catch {
-		// cancel
+	} catch (e: unknown) {
+		ElMessage.error(toZhUserMessage(e, "删除失败"));
 	}
 }
 
-function handleView(row: OrgManageNode) {
-	ElMessage.info(`机构：${row.fullName}`);
-}
-
-function handleCloseDialog() {
-	const key = mode.value === "add" ? "add" : `edit:${formModel.value.id}`;
-	saveDraft(key);
-	editVisible.value = false;
-}
-
-function saveDraft(key: string) {
-	try {
-		localStorage.setItem(`${DRAFT_KEY}:${key}`, JSON.stringify(formModel.value));
-	} catch {
-		// ignore
-	}
-}
-
-function restoreDraft(key: string) {
-	try {
-		const raw = localStorage.getItem(`${DRAFT_KEY}:${key}`);
-		if (!raw) return;
-		formModel.value = JSON.parse(raw);
-		ElMessage.info("已恢复上次未提交表单");
-	} catch {
-		// ignore
-	}
-}
-
-function clearDraft(key: string) {
-	try {
-		localStorage.removeItem(`${DRAFT_KEY}:${key}`);
-	} catch {
-		// ignore
-	}
+function resetForm() {
+	formRef.value?.resetFields();
+	formModel.value = emptyForm();
 }
 
 async function handleSubmit() {
 	try {
 		await formRef.value?.validate();
-		if (mode.value === "add") {
-			await store.addNode(formModel.value);
-			clearDraft("add");
-		} else {
-			await store.editNode(formModel.value);
-			clearDraft(`edit:${formModel.value.id}`);
-		}
+	} catch {
+		return;
+	}
+	const m = formModel.value;
+	const payload: OrgSavePayload = {
+		orgName: m.orgName,
+		orgType: m.orgType,
+		parentOrgId: m.parentOrgId,
+		orgShortName: m.orgShortName || undefined,
+		contact: m.contact || undefined,
+		phone: m.phone || undefined,
+		email: m.email || undefined,
+		fax: m.fax || undefined,
+		remark: m.remark || undefined,
+		sortOrder: m.sortOrder,
+		status: m.status,
+	};
+	if (mode.value === "edit" && m.orgId != null) {
+		payload.orgId = m.orgId;
+	}
+	try {
+		await store.save(payload);
 		editVisible.value = false;
-		ElMessage.success("提交成功");
-	} catch (e) {
-		const err = e as Error;
-		ElMessage.error(err?.message || "提交失败");
+		ElMessage.success("保存成功");
+	} catch (e: unknown) {
+		ElMessage.error(toZhUserMessage(e, "保存失败"));
 	}
 }
 </script>
@@ -189,12 +299,15 @@ async function handleSubmit() {
 	padding: 0 8px 12px;
 }
 
-.error-alert {
+.filter-card {
 	margin-bottom: 12px;
+}
+
+.filter-form {
+	margin-bottom: 0;
 }
 
 .full-width {
 	width: 100%;
 }
 </style>
-
