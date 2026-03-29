@@ -12,14 +12,16 @@ oatpp::List<oatpp::Object<InstitutionDTO>> InstitutionService::getTree() {
     std::map<uint64_t, oatpp::Object<InstitutionDTO>> nodeMap;
     auto allNodes = oatpp::List<oatpp::Object<InstitutionDTO>>::createShared();
 
-    // 1. 手动将 DO 转 DTO (不使用宏,防前端精度丢失)
+    // 1. 手动将 DO 转 DTO
     for (const auto& doObj : doList) {
         auto dto = InstitutionDTO::createShared();
-        dto->id = std::to_string(doObj->getId()).c_str();
-        dto->name = doObj->getName().c_str();
-        dto->parentId = std::to_string(doObj->getPid()).c_str();
 
-        nodeMap[doObj->getId()] = dto;
+        dto->id = doObj->getId();
+        dto->name = doObj->getName().c_str();
+        dto->parentId = doObj->getPid();
+
+        // 存入 Map 和全量列表
+        nodeMap[dto->id] = dto; 
         allNodes->push_back(dto);
     }
 
@@ -49,7 +51,7 @@ oatpp::String InstitutionService::saveInstitution(const oatpp::Object<Institutio
     data.setId(std::stoull(uf.genUuid()));
 
     data.setName(dto->name.getValue(""));
-    data.setPid(dto->parentId ? std::stoull(dto->parentId.getValue("")) : 0);
+    data.setPid(dto->parentId ? dto->parentId.getValue(0) : 0);
 
     // 审计字段
     // data.setCreator(std::stoull(username->std_str())); 
