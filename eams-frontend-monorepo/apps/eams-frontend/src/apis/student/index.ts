@@ -16,7 +16,7 @@ import type {
 import type { PageDTO } from "@/components/mytable/type";
 
 const http = useHttp();
-const currBaseUrl = "/student";
+const currBaseUrl = "/j4/student";
 
 /**
  * 获取课时汇总分页数据

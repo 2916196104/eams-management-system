@@ -1,4 +1,5 @@
 const routes = [
+<<<<<<< f1
   {
     path: "/academic/schedule",
     name: "schedule",
@@ -45,6 +46,14 @@ const routes = [
     component: () => import('@/views/academic/grade/index.vue'),
     meta: { title: '年级管理', label: '年级管理' },
   },
+	{
+		path: "/academic/schedule-calendar",
+		name: "scheduleCalendar",
+		meta: {
+			label: "课表日历",
+		},
+		component: () => import("@/views/academic/ScheduleCalendar.vue"),
+	},
 ];
 
 export default routes;

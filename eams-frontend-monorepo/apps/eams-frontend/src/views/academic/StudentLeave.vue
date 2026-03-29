@@ -47,9 +47,31 @@
 					<el-button circle @click="handlePrint">
 						<IconifyIconOffline icon="ep/printer" width="16" height="16" />
 					</el-button>
-					<el-button circle @click="handleCustomSort">
-						<IconifyIconOffline icon="ep/menu" width="16" height="16" />
-					</el-button>
+					<el-popover v-model:visible="columnPopoverVisible" placement="bottom-end" :width="640">
+						<template #reference>
+							<span class="column-trigger-wrap">
+								<el-button circle @click="openColumnPopover">
+									<IconifyIconOffline icon="ep/menu" width="16" height="16" />
+								</el-button>
+							</span>
+						</template>
+						<div class="column-popover">
+							<div class="column-title">自定义显示列：</div>
+							<div class="column-options">
+								<el-checkbox v-model="columnDraft.studentName">学员姓名</el-checkbox>
+								<el-checkbox v-model="columnDraft.mobile">电话</el-checkbox>
+								<el-checkbox v-model="columnDraft.courseInfo">请假课次</el-checkbox>
+								<el-checkbox v-model="columnDraft.teacherNames">任课老师</el-checkbox>
+								<el-checkbox v-model="columnDraft.reason">请假原因</el-checkbox>
+								<el-checkbox v-model="columnDraft.addTime">请假时间</el-checkbox>
+								<el-checkbox v-model="columnDraft.state">请假状态</el-checkbox>
+							</div>
+							<div class="column-actions">
+								<el-button link @click="restoreColumns">恢复</el-button>
+								<el-button link type="primary" @click="confirmColumns">确认</el-button>
+							</div>
+						</div>
+					</el-popover>
 				</div>
 			</div>
 			<!-- 批量操作栏：使用 icon 插槽实现图标与文字对齐 -->
@@ -108,7 +130,7 @@ const tableAttr: MyTableAttr = {
 	"highlight-current-row": true,
 };
 
-const tableColumns: MyTableColumn[] = [
+const baseTableColumns: MyTableColumn[] = [
 	{ prop: "studentName", label: "学员姓名", "min-width": 120 },
 	{ prop: "mobile", label: "电话", width: "130px", align: "center" },
 	{ prop: "courseInfo", label: "请假课次", "min-width": 200, "show-overflow-tooltip": true },
@@ -118,10 +140,28 @@ const tableColumns: MyTableColumn[] = [
 	{ prop: "state", label: "请假状态", width: "100px", align: "center" },
 ];
 
+const tableColumns = computed(() => {
+	return baseTableColumns.filter((col) => visibleColumns[col.prop as keyof typeof visibleColumns] !== false);
+});
+
 const pageIndex = ref(1);
 const pageSize = ref(20);
 const pageData = ref(createPageDTO<StudentLeaveItemDTO>());
 const selectedRows = ref<StudentLeaveItemDTO[]>([]);
+
+// 自定义列状态管理
+const columnPopoverVisible = ref(false);
+const defaultColumns = {
+	studentName: true,
+	mobile: true,
+	courseInfo: true,
+	teacherNames: true,
+	reason: true,
+	addTime: true,
+	state: true,
+};
+const visibleColumns = reactive({ ...defaultColumns });
+const columnDraft = reactive({ ...defaultColumns });
 
 const displayPageData = computed(() => {
 	return pageData.value;
@@ -154,12 +194,88 @@ function handleRefresh() {
 	loadData();
 }
 
-function handlePrint() {
-	ElMessage.info("打印功能待接入");
+function openColumnPopover() {
+	Object.assign(columnDraft, visibleColumns);
+	columnPopoverVisible.value = true;
 }
 
-function handleCustomSort() {
-	ElMessage.info("自定义排序功能待接入");
+function restoreColumns() {
+	Object.assign(columnDraft, defaultColumns);
+	Object.assign(visibleColumns, defaultColumns);
+	columnPopoverVisible.value = false;
+}
+
+function confirmColumns() {
+	const picked = Object.values(columnDraft).some(Boolean);
+	if (!picked) {
+		ElMessage.warning("至少保留一列");
+		return;
+	}
+	Object.assign(visibleColumns, columnDraft);
+	columnPopoverVisible.value = false;
+}
+
+function handlePrint() {
+	// 生成表头
+	const tableHeader = tableColumns.value.map((col) => `<th>${col.label}</th>`).join("");
+
+	// 生成表格数据行
+	const rowsHtml = (pageData.value.rows || [])
+		.map((row) => {
+			const tds = tableColumns.value
+				.map((col) => {
+					const value = (row as any)[col.prop];
+					return `<td>${String(value ?? "-")}</td>`;
+				})
+				.join("");
+			return `<tr>${tds}</tr>`;
+		})
+		.join("");
+
+	// 生成完整的 HTML 文档
+	const html = `
+	<!doctype html>
+	<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>学生请假列表</title>
+		<style>
+			body { font-family: Arial, "Microsoft YaHei", sans-serif; padding: 20px; }
+			h2 { margin: 0 0 12px; color: #303133; }
+			table { border-collapse: collapse; width: 100%; }
+			th, td { border: 1px solid #dcdfe6; padding: 8px; text-align: left; font-size: 12px; }
+			th { background: #f5f7fa; color: #606266; font-weight: 600; }
+			tr:nth-child(even) { background: #fafafa; }
+			.cell-add-time { color: #e6a23c; font-weight: bold; }
+			.cell-state { color: #67c23a; font-weight: bold; }
+			@media print {
+				body { padding: 0; }
+				h2 { font-size: 16px; }
+				table { font-size: 10px; }
+				th, td { padding: 4px; }
+			}
+		</style>
+	</head>
+	<body>
+		<h2>学生请假列表</h2>
+		<table>
+			<thead><tr>${tableHeader}</tr></thead>
+			<tbody>${rowsHtml || `<tr><td colspan="${tableColumns.value.length}">暂无数据</td></tr>`}</tbody>
+		</table>
+	</body>
+	</html>
+	`;
+
+	const win = window.open("", "_blank");
+	if (!win) {
+		ElMessage.warning("浏览器阻止了打印窗口，请允许弹窗后重试");
+		return;
+	}
+	win.document.open();
+	win.document.write(html);
+	win.document.close();
+	win.focus();
+	win.print();
 }
 
 function handlePageChange(data: PageDTO<StudentLeaveItemDTO>) {
@@ -321,6 +437,36 @@ onMounted(() => {
 :deep(.cell-state) {
 	color: #67c23a;
 	font-weight: bold;
+}
+
+.column-trigger-wrap {
+	display: inline-block;
+}
+
+.column-popover {
+	.column-title {
+		font-size: 14px;
+		font-weight: 500;
+		color: #303133;
+		margin-bottom: 12px;
+	}
+
+	.column-options {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 12px;
+		margin-bottom: 16px;
+
+		.el-checkbox {
+			margin-right: 0;
+		}
+	}
+
+	.column-actions {
+		display: flex;
+		justify-content: flex-end;
+		gap: 12px;
+	}
 }
 
 @media (max-width: 1200px) {

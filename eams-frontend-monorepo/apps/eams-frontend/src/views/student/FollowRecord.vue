@@ -62,9 +62,33 @@
 					<el-button circle @click="handlePrint">
 						<IconifyIconOffline icon="ep/printer" width="16" height="16" />
 					</el-button>
-					<el-button circle @click="handleCustomSort">
-						<IconifyIconOffline icon="ep/menu" width="16" height="16" />
-					</el-button>
+					<el-popover v-model:visible="columnPopoverVisible" placement="bottom-end" :width="640">
+						<template #reference>
+							<span class="column-trigger-wrap">
+								<el-button circle @click="openColumnPopover">
+									<IconifyIconOffline icon="ep/menu" width="16" height="16" />
+								</el-button>
+							</span>
+						</template>
+						<div class="column-popover">
+							<div class="column-title">自定义显示列：</div>
+							<div class="column-options">
+								<el-checkbox v-model="columnDraft.contactTime">联系时间</el-checkbox>
+								<el-checkbox v-model="columnDraft.creatorName">跟进人</el-checkbox>
+								<el-checkbox v-model="columnDraft.studentName">学员</el-checkbox>
+								<el-checkbox v-model="columnDraft.contactPhone">联系电话</el-checkbox>
+								<el-checkbox v-model="columnDraft.stage">阶段</el-checkbox>
+								<el-checkbox v-model="columnDraft.contactType">联系方式</el-checkbox>
+								<el-checkbox v-model="columnDraft.contactNextTime">下次联系</el-checkbox>
+								<el-checkbox v-model="columnDraft.addTime">创建时间</el-checkbox>
+								<el-checkbox v-model="columnDraft.info">跟进记录</el-checkbox>
+							</div>
+							<div class="column-actions">
+								<el-button link @click="restoreColumns">恢复</el-button>
+								<el-button link type="primary" @click="confirmColumns">确认</el-button>
+							</div>
+						</div>
+					</el-popover>
 				</div>
 			</div>
 			<my-table
@@ -120,7 +144,7 @@ const tableAttr: MyTableAttr = {
 	"highlight-current-row": true,
 };
 
-const tableColumns: MyTableColumn[] = [
+const baseTableColumns: MyTableColumn[] = [
 	{ prop: "contactTime", label: "联系时间", width: "160px", align: "center" },
 	{ prop: "creatorName", label: "跟进人", "min-width": 100 },
 	{ prop: "studentName", label: "学员", "min-width": 120 },
@@ -132,10 +156,30 @@ const tableColumns: MyTableColumn[] = [
 	{ prop: "info", label: "跟进记录", "min-width": 200, "show-overflow-tooltip": true },
 ];
 
+const tableColumns = computed(() => {
+	return baseTableColumns.filter((col) => visibleColumns[col.prop as keyof typeof visibleColumns] !== false);
+});
+
 const pageIndex = ref(1);
 const pageSize = ref(20);
 const pageData = ref(createPageDTO<FollowRecordItemDTO>());
 const selectedRows = ref<FollowRecordItemDTO[]>([]);
+
+// 自定义列状态管理
+const columnPopoverVisible = ref(false);
+const defaultColumns = {
+	contactTime: true,
+	creatorName: true,
+	studentName: true,
+	contactPhone: true,
+	stage: true,
+	contactType: true,
+	contactNextTime: true,
+	addTime: true,
+	info: true,
+};
+const visibleColumns = reactive({ ...defaultColumns });
+const columnDraft = reactive({ ...defaultColumns });
 
 const displayPageData = computed(() => {
 	return pageData.value;
@@ -192,12 +236,97 @@ function handleRefresh() {
 	loadData();
 }
 
-function handlePrint() {
-	ElMessage.info("打印功能待接入");
+function openColumnPopover() {
+	Object.assign(columnDraft, visibleColumns);
+	columnPopoverVisible.value = true;
 }
 
-function handleCustomSort() {
-	ElMessage.info("自定义排序功能待接入");
+function restoreColumns() {
+	Object.assign(columnDraft, defaultColumns);
+	Object.assign(visibleColumns, defaultColumns);
+	columnPopoverVisible.value = false;
+}
+
+function confirmColumns() {
+	const picked = Object.values(columnDraft).some(Boolean);
+	if (!picked) {
+		ElMessage.warning("至少保留一列");
+		return;
+	}
+	Object.assign(visibleColumns, columnDraft);
+	columnPopoverVisible.value = false;
+}
+
+function handlePrint() {
+	// 生成表头
+	const tableHeader = tableColumns.value.map((col) => `<th>${col.label}</th>`).join("");
+
+	// 生成表格数据行
+	const rowsHtml = (pageData.value.rows || [])
+		.map((row) => {
+			const tds = tableColumns.value
+				.map((col) => {
+					let value = (row as any)[col.prop];
+					// 特殊处理联系方式和阶段字段
+					if (col.prop === "contactType") {
+						const typeMap: Record<number, string> = { 1: "电话", 2: "微信", 3: "面谈", 4: "其他" };
+						value = typeMap[value] || "未知";
+					} else if (col.prop === "stage") {
+						const stageMap: Record<number, string> = { 1: "潜在客户", 2: "意向客户", 3: "成交客户" };
+						value = stageMap[value] || "未知";
+					}
+					return `<td>${String(value ?? "-")}</td>`;
+				})
+				.join("");
+			return `<tr>${tds}</tr>`;
+		})
+		.join("");
+
+	// 生成完整的 HTML 文档
+	const html = `
+	<!doctype html>
+	<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>跟进记录列表</title>
+		<style>
+			body { font-family: Arial, "Microsoft YaHei", sans-serif; padding: 20px; }
+			h2 { margin: 0 0 12px; color: #303133; }
+			table { border-collapse: collapse; width: 100%; }
+			th, td { border: 1px solid #dcdfe6; padding: 8px; text-align: left; font-size: 12px; }
+			th { background: #f5f7fa; color: #606266; font-weight: 600; }
+			tr:nth-child(even) { background: #fafafa; }
+			.cell-contact-time { color: #409eff; font-weight: bold; }
+			.cell-contact-next-time { color: #e6a23c; font-weight: bold; }
+			.cell-add-time { color: #909399; }
+			@media print {
+				body { padding: 0; }
+				h2 { font-size: 16px; }
+				table { font-size: 10px; }
+				th, td { padding: 4px; }
+			}
+		</style>
+	</head>
+	<body>
+		<h2>跟进记录列表</h2>
+		<table>
+			<thead><tr>${tableHeader}</tr></thead>
+			<tbody>${rowsHtml || `<tr><td colspan="${tableColumns.value.length}">暂无数据</td></tr>`}</tbody>
+		</table>
+	</body>
+	</html>
+	`;
+
+	const win = window.open("", "_blank");
+	if (!win) {
+		ElMessage.warning("浏览器阻止了打印窗口，请允许弹窗后重试");
+		return;
+	}
+	win.document.open();
+	win.document.write(html);
+	win.document.close();
+	win.focus();
+	win.print();
 }
 
 function handlePageChange(data: PageDTO<FollowRecordItemDTO>) {
@@ -347,6 +476,36 @@ onMounted(() => {
 
 :deep(.cell-add-time) {
 	color: #909399;
+}
+
+.column-trigger-wrap {
+	display: inline-block;
+}
+
+.column-popover {
+	.column-title {
+		font-size: 14px;
+		font-weight: 500;
+		color: #303133;
+		margin-bottom: 12px;
+	}
+
+	.column-options {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 12px;
+		margin-bottom: 16px;
+
+		.el-checkbox {
+			margin-right: 0;
+		}
+	}
+
+	.column-actions {
+		display: flex;
+		justify-content: flex-end;
+		gap: 12px;
+	}
 }
 
 @media (max-width: 1200px) {
