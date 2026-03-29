@@ -24,11 +24,11 @@
 #include "ServerInfo.h"
 #include "Macros.h"
 #include "domain/vo/BaseJsonVO.h"
-#include "domain/query/score/ScoreQuery.h"
-#include "domain/vo/score/ScoreVO.h"
+#include "domain/query/score/scorequery.h"
+#include "domain/vo/score/scoreVO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
-#define API_TAG ZH_WORDS_GETTER("score.tag")
+#define API_TAG_SCORE ZH_WORDS_GETTER("score.tag")
 //成绩模块控制器
 class ScoreController : public oatpp::web::server::api::ApiController
 {
@@ -37,7 +37,7 @@ class ScoreController : public oatpp::web::server::api::ApiController
 public: // 定义接口
 	// 定义获取成绩列表（条件+分页）接口描述
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(
-		ZH_WORDS_GETTER("score.query-score.summary"), queryScore, ScoreQuery, ScorePageJsonVO::Wrapper, API_TAG,
+		ZH_WORDS_GETTER("score.query-score.summary"), queryScore, ScoreQuery, ScorePageJsonVO::Wrapper, API_TAG_SCORE
 	);
 	// 定义获取成绩列表（条件+分页）接口处理
 	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/app/sCenter/student/gradeRecord", queryScore, ScoreQuery, execQueryScore(query));

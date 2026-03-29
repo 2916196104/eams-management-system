@@ -4,7 +4,7 @@
 #define _SCORE_DAO_
 #include "BaseDAO.h"
 #include "domain/do/score/ScoreDO.h"
-#include "domain/query/score/ScoreQuery.h"
+#include "domain/query/score/scorequery.h"
 
 /**
  * 角色表数据库操作实现
