@@ -29,7 +29,7 @@
 #include "domain/query/registration-records/registrationquery.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
-#define API_TAG ZH_WORDS_GETTER("registration-records.tag")
+#define API_TAG_REGISTRATION ZH_WORDS_GETTER("registration-records.tag")
 //报名记录模块控制器
 class RegistrationRecodeController : public oatpp::web::server::api::ApiController
 {
@@ -42,7 +42,8 @@ public: // 定义接口
 		queryRecords,
 		RegistrationRecordQuery,
 		RegistrationRecordPageJsonVO::Wrapper,
-		API_TAG);
+		API_TAG_REGISTRATION
+	);
 	// 定义获取报名记录列表（条件+分页）接口处理
 	API_HANDLER_ENDPOINT_QUERY_AUTH(
 		API_M_GET,
