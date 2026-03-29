@@ -79,15 +79,48 @@
 				v-model:month="calendarMonth"
 				@date-select="onDateSelect"
 			>
-				<template #cell>
-					<div class="month-cell-placeholder"></div>
+				<template #cell="{ cell }">
+					<!-- 月视图：显示当天的所有课程 -->
+					<div v-if="getCellCourses(cell.date).length > 0" class="month-cell-courses">
+						<div
+							v-for="course in getCellCourses(cell.date).slice(0, 34)"
+							:key="`${course.id}-${course.startTime}`"
+							class="month-course-item"
+							:style="{
+								backgroundColor: `${getCourseStatusColor(course.courseStatus)}20`,
+								borderLeftColor: getCourseStatusColor(course.courseStatus),
+							}"
+							:title="`${course.courseName} - ${course.startTime}-${course.endTime}`"
+							@click="handleCourseClick(course)"
+						>
+							<span class="course-name">{{ course.courseName }}</span>
+							<span class="course-time">{{ course.startTime }} - {{ course.endTime }}</span>
+						</div>
+						<div v-if="getCellCourses(cell.date).length > 34" class="more-courses">
+							+{{ getCellCourses(cell.date).length - 34 }} 更多
+						</div>
+					</div>
 				</template>
 
-				<template #week-cell>
-					<div class="week-cell-placeholder"></div>
+				<template #week-cell="{ date, hour }">
+					<!-- 周视图：显示对应时段课程 -->
+					<div
+						v-for="course in getCoursesByDateAndHour(date, hour)"
+						:key="`${course.id}-${course.startTime}`"
+						class="week-cell-course"
+						:style="{
+							backgroundColor: `${getCourseStatusColor(course.courseStatus)}20`,
+							borderLeftColor: getCourseStatusColor(course.courseStatus),
+						}"
+						@click="handleCourseClick(course)"
+					>
+						<div class="week-course-name">{{ course.courseName }}</div>
+						<div class="week-course-info">{{ course.className }} · {{ course.classroomName }}</div>
+					</div>
 				</template>
 
 				<template #day-cell="{ date, hour }">
+					<!-- 日视图：显示对应时段课程 -->
 					<div
 						v-for="course in getCoursesByDateAndHour(date, hour)"
 						:key="`${course.id}-${course.startTime}`"
@@ -96,15 +129,28 @@
 							backgroundColor: `${getCourseStatusColor(course.courseStatus)}20`,
 							borderLeftColor: getCourseStatusColor(course.courseStatus),
 						}"
-					></div>
+						@click="handleCourseClick(course)"
+					>
+						<div class="day-course-header">
+							<span class="course-name">{{ course.courseName }}</span>
+							<span class="course-time">{{ formatCourseTime(course) }}</span>
+						</div>
+						<div class="day-course-info">
+							<span>{{ course.className }}</span>
+							<span>{{ course.teacherName }}</span>
+							<span>{{ course.classroomName }}</span>
+						</div>
+					</div>
 				</template>
 			</my-calendar>
+
+			<!-- 课程详情弹窗 -->
+			<CourseDetailDialog ref="courseDetailDialogRef" />
 
 			<div class="calendar-meta">
 				<span class="calendar-range">当前查询范围：{{ currentRangeText }}</span>
 				<span class="calendar-count">共 {{ allCourses.length }} 条课次</span>
 			</div>
-
 		</div>
 	</div>
 </template>
@@ -114,6 +160,7 @@ import { computed, onMounted, reactive, ref, watch } from "vue";
 import { ElMessage } from "element-plus";
 import { IconifyIconOffline } from "@/components/ReIcon";
 import MyCalendar from "@/components/mycalendar/MyCalendar.vue";
+import CourseDetailDialog from "@/components/coursedetail/CourseDetailDialog.vue";
 import { getLessonCalendar } from "@/apis/academic";
 import type { LessonCalendarQueryDTO } from "@/apis/academic/type";
 import type { CalendarCourse, ScheduleCalendarPeriod, ScheduleCalendarViewMode } from "./schedule-calendar";
@@ -125,6 +172,10 @@ import {
 	isCourseInHour,
 	normalizeLessonCalendarRows,
 } from "./schedule-calendar";
+
+// 是否使用模拟数据（开发环境测试用）
+// 切换到真实 API 时，将此值改为 false
+const USE_MOCK_DATA = false;
 
 type FilterState = {
 	className: string;
@@ -160,6 +211,7 @@ const calendarYear = ref(today.getFullYear());
 const calendarMonth = ref(today.getMonth());
 const allCourses = ref<CalendarCourse[]>([]);
 const loading = ref(false);
+const courseDetailDialogRef = ref<InstanceType<typeof CourseDetailDialog>>();
 
 const periodOptions = computed(() => getPeriodOptions(calendarViewMode.value));
 
@@ -173,7 +225,9 @@ const currentQuery = computed<LessonCalendarQueryDTO>(() =>
 	),
 );
 
-const currentRangeText = computed(() => `${currentQuery.value.startDate || "-"} 至 ${currentQuery.value.endDate || "-"}`);
+const currentRangeText = computed(
+	() => `${currentQuery.value.startDate || "-"} 至 ${currentQuery.value.endDate || "-"}`,
+);
 
 watch(
 	periodOptions,
@@ -201,13 +255,40 @@ function getCoursesByDateAndHour(date: Date, hour: number): CalendarCourse[] {
 	return allCourses.value.filter((course) => course.lessonDate === dateStr && isCourseInHour(course, hour));
 }
 
+// 获取某天的所有课程（月视图使用）
+function getCellCourses(date: Date): CalendarCourse[] {
+	const dateStr = formatDate(date);
+	return allCourses.value.filter((course) => course.lessonDate === dateStr);
+}
+
+// 格式化课程时间显示
+function formatCourseTime(course: CalendarCourse) {
+	return `${course.startTime.substring(0, 5)}-${course.endTime.substring(0, 5)}`;
+}
+
 function onDateSelect(date: Date) {
 	selectedCalendarDate.value = new Date(date);
+}
+
+// 点击课程，弹出详情
+function handleCourseClick(course: CalendarCourse) {
+	if (courseDetailDialogRef.value) {
+		courseDetailDialogRef.value.openDialog(course);
+	}
 }
 
 async function loadData() {
 	loading.value = true;
 	try {
+		if (USE_MOCK_DATA) {
+			// 使用模拟数据
+			const mockCourses = generateMockCourses(currentQuery.value);
+			allCourses.value = mockCourses;
+			console.log(`[Mock] 生成${mockCourses.length}条课程数据`);
+			return;
+		}
+
+		// 使用真实 API
 		const res = await getLessonCalendar(currentQuery.value);
 		allCourses.value = normalizeLessonCalendarRows(res.data);
 	} catch (error) {
@@ -251,6 +332,95 @@ function handleReset() {
 
 function handleRefresh() {
 	loadData();
+}
+
+// 生成模拟课程数据
+function generateMockCourses(query: LessonCalendarQueryDTO): CalendarCourse[] {
+	const courses: CalendarCourse[] = [];
+	const today = new Date();
+	const { startDate, endDate } = query;
+
+	if (!startDate || !endDate) return courses;
+
+	const start = new Date(startDate);
+	const end = new Date(endDate);
+	const days = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+
+	// 模拟课程名称
+	const courseNames = ["数学基础", "英语进阶", "编程入门", "物理实验", "化学原理", "历史人文", "艺术鉴赏"];
+	// 模拟班级
+	const classNames = ["高一 (1) 班", "高一 (2) 班", "高二 (1) 班", "高二 (2) 班", "高三 (1) 班"];
+	// 模拟老师
+	const teacherNames = ["张老师", "李老师", "王老师", "赵老师", "刘老师"];
+	// 模拟教室
+	const classrooms = ["A101", "A102", "B201", "B202", "C301", "实验室 1", "实验室 2"];
+	// 模拟学生
+	const studentNames = ["张三", "李四", "王五", "赵六", "钱七", "孙八", "周九", "吴十"];
+	// 课程状态
+	const statuses = ["正常", "待上课", "进行中", "已完成"];
+	// 时间段
+	const timeSlots = [
+		{ start: "08:00:00", end: "09:00:00" },
+		{ start: "09:10:00", end: "10:10:00" },
+		{ start: "10:30:00", end: "11:30:00" },
+		{ start: "14:00:00", end: "15:00:00" },
+		{ start: "15:10:00", end: "16:10:00" },
+		{ start: "16:30:00", end: "17:30:00" },
+	];
+
+	for (let i = 0; i < days; i++) {
+		const currentDate = new Date(start);
+		currentDate.setDate(start.getDate() + i);
+
+		// 跳过周末（可选）
+		const dayOfWeek = currentDate.getDay();
+		if (dayOfWeek === 0 || dayOfWeek === 6) continue;
+
+		// 每天生成 2-4 条课程
+		const coursesPerDay = Math.floor(Math.random() * 3) + 2;
+
+		for (let j = 0; j < coursesPerDay; j++) {
+			const courseIndex = Math.floor(Math.random() * courseNames.length);
+			const classIndex = Math.floor(Math.random() * classNames.length);
+			const teacherIndex = Math.floor(Math.random() * teacherNames.length);
+			const classroomIndex = Math.floor(Math.random() * classrooms.length);
+			const studentIndex = Math.floor(Math.random() * studentNames.length);
+			const statusIndex = Math.floor(Math.random() * statuses.length);
+			const timeSlotIndex = Math.floor(Math.random() * timeSlots.length);
+
+			const courseName = courseNames[courseIndex];
+			const className = classNames[classIndex];
+			const teacherName = teacherNames[teacherIndex];
+			const classroomName = classrooms[classroomIndex];
+			const studentName = studentNames[studentIndex];
+			const status = statuses[statusIndex];
+			const timeSlot = timeSlots[timeSlotIndex];
+
+			courses.push({
+				id: courses.length + 1,
+				courseName,
+				className,
+				classroomName,
+				teacherName,
+				studentName,
+				courseStatus: status,
+				lessonDate: formatDate(currentDate),
+				startTime: timeSlot.start,
+				endTime: timeSlot.end,
+				title: `${courseName} - ${className}`,
+			});
+		}
+	}
+
+	// 按日期和时间排序
+	courses.sort((a, b) => {
+		if (a.lessonDate !== b.lessonDate) {
+			return a.lessonDate.localeCompare(b.lessonDate);
+		}
+		return a.startTime.localeCompare(b.startTime);
+	});
+
+	return courses;
 }
 
 onMounted(() => {
@@ -329,11 +499,110 @@ onMounted(() => {
 	display: none;
 }
 
+/* 月视图：课程列表 */
+.month-cell-courses {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	margin-top: 4px;
+}
+
+.month-course-item {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding: 4px 6px;
+	border-left: 3px solid;
+	border-radius: 4px;
+	font-size: 11px;
+	background: rgba(255, 255, 255, 0.9);
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.month-course-item:hover {
+	background: rgba(245, 247, 250, 0.95);
+	transform: translateX(2px);
+}
+
+.course-name {
+	font-weight: 500;
+	color: #303133;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.course-time {
+	font-size: 10px;
+	color: #909399;
+}
+
+.more-courses {
+	font-size: 10px;
+	color: #606266;
+	text-align: center;
+	padding: 2px;
+}
+
+/* 周视图：课程块 */
+.week-cell-course {
+	min-height: 32px;
+	padding: 4px;
+	border-left: 3px solid;
+	border-radius: 4px;
+	margin-bottom: 4px;
+	font-size: 11px;
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.week-cell-course:hover {
+	background: rgba(245, 247, 250, 0.95);
+	transform: translateX(2px);
+}
+
+.week-course-name {
+	font-weight: 500;
+	color: #303133;
+	margin-bottom: 2px;
+}
+
+.week-course-info {
+	font-size: 10px;
+	color: #909399;
+}
+
+/* 日视图：课程块 */
 .day-cell-course {
-	min-height: 28px;
+	min-height: 48px;
+	padding: 6px 8px;
 	border-left: 4px solid;
 	border-radius: 6px;
 	margin-bottom: 6px;
+	background: rgba(255, 255, 255, 0.95);
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.day-cell-course:hover {
+	background: rgba(245, 247, 250, 0.98);
+	transform: translateX(3px);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.day-course-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 4px;
+}
+
+.day-course-info {
+	display: flex;
+	gap: 8px;
+	font-size: 11px;
+	color: #909399;
 }
 
 .calendar-meta {

@@ -314,13 +314,7 @@
 							<div class="field-tip">{{ TEXT.batchModifyEndTimeTip }}</div>
 						</el-form-item>
 						<el-form-item :label="TEXT.batchModifyTeacherLabel">
-							<el-select
-								v-model="batchModifyForm.teacherId"
-								placeholder="请选择"
-								clearable
-								filterable
-								class="w-100"
-							>
+							<el-select v-model="batchModifyForm.teacherId" placeholder="请选择" clearable filterable class="w-100">
 								<el-option
 									v-for="option in batchTeacherOptions"
 									:key="option.value"
@@ -331,13 +325,7 @@
 							<div class="field-tip">{{ TEXT.batchModifyTeacherTip }}</div>
 						</el-form-item>
 						<el-form-item :label="TEXT.batchModifyAssistantLabel">
-							<el-select
-								v-model="batchModifyForm.assistantId"
-								placeholder="请选择"
-								clearable
-								filterable
-								class="w-100"
-							>
+							<el-select v-model="batchModifyForm.assistantId" placeholder="请选择" clearable filterable class="w-100">
 								<el-option
 									v-for="option in batchAssistantOptions"
 									:key="option.value"
@@ -348,13 +336,7 @@
 							<div class="field-tip">{{ TEXT.batchModifyAssistantTip }}</div>
 						</el-form-item>
 						<el-form-item :label="TEXT.batchModifyClassroomLabel">
-							<el-select
-								v-model="batchModifyForm.classroomId"
-								placeholder="请选择"
-								clearable
-								filterable
-								class="w-100"
-							>
+							<el-select v-model="batchModifyForm.classroomId" placeholder="请选择" clearable filterable class="w-100">
 								<el-option
 									v-for="option in batchRoomOptions"
 									:key="option.value"
@@ -474,8 +456,23 @@ import CourseDetailDialog from "@/components/coursedetail/CourseDetailDialog.vue
 import RepeatScheduleDialog from "@/components/repeatschedule/RepeatScheduleDialog.vue";
 import FreeScheduleDialog from "@/components/freeschedule/FreeScheduleDialog.vue";
 import { createPageDTO, type MyTableAttr, type MyTableColumn, type PageDTO } from "@/components/mytable/type";
-import { batchUpdateCourses, deleteCourses, getCourseListPage, getEvaluationList, resumeCourses, saveEvaluation, switchSchedule, updateCourse } from "@/apis/academic";
-import type { BatchUpdateCoursesDTO, CourseListVO, EvaluationSaveDTO, EvaluationVO, UpdateCourseDTO } from "@/apis/academic/type";
+import {
+	batchUpdateCourses,
+	deleteCourses,
+	getCourseListPage,
+	getEvaluationList,
+	resumeCourses,
+	saveEvaluation,
+	switchSchedule,
+	updateCourse,
+} from "@/apis/academic";
+import type {
+	BatchUpdateCoursesDTO,
+	CourseListVO,
+	EvaluationSaveDTO,
+	EvaluationVO,
+	UpdateCourseDTO,
+} from "@/apis/academic/type";
 import { buildScheduleExportFilename, buildScheduleExportRows, getScheduleExportColumns } from "./schedule-export";
 
 type RepeatScheduleDialogInstance = {
@@ -539,7 +536,8 @@ const TEXT = {
 	pendingReservationOpen: "\u9884\u7EA6\u5F00\u529F\u80FD\u5F85\u63A5\u5165",
 	pendingReservationClose: "\u9884\u7EA6\u5173\u529F\u80FD\u5F85\u63A5\u5165",
 	pendingEdit: "\u7F16\u8F91\u529F\u80FD\u5F85\u63A5\u5165",
-	repeatScheduleEmpty: "\u5F53\u524D\u6CA1\u6709\u53EF\u7528\u7684\u8BFE\u6B21\u6570\u636E\uff0c\u8BF7\u5148\u67E5\u8BE2\u6216\u4F7F\u7528 mock \u6570\u636E",
+	repeatScheduleEmpty:
+		"\u5F53\u524D\u6CA1\u6709\u53EF\u7528\u7684\u8BFE\u6B21\u6570\u636E\uff0c\u8BF7\u5148\u67E5\u8BE2\u6216\u4F7F\u7528 mock \u6570\u636E",
 	loadFailed: "\u52A0\u8F7D\u6570\u636E\u5931\u8D25",
 	evaluationLoadFailed: "\u52A0\u8F7D\u70B9\u8BC4\u6570\u636E\u5931\u8D25",
 	tableLessonTime: "\u4E0A\u8BFE\u65F6\u95F4",
@@ -563,7 +561,8 @@ const TEXT = {
 	evaluationCountUnit: "\u6761",
 	evaluationAvgPrefix: "\u5747\u5206",
 	evaluationDialogTitle: "\u8BFE\u540E\u70B9\u8BC4",
-	evaluationDialogTip: "\u8BFE\u540E\u70B9\u8BC4\u53EF\u4EE5\u6839\u636E\u6253\u5206\u7ED9\u4E88\u5B66\u751F\u79EF\u5206\u5956\u52B1\u3002",
+	evaluationDialogTip:
+		"\u8BFE\u540E\u70B9\u8BC4\u53EF\u4EE5\u6839\u636E\u6253\u5206\u7ED9\u4E88\u5B66\u751F\u79EF\u5206\u5956\u52B1\u3002",
 	evaluationEditDialogTitle: "\u7F16\u8F91\u70B9\u8BC4",
 	evaluationSeqLabel: "\u5E8F\u53F7",
 	evaluationStudentLabel: "\u5B66\u5458",
@@ -587,7 +586,8 @@ const TEXT = {
 	submitAction: "\u63D0\u4EA4",
 	deleteSelectWarning: "\u8BF7\u5148\u52FE\u9009\u8981\u5220\u9664\u7684\u8BFE\u6B21",
 	deleteConfirmTitle: "\u5220\u9664\u8BFE\u6B21",
-	deleteConfirmMessage: "\u786E\u8BA4\u5220\u9664\u5DF2\u9009\u4E2D\u7684 {count} \u6761\u8BFE\u6B21\u5417\uff1F\u6B64\u64CD\u4F5C\u4E0D\u53EF\u6062\u590D\u3002",
+	deleteConfirmMessage:
+		"\u786E\u8BA4\u5220\u9664\u5DF2\u9009\u4E2D\u7684 {count} \u6761\u8BFE\u6B21\u5417\uff1F\u6B64\u64CD\u4F5C\u4E0D\u53EF\u6062\u590D\u3002",
 	deleteSuccess: "\u5220\u9664\u6210\u529F",
 	deleteFailed: "\u5220\u9664\u5931\u8D25",
 	batchSelectWarning: "\u8BF7\u5148\u52FE\u9009\u8981\u64CD\u4F5C\u7684\u8BFE\u6B21",
@@ -600,15 +600,18 @@ const TEXT = {
 	resumeSuccess: "\u590D\u8BFE\u6210\u529F",
 	resumeFailed: "\u590D\u8BFE\u5931\u8D25",
 	reservationOpenConfirmTitle: "\u9884\u7EA6\u5F00",
-	reservationOpenConfirmMessage: "\u786E\u8BA4\u6253\u5F00\u5DF2\u9009\u4E2D\u7684 {count} \u6761\u8BFE\u6B21\u9884\u7EA6\u5417\uff1F",
+	reservationOpenConfirmMessage:
+		"\u786E\u8BA4\u6253\u5F00\u5DF2\u9009\u4E2D\u7684 {count} \u6761\u8BFE\u6B21\u9884\u7EA6\u5417\uff1F",
 	reservationOpenSuccess: "\u9884\u7EA6\u5F00\u542F\u6210\u529F",
 	reservationOpenFailed: "\u9884\u7EA6\u5F00\u542F\u5931\u8D25",
 	reservationCloseConfirmTitle: "\u9884\u7EA6\u5173",
-	reservationCloseConfirmMessage: "\u786E\u8BA4\u5173\u95ED\u5DF2\u9009\u4E2D\u7684 {count} \u6761\u8BFE\u6B21\u9884\u7EA6\u5417\uff1F",
+	reservationCloseConfirmMessage:
+		"\u786E\u8BA4\u5173\u95ED\u5DF2\u9009\u4E2D\u7684 {count} \u6761\u8BFE\u6B21\u9884\u7EA6\u5417\uff1F",
 	reservationCloseSuccess: "\u9884\u7EA6\u5173\u95ED\u6210\u529F",
 	reservationCloseFailed: "\u9884\u7EA6\u5173\u95ED\u5931\u8D25",
 	batchModifyDialogTitle: "\u6279\u91CF\u4FEE\u6539\u8BFE\u6B21",
-	batchModifyTip: "\u6279\u91CF\u4FEE\u6539\u53EF\u4EE5\u65B9\u4FBF\u6279\u91CF\u4FEE\u6539\u8BFE\u6B21\u4FE1\u606F\uff0c\u8C03\u6574\u524D\u8BF7\u6CE8\u610F\u5907\u6CE8\u63CF\u8FF0\uff1A",
+	batchModifyTip:
+		"\u6279\u91CF\u4FEE\u6539\u53EF\u4EE5\u65B9\u4FBF\u6279\u91CF\u4FEE\u6539\u8BFE\u6B21\u4FE1\u606F\uff0c\u8C03\u6574\u524D\u8BF7\u6CE8\u610F\u5907\u6CE8\u63CF\u8FF0\uff1A",
 	batchModifyDayOffsetLabel: "\u589E\u51CF\u5929\u6570",
 	batchModifyDayOffsetTip:
 		"\u7528\u6CD5\uff1A\u5982\u628A\u5468\u4E8C\u6539\u6210\u5468\u56DB\uff0c\u586B\u51992\uff1B\u628A\u5468\u65E5\u6539\u6210\u5468\u516D\u586B\u5199-1\uff1B\u6700\u5927\u8C03\u6574\u5929\u6570\u662F7\u5929\u3002",
@@ -1255,7 +1258,9 @@ function normalizeText(value?: string) {
 
 function includesKeyword(source: unknown, keyword: string) {
 	if (!keyword) return true;
-	return String(source || "").toLowerCase().includes(keyword);
+	return String(source || "")
+		.toLowerCase()
+		.includes(keyword);
 }
 
 function buildMockPageData() {
@@ -1486,8 +1491,7 @@ function syncEvaluationDialogRows() {
 }
 
 function updateMockEvaluations(payload: EvaluationSaveDTO) {
-	const nextId =
-		payload.id || Math.max(0, ...DEV_MOCK_EVALUATIONS.map((item) => item.id || 0)) + 1;
+	const nextId = payload.id || Math.max(0, ...DEV_MOCK_EVALUATIONS.map((item) => item.id || 0)) + 1;
 	const targetIndex = DEV_MOCK_EVALUATIONS.findIndex((item) => item.id === payload.id);
 	const nextItem: EvaluationVO = {
 		...payload,
@@ -1516,7 +1520,8 @@ async function handleSaveEvaluation() {
 	const currentLesson = currentEvaluationLesson.value;
 	const payload: EvaluationSaveDTO = {
 		id: editingEvaluation.id,
-		teacherId: editingEvaluation.teacherId || Number(String(currentLesson?.teacherIds || "").split(",")[0]) || undefined,
+		teacherId:
+			editingEvaluation.teacherId || Number(String(currentLesson?.teacherIds || "").split(",")[0]) || undefined,
 		teacherName: editingEvaluation.teacherName || currentLesson?.teacherNames,
 		studentId: editingEvaluation.studentId,
 		studentName: editingEvaluation.studentName,
@@ -1558,9 +1563,7 @@ function isSuccessCode(code?: number) {
 }
 
 function getSelectedCourseIds() {
-	return selectedRows.value
-		.map((row) => row.id)
-		.filter((id): id is number => typeof id === "number");
+	return selectedRows.value.map((row) => row.id).filter((id): id is number => typeof id === "number");
 }
 
 function getSelectedCourseCodes() {
@@ -1806,7 +1809,7 @@ function handleReset() {
 }
 
 function handleRefresh() {
-	ElMessage.info(TEXT.pendingRefresh);
+	loadData();
 }
 
 function handlePrint() {
@@ -1978,9 +1981,7 @@ async function handleBatchDelete() {
 		return;
 	}
 
-	const ids = selectedRows.value
-		.map((row) => row.id)
-		.filter((id): id is number => typeof id === "number");
+	const ids = selectedRows.value.map((row) => row.id).filter((id): id is number => typeof id === "number");
 
 	if (!ids.length) {
 		ElMessage.warning(TEXT.deleteSelectWarning);
@@ -2130,10 +2131,7 @@ async function handleStop() {
 	}
 
 	try {
-		await confirmBatchAction(
-			TEXT.stopConfirmMessage.replace("{count}", String(ids.length)),
-			TEXT.stopConfirmTitle,
-		);
+		await confirmBatchAction(TEXT.stopConfirmMessage.replace("{count}", String(ids.length)), TEXT.stopConfirmTitle);
 
 		if (isDev && canUseDevScheduleMock(selectedRows.value)) {
 			updateMockCourseStatus(ids, false);
@@ -2165,10 +2163,7 @@ async function handleResume() {
 	}
 
 	try {
-		await confirmBatchAction(
-			TEXT.resumeConfirmMessage.replace("{count}", String(ids.length)),
-			TEXT.resumeConfirmTitle,
-		);
+		await confirmBatchAction(TEXT.resumeConfirmMessage.replace("{count}", String(ids.length)), TEXT.resumeConfirmTitle);
 
 		if (isDev && canUseDevScheduleMock(selectedRows.value)) {
 			updateMockCourseStatus(ids, true);
