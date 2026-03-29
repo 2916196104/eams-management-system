@@ -1,4 +1,4 @@
-package com.zeroone.star.student.service.impl;
+package com.zeroone.star.student.mapper;
 
 import com.zeroone.star.project.vo.j4.student.CourseCounterVO;
 import com.zeroone.star.student.entity.StudentCourse;
