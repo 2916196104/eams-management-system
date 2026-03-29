@@ -84,7 +84,7 @@ class StudentDTO : public oatpp::DTO
 {
 	DTO_INIT(StudentDTO, DTO);
 	// 学生姓名
-	API_DTO_FIELD_DEFAULT(String, name, ZH_WORDS_GETTER("class.student.name")," ");
+	API_DTO_FIELD_DEFAULT(String, name, ZH_WORDS_GETTER("class.student.name"));
 	// 学生性别
 	API_DTO_FIELD_DEFAULT(Boolean, gender, ZH_WORDS_GETTER("class.student.gender"));
 };

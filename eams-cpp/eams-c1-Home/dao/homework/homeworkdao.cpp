@@ -26,8 +26,8 @@ std::vector<HomeworkDTO::Wrapper> HomeworkDAO::selectPage(const HomeworkQuery::W
         sql << " AND title LIKE '%" << query->title->c_str() << "%'";
     }
 
-    uint64_t pageIndex = (query->pageIndex > 0) ? query->pageIndex : 1;
-    uint64_t pageSize = (query->pageSize > 0) ? query->pageSize : 10;
+    uint64_t pageIndex = query->pageIndex;
+    uint64_t pageSize = query->pageSize;
     uint64_t offset = (pageIndex - 1) * pageSize;
 
     sql << " LIMIT " << offset << ", " << pageSize;

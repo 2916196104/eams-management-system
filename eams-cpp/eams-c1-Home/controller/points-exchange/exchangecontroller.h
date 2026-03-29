@@ -80,7 +80,7 @@ public: // 定义接口
 
 private: // 定义接口执行函数
 	GoodsPageJsonVO::Wrapper executeQueryAll(const PageQuery::Wrapper& query);
-	GoodsDetailJsonVO::Wrapper executeGetGoodsDetail(const INT64& id);
+	GoodsDetailJsonVO::Wrapper executeGetGoodsDetail(const int64_t& id);
 	AcceptGoodsPageJsonVO::Wrapper executeQueryAcceptGoods(const AcceptGoodsQuery::Wrapper& acceptGoods);
 	SettingJsonVO::Wrapper executeQueryRule(const UInt64& id);
 	ExchangeResultJsonVO::Wrapper executeSubmitExchange(const ExchangeSubmitDTO::Wrapper& request, const PayloadDTO& payload);

@@ -21,7 +21,7 @@
 #define _CLASSMAPPER_H_
 
 #include "Mapper.h"
-#include "../../domain/do/class/classDO.h"
+#include "../../domain/do/class/ClassDO.h"
 
 /**
  * class列表字段匹配映射

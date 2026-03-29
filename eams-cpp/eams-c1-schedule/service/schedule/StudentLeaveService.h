@@ -3,7 +3,7 @@
 #define _STUDENT_LEAVE_SERVICE_H_
 
 // 引入相关的 DTO（注意检查你的实际相对路径是不是这个）
-#include "domain/dto/schedule/ScheduleDTO.h" 
+#include "domain/dto/schedule/scheduleDTO.h" 
 /**
  * @brief 学生请假业务逻辑层 (Service)
  * 负责处理请假相关的核心业务校验与数据组装

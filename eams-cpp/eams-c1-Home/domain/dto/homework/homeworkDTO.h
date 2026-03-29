@@ -77,7 +77,7 @@ class HomeworkSubmitDTO : public oatpp::DTO
 	// 学生ID,对应 record表的 student_id
 	API_DTO_FIELD_REQUIRE(UInt64, studentId, ZH_WORDS_GETTER("homework.record.student_id"), true);
 	// 编辑人
-	API_DTO_FIELD_DEFAULT(UInt64, editor, ZH_WORDS_GETTER("homework.editor"), true);
+	API_DTO_FIELD_DEFAULT(UInt64, editor, ZH_WORDS_GETTER("homework.editor"));
 	//作业内容,对应 homework表的 content
 	API_DTO_FIELD_REQUIRE(String, homework_content, ZH_WORDS_GETTER("homework.content"), true);
 	// 作业内容,对应 record表的 content

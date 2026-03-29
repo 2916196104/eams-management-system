@@ -2,9 +2,9 @@
 #ifndef _CARD_SERVICE_
 #define _CARD_SERVICE_
 
-#include "domain/vo/listening-card/CardVO.h"
-#include "domain/query/listening-card/CardQuery.h"
-#include "domain/dto/listening-card/CardDTO.h"
+#include "domain/vo/listening-card/cardVO.h"
+#include "domain/query/listening-card/cardquery.h"
+#include "domain/dto/listening-card/cardDTO.h"
 /**
  * 获取所有试听卡服务实现
  */

@@ -2,7 +2,7 @@
 #define _EXCHANGEMAPPER_H_
 
 #include "Mapper.h"
-#include "domain/do/points-exchange/exchangeDO.h"
+#include "domain/do/points-exchange/exchangeDo.h"
 
 // 所有商品映射
 class GoodsMapper : public Mapper<GoodsDO>

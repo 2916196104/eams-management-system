@@ -99,7 +99,7 @@ AcceptGoodsPageDTO::Wrapper exchangeService::listAcceptGoods(const AcceptGoodsQu
 }
 
 // 查询积分兑换规则
-SettingDTO::Wrapper exchangeService::getSetting(UINT64 id)
+SettingDTO::Wrapper exchangeService::getSetting(uint64_t id)
 {
 	SettingDTO::Wrapper setting = SettingDTO::createShared();
 	exchangeDAO dao;

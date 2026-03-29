@@ -9,10 +9,10 @@
 #ifndef _EXCHANGE_SERVICE_H_
 #define _EXCHANGE_SERVICE_H_
 #include "stdafx.h"
-#include "domain/dto/points-exchange/ExchangeDTO.h"
+#include "../../domain/dto/points-exchange/exchangeDTO.h"
 #include "domain/query/points-exchange/exchangequery.h"
-#include"domain/do/points-exchange/ExchangeDO.h"
-#include"dao/points-exchange/ExchangeDAO.h"
+#include"domain/do/points-exchange/exchangeDo.h"
+#include"dao/points-exchange/exchangeDAO.h"
 #include"dao/points-exchange/GoodsDAO.h"
 #include "../../dao/points-exchange/points-ExchangeDAO.h"
 class ExchangeService

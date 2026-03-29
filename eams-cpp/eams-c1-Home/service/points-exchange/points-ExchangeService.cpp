@@ -1,6 +1,6 @@
-#include "ExchangeService.h"
+#include "exchangeService.h"
 #include "dao/points-exchange/GoodsDAO.h"
-#include "dao/points-exchange/ExchangeDAO.h"
+#include "dao/points-exchange/exchangeDAO.h"
 #include "id/SnowFlake.h"
 #include"service/points-exchange/points-ExchangeService.h"
 #include "../../dao/points-exchange/points-ExchangeDAO.h"

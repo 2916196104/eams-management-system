@@ -17,7 +17,7 @@
  limitations under the License.
 */
 #include "stdafx.h"
-#include "ScheduleController.h"
+#include "schedulecontroller.h"
 #include "service/schedule/AppointmentService.h"
 #include "service/schedule/StudentLeaveService.h"
 #include "service/lesson/LessonService.h"

@@ -18,7 +18,7 @@ public:
 	// 获取兑换记录列表
 	AcceptGoodsPageDTO::Wrapper listAcceptGoods(const AcceptGoodsQuery::Wrapper& query);
 	// 获取积分兑换规则
-	SettingDTO::Wrapper getSetting(UINT64 id);
+	SettingDTO::Wrapper getSetting(uint64_t id);
 };
 
 

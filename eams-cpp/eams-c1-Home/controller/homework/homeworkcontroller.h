@@ -30,7 +30,7 @@
 #include "domain/dto/homework/homeworkDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
-#define API_TAG ZH_WORDS_GETTER("homework.tag")
+#define API_TAG3 ZH_WORDS_GETTER("homework.tag")
 //作业模块控制器
 class HomeworkController : public oatpp::web::server::api::ApiController
 {
@@ -39,12 +39,12 @@ class HomeworkController : public oatpp::web::server::api::ApiController
 
 public:
 
-	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("homework.get_homework_page"), queryPage, HomeworkQuery, HomeworkPageJsonVO::Wrapper, API_TAG);
+	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("homework.get_homework_page"), queryPage, HomeworkQuery, HomeworkPageJsonVO::Wrapper, API_TAG3);
 	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/app/sCenter/homework/list", queryPage, QUERIES(QueryParams, queryParams),
 		API_HANDLER_QUERY_PARAM(query, HomeworkQuery, queryParams); API_HANDLER_RESP_VO(execQueryPage(query)););
 
 	API_DEF_ENDPOINT_INFO_AUTH(
-		ZH_WORDS_GETTER("homework.get_homework_info"), queryDetail, HomeworkDetailJsonVO::Wrapper, API_TAG,
+		ZH_WORDS_GETTER("homework.get_homework_info"), queryDetail, HomeworkDetailJsonVO::Wrapper, API_TAG3,
 		API_DEF_ADD_QUERY_PARAMS(UInt64, "id", ZH_WORDS_GETTER("homework.field.id"), nullptr, true);
 	);
 
@@ -55,7 +55,7 @@ public:
 		ZH_WORDS_GETTER("homework.submit"),
 		querySubmit,
 		HomeworkJsonVO::Wrapper,
-		API_TAG
+		API_TAG3
 	);
 
 	// 1.2 定义提交作业接口处理/*"/app/sCenter/homework/saveRecord",
@@ -73,7 +73,7 @@ public:
 		queryDelete,
 		HomeworkDeleteQuery,
 		HomeworkDeleteJsonVO::Wrapper,
-		API_TAG
+		API_TAG3
 	);
 	// 2.2 定义删除作业接口处理/*"/app/sCenter/homework/deleteRecord/{id}",
 	API_HANDLER_ENDPOINT_OPTION_AUTH(

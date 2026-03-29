@@ -26,9 +26,9 @@
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/query/PageQuery.h"
 #include "domain/vo/class/classVO.h"
-#include "domain/query/class/classQuery.h"
+#include "../../domain/query/class/classquery.h"
 #include OATPP_CODEGEN_BEGIN(ApiController)
-#define API_TAG ZH_WORDS_GETTER("class.tag")
+#define API_TAG2 ZH_WORDS_GETTER("class.tag")
 //班级模块控制器
 class classController : public oatpp::web::server::api::ApiController
 {
@@ -37,7 +37,7 @@ class classController : public oatpp::web::server::api::ApiController
 public: // 定义接口
 	//2.1 定义获取班级详情控制器
 	API_DEF_ENDPOINT_INFO_AUTH(
-		ZH_WORDS_GETTER("class.get_class_info"), queryClassInfo, classInfoJsonVO::Wrapper, API_TAG,
+		ZH_WORDS_GETTER("class.get_class_info"), queryClassInfo, classInfoJsonVO::Wrapper, API_TAG2,
 		API_DEF_ADD_QUERY_PARAMS(UInt32, "class_id", ZH_WORDS_GETTER("class.id"), 1, false);
 	);
 
@@ -45,7 +45,7 @@ public: // 定义接口
 	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/app/sCenter/class/info", queryClassInfo, QUERY(UInt32, class_id), execQueryClassInfo(class_id));
 
 	//3.1 定义获取班级分页列表控制器（条件+分页）
-	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("class.get_class_page"), queryClassPage, classQuery, classPageJsonVO::Wrapper, API_TAG);
+	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("class.get_class_page"), queryClassPage, classQuery, classPageJsonVO::Wrapper, API_TAG2);
 	
 	// 3.2 定义获取班级分页列表控制器（条件+分页）接口处理
 	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/app/sCenter/class/list", queryClassPage, QUERIES(QueryParams, queryParams),
@@ -53,7 +53,7 @@ public: // 定义接口
 
 	//4.1 定义获取学生列表控制器
 	API_DEF_ENDPOINT_INFO_AUTH(
-		ZH_WORDS_GETTER("class.get_student_list"), queryStudentList, studentListJsonVO::Wrapper, API_TAG,
+		ZH_WORDS_GETTER("class.get_student_list"), queryStudentList, studentListJsonVO::Wrapper, API_TAG2,
 		API_DEF_ADD_QUERY_PARAMS(UInt32, "class_id", ZH_WORDS_GETTER("class.id"), 1, false);
 	);
 

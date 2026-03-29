@@ -12,7 +12,7 @@
 
 #include "stdafx.h"
 #include "domain/GlobalInclude.h"
-#include "domain/do/points-exchange/ExchangeDO.h"
+#include "domain/do/points-exchange/exchangeDo.h"
 #include "BaseDAO.h"
 
 class ExchangeDAO : public BaseDAO

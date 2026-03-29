@@ -3,16 +3,16 @@
 #include "exchangeMapper.h"
 
 // 统计是否存在可兑换商品
-UINT64 exchangeDAO::count1()
+uint64_t exchangeDAO::count1()
 {
 	string sql = "SELECT COUNT(*) FROM credit_mall WHERE deleted = 0";
 	return sqlSession->executeQueryNumerical(sql);
 }
 
 // 统计当前用户是否已兑换过商品
-UINT64 exchangeDAO::count2(const AcceptGoodsQuery::Wrapper& query)
+uint64_t exchangeDAO::count2(const AcceptGoodsQuery::Wrapper& query)
 {
-	UINT64 studentId = query->studentId.getValue(0);
+	uint64_t studentId = query->studentId.getValue(0);
 
 	std::string sql =
 		"SELECT COUNT(*) "
@@ -48,7 +48,7 @@ std::list<PtrGoodsDO> exchangeDAO::selectAllGoods(const PageQuery::Wrapper& quer
 // 查询当前用户已兑换商品
 std::list<PtrAcceptGoodsDO> exchangeDAO::selectAcceptGoods(const AcceptGoodsQuery::Wrapper& query)
 {
-	UINT64 studentId = query->studentId.getValue(0);
+	uint64_t studentId = query->studentId.getValue(0);
 
 	std::string sql =
 		"SELECT ce.*, "
@@ -78,7 +78,7 @@ std::list<PtrAcceptGoodsDO> exchangeDAO::selectAcceptGoods(const AcceptGoodsQuer
 }
 
 // 查询规则
-PtrSettingDO exchangeDAO::selectById(UINT64 id) {
+PtrSettingDO exchangeDAO::selectById(uint64_t id) {
 	std::string sql = "SELECT * FROM setting_option WHERE id = ?";
 	return sqlSession->executeQueryOne<PtrSettingDO>(sql, PtrSettingMapper(), "%i", id);
 }

@@ -17,8 +17,8 @@
  limitations under the License.
 */
 #include "stdafx.h"
-#include "ClassDAO.h"
-#include "ClassMapper.h"
+#include "../../dao/class/classDAO.h"
+#include "classMapper.h"
 
 std::string ClassDAO::queryConditionBuilder(const classQuery::Wrapper& query, SqlParams& params)
 {

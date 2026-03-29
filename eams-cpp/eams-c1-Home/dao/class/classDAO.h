@@ -20,7 +20,7 @@
 #ifndef _CLASSDAO_H_
 #define _CLASSDAO_H_
 #include "BaseDAO.h"
-#include "../../domain/do/class/classDO.h"
+#include "../../domain/do/class/ClassDO.h"
 #include "../../domain/query/class/classquery.h"
 
 /**

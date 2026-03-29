@@ -3,7 +3,7 @@
 #define _APPOINTMENT_DAO_
 
 #include "BaseDAO.h"
-#include "domain/do/schedule/AppointmentDO.h"
+#include "domain/do/schedule/appointmentDO.h"
 
 /**
  * 预约表数据库访问层
@@ -41,6 +41,6 @@ public:
 	/*
 	* 获取学生的试听卡id和试听卡领取记录id
 	*/
-	std::pair<uint64_t, uint64_t> AppointmentDAO::getValidTrialCard(uint64_t studentId, uint64_t courseId);
+	std::pair<uint64_t, uint64_t> getValidTrialCard(uint64_t studentId, uint64_t courseId);
 };
 #endif // !_APPOINTMENT_DAO_
