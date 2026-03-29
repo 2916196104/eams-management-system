@@ -8,40 +8,64 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * 课程查询参数（支持分页和业务筛选）
+ * 课次分页查询对象
  */
 class LessonQuery : public PageQuery
 {
     DTO_INIT(LessonQuery, PageQuery);
 
-    // 课程名称（模糊查询）
+    // 课程标题（模糊查询）
     DTO_FIELD(String, title);
     DTO_FIELD_INFO(title) {
-        info->description = ZH_WORDS_GETTER("lesson.title");
+        info->description = ZH_WORDS_GETTER("lesson.field.title");
     }
 
-    // 适用学校ID（精确查询）
-    DTO_FIELD(Int64, schoolId);
-    DTO_FIELD_INFO(schoolId) {
-        info->description = ZH_WORDS_GETTER("lesson.school");
+    // 课程ID（精确查询）
+    DTO_FIELD(String, course_id);
+    DTO_FIELD_INFO(course_id) {
+        info->description = ZH_WORDS_GETTER("lesson.field.course_id");
     }
 
-    // 科目ID（精确查询）
-    DTO_FIELD(Int64, courseId);
-    DTO_FIELD_INFO(courseId) {
-        info->description = ZH_WORDS_GETTER("lesson.course");
+    // 班级ID（精确查询）
+    DTO_FIELD(String, class_id);
+    DTO_FIELD_INFO(class_id) {
+        info->description = ZH_WORDS_GETTER("lesson.field.class_id");
     }
 
-    // 状态（1:正常 2:已关闭）
-    DTO_FIELD(Int32, state);
+    // 主讲人ID（精确查询）
+    DTO_FIELD(String, teacher_id);
+    DTO_FIELD_INFO(teacher_id) {
+        info->description = ZH_WORDS_GETTER("lesson.field.teacher_id");
+    }
+
+    // 上课日期（精确查询，yyyy-MM-dd）
+    DTO_FIELD(String, date);
+    DTO_FIELD_INFO(date) {
+        info->description = ZH_WORDS_GETTER("lesson.field.date");
+    }
+
+    // 课次状态（精确查询）
+    DTO_FIELD(String, state);
     DTO_FIELD_INFO(state) {
-        info->description = ZH_WORDS_GETTER("lesson.state");
+        info->description = ZH_WORDS_GETTER("lesson.field.state");
     }
 
-    // 适用年级ID（精确查询）
-    DTO_FIELD(Int64, classId);
-    DTO_FIELD_INFO(classId) {
-        info->description = ZH_WORDS_GETTER("lesson.classId");
+    // 是否开放预约（精确查询）
+    DTO_FIELD(String, bookable);
+    DTO_FIELD_INFO(bookable) {
+        info->description = ZH_WORDS_GETTER("lesson.field.bookable");
+    }
+
+    // 学校ID（精确查询）
+    DTO_FIELD(String, school_id);
+    DTO_FIELD_INFO(school_id) {
+        info->description = ZH_WORDS_GETTER("lesson.field.school_id");
+    }
+
+    // 组织ID（精确查询）
+    DTO_FIELD(String, org_id);
+    DTO_FIELD_INFO(org_id) {
+        info->description = ZH_WORDS_GETTER("lesson.field.org_id");
     }
 };
 

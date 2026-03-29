@@ -2,7 +2,114 @@
 #include "LessonStudentDao.h"
 #include "LessonStudentMapper.h"
 
-list<PtrLessonStudentDO> LessonStudentDao::SelectLessonStudentWithPage(int64_t lesson_id, const GetStuListQuery::Wrapper& query)
+std::string LessonStudentDao::queryConditionBuilder(const LessonStudentQuery::Wrapper& query, SqlParams& params)
+{
+	std::string whereSql = " WHERE 1=1";
+	if (!query)
+	{
+		return whereSql;
+	}
+
+	if (query->lesson_id && !query->lesson_id->empty())
+	{
+		whereSql += " AND lesson_id = ?";
+		SQLPARAMS_PUSH(params, "ll", int64_t, std::stoll(query->lesson_id.getValue("0")));
+	}
+	if (query->class_id && !query->class_id->empty())
+	{
+		whereSql += " AND class_id = ?";
+		SQLPARAMS_PUSH(params, "i", int32_t, std::stoi(query->class_id.getValue("0")));
+	}
+	if (query->student_id && !query->student_id->empty())
+	{
+		whereSql += " AND student_id = ?";
+		SQLPARAMS_PUSH(params, "ll", int64_t, std::stoll(query->student_id.getValue("0")));
+	}
+	if (query->teacher_id && !query->teacher_id->empty())
+	{
+		whereSql += " AND teacher_id = ?";
+		SQLPARAMS_PUSH(params, "ll", int64_t, std::stoll(query->teacher_id.getValue("0")));
+	}
+	if (query->sign_state && !query->sign_state->empty())
+	{
+		whereSql += " AND sign_state = ?";
+		SQLPARAMS_PUSH(params, "i", int32_t, std::stoi(query->sign_state.getValue("0")));
+	}
+	if (query->org_id && !query->org_id->empty())
+	{
+		whereSql += " AND org_id = ?";
+		SQLPARAMS_PUSH(params, "ll", int64_t, std::stoll(query->org_id.getValue("0")));
+	}
+
+	return whereSql;
+}
+
+uint64_t LessonStudentDao::count(const LessonStudentQuery::Wrapper& query)
+{
+	SqlParams params;
+	std::string sql = "SELECT COUNT(1) FROM lesson_student";
+	sql += queryConditionBuilder(query, params);
+	return sqlSession->executeQueryNumerical(sql, params);
+}
+
+list<PtrLessonStudentDO> LessonStudentDao::selectWithPage(const LessonStudentQuery::Wrapper& query)
+{
+	SqlParams params;
+	std::string sql = "SELECT id, lesson_id, class_id, student_id, dec_lesson_count, lesson_count, teacher_id, "
+		"sign_time, sign_type, sign_state, score, evaluation, evaluate_time, evaluate_teacher, "
+		"consume_course_id, consume_student_course_id, counselor, add_time, org_id "
+		"FROM lesson_student";
+	sql += queryConditionBuilder(query, params);
+	sql += " ORDER BY id DESC LIMIT ?, ?";
+
+	uint64_t pageIndex = query && query->pageIndex ? query->pageIndex.getValue(1) : 1;
+	uint64_t pageSize = query && query->pageSize ? query->pageSize.getValue(10) : 10;
+	pageIndex = NormalizePageIndex(pageIndex);
+	pageSize = NormalizePageSize(pageSize);
+	const uint64_t offset = (pageIndex - 1) * pageSize;
+	SQLPARAMS_PUSH(params, "ull", uint64_t, offset);
+	SQLPARAMS_PUSH(params, "ull", uint64_t, pageSize);
+
+	return sqlSession->executeQuery<PtrLessonStudentDO>(sql, LessonStudentMapper(), params);
+}
+
+PtrLessonStudentDO LessonStudentDao::selectById(uint64_t id)
+{
+	const std::string sql =
+		"SELECT id, lesson_id, class_id, student_id, dec_lesson_count, lesson_count, teacher_id, "
+		"sign_time, sign_type, sign_state, score, evaluation, evaluate_time, evaluate_teacher, "
+		"consume_course_id, consume_student_course_id, counselor, add_time, org_id "
+		"FROM lesson_student WHERE id = ? LIMIT 1";
+	return sqlSession->executeQueryOne<PtrLessonStudentDO>(sql, LessonStudentMapper(), "%ull", id);
+}
+
+uint64_t LessonStudentDao::insert(const LessonStudentDO& data)
+{
+	return BaseDAO::insert(data);
+}
+
+uint64_t LessonStudentDao::updateById(const LessonStudentDO& data)
+{
+	return BaseDAO::update(data);
+}
+
+uint64_t LessonStudentDao::deleteById(uint64_t id)
+{
+	const std::string sql = "DELETE FROM lesson_student WHERE id = ?";
+	return sqlSession->executeUpdate(sql, "%ull", id);
+}
+
+uint64_t LessonStudentDao::sumLessonCountByClassAndStudent(uint64_t classId, uint64_t studentId)
+{
+	const std::string sql =
+		"SELECT IFNULL(SUM(ls.lesson_count), 0) "
+		"FROM lesson_student ls "
+		"INNER JOIN lesson l ON l.id = ls.lesson_id "
+		"WHERE l.class_id = ? AND ls.student_id = ? AND l.deleted = 0";
+	return sqlSession->executeQueryNumerical(sql, "%ull%ull", classId, studentId);
+}
+
+list<PtrLessonStudentDO> LessonStudentDao::SelectLessonStudentWithPage(int64_t lessonId, const GetStuListQuery::Wrapper& query)
 {
 	uint64_t page_index = query && query->page_index ? query->page_index.getValue(1) : 1;
 	uint64_t page_size = query && query->page_size ? query->page_size.getValue(10) : 10;
@@ -12,7 +119,10 @@ list<PtrLessonStudentDO> LessonStudentDao::SelectLessonStudentWithPage(int64_t l
 	uint64_t offset = (page_index - 1) * page_size;
 
 	const std::string sql =
-		"SELECT * FROM lesson_student WHERE lesson_id = ? ORDER BY id LIMIT ?, ?";
+		"SELECT id, lesson_id, class_id, student_id, dec_lesson_count, lesson_count, teacher_id, "
+		"sign_time, sign_type, sign_state, score, evaluation, evaluate_time, evaluate_teacher, "
+		"consume_course_id, consume_student_course_id, counselor, add_time, org_id "
+		"FROM lesson_student WHERE lesson_id = ? ORDER BY id LIMIT ?, ?";
 
 	return sqlSession->executeQuery<PtrLessonStudentDO>(sql, LessonStudentMapper(), "%ll%ull%ull", lesson_id, offset, page_size);
 }

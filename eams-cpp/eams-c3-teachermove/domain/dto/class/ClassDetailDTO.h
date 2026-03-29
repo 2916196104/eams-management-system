@@ -14,7 +14,7 @@ class ClassDetailDTO : public oatpp::DTO
 {
 	DTO_INIT(ClassDetailDTO, DTO)
 
-	/** 课程主键 */
+	/** 班级主键 */
 	DTO_FIELD(Int64, classId);
 	/** 班级名 */
 	DTO_FIELD(String, className);

@@ -46,6 +46,9 @@ class:
   org: 组织
   beOver: 是否完结
   detail: 班级详情
+  status:
+    finished: 已结课
+    ongoing: 进行中
   pageindex: 页索引
   pagesize: 页大小
 classStudent:
@@ -137,3 +140,11 @@ lesson:
   course: 科目ID
   state: 状态（1:正常 2:已关闭）
   classId: 适用年级ID
+lessonStudent:
+  field:
+    lesson_id: 课次ID
+    class_id: 班级ID
+    student_id: 学员ID
+    teacher_id: 点名老师ID
+    sign_state: 签到结果
+    org_id: 组织ID

@@ -2,12 +2,22 @@
 
 #include "BaseDAO.h"
 #include "domain/do/lesson/LessonStudentDO.h"
+#include "domain/query/lesson/LessonStudentQuery.h"
 #include "domain/query/timetable/GetStuListQuery.h"
 #include "domain/query/timetable/TimetableQuery.h"
 
 class LessonStudentDao : public BaseDAO
 {
 public:
+	// 通用分页查询
+	uint64_t count(const LessonStudentQuery::Wrapper& query);
+	list<PtrLessonStudentDO> selectWithPage(const LessonStudentQuery::Wrapper& query);
+	PtrLessonStudentDO selectById(uint64_t id);
+	uint64_t insert(const LessonStudentDO& data);
+	uint64_t updateById(const LessonStudentDO& data);
+	uint64_t deleteById(uint64_t id);
+	uint64_t sumLessonCountByClassAndStudent(uint64_t classId, uint64_t studentId);
+
 	// 1) 点名页：按课次分页查 lesson_student
 	list<PtrLessonStudentDO> SelectLessonStudentWithPage(int64_t lesson_id, const GetStuListQuery::Wrapper& query);
 	uint64_t CountLessonStudent(int64_t lesson_id);
@@ -26,6 +36,12 @@ public:
 	int InsertStudentsToLesson(int64_t lesson_id, const std::list<int64_t>& student_ids, int32_t class_id, int64_t teacher_id, int64_t org_id);
 
 private:
-	uint64_t NormalizePageIndex(uint64_t page_index);
-	uint64_t NormalizePageSize(uint64_t page_size);
+	std::string queryConditionBuilder(const LessonStudentQuery::Wrapper& query, SqlParams& params);
+	uint64_t NormalizePageIndex(uint64_t pageIndex);
+	uint64_t NormalizePageSize(uint64_t pageSize);
+	void AppendEvaluationFilters(
+		std::string& sql,
+		SqlParams& params,
+		const EvaluationQuery::Wrapper& query
+	);
 };

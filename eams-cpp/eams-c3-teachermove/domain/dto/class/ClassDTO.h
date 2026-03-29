@@ -44,12 +44,20 @@ class StudentDetailDTO : public oatpp::DTO {
 // 班级DTO
 class ClassDTO : public oatpp::DTO {
 	DTO_INIT(ClassDTO, DTO);
-	API_DTO_FIELD_DEFAULT(String, teacher_id, ZH_WORDS_GETTER("class.teacher"));
-	API_DTO_FIELD_DEFAULT(String, name, ZH_WORDS_GETTER("class.name"));
-	API_DTO_FIELD_DEFAULT(String, course_id, ZH_WORDS_GETTER("class.course"));
-	API_DTO_FIELD_DEFAULT(String, school_id, ZH_WORDS_GETTER("class.school"));
-	API_DTO_FIELD_DEFAULT(String, org_id, ZH_WORDS_GETTER("class.org"));
-	API_DTO_FIELD_DEFAULT(String, be_over, ZH_WORDS_GETTER("class.beOver"));
+	// 班级编号
+	API_DTO_FIELD_DEFAULT(String, classNo, ZH_WORDS_GETTER("class.dto.ClassDTO.classNo"));
+	// 班级名称
+	API_DTO_FIELD_DEFAULT(String, className, ZH_WORDS_GETTER("class.dto.ClassDTO.className"));
+	// 老师名称
+	API_DTO_FIELD_DEFAULT(String, teacherName, ZH_WORDS_GETTER("class.dto.ClassDTO.teacherName"));
+	// 课程名称
+	API_DTO_FIELD_DEFAULT(String, courseName, ZH_WORDS_GETTER("class.dto.ClassDTO.courseName"));
+	// 开始时间
+	API_DTO_FIELD_DEFAULT(String, startTime, ZH_WORDS_GETTER("class.dto.ClassDTO.startTime"));
+	// 结束时间
+	API_DTO_FIELD_DEFAULT(String, endTime, ZH_WORDS_GETTER("class.dto.ClassDTO.endTime"));
+	// 参与人数（已参与/预估人数）
+	API_DTO_FIELD_DEFAULT(String, participantCount, ZH_WORDS_GETTER("class.dto.ClassDTO.participantCount"));
 };
 
 // 班级分页DTO
