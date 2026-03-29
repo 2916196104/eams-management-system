@@ -1,28 +1,25 @@
 #pragma once
-
 #ifndef _STUDENTSERVICE_H_
 #define _STUDENTSERVICE_H_
 
 #include "domain/query/StudentQuery/StudentQuery.h"
 #include "domain/dto/student/StudentDTO.h"
 #include "dao/student/StudentDAO.h"
+#include <cstdint>  // 新增类型头文件
 
 class StudentService
 {
 private:
-	//计算年龄(因为数据库只有birthday)
+	// 计算年龄
 	int calculateAge(const std::string& birthday);
-	//计算性别(因为数据库是tinyint 响应要求是string)
-	std::string convertGender(int genderCode);
-	//计算阶段(因为数据库是tinyint 响应要求是string)
-	std::string convertStage(int stageCode);
+	// 【修改】int -> char，匹配DO的char类型
+	std::string convertGender(char genderCode);
+	// 【修改】int -> char，匹配DO的char类型
+	std::string convertStage(char stageCode);
 
 public:
-	//业务方法，查询学生列表，封装分页DTO
+	// 查询学生列表
 	StudentPageDTO::Wrapper listAll(const StudentQuery::Wrapper& query);
-
-	 
 };
-
 
 #endif
