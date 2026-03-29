@@ -1,5 +1,7 @@
 package com.zeroone.star.j5.courseschedule.controller;
 
+import com.zeroone.star.j5.courseschedule.service.ICasualStudentService;
+import com.zeroone.star.j5.courseschedule.service.IEvaluationService;
 import com.zeroone.star.project.dto.j5.courseschedule.*;
 import com.zeroone.star.project.query.j5.courseschedule.*;
 import com.zeroone.star.project.dto.PageDTO;
@@ -11,15 +13,27 @@ import com.zeroone.star.project.vo.j5.courseschedule.EvaluationVO;
 import com.zeroone.star.project.vo.j5.courseschedule.LessonCalendarVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("j5/courseschedule")
 @Api(tags="课程表")
+@Slf4j
 public class CourseScheduleController implements CourseScheduleApis {
+
+    @Resource
+    IEvaluationService evaluationService;
+
+    @Resource
+    ICasualStudentService casualStudentService;
+
+
 
     @GetMapping("/calendar")
     @ApiOperation("获取课表日历（条件）")
@@ -120,22 +134,27 @@ public class CourseScheduleController implements CourseScheduleApis {
     @Override
     @ApiOperation("添加随课生")
     @PostMapping("/course-student")
-    public JsonVO<Long> saveCourseStudent(@RequestBody CourseStudentDTO courseStudentDTO) {
-        return null;
+    public JsonVO<Long> saveCourseStudent(@Valid @RequestBody CourseStudentDTO courseStudentDTO) {
+        log.info("学生id:{}",courseStudentDTO.getStudentIds());
+        Long resultId = casualStudentService.addCourseStudent(courseStudentDTO);
+        return JsonVO.success(resultId);
     }
 
     @Override
     @GetMapping("/evaluation/list")
     @ApiOperation("获取课后点评列表（条件+分页）")
-    public JsonVO<PageDTO<EvaluationVO>> queryPage(@RequestBody EvaluationQuery condition) {
-        return null;
+    public JsonVO<PageDTO<EvaluationVO>> queryPage(@Valid EvaluationQuery condition) {
+        log.info("获取课后点评列表:{}",condition);
+        PageDTO<EvaluationVO> pageResult = evaluationService.queryPage(condition);
+        return JsonVO.success(pageResult);
     }
 
     @PostMapping("/evaluation")
     @Override
     @ApiOperation("保存点评")
-    public JsonVO<Long> saveEvaluation(@RequestBody EvaluationDTO evaluationDTO) {
-        return null;
+    public JsonVO<Long> saveEvaluation(@Valid @RequestBody EvaluationDTO evaluationDTO) {
+        Long count = evaluationService.saveEvaluation(evaluationDTO);
+        return JsonVO.success(count);
     }
 
 
