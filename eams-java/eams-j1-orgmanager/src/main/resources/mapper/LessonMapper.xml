@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.project.j1.orgmanager.mapper.staff.LessonMapper">
+
+    <resultMap type="com.zeroone.star.project.DO.Lesson" id="LessonMap">
+        <id property="id" column="id" />
+        <result property="title" column="title" />
+        <result property="sn" column="sn" />
+        <result property="courseId" column="course_id" />
+        <result property="scheduleId" column="schedule_id" />
+        <result property="classId" column="class_id" />
+        <result property="roomId" column="room_id" />
+        <result property="date" column="date" />
+        <result property="startTime" column="start_time" />
+        <result property="endTime" column="end_time" />
+        <result property="creator" column="creator" />
+        <result property="editor" column="editor" />
+        <result property="addTime" column="add_time" />
+        <result property="editTime" column="edit_time" />
+        <result property="deleted" column="deleted" />
+        <result property="decCount" column="dec_count" />
+        <result property="remark" column="remark" />
+        <result property="teachType" column="teach_type" />
+        <result property="onTrial" column="on_trial" />
+        <result property="trialResult" column="trial_result" />
+        <result property="state" column="state" />
+        <result property="closeTime" column="close_time" />
+        <result property="closeOperator" column="close_operator" />
+        <result property="teacherId" column="teacher_id" />
+        <result property="bookable" column="bookable" />
+        <result property="schoolId" column="school_id" />
+        <result property="orgId" column="org_id" />
+    </resultMap>
+
+</mapper>

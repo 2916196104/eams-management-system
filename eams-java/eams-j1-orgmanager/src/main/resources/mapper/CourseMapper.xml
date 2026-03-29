@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.project.j1.orgmanager.mapper.staff.CourseMapper">
+
+    <resultMap type="com.zeroone.star.project.DO.Course" id="CourseMap">
+        <id property="id" column="id" />
+        <result property="subjectId" column="subject_id" />
+        <result property="name" column="name" />
+        <result property="state" column="state" />
+        <result property="info" column="info" />
+        <result property="creator" column="creator" />
+        <result property="editor" column="editor" />
+        <result property="addTime" column="add_time" />
+        <result property="editTime" column="edit_time" />
+        <result property="expireMonths" column="expire_months" />
+        <result property="unitPrice" column="unit_price" />
+        <result property="price" column="price" />
+        <result property="unitName" column="unit_name" />
+        <result property="discount" column="discount" />
+        <result property="lessonCount" column="lesson_count" />
+        <result property="lessonType" column="lesson_type" />
+        <result property="description" column="description" />
+        <result property="deleted" column="deleted" />
+        <result property="bookable" column="bookable" />
+        <result property="forSale" column="for_sale" />
+        <result property="recommend" column="recommend" />
+        <result property="cover" column="cover" />
+        <result property="closeDate" column="close_date" />
+        <result property="teacherInfo" column="teacher_info" />
+        <result property="serviceInfo" column="service_info" />
+        <result property="storage" column="storage" />
+        <result property="orgId" column="org_id" />
+        <result property="salary" column="salary" />
+        <result property="gradeIds" column="grade_ids" />
+        <result property="gradeNames" column="grade_names" />
+    </resultMap>
+
+</mapper>
