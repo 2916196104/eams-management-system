@@ -2,7 +2,7 @@
 #include "ClassStudentDAO.h"
 #include "ClassStudentMapper.h"
 
-// 1. ²éÑ¯×ÜÌõÊı (ÓÃÓÚ·ÖÒ³¼ÆËã)
+// 1. æŸ¥è¯¢æ€»æ¡æ•° (ç”¨äºåˆ†é¡µè®¡ç®—)
 uint64_t ClassStudentDAO::count(const StuListQuery::Wrapper& query)
 {
     string sql = "SELECT count(id) FROM class_student ";
@@ -10,26 +10,26 @@ uint64_t ClassStudentDAO::count(const StuListQuery::Wrapper& query)
 
     sql += "WHERE deleted = 0 ";
 
-    // Ö´ĞĞ²éÑ¯²¢·µ»ØÊı×Ö
+    // æ‰§è¡ŒæŸ¥è¯¢å¹¶è¿”å›æ•°å­—
     return sqlSession->executeQueryNumerical(sql, params);
 }
 
-// 2. ·ÖÒ³²éÑ¯ÁĞ±í
+// 2. åˆ†é¡µæŸ¥è¯¢åˆ—è¡¨
 std::list<PtrClassStudentDO> ClassStudentDAO::selectAll(const StuListQuery::Wrapper& query)
 {
     string sql = "SELECT id, class_id, student_id, add_time, creator, reason, deleted, remark, consume_course_id FROM class_student WHERE deleted = 0 ";
     SqlParams params;
 
-    // ·ÖÒ³´¦Àí LIMIT ?,?
+    // åˆ†é¡µå¤„ç† LIMIT ?,?
     sql += "LIMIT ?,?";
     SQLPARAMS_PUSH(params, "ull", uint64_t, (query->pageIndex.getValue(1) - 1) * query->pageSize.getValue(10));
     SQLPARAMS_PUSH(params, "ull", uint64_t, query->pageSize.getValue(10));
 
-    // ´«Èë ClassStudentMapper() ½âÎö·µ»Ø½á¹û¼¯
+    // ä¼ å…¥ ClassStudentMapper() è§£æè¿”å›ç»“æœé›†
     return sqlSession->executeQuery<PtrClassStudentDO>(sql, ClassStudentMapper(), params);
 }
 
-// 3. ¸ù¾İÑ§Ô±ID²é¿Î³Ì¹ØÁª
+// 3. æ ¹æ®å­¦å‘˜IDæŸ¥è¯¾ç¨‹å…³è”
 std::list<PtrClassStudentDO> ClassStudentDAO::selectByStudentId(const std::string& studentId)
 {
     string sql = "SELECT id, class_id, student_id, add_time, creator, reason, deleted, remark, consume_course_id FROM class_student WHERE deleted = 0 AND student_id = ?";
@@ -37,13 +37,13 @@ std::list<PtrClassStudentDO> ClassStudentDAO::selectByStudentId(const std::strin
     return sqlSession->executeQuery<PtrClassStudentDO>(sql, ClassStudentMapper(), "%s", studentId);
 }
 
-// 4. ²åÈëÒ»ÌõĞÂÊı¾İ
+// 4. æ’å…¥ä¸€æ¡æ–°æ•°æ®
 uint64_t ClassStudentDAO::insert(const PtrClassStudentDO& doObj)
 {
     string sql = "INSERT INTO class_student (id, class_id, student_id, add_time, creator, reason, deleted, remark, consume_course_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     SqlParams params;
 
-    // °ó¶¨Ã¿Ò»¸ö×Ö¶Î²ÎÊı
+    // ç»‘å®šæ¯ä¸€ä¸ªå­—æ®µå‚æ•°
     SQLPARAMS_PUSH(params, "ll", int64_t, doObj->getClassId());
     SQLPARAMS_PUSH(params, "ll", int64_t, doObj->getStudentId());
     SQLPARAMS_PUSH(params, "s", std::string, doObj->getAddTime());
