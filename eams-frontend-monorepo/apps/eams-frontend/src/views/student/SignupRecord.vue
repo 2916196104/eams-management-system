@@ -95,15 +95,8 @@
 					</el-button>
 				</div>
 			</div>
-			<!-- 批量操作栏：使用 icon 插槽实现图标与文字对齐 -->
+			<!-- 批量操作栏 -->
 			<div class="batch-actions">
-				<el-button @click="handleBatchSignup">
-					<!-- 使用 #icon 插槽包裹图标，Element Plus 会自动处理图标与文本的间距和对齐 -->
-					<template #icon>
-						<IconifyIconOffline icon="ep/list" width="14" height="14" />
-					</template>
-					批量报名
-				</el-button>
 				<el-button @click="handleBatchDelete">
 					<!-- 使用 #icon 插槽包裹图标，Element Plus 会自动处理图标与文本的间距和对齐 -->
 					<template #icon>
@@ -143,91 +136,8 @@ import { IconifyIconOffline } from "@/components/ReIcon";
 import { useRouter } from "vue-router";
 import MyTable from "@/components/mytable/MyTable.vue";
 import { createPageDTO, type MyTableAttr, type MyTableColumn, type PageDTO } from "@/components/mytable/type";
-import { getSignupRecordPage, getCourseList, batchSignup, batchDelete, exportSignupRecord } from "@/apis/student";
+import { getSignupRecordPage, getCourseList, batchDelete, exportSignupRecord } from "@/apis/student";
 import type { SignupRecordItemDTO, CourseItemDTO, ExportSignupRecordRequest } from "@/apis/student/type";
-
-// 是否使用 Mock 数据（后端未完成时使用）
-
-const USE_MOCK_DATA = true;
-
-// Mock 数据存储（用于支持删除操作）
-const mockDataStore = ref<SignupRecordItemDTO[]>([]);
-
-// 生成 Mock 数据
-function generateMockSignupRecordData(): SignupRecordItemDTO[] {
-	const courses = [
-		{ courseName: "高中数学提高班", subjectName: "数学" },
-		{ courseName: "初中物理冲刺班", subjectName: "物理" },
-		{ courseName: "小学英语基础班", subjectName: "英语" },
-		{ courseName: "高中化学实验班", subjectName: "化学" },
-		{ courseName: "初中语文阅读班", subjectName: "语文" },
-	];
-
-	const students = [
-		{ name: "张三", phone: "13800138001", studentId: "S001" },
-		{ name: "李四", phone: "13800138002", studentId: "S002" },
-		{ name: "王五", phone: "13800138003", studentId: "S003" },
-		{ name: "赵六", phone: "13800138004", studentId: "S004" },
-		{ name: "钱七", phone: "13800138005", studentId: "S005" },
-		{ name: "孙八", phone: "13800138006", studentId: "S006" },
-		{ name: "周九", phone: "13800138007", studentId: "S007" },
-		{ name: "吴十", phone: "13800138008", studentId: "S008" },
-	];
-
-	const operators = ["经办人 A", "经办人 B", "经办人 C"];
-
-	const data: SignupRecordItemDTO[] = [];
-	let id = 1;
-
-	courses.forEach((course) => {
-		// 每个学生报每个课程
-		students.forEach((student) => {
-			// 生成报名时间（过去 90 天内）
-			const addTimeDate = new Date();
-			addTimeDate.setDate(addTimeDate.getDate() - Math.floor(Math.random() * 90));
-			const addTime = addTimeDate.toISOString().replace("T", " ").substring(0, 19);
-
-			// 生成金额（1000-5000 元）
-			const amount = Math.floor(Math.random() * 40) + 10; // 10-50
-			const amountValue = amount * 100;
-
-			// 生成总课时（20-100）
-			const countLessonTotal = Math.floor(Math.random() * 80) + 20;
-			// 已完成课时（0 到总课时之间）
-			const countLessonComplete = Math.floor(Math.random() * (countLessonTotal + 1));
-			// 剩余课次
-			const remainingLessons = countLessonTotal - countLessonComplete;
-
-			// 审核状态（0:待审核，1:已通过，2:已拒绝）
-			const verifyStateRoll = Math.random();
-			let verifyState: number;
-			if (verifyStateRoll < 0.2) {
-				verifyState = 0; // 20% 待审核
-			} else if (verifyStateRoll < 0.85) {
-				verifyState = 1; // 65% 已通过
-			} else {
-				verifyState = 2; // 15% 已拒绝
-			}
-
-			data.push({
-				id: id++,
-				addTime,
-				studentName: student.name,
-				studentId: student.studentId,
-				courseName: course.courseName,
-				subjectName: course.subjectName,
-				operatorName: operators[Math.floor(Math.random() * operators.length)],
-				amount: amountValue,
-				countLessonComplete,
-				countLessonTotal,
-				remainingLessons,
-				verifyState,
-			});
-		});
-	});
-
-	return data;
-}
 
 const filters = reactive({
 	callBackId: undefined,
@@ -477,30 +387,6 @@ function handleSelectionChange(rows: SignupRecordItemDTO[]) {
 	selectedRows.value = rows;
 }
 
-async function handleBatchSignup() {
-	if (selectedRows.value.length === 0) {
-		ElMessage.warning("请先选择要批量报名的记录");
-		return;
-	}
-	try {
-		await ElMessageBox.confirm(`确认批量报名选中的 ${selectedRows.value.length} 条记录吗？`, "批量报名确认", {
-			confirmButtonText: "确定",
-			cancelButtonText: "取消",
-			type: "warning",
-		});
-		const ids = selectedRows.value.map((row) => row.id).filter((id): id is number => id !== undefined);
-		await batchSignup({ ids });
-		ElMessage.success("批量报名成功");
-		loadData();
-	} catch (error) {
-		if (error === "cancel") {
-			return;
-		}
-		console.error("批量报名失败:", error);
-		ElMessage.error("批量报名失败");
-	}
-}
-
 async function handleBatchDelete() {
 	if (selectedRows.value.length === 0) {
 		ElMessage.warning("请先选择要删除的记录");
@@ -517,24 +403,9 @@ async function handleBatchDelete() {
 			},
 		);
 		const ids = selectedRows.value.map((row) => row.id).filter((id): id is number => id !== undefined);
-
-		if (USE_MOCK_DATA) {
-			// Mock 数据模式下，从 Mock 数据存储中删除
-			mockDataStore.value = mockDataStore.value.filter((item) => !ids.includes(item.id!));
-			// 重新加载数据
-			pageData.value = {
-				pageIndex: pageIndex.value,
-				pageSize: pageSize.value,
-				total: mockDataStore.value.length,
-				rows: mockDataStore.value,
-			};
-			ElMessage.success("批量删除成功");
-		} else {
-			// 真实 API 模式下，调用后端接口
-			await batchDelete({ ids });
-			ElMessage.success("批量删除成功");
-			loadData();
-		}
+		await batchDelete({ ids });
+		ElMessage.success("批量删除成功");
+		loadData();
 	} catch (error) {
 		if (error === "cancel") {
 			return;
@@ -559,33 +430,19 @@ async function loadCourseList() {
 // 加载数据
 async function loadData() {
 	try {
-		if (USE_MOCK_DATA) {
-			// 使用 Mock 数据
-			console.log("使用 Mock 数据");
-			const mockData = generateMockSignupRecordData();
-			mockDataStore.value = mockData; // 存储到 Mock 数据存储中
-			pageData.value = {
-				pageIndex: pageIndex.value,
-				pageSize: pageSize.value,
-				total: mockData.length,
-				rows: mockData,
-			};
-		} else {
-			// 使用真实 API
-			const res = await getSignupRecordPage({
-				pageIndex: pageIndex.value,
-				pageSize: pageSize.value,
-				callBackId: filters.callBackId,
-				changeType: filters.changeType,
-				courseName: filters.courseName,
-				endTime: filters.endTime,
-				startTime: filters.startTime,
-				studentName: filters.studentName,
-				operatorName: filters.operatorName,
-			});
-			if (res.data) {
-				pageData.value = res.data;
-			}
+		const res = await getSignupRecordPage({
+			pageIndex: pageIndex.value,
+			pageSize: pageSize.value,
+			callBackId: filters.callBackId,
+			changeType: filters.changeType,
+			courseName: filters.courseName,
+			endTime: filters.endTime,
+			startTime: filters.startTime,
+			studentName: filters.studentName,
+			operatorName: filters.operatorName,
+		});
+		if (res.data) {
+			pageData.value = res.data;
 		}
 	} catch (error) {
 		console.error("加载数据失败:", error);
@@ -645,17 +502,18 @@ onMounted(() => {
 	justify-content: center;
 }
 
-/* 图标容器使用 flex 布局，确保 SVG 居中 */
+/* 图标容器使用 flex 布局，确保 SVG 居中，并添加右边距 */
 .batch-actions .el-button .el-icon {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+	margin-right: 6px;
 }
 
 /* 强制设置 SVG 图标尺寸，并使用 vertical-align 实现垂直居中 */
 .batch-actions .el-button .el-icon svg {
 	width: 14px !important;
-	height: 13px !important;
+	height: 11px !important;
 	vertical-align: middle;
 }
 
