@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { ElMessage } from "element-plus";
 import {
 	changeEmployeeStatus,
 	createEmployee,
@@ -38,7 +39,6 @@ interface EmployeeManageState {
 		batch: boolean;
 		student: boolean;
 	};
-	error: string | null;
 }
 
 export const useEmployeeManageStore = defineStore("employeeManage", {
@@ -60,19 +60,20 @@ export const useEmployeeManageStore = defineStore("employeeManage", {
 			batch: false,
 			student: false,
 		},
-		error: null,
 	}),
 	actions: {
 		async initPage() {
-			this.error = null;
-			await Promise.all([this.fetchOrgTree(), this.fetchEmployeeList(), this.fetchRoleOptions()]);
+			const results = await Promise.allSettled([this.fetchOrgTree(), this.fetchEmployeeList(), this.fetchRoleOptions()]);
+			if (results.some((r) => r.status === "rejected")) {
+				ElMessage.error("加载数据失败");
+			}
 		},
 		async fetchOrgTree() {
 			this.loading.org = true;
 			try {
 				this.orgTree = await queryOrgTree();
-			} catch (e: any) {
-				this.error = e?.message || "获取机构列表失败";
+			} catch (e) {
+				throw e;
 			} finally {
 				this.loading.org = false;
 			}
@@ -89,8 +90,8 @@ export const useEmployeeManageStore = defineStore("employeeManage", {
 				});
 				this.list = list;
 				this.total = total;
-			} catch (e: any) {
-				this.error = e?.message || "获取员工列表失败";
+			} catch (e) {
+				throw e;
 			} finally {
 				this.loading.list = false;
 			}
@@ -135,8 +136,7 @@ export const useEmployeeManageStore = defineStore("employeeManage", {
 				await createEmployee(payload);
 				this.page = 1;
 				await this.fetchEmployeeList();
-			} catch (e: any) {
-				this.error = e?.message || "添加员工失败";
+			} catch (e) {
 				throw e;
 			} finally {
 				this.loading.add = false;
@@ -162,8 +162,8 @@ export const useEmployeeManageStore = defineStore("employeeManage", {
 		async fetchRoleOptions() {
 			try {
 				this.roleOptions = await queryRoleOptions();
-			} catch (e: any) {
-				this.error = e?.message || "获取角色选项失败";
+			} catch (e) {
+				throw e;
 			}
 		},
 		async batchSetRole(ids: string[], roleName: string) {

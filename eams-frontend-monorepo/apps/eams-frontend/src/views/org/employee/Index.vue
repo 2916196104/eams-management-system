@@ -1,8 +1,6 @@
 <template>
 	<!-- start -->
 	<div class="employee-page">
-		<el-alert v-if="store.error" class="error-alert" type="error" :closable="false" :title="store.error" />
-
 		<el-row :gutter="12">
 			<el-col :span="6">
 				<OrgTreePanel :data="store.orgTree" :loading="store.loading.org" :selected-id="store.selectedOrgId" @select="handleSelectOrg" />
@@ -269,25 +267,45 @@ const orgOptions = computed(() => {
 });
 
 async function handleSelectOrg(orgId: string) {
-	await store.setOrgAndQuery(orgId);
+	try {
+		await store.setOrgAndQuery(orgId);
+	} catch {
+		ElMessage.error("加载数据失败");
+	}
 }
 
 async function handleSearch() {
-	await store.setQueryAndSearch({ keyword: keywordModel.value, status: statusModel.value });
+	try {
+		await store.setQueryAndSearch({ keyword: keywordModel.value, status: statusModel.value });
+	} catch {
+		ElMessage.error("加载数据失败");
+	}
 }
 
 async function handleReset() {
 	keywordModel.value = "";
 	statusModel.value = "";
-	await store.setQueryAndSearch({ keyword: "", status: "" });
+	try {
+		await store.setQueryAndSearch({ keyword: "", status: "" });
+	} catch {
+		ElMessage.error("加载数据失败");
+	}
 }
 
 async function handleChangePage(page: number) {
-	await store.setPage(page);
+	try {
+		await store.setPage(page);
+	} catch {
+		ElMessage.error("加载数据失败");
+	}
 }
 
 async function handleChangePageSize(size: number) {
-	await store.setPageSize(size);
+	try {
+		await store.setPageSize(size);
+	} catch {
+		ElMessage.error("加载数据失败");
+	}
 }
 
 async function handleSubmitAdd(payload: EmployeeCreatePayload) {
@@ -330,8 +348,12 @@ function handleConfirmColumns() {
 }
 
 async function handleRefresh() {
-	await store.fetchEmployeeList();
-	ElMessage.success("已刷新");
+	try {
+		await store.fetchEmployeeList();
+		ElMessage.success("已刷新");
+	} catch {
+		ElMessage.error("加载数据失败");
+	}
 }
 
 function handlePrint() {
@@ -418,10 +440,6 @@ async function handleSubmitResetPwd(newPassword: string) {
 <style scoped>
 .employee-page {
 	padding: 0 8px 12px;
-}
-
-.error-alert {
-	margin-bottom: 12px;
 }
 
 .toolbar {

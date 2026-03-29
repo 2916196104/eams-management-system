@@ -1,7 +1,5 @@
 <template>
 	<div class="teaching-statistics-page">
-		<el-alert v-if="store.error" class="error-alert" type="error" :closable="false" :title="store.error" />
-
 		<el-card class="panel-card" shadow="never">
 			<template #header>
 				<div class="panel-header">
@@ -81,21 +79,15 @@ onMounted(async () => {
 });
 
 async function refreshAll() {
-	try {
-		await store.refreshAll();
-	} catch (e) {
-		const err = e as Error;
-		ElMessage.error(err?.message || "查询失败");
-	}
+	await store.refreshAll();
 }
 
 async function handleClassHourRangeChange(payload: { startDate: string; endDate: string }) {
 	store.setClassHourRange(payload);
 	try {
 		await store.fetchClassHourData();
-	} catch (e) {
-		const err = e as Error;
-		ElMessage.error(err?.message || "更新课时统计失败");
+	} catch {
+		ElMessage.error("加载数据失败");
 	}
 }
 
@@ -104,9 +96,8 @@ async function handleScoreRangeChange(payload: { startDate: string; endDate: str
 	try {
 		await store.fetchScoreRankData();
 		sortState.value = { prop: null, order: null };
-	} catch (e) {
-		const err = e as Error;
-		ElMessage.error(err?.message || "更新学评教得分失败");
+	} catch {
+		ElMessage.error("加载数据失败");
 	}
 }
 
@@ -120,10 +111,6 @@ function handleSortChange(payload: { prop?: string; order?: SortOrder | null }) 
 <style scoped>
 .teaching-statistics-page {
 	padding: 0 8px 16px;
-}
-
-.error-alert {
-	margin-bottom: 12px;
 }
 
 .panel-card {

@@ -1,7 +1,5 @@
 <template>
 	<div class="student-statistics-page">
-		<el-alert v-if="store.error" class="error-alert" type="error" :closable="false" :title="store.error" />
-
 		<el-row :gutter="16" class="section-row">
 			<el-col :span="24">
 				<StudentStatisticsFunnelAge
@@ -51,21 +49,15 @@ onMounted(async () => {
 });
 
 async function handleQuery() {
-	try {
-		await store.refreshAll();
-	} catch (e) {
-		const err = e as Error;
-		ElMessage.error(err?.message || "查询失败");
-	}
+	await store.refreshAll();
 }
 
 async function handleLeadRangeChange(payload: { startDate: string; endDate: string }) {
 	store.setLeadRange(payload);
 	try {
 		await store.fetchLeadTrend();
-	} catch (e) {
-		const err = e as Error;
-		ElMessage.error(err?.message || "更新走势失败");
+	} catch {
+		ElMessage.error("加载数据失败");
 	}
 }
 
@@ -73,9 +65,8 @@ async function handleRankRangeChange(payload: { startDate: string; endDate: stri
 	store.setRankRange(payload);
 	try {
 		await store.fetchClassHourRank();
-	} catch (e) {
-		const err = e as Error;
-		ElMessage.error(err?.message || "更新排行失败");
+	} catch {
+		ElMessage.error("加载数据失败");
 	}
 }
 </script>
@@ -83,10 +74,6 @@ async function handleRankRangeChange(payload: { startDate: string; endDate: stri
 <style scoped>
 .student-statistics-page {
 	padding: 0 8px;
-}
-
-.error-alert {
-	margin-bottom: 12px;
 }
 
 .section-row {

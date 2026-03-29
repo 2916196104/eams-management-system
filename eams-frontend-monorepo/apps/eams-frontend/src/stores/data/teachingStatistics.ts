@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { ElMessage } from "element-plus";
 import { queryTeachClassHour, queryTeachScoreRank, type TeachClassHourResult, type TeachScoreRow } from "@/apis/data/teachingStatistics";
 
 type DateRange = { startDate: string; endDate: string };
@@ -29,7 +30,6 @@ interface TeachingStatisticsState {
 		classHour: boolean;
 		scoreRank: boolean;
 	};
-	error: string | null;
 }
 
 function loadStateFromStorage(): Partial<TeachingStatisticsState> {
@@ -60,7 +60,6 @@ export const useTeachingStatisticsStore = defineStore("teachingStatistics", {
 			classHour: false,
 			scoreRank: false,
 		},
-		error: null,
 	}),
 	actions: {
 		initFilters() {
@@ -77,16 +76,19 @@ export const useTeachingStatisticsStore = defineStore("teachingStatistics", {
 			saveStateToStorage({ classHourRange: this.classHourRange, scoreRange: this.scoreRange });
 		},
 		async refreshAll() {
-			this.error = null;
-			await Promise.all([this.fetchClassHourData(), this.fetchScoreRankData()]);
+			try {
+				await Promise.all([this.fetchClassHourData(), this.fetchScoreRankData()]);
+			} catch {
+				ElMessage.error("加载数据失败");
+			}
 		},
 		async fetchClassHourData() {
 			this.loading.classHour = true;
 			try {
 				this.classHourData = await queryTeachClassHour(this.classHourRange);
-			} catch (e: any) {
-				this.error = e?.message || "获取授课统计失败";
+			} catch (e) {
 				this.classHourData = null;
+				throw e;
 			} finally {
 				this.loading.classHour = false;
 			}
@@ -95,9 +97,9 @@ export const useTeachingStatisticsStore = defineStore("teachingStatistics", {
 			this.loading.scoreRank = true;
 			try {
 				this.scoreRankData = await queryTeachScoreRank(this.scoreRange);
-			} catch (e: any) {
-				this.error = e?.message || "获取学评教得分失败";
+			} catch (e) {
 				this.scoreRankData = [];
+				throw e;
 			} finally {
 				this.loading.scoreRank = false;
 			}

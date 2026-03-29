@@ -224,8 +224,8 @@ async function openEdit(row: OrgTreeRow) {
 		const d = await store.loadDetail(row.orgId);
 		formModel.value = mapDetailToForm(d, row);
 		editVisible.value = true;
-	} catch (e: unknown) {
-		ElMessage.error(toZhUserMessage(e, "获取机构详情失败"));
+	} catch {
+		ElMessage.error("加载数据失败");
 	}
 }
 
@@ -235,8 +235,8 @@ async function handleView(row: OrgTreeRow) {
 	viewVisible.value = true;
 	try {
 		viewDetail.value = (await store.loadDetail(row.orgId)) ?? null;
-	} catch (e: unknown) {
-		ElMessage.error(toZhUserMessage(e, "获取机构详情失败"));
+	} catch {
+		ElMessage.error("加载数据失败");
 		viewVisible.value = false;
 	}
 }

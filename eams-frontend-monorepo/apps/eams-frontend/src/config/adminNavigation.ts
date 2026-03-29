@@ -251,6 +251,16 @@ export const ADMIN_NAVIGATION: AdminNavSection[] = [
 				path: "/statis/saleStatis",
 				matchPaths: ["/statis/sale-stats"],
 			},
+			{
+				id: "data-student-statistics",
+				text: "学员统计",
+				path: "/data/student-statistics",
+			},
+			{
+				id: "data-teaching-statistics",
+				text: "授课统计",
+				path: "/data/teaching-statistics",
+			},
 		],
 	},
 	{
@@ -261,12 +271,19 @@ export const ADMIN_NAVIGATION: AdminNavSection[] = [
 			{
 				id: "organization-staff",
 				text: "员工管理",
-				path: "/org/staff-management",
+				path: "/org/employee-manage",
+				matchPaths: ["/org/staff-management"],
 			},
 			{
-				id: "organization-branch",
+				id: "organization-org",
 				text: "机构管理",
-				path: "/org/branch-management",
+				path: "/org/org-manage",
+				matchPaths: ["/org/branch-management"],
+			},
+			{
+				id: "organization-position",
+				text: "职位管理",
+				path: "/teacher/position",
 			},
 		],
 	},

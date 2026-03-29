@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { ElMessage } from "element-plus";
 import { queryClassHourRank, queryLeadTrend, queryStudentAgeComposition, queryStudentFunnelByMonth } from "@/apis/data/studentStatistics";
 import type { FunnelSeriesItem } from "@/components/mychart/FunnelChart.vue";
 import type { ClassHourRankResult, LeadTrendResult, ScorePieItem } from "@/apis/data/studentStatistics";
@@ -43,7 +44,6 @@ interface StudentStatisticsState {
 		leadTrend: boolean;
 		classHourRank: boolean;
 	};
-	error: string | null;
 }
 
 function loadStateFromStorage(): Partial<StudentStatisticsState> {
@@ -81,7 +81,6 @@ export const useStudentStatisticsStore = defineStore("studentStatistics", {
 			leadTrend: false,
 			classHourRank: false,
 		},
-		error: null,
 	}),
 	actions: {
 		initFilters() {
@@ -103,16 +102,17 @@ export const useStudentStatisticsStore = defineStore("studentStatistics", {
 			saveStateToStorage({ month: this.month, leadRange: this.leadRange, rankRange: this.rankRange });
 		},
 		async refreshAll() {
-			this.error = null;
-			await Promise.all([this.fetchFunnelStages(), this.fetchScorePieData(), this.fetchLeadTrend(), this.fetchClassHourRank()]);
+			try {
+				await Promise.all([this.fetchFunnelStages(), this.fetchScorePieData(), this.fetchLeadTrend(), this.fetchClassHourRank()]);
+			} catch {
+				ElMessage.error("加载数据失败");
+			}
 		},
 		async fetchFunnelStages() {
 			this.loading.funnel = true;
 			try {
 				const data = await queryStudentFunnelByMonth({ month: this.month });
 				this.funnelStages = data;
-			} catch (e: any) {
-				this.error = e?.message || "获取漏斗图数据失败";
 			} finally {
 				this.loading.funnel = false;
 			}
@@ -120,11 +120,8 @@ export const useStudentStatisticsStore = defineStore("studentStatistics", {
 		async fetchScorePieData() {
 			this.loading.age = true;
 			try {
-				// Apifox 已发布的是“年龄构成”，先用真实接口保证页面不是静态数据
 				const data = await queryStudentAgeComposition();
 				this.scorePieData = data.map((i) => ({ name: i.age, value: i.count })) as ScorePieItem[];
-			} catch (e: any) {
-				this.error = e?.message || "获取构成数据失败";
 			} finally {
 				this.loading.age = false;
 			}
@@ -134,8 +131,6 @@ export const useStudentStatisticsStore = defineStore("studentStatistics", {
 			try {
 				const data = await queryLeadTrend({ startDate: this.leadRange.startDate, endDate: this.leadRange.endDate });
 				this.leadTrend = data;
-			} catch (e: any) {
-				this.error = e?.message || "获取走势数据失败";
 			} finally {
 				this.loading.leadTrend = false;
 			}
@@ -145,8 +140,6 @@ export const useStudentStatisticsStore = defineStore("studentStatistics", {
 			try {
 				const data = await queryClassHourRank({ startDate: this.rankRange.startDate, endDate: this.rankRange.endDate, top: 20 });
 				this.classHourRank = data;
-			} catch (e: any) {
-				this.error = e?.message || "获取课时排行数据失败";
 			} finally {
 				this.loading.classHourRank = false;
 			}

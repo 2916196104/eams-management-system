@@ -30,9 +30,8 @@ export const usePositionManageStore = defineStore("positionManage", {
 				});
 				this.list = res.rows;
 				this.total = res.total;
-			} catch (e) {
-				const err = e as Error;
-				ElMessage.error(err.message || "获取职位列表失败");
+			} catch {
+				ElMessage.error("加载数据失败");
 			} finally {
 				this.loading = false;
 			}

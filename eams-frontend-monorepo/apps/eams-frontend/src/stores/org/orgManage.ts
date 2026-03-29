@@ -11,7 +11,6 @@ import {
 	type OrgSavePayload,
 	type OrgTreeRow,
 } from "@/apis/org/orgManage";
-import { toZhUserMessage } from "@/utils/apiError";
 
 interface OrgManageState {
 	tree: OrgTreeRow[];
@@ -41,8 +40,8 @@ export const useOrgManageStore = defineStore("orgManage", {
 			try {
 				const flat = await queryOrgList(this.listQuery);
 				this.tree = buildOrgTreeFromList(flat);
-			} catch (e: unknown) {
-				ElMessage.error(toZhUserMessage(e, "获取机构列表失败"));
+			} catch {
+				ElMessage.error("加载数据失败");
 			} finally {
 				this.loading = false;
 			}
