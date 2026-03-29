@@ -80,7 +80,7 @@ std::list<ClassStudentBaseInfo> ClassStudentDAO::selectStudentBaseWithPage(uint6
 // 4. 插入一条新数据
 uint64_t ClassStudentDAO::insert(const PtrClassStudentDO& doObj)
 {
-    string sql = "INSERT INTO class_student (class_id, student_id, add_time, creator, reason, deleted, remark, consume_course_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    string sql = "INSERT INTO class_student (id, class_id, student_id, add_time, creator, reason, deleted, remark, consume_course_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     SqlParams params;
 
     // 绑定每一个字段参数

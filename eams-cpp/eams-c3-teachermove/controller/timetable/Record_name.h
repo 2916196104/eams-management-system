@@ -39,9 +39,9 @@ public:		//定义接口
 		getDetailCS,
 		QUERIES(QueryParams, queryParams),
 		API_HANDLER_QUERY_PARAM(query, GetDetailCSQuery, queryParams);
-		auto vo = execGetDetailCS(query);
-		API_HANDLER_RESP_VO(vo);
-	);
+	auto vo = execGetDetailCS(query);
+	API_HANDLER_RESP_VO(vo);
+		);
 
 	API_DEF_ENDPOINT_INFO_AUTH(
 		ZH_WORDS_GETTER("api.get-cs-stu-list.title"),
@@ -49,8 +49,8 @@ public:		//定义接口
 		GetStuListJsonVO::Wrapper,
 		API_TAG,
 		API_DEF_ADD_QUERY_PARAMS(UInt64, "page_index", ZH_WORDS_GETTER("api.get-cs-stu-list.param.page-index"), 1, false);
-		API_DEF_ADD_QUERY_PARAMS(UInt64, "page_size", ZH_WORDS_GETTER("api.get-cs-stu-list.param.page-size"), 10, false);
-	);
+	API_DEF_ADD_QUERY_PARAMS(UInt64, "page_size", ZH_WORDS_GETTER("api.get-cs-stu-list.param.page-size"), 10, false);
+		);
 
 	API_HANDLER_ENDPOINT_OPTION_AUTH(
 		API_M_GET,
@@ -58,14 +58,14 @@ public:		//定义接口
 		getCSStuList,
 		QUERIES(QueryParams, queryParams),
 		API_HANDLER_QUERY_PARAM(query, GetStuListQuery, queryParams);
-		auto vo = execGetStuList(query);
-		API_HANDLER_RESP_VO(vo);
-	);
+	auto vo = execGetStuList(query);
+	API_HANDLER_RESP_VO(vo);
+		);
 	// 1. 设置上课状态 接口的定义
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("set_status.title"), modifyStatus, SetStudyStatusRspJsonVO::Wrapper, API_TAG);
 	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "course/record-name/set-status", modifyStatus, BODY_DTO(SetStudyStatusDTO::Wrapper, dto), updateModifyStatus(dto, authObject->getPayload()));
 
-    // Define endpoints
+	// Define endpoints
 	// Endpoint 1: Get student list (with conditions + pagination) - GetStuList
 
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(

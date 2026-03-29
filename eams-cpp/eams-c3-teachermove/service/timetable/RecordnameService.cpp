@@ -234,7 +234,7 @@ StringJsonVO::Wrapper RecordnameService::insertStudentToCourse(const AddStudentT
 
 	if (dto && dto->studentIds)
 	{
-		// 生成数据库可接受的 datetime 字符串，避免空串导致插入失败。
+		// �������ݿ�ɽ��ܵ� datetime �ַ���������մ����²���ʧ�ܡ�
 		std::time_t t = std::time(nullptr);
 		std::tm tmNow;
 #ifdef _WIN32
@@ -265,7 +265,7 @@ StringJsonVO::Wrapper RecordnameService::insertStudentToCourse(const AddStudentT
 				continue;
 			}
 
-			// class_student 上存在(class_id, student_id)唯一约束，先在 service 层判重。
+			// class_student �ϴ���(class_id, student_id)ΨһԼ�������� service �����ء�
 			bool exists = false;
 			auto boundRows = dao.selectByStudentId(std::to_string(studentId));
 			for (const auto& row : boundRows)
@@ -362,7 +362,7 @@ ListJsonVO<TimetableStudentCourseDTO::Wrapper>::Wrapper RecordnameService::getSt
 		item->course_id = std::to_string(one->getConsumeCourseId());
 		item->rest_hour = static_cast<v_int32>(0);
 
-		// 优先尝试按 consume_course_id 读取课次；失败则按 class_id 读取该班最近课次。
+		// ���ȳ��԰� consume_course_id ��ȡ�δΣ�ʧ���� class_id ��ȡ�ð�����δΡ�
 		PtrLessonDO lesson = nullptr;
 		if (one->getConsumeCourseId() > 0)
 		{
