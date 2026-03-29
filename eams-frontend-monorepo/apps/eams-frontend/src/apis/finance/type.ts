@@ -17,6 +17,7 @@ export interface MonthlyClassFeeRow {
 	assistantFeeSubtotal: number;
 	classCount: number;
 	classFeeSubtotal: number;
+	id?: number | string;
 	month: string;
 	singleAssistantFee: number;
 	singleClassFee: number;
@@ -28,6 +29,7 @@ export interface CourseRewardRow {
 	courseName: string;
 	feePerClass: number;
 	feeSubtotal: number;
+	id?: number | string;
 	month: string;
 	studentName: string;
 	teacherName: string;

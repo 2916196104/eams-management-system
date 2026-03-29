@@ -73,7 +73,8 @@
 				layout="sizes, prev, pager, next, total"
 				hide-on-single-page
 				:size="reltabattr.psize"
-				:page-sizes="[10, 20, 50]"
+				:page-size="tabdata.pageSize"
+				:page-sizes="pageSizeOptions"
 				:total="tabdata.total"
 				:current-page="tabdata.pageIndex"
 				@size-change="handlePageSizeChange"
@@ -168,6 +169,17 @@ const tabopercolumnattr = computed<MyTableOperationsColumn>(() => {
 		}
 	}
 	return defaultCol;
+});
+
+/**
+ * 分页器每页条数选项。
+ * 当外部传入了更小的 pageSize 时，也一并展示出来，保证分页器和业务页默认值一致。
+ */
+const pageSizeOptions = computed(() => {
+	const defaultOptions = [10, 20, 50];
+	const currentPageSize = props.tabdata?.pageSize;
+	if (!currentPageSize || defaultOptions.includes(currentPageSize)) return defaultOptions;
+	return [currentPageSize, ...defaultOptions];
 });
 
 /**
