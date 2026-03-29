@@ -1,33 +1,48 @@
 <template>
 	<div class="page">
 		<el-card shadow="never" class="main-card">
-			<div class="topbar">
-				<div class="filters">
+			<!-- 第一行：搜名称 + 右侧合并「查询 / 重置」 -->
+			<div class="toolbar-row toolbar-row-search">
+				<div class="toolbar-left">
 					<span class="label">搜名称:</span>
-					<el-input v-model="keyword" class="keyword" placeholder="请输入" clearable @keyup.enter="handleSearch" @clear="handleSearch" />
+					<el-input
+						v-model="keyword"
+						class="keyword-input"
+						placeholder="请输入"
+						clearable
+						@keyup.enter="handleSearch"
+						@clear="handleSearch"
+					/>
 				</div>
-				<div class="icons">
-					<el-tooltip content="查询" placement="top">
-						<el-button :icon="Search" circle @click="handleSearch" />
-					</el-tooltip>
-					<el-tooltip content="重置" placement="top">
-						<el-button :icon="Refresh" circle @click="handleReset" />
-					</el-tooltip>
-					<el-tooltip content="刷新" placement="top">
-						<el-button :icon="RefreshRight" circle @click="store.refresh" />
-					</el-tooltip>
-					<el-tooltip content="打印" placement="top">
-						<el-button :icon="Printer" circle @click="handlePrint" />
-					</el-tooltip>
-					<el-tooltip content="自定义列" placement="top">
-						<el-button :icon="Grid" circle @click="handleColumnConfig" />
-					</el-tooltip>
+				<div class="toolbar-right">
+					<el-button-group class="search-btn-group">
+						<el-tooltip content="查询" placement="top">
+							<el-button class="search-seg-btn" :icon="Search" @click="handleSearch" />
+						</el-tooltip>
+						<el-tooltip content="重置" placement="top">
+							<el-button class="search-seg-btn" :icon="CircleClose" @click="handleReset" />
+						</el-tooltip>
+					</el-button-group>
 				</div>
 			</div>
 
-			<div class="actions">
-				<el-button type="primary" :icon="Plus" @click="openAdd">新增</el-button>
-				<el-button :disabled="!selectedIds.length" :icon="Delete" @click="handleBatchDelete">删除</el-button>
+			<!-- 第二行：左侧新增/删除，右侧刷新/打印/列设置 -->
+			<div class="toolbar-row toolbar-row-actions">
+				<div class="toolbar-left actions-primary">
+					<el-button type="primary" :icon="Plus" @click="openAdd">新增</el-button>
+					<el-button :disabled="!selectedIds.length" :icon="Delete" @click="handleBatchDelete">删除</el-button>
+				</div>
+				<div class="toolbar-right utility-icons">
+					<el-tooltip content="刷新" placement="top">
+						<el-button text type="primary" class="utility-icon-btn" :icon="RefreshRight" @click="store.refresh" />
+					</el-tooltip>
+					<el-tooltip content="打印" placement="top">
+						<el-button text type="primary" class="utility-icon-btn" :icon="Printer" @click="handlePrint" />
+					</el-tooltip>
+					<el-tooltip content="自定义列" placement="top">
+						<el-button text type="primary" class="utility-icon-btn" :icon="Grid" @click="handleColumnConfig" />
+					</el-tooltip>
+				</div>
 			</div>
 
 			<el-table
@@ -155,7 +170,7 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from "vue";
 import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from "element-plus";
-import { Delete, Grid, Plus, Printer, Refresh, RefreshRight, Search } from "@element-plus/icons-vue";
+import { CircleClose, Delete, Grid, Plus, Printer, RefreshRight, Search } from "@element-plus/icons-vue";
 import { usePositionManageStore } from "@/stores/org/positionManage";
 import type { PositionPermissionRow, PositionRow } from "@/apis/org/positionManage";
 
@@ -341,34 +356,61 @@ async function handlePermBatchDelete() {
 .main-card {
 	border-radius: 6px;
 }
-.topbar {
+.toolbar-row {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 12px;
+	gap: 16px;
+}
+.toolbar-row-search {
 	margin-bottom: 12px;
 }
-.filters {
+.toolbar-row-actions {
+	margin-bottom: 12px;
+}
+.toolbar-left {
 	display: flex;
 	align-items: center;
 	gap: 10px;
+	flex-wrap: wrap;
+}
+.toolbar-right {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	flex-shrink: 0;
 }
 .label {
 	color: #606266;
+	white-space: nowrap;
 }
-.keyword {
+.keyword-input {
 	width: 260px;
+	max-width: 100%;
 }
-.icons {
-	display: flex;
-	align-items: center;
-	gap: 8px;
+.search-btn-group {
+	border-radius: 4px;
+	overflow: hidden;
 }
-.actions {
-	display: flex;
-	align-items: center;
+.search-btn-group .search-seg-btn {
+	margin: 0;
+	padding: 8px 12px;
+	border-color: var(--el-border-color);
+	color: var(--el-text-color-secondary);
+}
+.search-btn-group .search-seg-btn:hover {
+	color: var(--el-color-primary);
+	border-color: var(--el-color-primary-light-5);
+}
+.actions-primary {
 	gap: 10px;
-	margin-bottom: 12px;
+}
+.utility-icons {
+	gap: 4px;
+}
+.utility-icon-btn {
+	font-size: 18px;
+	padding: 8px;
 }
 .pager {
 	display: flex;
