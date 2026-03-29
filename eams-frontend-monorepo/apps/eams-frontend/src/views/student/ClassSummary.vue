@@ -102,6 +102,72 @@ import { createPageDTO, type MyTableAttr, type MyTableColumn, type PageDTO } fro
 import { getClassSummaryPage } from "@/apis/student";
 import type { ClassSummaryItemDTO } from "@/apis/student/type";
 
+// 是否使用 Mock 数据（后端未完成时使用）
+const USE_MOCK_DATA = true;
+
+// 生成 Mock 数据
+function generateMockClassSummaryData(): ClassSummaryItemDTO[] {
+	const courses = [
+		{ courseName: "高中数学提高班", subjectName: "数学" },
+		{ courseName: "初中物理冲刺班", subjectName: "物理" },
+		{ courseName: "小学英语基础班", subjectName: "英语" },
+		{ courseName: "高中化学实验班", subjectName: "化学" },
+		{ courseName: "初中语文阅读班", subjectName: "语文" },
+	];
+
+	const students = [
+		{ name: "张三", phone: "13800138001", studentId: "S001" },
+		{ name: "李四", phone: "13800138002", studentId: "S002" },
+		{ name: "王五", phone: "13800138003", studentId: "S003" },
+		{ name: "赵六", phone: "13800138004", studentId: "S004" },
+		{ name: "钱七", phone: "13800138005", studentId: "S005" },
+	];
+
+	const data: ClassSummaryItemDTO[] = [];
+	let id = 1;
+
+	courses.forEach((course) => {
+		students.forEach((student) => {
+			const totalCount = Math.floor(Math.random() * 40) + 20;
+			const completeCount = Math.floor(Math.random() * totalCount);
+			const remainingCount = totalCount - completeCount;
+			const unitPrice = Math.floor(Math.random() * 200) + 100;
+			const remainingAmount = remainingCount * unitPrice;
+
+			// 生成过期日期（部分过期，部分未过期）
+			let expireDate: string | null;
+			if (Math.random() > 0.3) {
+				// 未来日期
+				const date = new Date();
+				date.setDate(date.getDate() + Math.floor(Math.random() * 90) + 1);
+				expireDate = date.toISOString().split("T")[0];
+			} else {
+				// 过去日期（已过期）
+				const date = new Date();
+				date.setDate(date.getDate() - Math.floor(Math.random() * 30) - 1);
+				expireDate = date.toISOString().split("T")[0];
+			}
+
+			data.push({
+				id: id++,
+				courseName: course.courseName,
+				subjectName: course.subjectName,
+				totalCount,
+				completeCount,
+				remainingCount,
+				remainingAmount,
+				unitPrice,
+				expireDate,
+				studentName: student.name,
+				studentPhone: student.phone,
+				studentId: student.studentId,
+			});
+		});
+	});
+
+	return data;
+}
+
 const filters = reactive({
 	advisorId: "",
 	name: "",
@@ -303,21 +369,34 @@ function handleSelectionChange(rows: ClassSummaryItemDTO[]) {
 // 加载数据
 async function loadData() {
 	try {
-		const res = await getClassSummaryPage({
-			pageIndex: pageIndex.value,
-			pageSize: pageSize.value,
-			advisorId: filters.advisorId,
-			name: filters.name,
-			courseName: filters.courseName,
-			phone: filters.phone,
-			status: filters.status,
-			studentId: filters.studentId,
-		});
-		console.log("API 返回数据:", res);
-		if (res.data) {
-			console.log("res.data:", res.data);
-			console.log("res.data.rows:", res.data.rows);
-			pageData.value = res.data;
+		if (USE_MOCK_DATA) {
+			// 使用 Mock 数据
+			console.log("使用 Mock 数据");
+			const mockData = generateMockClassSummaryData();
+			pageData.value = {
+				pageIndex: pageIndex.value,
+				pageSize: pageSize.value,
+				total: mockData.length,
+				rows: mockData,
+			};
+		} else {
+			// 使用真实 API
+			const res = await getClassSummaryPage({
+				pageIndex: pageIndex.value,
+				pageSize: pageSize.value,
+				advisorId: filters.advisorId,
+				name: filters.name,
+				courseName: filters.courseName,
+				phone: filters.phone,
+				status: filters.status,
+				studentId: filters.studentId,
+			});
+			console.log("API 返回数据:", res);
+			if (res.data) {
+				console.log("res.data:", res.data);
+				console.log("res.data.rows:", res.data.rows);
+				pageData.value = res.data;
+			}
 		}
 	} catch (error) {
 		console.error("加载数据失败:", error);
