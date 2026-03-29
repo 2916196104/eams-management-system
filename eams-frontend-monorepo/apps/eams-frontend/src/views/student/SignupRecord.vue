@@ -134,10 +134,16 @@ import { computed, onMounted, reactive, ref } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { IconifyIconOffline } from "@/components/ReIcon";
 import { useRouter } from "vue-router";
+import * as XLSX from "xlsx";
 import MyTable from "@/components/mytable/MyTable.vue";
 import { createPageDTO, type MyTableAttr, type MyTableColumn, type PageDTO } from "@/components/mytable/type";
-import { getSignupRecordPage, getCourseList, batchDelete, exportSignupRecord } from "@/apis/student";
-import type { SignupRecordItemDTO, CourseItemDTO, ExportSignupRecordRequest } from "@/apis/student/type";
+import { getSignupRecordPage, getCourseList, batchDelete } from "@/apis/student";
+import type { SignupRecordItemDTO, CourseItemDTO } from "@/apis/student/type";
+import {
+	buildSignupRecordExportFilename,
+	buildSignupRecordExportRows,
+	getSignupRecordExportColumns,
+} from "./signup-record-export";
 
 const filters = reactive({
 	callBackId: undefined,
@@ -182,8 +188,6 @@ const pageSize = ref(20);
 const pageData = ref(createPageDTO<SignupRecordItemDTO>());
 const selectedRows = ref<SignupRecordItemDTO[]>([]);
 const exporting = ref(false);
-
-// 自定义列状态管理
 const columnPopoverVisible = ref(false);
 const defaultColumns = {
 	addTime: true,
@@ -347,27 +351,38 @@ function handlePrint() {
 	win.print();
 }
 
-async function handleExport() {
+function handleExport() {
+	const visibleCols = getSignupRecordExportColumns(baseTableColumns, visibleColumns);
+	if (!visibleCols.length) {
+		ElMessage.warning("没有可导出的列");
+		return;
+	}
+
+	const rowsToExport = selectedRows.value.length ? selectedRows.value : pageData.value.rows || [];
+	if (!rowsToExport.length) {
+		ElMessage.warning("没有可导出的数据");
+		return;
+	}
+
 	exporting.value = true;
 	try {
-		const params: ExportSignupRecordRequest = {
-			studentName: filters.studentName,
-			startTime: filters.startTime,
-			endTime: filters.endTime,
-			courseName: filters.courseName,
-			operatorName: filters.operatorName,
-		};
-		const res = await exportSignupRecord(params);
+		const exportRows = buildSignupRecordExportRows(rowsToExport, visibleCols);
+		const worksheet = XLSX.utils.json_to_sheet(exportRows);
+		const workbook = XLSX.utils.book_new();
 
-		// 创建下载链接
-		const blob = new Blob([res.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-		const url = window.URL.createObjectURL(blob);
-		const link = document.createElement("a");
-		link.href = url;
-		link.download = `报名记录_${new Date().getTime()}.xlsx`;
-		link.click();
-		window.URL.revokeObjectURL(url);
+		// 计算列宽
+		const columnWidths = visibleCols.map((column) => {
+			const headerText = String(column.label || column.prop || "");
+			const maxContentLength = exportRows.reduce((max, row) => {
+				const cellText = row[headerText] || "";
+				return Math.max(max, cellText.length);
+			}, headerText.length);
+			return { wch: Math.min(Math.max(maxContentLength + 2, 10), 40) };
+		});
 
+		worksheet["!cols"] = columnWidths;
+		XLSX.utils.book_append_sheet(workbook, worksheet, "报名记录");
+		XLSX.writeFile(workbook, buildSignupRecordExportFilename());
 		ElMessage.success("导出成功");
 	} catch (error) {
 		console.error("导出失败:", error);
