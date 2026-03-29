@@ -11,6 +11,7 @@ import com.zeroone.star.project.vo.j4.academic.ClassroomVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -46,10 +47,17 @@ public class ClassroomController implements ClassroomApis {
     @GetMapping("/list")
     @ApiOperation("获取教室列表（条件+分页）")
     public JsonVO<PageDTO<ClassroomVO>> queryClassroom(
-            @RequestParam(value = "pageIndex", defaultValue = "1") @Min(value = 1, message = "页码最小值为1") Long pageIndex,
-            @RequestParam(value = "pageSize", defaultValue = "30") @Min(value = 1, message = "每页条数最小值为1") Long pageSize,
-            @RequestParam(value = "name", defaultValue = "") String name)
- {
+            @ApiParam(value = "页码", required = true, example = "1")
+            @RequestParam("pageIndex")
+            @Min(value = 1, message = "页码最小值为1") Long pageIndex,
+
+            @ApiParam(value = "每页条数", required = true, example = "30")
+            @RequestParam("pageSize")
+            @Min(value = 1, message = "每页条数最小值为1") Long pageSize,
+
+            @ApiParam(value = "教室名称", example = "教学楼")
+            @RequestParam(value = "name", defaultValue = "") String name) {
+
         ClassroomQuery query = new ClassroomQuery();
         query.setPageIndex(pageIndex);
         query.setPageSize(pageSize);
@@ -64,6 +72,7 @@ public class ClassroomController implements ClassroomApis {
         result.setRows(list.getRecords());
         return JsonVO.success(result);
     }
+
 
     /**
      * 获取教室详情
