@@ -39,7 +39,6 @@
         <module>eams-doc</module>
         <module>eams-j1-console</module>
         <module>eams-j1-orgmanager</module>
-        <module>eams-j1-staff</module>
     </modules>
     <properties>
         <!-- 项目版本号 -->

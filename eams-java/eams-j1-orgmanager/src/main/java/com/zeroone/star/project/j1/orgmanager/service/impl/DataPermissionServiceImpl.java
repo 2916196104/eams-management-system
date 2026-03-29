@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zeroone.star.project.DO.PositionDataPermissionDO;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j1.org.PositionDataPermissionDTO;
-import com.zeroone.star.project.j1.orgmanager.mapper.DataPermissionMapper;
+import com.zeroone.star.project.j1.orgmanager.mapper.position.DataPermissionMapper;
 import com.zeroone.star.project.j1.orgmanager.mapstruct.DataPermissionConvert;
 import com.zeroone.star.project.j1.orgmanager.service.DataPermissionService;
 import com.zeroone.star.project.query.j1.org.PositionDataPermissionQuery;

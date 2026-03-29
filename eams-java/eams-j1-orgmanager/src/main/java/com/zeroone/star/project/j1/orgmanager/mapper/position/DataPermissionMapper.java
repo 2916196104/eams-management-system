@@ -1,4 +1,4 @@
-package com.zeroone.star.project.j1.orgmanager.mapper;
+package com.zeroone.star.project.j1.orgmanager.mapper.position;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zeroone.star.project.DO.PositionDataPermissionDO;

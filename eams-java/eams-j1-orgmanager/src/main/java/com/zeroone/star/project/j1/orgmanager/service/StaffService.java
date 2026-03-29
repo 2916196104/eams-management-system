@@ -1,8 +1,7 @@
-package com.zeroone.star.project.j1.org.staff.service;
+package com.zeroone.star.project.j1.orgmanager.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zeroone.star.project.DO.Staff;
-import com.zeroone.star.project.dto.ExtendPageDTO;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j1.org.*;
 import com.zeroone.star.project.query.j1.org.ClassRecordQuery;

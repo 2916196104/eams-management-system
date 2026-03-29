@@ -16,8 +16,8 @@ import org.springframework.context.annotation.FilterType;
 @ComponentScan(
         basePackages = {
                 "com.zeroone.star.project",
-                "com.zeroone.star.org.controller",
-                "com.zeroone.star.org.service",
+                "com.zeroone.star.project.j1.orgmanager.controller",
+                "com.zeroone.star.project.j1.orgmanager.service",
                 "com.zeroone.star.project.j1.orgmanager.mapstruct"
         },
         excludeFilters = @ComponentScan.Filter(

@@ -1,4 +1,4 @@
-package com.zeroone.star.project.j1.org.staff.mapper;
+package com.zeroone.star.project.j1.orgmanager.mapper.staff;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zeroone.star.project.DO.Course;

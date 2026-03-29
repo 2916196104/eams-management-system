@@ -1,29 +1,25 @@
-package com.zeroone.star.project.j1.org.staff.controller;
+package com.zeroone.star.project.j1.orgmanager.controller;
 
-import com.zeroone.star.project.dto.ExtendPageDTO;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j1.org.*;
 import com.zeroone.star.project.j1.org.staff.StaffMangerApis;
-import com.zeroone.star.project.j1.org.staff.service.StaffService;
+import com.zeroone.star.project.j1.orgmanager.service.StaffService;
+import com.zeroone.star.project.query.j1.org.ClassRecordQuery;
 import com.zeroone.star.project.query.j1.org.LessonRecordQuery;
 import com.zeroone.star.project.query.j1.org.StaffDetailQuery;
 import com.zeroone.star.project.query.j1.org.StaffQuery;
-import com.zeroone.star.project.query.j1.org.ClassRecordQuery;
-//import com.zeroone.star.project.query.j1.org.TeachRecordQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.ResultStatus;
+import com.zeroone.star.project.vo.j1.org.ClassRecordVO;
 import com.zeroone.star.project.vo.j1.org.LessonRecordVO;
 import com.zeroone.star.project.vo.j1.org.StaffDetailsVO;
 import com.zeroone.star.project.vo.j1.org.StaffVO;
-import com.zeroone.star.project.vo.j1.org.ClassRecordVO;
-//import com.zeroone.star.project.vo.j1.org.TeachRecordVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-//import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
