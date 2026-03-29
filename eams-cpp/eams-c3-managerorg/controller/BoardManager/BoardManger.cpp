@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "BoardManager.h"
+#include "service/BoardManager/BoardManagerService.h"
 
 StringJsonVO::Wrapper BoardManager::executeAddBoard(const BoardAddDTO::Wrapper& dto, const PayloadDTO& payload)
 {
-	/*
+	
 	// 定义返回数据对象
 	auto jvo = StringJsonVO::createShared();
 	// 参数校验
@@ -16,7 +17,7 @@ StringJsonVO::Wrapper BoardManager::executeAddBoard(const BoardAddDTO::Wrapper& 
 	// 执行数据新增
 	dto->setPayload(&payload);
 	//这里注意要调用的是雪花算法
-	std::string id = SampleService().saveData(dto);
+	std::string id = std::to_string(BoardService().saveBoard(dto));
 	if (id != "") {
 		jvo->success(id);
 	}
@@ -26,13 +27,12 @@ StringJsonVO::Wrapper BoardManager::executeAddBoard(const BoardAddDTO::Wrapper& 
 	}
 
 	return jvo;
-	*/
-	return {};
+
 }
 
 ListJsonVO<String>::Wrapper BoardManager::execRemoveBoard(const List<String>& ids)
 {
-	/*
+	
 	// 定义返回数据对象
 	auto jvo = ListJsonVO<String>::createShared();
 	// 参数校验
@@ -42,7 +42,7 @@ ListJsonVO<String>::Wrapper BoardManager::execRemoveBoard(const List<String>& id
 		return jvo;
 	}
 	// 执行数据删除
-	if (SampleService().removeData(ids)) {
+	if (BoardService().removeData(ids)) {
 		jvo->success(ids);
 	}
 	else
@@ -51,14 +51,13 @@ ListJsonVO<String>::Wrapper BoardManager::execRemoveBoard(const List<String>& id
 	}
 
 	return jvo;
-	*/
-	return {};
+
 
 }
 
 ListJsonVO<String>::Wrapper BoardManager::execStartBoard(const List<String>& ids, const PayloadDTO& payload)
 {
-	/*
+	
 	// 定义返回数据对象
 	auto jvo = ListJsonVO<String>::createShared();
 	// 参数校验
@@ -68,9 +67,9 @@ ListJsonVO<String>::Wrapper BoardManager::execStartBoard(const List<String>& ids
 		return jvo;
 	}
 	// 执行数据修改
-	BoardAddDTO::Wrapper dto;
+	BoardUpdateDTO::Wrapper dto = BoardUpdateDTO::createShared();;
 	dto->setPayload(&payload);
-	if (SampleService().updateData1(ids,dto)) {
+	if (BoardService().updateData1(ids,dto)) {
 		jvo->success(ids);
 	}
 	else
@@ -79,14 +78,13 @@ ListJsonVO<String>::Wrapper BoardManager::execStartBoard(const List<String>& ids
 	}
 
 	return jvo;
-	*/
-	return {};
+
 
 }
 
 ListJsonVO<String>::Wrapper BoardManager::execEndBoard(const List<String>& ids, const PayloadDTO& payload)
 {
-	/*
+	
 	// 定义返回数据对象
 	auto jvo = ListJsonVO<String>::createShared();
 	// 参数校验
@@ -96,9 +94,9 @@ ListJsonVO<String>::Wrapper BoardManager::execEndBoard(const List<String>& ids, 
 		return jvo;
 	}
 	// 执行数据修改
-	BoardAddDTO::Wrapper dto;
+	BoardUpdateDTO::Wrapper dto;
 	dto->setPayload(&payload);
-	if (SampleService().updateData2(ids, dto)) {
+	if (BoardService().updateData2(ids, dto)) {
 		jvo->success(ids);
 	}
 	else
@@ -107,23 +105,21 @@ ListJsonVO<String>::Wrapper BoardManager::execEndBoard(const List<String>& ids, 
 	}
 
 	return jvo;
-	*/
-	return {};
+
 
 }
 
 // ========== 新增：获取公告列表接口实现 ==========
 BoardPageJsonVO::Wrapper BoardManager::execGetBoardList(const BoardQuery::Wrapper& query)
 {
-	/*
+	
 	// 查询数据
-	auto result = SampleService().listAll(query);
+	auto result = BoardService().listAll(query);
 	// 响应结果
 	auto jvo = BoardPageJsonVO::createShared();
 	jvo->success(result);
 	return jvo;
-	*/
-	return {};
+
 
 }
 

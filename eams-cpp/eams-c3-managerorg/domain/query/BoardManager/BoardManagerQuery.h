@@ -16,12 +16,10 @@ class BoardQuery : public PageQuery
 	DTO_INIT(BoardQuery, PageQuery);
 	// �������
 	API_DTO_FIELD_DEFAULT(String, boardTitle, ZH_WORDS_GETTER("board.field.boardTitle"));
-	// ���淢��������
-	API_DTO_FIELD_DEFAULT(String, boardPublisherName, ZH_WORDS_GETTER("board.field.boardPublisherName"));
-	// ���淢����id
-	API_DTO_FIELD_DEFAULT(String, boardPublisherId, ZH_WORDS_GETTER("board.field.boardPublisherId"));
-	// ��������
-	API_DTO_FIELD_DEFAULT(Int8, boardType, ZH_WORDS_GETTER("board.field.boardType"));
+	// 公告发布者名称
+	//API_DTO_FIELD_DEFAULT(String, boardPublisherName, ZH_WORDS_GETTER("board.field.boardPublisherName"));
+	// 公告发布者id
+	API_DTO_FIELD_DEFAULT(Int64, boardPublisherId, ZH_WORDS_GETTER("board.field.boardPublisherId"));
 };
 
 #include OATPP_CODEGEN_END(DTO)

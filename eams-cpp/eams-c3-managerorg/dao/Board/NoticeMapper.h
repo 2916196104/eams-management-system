@@ -1,57 +1,52 @@
-#ifndef _NOTICE_MAPPER_
-#define _NOTICE_MAPPER_
+#pragma once
+#ifndef _NOTICE_MAPPER_H_
+#define _NOTICE_MAPPER_H_
 
 #include "Mapper.h"
 #include "../../domain/do/Board/NoticeDO.h"
 
 /**
- * 通知设置表字段匹配映射
+ * 公告表字段映射器
  */
 class NoticeMapper : public Mapper<NoticeDO>
 {
 public:
-	NoticeDO mapper(ResultSet* resultSet) const override
-	{
-		NoticeDO data;
-		data.setId(resultSet->getInt(1));                // id
-		data.setName(resultSet->getString(2));           // name
-		data.setCode(resultSet->getString(3));           // code
-		data.setEnabled(resultSet->getInt(4));           // enabled
-		data.setWxTemplateId(resultSet->getString(5));   // wx_template_id
-		data.setSmsEnabled(resultSet->getInt(6));        // sms_enabled
-		data.setSmsTemplate(resultSet->getString(7));    // sms_template
-		data.setForceEnable(resultSet->getInt(8));       // force_enable
-		data.setDescription(resultSet->getString(9));    // description
-		data.setSort(resultSet->getInt(10));             // sort
-		data.setReceiverType(resultSet->getString(11));  // receiver_type
-		data.setWxTemplateDesc(resultSet->getString(12)); // wx_template_desc
-		return data;
-	}
+    NoticeDO mapper(ResultSet* resultSet) const override
+    {
+        NoticeDO data;
+        data.setId(resultSet->getInt64("id"));
+        data.setTitle(resultSet->getString("title"));
+        data.setContent(resultSet->getString("content"));
+        data.setViewNum(resultSet->getInt("view_num"));
+        data.setCreator(resultSet->getInt64("creator"));
+        data.setEditor(resultSet->getInt64("editor"));
+        data.setAddTime(resultSet->getString("add_time"));
+        data.setEditTime(resultSet->getString("edit_time"));
+        data.setDeleted(resultSet->getInt("deleted"));
+        return data;
+    }
 };
 
 /**
- * 通知设置表字段匹配映射 - 创建智能指针对象
+ * 智能指针版本映射器
  */
-class PtrNoticeMapper : public Mapper<PtrNoticeSettingDO>
+class PtrNoticeMapper : public Mapper<PtrNoticeDO>
 {
 public:
-	PtrNoticeSettingDO mapper(ResultSet* resultSet) const override
-	{
-		auto data = std::make_shared<NoticeDO>();
-		data->setId(resultSet->getInt(1));                // id
-		data->setName(resultSet->getString(2));           // name
-		data->setCode(resultSet->getString(3));           // code
-		data->setEnabled(resultSet->getInt(4));           // enabled
-		data->setWxTemplateId(resultSet->getString(5));   // wx_template_id
-		data->setSmsEnabled(resultSet->getInt(6));        // sms_enabled
-		data->setSmsTemplate(resultSet->getString(7));    // sms_template
-		data->setForceEnable(resultSet->getInt(8));       // force_enable
-		data->setDescription(resultSet->getString(9));    // description
-		data->setSort(resultSet->getInt(10));             // sort
-		data->setReceiverType(resultSet->getString(11));  // receiver_type
-		data->setWxTemplateDesc(resultSet->getString(12)); // wx_template_desc
-		return data;
-	}
+    PtrNoticeDO mapper(ResultSet* resultSet) const override
+    {
+        auto data = std::make_shared<NoticeDO>();
+        data->setId(resultSet->getInt64("id"));
+        data->setTitle(resultSet->getString("title"));
+        data->setContent(resultSet->getString("content"));
+        data->setViewNum(resultSet->getInt("view_num"));
+        data->setCreator(resultSet->getInt64("creator"));
+        data->setEditor(resultSet->getInt64("editor"));
+        data->setAddTime(resultSet->getString("add_time"));
+        data->setEditTime(resultSet->getString("edit_time"));
+        data->setDeleted(resultSet->getInt("deleted"));
+        return data;
+    }
 };
 
-#endif // !_NOTICE_MAPPER_
+#endif // _NOTICE_MAPPER_H_

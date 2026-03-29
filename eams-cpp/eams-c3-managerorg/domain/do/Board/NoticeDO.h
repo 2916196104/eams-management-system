@@ -5,54 +5,45 @@
 #include "../DoInclude.h"
 
 /**
- * 通知设置实体类（对应数据库表：notice）
+ * 公告实体类 - 对应 notice 表
  */
 class NoticeDO : public BaseDO
 {
-	//ID（主键）
-	MYSQL_SYNTHESIZE(int, id, Id);
-	//通知名称（如：学员上课提醒）
-	MYSQL_SYNTHESIZE(std::string, name, Name);
-	//通知编码
-	MYSQL_SYNTHESIZE(std::string, code, Code);
-	//是否启用（1-启用，0-禁用）
-	MYSQL_SYNTHESIZE(int, enabled, Enabled);
-	//微信模板ID（公众号消息模板ID）
-	MYSQL_SYNTHESIZE(std::string, wxTemplateId, WxTemplateId);
-	//是否支持短信（1-支持，0-不支持）
-	MYSQL_SYNTHESIZE(int, smsEnabled, SmsEnabled);
-	//短信模板内容（当前为"无"）
-	MYSQL_SYNTHESIZE(std::string, smsTemplate, SmsTemplate);
-	//是否强制开启（1-不可关闭，0-可由用户配置）
-	MYSQL_SYNTHESIZE(int, forceEnable, ForceEnable);
-	//描述说明
-	MYSQL_SYNTHESIZE(std::string, description, Description);
-	//排序序号
-	MYSQL_SYNTHESIZE(int, sort, Sort);
-	//接收人类型（'student' 或 'teacher'）
-	MYSQL_SYNTHESIZE(std::string, receiverType, ReceiverType);
-	//微信模板说明（含标题、行业、编号）
-	MYSQL_SYNTHESIZE(std::string, wxTemplateDesc, WxTemplateDesc);
+    // ID（主键）
+    MYSQL_SYNTHESIZE(oatpp::UInt64, id, Id);
+    // 标题
+    MYSQL_SYNTHESIZE(std::string, title, Title);
+    // 内容（HTML）
+    MYSQL_SYNTHESIZE(std::string, content, Content);
+    // 阅读次数
+    MYSQL_SYNTHESIZE(int, viewNum, ViewNum);
+    // 创建人 ID
+    MYSQL_SYNTHESIZE(oatpp::UInt64, creator, Creator);
+    // 编辑人 ID
+    MYSQL_SYNTHESIZE(oatpp::UInt64, editor, Editor);
+    // 添加时间
+    MYSQL_SYNTHESIZE(std::string, addTime, AddTime);
+    // 修改时间
+    MYSQL_SYNTHESIZE(std::string, editTime, EditTime);
+    // 是否删除（0-未删，1-已删）
+    MYSQL_SYNTHESIZE(int, deleted, Deleted);
 
 public:
-	NoticeDO() : BaseDO("setting_notice")
-	{
-		MYSQL_ADD_FIELD_PK("id", "i", id);
-		MYSQL_ADD_FIELD("name", "s", name);
-		MYSQL_ADD_FIELD("code", "s", code);
-		MYSQL_ADD_FIELD("enabled", "i", enabled);
-		MYSQL_ADD_FIELD("wx_template_id", "s", wxTemplateId);
-		MYSQL_ADD_FIELD("sms_enabled", "i", smsEnabled);
-		MYSQL_ADD_FIELD("sms_template", "s", smsTemplate);
-		MYSQL_ADD_FIELD("force_enable", "i", forceEnable);
-		MYSQL_ADD_FIELD("description", "s", description);
-		MYSQL_ADD_FIELD("sort", "i", sort);
-		MYSQL_ADD_FIELD("receiver_type", "s", receiverType);
-		MYSQL_ADD_FIELD("wx_template_desc", "s", wxTemplateDesc);
-	}
+    NoticeDO() : BaseDO("notice")
+    {
+        MYSQL_ADD_FIELD_PK("id", "bi", id);
+        MYSQL_ADD_FIELD("title", "s", title);
+        MYSQL_ADD_FIELD("content", "s", content);
+        MYSQL_ADD_FIELD("view_num", "i", viewNum);
+        MYSQL_ADD_FIELD("creator", "bi", creator);
+        MYSQL_ADD_FIELD("editor", "bi", editor);
+        MYSQL_ADD_FIELD("add_time", "s", addTime);
+        MYSQL_ADD_FIELD("edit_time", "s", editTime);
+        MYSQL_ADD_FIELD("deleted", "i", deleted);
+    }
 };
 
 // 智能指针别名
-typedef std::shared_ptr<NoticeDO> PtrNoticeSettingDO;
+typedef std::shared_ptr<NoticeDO> PtrNoticeDO;
 
 #endif // !_NOTICE_DO_H_
