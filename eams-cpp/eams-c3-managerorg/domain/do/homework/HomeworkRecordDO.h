@@ -17,7 +17,7 @@ class HomeworkRecordDO : public BaseDO
 	MYSQL_SYNTHESIZE(int64_t, student_id, StudentId);
 	// 添加时间
 	MYSQL_SYNTHESIZE(string, add_time,AddTime);
-	// 内容
+	// 内容，可能是文件URL等
 	MYSQL_SYNTHESIZE(string, content, Content);
 	// 分数
 	MYSQL_SYNTHESIZE(int8_t, score, Score);
@@ -30,17 +30,17 @@ class HomeworkRecordDO : public BaseDO
 	// 图片?
 	MYSQL_SYNTHESIZE(string, images, Images);
 public:
-	HomeworkRecordDO() : BaseDO("homeworkrecord")
+	HomeworkRecordDO() : BaseDO("homework_record")
 	{
-		MYSQL_ADD_FIELD_PK("id", "bi", id);
-		MYSQL_ADD_FIELD("homework_id", "bi", homework_id);
-		MYSQL_ADD_FIELD("student_id", "bi", student_id);
-		MYSQL_ADD_FIELD("add_time", "dt", add_time);
+		MYSQL_ADD_FIELD_PK("id", "ll", id);
+		MYSQL_ADD_FIELD("homework_id", "ll", homework_id);
+		MYSQL_ADD_FIELD("student_id", "ll", student_id);
+		MYSQL_ADD_FIELD("add_time", "t", add_time);
 		MYSQL_ADD_FIELD("content", "s", content);
-		MYSQL_ADD_FIELD("score", "ti", score);
+		MYSQL_ADD_FIELD("score", "i", score);
 		MYSQL_ADD_FIELD("comment", "s", comment);
-		MYSQL_ADD_FIELD("comment_time", "dt", comment_time);
-		MYSQL_ADD_FIELD("comment_teacher", "bi", comment_teacher);
+		MYSQL_ADD_FIELD("comment_time", "t", comment_time);
+		MYSQL_ADD_FIELD("comment_teacher", "ll", comment_teacher);
 		MYSQL_ADD_FIELD("images", "s", images);
 	}
 };

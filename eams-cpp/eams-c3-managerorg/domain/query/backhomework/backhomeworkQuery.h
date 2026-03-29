@@ -32,34 +32,17 @@ class GetHomeworkListQuery : public PageQuery {
 		info->description = ZH_WORDS_GETTER("homework.gethomeworklist.title");
 	}
 	// 班级名称
-	DTO_FIELD(String, classname);
-	DTO_FIELD_INFO(classname) {
-		info->description = ZH_WORDS_GETTER("homework.gethomeworklist.classname");
-	}
-	// 发布者
-	DTO_FIELD(String, publisher);
-	DTO_FIELD_INFO(publisher) {
-		info->description = ZH_WORDS_GETTER("homework.gethomeworklist.publisher");
-	}
-	// 班级id
-	DTO_FIELD(String, class_id);
+	DTO_FIELD(Int64, class_id);
 	DTO_FIELD_INFO(class_id) {
 		info->description = ZH_WORDS_GETTER("homework.gethomeworklist.class_id");
 	}
-	// 创建者
-	DTO_FIELD(String, creator);
+	// 发布者
+	DTO_FIELD(Int64, creator);
 	DTO_FIELD_INFO(creator) {
 		info->description = ZH_WORDS_GETTER("homework.gethomeworklist.creator");
 	}
-
 };
 
-
-//获取作业详情
-class GetHomeworkDetailQuery : public PageQuery {
-	DTO_INIT(GetHomeworkListQuery, PageQuery);
-
-};
 
 #include OATPP_CODEGEN_END(DTO)
 

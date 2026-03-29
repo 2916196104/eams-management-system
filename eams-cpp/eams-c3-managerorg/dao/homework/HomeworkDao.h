@@ -19,7 +19,16 @@ public:
 	//删除作业数据（支持单个和批量删除）
 	int deleteHomework(const std::list<int>& ids);
 
-
+private:
+	inline std::string queryConditionBuilder(const GetHomeworkListQuery::Wrapper& query, SqlParams& params);
+public:
+	// 统计数据条数
+	// 在service层会调用这个方法
+	uint64_t count(const GetHomeworkListQuery::Wrapper& query);
+	// 获取作业详情（条件+分页）
+	std::list<HomeworkDO> gethomeworklist(const GetHomeworkListQuery::Wrapper& query);
+	// 获取作业详情，传id，返回对应作业的DO
+	PtrHomeworkDO gethomeworkdetail(int id);
 };
 
 

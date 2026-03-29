@@ -6,7 +6,8 @@
 
 
 //作业DO
-class HomeworkDO:BaseDO
+//兄弟我需要用你的这个DO，必须是HomeworkDO:public BaseDO
+class HomeworkDO:public BaseDO
 {
 	//主键ID（作业记录唯一标识）
 	MYSQL_SYNTHESIZE(int, id, Id);
@@ -21,9 +22,9 @@ class HomeworkDO:BaseDO
 	//编辑人
 	MYSQL_SYNTHESIZE(int, editor, Editor);
 	//添加时间
-	MYSQL_SYNTHESIZE(time_t, addTime, AddTime);
+	MYSQL_SYNTHESIZE(string, addTime, AddTime); //兄弟，这个时间字段我用string类型了，阿伟的arch-demo中创建时间用的是string
 	//编辑时间
-	MYSQL_SYNTHESIZE(time_t, editTime, EditTime);
+	MYSQL_SYNTHESIZE(string, editTime, EditTime);
 	//删除标记
 	MYSQL_SYNTHESIZE(int,deleted,Deleted);
 	//创建者所属组织ID

@@ -2,6 +2,7 @@
 #include "HomeworkDao.h"
 #include "HomeworkMapper.h"
 #include <iostream>
+#include "domain/query/backhomework/backhomeworkQuery.h"
 using namespace std;
 
 //通过id查询数据
@@ -191,4 +192,61 @@ int HomeworkDao::deleteHomework(const std::list<int>& ids) {
     }
     
     return affectedRows;
+}
+
+//用于给下面的count，获取作业列表构建sql的查询条件
+std::string HomeworkDao::queryConditionBuilder(const GetHomeworkListQuery::Wrapper& query, SqlParams& params)
+{
+    stringstream sqlCondition;
+    sqlCondition << " WHERE 1=1";
+    if (query->title) {
+
+        sqlCondition << " AND `title`=?";
+        SQLPARAMS_PUSH(params, "s", std::string, query->title.getValue(""));
+    }
+    if (query->class_id) {
+
+        sqlCondition << " AND class_id=?";
+        SQLPARAMS_PUSH(params, "ll", std::int64_t, query->class_id.getValue(0));
+    }
+    if (query->creator) {
+
+        sqlCondition << " AND creator=?";
+        SQLPARAMS_PUSH(params, "ll", std::int64_t, query->creator.getValue(0));
+    }
+    return sqlCondition.str();
+}
+
+uint64_t HomeworkDao::count(const GetHomeworkListQuery::Wrapper& query)
+{
+    SqlParams params;
+    string sql = "SELECT COUNT(*) FROM homework ";
+    // 构建查询条件
+    sql += queryConditionBuilder(query, params);
+    // 执行查询
+    return sqlSession->executeQueryNumerical(sql, params);
+}
+
+//定义了分页查询
+std::list<HomeworkDO> HomeworkDao::gethomeworklist(const GetHomeworkListQuery::Wrapper& query)
+{
+    SqlParams params;
+    string sql = "SELECT id,class_id,title,creator,add_time FROM homework ";
+    // 构建查询条件
+    sql += queryConditionBuilder(query, params);
+    // 构建排序语句
+    sql += " ORDER BY IFNULL(`add_time`, `edit_time`) DESC, `id` DESC ";
+    // 构建分页条件
+    sql += " LIMIT " + std::to_string(((query->pageIndex - 1) * query->pageSize)) + "," + std::to_string(query->pageSize);
+
+    // 执行查询
+    return sqlSession->executeQuery<HomeworkDO>(sql, GetHomeworkListMapper(), params);
+}
+
+//获取作业详情，点击会传入id，传回班级，标题，作业内容
+PtrHomeworkDO HomeworkDao::gethomeworkdetail(int id)
+{
+    string sql = "SELECT class_id,title,content FROM homework WHERE id=?";
+	// homework表中的id 是 int，使用 %i，但是数据库中id是 bigint
+    return sqlSession->executeQueryOne<PtrHomeworkDO>(sql, PtrGetHomeworkDetailMapper(), "%i", id);
 }

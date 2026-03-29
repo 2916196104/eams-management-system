@@ -1,6 +1,5 @@
 #pragma once
 
-
 #ifndef _HOMEWORKRECORD_MAPPER_
 #define _HOMEWORKRECORD_MAPPER_
 
@@ -41,15 +40,15 @@ public:
 	{
 		auto data = std::make_shared<HomeworkRecordDO>();
 
-		data->setId(resultSet->getInt(1));
-		data->setHomeworkId(resultSet->getInt(2));
-		data->setStudentId(resultSet->getInt(3));
+		data->setId(resultSet->getInt64(1));
+		data->setHomeworkId(resultSet->getInt64(2));
+		data->setStudentId(resultSet->getInt64(3));
 		data->setAddTime(resultSet->getString(4));
 		data->setContent(resultSet->getString(5));
-		data->setScore(static_cast<int8_t>(resultSet->getInt(6)));
+		data->setScore(resultSet->getInt(6));
 		data->setComment(resultSet->getString(7));
 		data->setCommentTime(resultSet->getString(8));
-		data->setCommentTeacher(resultSet->getInt(9));
+		data->setCommentTeacher(resultSet->getInt64(9));
 		data->setImages(resultSet->getString(10));
 		return data;
 	}
