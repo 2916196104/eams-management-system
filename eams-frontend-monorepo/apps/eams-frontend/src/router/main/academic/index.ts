@@ -1,5 +1,4 @@
 const routes = [
-<<<<<<< f1
   {
     path: "/academic/schedule",
     name: "schedule",
