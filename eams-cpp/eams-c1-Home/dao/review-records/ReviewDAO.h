@@ -9,7 +9,7 @@
 
 #include "BaseDAO.h"
 #include "domain/do/review-records/ReviewDO.h"
-#include "domain/query/review-records/reviewQuery.h"
+#include "domain/query/review-records/reviewquery.h"
 
 /**
  * 课时学员表数据库操作类

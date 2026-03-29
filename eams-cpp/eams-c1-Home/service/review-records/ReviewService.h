@@ -8,7 +8,7 @@
 #define _REVIEW_SERVICE_H_ 
 
 #include "domain/dto/review-records/reviewDTO.h"
-#include "domain/query/review-records/reviewQuery.h"
+#include "domain/query/review-records/reviewquery.h"
 
 class ReviewService 
 {
