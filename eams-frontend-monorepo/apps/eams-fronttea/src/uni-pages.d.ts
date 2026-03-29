@@ -5,12 +5,30 @@
 
 type _LocationUrl =
   "/pages/index/index" |
+  "/pages/class/index" |
   "/pages/home/index" |
   "/pages/mine/index" |
+  "/pages/schedule/index" |
   "/subPages/login/forget" |
   "/subPages/login/register" |
   "/subPages/mine/about" |
-  "/subPages/mine/them";
+  "/subPages/mine/them" |
+  "/subPages/teacher/add-student" |
+  "/subPages/teacher/attendance-record" |
+  "/subPages/teacher/class-detail" |
+  "/subPages/teacher/class-student-detail" |
+  "/subPages/teacher/comment-record" |
+  "/subPages/teacher/course-list" |
+  "/subPages/teacher/customer-detail" |
+  "/subPages/teacher/customer-list" |
+  "/subPages/teacher/homework-detail" |
+  "/subPages/teacher/homework-list" |
+  "/subPages/teacher/homework-publish" |
+  "/subPages/teacher/scheduling" |
+  "/subPages/teacher/signup-record-detail" |
+  "/subPages/teacher/signup-record" |
+  "/subPages/teacher/signup" |
+  "/subPages/teacher/student-archive";
 
 interface NavigateToOptions {
   url: _LocationUrl;
@@ -18,7 +36,7 @@ interface NavigateToOptions {
 interface RedirectToOptions extends NavigateToOptions {}
 
 interface SwitchTabOptions {
-  url: "/pages/home/index" | "/pages/mine/index"
+  url: "/pages/home/index" | "/pages/schedule/index" | "/pages/class/index"
 }
 
 type ReLaunchOptions = NavigateToOptions | SwitchTabOptions;

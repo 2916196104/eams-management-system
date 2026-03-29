@@ -63,6 +63,80 @@ const tempMenus: Array<Menu> = [
 		],
 	},
 	{
+		id: "temp-student",
+		text: "学员",
+		icon: "ep/user",
+		children: [
+			{
+				id: "temp-student-class-summary",
+				text: "课时汇总",
+				icon: "ep/histogram",
+				href: "/student/classSummary",
+			},
+			{
+				id: "temp-student-signup-record",
+				text: "报名记录",
+				icon: "ep/tickets",
+				href: "/student/signupRecord",
+			},
+			{
+				id: "temp-student-follow-record",
+				text: "跟进记录",
+				icon: "ep/flag",
+				href: "/student/followRecord",
+			},
+		],
+	},
+	{
+		id: "temp-academic",
+		text: "教务",
+		icon: "ep/calendar",
+		children: [
+			{
+				id: "temp-academic-class",
+				text: "班级管理",
+				icon: "ep/user-filled",
+				href: "/academic/class",
+			},
+			{
+				id: "temp-academic-classroom",
+				text: "教室管理",
+				icon: "ep/office-building",
+				href: "/academic/classroom",
+			},
+			{
+				id: "temp-academic-grade",
+				text: "年级管理",
+				icon: "ep/medal",
+				href: "/academic/grade",
+			},
+			{
+				id: "temp-academic-schedule-plan",
+				text: "排课计划",
+				icon: "ep/date",
+				href: "/academic/schedule-plan",
+			},
+			{
+				id: "temp-academic-appointment",
+				text: "预约管理",
+				icon: "ep/clock",
+				href: "/academic/appointment",
+			},
+			{
+				id: "temp-academic-schedule",
+				text: "课程表",
+				icon: "ep/calendar",
+				href: "/academic/schedule",
+			},
+			{
+				id: "temp-academic-student-leave",
+				text: "学员请假",
+				icon: "ep/document-checked",
+				href: "/academic/studentLeave",
+			},
+		],
+	},
+	{
 		id: "temp-finance",
 		text: "财务",
 		icon: "ep/wallet-filled",
