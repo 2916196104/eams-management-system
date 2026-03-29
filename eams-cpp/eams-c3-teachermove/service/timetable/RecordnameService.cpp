@@ -371,7 +371,7 @@ ListJsonVO<TimetableStudentCourseDTO::Wrapper>::Wrapper RecordnameService::getSt
 		if (!lesson && one->getClassId() > 0)
 		{
 			auto lq = LessonQuery::createShared();
-			lq->classId = one->getClassId();
+			lq->class_id = oatpp::String(std::to_string(one->getClassId()));
 			lq->pageIndex = 1;
 			lq->pageSize = 1;
 			auto lessons = lessonDao.selectWithPage(lq);

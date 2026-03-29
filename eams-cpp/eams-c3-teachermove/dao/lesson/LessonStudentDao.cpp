@@ -124,7 +124,7 @@ list<PtrLessonStudentDO> LessonStudentDao::SelectLessonStudentWithPage(int64_t l
 		"consume_course_id, consume_student_course_id, counselor, add_time, org_id "
 		"FROM lesson_student WHERE lesson_id = ? ORDER BY id LIMIT ?, ?";
 
-	return sqlSession->executeQuery<PtrLessonStudentDO>(sql, LessonStudentMapper(), "%ll%ull%ull", lesson_id, offset, page_size);
+	return sqlSession->executeQuery<PtrLessonStudentDO>(sql, LessonStudentMapper(), "%ll%ull%ull", lessonId, offset, page_size);
 }
 
 uint64_t LessonStudentDao::CountLessonStudent(int64_t lesson_id)
