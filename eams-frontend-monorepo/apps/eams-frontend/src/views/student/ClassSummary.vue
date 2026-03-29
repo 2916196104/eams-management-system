@@ -8,6 +8,10 @@
 						<el-input v-model="filters.name" placeholder="请输入学员姓名" clearable class="filter-input" />
 					</div>
 					<div class="filter-item">
+						<label class="filter-label">课程名称:</label>
+						<el-input v-model="filters.courseName" placeholder="请输入课程名称" clearable class="filter-input" />
+					</div>
+					<div class="filter-item">
 						<label class="filter-label">电话:</label>
 						<el-input v-model="filters.phone" placeholder="请输入电话" clearable class="filter-input" />
 					</div>
@@ -46,6 +50,7 @@
 						<div class="column-popover">
 							<div class="column-title">自定义显示列：</div>
 							<div class="column-options">
+								<el-checkbox v-model="columnDraft.studentName">学员姓名</el-checkbox>
 								<el-checkbox v-model="columnDraft.courseName">课程名称</el-checkbox>
 								<el-checkbox v-model="columnDraft.subjectName">科目名称</el-checkbox>
 								<el-checkbox v-model="columnDraft.totalCount">总数量</el-checkbox>
@@ -72,7 +77,10 @@
 				@selection-change="handleSelectionChange"
 			>
 				<template #customercell="{ prop, row }">
-					<template v-if="['totalHours', 'completedHours', 'sickLeave', 'personalLeave'].includes(prop)">
+					<template v-if="prop === 'studentName'">
+						<el-button link type="primary" @click="openStudentDetail(row)">{{ row.studentName || "-" }}</el-button>
+					</template>
+					<template v-else-if="['totalHours', 'completedHours', 'sickLeave', 'personalLeave'].includes(prop)">
 						<span :class="getCellClass(prop, row)">{{ row[prop] }}</span>
 					</template>
 					<template v-else>
@@ -88,14 +96,82 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
 import { IconifyIconOffline } from "@/components/ReIcon";
+import { useRouter } from "vue-router";
 import MyTable from "@/components/mytable/MyTable.vue";
 import { createPageDTO, type MyTableAttr, type MyTableColumn, type PageDTO } from "@/components/mytable/type";
 import { getClassSummaryPage } from "@/apis/student";
 import type { ClassSummaryItemDTO } from "@/apis/student/type";
 
+// 是否使用 Mock 数据（后端未完成时使用）
+const USE_MOCK_DATA = true;
+
+// 生成 Mock 数据
+function generateMockClassSummaryData(): ClassSummaryItemDTO[] {
+	const courses = [
+		{ courseName: "高中数学提高班", subjectName: "数学" },
+		{ courseName: "初中物理冲刺班", subjectName: "物理" },
+		{ courseName: "小学英语基础班", subjectName: "英语" },
+		{ courseName: "高中化学实验班", subjectName: "化学" },
+		{ courseName: "初中语文阅读班", subjectName: "语文" },
+	];
+
+	const students = [
+		{ name: "张三", phone: "13800138001", studentId: "S001" },
+		{ name: "李四", phone: "13800138002", studentId: "S002" },
+		{ name: "王五", phone: "13800138003", studentId: "S003" },
+		{ name: "赵六", phone: "13800138004", studentId: "S004" },
+		{ name: "钱七", phone: "13800138005", studentId: "S005" },
+	];
+
+	const data: ClassSummaryItemDTO[] = [];
+	let id = 1;
+
+	courses.forEach((course) => {
+		students.forEach((student) => {
+			const totalCount = Math.floor(Math.random() * 40) + 20;
+			const completeCount = Math.floor(Math.random() * totalCount);
+			const remainingCount = totalCount - completeCount;
+			const unitPrice = Math.floor(Math.random() * 200) + 100;
+			const remainingAmount = remainingCount * unitPrice;
+
+			// 生成过期日期（部分过期，部分未过期）
+			let expireDate: string | null;
+			if (Math.random() > 0.3) {
+				// 未来日期
+				const date = new Date();
+				date.setDate(date.getDate() + Math.floor(Math.random() * 90) + 1);
+				expireDate = date.toISOString().split("T")[0];
+			} else {
+				// 过去日期（已过期）
+				const date = new Date();
+				date.setDate(date.getDate() - Math.floor(Math.random() * 30) - 1);
+				expireDate = date.toISOString().split("T")[0];
+			}
+
+			data.push({
+				id: id++,
+				courseName: course.courseName,
+				subjectName: course.subjectName,
+				totalCount,
+				completeCount,
+				remainingCount,
+				remainingAmount,
+				unitPrice,
+				expireDate,
+				studentName: student.name,
+				studentPhone: student.phone,
+				studentId: student.studentId,
+			});
+		});
+	});
+
+	return data;
+}
+
 const filters = reactive({
 	advisorId: "",
 	name: "",
+	courseName: "",
 	phone: "",
 	status: "",
 	studentId: "",
@@ -109,6 +185,7 @@ const tableAttr: MyTableAttr = {
 };
 
 const baseTableColumns: MyTableColumn[] = [
+	{ prop: "studentName", label: "学员姓名", "min-width": 120 },
 	{ prop: "courseName", label: "课程名称", "min-width": 150 },
 	{ prop: "subjectName", label: "科目名称", "min-width": 120 },
 	{ prop: "totalCount", label: "总数量", width: "100px", align: "center" },
@@ -131,6 +208,7 @@ const selectedRows = ref<ClassSummaryItemDTO[]>([]);
 // 自定义列状态管理
 const columnPopoverVisible = ref(false);
 const defaultColumns = {
+	studentName: true,
 	courseName: true,
 	subjectName: true,
 	totalCount: true,
@@ -146,6 +224,23 @@ const columnDraft = reactive({ ...defaultColumns });
 const displayPageData = computed(() => {
 	return pageData.value;
 });
+
+const router = useRouter();
+
+function openStudentDetail(row: ClassSummaryItemDTO) {
+	if (row?.studentId == null) {
+		ElMessage.warning("缺少学员编号");
+		return;
+	}
+	router.push({
+		path: "/student/detail",
+		query: {
+			id: String(row.studentId),
+			name: row.studentName || "",
+			phone: row.studentPhone || "",
+		},
+	});
+}
 
 function getCellClass(prop: string, _row: ClassSummaryItemDTO) {
 	if (prop === "totalCount") return "cell-total";
@@ -163,6 +258,7 @@ function handleReset() {
 	Object.assign(filters, {
 		advisorId: "",
 		name: "",
+		courseName: "",
 		phone: "",
 		status: "",
 		studentId: "",
@@ -273,17 +369,34 @@ function handleSelectionChange(rows: ClassSummaryItemDTO[]) {
 // 加载数据
 async function loadData() {
 	try {
-		const res = await getClassSummaryPage({
-			pageIndex: pageIndex.value,
-			pageSize: pageSize.value,
-			advisorId: filters.advisorId,
-			name: filters.name,
-			phone: filters.phone,
-			status: filters.status,
-			studentId: filters.studentId,
-		});
-		if (res.data) {
-			pageData.value = res.data;
+		if (USE_MOCK_DATA) {
+			// 使用 Mock 数据
+			console.log("使用 Mock 数据");
+			const mockData = generateMockClassSummaryData();
+			pageData.value = {
+				pageIndex: pageIndex.value,
+				pageSize: pageSize.value,
+				total: mockData.length,
+				rows: mockData,
+			};
+		} else {
+			// 使用真实 API
+			const res = await getClassSummaryPage({
+				pageIndex: pageIndex.value,
+				pageSize: pageSize.value,
+				advisorId: filters.advisorId,
+				name: filters.name,
+				courseName: filters.courseName,
+				phone: filters.phone,
+				status: filters.status,
+				studentId: filters.studentId,
+			});
+			console.log("API 返回数据:", res);
+			if (res.data) {
+				console.log("res.data:", res.data);
+				console.log("res.data.rows:", res.data.rows);
+				pageData.value = res.data;
+			}
 		}
 	} catch (error) {
 		console.error("加载数据失败:", error);
