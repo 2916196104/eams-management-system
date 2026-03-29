@@ -12,6 +12,10 @@ export default defineConfig({
 		"i-carbon:star-filled",
 		"i-carbon:calendar",
 		"i-carbon:gift",
+		"i-carbon:shopping-cart",
+		"i-carbon:favorite-filled",
+		"i-carbon:checkmark-filled",
+		"i-carbon:help-filled",
 	],
 	presets: [
 		presetUni({
