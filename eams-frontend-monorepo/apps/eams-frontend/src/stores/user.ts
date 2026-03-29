@@ -107,6 +107,43 @@ const tempMenus: Array<Menu> = [
 		],
 	},
 	{
+		id: "temp-interaction",
+		text: "互动",
+		icon: "ep/cherry",
+		children: [
+			{
+				id: "temp-interaction-homework",
+				text: "课后作业",
+				icon: "ep/notebook",
+				href: "/interaction/homework",
+			},
+			{
+				id: "temp-interaction-teaching-evaluation",
+				text: "教评学",
+				icon: "ep/edit-pen",
+				href: "/interaction/teaching-evaluation",
+			},
+			{
+				id: "temp-interaction-learning-evaluation",
+				text: "学评教",
+				icon: "ep/opportunity",
+				href: "/interaction/learning-evaluation",
+			},
+			{
+				id: "temp-interaction-transcript",
+				text: "成绩单",
+				icon: "ep/trophy",
+				href: "/interaction/transcript",
+			},
+			{
+				id: "temp-interaction-announcement-management",
+				text: "公告管理",
+				icon: "ep/broadcast",
+				href: "/interaction/announcement-management",
+			},
+		],
+	},
+	{
 		id: "temp-system",
 		text: "系统",
 		icon: "ep/setting",
