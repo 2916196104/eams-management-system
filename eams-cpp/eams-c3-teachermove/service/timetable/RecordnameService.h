@@ -27,15 +27,26 @@
 #include "domain/dto/timetable/TimetableDTO.h"
 #include "domain/vo/timetable/GetDetailCSVO.h"
 #include "domain/vo/timetable/GetStuListVO.h"
+#include "dao/class_student/ClassStudentDAO.h"
 
 class RecordnameService
 {
 public:
 	GetDetailCSJsonVO::Wrapper getDetailCS(const GetDetailCSQuery::Wrapper& query);
 	GetStuListJsonVO::Wrapper getCSStuList(const GetStuListQuery::Wrapper& query);
-	TimetableStudentPageJsonVO::Wrapper getStudentList(const StuListQuery::Wrapper& query, const PayloadDTO& payload);
-	StringJsonVO::Wrapper insertStudentToCourse(const AddStudentToLessonDTO::Wrapper& dto, const PayloadDTO& payload);
-	ListJsonVO<TimetableStudentCourseDTO::Wrapper>::Wrapper getStudentCourseList(const StuClassQuery::Wrapper& query, const PayloadDTO& payload);
+};
+
+class ClassStudentService
+{
+public:
+	// 1. 获取学员列表 (条件+分页)
+	PageDTO<TimetableStudentDTO::Wrapper>::Wrapper getStudentList(const StuListQuery::Wrapper& query);
+
+	// 2. 添加学员到课次 (批量插入)
+	bool addStudentToLesson(const AddStudentToLessonDTO::Wrapper& dto);
+
+	// 3. 获取学员课程列表
+	oatpp::List<TimetableStudentCourseDTO::Wrapper> getStudentCourseList(const StuClassQuery::Wrapper& query);
 };
 
 #endif // __RECORDNAME_SERVICE_H__

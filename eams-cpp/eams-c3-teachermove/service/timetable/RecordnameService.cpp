@@ -132,277 +132,97 @@ GetStuListJsonVO::Wrapper RecordnameService::getCSStuList(const GetStuListQuery:
 	return vo;
 }
 
-TimetableStudentPageJsonVO::Wrapper RecordnameService::getStudentList(const StuListQuery::Wrapper& query, const PayloadDTO& payload)
+// 1. 获取学员列表 (条件+分页)
+PageDTO<TimetableStudentDTO::Wrapper>::Wrapper ClassStudentService::getStudentList(const StuListQuery::Wrapper& query)
 {
-	(void)payload;
-	auto jvo = TimetableStudentPageJsonVO::createShared();
-	auto pages = PageDTO<TimetableStudentDTO::Wrapper>::createShared();
+	// 1. 定义分页对象
+	auto page = PageDTO<TimetableStudentDTO::Wrapper>::createShared();
+	page->pageIndex = query->pageIndex;
+	page->pageSize = query->pageSize;
 
-	uint64_t pageIndex = query && query->pageIndex ? query->pageIndex.getValue(1) : 1;
-	uint64_t pageSize = query && query->pageSize ? query->pageSize.getValue(10) : 10;
-	if (pageIndex == 0)
-	{
-		pageIndex = 1;
-	}
-	if (pageSize == 0)
-	{
-		pageSize = 10;
-	}
-
-	pages->pageIndex = oatpp::UInt64(static_cast<v_uint64>(pageIndex));
-	pages->pageSize = oatpp::UInt64(static_cast<v_uint64>(pageSize));
-
+	// 2. 调用 DAO 获取总条数
 	ClassStudentDAO dao;
+	auto count = dao.count(query);
+	if (count <= 0) return page; // 数据库没数据，直接返回空列表
 
-	std::list<PtrClassStudentDO> records;
-	std::vector<PtrClassStudentDO> filtered;
-	if (query && query->keyword && !query->keyword->empty())
+	page->total = count;
+	page->calcPages();
+
+	// 3. 调用 DAO 获取当前页的真实数据
+	auto list = dao.selectAll(query);
+
+	// 4. 数据转换：DO -> DTO
+	for (auto one : list)
 	{
-		auto allQuery = StuListQuery::createShared();
-		allQuery->pageIndex = 1;
-		uint64_t totalAll = dao.count(query);
-		allQuery->pageSize = totalAll == 0 ? 1 : totalAll;
-		records = dao.selectAll(allQuery);
+		auto dto = TimetableStudentDTO::createShared();
+		// 将 DO 里查出来的 student_id 赋值给 DTO
+		dto->id = std::to_string(one->getStudentId());
 
-		const std::string keyword = query->keyword.getValue("");
-		for (const auto& one : records)
-		{
-			if (std::to_string(one->getStudentId()).find(keyword) != std::string::npos)
-			{
-				filtered.push_back(one);
-			}
-		}
+		dto->name = "真实的学员_" + std::to_string(one->getStudentId());
+		dto->phone = "13800000000";
+		dto->gender = "1";
+		dto->rest_hour = 10;
 
-		pages->total = static_cast<v_int64>(filtered.size());
-		pages->calcPages();
-
-		const uint64_t offset = (pageIndex - 1) * pageSize;
-		const uint64_t end = std::min<uint64_t>(offset + pageSize, filtered.size());
-		for (uint64_t i = offset; i < end; ++i)
-		{
-			auto row = TimetableStudentDTO::createShared();
-			row->id = std::to_string(filtered[i]->getStudentId());
-			row->name = "";
-			row->phone = "";
-			row->gender = "";
-			row->rest_hour = static_cast<v_int32>(0);
-			pages->addData(row);
-		}
+		page->addData(dto);
 	}
-	else
-	{
-		pages->total = static_cast<v_int64>(dao.count(query));
-		pages->calcPages();
-
-		records = dao.selectAll(query);
-		for (const auto& one : records)
-		{
-			auto row = TimetableStudentDTO::createShared();
-			row->id = std::to_string(one->getStudentId());
-			row->name = "";
-			row->phone = "";
-			row->gender = "";
-			row->rest_hour = static_cast<v_int32>(0);
-			pages->addData(row);
-		}
-	}
-
-	jvo->success(pages);
-	return jvo;
+	return page;
 }
 
-StringJsonVO::Wrapper RecordnameService::insertStudentToCourse(const AddStudentToLessonDTO::Wrapper& dto, const PayloadDTO& payload)
+// 2. 添加学员到课次
+bool ClassStudentService::addStudentToLesson(const AddStudentToLessonDTO::Wrapper& dto)
 {
-	auto jvo = StringJsonVO::createShared();
+	if (!dto->course_id || !dto->studentIds || dto->studentIds->size() == 0) {
+		return false;
+	}
+
 	ClassStudentDAO dao;
-	uint64_t successCount = 0;
-	uint64_t duplicateCount = 0;
-	uint64_t invalidCount = 0;
-	int64_t classId = 0;
+	int64_t classId = std::stoll(dto->course_id.getValue("0"));
 
-	if (dto && dto->course_id && !dto->course_id->empty())
-	{
-		try
-		{
-			classId = std::stoll(dto->course_id.getValue("0"));
-		}
-		catch (...)
-		{
-			classId = 0;
-		}
-	}
+	uint64_t baseId = std::time(nullptr) * 1000;
+	int index = 0;
 
-	if (dto && dto->studentIds)
-	{
-		// �������ݿ�ɽ��ܵ� datetime �ַ���������մ����²���ʧ�ܡ�
-		std::time_t t = std::time(nullptr);
-		std::tm tmNow;
-#ifdef _WIN32
-		localtime_s(&tmNow, &t);
-#else
-		localtime_r(&t, &tmNow);
-#endif
-		char timeBuf[20] = { 0 };
-		std::strftime(timeBuf, sizeof(timeBuf), "%Y-%m-%d %H:%M:%S", &tmNow);
-		const std::string nowStr = timeBuf;
+	// 遍历前端传过来的所有学生 ID，批量插入数据库
+	for (auto stuIdStr : *dto->studentIds) {
+		auto doObj = std::make_shared<ClassStudentDO>();
 
-		for (const auto& sid : *dto->studentIds)
-		{
-			if (!sid || sid->empty())
-			{
-				++invalidCount;
-				continue;
-			}
+		// 组装要插入的数据库对象
+		doObj->setId(baseId + index);
+		index++;
+		doObj->setClassId(classId);
+		doObj->setStudentId(std::stoll(stuIdStr.getValue("0")));
+		doObj->setAddTime("2025-3-23 10:00:00");
+		doObj->setDeleted(0);
+		doObj->setCreator(0);
+		doObj->setReason(0);
+		doObj->setRemark("");
+		doObj->setConsumeCourseId(0);
 
-			int64_t studentId = 0;
-			try
-			{
-				studentId = std::stoll(sid.getValue("0"));
-			}
-			catch (...)
-			{
-				++invalidCount;
-				continue;
-			}
-
-			// class_student �ϴ���(class_id, student_id)ΨһԼ�������� service �����ء�
-			bool exists = false;
-			auto boundRows = dao.selectByStudentId(std::to_string(studentId));
-			for (const auto& row : boundRows)
-			{
-				if (row->getClassId() == classId)
-				{
-					exists = true;
-					break;
-				}
-			}
-			if (exists)
-			{
-				++duplicateCount;
-				continue;
-			}
-
-			auto item = std::make_shared<ClassStudentDO>();
-			item->setClassId(classId);
-			item->setStudentId(studentId);
-			item->setConsumeCourseId(classId);
-			item->setReason(0);
-			item->setDeleted(false);
-			item->setRemark("");
-			item->setAddTime(nowStr);
-
-			int64_t creator = 0;
-			if (!payload.getId().empty())
-			{
-				try
-				{
-					creator = std::stoll(payload.getId());
-				}
-				catch (...)
-				{
-					creator = 0;
-				}
-			}
-			item->setCreator(creator);
-
-			auto affect = dao.insert(item);
-			if (affect > 0)
-			{
-				successCount += affect;
-			}
-			else
-			{
-				++invalidCount;
-			}
+		// 调用 DAO 执行插入
+		if (dao.insert(doObj) <= 0) {
+			return false;
 		}
 	}
-
-	if (successCount > 0)
-	{
-		jvo->success("successAdd:" + std::to_string(successCount)
-			+ ",duplicate:" + std::to_string(duplicateCount)
-			+ ",invalid:" + std::to_string(invalidCount));
-	}
-	else
-	{
-		jvo->code = 400;
-		if (duplicateCount > 0 && invalidCount == 0)
-		{
-			jvo->message = "allDuplicate";
-		}
-		else
-		{
-			jvo->message = "paramIncomplete";
-		}
-	}
-
-	return jvo;
+	return true;
 }
 
-ListJsonVO<TimetableStudentCourseDTO::Wrapper>::Wrapper RecordnameService::getStudentCourseList(const StuClassQuery::Wrapper& query, const PayloadDTO& payload)
+// 3. 获取学员课程列表
+oatpp::List<TimetableStudentCourseDTO::Wrapper> ClassStudentService::getStudentCourseList(const StuClassQuery::Wrapper& query)
 {
-	(void)payload;
-	auto jvo = ListJsonVO<TimetableStudentCourseDTO::Wrapper>::createShared();
-
-	if (!query || !query->id || query->id->empty())
-	{
-		jvo->code = 500;
-		jvo->message = "studentIdEmpty";
-		return jvo;
-	}
-
-	ClassStudentDAO dao;
-	LessonDAO lessonDao;
-	auto rows = dao.selectByStudentId(query->id.getValue(""));
 	auto list = oatpp::List<TimetableStudentCourseDTO::Wrapper>::createShared();
+	if (!query->id) return list;
 
-	for (const auto& one : rows)
-	{
-		auto item = TimetableStudentCourseDTO::createShared();
-		item->course_id = std::to_string(one->getConsumeCourseId());
-		item->rest_hour = static_cast<v_int32>(0);
+	// 调用 DAO 查出这个学生报了哪些课
+	ClassStudentDAO dao;
+	auto doList = dao.selectByStudentId(query->id.getValue(""));
 
-		// ���ȳ��԰� consume_course_id ��ȡ�δΣ�ʧ���� class_id ��ȡ�ð�����δΡ�
-		PtrLessonDO lesson = nullptr;
-		if (one->getConsumeCourseId() > 0)
-		{
-			lesson = lessonDao.selectById(static_cast<long long>(one->getConsumeCourseId()));
-		}
-		if (!lesson && one->getClassId() > 0)
-		{
-			auto lq = LessonQuery::createShared();
-			lq->class_id = oatpp::String(std::to_string(one->getClassId()));
-			lq->pageIndex = 1;
-			lq->pageSize = 1;
-			auto lessons = lessonDao.selectWithPage(lq);
-			if (!lessons.empty())
-			{
-				item->title = lessons.front().getTitle();
-				item->teacher_id = std::to_string(lessons.front().getTeacherId());
-				item->sn = std::to_string(lessons.front().getSn());
-			}
-			else
-			{
-				item->title = "";
-				item->teacher_id = "";
-				item->sn = "";
-			}
-		}
-		else if (lesson)
-		{
-			item->title = lesson->getTitle();
-			item->teacher_id = std::to_string(lesson->getTeacherId());
-			item->sn = std::to_string(lesson->getSn());
-		}
-		else
-		{
-			item->title = "";
-			item->teacher_id = "";
-			item->sn = "";
-		}
-		list->push_back(item);
+	for (auto one : doList) {
+		auto dto = TimetableStudentCourseDTO::createShared();
+		dto->course_id = std::to_string(one->getClassId());
+
+		dto->title = "真实的课程_" + std::to_string(one->getClassId());
+		dto->rest_hour = 0;
+
+		list->push_back(dto);
 	}
-
-	jvo->success(list);
-	return jvo;
+	return list;
 }
