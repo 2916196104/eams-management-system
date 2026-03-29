@@ -42,13 +42,13 @@ public: // 定义接口
 	);
 
 	//2.2 定义获取班级详情接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/home/class/info/query-by-class_id", queryClassInfo, QUERY(UInt32, class_id), execQueryClassInfo(class_id));
+	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/app/sCenter/class/info", queryClassInfo, QUERY(UInt32, class_id), execQueryClassInfo(class_id));
 
 	//3.1 定义获取班级分页列表控制器（条件+分页）
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("class.get_class_page"), queryClassPage, classQuery, classPageJsonVO::Wrapper, API_TAG);
 	
-	// 3.2 定义获取职位列表（条件+分页）接口处理
-	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/home/class/page/query-by-student_id", queryClassPage, QUERIES(QueryParams, queryParams),
+	// 3.2 定义获取班级分页列表控制器（条件+分页）接口处理
+	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/app/sCenter/class/list", queryClassPage, QUERIES(QueryParams, queryParams),
 		API_HANDLER_QUERY_PARAM(query, classQuery, queryParams); API_HANDLER_RESP_VO(execQueryClassPage(query)););
 
 	//4.1 定义获取学生列表控制器
@@ -58,7 +58,7 @@ public: // 定义接口
 	);
 
 	//4.2 定义获取学生列表接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/home/class/student/list/query-by-class_id", queryStudentList, QUERY(UInt32, class_id), execQueryStudentList(class_id));
+	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/app/sCenter/student/studentList", queryStudentList, QUERY(UInt32, class_id), execQueryStudentList(class_id));
 
 private: // 定义接口执行函数
 

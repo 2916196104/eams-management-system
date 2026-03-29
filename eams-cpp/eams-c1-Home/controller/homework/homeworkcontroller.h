@@ -40,7 +40,7 @@ class HomeworkController : public oatpp::web::server::api::ApiController
 public:
 
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("homework.get_homework_page"), queryPage, HomeworkQuery, HomeworkPageJsonVO::Wrapper, API_TAG);
-	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c1/homework/list", queryPage, QUERIES(QueryParams, queryParams),
+	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/app/sCenter/homework/list", queryPage, QUERIES(QueryParams, queryParams),
 		API_HANDLER_QUERY_PARAM(query, HomeworkQuery, queryParams); API_HANDLER_RESP_VO(execQueryPage(query)););
 
 	API_DEF_ENDPOINT_INFO_AUTH(
@@ -48,7 +48,7 @@ public:
 		API_DEF_ADD_QUERY_PARAMS(UInt64, "id", ZH_WORDS_GETTER("homework.field.id"), nullptr, true);
 	);
 
-	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c1/homework/info", queryDetail, QUERY(UInt64, id), execQueryDetail(id));
+	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/app/sCenter/homework/info", queryDetail, QUERY(UInt64, id), execQueryDetail(id));
 
 	// 1.1 定义提交作业接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(
@@ -61,7 +61,7 @@ public:
 	// 1.2 定义提交作业接口处理
 	API_HANDLER_ENDPOINT_AUTH(
 		API_M_POST,
-		"c1/homework/submit",
+		"/app/sCenter/homework/saveRecord",
 		homeworkSubmit,
 		QUERY(UInt32, studentId),
 		execHomeworkSubmit(studentId)
@@ -79,7 +79,7 @@ public:
 	// 2.2 定义删除作业接口处理
 	API_HANDLER_ENDPOINT_AUTH(
 		API_M_DEL,
-		"c1/homework/delete",
+		"/app/sCenter/homework/deleteRecord/{id}",
 		homeworkDelete,
 		QUERY(UInt32, homeworkId),
 		execHomeworkDelete(homeworkId)

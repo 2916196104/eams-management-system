@@ -44,22 +44,22 @@ class cardController : public oatpp::web::server::api::ApiController
 		API_DEF_ADD_QUERY_PARAMS(String, "userId", ZH_WORDS_GETTER("listening-card.userID"), "", true);
 	);
 	//
-	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c1/card/pos", queryMyCardList, QUERY(String,userId), execQueryMyCardList(userId));
+	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/app/sCenter/course/myTrialList", queryMyCardList, QUERY(String,userId), execQueryMyCardList(userId));
 
 	// 定义获取试听卡接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("listening-card.get.list"), cardQuery,cardListJsonVO::Wrapper, API_TAG);
 	// 定义获取试听卡接口端点
-	API_HANDLER_ENDPOINT_NOPARAM_AUTH(API_M_GET, "/c1/home/card-list", cardQuery, executeCardListQuery());
+	API_HANDLER_ENDPOINT_NOPARAM_AUTH(API_M_GET, "/app/sCenter/course/trialList", cardQuery, executeCardListQuery());
 
 	// 3.1 定义修改试听卡状态接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("listening-card.receive"), receiveCard, StringJsonVO::Wrapper, API_TAG);
 	// 3.2 定义修改试听卡状态接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "/c1/card/put", receiveCard, BODY_DTO(receiveCardDTO::Wrapper, dto), execReceiveCard(dto, authObject->getPayload()));
+	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "/app/sCenter/course/catchTrial/{trialId}", receiveCard, BODY_DTO(receiveCardDTO::Wrapper, dto), execReceiveCard(dto, authObject->getPayload()));
 
 	// 定义获取试听卡规则接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("listening-card.get.rule"), cardRuleQuery, cardRuleJsonVO::Wrapper, API_TAG);
 	// 定义获取试听卡规则接口端点
-	API_HANDLER_ENDPOINT_NOPARAM_AUTH(API_M_GET, "/c1/home/card-rule", cardRuleQuery, executeCardRuleQuery());
+	API_HANDLER_ENDPOINT_NOPARAM_AUTH(API_M_GET, "/app/sCenter/course/getRule", cardRuleQuery, executeCardRuleQuery());
 
 
 	

@@ -127,7 +127,7 @@ homework:
     endTime: 截止时间
     teacherName: 发布教师
   submit: 提交作业
-  delete: 删除作业
+  delete: 删除重做
   whichId: 作业id
   editor: 编辑人
   content: 作业内容
@@ -285,9 +285,9 @@ exchange:
   query-accept:
     summary: 获取礼品兑换记录（条件+分页）
   get-goods-detail:
-    summary: 获取礼品详情
+    summary: 获取积分礼品详情
   submit-exchange:
-    summary: 提交兑换申请
+    summary: 兑换礼品
   field:
     id: 主键
     school_id: 所属学校

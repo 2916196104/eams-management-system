@@ -40,14 +40,14 @@ public: // 定义接口
 		ZH_WORDS_GETTER("attendance_records.get_attendance_records_page"), queryAttendanceRecordsPage, attendance_recordsQuery, attendance_recordsPageJsonVO::Wrapper, API_TAG
 	);
 	//1.2 定义获取上课记录分页接口处理
-	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/home/attendance_records/page/query-by-student_id", queryAttendanceRecordsPage, QUERIES(QueryParams, queryParams),
+	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/app/sCenter/lesson/signRecord", queryAttendanceRecordsPage, QUERIES(QueryParams, queryParams),
 		API_HANDLER_QUERY_PARAM(query, attendance_recordsQuery, queryParams);API_HANDLER_RESP_VO(execQueryAttendanceRecordsPage(query)););
 
 	//2.1 定义评价课次控制器
 	API_DEF_ENDPOINT_INFO_AUTH(
 		ZH_WORDS_GETTER("attendance_records.evaluate_attendance_records"), addevaluateAttendanceRecords, StringJsonVO::Wrapper, API_TAG);
 	// 2.2 定义评价课次接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/home/attendance_records/evaluate", addevaluateAttendanceRecords,BODY_DTO(attendance_recordsEvaluateDTO::Wrapper ,dto), execEvaluateAttendanceRecords(dto, authObject->getPayload()));
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/app/sCenter/lesson/teachEvaluate", addevaluateAttendanceRecords,BODY_DTO(attendance_recordsEvaluateDTO::Wrapper ,dto), execEvaluateAttendanceRecords(dto, authObject->getPayload()));
 private: // 定义接口执行函数
 	attendance_recordsPageJsonVO::Wrapper execQueryAttendanceRecordsPage(const attendance_recordsQuery::Wrapper& query);
 
