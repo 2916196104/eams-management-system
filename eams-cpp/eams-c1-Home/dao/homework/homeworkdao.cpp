@@ -48,3 +48,10 @@ HomeworkDetailDTO::Wrapper HomeworkDAO::selectDetail(uint64_t id)
     HomeworkDetailMapper mapper;
     return sqlSession->executeQueryOne<HomeworkDetailDTO::Wrapper>(sql.str(), mapper);
 }
+
+PtrHomeworkDO HomeworkDAO::selectById(uint64_t id) {
+    // 直接把 id 拼到 SQL 里
+    std::string sql = "SELECT * FROM homework WHERE id = " + std::to_string(id);
+    // 调用无参数的 executeQueryOne
+    return sqlSession->executeQueryOne<PtrHomeworkDO>(sql, PtrHomeworkMapper());
+}

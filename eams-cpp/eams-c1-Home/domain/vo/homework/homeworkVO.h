@@ -62,7 +62,15 @@ class HomeworkJsonVO : public oatpp::DTO
     DTO_FIELD(String, images);            // 图片
     DTO_FIELD(String, addTime);           // 提交时间
 };
+class HomeworkDeleteJsonVO : public JsonVO<HomeworkDeleteDTO::Wrapper>
+{
+    DTO_INIT(HomeworkDeleteJsonVO, JsonVO<HomeworkDeleteDTO::Wrapper>);
+};
 
+class HomeworkSubmitJsonVO : public JsonVO<HomeworkSubmitDTO::Wrapper>
+{
+    DTO_INIT(HomeworkSubmitJsonVO, JsonVO<HomeworkSubmitDTO::Wrapper>);
+};
 #include OATPP_CODEGEN_END(DTO)
 
 #endif 

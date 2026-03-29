@@ -39,4 +39,25 @@ public:
     }
 };
 
+class PtrHomeworkMapper : public Mapper<PtrHomeworkDO>
+{
+public:
+    PtrHomeworkDO mapper(ResultSet* resultSet) const override
+    {
+        PtrHomeworkDO homeworkDO = std::make_shared<HomeworkDO>();
+
+        homeworkDO->setId(resultSet->getUInt64("id"));
+
+        homeworkDO->setClassId(resultSet->getUInt64("class_id"));
+        homeworkDO->setTitle(resultSet->getString("title"));
+        homeworkDO->setContent(resultSet->getString("content"));
+        homeworkDO->setCreator(resultSet->getUInt64("creator"));
+        homeworkDO->setEditor(resultSet->getUInt64("editor"));
+        homeworkDO->setAddTime(resultSet->getString("add_time"));
+        homeworkDO->setEditTime(resultSet->getString("edit_time"));
+        homeworkDO->setDeleted(resultSet->getUInt64("deleted"));
+        homeworkDO->setOrgId(resultSet->getUInt64("org_id"));
+        return homeworkDO;
+    }
+};
 #endif 

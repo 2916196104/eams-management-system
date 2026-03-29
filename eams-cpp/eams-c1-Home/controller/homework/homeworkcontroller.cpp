@@ -32,9 +32,14 @@ HomeworkDetailJsonVO::Wrapper HomeworkController::execQueryDetail(const UInt64& 
 	return service.queryDetail(id.getValue(0));
 }
 
-HomeworkJsonVO::Wrapper HomeworkController::execHomeworkSubmit(const UInt32& studentId){
-	return {};
+HomeworkSubmitJsonVO::Wrapper HomeworkController::execQuerySubmit(const HomeworkSubmitDTO::Wrapper& dto)
+{
+	HomeworkService service;
+	return service.submitHomework(dto);
 }
-HomeworkJsonVO::Wrapper HomeworkController::execHomeworkDelete(const UInt32& homeworkId){
-	return {};
+
+HomeworkDeleteJsonVO::Wrapper HomeworkController::execQueryDelete(const HomeworkDeleteQuery::Wrapper& query)
+{
+	HomeworkService service;
+	return service.deleteHomework(query);
 }

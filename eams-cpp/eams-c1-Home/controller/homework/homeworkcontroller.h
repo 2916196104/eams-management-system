@@ -53,41 +53,42 @@ public:
 	// 1.1 定义提交作业接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(
 		ZH_WORDS_GETTER("homework.submit"),
-		homeworkSubmit,
+		querySubmit,
 		HomeworkJsonVO::Wrapper,
 		API_TAG
 	);
 
-	// 1.2 定义提交作业接口处理
+	// 1.2 定义提交作业接口处理/*"/app/sCenter/homework/saveRecord",
 	API_HANDLER_ENDPOINT_AUTH(
 		API_M_POST,
 		"/app/sCenter/homework/saveRecord",
-		homeworkSubmit,
-		QUERY(UInt32, studentId),
-		execHomeworkSubmit(studentId)
+		querySubmit,
+		BODY_DTO(HomeworkSubmitDTO::Wrapper, dto),
+		execQuerySubmit(dto)
 	);
 
 	// 2.1 定义删除作业接口描述
-	API_DEF_ENDPOINT_INFO_AUTH(
+	API_DEF_ENDPOINT_INFO_QUERY_AUTH(
 		ZH_WORDS_GETTER("homework.delete"),
-		homeworkDelete,
-		HomeworkJsonVO::Wrapper,
-		API_TAG,
-		API_DEF_ADD_QUERY_PARAMS(UInt32, "homeworkId", ZH_WORDS_GETTER("homework.whichId"), 1, true);
+		queryDelete,
+		HomeworkDeleteQuery,
+		HomeworkDeleteJsonVO::Wrapper,
+		API_TAG
 	);
-
-	// 2.2 定义删除作业接口处理
-	API_HANDLER_ENDPOINT_AUTH(
+	// 2.2 定义删除作业接口处理/*"/app/sCenter/homework/deleteRecord/{id}",
+	API_HANDLER_ENDPOINT_OPTION_AUTH(
 		API_M_DEL,
 		"/app/sCenter/homework/deleteRecord/{id}",
-		homeworkDelete,
-		QUERY(UInt32, homeworkId),
-		execHomeworkDelete(homeworkId)
-	);private: // 定义接口执行函数
+		queryDelete,
+		QUERIES(QueryParams, queryParams),
+		API_HANDLER_QUERY_PARAM(query, HomeworkDeleteQuery, queryParams);
+	API_HANDLER_RESP_VO(execQueryDelete(query));
+		);
+private: // 定义接口执行函数
 	HomeworkPageJsonVO::Wrapper execQueryPage(const HomeworkQuery::Wrapper& query);
 	HomeworkDetailJsonVO::Wrapper execQueryDetail(const UInt64& id);
-	HomeworkJsonVO::Wrapper execHomeworkSubmit(const UInt32& studentId);
-	HomeworkJsonVO::Wrapper execHomeworkDelete(const UInt32& homeworkId);
+	HomeworkSubmitJsonVO::Wrapper execQuerySubmit(const HomeworkSubmitDTO::Wrapper& dto);
+	HomeworkDeleteJsonVO::Wrapper execQueryDelete(const HomeworkDeleteQuery::Wrapper& query);
 };
 
 #include OATPP_CODEGEN_END(ApiController)

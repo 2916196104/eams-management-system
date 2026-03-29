@@ -8,7 +8,8 @@
 #define _REGISTRATION_DO_H_
 
 #include "SqlHelper.h"
-
+#include "RegistrationDO.h"
+#include "../../do/DoInclude.h"
 /**
  * 课时学员表数据模型
  */
