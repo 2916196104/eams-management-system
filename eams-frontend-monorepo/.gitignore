@@ -58,3 +58,5 @@ local_cache
 # 忽略vite依赖缓存
 .vite
 .worktrees/
+!patches/
+!patches/*.patch

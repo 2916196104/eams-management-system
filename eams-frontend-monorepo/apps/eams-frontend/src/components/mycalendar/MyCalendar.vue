@@ -25,7 +25,7 @@
 				<span class="current-month">{{ displayTitle }}</span>
 			</div>
 			<div class="toolbar-right">
-				<el-button class="today-btn" size="default" @click="goToday">今天</el-button>
+				<el-button type="primary" class="today-btn" size="default" @click="goToday">今天</el-button>
 				<el-button type="primary" size="default" class="nav-btn" @click="prev">&lt;</el-button>
 				<el-button type="primary" size="default" class="nav-btn" @click="next">&gt;</el-button>
 			</div>
@@ -188,8 +188,6 @@ const displayTitle = computed(() => {
 	return formatDay(viewCursor.value);
 });
 
-const displayYearMonth = computed(() => `${currentYear.value}年${currentMonth.value + 1}月`);
-
 function isSameDay(a: Date, b: Date | null) {
 	if (!b) return false;
 	return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
@@ -277,7 +275,6 @@ const monthCells = computed<CalendarCell[]>(() => {
 	const month = currentMonth.value;
 	const first = new Date(year, month, 1);
 	const firstWeekday = (first.getDay() + 6) % 7;
-	const totalDays = new Date(year, month + 1, 0).getDate();
 	const startOffset = 1 - firstWeekday;
 	const cells: CalendarCell[] = [];
 	const today = new Date();
@@ -313,6 +310,12 @@ function addDays(d: Date, delta: number): Date {
 	return r;
 }
 
+function syncSelectedDateByCursor() {
+	const nextDate = new Date(viewCursor.value.getFullYear(), viewCursor.value.getMonth(), viewCursor.value.getDate());
+	selectedDate.value = nextDate;
+	emit("date-select", nextDate);
+}
+
 function prev() {
 	if (viewMode.value === "month") {
 		if (currentMonth.value === 0) {
@@ -323,8 +326,10 @@ function prev() {
 		}
 	} else if (viewMode.value === "week") {
 		viewCursor.value = addDays(viewCursor.value, -7);
+		syncSelectedDateByCursor();
 	} else {
 		viewCursor.value = addDays(viewCursor.value, -1);
+		syncSelectedDateByCursor();
 	}
 }
 
@@ -338,8 +343,10 @@ function next() {
 		}
 	} else if (viewMode.value === "week") {
 		viewCursor.value = addDays(viewCursor.value, 7);
+		syncSelectedDateByCursor();
 	} else {
 		viewCursor.value = addDays(viewCursor.value, 1);
+		syncSelectedDateByCursor();
 	}
 }
 
@@ -444,17 +451,9 @@ function handleCellClick(cell: CalendarCell) {
 	font-weight: 500;
 }
 
-/* 今天按钮：黑色背景 */
+/* 今天按钮样式 */
 .today-btn {
-	background-color: #000;
-	border-color: #000;
-	color: #fff;
-}
-.today-btn:hover,
-.today-btn:focus {
-	background-color: #333;
-	border-color: #333;
-	color: #fff;
+	/* 使用 primary 类型的默认蓝色 */
 }
 
 .nav-btn {
@@ -597,10 +596,6 @@ function handleCellClick(cell: CalendarCell) {
 	border-bottom: 1px solid #ebeef5;
 	cursor: pointer;
 	background: #fff;
-}
-
-.week-cell:hover {
-	background-color: #f5f7fa;
 }
 
 .week-cell:nth-child(7n + 1) {

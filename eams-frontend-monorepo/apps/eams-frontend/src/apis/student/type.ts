@@ -30,6 +30,8 @@ export interface ClassSummaryQueryDTO {
 	status?: string;
 	/** 学员 ID */
 	studentId?: string;
+	/** 课程名称 */
+	courseName?: string;
 }
 
 /**
@@ -50,6 +52,12 @@ export interface ClassSummaryItemDTO {
 	remainingCount?: number;
 	/** 科目名称 */
 	subjectName?: string;
+	/** 学员 ID */
+	studentId?: string;
+	/** 学员姓名 */
+	studentName?: string;
+	/** 学员电话 */
+	studentPhone?: string;
 	/** 总数量 */
 	totalCount?: number;
 	/** 单价 */
@@ -104,6 +112,8 @@ export interface SignupRecordItemDTO {
 	remainingLessons?: number;
 	/** 学生姓名 */
 	studentName?: string;
+	/** 学生 ID */
+	studentId?: string;
 	/** 科目名称 */
 	subjectName?: string;
 	/** 审核状态 */

@@ -1,10 +1,22 @@
 import { defineStore } from "pinia";
 
+export interface ParentUserInfo {
+	id: string;
+	nickName: string;
+	phone: string;
+	sex: string;
+	regDate?: string;
+}
+
 export interface ParentStudent {
 	id: string;
 	name: string;
 	gender: "男" | "女";
 	avatarText: string;
+	relation?: string;
+	grade?: string;
+	idCard?: string;
+	birthday?: string;
 }
 
 export interface ParentHomeAction {
@@ -16,9 +28,13 @@ export interface ParentHomeAction {
 	redPoint?: number;
 }
 
+function getAvatarText(name: string) {
+	return (name || "学").trim().charAt(0).toUpperCase() || "学";
+}
+
 /**
- * 当前用户信息，包含下面数据：
- * 1. 家长基本信息
+ * 当前用户信息，包含下面几类数据：
+ * 1. 家长基础信息
  * 2. 家长首页功能列表
  * 3. 当前关联学生列表
  */
@@ -26,16 +42,21 @@ export const useUserStore = defineStore("user", {
 	state: () => ({
 		userInfo: {
 			id: "1",
-			nickName: "家长用户",
-			phone: "13800000001",
+			nickName: "tom",
+			phone: "18202025732",
 			sex: "女",
-		} as { id: string; nickName: string; phone: string; sex: string },
+			regDate: "2026-03-08",
+		} as ParentUserInfo,
 		students: [
 			{
 				id: "1",
 				name: "jack",
 				gender: "男",
 				avatarText: "J",
+				relation: "妈妈",
+				grade: "2027级",
+				idCard: "",
+				birthday: "2026-03-27",
 			},
 		] as Array<ParentStudent>,
 		currentStudentId: "1",
@@ -63,6 +84,54 @@ export const useUserStore = defineStore("user", {
 	actions: {
 		setCurrentStudent(id: string) {
 			this.currentStudentId = id;
+		},
+		setStudents(list: Array<ParentStudent>) {
+			this.students = list;
+			if (!list.length) {
+				this.currentStudentId = "";
+				return;
+			}
+			if (!list.some((item) => item.id === this.currentStudentId)) {
+				this.currentStudentId = list[0].id;
+			}
+		},
+		updateUserInfo(payload: Partial<ParentUserInfo>) {
+			this.userInfo = {
+				...this.userInfo,
+				...payload,
+			};
+		},
+		upsertStudent(payload: Partial<ParentStudent> & { id?: string }) {
+			const targetId = payload.id || `${Date.now()}`;
+			const index = this.students.findIndex((item) => item.id === targetId);
+			const nextStudent: ParentStudent = {
+				id: targetId,
+				name: payload.name?.trim() || "未命名学生",
+				gender: payload.gender === "女" ? "女" : "男",
+				avatarText: payload.avatarText || getAvatarText(payload.name || "未"),
+				relation: payload.relation || "妈妈",
+				grade: payload.grade || "",
+				idCard: payload.idCard || "",
+				birthday: payload.birthday || "",
+			};
+
+			if (index >= 0) {
+				this.students.splice(index, 1, {
+					...this.students[index],
+					...nextStudent,
+				});
+				return targetId;
+			}
+
+			this.students.push(nextStudent);
+			if (!this.currentStudentId) this.currentStudentId = targetId;
+			return targetId;
+		},
+		removeStudent(id: string) {
+			this.students = this.students.filter((item) => item.id !== id);
+			if (this.currentStudentId === id) {
+				this.currentStudentId = this.students[0]?.id || "";
+			}
 		},
 		setHomeRedPoints(payload: { homework_count?: number; grade_count?: number; evaluate_count?: number }) {
 			this.parentHomeActions = this.parentHomeActions.map((item) => {

@@ -1,15 +1,15 @@
 const routes = [
 	{
 		path: "/index",
-		name: "index",
+		name: "ConsoleIndex",
 		meta: {
-			label: "首页",
+			label: "控制台",
 		},
 		component: () => import("@/views/console/index/Index.vue"),
 	},
 	{
 		path: "/curriculum",
-		name: "curriculum",
+		name: "ConsoleCurriculum",
 		meta: {
 			label: "我的课表",
 		},
@@ -17,7 +17,7 @@ const routes = [
 	},
 	{
 		path: "/client",
-		name: "client",
+		name: "ConsoleClient",
 		meta: {
 			label: "我的客户",
 		},
@@ -25,7 +25,7 @@ const routes = [
 	},
 	{
 		path: "/signup",
-		name: "signup",
+		name: "ConsoleSignup",
 		meta: {
 			label: "我的报名",
 		},
@@ -33,7 +33,7 @@ const routes = [
 	},
 	{
 		path: "/payment",
-		name: "payment",
+		name: "ConsolePayment",
 		meta: {
 			label: "我的请款",
 		},
@@ -41,7 +41,7 @@ const routes = [
 	},
 	{
 		path: "/follow",
-		name: "follow",
+		name: "ConsoleFollow",
 		meta: {
 			label: "我的跟进",
 		},
@@ -49,7 +49,7 @@ const routes = [
 	},
 	{
 		path: "/student/online",
-		name: "studentOnline",
+		name: "StudentOnline",
 		meta: {
 			label: "在学学员",
 		},
@@ -57,7 +57,7 @@ const routes = [
 	},
 	{
 		path: "/student/detail",
-		name: "studentDetail",
+		name: "StudentDetail",
 		meta: {
 			label: "学员详情",
 		},
@@ -65,45 +65,52 @@ const routes = [
 	},
 	{
 		path: "/student/intention",
-		name: "studentIntention",
-		meta: { label: "意向学员" },
+		name: "StudentIntention",
+		meta: {
+			label: "意向学员",
+		},
 		component: () => import("@/views/console/student/IntentionStudents.vue"),
 	},
 	{
 		path: "/student/graduated",
-		name: "studentGraduated",
-		meta: { label: "结业学员" },
+		name: "StudentGraduated",
+		meta: {
+			label: "结业学员",
+		},
 		component: () => import("@/views/console/student/GraduatedStudents.vue"),
 	},
 	{
 		path: "/student/parent-accounts",
-		name: "studentParentAccounts",
-		meta: { label: "家长账号" },
+		name: "StudentParentAccounts",
+		meta: {
+			label: "家长账号",
+		},
 		component: () => import("@/views/console/student/ParentAccounts.vue"),
 	},
 	{
 		path: "/student/lesson-progress",
-		name: "studentLessonProgress",
-		meta: { label: "课时进度" },
+		name: "StudentLessonProgress",
+		meta: {
+			label: "课时进度",
+		},
 		component: () => import("@/views/console/student/StudentModulePlaceholder.vue"),
 	},
+	// 下面三个旧地址只做兼容跳转，真正的页面标题、tab 名称和后续维护都统一收口到 student 模块路由里。
+	// 这里故意不再重复维护 meta，避免同一页面出现两份 label 来源，后续改名时也漏改一处。
 	{
 		path: "/student/lesson-summary",
-		name: "studentLessonSummary",
-		meta: { label: "课时汇总" },
-		component: () => import("@/views/console/student/StudentModulePlaceholder.vue"),
+		name: "StudentLessonSummaryLegacy",
+		redirect: { name: "classSummary" },
 	},
 	{
 		path: "/student/enrollment-records",
-		name: "studentEnrollmentRecords",
-		meta: { label: "报名记录" },
-		component: () => import("@/views/console/signup/Signup.vue"),
+		name: "StudentEnrollmentRecordsLegacy",
+		redirect: { name: "signupRecord" },
 	},
 	{
 		path: "/student/follow-records",
-		name: "studentFollowRecords",
-		meta: { label: "跟进记录" },
-		component: () => import("@/views/console/follow/Follow.vue"),
+		name: "StudentFollowRecordsLegacy",
+		redirect: { name: "followRecord" },
 	},
 ];
 
