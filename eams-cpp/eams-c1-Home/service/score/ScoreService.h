@@ -3,8 +3,8 @@
 #ifndef _SCORE_SERVICE_
 #define _SCORE_SERVICE_
 
-#include "domain/dto/score/ScoreDTO.h"
-#include "domain/query/score/ScoreQuery.h"
+#include "domain/dto/score/scoreDTO.h"
+#include "domain/query/score/scorequery.h"
 
 class ScoreService
 {
