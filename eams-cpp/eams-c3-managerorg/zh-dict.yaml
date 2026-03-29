@@ -1,4 +1,4 @@
-Grade:
+﻿Grade:
  tags:
   t1: 成绩管理
   t2: 声明式服务示例接口
@@ -200,3 +200,8 @@ grade_table:
   save:
     save_list_title: 保存成绩单
     id: 成绩单id
+    grade_id: 考核项id
+    student_id: 学生id
+    score: 分数
+    add_time: 添加时间
+    creator: 添加人
