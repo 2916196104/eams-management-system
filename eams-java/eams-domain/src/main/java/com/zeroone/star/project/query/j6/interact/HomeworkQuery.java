@@ -1,5 +1,6 @@
 package com.zeroone.star.project.query.j6.interact;
 
+import com.zeroone.star.project.query.PageQuery;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -7,7 +8,7 @@ import lombok.Data;
  * 作业列表查询query
  */
 @Data
-public class HomeworkQuery {
+public class HomeworkQuery extends PageQuery {
 
     @ApiModelProperty(value = "标题",example = "数据结构")
     private String title;

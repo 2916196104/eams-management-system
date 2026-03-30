@@ -1,8 +1,8 @@
 server:
-  port: ${sp.sample}
+  port: ${sp.eas}
 spring:
   application:
-    name: ${sn.sample}
+    name: ${sn.eas}
 
 seata:
   enabled: false

@@ -53,6 +53,11 @@
         </dependency>
 
         <!-- 数据库相关 -->
+        <!-- &lt;!&ndash;redis&ndash;&gt; -->
+        <!-- <dependency> -->
+        <!--     <groupId>org.springframework.boot</groupId> -->
+        <!--     <artifactId>spring-boot-starter-data-redis</artifactId> -->
+        <!-- </dependency> -->
         <!-- mp -->
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -80,7 +85,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.zeroone.star.interact.InteractApplication</mainClass>
+                    <mainClass>com.zeroone.star.sample.SampleApplication</mainClass>
                 </configuration>
             </plugin>
             <plugin>
@@ -90,7 +95,7 @@
                     <!-- 数据库连接信息配置 -->
                     <dbConfig>
                         <!-- 数据库主机地址 -->
-                        <host>localhost</host>
+                        <host>192.168.149.134</host>
                         <!-- 数据库端口 -->
                         <port>3306</port>
                         <!-- 数据库名称 -->
@@ -98,7 +103,7 @@
                         <!-- 数据库用户名 -->
                         <username>root</username>
                         <!-- 数据库密码 -->
-                        <password>xlcdljy1021.A</password>
+                        <password>123456</password>
                     </dbConfig>
                     <!-- 生成代码输出根目录 -->
                     <outDir>${project.basedir}/src/main/java</outDir>

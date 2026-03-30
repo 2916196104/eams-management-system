@@ -28,7 +28,7 @@ public interface IGradeManagerService extends IService<ClassGrade> {
      * @param id 年级ID
      * @return 年级详情
      */
-    ClassGradeDto getGradeById(Integer id);
+    ClassGradeDto getGradeById(Long id);
 
     /**
      * 获取年级名称列表（用于下拉框）

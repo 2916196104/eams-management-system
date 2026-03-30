@@ -15,37 +15,38 @@ public interface AnnouncementApis {
 
     /**
      * 获取公告列表（条件+分页）
-     * @param announcementListQuery
-     * @return
+     * @param query 查询条件
+     * @return 分页公告数据
      */
-    JsonVO<PageDTO<AnnouncementDTO>> queryPage(AnnouncementListQuery announcementListQuery);
+    JsonVO<PageDTO<AnnouncementDTO>> queryPage(AnnouncementListQuery query);
 
 
     /**
      * 获取公告详情
-     * @param id
-     * @return
+     * @param id 公告ID
+     * @return 公告详情
      */
     JsonVO<AnnouncementDTO> getDetail(Long id);
 
     /**
-     *  保存公告
-     * @param dto
-     * @return
+     * 保存公告（新增或修改）
+     * @param dto 公告信息
+     * @return 操作结果
      */
     JsonVO<String> saveAnnouncement(AnnouncementDTO dto);
 
     /**
      * 删除公告
      * @param ids 公告id列表
-     * @return
+     * @return 操作结果
      */
     JsonVO<String> removeAnnouncement(List<Long> ids);
 
     /**
      * 启用、停用公告
      * @param ids 公告id列表
-     * @return
+     * @param state 状态(0-停用,1-启用)
+     * @return 操作结果
      */
-    JsonVO<String> updateAnnouncementState(List<Long> ids);
+    JsonVO<String> updateAnnouncementState(List<Long> ids, Integer state);
 }

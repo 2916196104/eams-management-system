@@ -1,9 +1,11 @@
 package com.zeroone.star.project.j6.interact;
-import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
+
+import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j6.interact.GradeListDTO;
 import com.zeroone.star.project.dto.j6.interact.GradeFormDTO;
 import com.zeroone.star.project.dto.j6.interact.GradeRecordDTO;
 import com.zeroone.star.project.query.j6.interact.GradeFormQuery;
+import com.zeroone.star.project.query.j6.interact.GradeRecordQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,10 +27,10 @@ public interface GradeApis {
 
 	/**
 	 * 分页查询成绩列表信息
-	 * @param id 成绩单id
+     * @param gradeRecordQuery 查询条件
 	 * @return 返回结果
 	 */
-	JsonVO<PageDTO<GradeListDTO>> queryGrade(Long id);
+    JsonVO<PageDTO<GradeListDTO>> queryGrade(GradeRecordQuery gradeRecordQuery);
 
 
 	/**

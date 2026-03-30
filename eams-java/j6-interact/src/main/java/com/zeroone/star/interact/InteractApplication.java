@@ -13,6 +13,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 @EnableSwagger2WebMvc
 @EnableFeignClients
 @MapperScan("com.zeroone.star.interact.mapper")
+@ComponentScan(basePackages = {
+        "com.zeroone.star.interact",
+        "com.zeroone.star.project.config.mybatis",
+        "com.zeroone.star.project.components.fastdfs"
+})
 public class InteractApplication {
 
     public static void main(String[] args) {

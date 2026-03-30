@@ -2,7 +2,7 @@ package com.zeroone.star.project.j6.finance;
 
 import javax.servlet.http.HttpServletResponse;
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.vo.j6.finance.FinanceRecordVo;
+import com.zeroone.star.project.dto.j6.finance.FinanceRecordDTO;
 import com.zeroone.star.project.query.j6.finance.FinanceRecordQuery;
 import com.zeroone.star.project.vo.JsonVO;
 
@@ -18,7 +18,7 @@ public interface FundManageApis {
      * @param condition 查询条件
      * @return 款项信息
      */
-    JsonVO<PageDTO<FinanceRecordVo>> queryPage(FinanceRecordQuery condition);
+    JsonVO<PageDTO<FinanceRecordDTO>> queryPage(FinanceRecordQuery condition);
 
     /**
      * 批量确认
@@ -35,9 +35,10 @@ public interface FundManageApis {
     JsonVO<List<Long>> refuse(List<Long> ids);
 
     /**
-     * 导出
+     * 导出，返回下载链接
      * @param response
+     * @return 下载链接
      * @throws IOException
      */
-    void download(HttpServletResponse response) throws IOException;
+    JsonVO<String> download(HttpServletResponse response) throws IOException;
 }

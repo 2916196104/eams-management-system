@@ -1,17 +1,21 @@
 package com.zeroone.star.interact.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import com.alibaba.excel.EasyExcel;
-import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
-import com.zeroone.star.interact.components.easyexcel.EasyExcelComponent;
+import com.zeroone.star.interact.service.GradeFormService;
+import com.zeroone.star.project.components.easyexcel.EasyExcelComponent;
+import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.interact.service.IGradeRecordService;
 import com.zeroone.star.project.dto.j6.interact.GradeListDTO;
 import com.zeroone.star.project.dto.j6.interact.GradeFormDTO;
 import com.zeroone.star.project.dto.j6.interact.GradeRecordDTO;
 import com.zeroone.star.project.j6.interact.GradeApis;
 import com.zeroone.star.project.query.j6.interact.GradeFormQuery;
+import com.zeroone.star.project.query.j6.interact.GradeRecordQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +32,10 @@ public class GradeController implements GradeApis {
     private IGradeRecordService gradeRecordService;
     @Resource
     EasyExcelComponent easyExcelComponent;
+
+    @Resource
+    private GradeFormService gradeFormService;
+
     /**
      * 获得成绩单列表（条件+分页）
      *
@@ -37,22 +45,30 @@ public class GradeController implements GradeApis {
     @GetMapping
     @ApiOperation("获取成绩单列表（条件+分页）")
     @Override
-    public JsonVO<PageDTO<GradeFormDTO>> queryForm(GradeFormQuery condition) {
-        return null;
+    public JsonVO<PageDTO<GradeFormDTO>> queryForm(@Validated  GradeFormQuery condition) {
+        PageDTO<GradeFormDTO> result=gradeFormService.queryForm(condition);
+        return JsonVO.success(result);
     }
 
     /**
      * 分页查询成绩信息
      *
-     * @param id 成绩单id
+     * @param gradeRecordQuery 查询条件
      * @return 返回结果
      */
-    @GetMapping("/{id}")
+    @GetMapping("/getRecordList")
     @ApiOperation("获取成绩列表（条件+分页）")
     @Override
-    public JsonVO<PageDTO<GradeListDTO>> queryGrade(@PathVariable("id") Long id) {
-        return null;
+    public JsonVO<PageDTO<GradeListDTO>> queryGrade(GradeRecordQuery gradeRecordQuery) {
+        //参数校验
+        if (gradeRecordQuery == null) {
+            //todo 应该换成全局异常处理器
+            throw new RuntimeException("参数错误，参数不能为空");
+        }
+        PageDTO<GradeListDTO> gradeRecordList = gradeFormService.getGradeRecordList(gradeRecordQuery);
+        return JsonVO.success(gradeRecordList);
     }
+
 
     /**
      * 保存成绩单信息，新增和修改成绩单走这里
@@ -64,7 +80,13 @@ public class GradeController implements GradeApis {
     @ApiOperation("保存成绩单")
     @Override
     public JsonVO<Long> saveGrade(@RequestBody GradeFormDTO gradeFormDTO) {
-        return null;
+        //参数校验
+        if (gradeFormDTO == null) {
+            //todo 应该换成全局异常处理器
+            throw new RuntimeException("参数错误，参数不能为空");
+        }
+        Long result = gradeFormService.saveGrade(gradeFormDTO);
+        return JsonVO.success(result);
     }
 
     /**
@@ -77,7 +99,13 @@ public class GradeController implements GradeApis {
     @ApiOperation("删除成绩单")
     @Override
     public JsonVO<List<Long>> deleteGrade(@RequestBody List<Long> ids) {
-        return null;
+        //参数校验
+        if (CollUtil.isEmpty(ids)) {
+            //todo 应该换成全局异常处理器
+            throw new RuntimeException("参数错误，参数不能为空");
+        }
+        List<Long> result = gradeFormService.deleteGrade(ids);
+        return JsonVO.success(result);
     }
 
 

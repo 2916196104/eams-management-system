@@ -4,6 +4,7 @@ import com.zeroone.star.project.query.PageQuery;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -14,35 +15,26 @@ import java.time.LocalDate;
 @ApiModel("请款列表查询条件")
 public class CashoutListQuery extends PageQuery {
 
-    @ApiModelProperty("请款项目名（模糊查询，对应 title）")
+    @ApiModelProperty(value = "请款项目名",example = "办公用品采购")
     private String title;
 
-    /**
-     * 请款类型，对应表字段 type（tinyint）
-     * 例如：1-广告宣传，2-物业费，3-办公耗材，4-水费，5-差旅费，6-其他
-     */
-    @ApiModelProperty("请款类型（tinyint，对应下拉：广告宣传/物业费/办公耗材/水费/差旅费/其他）")
+    @ApiModelProperty(value = "请款类型",example = "7")
     private Integer type;
 
-    /**
-     * 审核状态，对应表字段 verify_state（tinyint）
-     * 例如：0-待审核，1-审核通过，2-已驳回
-     */
-    @ApiModelProperty("审核状态（tinyint：0-待审核，1-审核通过，2-已驳回）")
+    @ApiModelProperty(value = "审核状态（0-待审核，1-审核通过，2-已驳回）",example = "0")
     private Integer verifyState;
 
-    /**
-     * 申请日期范围
-     */
-    @ApiModelProperty("开始日期（申请日期-起）")
+    @ApiModelProperty(value = "开始日期",example = "2026-03-01")
+    @DateTimeFormat(pattern = "yyyy-MM-dd") // 添加这一行
     private LocalDate startDate;
 
-    @ApiModelProperty("结束日期（申请日期-止）")
+    @ApiModelProperty(value = "结束日期",example = "2026-03-30")
+    @DateTimeFormat(pattern = "yyyy-MM-dd") // 添加这一行
     private LocalDate endDate;
 
-    @ApiModelProperty("申请人ID（对应 creator）")
+    @ApiModelProperty(value = "申请人ID",example = "2")
     private Long creator;
 
-    @ApiModelProperty("收款人姓名（模糊查询，对应 payee_name）")
+    @ApiModelProperty(value = "收款人姓名",example = "张三")
     private String payeeName;
 }
