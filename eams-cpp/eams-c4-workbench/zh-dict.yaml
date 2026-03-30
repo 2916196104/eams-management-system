@@ -133,6 +133,7 @@ customer:
    intention: 意向学员
    studying: 在学学员
  field:
+  courseid: 课程ID
   id: 客户ID
   name: 姓名
   phone: 手机号码

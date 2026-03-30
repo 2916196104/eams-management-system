@@ -1,6 +1,6 @@
 #ifndef _COURSE_DO_
 #define _COURSE_DO_
-#include "../do/DoInclude.h"
+#include "DoInclude.h"
 
 class CourseDO : public BaseDO {
 	// Ö÷¼ü

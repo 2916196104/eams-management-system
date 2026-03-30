@@ -79,7 +79,7 @@ CustomerLessonListDTO::Wrapper HhService::getLessonListById(std::string id) {
 			name, Name,
 			progress, Progress,
 			deadline, DeadLine,
-			rest_times, RestTimes
+			restTimes, RestTimes
 		);
 		dto->id = stoi(sub.getId());
 		result->list->push_back(dto);

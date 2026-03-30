@@ -39,7 +39,7 @@ class CustomerDetailDTO : public oatpp::DTO {
 class CustomerLessonDTO : public oatpp::DTO {
 	DTO_INIT(CustomerLessonDTO, DTO);
 	// 唯一ID
-	API_DTO_FIELD_DEFAULT(Int64, id, ZH_WORDS_GETTER("customer.field.id"));
+	API_DTO_FIELD_DEFAULT(Int64, id, ZH_WORDS_GETTER("customer.field.courseid"));
 	// 课程名
 	API_DTO_FIELD_DEFAULT(String, name, ZH_WORDS_GETTER("customer.field.lessonName"));
 	// 学习进度
@@ -47,7 +47,7 @@ class CustomerLessonDTO : public oatpp::DTO {
 	// 有效期
 	API_DTO_FIELD_DEFAULT(String, deadline, ZH_WORDS_GETTER("customer.field.deadline"));
 	// 剩余次数
-	API_DTO_FIELD_DEFAULT(Int16, rest_times, ZH_WORDS_GETTER("customer.field.resttimes"));
+	API_DTO_FIELD_DEFAULT(Int16, restTimes, ZH_WORDS_GETTER("customer.field.resttimes"));
 };
 
 class CustomerPageDTO : public PageDTO<CustomerDTO::Wrapper> {
