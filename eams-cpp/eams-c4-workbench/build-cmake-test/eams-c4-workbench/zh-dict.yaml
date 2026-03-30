@@ -196,11 +196,24 @@ homework:
   comment:
     summary: 点评作业
   query:
-    admin_id: 管理员ID
-    class_id: 班级ID
-    page: 页码
-    size: 每页数量
+    teacher_id: 教师用户ID（须与登录 Token 中 id 一致）
+    class_id: 班级ID（必填）
+    pageIndex: 当前页码（从 1 开始，与响应 data.pageIndex 一致）
+    pageSize: 每页条数（与响应 data.pageSize 一致）
     homework_id: 作业ID
+  body:
+    add:
+      teacher_id: 教师用户ID（须与登录 Token 中 id 一致）
+      class_id: 班级ID
+      title: 作业标题
+      content: 作业内容
+      attachment: 附件说明或地址（可选）
+    comment:
+      teacher_id: 教师用户ID（须与登录 Token 中 id 一致）
+      submit_id: 学生提交记录ID（homework_record.id）
+      review: 点评对象（评分与评语）
+      score: 评分（0-100）
+      content: 教师点评文字
   rsp:
     code: 状态码
     message: 提示信息
@@ -221,9 +234,11 @@ homework:
   detailData:
     homework_id: 作业ID
     title: 作业标题
+    class_id: 班级ID
     class_name: 班级名称
     content: 作业内容
     attachment: 附件
+    create_time: 发布时间
     submit_list: 提交记录列表
   submitRecord:
     record_id: 提交记录ID

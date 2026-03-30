@@ -1,4 +1,4 @@
-﻿enrollment:
+enrollment:
     summary1: 获取报名记录
     summary2: 获取报名记录详情
     summary3: 保存报名
@@ -7,8 +7,7 @@ teacher:
  field:
   id: 教师id
   name: 教师姓名
-  position: 教师职务id
-  position_name: 教师职务名称
+  position: 教师职务
  query:
   summary: 获取教师列表
  tag: 排课
@@ -16,11 +15,10 @@ class:
  field:
   id: 班级id
   name: 班级名
-  grade: 年级id
+  grade: 年级
  tag: 排课
  query:
   summary: 获取班级列表   
-
 comment:
   teacherid: 教师id
   stuname: 学生姓名
@@ -28,24 +26,21 @@ comment:
   text: 评论内容
   score: 综合评价
   getcomment: 获取点评记录
-  anonymity: 是否匿名评价
-  anonymityname: 匿名用户 
 rollcall:
   teacherid: 教师id
   courseid: 课程id
   stuname: 学生姓名
   checkindate: 签到时间
   getrollrecord: 获取点名记录
-  checkinresult: 签到结果
 intendedstudent:
-  stuname: 学生姓名
-  phonenumber: 手机号
-  stutype: 学生类型
-  sex: 性别
-  birthday: 出生年月
-  cardid: 身份证号
-  text: 备注信息
-  text2: 添加学员
+ stuname: 学生姓名
+ phonenumber: 手机号
+ stutype: 学生类型
+ sex: 性别
+ birthday: 出生年月
+ cardid: 身份证号
+ text: 备注信息
+ text2: 添加学员
 workbench:
  tag: 学生档案
  progress:
@@ -79,10 +74,8 @@ workbench:
   summary: 使用声明式服务查询一条数据
  query-all:
   summary: 使用声明式服务查询多条数据
-
 schedule:
   field:
-    Id: 排课ID
     classId: 班级ID
     courseId: 课程ID
     teacherId: 教师ID
@@ -98,11 +91,9 @@ schedule:
     endTime: 下课时间
     limitNum: 限制人数
     skipHolidays: 跳过节假日
-    enableBooking: 开启预约
-    checkConflict: 是否检查冲突
+    enableReservation: 开启预约
+    conflict: 是否冲突
     date: 上课日期
-    consumedHours: 消课课时
-    periods: 周期列表
   api:
     createRepeat: 创建重复排课
     createFree: 创建自由排课
@@ -119,16 +110,7 @@ customer:
   summary: 客户详情查询
  lesson:
   summary: 客户课程查询
- enum:
-  gender:
-   male: 男
-   female: 女
-   unknown: 未知
-  stage:
-   intention: 意向学员
-   studying: 在学学员
  field:
-  courseid: 课程ID
   id: 客户ID
   name: 姓名
   phone: 手机号码
@@ -195,13 +177,13 @@ StudentFile:
    
 workbench-he:
   tag: 用户相关
-  queryCurrentUserInfo:
-    summary: 获取当前用户信息
+  query-current-user-info.summary: 获取当前用户信息
   current-user:
     field:
       id: 当前用户唯一标识
       username: 当前用户名
       authorities: 当前用户管理权限
+
 
 homework:
   tag: 作业
@@ -214,11 +196,31 @@ homework:
   comment:
     summary: 点评作业
   query:
-    admin_id: 管理员ID
-    class_id: 班级ID
-    page: 页码
-    size: 每页数量
+    teacher_id: 教师用户ID（须与登录 Token 中 id 一致；与 admin_id 二选一即可）
+    admin_id_compat: 兼容旧参数名，等同 teacher_id（优先使用 teacher_id）
+    class_id: 班级ID（必填）
+    pageIndex: 当前页码（从 1 开始，与响应 data.pageIndex 一致）
+    pageSize: 每页条数（与响应 data.pageSize 一致）
+    page_compat: 兼容旧参数 page（未传 pageIndex 时生效）
+    size_compat: 兼容旧参数 size（未传 pageSize 时生效）
     homework_id: 作业ID
+  body:
+    add:
+      teacher_id: 教师用户ID（须与登录 Token 中 id 一致；与 admin_id 二选一即可）
+      admin_id_compat: 兼容旧版字段名，等同 teacher_id
+      class_id: 班级ID
+      title: 作业标题
+      content: 作业内容
+      attachment: 附件说明或地址（可选）
+    comment:
+      teacher_id: 教师用户ID（与 admin_id 二选一；须与登录 Token 中 id 一致）
+      admin_id_compat: 兼容旧版字段名，等同 teacher_id
+      submit_id: 学生提交记录ID（homework_record.id）
+      review: 点评对象（评分与评语）；可与顶层 score/content 二选一（旧版联调）
+      score: 评分（0-100，嵌于 review 内）
+      content: 教师点评文字（嵌于 review 内）
+      score_flat: 兼容旧版：顶层 score（未使用 review 时填写）
+      content_flat: 兼容旧版：顶层 content（未使用 review 时可填）
   rsp:
     code: 状态码
     message: 提示信息
@@ -239,9 +241,11 @@ homework:
   detailData:
     homework_id: 作业ID
     title: 作业标题
+    class_id: 班级ID
     class_name: 班级名称
     content: 作业内容
     attachment: 附件
+    create_time: 发布时间
     submit_list: 提交记录列表
   submitRecord:
     record_id: 提交记录ID
@@ -264,5 +268,4 @@ homework:
     score: 评分
     content: 点评内容
   commentVo:
-    data: 点评数据      
-    authorities: 当前用户管理权限
+    data: 点评数据

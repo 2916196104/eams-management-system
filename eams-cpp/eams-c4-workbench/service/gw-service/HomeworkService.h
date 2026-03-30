@@ -13,6 +13,7 @@
 
 #include "CustomerAuthorizeHandler.h"
 #include "domain/dto/gw-dto/CommonResponseDTO.h"
+#include "domain/dto/gw-dto/HomeworkRequestDTO.h"
 
 /**
  * 作业业务服务（对齐 arch-demo MenuService：编排 DAO + DTO 转换）
@@ -26,10 +27,10 @@ public:
 		const std::string& homeworkId, const std::string& adminId);
 
 	HomeworkAddJsonVO::Wrapper addHomework(const std::shared_ptr<CustomerAuthorizeObject>& auth,
-		const std::string& bodyJson);
+		const HomeworkAddBodyDTO::Wrapper& body);
 
 	HomeworkCommentJsonVO::Wrapper commentHomework(const std::shared_ptr<CustomerAuthorizeObject>& auth,
-		const std::string& bodyJson);
+		const HomeworkCommentBodyDTO::Wrapper& body);
 };
 
 #endif // !_HOMEWORK_SERVICE_H_

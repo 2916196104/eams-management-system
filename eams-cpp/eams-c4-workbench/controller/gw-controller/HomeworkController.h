@@ -6,6 +6,7 @@
 #include "Macros.h"     // 中文字典需要引入的头文件
 #include "ApiHelper.h"
 #include "domain/dto/gw-dto/CommonResponseDTO.h"
+#include "domain/dto/gw-dto/HomeworkRequestDTO.h"
 
 using namespace oatpp;
 
@@ -17,53 +18,35 @@ class HomeworkController : public oatpp::web::server::api::ApiController
 {
 	API_ACCESS_DECLARE(HomeworkController);
 public:
-	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("homework.list.summary"), getHomeworkList, HomeworkListPageJsonVO::Wrapper, API_TAG,
-		API_DEF_ADD_QUERY_PARAMS(String, "admin_id", ZH_WORDS_GETTER("homework.query.admin_id"), "admin001", true);
-		API_DEF_ADD_QUERY_PARAMS(String, "class_id", ZH_WORDS_GETTER("homework.query.class_id"), "class001", true);
-		API_DEF_ADD_QUERY_PARAMS(Int32, "page", ZH_WORDS_GETTER("homework.query.page"), 1, false);
-		API_DEF_ADD_QUERY_PARAMS(Int32, "size", ZH_WORDS_GETTER("homework.query.size"), 10, false);
-	);
-	ENDPOINT(API_M_GET, "/c4/homework/list", getHomeworkList,
-		QUERY(String, admin_id),
-		QUERY(String, class_id),
-		QUERY(Int32, page),
-		QUERY(Int32, size),
-		API_HANDLER_AUTH_PARAME) {
-		API_HANDLER_RESP_VO(executeGetHomeworkList(authObject, admin_id, class_id, page, size));
-	}
+	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("homework.list.summary"), getHomeworkList, HomeworkListQueryDTO,
+		HomeworkListPageJsonVO::Wrapper, API_TAG);
+	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c4/homework/list", getHomeworkList, HomeworkListQueryDTO,
+		executeGetHomeworkList(authObject, query))
 
-	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("homework.detail.summary"), getHomeworkDetail, HomeworkDetailJsonVO::Wrapper, API_TAG,
-		API_DEF_ADD_QUERY_PARAMS(String, "homework_id", ZH_WORDS_GETTER("homework.query.homework_id"), "hw001", true);
-		API_DEF_ADD_QUERY_PARAMS(String, "admin_id", ZH_WORDS_GETTER("homework.query.admin_id"), "admin001", true);
-	);
-	ENDPOINT(API_M_GET, "/c4/homework/detail", getHomeworkDetail,
-		QUERY(String, homework_id),
-		QUERY(String, admin_id),
-		API_HANDLER_AUTH_PARAME) {
-		API_HANDLER_RESP_VO(executeGetHomeworkDetail(authObject, homework_id, admin_id));
-	}
+	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("homework.detail.summary"), getHomeworkDetail, HomeworkDetailQueryDTO,
+		HomeworkDetailJsonVO::Wrapper, API_TAG);
+	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c4/homework/detail", getHomeworkDetail, HomeworkDetailQueryDTO,
+		executeGetHomeworkDetail(authObject, query))
 
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("homework.add.summary"), addHomework, HomeworkAddJsonVO::Wrapper, API_TAG);
-	ENDPOINT(API_M_POST, "/c4/homework/add", addHomework,
-		BODY_STRING(String, body),
-		API_HANDLER_AUTH_PARAME) {
-		API_HANDLER_RESP_VO(executeAddHomework(authObject, body));
-	}
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c4/homework/add", addHomework,
+		BODY_DTO(HomeworkAddBodyDTO::Wrapper, body),
+		executeAddHomework(authObject, body))
 
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("homework.comment.summary"), commentHomework, HomeworkCommentJsonVO::Wrapper, API_TAG);
-	ENDPOINT(API_M_POST, "/c4/homework/comment", commentHomework,
-		BODY_STRING(String, body),
-		API_HANDLER_AUTH_PARAME) {
-		API_HANDLER_RESP_VO(executeCommentHomework(authObject, body));
-	}
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c4/homework/comment", commentHomework,
+		BODY_DTO(HomeworkCommentBodyDTO::Wrapper, body),
+		executeCommentHomework(authObject, body))
 
 private:
 	HomeworkListPageJsonVO::Wrapper executeGetHomeworkList(const std::shared_ptr<CustomerAuthorizeObject>& authObject,
-		const String& adminId, const String& classId, const Int32& page, const Int32& size);
+		const HomeworkListQueryDTO::Wrapper& query);
 	HomeworkDetailJsonVO::Wrapper executeGetHomeworkDetail(const std::shared_ptr<CustomerAuthorizeObject>& authObject,
-		const String& homeworkId, const String& adminId);
-	HomeworkAddJsonVO::Wrapper executeAddHomework(const std::shared_ptr<CustomerAuthorizeObject>& authObject, const String& body);
-	HomeworkCommentJsonVO::Wrapper executeCommentHomework(const std::shared_ptr<CustomerAuthorizeObject>& authObject, const String& body);
+		const HomeworkDetailQueryDTO::Wrapper& query);
+	HomeworkAddJsonVO::Wrapper executeAddHomework(const std::shared_ptr<CustomerAuthorizeObject>& authObject,
+		const HomeworkAddBodyDTO::Wrapper& body);
+	HomeworkCommentJsonVO::Wrapper executeCommentHomework(const std::shared_ptr<CustomerAuthorizeObject>& authObject,
+		const HomeworkCommentBodyDTO::Wrapper& body);
 };
 
 #undef API_TAG

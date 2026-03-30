@@ -10,8 +10,6 @@
 #include <ctime>
 #include <stdexcept>
 
-#include "oatpp/parser/json/mapping/ObjectMapper.hpp"
-
 #include "CustomerAuthorizeHandler.h"
 #include "dao/gw-dao/HomeworkDAO.h"
 #include "domain/dto/gw-dto/HomeworkRequestDTO.h"
@@ -71,7 +69,7 @@ HomeworkListPageJsonVO::Wrapper HomeworkService::getHomeworkList(const std::shar
 	const auto& payload = auth->getPayload();
 	if (!adminMatchesPayload(adminId, payload)) {
 		vo->code = 40300;
-		vo->message = u8"\u7BA1\u7406\u5458ID\u4E0E\u767B\u5F55\u7528\u6237\u4E0D\u5339\u914D";
+		vo->message = u8"\u6559\u5E08ID\u4E0E\u767B\u5F55\u7528\u6237\u4E0D\u5339\u914D";
 		return vo;
 	}
 	if (classId.empty()) {
@@ -94,8 +92,8 @@ HomeworkListPageJsonVO::Wrapper HomeworkService::getHomeworkList(const std::shar
 	auto rows = dao.selectPublishedHomeworkPage(classId, offset, safeSize);
 
 	auto pageDto = HomeworkListPageDTO::createShared();
-	pageDto->pageIndex = pageIndex;
-	pageDto->pageSize = safeSize;
+	pageDto->pageIndex = static_cast<v_uint64>(pageIndex);
+	pageDto->pageSize = static_cast<v_uint64>(safeSize);
 	pageDto->total = static_cast<v_int64>(total);
 	pageDto->pages = static_cast<v_int64>(pages);
 	pageDto->rows = oatpp::List<oatpp::Object<HomeworkListRowDTO>>::createShared();
@@ -120,7 +118,7 @@ HomeworkDetailJsonVO::Wrapper HomeworkService::getHomeworkDetail(const std::shar
 	const auto& payload = auth->getPayload();
 	if (!adminMatchesPayload(adminId, payload)) {
 		vo->code = 40300;
-		vo->message = u8"\u7BA1\u7406\u5458ID\u4E0E\u767B\u5F55\u7528\u6237\u4E0D\u5339\u914D";
+		vo->message = u8"\u6559\u5E08ID\u4E0E\u767B\u5F55\u7528\u6237\u4E0D\u5339\u914D";
 		return vo;
 	}
 	int64_t pk = 0;
@@ -153,21 +151,11 @@ HomeworkDetailJsonVO::Wrapper HomeworkService::getHomeworkDetail(const std::shar
 }
 
 HomeworkAddJsonVO::Wrapper HomeworkService::addHomework(const std::shared_ptr<CustomerAuthorizeObject>& auth,
-	const std::string& bodyJson) {
+	const HomeworkAddBodyDTO::Wrapper& body) {
 	auto vo = HomeworkAddJsonVO::createShared();
 	if (!auth) {
 		vo->code = 40100;
 		vo->message = u8"\u672A\u6388\u6743";
-		return vo;
-	}
-	const auto& payload = auth->getPayload();
-	oatpp::Object<HomeworkAddBodyDTO> body;
-	try {
-		auto mapper = oatpp::parser::json::mapping::ObjectMapper::createShared();
-		body = mapper->readFromString<oatpp::Object<HomeworkAddBodyDTO>>(oatpp::String(bodyJson.c_str()));
-	} catch (...) {
-		vo->code = 40002;
-		vo->message = u8"\u8BF7\u6C42\u4F53JSON\u89E3\u6790\u5931\u8D25";
 		return vo;
 	}
 	if (!body) {
@@ -175,10 +163,14 @@ HomeworkAddJsonVO::Wrapper HomeworkService::addHomework(const std::shared_ptr<Cu
 		vo->message = u8"\u8BF7\u6C42\u4F53\u4E0D\u80FD\u4E3A\u7A7A";
 		return vo;
 	}
-	const std::string adminId = body->admin_id ? body->admin_id->c_str() : "";
+	const auto& payload = auth->getPayload();
+	std::string adminId = body->teacher_id ? body->teacher_id->c_str() : "";
+	if (adminId.empty()) {
+		adminId = body->admin_id ? body->admin_id->c_str() : "";
+	}
 	if (!adminMatchesPayload(adminId, payload)) {
 		vo->code = 40300;
-		vo->message = u8"\u7BA1\u7406\u5458ID\u4E0E\u767B\u5F55\u7528\u6237\u4E0D\u5339\u914D";
+		vo->message = u8"\u6559\u5E08ID\u4E0E\u767B\u5F55\u7528\u6237\u4E0D\u5339\u914D";
 		return vo;
 	}
 	const std::string classIdStr = body->class_id ? body->class_id->c_str() : "";
@@ -214,21 +206,11 @@ HomeworkAddJsonVO::Wrapper HomeworkService::addHomework(const std::shared_ptr<Cu
 }
 
 HomeworkCommentJsonVO::Wrapper HomeworkService::commentHomework(const std::shared_ptr<CustomerAuthorizeObject>& auth,
-	const std::string& bodyJson) {
+	const HomeworkCommentBodyDTO::Wrapper& body) {
 	auto vo = HomeworkCommentJsonVO::createShared();
 	if (!auth) {
 		vo->code = 40100;
 		vo->message = u8"\u672A\u6388\u6743";
-		return vo;
-	}
-	const auto& payload = auth->getPayload();
-	oatpp::Object<HomeworkCommentBodyDTO> body;
-	try {
-		auto mapper = oatpp::parser::json::mapping::ObjectMapper::createShared();
-		body = mapper->readFromString<oatpp::Object<HomeworkCommentBodyDTO>>(oatpp::String(bodyJson.c_str()));
-	} catch (...) {
-		vo->code = 40002;
-		vo->message = u8"\u8BF7\u6C42\u4F53JSON\u89E3\u6790\u5931\u8D25";
 		return vo;
 	}
 	if (!body) {
@@ -236,15 +218,26 @@ HomeworkCommentJsonVO::Wrapper HomeworkService::commentHomework(const std::share
 		vo->message = u8"\u8BF7\u6C42\u4F53\u4E0D\u80FD\u4E3A\u7A7A";
 		return vo;
 	}
-	const std::string adminId = body->admin_id ? body->admin_id->c_str() : "";
+	const auto& payload = auth->getPayload();
+	std::string adminId = body->teacher_id ? body->teacher_id->c_str() : "";
+	if (adminId.empty()) {
+		adminId = body->admin_id ? body->admin_id->c_str() : "";
+	}
 	if (!adminMatchesPayload(adminId, payload)) {
 		vo->code = 40300;
-		vo->message = u8"\u7BA1\u7406\u5458ID\u4E0E\u767B\u5F55\u7528\u6237\u4E0D\u5339\u914D";
+		vo->message = u8"\u6559\u5E08ID\u4E0E\u767B\u5F55\u7528\u6237\u4E0D\u5339\u914D";
 		return vo;
 	}
 	const std::string recordId = body->submit_id ? body->submit_id->c_str() : "";
-	const std::string commentText = body->content ? body->content->c_str() : "";
-	const int32_t score = body->score;
+	int32_t score = 0;
+	std::string commentText;
+	if (body->review) {
+		score = body->review->score;
+		commentText = body->review->content ? body->review->content->c_str() : "";
+	} else {
+		score = body->score;
+		commentText = body->content ? body->content->c_str() : "";
+	}
 	if (recordId.empty()) {
 		vo->code = 40005;
 		vo->message = u8"\u63D0\u4EA4\u8BB0\u5F55ID\u4E0D\u80FD\u4E3A\u7A7A";

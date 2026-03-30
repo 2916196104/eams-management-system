@@ -34,7 +34,9 @@ void HomeworkDtoMapper::fillDetail(const oatpp::Object<HomeworkDetailDataDTO>& d
 	data->homework_id = oatpp::String(std::to_string(row.id).c_str());
 	data->title = oatpp::String(row.title.c_str());
 	data->class_name = oatpp::String(row.className.c_str());
+	data->class_id = oatpp::String(std::to_string(row.classId).c_str());
 	data->content = oatpp::String(row.content.c_str());
+	data->create_time = oatpp::String(row.addTime.c_str());
 	data->attachment = oatpp::String(attachmentHint.c_str());
 	auto lst = oatpp::List<oatpp::Object<HomeworkSubmitRecordDTO>>::createShared();
 	for (const auto& r : records) {

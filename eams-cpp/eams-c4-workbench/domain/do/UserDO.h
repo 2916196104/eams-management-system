@@ -3,7 +3,7 @@
 #ifndef _USERDO_H_
 #define _USERDO_H_
 
-#include "DoInclude.h"
+#include"DoInclude.h"
 
 /*
 	家长用户数据实体
@@ -41,10 +41,9 @@ class UserDO :public BaseDO {
 	MYSQL_SYNTHESIZE(string, org_id, Org_id);
 
 public:
-	UserDO() : BaseDO("user") 
-	{
+	UserDO() : BaseDO("user") {
 		//添加主键域
-		MYSQL_ADD_FIELD_PK("id", "ull", id);
+		MYSQL_ADD_FIELD_PK("id", "s", id);
 		MYSQL_ADD_FIELD("name", "s", name);
 		MYSQL_ADD_FIELD("wx_access_id", "i", wx_access_id);
 		MYSQL_ADD_FIELD_NULLABLE("mobile", "s", mobile,false);

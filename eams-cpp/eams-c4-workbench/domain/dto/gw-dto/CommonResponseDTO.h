@@ -90,8 +90,12 @@ class HomeworkDetailDataDTO : public oatpp::DTO {
   API_DTO_FIELD(String, title, ZH_WORDS_GETTER("homework.detailData.title"), false, "");
   // 班级名称
   API_DTO_FIELD(String, class_name, ZH_WORDS_GETTER("homework.detailData.class_name"), false, "");
+  // 班级ID
+  API_DTO_FIELD(String, class_id, ZH_WORDS_GETTER("homework.detailData.class_id"), false, "");
   // 作业内容
   API_DTO_FIELD(String, content, ZH_WORDS_GETTER("homework.detailData.content"), false, "");
+  // 发布时间
+  API_DTO_FIELD(String, create_time, ZH_WORDS_GETTER("homework.detailData.create_time"), false, "");
   // 附件说明（无表字段时可为空）
   API_DTO_FIELD(String, attachment, ZH_WORDS_GETTER("homework.detailData.attachment"), false, "");
   // 提交记录列表（无提交时为空列表）
