@@ -63,17 +63,20 @@ class PayFeesDTO :public oatpp::DTO {
 	API_DTO_FIELD_DEFAULT(Float64, payAmount, ZH_WORDS_GETTER("common.filed.fees.pay-amount"), true);
 	API_DTO_FIELD_DEFAULT(String, handler, ZH_WORDS_GETTER("common.filed.fees.handler"), false);
 	API_DTO_FIELD_DEFAULT(UInt64, studentId, ZH_WORDS_GETTER("common.files.student.id"), true);
-	API_DTO_FIELD_DEFAULT(UInt64, courseId, ZH_WORDS_GETTER("common.filed.fees."), true);
-	API_DTO_FIELD_DEFAULT(UInt64, subjectId, ZH_WORDS_GETTER("common.filed.fees.handler"), true);
+	API_DTO_FIELD_DEFAULT(UInt64, courseId, ZH_WORDS_GETTER("common.filed.fees.course-id"), true);
+	API_DTO_FIELD_DEFAULT(UInt64, subjectId, ZH_WORDS_GETTER("common.filed.fees.subject-id"), true);
 	
 
 	
 };
 class RefundDTO :public oatpp::DTO{
 	DTO_INIT(RefundDTO, DTO);
-	API_DTO_FIELD_DEFAULT(UInt64, amount, ZH_WORDS_GETTER("common.filed.fees.refund-amount"), true);
-	API_DTO_FIELD_DEFAULT(UInt64, times, ZH_WORDS_GETTER("common.files.fees.times"), true);
-	API_DTO_FIELD_DEFAULT(String,reason , ZH_WORDS_GETTER("common.files.fees.reason"), true);
+	API_DTO_FIELD_DEFAULT(UInt64, refundAmount, ZH_WORDS_GETTER("common.filed.fees.refund-amount"), true);
+	API_DTO_FIELD_DEFAULT(UInt64, lessons, ZH_WORDS_GETTER("common.filed.fees.lessons"), true);
+	API_DTO_FIELD_DEFAULT(String,reason , ZH_WORDS_GETTER("common.filed.fees.reason"), true);
+	API_DTO_FIELD_DEFAULT(UInt64,studentId , ZH_WORDS_GETTER("common.files.student.id"), true);
+	API_DTO_FIELD_DEFAULT(UInt64,courseId , ZH_WORDS_GETTER("common.filed.fees.course-id"), true);
+	API_DTO_FIELD_DEFAULT(UInt64,subjectId , ZH_WORDS_GETTER("common.filed.fees.subject-id"), true);
 };
 class CourseCountDTO :public oatpp::DTO {
 	DTO_INIT(CourseCountDTO, DTO);
