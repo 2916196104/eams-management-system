@@ -25,7 +25,7 @@
 #include "enrollment/EnrollmentController.h"
 #include "enrollment/EnrolledRecordController.h"
 
-#include "makabaka-controller/TeacherListController/TeacherListController.h"
+#include "makabaka-controller/teacherListController/TeacherListController.h"
 #include "makabaka-controller/classListController/ClassListController.h"
 
 #include "huitailang-controller/commentrecordcontroller.h"
