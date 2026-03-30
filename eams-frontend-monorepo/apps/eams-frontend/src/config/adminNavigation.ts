@@ -359,8 +359,8 @@ export function navItemMatchesPath(item: AdminNavChild, path: string) {
 }
 
 export function findAdminNavSectionByPath(path: string) {
-	return ADMIN_NAVIGATION.find((section) =>
-		section.path === path || section.children.some((child) => navItemMatchesPath(child, path)),
+	return ADMIN_NAVIGATION.find(
+		(section) => section.path === path || section.children.some((child) => navItemMatchesPath(child, path)),
 	);
 }
 
