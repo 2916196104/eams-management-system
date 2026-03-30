@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "GetStudentDetailController.h"
+#include "service/Mycustomers/MyCustomersService.h"
 
-MyCustomersJsonVO::Wrapper GetStudentDetailController::executeGetMyCustomersDetails(const String& name, const PayloadDTO& payload)
+MyCustomerDetailJsonVO::Wrapper GetStudentDetailController::executeGetMyCustomersDetails(const Int64& id, const PayloadDTO& payload)
 {
-	auto vo = MyCustomersJsonVO::createShared();
-	return vo;
+    MyCustomersService service;
+    auto dto = service.getStudentDetail(id);
+    return MyCustomerDetailJsonVO::createDetailResult(dto);
 }

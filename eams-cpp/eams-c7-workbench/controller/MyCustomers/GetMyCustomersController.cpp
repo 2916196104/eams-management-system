@@ -1,11 +1,12 @@
 #include "stdafx.h"
 #include "GetMyCustomersController.h"
+#include "../../service/Mycustomers/MyCustomersService.h"
 
 MyCustomersPageJsonVO::Wrapper GetMyCustomersController::executeGetMyCustomersList(
     const MyCustomersQuery::Wrapper& query,
-    const PayloadDTO& payload
-)
+    const PayloadDTO& payload)
 {
-    auto vo = MyCustomersPageJsonVO::createShared();
-    return vo;
+    MyCustomersService service;
+    auto dto = service.listMyCustomers(query);
+    return MyCustomersPageJsonVO::createPageResult(dto);
 }

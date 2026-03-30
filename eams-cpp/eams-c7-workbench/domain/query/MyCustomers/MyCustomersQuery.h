@@ -1,44 +1,54 @@
 #pragma once
-/*
- Copyright Zero One Star. All rights reserved.
-
- @Author: awei
- @Date: 2022/12/03 11:01:02
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
-      https://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-*/
-#ifndef _MyCustomersQuery_H_
-#define _MyCustomersQuery_H_
-
-#include "../eams-c7-workbench/domain/GlobalInclude.h"
-#include "domain/query/MyCustomers/MyCustomersQuery.h"
-#include "../lib-oatpp/include/domain/query/PageQuery.h"
+#include "../../GlobalInclude.h"
+#include "domain/query/PageQuery.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/**
- * 客户查询对象
- */
-class MyCustomersQuery : public PageQuery {
+
+// 我的客户列表
+class MyCustomersQuery : public PageQuery
+{
 	DTO_INIT(MyCustomersQuery, PageQuery);
 
-	// 客户姓名
-	API_DTO_FIELD_DEFAULT(String, MyCustomersName, u8"客户姓名");
+	// 顾问ID
+	DTO_FIELD(UInt64, counselor_id);
+	DTO_FIELD_INFO(counselor_id) {
+		info->description = u8"顾问ID";
+	}
 
-	// 电话号码
-	API_DTO_FIELD_DEFAULT(String, phoneNumber, u8"电话号码");
+	// 学生姓名（搜索）
+	DTO_FIELD(String, name);
+	DTO_FIELD_INFO(name) {
+		info->description = ZH_WORDS_GETTER("customer.query.name");
+	}
 
+	// 学生电话（搜索）
+	DTO_FIELD(String, telephone);
+	DTO_FIELD_INFO(telephone) {
+		info->description = ZH_WORDS_GETTER("customer.query.telephone");
+	}
+};
+
+//  学员详情查询（学生ID）
+class StudentDetailQuery : public oatpp::DTO
+{
+	DTO_INIT(StudentDetailQuery, oatpp::DTO);
+
+	DTO_FIELD(UInt64, student_id);
+	DTO_FIELD_INFO(student_id) {
+		info->description = ZH_WORDS_GETTER("student.query.detail.id");
+	}
+};
+
+//  学员课程列表查询（学生ID）
+class StudentCourseQuery : public PageQuery
+{
+	DTO_INIT(StudentCourseQuery, PageQuery);
+
+	DTO_FIELD(UInt64, student_id);
+	DTO_FIELD_INFO(student_id) {
+		info->description = ZH_WORDS_GETTER("student.course.query.student_id");
+	}
 };
 
 #include OATPP_CODEGEN_END(DTO)
-#endif // !_MyCustomersQuery_H_

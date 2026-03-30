@@ -4,8 +4,8 @@
 
 #include "domain/vo/BaseJsonVO.h"
 #include "ApiHelper.h"
-#include "domain/query/MyCustomers/MyCustomersQuery.h"
-#include "domain/vo/MyCustomers/MyCustomersVO.h"
+#include "../../domain/query/Mycustomers/MyCustomersQuery.h"
+#include "../../domain/vo/Mycustomers/MyCustomersVO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
@@ -19,22 +19,22 @@ public:
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(
 		ZH_WORDS_GETTER("cus.get-cus-details.summary"),
 		getStudentDetails,
-		MyCustomersQuery,
-		MyCustomersJsonVO::Wrapper,
+		StudentDetailQuery,
+		MyCustomerDetailJsonVO::Wrapper,
 		API_TAG
 	);
 
 	// 接口路由
 	API_HANDLER_ENDPOINT_AUTH(
 		API_M_GET,
-		"/MyCustomers/get-cus-details/{name}",
+		"/MyCustomers/get-cus-details/{id}",
 		getStudentDetails,
-		PATH(String, name),
-		executeGetMyCustomersDetails(name, authObject->getPayload())
+		PATH(Int64, id),
+		executeGetMyCustomersDetails(id, authObject->getPayload())
 	);
 
 private:
-	MyCustomersJsonVO::Wrapper executeGetMyCustomersDetails(const String& name, const PayloadDTO& payload);
+	MyCustomerDetailJsonVO::Wrapper executeGetMyCustomersDetails(const Int64& id, const PayloadDTO& payload);
 };
 
 #undef API_TAG

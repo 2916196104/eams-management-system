@@ -19,7 +19,7 @@
 */
 #ifndef _MyCustomers_DTO_
 #define _MyCustomers_DTO_
-#include "../eams-c7-workbench/domain/GlobalInclude.h"
+#include "../../GlobalInclude.h"
 #include "domain/dto/PageDTO.h"
 #include "domain/vo/JsonVO.h"
 #include OATPP_CODEGEN_BEGIN(DTO)
@@ -55,9 +55,8 @@ class StudentCourseDTO : public oatpp::DTO
 	DTO_INIT(StudentCourseDTO, DTO);
 
 	API_DTO_FIELD_DEFAULT(String, courseName, u8"课程名称");
-	API_DTO_FIELD_DEFAULT(String, totalHours, u8"总时长");
-	API_DTO_FIELD_DEFAULT(String, usedHours, u8"已用时长");
-	API_DTO_FIELD_DEFAULT(String, remainingHours, u8"剩余时长");
+	API_DTO_FIELD_DEFAULT(String, progress, u8"学习进度");
+	API_DTO_FIELD_DEFAULT(String, remainingLessons, u8"剩余课次");
 	API_DTO_FIELD_DEFAULT(String, expireTime, u8"到期时间");
 };
 
