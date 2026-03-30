@@ -114,7 +114,8 @@ const props = defineProps<{
 const filters = reactive<Record<string, any>>({ ...props.config.initialFilters });
 const isExpanded = ref(false);
 const pageIndex = ref(1);
-const pageSize = ref(10);
+// 财务演示页默认每页展示更少的数据，方便本地直接看到分页切换效果。
+const pageSize = ref(3);
 const selectedRows = ref<Record<string, any>[]>([]);
 const pageData = ref(createPageDTO<Record<string, any>>());
 

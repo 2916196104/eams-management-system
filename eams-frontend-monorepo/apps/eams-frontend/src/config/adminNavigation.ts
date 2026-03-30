@@ -198,14 +198,29 @@ export const ADMIN_NAVIGATION: AdminNavSection[] = [
 		icon: "ri/mail-line",
 		children: [
 			{
-				id: "interaction-review",
-				text: "学评教",
-				path: "/interaction/teacher-review",
+				id: "interaction-homework",
+				text: "课后作业",
+				path: "/interaction/homework",
 			},
 			{
-				id: "interaction-message",
-				text: "站内消息",
-				path: "/interaction/message-center",
+				id: "interaction-teaching-evaluation",
+				text: "教评学",
+				path: "/interaction/teaching-evaluation",
+			},
+			{
+				id: "interaction-learning-evaluation",
+				text: "学评教",
+				path: "/interaction/learning-evaluation",
+			},
+			{
+				id: "interaction-transcript",
+				text: "成绩单",
+				path: "/interaction/transcript",
+			},
+			{
+				id: "interaction-announcement-management",
+				text: "公告管理",
+				path: "/interaction/announcement-management",
 			},
 		],
 	},
