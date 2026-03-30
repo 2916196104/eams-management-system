@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zeroone.star.project.dto.j8.sysmanager.NoticeDTO;
 import com.zeroone.star.project.query.j8.sysmanager.NoticeQuery;
+import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j8.sysmanager.NoticeVO;
 import com.zeroone.star.sysmanager.entity.Notice;
 import com.zeroone.star.sysmanager.exception.BusinessException;
@@ -61,7 +62,6 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
 
         return pageResult;
     }
-}
 
     @Override
     public NoticeVO getNoticeDetail(Long id) {
