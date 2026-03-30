@@ -19,8 +19,8 @@ public:
 		summaryclassquery,
 		SummaryClassPageJsonVO::Wrapper,
 		ZH_WORDS_GETTER("summaryclass.api-tag"),
-		API_DEF_ADD_QUERY_PARAMS(String, "studentName", ZH_WORDS_GETTER("summaryclass.field.student.student-name"), "zhang san", true);
-		API_DEF_ADD_QUERY_PARAMS(String, "courseName", ZH_WORDS_GETTER("summaryclass.field.student.course-name"), "math", true);
+		API_DEF_ADD_QUERY_PARAMS(String, "studentName", ZH_WORDS_GETTER("summaryclass.field.student.student-name"), "zhang san", false);
+		API_DEF_ADD_QUERY_PARAMS(String, "courseName", ZH_WORDS_GETTER("summaryclass.field.student.course-name"), "math", false);
 		API_DEF_ADD_PAGE_PARAMS();
 	);
 
