@@ -99,6 +99,16 @@ function isCourseLoading(id: string) {
 	return courseLoadingIds.value.includes(id);
 }
 
+function studentTypeValue(type: string) {
+	return type === "在学学员" ? 2 : 1;
+}
+
+function studentGenderValue(gender: string) {
+	if (gender === "男") return 1;
+	if (gender === "女") return 2;
+	return 0;
+}
+
 async function loadStudentCourses(id: string) {
 	if (!id || hasStudentCourses(id) || isCourseLoading(id)) return;
 
@@ -209,8 +219,41 @@ async function submitSelection() {
 	}
 }
 
-function submitForm() {
-	toast.show("意向学员保存接口待接入");
+async function submitForm() {
+	if (!studentForm.name.trim()) {
+		toast.show("请输入学员姓名");
+		return;
+	}
+
+	if (!studentForm.phone.trim()) {
+		toast.show("请输入手机号");
+		return;
+	}
+
+	submitting.value = true;
+	try {
+		await (Apis as any).student.post_add_intended_student({
+			data: {
+				studentName: studentForm.name.trim(),
+				phoneNumber: studentForm.phone.trim(),
+				studentType: studentTypeValue(studentForm.type),
+				sex: studentGenderValue(studentForm.gender),
+				birthday: studentForm.birthday.trim() || undefined,
+				cardId: studentForm.idCard.trim() || undefined,
+				text: studentForm.remark.trim() || undefined,
+			},
+		});
+
+		uni.showToast({ title: "添加学员成功", icon: "none" });
+		const timer = setTimeout(() => {
+			clearTimeout(timer);
+			router.back();
+		}, 500);
+	} catch {
+		uni.showToast({ title: "添加学员失败", icon: "none" });
+	} finally {
+		submitting.value = false;
+	}
 }
 
 onShow(() => {
@@ -225,7 +268,6 @@ onShow(() => {
 		<teacher-nav-bar :title="pageTitle" :show-refresh="isSelectMode" @refresh="refreshStudents" />
 
 		<template v-if="isSelectMode">
-			<!-- 课次添加学员模式 -->
 			<view class="teacher-select-panel">
 				<view class="teacher-select-panel__tip">当前课次 ID：{{ lessonId || "--" }}</view>
 				<view class="teacher-select-panel__tip">当前课程 ID：{{ courseId || "--" }}</view>
@@ -253,7 +295,7 @@ onShow(() => {
 					<view class="teacher-select-item__main">
 						<view>
 							<view class="teacher-select-item__name">{{ item.name }}</view>
-							<view class="teacher-select-item__meta">{{ item.phone }} · {{ genderText(item.gender) }}</view>
+							<view class="teacher-select-item__meta">{{ item.phone }} / {{ genderText(item.gender) }}</view>
 						</view>
 						<view class="teacher-select-item__rest">剩余课时 {{ item.restHour }}</view>
 					</view>
@@ -283,7 +325,6 @@ onShow(() => {
 		</template>
 
 		<template v-else>
-			<!-- 工作台添加意向学员模式 -->
 			<view class="teacher-add-card">
 				<view class="teacher-add-row">
 					<text class="teacher-add-label">学员姓名</text>
@@ -336,7 +377,7 @@ onShow(() => {
 			</view>
 
 			<view class="teacher-add-action">
-				<wd-button type="primary" block @click="submitForm">提交</wd-button>
+				<wd-button type="primary" block :loading="submitting" @click="submitForm">提交</wd-button>
 			</view>
 		</template>
 	</view>
@@ -358,39 +399,32 @@ onShow(() => {
 .teacher-select-panel__tip {
 	margin-top: 4px;
 	font-size: 13px;
-	color: #98a2b3;
-}
-
-.teacher-select-panel__tip:first-child {
-	margin-top: 0;
+	color: #667085;
 }
 
 .teacher-select-search {
 	display: flex;
+	align-items: center;
 	gap: 10px;
-	margin-top: 12px;
+	margin-top: 14px;
 }
 
 .teacher-select-search__input {
 	flex: 1;
-	height: 42px;
-	box-sizing: border-box;
-	border-radius: 12px;
-	background: #f8fafc;
+	height: 40px;
+	border-radius: 999px;
+	background: #f5f7fb;
 	padding: 0 14px;
 	font-size: 14px;
 	color: #344054;
 }
 
 .teacher-select-search__button {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	min-width: 72px;
-	height: 42px;
-	border-radius: 12px;
-	background: #3e7bfa;
-	font-size: 14px;
+	flex-shrink: 0;
+	border-radius: 999px;
+	background: #31c7a5;
+	padding: 10px 16px;
+	font-size: 13px;
 	font-weight: 600;
 	color: #fff;
 }
@@ -398,33 +432,31 @@ onShow(() => {
 .teacher-select-list {
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
+	gap: 12px;
 	padding: 12px;
 }
 
 .teacher-select-item {
-	border: 1px solid transparent;
 	border-radius: 16px;
 	background: #fff;
-	padding: 14px;
-	box-shadow: 0 6px 18px rgba(64, 86, 122, 0.04);
+	padding: 16px;
+	box-shadow: 0 6px 18px rgba(64, 86, 122, 0.05);
 }
 
 .teacher-select-item--active {
-	border-color: #3e7bfa;
-	background: #f5f8ff;
+	outline: 2px solid rgba(49, 199, 165, 0.22);
 }
 
 .teacher-select-item__main {
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: space-between;
 	gap: 12px;
 }
 
 .teacher-select-item__name {
 	font-size: 16px;
-	font-weight: 600;
+	font-weight: 700;
 	color: #111827;
 }
 
@@ -436,27 +468,29 @@ onShow(() => {
 
 .teacher-select-item__rest {
 	flex-shrink: 0;
-	font-size: 13px;
-	font-weight: 600;
-	color: #3e7bfa;
+	border-radius: 999px;
+	background: rgba(49, 199, 165, 0.1);
+	padding: 6px 10px;
+	font-size: 12px;
+	color: #1ca386;
 }
 
 .teacher-select-item__courses {
-	margin-top: 12px;
-	padding-top: 12px;
+	margin-top: 14px;
 	border-top: 1px solid #eef1f6;
+	padding-top: 14px;
 }
 
 .teacher-select-item__courses-title {
 	display: block;
-	font-size: 12px;
+	margin-bottom: 10px;
+	font-size: 13px;
 	font-weight: 600;
-	color: #98a2b3;
+	color: #344054;
 }
 
 .teacher-select-item__courses-loading,
 .teacher-select-item__courses-empty {
-	margin-top: 8px;
 	font-size: 13px;
 	color: #98a2b3;
 }
@@ -465,23 +499,22 @@ onShow(() => {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 8px;
-	margin-top: 8px;
 }
 
 .teacher-select-item__course-tag {
 	border-radius: 999px;
-	background: #eef4ff;
-	padding: 5px 10px;
+	background: #f5f7fb;
+	padding: 6px 10px;
 	font-size: 12px;
-	color: #3e7bfa;
+	color: #475467;
 }
 
 .teacher-select-more {
+	margin: 0 12px;
+	height: 40px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	height: 40px;
-	margin: 0 12px;
 	border-radius: 999px;
 	background: #fff;
 	font-size: 14px;
@@ -498,7 +531,7 @@ onShow(() => {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 16px;
+	gap: 14px;
 	padding: 16px;
 	border-bottom: 1px solid #edf0f5;
 }
@@ -516,19 +549,8 @@ onShow(() => {
 .teacher-add-input {
 	flex: 1;
 	min-width: 0;
-	font-size: 15px;
-	color: #344054;
 	text-align: right;
-}
-
-.teacher-add-textarea {
-	width: 100%;
-	min-height: 110px;
-	box-sizing: border-box;
-	border-radius: 12px;
-	background: #f8fafc;
-	padding: 12px 14px;
-	font-size: 14px;
+	font-size: 15px;
 	color: #344054;
 }
 
@@ -539,17 +561,28 @@ onShow(() => {
 }
 
 .teacher-add-radio {
-	border: 1px solid #d9e0ec;
 	border-radius: 999px;
-	padding: 6px 14px;
-	font-size: 14px;
+	border: 1px solid #d9e0ec;
+	padding: 7px 14px;
+	font-size: 13px;
 	color: #667085;
 }
 
 .teacher-add-radio--active {
-	border-color: #3e7bfa;
-	background: #eef4ff;
-	color: #3e7bfa;
+	border-color: #31c7a5;
+	background: rgba(49, 199, 165, 0.1);
+	color: #1ca386;
+}
+
+.teacher-add-textarea {
+	width: 100%;
+	min-height: 96px;
+	box-sizing: border-box;
+	border-radius: 14px;
+	background: #f8fafc;
+	padding: 12px 14px;
+	font-size: 14px;
+	color: #344054;
 }
 
 .teacher-add-action {
