@@ -92,13 +92,12 @@ const routes = [
 		component: placeholderView,
 	},
 	{
-		path: "/system/system-parameter",
-		name: "SystemParameter",
+		path: "/system/param",
+		name: "SystemParam",
 		meta: {
 			label: "系统参数",
-			description: "系统级参数配置页面后续可继续补齐。",
 		},
-		component: placeholderView,
+		component: () => import("@/views/system/system-param.vue"),
 	},
 	{
 		path: "/system/role-permission",

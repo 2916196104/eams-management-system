@@ -2,22 +2,54 @@
 	<div class="system-notice">
 		<!-- 搜索区域 -->
 		<MySearch :model="searchForm" :items="searchItems" formtitle="公告查询" @do-search="handleSearch">
+			<!-- 头部操作按钮 -->
 			<template #header>
 				<el-button type="primary" :icon="Plus" @click="handleAdd">新增</el-button>
 				<el-button type="danger" :icon="Delete" :disabled="selectedRows.length === 0" @click="handleBatchDelete">
 					删除
 				</el-button>
-				<el-button :icon="Message">发内部消息</el-button>
+			</template>
+			<!-- 底部工具栏：刷新 / 打印 / 自定义列 -->
+			<template #footer>
+				<div class="toolbar-right">
+					<el-tooltip content="刷新" placement="top">
+						<el-button link :icon="Refresh" @click="reload">刷新</el-button>
+					</el-tooltip>
+					<el-tooltip content="打印" placement="top">
+						<el-button link :icon="Printer" @click="handlePrint">打印</el-button>
+					</el-tooltip>
+					<el-dropdown trigger="click">
+						<el-button link>
+							<el-icon><Grid /></el-icon>
+							自定义列
+						</el-button>
+						<template #dropdown>
+							<el-dropdown-menu>
+								<el-dropdown-item v-for="col in allColumns" :key="col.key">
+									<el-checkbox
+										:model-value="visibleColumns.includes(col.key)"
+										@click.stop
+										@change="toggleColumn(col.key)"
+									>
+										{{ col.label }}
+									</el-checkbox>
+								</el-dropdown-item>
+							</el-dropdown-menu>
+						</template>
+					</el-dropdown>
+				</div>
 			</template>
 		</MySearch>
 
 		<!-- 表格区域 -->
 		<F1Table
 			:config="tableConfig"
-			:data="tableData"
-			:loading="loading"
+			:data="noticeStore.tableData"
+			:loading="noticeStore.loading"
 			@page-change="handlePageChange"
 			@edit="handleEdit"
+			@view="handleView"
+			@delete="handleDelete"
 			@selection-change="handleSelectionChange"
 		>
 			<template #title="{ row }">
@@ -40,26 +72,48 @@
 				<el-button type="primary" :loading="submitLoading" @click="handleSubmit">确定</el-button>
 			</template>
 		</el-dialog>
+
+		<!-- 详情对话框 -->
+		<el-dialog v-model="detailDialogVisible" title="公告详情" width="600px" destroy-on-close>
+			<div class="notice-detail" v-if="currentDetail">
+				<div class="detail-item">
+					<span class="detail-label">标题：</span>
+					<span>{{ currentDetail.title }}</span>
+				</div>
+				<div class="detail-item">
+					<span class="detail-label">内容：</span>
+					<div class="detail-content">{{ currentDetail.content }}</div>
+				</div>
+				<div class="detail-item" v-if="currentDetail.createTime">
+					<span class="detail-label">添加时间：</span>
+					<span>{{ currentDetail.createTime }}</span>
+				</div>
+				<div class="detail-item" v-if="currentDetail.updateTime">
+					<span class="detail-label">修改时间：</span>
+					<span>{{ currentDetail.updateTime }}</span>
+				</div>
+			</div>
+			<template #footer>
+				<el-button @click="detailDialogVisible = false">关闭</el-button>
+			</template>
+		</el-dialog>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, computed, onMounted } from "vue";
 import { ElMessage, ElMessageBox, type FormInstance } from "element-plus";
-import { Plus, Delete, Message } from "@element-plus/icons-vue";
+import { Plus, Delete, Refresh, Printer, Grid } from "@element-plus/icons-vue";
 import F1Table from "@/components/f1table/F1Table.vue";
 import { TableType } from "@/components/f1table/type";
 import type { TableConfig } from "@/components/f1table/type";
 import MySearch from "@/components/mysearch/MySearch.vue";
 import type { MyFormItemAttr } from "@/components/myform/type";
+import { useSystemNoticeStore, type NoticeItem } from "@/stores/systemNotice";
 
-interface NoticeItem {
-	id: number;
-	title: string;
-	content: string;
-	createTime: string;
-	updateTime: string;
-}
+const noticeStore = useSystemNoticeStore();
+
+// ==================== 搜索表单 ====================
 
 const searchForm = reactive({
 	title: "",
@@ -79,73 +133,88 @@ const searchItems: MyFormItemAttr[] = [
 	},
 ];
 
-const tableConfig = ref<TableConfig>({
-	tableProperties: {
-		stripe: true,
-		border: true,
-	},
-	tableList: [
-		{ type: TableType.selection, width: "55px", label: "选择" },
-		{ type: TableType.normal, prop: "title", label: "标题", minWidth: "200px" },
-		{ type: TableType.normal, prop: "createTime", label: "添加时间", width: "180px" },
-		{ type: TableType.normal, prop: "updateTime", label: "修改时间", width: "180px" },
-		{ type: TableType.handler as any, label: "操作", width: "100px", editText: "编辑" },
-	],
-	pagination: {
-		enabled: true,
-		currentPage: 1,
-		pageSize: 10,
-		total: 0,
-	},
-	handler: {
-		edit: true,
-		view: false,
-		delete: false,
-		editText: "编辑",
-	},
-});
+// ==================== 自定义列 ====================
 
-const mockData: NoticeItem[] = [
-	{
-		id: 1,
-		title: "系统升级通知",
-		content: "系统将于今晚10点进行升级",
-		createTime: "2026-03-20 10:00:00",
-		updateTime: "2026-03-20 10:00:00",
-	},
-	{
-		id: 2,
-		title: "春季优惠活动",
-		content: "春季报名优惠活动开始啦",
-		createTime: "2026-03-18 14:30:00",
-		updateTime: "2026-03-19 09:00:00",
-	},
-	{
-		id: 3,
-		title: "课程调整公告",
-		content: "部分课程时间有所调整",
-		createTime: "2026-03-15 16:00:00",
-		updateTime: "2026-03-15 16:00:00",
-	},
-	{
-		id: 4,
-		title: "端午节放假通知",
-		content: "端午节放假三天",
-		createTime: "2026-03-10 08:00:00",
-		updateTime: "2026-03-12 10:30:00",
-	},
-	{
-		id: 5,
-		title: "新员工入职培训",
-		content: "本周五进行新员工培训",
-		createTime: "2026-03-08 11:00:00",
-		updateTime: "2026-03-08 11:00:00",
-	},
+const STORAGE_KEY = "system-notice-columns";
+
+const allColumns = [
+	{ key: "title", label: "标题" },
+	{ key: "createTime", label: "添加时间" },
+	{ key: "updateTime", label: "修改时间" },
+	{ key: "action", label: "操作" },
 ];
 
-const tableData = ref<NoticeItem[]>([]);
-const loading = ref(false);
+const visibleColumns = ref<string[]>(allColumns.map((col) => col.key));
+
+function loadColumnConfig() {
+	const saved = localStorage.getItem(STORAGE_KEY);
+	if (saved) {
+		try {
+			visibleColumns.value = JSON.parse(saved);
+		} catch {
+			/* ignore */
+		}
+	}
+}
+
+function saveColumnConfig() {
+	localStorage.setItem(STORAGE_KEY, JSON.stringify(visibleColumns.value));
+}
+
+function toggleColumn(key: string) {
+	const idx = visibleColumns.value.indexOf(key);
+	if (idx === -1) {
+		visibleColumns.value.push(key);
+	} else {
+		visibleColumns.value.splice(idx, 1);
+	}
+	saveColumnConfig();
+}
+
+// ==================== 表格配置 ====================
+
+const tableConfig = computed<TableConfig>(() => {
+	const columns: TableConfig["tableList"] = [{ type: TableType.selection, width: "55px", label: "选择" }];
+
+	if (visibleColumns.value.includes("title")) {
+		columns.push({ type: TableType.custom, prop: "title", label: "标题", minWidth: "200px", slotName: "title" });
+	}
+	if (visibleColumns.value.includes("createTime")) {
+		columns.push({ type: TableType.normal, prop: "createTime", label: "添加时间", width: "180px" });
+	}
+	if (visibleColumns.value.includes("updateTime")) {
+		columns.push({ type: TableType.normal, prop: "updateTime", label: "修改时间", width: "180px" });
+	}
+	if (visibleColumns.value.includes("action")) {
+		columns.push({ type: TableType.handler as any, label: "操作", width: "200px" });
+	}
+
+	return {
+		tableProperties: {
+			stripe: true,
+			border: true,
+		},
+		tableList: columns,
+		pagination: {
+			enabled: true,
+			currentPage: searchForm.pageNum,
+			pageSize: searchForm.pageSize,
+			total: noticeStore.total,
+		},
+		handler: {
+			edit: true,
+			view: true,
+			delete: true,
+			editText: "编辑",
+			viewText: "详情",
+			deleteText: "删除",
+		},
+	};
+});
+
 const selectedRows = ref<NoticeItem[]>([]);
+
+// ==================== 弹窗状态 ====================
 
 const dialogVisible = ref(false);
 const dialogTitle = ref("新增公告");
@@ -157,37 +226,48 @@ const formData = reactive({
 	content: "",
 });
 
+const detailDialogVisible = ref(false);
+const currentDetail = ref<NoticeItem | null>(null);
+
 const formRules = {
 	title: [{ required: true, message: "请输入标题", trigger: "blur" }],
 	content: [{ required: true, message: "请输入内容", trigger: "blur" }],
 };
 
-function loadData() {
-	loading.value = true;
-	setTimeout(() => {
-		const filtered = mockData.filter((item) => item.title.toLowerCase().includes(searchForm.title.toLowerCase()));
-		const start = (searchForm.pageNum - 1) * searchForm.pageSize;
-		const end = start + searchForm.pageSize;
-		tableData.value = filtered.slice(start, end);
-		tableConfig.value.pagination!.total = filtered.length;
-		loading.value = false;
-	}, 300);
+// ==================== 生命周期 ====================
+
+onMounted(() => {
+	loadColumnConfig();
+	reload();
+});
+
+// ==================== 数据操作 ====================
+
+async function reload() {
+	noticeStore.setSearchParams({
+		title: searchForm.title,
+		pageSize: searchForm.pageSize,
+		pageNum: searchForm.pageNum,
+	});
+	await noticeStore.fetchList();
 }
 
 function handleSearch() {
 	searchForm.pageNum = 1;
-	loadData();
+	reload();
 }
 
 function handlePageChange(page: number, size: number) {
 	searchForm.pageNum = page;
 	searchForm.pageSize = size;
-	loadData();
+	reload();
 }
 
 function handleSelectionChange(selection: NoticeItem[]) {
 	selectedRows.value = selection;
 }
+
+// ==================== 增删改查 ====================
 
 function handleAdd() {
 	dialogTitle.value = "新增公告";
@@ -205,6 +285,27 @@ function handleEdit(row: NoticeItem) {
 	dialogVisible.value = true;
 }
 
+function handleView(row: NoticeItem) {
+	currentDetail.value = row;
+	detailDialogVisible.value = true;
+}
+
+async function handleDelete(row: NoticeItem) {
+	try {
+		await ElMessageBox.confirm("确定要删除该公告吗？", "提示", {
+			confirmButtonText: "确定",
+			cancelButtonText: "取消",
+			type: "warning",
+		});
+		const success = await noticeStore.deleteNotice([row.id]);
+		if (success) {
+			ElMessage.success("删除成功");
+		}
+	} catch {
+		/* 用户取消 */
+	}
+}
+
 function handleBatchDelete() {
 	if (selectedRows.value.length === 0) return;
 	ElMessageBox.confirm(`确定要删除选中的 ${selectedRows.value.length} 条公告吗？`, "提示", {
@@ -212,55 +313,72 @@ function handleBatchDelete() {
 		cancelButtonText: "取消",
 		type: "warning",
 	})
-		.then(() => {
+		.then(async () => {
 			const ids = selectedRows.value.map((item) => item.id);
-			for (let i = mockData.length - 1; i >= 0; i--) {
-				if (ids.includes(mockData[i].id)) {
-					mockData.splice(i, 1);
-				}
+			const success = await noticeStore.deleteNotice(ids);
+			if (success) {
+				ElMessage.success("删除成功");
+				selectedRows.value = [];
 			}
-			ElMessage.success("删除成功");
-			loadData();
 		})
 		.catch(() => {});
+}
+
+function handlePrint() {
+	window.print();
 }
 
 async function handleSubmit() {
 	await formRef.value?.validate();
 	submitLoading.value = true;
-	setTimeout(() => {
-		if (formData.id === 0) {
-			const newId = mockData.length > 0 ? Math.max(...mockData.map((i) => i.id)) + 1 : 1;
-			mockData.unshift({
-				id: newId,
-				title: formData.title,
-				content: formData.content,
-				createTime: new Date().toLocaleString("zh-CN"),
-				updateTime: new Date().toLocaleString("zh-CN"),
-			});
-			ElMessage.success("新增成功");
-		} else {
-			const index = mockData.findIndex((item) => item.id === formData.id);
-			if (index !== -1) {
-				mockData[index].title = formData.title;
-				mockData[index].content = formData.content;
-				mockData[index].updateTime = new Date().toLocaleString("zh-CN");
-			}
-			ElMessage.success("修改成功");
-		}
+	const success = await noticeStore.saveNotice({
+		id: formData.id,
+		title: formData.title,
+		content: formData.content,
+	});
+	submitLoading.value = false;
+	if (success) {
+		ElMessage.success(formData.id === 0 ? "新增成功" : "修改成功");
 		dialogVisible.value = false;
-		loadData();
-		submitLoading.value = false;
-	}, 300);
+	}
 }
-
-onMounted(() => {
-	loadData();
-});
 </script>
 
 <style scoped lang="scss">
 .system-notice {
 	padding: 16px;
+}
+
+.toolbar-right {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+
+.notice-detail {
+	padding: 16px;
+	line-height: 1.8;
+
+	.detail-item {
+		display: flex;
+		margin-bottom: 12px;
+	}
+
+	.detail-label {
+		flex-shrink: 0;
+		width: 80px;
+		color: #909399;
+	}
+
+	.detail-content {
+		white-space: pre-wrap;
+		line-height: 1.6;
+	}
+}
+
+@media print {
+	.system-notice {
+		padding: 0;
+	}
 }
 </style>
