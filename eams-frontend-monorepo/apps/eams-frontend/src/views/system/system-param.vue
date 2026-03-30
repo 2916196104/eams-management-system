@@ -1,270 +1,343 @@
 <template>
 	<div class="system-param">
-		<!-- 搜索区域 -->
-		<MySearch :model="searchForm" :items="searchItems" formtitle="系统参数查询" @do-search="handleSearch">
-			<template #footer>
-				<div class="toolbar-right">
-					<el-tooltip content="刷新" placement="top">
-						<el-button link :icon="Refresh" @click="handleRefresh">刷新</el-button>
-					</el-tooltip>
-				</div>
-			</template>
-		</MySearch>
-
-		<!-- 主体内容：左右分栏 -->
-		<div class="param-layout">
-			<!-- 左侧：设置分类列表 -->
-			<div class="param-categories">
-				<div class="categories-header">
-					<span>参数分类</span>
-				</div>
-				<el-scrollbar v-loading="paramStore.categoriesLoading">
-					<div class="categories-list">
-						<div
-							v-for="category in filteredCategories"
+		<div class="legacy-panel">
+			<aside class="param-sidebar" v-loading="paramStore.categoriesLoading">
+				<div class="sidebar-title">系统设置</div>
+				<el-scrollbar class="sidebar-scroll">
+					<div class="category-list">
+						<button
+							v-for="category in paramStore.categories"
 							:key="category.id"
-							class="category-card"
+							type="button"
+							class="category-item"
 							:class="{ active: paramStore.currentCategoryId === category.id }"
 							@click="handleSelectCategory(category.id)"
 						>
-							<div class="category-name">{{ category.name }}</div>
-							<div class="category-code">{{ category.code }}</div>
-							<div v-if="category.remark" class="category-remark">{{ category.remark }}</div>
-						</div>
-						<el-empty v-if="filteredCategories.length === 0" description="暂无分类" :image-size="60" />
+							{{ category.name }}
+						</button>
+						<el-empty v-if="paramStore.categories.length === 0" description="暂无参数分类" :image-size="72" />
 					</div>
 				</el-scrollbar>
-			</div>
+			</aside>
 
-			<!-- 右侧：参数选项表格 -->
-			<div class="param-options">
-				<div class="options-header">
-					<span>{{ currentCategoryName }} - 参数配置</span>
+			<section class="param-content">
+				<div class="content-header">
+					<div class="header-cell">设置项</div>
+					<div class="header-cell">设置值</div>
 				</div>
-				<el-scrollbar v-loading="paramStore.optionsLoading">
-					<div class="options-list">
-						<el-table :data="paramStore.options" border stripe style="width: 100%">
-							<el-table-column prop="name" label="参数名称" width="180" />
-							<el-table-column prop="code" label="参数编码" width="180" />
-							<el-table-column prop="info" label="描述" min-width="150" show-overflow-tooltip />
-							<el-table-column prop="valueType" label="值类型" width="80" />
-							<el-table-column label="参数值" min-width="200">
-								<template #default="{ row }">
-									<template v-if="editingId === row.id">
-										<el-input
-											v-model="editValue"
-											size="small"
-											style="width: 140px; margin-right: 8px"
-											@keyup.enter="handleSaveOption(row)"
-										/>
-										<el-button type="primary" size="small" @click="handleSaveOption(row)">保存</el-button>
-										<el-button size="small" @click="handleCancelEdit">取消</el-button>
-									</template>
-									<template v-else>
-										<span>{{ row.value }}</span>
-										<el-button type="primary" link size="small" style="margin-left: 8px" @click="handleStartEdit(row)">
-											编辑
-										</el-button>
-									</template>
-								</template>
-							</el-table-column>
-						</el-table>
-						<el-empty v-if="paramStore.options.length === 0" description="暂无参数配置" :image-size="80" />
-					</div>
-				</el-scrollbar>
-			</div>
+
+				<div v-loading="paramStore.optionsLoading" class="content-body">
+					<template v-if="currentCategory && optionRows.length > 0">
+						<div
+							v-for="row in optionRows"
+							:key="row.option.id"
+							class="option-row"
+							:class="{ saving: savingIds.has(row.option.id) }"
+						>
+							<div class="option-meta">
+								<div class="option-name">{{ row.displayName }}</div>
+								<p v-for="line in row.infoLines" :key="line" class="option-info">{{ line }}</p>
+							</div>
+
+							<div class="option-editor">
+								<el-switch
+									v-if="getOptionEditorKind(row.option) === 'switch'"
+									:model-value="toSwitchValue(row.option.value)"
+									:loading="savingIds.has(row.option.id)"
+									@change="(value) => handleSwitchChange(row.option, value)"
+								/>
+
+								<el-input
+									v-else
+									v-model="draftValues[row.option.id]"
+									:disabled="savingIds.has(row.option.id)"
+									clearable
+									@keyup.enter="handleInputSave(row.option)"
+									@blur="handleInputSave(row.option)"
+								/>
+							</div>
+						</div>
+					</template>
+
+					<el-empty v-else-if="currentCategory" description="当前分类暂无参数项" :image-size="88" />
+					<el-empty v-else description="请选择左侧参数分类" :image-size="88" />
+				</div>
+			</section>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted } from "vue";
+import { computed, onMounted, reactive, watch } from "vue";
 import { ElMessage } from "element-plus";
-import { Refresh } from "@element-plus/icons-vue";
-import MySearch from "@/components/mysearch/MySearch.vue";
-import type { MyFormItemAttr } from "@/components/myform/type";
 import { useSystemParamStore, type ParamOption } from "@/stores/systemParam";
+import { buildOptionMeta, getOptionEditorKind, normalizeSubmitValue } from "./systemParam.utils";
 
 const paramStore = useSystemParamStore();
 
-// ==================== 搜索表单 ====================
+const draftValues = reactive<Record<number, string>>({});
+const savingIds = reactive(new Set<number>());
 
-const searchForm = reactive({
-	name: "",
+const currentCategory = computed(() => {
+	return paramStore.categories.find((item) => item.id === paramStore.currentCategoryId) ?? null;
 });
 
-const searchItems: MyFormItemAttr[] = [
-	{
-		prop: "name",
-		label: "分类名称",
-		type: "input",
-		fprops: {
-			placeholder: "请输入分类名称",
-			clearable: true,
-		},
+const optionRows = computed(() => {
+	return paramStore.options.map((option) => ({
+		option,
+		...buildOptionMeta(option),
+	}));
+});
+
+watch(
+	() => paramStore.options,
+	(options) => {
+		for (const key of Object.keys(draftValues)) {
+			delete draftValues[Number(key)];
+		}
+
+		for (const option of options) {
+			draftValues[option.id] = String(option.value ?? "");
+		}
 	},
-];
+	{ immediate: true },
+);
 
-// ==================== 分类过滤 ====================
+function toSwitchValue(value: boolean | number | string) {
+	if (typeof value === "boolean") {
+		return value;
+	}
 
-const filteredCategories = computed(() => {
-	const keyword = searchForm.name.trim().toLowerCase();
-	if (!keyword) return paramStore.categories;
-	return paramStore.categories.filter((item) => item.name.toLowerCase().includes(keyword));
-});
-
-const currentCategoryName = computed(() => {
-	const current = paramStore.categories.find((item) => item.id === paramStore.currentCategoryId);
-	return current?.name ?? "未选择";
-});
-
-// ==================== 行内编辑 ====================
-
-const editingId = ref<number | null>(null);
-const editValue = ref<string | number>("");
-
-function handleStartEdit(row: ParamOption) {
-	editingId.value = row.id;
-	editValue.value = row.value;
+	return String(value) === "1" || String(value).toLowerCase() === "true";
 }
 
-function handleCancelEdit() {
-	editingId.value = null;
-	editValue.value = "";
-}
+async function persistOption(option: ParamOption, rawValue: string | boolean) {
+	const nextValue = normalizeSubmitValue(option, rawValue);
+	if (nextValue === option.value) {
+		return;
+	}
 
-async function handleSaveOption(row: ParamOption) {
+	savingIds.add(option.id);
 	const success = await paramStore.saveOption({
-		...row,
-		value: editValue.value,
+		...option,
+		value: nextValue,
 	});
+	savingIds.delete(option.id);
+
 	if (success) {
 		ElMessage.success("保存成功");
-		handleCancelEdit();
+		return;
+	}
+
+	draftValues[option.id] = String(option.value ?? "");
+	ElMessage.error("保存失败，请检查接口或稍后重试");
+}
+
+async function handleSelectCategory(categoryId: number) {
+	const success = await paramStore.selectCategory(categoryId);
+	if (!success) {
+		ElMessage.error("参数项加载失败，请检查接口配置");
 	}
 }
 
-// ==================== 事件处理 ====================
-
-function handleSearch() {
-	// 搜索通过 computed 过滤，无需额外操作
+async function handleSwitchChange(option: ParamOption, value: string | number | boolean) {
+	await persistOption(option, Boolean(value));
 }
 
-function handleRefresh() {
-	paramStore.fetchCategories();
+async function handleInputSave(option: ParamOption) {
+	await persistOption(option, draftValues[option.id] ?? "");
 }
 
-function handleSelectCategory(categoryId: number) {
-	handleCancelEdit();
-	paramStore.selectCategory(categoryId);
-}
-
-// ==================== 生命周期 ====================
-
-onMounted(() => {
-	paramStore.fetchCategories();
+onMounted(async () => {
+	const success = await paramStore.fetchCategories();
+	if (!success) {
+		ElMessage.error("系统参数加载失败，请检查接口配置");
+	}
 });
 </script>
 
 <style scoped lang="scss">
 .system-param {
-	padding: 16px;
 	height: 100%;
+	padding: 8px 12px 12px;
+	box-sizing: border-box;
+	background: #f3f5f8;
+}
+
+.legacy-panel {
+	display: grid;
+	grid-template-columns: 340px minmax(0, 1fr);
+	height: 100%;
+	background: #fff;
+	border: 1px solid #dfe6ee;
+	overflow: hidden;
+}
+
+.param-sidebar {
 	display: flex;
 	flex-direction: column;
+	min-width: 0;
+	border-right: 1px solid #dfe6ee;
+	background: #fff;
 }
 
-.toolbar-right {
-	display: flex;
-	gap: 8px;
-	align-items: center;
+.sidebar-title {
+	padding: 28px 38px 16px;
+	font-size: 18px;
+	line-height: 1.2;
+	font-weight: 500;
+	color: #409eff;
 }
 
-.param-layout {
+.sidebar-scroll {
 	flex: 1;
-	display: flex;
-	gap: 16px;
-	margin-top: 16px;
 	min-height: 0;
 }
 
-.param-categories {
-	width: 260px;
-	flex-shrink: 0;
-	display: flex;
-	flex-direction: column;
-	border: 1px solid var(--el-border-color-light);
-	border-radius: 8px;
-	overflow: hidden;
+.category-list {
+	padding: 4px 0 26px;
 }
 
-.categories-header {
-	padding: 12px 16px;
-	font-weight: 600;
-	font-size: 15px;
-	border-bottom: 1px solid var(--el-border-color-light);
-	background-color: var(--el-fill-color-light);
-}
-
-.categories-list {
-	padding: 8px;
-}
-
-.category-card {
-	padding: 12px;
-	border-radius: 6px;
+.category-item {
+	display: block;
+	width: 100%;
+	padding: 14px 38px;
+	border: 0;
+	background: transparent;
+	text-align: left;
+	font-size: 17px;
+	line-height: 1.35;
+	color: #303133;
 	cursor: pointer;
-	transition: all 0.2s;
-	margin-bottom: 4px;
 
 	&:hover {
-		background-color: var(--el-fill-color-light);
+		background: #f7fbff;
 	}
 
 	&.active {
-		background-color: var(--el-color-primary-light-9);
-		border-left: 3px solid var(--el-color-primary);
-	}
-
-	.category-name {
-		font-weight: 500;
-		font-size: 14px;
-		margin-bottom: 4px;
-	}
-
-	.category-code {
-		font-size: 12px;
-		color: var(--el-text-color-secondary);
-		font-family: monospace;
-	}
-
-	.category-remark {
-		font-size: 12px;
-		color: var(--el-text-color-placeholder);
-		margin-top: 4px;
+		color: #409eff;
+		background: #fff;
 	}
 }
 
-.param-options {
-	flex: 1;
-	min-width: 0;
+.param-content {
 	display: flex;
 	flex-direction: column;
-	border: 1px solid var(--el-border-color-light);
-	border-radius: 8px;
-	overflow: hidden;
+	min-width: 0;
+	background: #fff;
 }
 
-.options-header {
-	padding: 12px 16px;
-	font-weight: 600;
+.content-header {
+	display: grid;
+	grid-template-columns: minmax(380px, 1fr) minmax(300px, 44%);
+	padding: 0 18px;
+	border-bottom: 1px solid #dfe6ee;
+	background: #fff;
+}
+
+.header-cell {
+	padding: 16px 16px 14px;
 	font-size: 15px;
-	border-bottom: 1px solid var(--el-border-color-light);
-	background-color: var(--el-fill-color-light);
+	font-weight: 600;
+	color: #909399;
 }
 
-.options-list {
-	padding: 16px;
+.content-body {
 	flex: 1;
+	min-height: 0;
+	overflow: auto;
+	padding: 0 18px 16px;
+}
+
+.option-row {
+	display: grid;
+	grid-template-columns: minmax(380px, 1fr) minmax(300px, 44%);
+	align-items: center;
+	min-height: 62px;
+	border-bottom: 1px solid #e8edf3;
+
+	&.saving {
+		background: #fafcff;
+	}
+}
+
+.option-meta {
+	padding: 12px 16px 12px 2px;
+	color: #303133;
+}
+
+.option-name {
+	font-size: 15px;
+	line-height: 1.55;
+	color: #303133;
+	word-break: break-all;
+}
+
+.option-info {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.55;
+	color: #606266;
+	word-break: break-all;
+}
+
+.option-editor {
+	display: flex;
+	align-items: center;
+	min-width: 0;
+	padding: 12px 0;
+
+	:deep(.el-input),
+	:deep(.el-input__wrapper) {
+		width: 100%;
+	}
+
+	:deep(.el-input__wrapper) {
+		border-radius: 4px;
+	}
+}
+
+@media (max-width: 1080px) {
+	.legacy-panel {
+		grid-template-columns: 260px minmax(0, 1fr);
+	}
+
+	.content-header,
+	.option-row {
+		grid-template-columns: minmax(260px, 1fr) minmax(220px, 42%);
+	}
+}
+
+@media (max-width: 820px) {
+	.system-param {
+		padding: 8px;
+	}
+
+	.legacy-panel {
+		grid-template-columns: 1fr;
+		height: auto;
+	}
+
+	.param-sidebar {
+		border-right: 0;
+		border-bottom: 1px solid #dfe6ee;
+	}
+
+	.content-header,
+	.option-row {
+		grid-template-columns: 1fr;
+	}
+
+	.content-header {
+		padding-bottom: 0;
+	}
+
+	.header-cell:last-child {
+		display: none;
+	}
+
+	.option-editor {
+		padding: 0 0 14px;
+	}
 }
 </style>

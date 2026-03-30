@@ -10,6 +10,11 @@ overrides:
   '@intlify/core-base': 11.3.0
   '@intlify/shared': 11.3.0
 
+patchedDependencies:
+  wot-design-uni@1.14.0:
+    hash: 04e9263bc2fdac6541cf1012e139ab6849f2400a9413e01f098196e32ca0a668
+    path: patches/wot-design-uni@1.14.0.patch
+
 importers:
 
   .:
@@ -342,7 +347,7 @@ importers:
         version: 9.14.5(vue@3.4.38(typescript@5.5.4))
       wot-design-uni:
         specifier: ^1.14.0
-        version: 1.14.0(vue@3.4.38(typescript@5.5.4))
+        version: 1.14.0(patch_hash=04e9263bc2fdac6541cf1012e139ab6849f2400a9413e01f098196e32ca0a668)(vue@3.4.38(typescript@5.5.4))
     devDependencies:
       '@alova/wormhole':
         specifier: ^1.1.2
@@ -550,7 +555,7 @@ importers:
         version: 9.14.5(vue@3.4.38(typescript@5.5.4))
       wot-design-uni:
         specifier: ^1.14.0
-        version: 1.14.0(vue@3.4.38(typescript@5.5.4))
+        version: 1.14.0(patch_hash=04e9263bc2fdac6541cf1012e139ab6849f2400a9413e01f098196e32ca0a668)(vue@3.4.38(typescript@5.5.4))
     devDependencies:
       '@alova/wormhole':
         specifier: ^1.1.2
@@ -38954,7 +38959,7 @@ snapshots:
     dependencies:
       errno: 0.1.8
 
-  wot-design-uni@1.14.0(vue@3.4.38(typescript@5.5.4)):
+  wot-design-uni@1.14.0(patch_hash=04e9263bc2fdac6541cf1012e139ab6849f2400a9413e01f098196e32ca0a668)(vue@3.4.38(typescript@5.5.4)):
     dependencies:
       vue: 3.4.38(typescript@5.5.4)
 
