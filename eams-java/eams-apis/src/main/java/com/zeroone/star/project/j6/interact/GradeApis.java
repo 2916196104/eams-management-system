@@ -7,6 +7,7 @@ import com.zeroone.star.project.query.j6.interact.GradeFormQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -63,8 +64,8 @@ public interface GradeApis {
 	/**
 	 * 导入成绩
 	 * @param grade_id
-	 * @param gradeRecords
+	 * @param file
 	 * @return
 	 */
-	JsonVO<Map<Long, Object>> addGrades(Long grade_id, List<GradeRecordDTO> gradeRecords);
+	JsonVO<String> addGrades(Long grade_id, MultipartFile file);
 }
