@@ -165,3 +165,6 @@ if(UNIX)
 endif()
 # 在后面添加你的模块
 add_subdirectory ("eams-c5-stu-mobile")
+add_subdirectory ("eams-c5-stu-mobile-home")
+add_subdirectory ("eams-c5-stu-mobile-login")
+add_subdirectory ("eams-c5-stu-mobile-schedule")
