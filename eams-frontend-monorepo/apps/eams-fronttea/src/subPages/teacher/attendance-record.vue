@@ -45,6 +45,18 @@ interface AttendanceStatusOption {
 	defaultCountMode: "period" | "zero";
 }
 
+interface RollCallRecordItem {
+	id: string;
+	studentName: string;
+	checkinDate: string;
+	checkinResult?: number;
+}
+
+interface RollCallCourseOption {
+	id: string;
+	name: string;
+}
+
 const statusOptions: AttendanceStatusOption[] = [
 	{ key: "signed", label: "已签到", type: 1, state: 1, defaultCountMode: "period" },
 	{ key: "makeup", label: "补签", type: 2, state: 2, defaultCountMode: "period" },
@@ -55,7 +67,7 @@ const statusOptions: AttendanceStatusOption[] = [
 const router = useRouter();
 const route = useRoute() as { query?: Record<string, string | string[] | undefined> };
 const userStore = useUserStore();
-const { getScheduleByDate } = storeToRefs(userStore);
+const { getScheduleByDate, teacherInfo } = storeToRefs(userStore);
 
 const today = formatDate(new Date());
 const loading = ref(false);
@@ -73,17 +85,42 @@ const studentTotalPage = ref(0);
 const studentTotal = ref(0);
 const unsignedCount = ref(0);
 const studentPageSize = 10;
+const rollCallLoading = ref(false);
+const rollCallLoadingMore = ref(false);
+const rollCallPageIndex = ref(1);
+const rollCallPages = ref(0);
+const rollCallTotal = ref(0);
+const selectedCourseId = ref(readQueryString("course_id") || "");
+const rollCallList = ref<RollCallRecordItem[]>([]);
 
 const statusForm = reactive({
 	statusKey: "signed" as AttendanceActionKey,
 	countText: "1",
 });
 
+const routeLessonId = computed(() => {
+	const value = Number(readQueryString("lesson_id") || 0);
+	return Number.isFinite(value) && value > 0 ? value : undefined;
+});
+const isLessonMode = computed(() => Boolean(routeLessonId.value));
 const dateLessons = computed(() => getScheduleByDate.value(activeDate.value).filter((item) => item.lessonId));
+const rollCallCourseOptions = computed<RollCallCourseOption[]>(() => {
+	const map = new Map<string, RollCallCourseOption>();
+	for (const item of getScheduleByDate.value(activeDate.value)) {
+		const courseId = item.courseId ? String(item.courseId) : "";
+		if (!courseId || map.has(courseId)) continue;
+		map.set(courseId, {
+			id: courseId,
+			name: item.courseName || item.className || "未命名课程",
+		});
+	}
+	return Array.from(map.values());
+});
 const currentLesson = computed(() => {
 	return dateLessons.value.find((item) => resolveLessonId(item) === selectedLessonId.value);
 });
 const hasMoreStudents = computed(() => studentPageIndex.value < studentTotalPage.value);
+const hasMoreRollCalls = computed(() => rollCallPageIndex.value < rollCallPages.value);
 
 function formatDate(date: Date) {
 	const year = date.getFullYear();
@@ -178,12 +215,44 @@ function normalizeStudentListPayload(source: any) {
 	};
 }
 
+function normalizeRollCallPayload(source: any) {
+	const payload = source?.data?.data ?? source?.data ?? source ?? {};
+	const rawRows = Array.isArray(payload.rows)
+		? payload.rows
+		: Array.isArray(payload.list)
+			? payload.list
+			: Array.isArray(payload.records)
+				? payload.records
+				: Array.isArray(payload)
+					? payload
+					: [];
+
+	return {
+		pageIndex: Number(payload.pageIndex ?? payload.page ?? 1),
+		pages: Number(payload.pages ?? payload.total_page ?? 0),
+		total: Number(payload.total ?? rawRows.length),
+		rows: rawRows.map((item: any, index: number) => ({
+			id: String(item.id ?? `${item.studentName ?? item.student_name ?? "student"}-${index}`),
+			studentName: item.studentName ?? item.student_name ?? "--",
+			checkinDate: item.checkinDate ?? item.checkin_date ?? "--",
+			checkinResult: typeof item.checkinResult !== "undefined" ? Number(item.checkinResult) : Number(item.checkin_result),
+		} satisfies RollCallRecordItem)),
+	};
+}
+
 function resetStudentList() {
 	studentList.value = [];
 	studentPageIndex.value = 1;
 	studentTotal.value = 0;
 	studentTotalPage.value = 0;
 	unsignedCount.value = 0;
+}
+
+function resetRollCallList() {
+	rollCallList.value = [];
+	rollCallPageIndex.value = 1;
+	rollCallPages.value = 0;
+	rollCallTotal.value = 0;
 }
 
 function syncCountByStatus(key: AttendanceActionKey) {
@@ -225,9 +294,44 @@ function studentStatusClass(item: AttendanceStudentItem) {
 	}
 }
 
+function rollCallResultText(result?: number) {
+	switch (result) {
+		case 1:
+			return "已签到";
+		case 2:
+			return "补签";
+		case 3:
+			return "旷课";
+		case 4:
+			return "请假";
+		default:
+			return "未知状态";
+	}
+}
+
+function rollCallResultClass(result?: number) {
+	switch (result) {
+		case 1:
+			return "teacher-rollcall-item__status--signed";
+		case 2:
+			return "teacher-rollcall-item__status--makeup";
+		case 3:
+			return "teacher-rollcall-item__status--absent";
+		case 4:
+			return "teacher-rollcall-item__status--leave";
+		default:
+			return "teacher-rollcall-item__status--unknown";
+	}
+}
+
 async function loadDateLessons() {
 	if (dateLessons.value.length) return;
-	await userStore.loadScheduleByDate(activeDate.value);
+	await Promise.all([userStore.loadScheduleByDate(activeDate.value), ensureTeacherInfo()]);
+}
+
+async function ensureTeacherInfo() {
+	if (teacherInfo.value.id) return;
+	await userStore.loadCurrentUserInfo();
 }
 
 async function loadStudentList(nextPage = 1, append = false, lessonId = selectedLessonId.value) {
@@ -289,16 +393,61 @@ async function loadLessonDetail(lessonId?: number) {
 	}
 }
 
+async function loadRollCallRecords(nextPage = 1, append = false) {
+	if (!selectedCourseId.value) {
+		resetRollCallList();
+		return;
+	}
+
+	await ensureTeacherInfo();
+
+	const targetLoading = append ? rollCallLoadingMore : rollCallLoading;
+	targetLoading.value = true;
+
+	try {
+		const res: any = await (Apis as any).rollcall.get_rollcall_record({
+			params: {
+				teacherId: teacherInfo.value.id,
+				courseId: selectedCourseId.value,
+				pageIndex: nextPage,
+				pageSize: studentPageSize,
+			},
+		});
+
+		const payload = normalizeRollCallPayload(res);
+		rollCallPageIndex.value = payload.pageIndex;
+		rollCallPages.value = payload.pages;
+		rollCallTotal.value = payload.total;
+		rollCallList.value = append ? [...rollCallList.value, ...payload.rows] : payload.rows;
+	} catch {
+		if (!append) resetRollCallList();
+		uni.showToast({ title: "点名记录加载失败", icon: "none" });
+	} finally {
+		targetLoading.value = false;
+	}
+}
+
+function selectCourse(courseId: string) {
+	selectedCourseId.value = courseId;
+	void loadRollCallRecords(1, false);
+}
+
 async function initPage() {
 	activeDate.value = readQueryString("date") || today;
-	await loadDateLessons();
+	await Promise.all([loadDateLessons(), ensureTeacherInfo()]);
 
-	const routeLessonId = Number(readQueryString("lesson_id") || 0);
-	const initialLessonId =
-		(Number.isFinite(routeLessonId) && routeLessonId > 0 ? routeLessonId : undefined) ||
-		resolveLessonId(dateLessons.value[0] || {});
+	if (isLessonMode.value) {
+		await loadLessonDetail(routeLessonId.value);
+		return;
+	}
 
-	await loadLessonDetail(initialLessonId);
+	selectedLessonId.value = undefined;
+	attendanceDetail.value = null;
+	resetStudentList();
+	if (!selectedCourseId.value) {
+		selectedCourseId.value = rollCallCourseOptions.value[0]?.id || "";
+	}
+	await loadRollCallRecords(1, false);
 }
 
 async function refreshPage() {
@@ -310,6 +459,11 @@ async function refreshPage() {
 async function loadMoreStudents() {
 	if (!hasMoreStudents.value || studentLoadingMore.value) return;
 	await loadStudentList(studentPageIndex.value + 1, true);
+}
+
+async function loadMoreRollCalls() {
+	if (!hasMoreRollCalls.value || rollCallLoadingMore.value) return;
+	await loadRollCallRecords(rollCallPageIndex.value + 1, true);
 }
 
 function openStatusPopup(item: AttendanceStudentItem) {
@@ -386,6 +540,48 @@ onShow(() => {
 		<teacher-nav-bar title="点名记录" @refresh="refreshPage" />
 
 		<view class="teacher-attendance-page__content">
+			<template v-if="!isLessonMode">
+				<view v-if="rollCallCourseOptions.length" class="teacher-attendance-page__lesson-strip">
+					<view
+						v-for="course in rollCallCourseOptions"
+						:key="course.id"
+						class="teacher-attendance-page__lesson-chip"
+						:class="{ 'teacher-attendance-page__lesson-chip--active': selectedCourseId === course.id }"
+						@click="selectCourse(course.id)"
+					>
+						{{ course.name }}
+					</view>
+				</view>
+
+				<view v-if="rollCallList.length" class="teacher-rollcall">
+					<view class="teacher-rollcall__summary">共 {{ rollCallTotal }} 条点名记录</view>
+
+					<view class="teacher-rollcall__list">
+						<view v-for="item in rollCallList" :key="item.id" class="teacher-rollcall-item">
+							<view class="teacher-rollcall-item__header">
+								<view class="teacher-rollcall-item__student">{{ item.studentName }}</view>
+								<view class="teacher-rollcall-item__status" :class="rollCallResultClass(item.checkinResult)">
+									{{ rollCallResultText(item.checkinResult) }}
+								</view>
+							</view>
+							<view class="teacher-rollcall-item__time">签到时间：{{ item.checkinDate }}</view>
+						</view>
+					</view>
+
+					<view v-if="hasMoreRollCalls" class="teacher-attendance-student__more" @click="loadMoreRollCalls">
+						{{ rollCallLoadingMore ? "加载中..." : "加载更多记录" }}
+					</view>
+				</view>
+
+				<teacher-empty-state
+					v-else
+					:title="rollCallLoading ? '加载中...' : rollCallCourseOptions.length ? '暂无点名记录' : '暂无可查询课程'"
+					:description="rollCallCourseOptions.length ? '可切换上方课程查看对应点名记录' : '请先确保当天课表中存在可查询课程'"
+					compact
+				/>
+			</template>
+
+			<template v-else>
 			<!-- 同日课次切换 -->
 			<view v-if="dateLessons.length" class="teacher-attendance-page__lesson-strip">
 				<view
@@ -484,6 +680,7 @@ onShow(() => {
 				:description="dateLessons.length ? '可从上方切换课次查看详情' : '请先从课表选择课次进入本页'"
 				compact
 			/>
+			</template>
 		</view>
 
 		<wd-popup v-model="statusPopupVisible" position="bottom" custom-class="teacher-status-popup">
@@ -561,6 +758,83 @@ onShow(() => {
 	background: #eef4ff;
 	color: #3e7bfa;
 	font-weight: 600;
+}
+
+.teacher-rollcall {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.teacher-rollcall__summary {
+	padding: 0 2px;
+	font-size: 13px;
+	color: #8b95a7;
+}
+
+.teacher-rollcall__list {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.teacher-rollcall-item {
+	border-radius: 16px;
+	background: #fff;
+	padding: 16px;
+	box-shadow: 0 6px 18px rgba(64, 86, 122, 0.06);
+}
+
+.teacher-rollcall-item__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.teacher-rollcall-item__student {
+	font-size: 16px;
+	font-weight: 700;
+	color: #111827;
+}
+
+.teacher-rollcall-item__time {
+	margin-top: 10px;
+	font-size: 13px;
+	color: #667085;
+}
+
+.teacher-rollcall-item__status {
+	flex-shrink: 0;
+	padding: 4px 10px;
+	border-radius: 999px;
+	font-size: 12px;
+	font-weight: 700;
+}
+
+.teacher-rollcall-item__status--signed {
+	background: rgba(49, 199, 165, 0.12);
+	color: #1ca386;
+}
+
+.teacher-rollcall-item__status--makeup {
+	background: rgba(59, 130, 246, 0.12);
+	color: #2563eb;
+}
+
+.teacher-rollcall-item__status--absent {
+	background: rgba(239, 68, 68, 0.12);
+	color: #dc2626;
+}
+
+.teacher-rollcall-item__status--leave {
+	background: rgba(245, 158, 11, 0.12);
+	color: #d97706;
+}
+
+.teacher-rollcall-item__status--unknown {
+	background: rgba(148, 163, 184, 0.12);
+	color: #64748b;
 }
 
 .teacher-attendance-card {
