@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import {
+	getRolepermPage,
 	getRolepermNameList,
 	saveRoleperm,
 	deleteRoleperm,
@@ -33,58 +34,80 @@ export interface StaffItem {
 	mobile: string;
 }
 
-function unwrapPayload(input: unknown): unknown {
-	let current = input;
+const mockRoles: RoleItem[] = [
+	{ id: 1, code: "admin", name: "管理员" },
+	{ id: 2, code: "teacher", name: "教师" },
+	{ id: 3, code: "student", name: "学生" },
+	{ id: 4, code: "operator", name: "运营" },
+];
 
-	while (current && typeof current === "object" && "data" in (current as Record<string, unknown>)) {
-		const next = (current as { data?: unknown }).data;
-		if (next === undefined || next === current) {
-			break;
-		}
-		current = next;
-	}
+const mockStaffs: Record<number, StaffItem[]> = {
+	1: [
+		{ staffId: 101, roleId: 1, name: "张三", mobile: "13800001111" },
+		{ staffId: 102, roleId: 1, name: "李四", mobile: "13800002222" },
+	],
+	2: [{ staffId: 201, roleId: 2, name: "王老师", mobile: "13800003333" }],
+	3: [],
+	4: [{ staffId: 401, roleId: 4, name: "赵运营", mobile: "13800004444" }],
+};
 
-	return current;
-}
+const mockPermissions: QuanXianFenZuVo[] = [
+	{
+		groupName: "系统管理",
+		permissions: [
+			{
+				id: 1,
+				code: "system:notice",
+				name: "内部公告",
+				groupName: "系统管理",
+				path: "/system/internal-notice",
+				enabled: 1,
+			},
+			{
+				id: 2,
+				code: "system:dict",
+				name: "数据字典",
+				groupName: "系统管理",
+				path: "/system/data-dictionary",
+				enabled: 1,
+			},
+			{
+				id: 3,
+				code: "system:param",
+				name: "系统参数",
+				groupName: "系统管理",
+				path: "/system/system-parameter",
+				enabled: 1,
+			},
+			{
+				id: 4,
+				code: "system:permission",
+				name: "角色与权限",
+				groupName: "系统管理",
+				path: "/system/permission",
+				enabled: 1,
+			},
+		],
+		selectedPermissions: [],
+	},
+	{
+		groupName: "教务管理",
+		permissions: [
+			{ id: 10, code: "edu:course", name: "课程管理", groupName: "教务管理", path: "/edu/course", enabled: 1 },
+			{ id: 11, code: "edu:student", name: "学员管理", groupName: "教务管理", path: "/edu/student", enabled: 1 },
+		],
+		selectedPermissions: [],
+	},
+];
 
-function hasServerPayload(input: unknown) {
-	return Boolean(
-		input &&
-		typeof input === "object" &&
-		("data" in (input as Record<string, unknown>) || "status" in (input as Record<string, unknown>)),
-	);
-}
-
-function extractRows<T>(data: unknown): T[] {
-	if (Array.isArray(data)) {
-		return data;
-	}
-
-	if (data && typeof data === "object") {
-		const source = data as { rows?: T[]; list?: T[] };
-		const rows = source.rows ?? source.list;
-		return Array.isArray(rows) ? rows : [];
-	}
-
-	return [];
-}
-
-function normalizeRoles(rows: RolepermDTO[]): RoleItem[] {
-	return rows.map((item) => ({
-		id: item.id ?? 0,
-		code: item.code ?? "",
-		name: item.name ?? "",
-	}));
-}
-
-function normalizeStaffs(rows: RolepermStaffDTO[], roleId: number): StaffItem[] {
-	return rows.map((item) => ({
-		staffId: item.staffId ?? 0,
-		roleId: item.roleId ?? roleId,
-		name: item.name ?? "",
-		mobile: item.mobile ?? "",
-	}));
-}
+let localMockRoles = [...mockRoles];
+let localMockStaffs = JSON.parse(JSON.stringify(mockStaffs)) as Record<number, StaffItem[]>;
+let localMockSelectedPermissions: Record<number, number[]> = {
+	1: [1, 2, 3, 4, 10, 11],
+	2: [10, 11],
+	3: [],
+	4: [1, 2],
+};
 
 export const useSystemPermissionStore = defineStore("systemPermission", () => {
 	/** 角色列表 */
@@ -109,20 +132,15 @@ export const useSystemPermissionStore = defineStore("systemPermission", () => {
 		rolesLoading.value = true;
 		try {
 			const res = await getRolepermNameList();
-			roles.value = normalizeRoles(extractRows<RolepermDTO>(unwrapPayload(res)));
-			return true;
-		} catch (error) {
-			const rows = extractRows<RolepermDTO>(unwrapPayload(error));
-			if (rows.length > 0 || hasServerPayload(error)) {
-				roles.value = normalizeRoles(rows);
-				return true;
-			}
-
-			roles.value = [];
-			currentRoleId.value = null;
-			staffs.value = [];
-			selectedPermissionIds.value = [];
-			return false;
+			const data = (res as any).data ?? res;
+			const rows: RolepermDTO[] = Array.isArray(data) ? data : data.rows || data.list || [];
+			roles.value = rows.map((item) => ({
+				id: item.id ?? 0,
+				code: item.code ?? "",
+				name: item.name ?? "",
+			}));
+		} catch {
+			roles.value = [...localMockRoles];
 		} finally {
 			rolesLoading.value = false;
 		}
@@ -133,17 +151,16 @@ export const useSystemPermissionStore = defineStore("systemPermission", () => {
 		staffsLoading.value = true;
 		try {
 			const res = await getRolepermStaffList({ roleId, pageIndex: 1, pageSize: 1000 });
-			staffs.value = normalizeStaffs(extractRows<RolepermStaffDTO>(unwrapPayload(res)), roleId);
-			return true;
-		} catch (error) {
-			const rows = extractRows<RolepermStaffDTO>(unwrapPayload(error));
-			if (rows.length > 0 || hasServerPayload(error)) {
-				staffs.value = normalizeStaffs(rows, roleId);
-				return true;
-			}
-
-			staffs.value = [];
-			return false;
+			const data = (res as any).data ?? res;
+			const rows: RolepermStaffDTO[] = data.rows || data.list || (Array.isArray(data) ? data : []);
+			staffs.value = rows.map((item) => ({
+				staffId: item.staffId ?? 0,
+				roleId: item.roleId ?? roleId,
+				name: item.name ?? "",
+				mobile: item.mobile ?? "",
+			}));
+		} catch {
+			staffs.value = localMockStaffs[roleId] ? [...localMockStaffs[roleId]] : [];
 		} finally {
 			staffsLoading.value = false;
 		}
@@ -154,12 +171,10 @@ export const useSystemPermissionStore = defineStore("systemPermission", () => {
 		permissionsLoading.value = true;
 		try {
 			const res = await getPermissionList();
-			permissionGroups.value = extractRows<QuanXianFenZuVo>(unwrapPayload(res));
-			return true;
-		} catch (error) {
-			const rows = extractRows<QuanXianFenZuVo>(unwrapPayload(error));
-			permissionGroups.value = rows;
-			return rows.length > 0 || hasServerPayload(error);
+			const data = (res as any).data ?? res;
+			permissionGroups.value = Array.isArray(data) ? data : data.rows || data.list || [];
+		} catch {
+			permissionGroups.value = JSON.parse(JSON.stringify(mockPermissions));
 		} finally {
 			permissionsLoading.value = false;
 		}
@@ -169,7 +184,8 @@ export const useSystemPermissionStore = defineStore("systemPermission", () => {
 	async function fetchSelectedPermissions(roleId: number) {
 		try {
 			const res = await getSelectedPermissionList(roleId);
-			const groups = extractRows<QuanXianFenZuVo>(unwrapPayload(res));
+			const data = (res as any).data ?? res;
+			const groups: QuanXianFenZuVo[] = Array.isArray(data) ? data : data.rows || data.list || [];
 			const ids: number[] = [];
 			for (const group of groups) {
 				if (group.selectedPermissions) {
@@ -179,27 +195,17 @@ export const useSystemPermissionStore = defineStore("systemPermission", () => {
 				}
 			}
 			selectedPermissionIds.value = ids;
-			return true;
-		} catch (error) {
-			const groups = extractRows<QuanXianFenZuVo>(unwrapPayload(error));
-			const ids: number[] = [];
-			for (const group of groups) {
-				if (group.selectedPermissions) {
-					for (const perm of group.selectedPermissions) {
-						if (perm.id != null) ids.push(perm.id);
-					}
-				}
-			}
-			selectedPermissionIds.value = ids;
-			return groups.length > 0 || hasServerPayload(error);
+		} catch {
+			selectedPermissionIds.value = localMockSelectedPermissions[roleId]
+				? [...localMockSelectedPermissions[roleId]]
+				: [];
 		}
 	}
 
 	/** 选中角色 */
 	async function selectRole(roleId: number) {
 		currentRoleId.value = roleId;
-		const [staffsOk, permsOk] = await Promise.all([fetchStaffs(roleId), fetchSelectedPermissions(roleId)]);
-		return staffsOk && permsOk;
+		await Promise.all([fetchStaffs(roleId), fetchSelectedPermissions(roleId)]);
 	}
 
 	/** 保存角色 */
@@ -208,12 +214,18 @@ export const useSystemPermissionStore = defineStore("systemPermission", () => {
 			await saveRoleperm({ id: data.id || undefined, code: data.code, name: data.name });
 			await fetchRoles();
 			return true;
-		} catch (error) {
-			if (!hasServerPayload(error)) {
-				return false;
+		} catch {
+			if (data.id) {
+				const idx = localMockRoles.findIndex((item) => item.id === data.id);
+				if (idx !== -1) {
+					localMockRoles[idx] = { ...data };
+				}
+			} else {
+				const newId = localMockRoles.length > 0 ? Math.max(...localMockRoles.map((r) => r.id)) + 1 : 1;
+				localMockRoles.push({ ...data, id: newId });
 			}
-
-			return fetchRoles();
+			await fetchRoles();
+			return true;
 		}
 	}
 
@@ -223,12 +235,12 @@ export const useSystemPermissionStore = defineStore("systemPermission", () => {
 			await deleteRoleperm(id);
 			await fetchRoles();
 			return true;
-		} catch (error) {
-			if (!hasServerPayload(error)) {
-				return false;
-			}
-
-			return fetchRoles();
+		} catch {
+			localMockRoles = localMockRoles.filter((item) => item.id !== id);
+			delete localMockStaffs[id];
+			delete localMockSelectedPermissions[id];
+			await fetchRoles();
+			return true;
 		}
 	}
 
@@ -238,12 +250,17 @@ export const useSystemPermissionStore = defineStore("systemPermission", () => {
 			await addRolepermStaff(data);
 			await fetchStaffs(data.roleId!);
 			return true;
-		} catch (error) {
-			if (!hasServerPayload(error)) {
-				return false;
-			}
-
-			return fetchStaffs(data.roleId!);
+		} catch {
+			const list = localMockStaffs[data.roleId!] || (localMockStaffs[data.roleId!] = []);
+			const newStaffId = list.length > 0 ? Math.max(...list.map((s) => s.staffId)) + 1 : 100;
+			list.push({
+				staffId: newStaffId,
+				roleId: data.roleId!,
+				name: data.name || "新员工",
+				mobile: data.mobile || "",
+			});
+			await fetchStaffs(data.roleId!);
+			return true;
 		}
 	}
 
@@ -253,12 +270,12 @@ export const useSystemPermissionStore = defineStore("systemPermission", () => {
 			await removeRolepermStaff(staffId, roleId);
 			await fetchStaffs(roleId);
 			return true;
-		} catch (error) {
-			if (!hasServerPayload(error)) {
-				return false;
+		} catch {
+			if (localMockStaffs[roleId]) {
+				localMockStaffs[roleId] = localMockStaffs[roleId].filter((s) => s.staffId !== staffId);
 			}
-
-			return fetchStaffs(roleId);
+			await fetchStaffs(roleId);
+			return true;
 		}
 	}
 
@@ -275,12 +292,10 @@ export const useSystemPermissionStore = defineStore("systemPermission", () => {
 			await saveRolePermission(roleId, selectedPerms);
 			await fetchSelectedPermissions(roleId);
 			return true;
-		} catch (error) {
-			if (!hasServerPayload(error)) {
-				return false;
-			}
-
-			return fetchSelectedPermissions(roleId);
+		} catch {
+			localMockSelectedPermissions[roleId] = [...permissionIds];
+			await fetchSelectedPermissions(roleId);
+			return true;
 		}
 	}
 

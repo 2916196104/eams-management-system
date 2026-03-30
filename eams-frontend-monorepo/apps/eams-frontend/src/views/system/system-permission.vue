@@ -1,96 +1,95 @@
 <template>
 	<div class="system-permission">
-		<div class="permission-shell">
-			<section class="role-panel">
-				<div class="panel-title">角色列表</div>
-				<div class="toolbar-row">
-					<el-button type="primary" class="primary-action" :icon="Plus" @click="handleAddRole">添加角色</el-button>
+		<!-- 主体内容：左右分栏 -->
+		<div class="permission-layout">
+			<!-- 左侧：角色列表 -->
+			<div class="role-panel">
+				<div class="panel-header">
+					<span>角色列表</span>
+					<el-button type="primary" size="small" :icon="Plus" @click="handleAddRole">新增角色</el-button>
 				</div>
-
-				<div class="role-table" v-loading="permissionStore.rolesLoading">
-					<div class="table-header role-grid">
-						<div>角色名</div>
-						<div>编码</div>
-						<div>操作</div>
-					</div>
-
-					<el-scrollbar class="table-scroll">
-						<template v-if="permissionStore.roles.length > 0">
-							<div
-								v-for="role in permissionStore.roles"
-								:key="role.id"
-								class="table-row role-grid role-row"
-								:class="{ active: permissionStore.currentRoleId === role.id }"
-								@click="handleSelectRole(role.id)"
-							>
-								<div class="row-primary">{{ role.name }}</div>
-								<div class="row-secondary">{{ role.code }}</div>
-								<div class="row-actions">
-									<button type="button" class="link-button" @click.stop="handleOpenPermissionDialog(role)">
-										管理权限
-									</button>
-									<button type="button" class="link-button" @click.stop="handleEditRole(role)">编辑</button>
-									<button type="button" class="link-button danger" @click.stop="handleDeleteRole(role.id)">删除</button>
-								</div>
+				<el-scrollbar v-loading="permissionStore.rolesLoading">
+					<div class="role-list">
+						<div
+							v-for="role in permissionStore.roles"
+							:key="role.id"
+							class="role-card"
+							:class="{ active: permissionStore.currentRoleId === role.id }"
+							@click="handleSelectRole(role.id)"
+						>
+							<div class="role-info">
+								<div class="role-name">{{ role.name }}</div>
+								<div class="role-code">{{ role.code }}</div>
 							</div>
-						</template>
-						<el-empty v-else description="暂无角色" :image-size="72" />
-					</el-scrollbar>
-				</div>
-			</section>
-
-			<section class="staff-panel">
-				<div class="panel-title">设置人员</div>
-				<div class="toolbar-row toolbar-row-right">
-					<el-button
-						type="primary"
-						class="primary-action"
-						:icon="Plus"
-						:disabled="!permissionStore.currentRoleId"
-						@click="handleAddStaff"
-					>
-						给角色配置人员
-					</el-button>
-					<el-button :icon="Delete" :disabled="!selectedStaffIds.length" @click="handleBatchRemoveStaff">
-						从角色移除人员
-					</el-button>
-				</div>
-
-				<div class="staff-table" v-loading="permissionStore.staffsLoading">
-					<div class="table-header staff-grid">
-						<div class="checkbox-col">
-							<el-checkbox
-								:model-value="isAllStaffSelected"
-								:indeterminate="isStaffSelectionIndeterminate"
-								:disabled="permissionStore.staffs.length === 0"
-								@change="handleToggleAllStaff"
-							/>
+							<div class="role-actions">
+								<el-button type="primary" link size="small" @click.stop="handleEditRole(role)">编辑</el-button>
+								<el-popconfirm title="确定删除该角色？" @confirm="handleDeleteRole(role.id)">
+									<template #reference>
+										<el-button type="danger" link size="small" @click.stop>删除</el-button>
+									</template>
+								</el-popconfirm>
+							</div>
 						</div>
-						<div>员工姓名</div>
-						<div>手机号</div>
+						<el-empty v-if="permissionStore.roles.length === 0" description="暂无角色" :image-size="60" />
+					</div>
+				</el-scrollbar>
+			</div>
+
+			<!-- 右侧：员工管理 + 权限分配 -->
+			<div class="right-panel">
+				<template v-if="permissionStore.currentRoleId">
+					<!-- 员工管理 -->
+					<div class="staff-section">
+						<div class="section-header">
+							<span>{{ currentRoleName }} - 员工管理</span>
+							<el-button type="primary" size="small" :icon="Plus" @click="handleAddStaff">添加员工</el-button>
+						</div>
+						<el-scrollbar v-loading="permissionStore.staffsLoading">
+							<div class="staff-list">
+								<el-table :data="permissionStore.staffs" border stripe style="width: 100%">
+									<el-table-column prop="name" label="姓名" width="120" />
+									<el-table-column prop="mobile" label="手机号" min-width="140" />
+									<el-table-column label="操作" width="80">
+										<template #default="{ row }">
+											<el-popconfirm title="确定移除该员工？" @confirm="handleRemoveStaff(row.staffId)">
+												<template #reference>
+													<el-button type="danger" link size="small">移除</el-button>
+												</template>
+											</el-popconfirm>
+										</template>
+									</el-table-column>
+								</el-table>
+								<el-empty v-if="permissionStore.staffs.length === 0" description="暂无员工" :image-size="60" />
+							</div>
+						</el-scrollbar>
 					</div>
 
-					<el-scrollbar class="table-scroll">
-						<template v-if="permissionStore.currentRoleId && permissionStore.staffs.length > 0">
-							<div v-for="staff in permissionStore.staffs" :key="staff.staffId" class="table-row staff-grid">
-								<div class="checkbox-col">
-									<el-checkbox
-										:model-value="selectedStaffIds.includes(staff.staffId)"
-										@change="() => handleToggleStaff(staff.staffId)"
-									/>
-								</div>
-								<div class="row-primary">{{ staff.name }}</div>
-								<div class="row-secondary">{{ staff.mobile }}</div>
+					<!-- 权限分配 -->
+					<div class="permission-section">
+						<div class="section-header">
+							<span>{{ currentRoleName }} - 权限分配</span>
+							<el-button type="primary" size="small" @click="handleSavePermissions">保存权限</el-button>
+						</div>
+						<el-scrollbar v-loading="permissionStore.permissionsLoading">
+							<div class="permission-tree">
+								<el-tree
+									ref="permissionTreeRef"
+									:data="treeData"
+									show-checkbox
+									node-key="id"
+									:default-checked-keys="permissionStore.selectedPermissionIds"
+									:props="{ label: 'name', children: 'children' }"
+								/>
 							</div>
-						</template>
-						<el-empty v-else-if="permissionStore.currentRoleId" description="当前角色暂无人员" :image-size="72" />
-						<el-empty v-else description="请先选择左侧角色" :image-size="72" />
-					</el-scrollbar>
-				</div>
-			</section>
+						</el-scrollbar>
+					</div>
+				</template>
+				<el-empty v-else description="请先选择一个角色" class="empty-placeholder" />
+			</div>
 		</div>
 
-		<el-dialog v-model="roleDialogVisible" :title="roleDialogTitle" width="420px" destroy-on-close>
+		<!-- 新增/编辑角色弹窗 -->
+		<el-dialog v-model="roleDialogVisible" :title="roleDialogTitle" width="400px" destroy-on-close>
 			<el-form ref="roleFormRef" :model="roleForm" :rules="roleFormRules" label-width="80px">
 				<el-form-item label="角色名称" prop="name">
 					<el-input v-model="roleForm.name" placeholder="请输入角色名称" />
@@ -105,7 +104,8 @@
 			</template>
 		</el-dialog>
 
-		<el-dialog v-model="staffDialogVisible" title="给角色配置人员" width="420px" destroy-on-close>
+		<!-- 添加员工弹窗 -->
+		<el-dialog v-model="staffDialogVisible" title="添加员工" width="400px" destroy-on-close>
 			<el-form ref="staffFormRef" :model="staffForm" :rules="staffFormRules" label-width="80px">
 				<el-form-item label="员工姓名" prop="name">
 					<el-input v-model="staffForm.name" placeholder="请输入员工姓名" />
@@ -119,57 +119,41 @@
 				<el-button type="primary" :loading="submitLoading" @click="handleStaffSubmit">确定</el-button>
 			</template>
 		</el-dialog>
-
-		<el-dialog
-			v-model="permissionDialogVisible"
-			:title="`${permissionRoleName}的权限`"
-			width="880px"
-			top="4vh"
-			class="permission-dialog"
-			destroy-on-close
-		>
-			<div class="permission-dialog-tip">刷新页面（按F5键）后生效</div>
-			<el-scrollbar max-height="68vh">
-				<div class="permission-groups">
-					<section v-for="group in permissionGroupsForDialog" :key="group.groupName" class="permission-group-card">
-						<div class="permission-group-title">
-							<el-checkbox
-								:model-value="isGroupChecked(group.permissionIds)"
-								:indeterminate="isGroupIndeterminate(group.permissionIds)"
-								@change="(value) => handleToggleGroup(group.permissionIds, value)"
-							/>
-							<span>{{ group.groupName }}</span>
-						</div>
-						<el-checkbox-group v-model="editingPermissionIds" class="permission-check-grid">
-							<el-checkbox v-for="permission in group.permissions" :key="permission.id" :label="permission.id">
-								{{ permission.name }}
-							</el-checkbox>
-						</el-checkbox-group>
-					</section>
-				</div>
-			</el-scrollbar>
-			<template #footer>
-				<el-button @click="permissionDialogVisible = false">关闭</el-button>
-				<el-button type="primary" :loading="permissionSubmitLoading" @click="handleSavePermissions">保存权限</el-button>
-			</template>
-		</el-dialog>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref, watch } from "vue";
-import { ElMessage, ElMessageBox, type FormInstance } from "element-plus";
-import { Delete, Plus } from "@element-plus/icons-vue";
+import { ref, reactive, computed, onMounted, nextTick } from "vue";
+import { ElMessage, type FormInstance, type TreeInstance } from "element-plus";
+import { Plus } from "@element-plus/icons-vue";
 import { useSystemPermissionStore, type RoleItem } from "@/stores/systemPermission";
 
 const permissionStore = useSystemPermissionStore();
 
-const selectedStaffIds = ref<number[]>([]);
-const permissionDialogVisible = ref(false);
-const permissionRoleId = ref<number | null>(null);
-const permissionRoleName = ref("管理角色");
-const editingPermissionIds = ref<number[]>([]);
-const permissionSubmitLoading = ref(false);
+// ==================== 当前角色 ====================
+
+const currentRoleName = computed(() => {
+	const current = permissionStore.roles.find((item) => item.id === permissionStore.currentRoleId);
+	return current?.name ?? "未选择";
+});
+
+// ==================== 权限树 ====================
+
+const permissionTreeRef = ref<TreeInstance>();
+
+const treeData = computed(() => {
+	return permissionStore.permissionGroups.map((group) => ({
+		id: `group-${group.groupName}`,
+		name: group.groupName,
+		children: (group.permissions || []).map((perm) => ({
+			id: perm.id,
+			name: perm.name,
+			code: perm.code,
+		})),
+	}));
+});
+
+// ==================== 角色弹窗 ====================
 
 const roleDialogVisible = ref(false);
 const roleDialogTitle = ref("新增角色");
@@ -186,6 +170,8 @@ const roleFormRules = {
 	code: [{ required: true, message: "请输入角色编码", trigger: "blur" }],
 };
 
+// ==================== 员工弹窗 ====================
+
 const staffDialogVisible = ref(false);
 const staffFormRef = ref<FormInstance>();
 const staffForm = reactive({
@@ -201,39 +187,7 @@ const staffFormRules = {
 	],
 };
 
-const permissionGroupsForDialog = computed(() => {
-	return permissionStore.permissionGroups.map((group) => ({
-		groupName: group.groupName ?? "未分组",
-		permissions: (group.permissions ?? []).filter((item) => item.id != null),
-		permissionIds: (group.permissions ?? [])
-			.map((item) => item.id)
-			.filter((id): id is number => typeof id === "number"),
-	}));
-});
-
-const isAllStaffSelected = computed(() => {
-	return permissionStore.staffs.length > 0 && selectedStaffIds.value.length === permissionStore.staffs.length;
-});
-
-const isStaffSelectionIndeterminate = computed(() => {
-	return selectedStaffIds.value.length > 0 && selectedStaffIds.value.length < permissionStore.staffs.length;
-});
-
-watch(
-	() => permissionStore.staffs,
-	() => {
-		selectedStaffIds.value = [];
-	},
-	{ deep: true },
-);
-
-watch(
-	() => permissionStore.selectedPermissionIds,
-	(value) => {
-		editingPermissionIds.value = [...value];
-	},
-	{ immediate: true },
-);
+// ==================== 角色操作 ====================
 
 function handleAddRole() {
 	roleDialogTitle.value = "新增角色";
@@ -260,40 +214,26 @@ async function handleRoleSubmit() {
 		code: roleForm.code,
 	});
 	submitLoading.value = false;
-
-	if (!success) {
-		ElMessage.error("角色保存失败，请检查接口配置");
-		return;
-	}
-
-	roleDialogVisible.value = false;
-	ElMessage.success(roleForm.id === 0 ? "新增成功" : "修改成功");
-	await ensureCurrentRole(roleForm.id || permissionStore.currentRoleId);
-}
-
-async function handleDeleteRole(roleId: number) {
-	await ElMessageBox.confirm("确定删除该角色？", "删除角色", { type: "warning" });
-	const success = await permissionStore.removeRole(roleId);
-	if (!success) {
-		ElMessage.error("删除失败，请检查接口配置");
-		return;
-	}
-
-	ElMessage.success("删除成功");
-	if (permissionStore.currentRoleId === roleId) {
-		await ensureCurrentRole();
+	if (success) {
+		ElMessage.success(roleForm.id === 0 ? "新增成功" : "修改成功");
+		roleDialogVisible.value = false;
 	}
 }
 
-async function handleSelectRole(roleId: number) {
-	const success = await permissionStore.selectRole(roleId);
-	if (!success) {
-		ElMessage.error("角色关联数据加载失败，请检查接口配置");
+async function handleDeleteRole(id: number) {
+	const success = await permissionStore.removeRole(id);
+	if (success) {
+		ElMessage.success("删除成功");
 	}
 }
+
+function handleSelectRole(roleId: number) {
+	permissionStore.selectRole(roleId);
+}
+
+// ==================== 员工操作 ====================
 
 function handleAddStaff() {
-	if (!permissionStore.currentRoleId) return;
 	staffForm.name = "";
 	staffForm.mobile = "";
 	staffDialogVisible.value = true;
@@ -302,7 +242,6 @@ function handleAddStaff() {
 async function handleStaffSubmit() {
 	await staffFormRef.value?.validate();
 	if (!permissionStore.currentRoleId) return;
-
 	submitLoading.value = true;
 	const success = await permissionStore.addStaff({
 		roleId: permissionStore.currentRoleId,
@@ -310,399 +249,166 @@ async function handleStaffSubmit() {
 		mobile: staffForm.mobile,
 	});
 	submitLoading.value = false;
-
-	if (!success) {
-		ElMessage.error("配置人员失败，请检查接口配置");
-		return;
-	}
-
-	staffDialogVisible.value = false;
-	ElMessage.success("添加成功");
-}
-
-function handleToggleStaff(staffId: number) {
-	if (selectedStaffIds.value.includes(staffId)) {
-		selectedStaffIds.value = selectedStaffIds.value.filter((id) => id !== staffId);
-		return;
-	}
-
-	selectedStaffIds.value = [...selectedStaffIds.value, staffId];
-}
-
-function handleToggleAllStaff(value: string | number | boolean) {
-	selectedStaffIds.value = value ? permissionStore.staffs.map((item) => item.staffId) : [];
-}
-
-async function handleBatchRemoveStaff() {
-	if (!permissionStore.currentRoleId || selectedStaffIds.value.length === 0) return;
-
-	await ElMessageBox.confirm("确定从当前角色移除选中的人员吗？", "移除人员", { type: "warning" });
-
-	const results = await Promise.all(
-		selectedStaffIds.value.map((staffId) => permissionStore.removeStaff(staffId, permissionStore.currentRoleId!)),
-	);
-	const success = results.every(Boolean);
-
-	if (!success) {
-		ElMessage.error("部分人员移除失败，请检查接口配置");
-		return;
-	}
-
-	selectedStaffIds.value = [];
-	ElMessage.success("移除成功");
-	await permissionStore.fetchStaffs(permissionStore.currentRoleId);
-}
-
-async function handleOpenPermissionDialog(role: RoleItem) {
-	permissionRoleId.value = role.id;
-	permissionRoleName.value = role.name;
-	permissionDialogVisible.value = true;
-
-	if (permissionStore.currentRoleId !== role.id) {
-		await handleSelectRole(role.id);
-	} else {
-		const success = await permissionStore.fetchSelectedPermissions(role.id);
-		if (!success) {
-			ElMessage.error("权限数据加载失败，请检查接口配置");
-		}
+	if (success) {
+		ElMessage.success("添加成功");
+		staffDialogVisible.value = false;
 	}
 }
 
-function isGroupChecked(ids: number[]) {
-	return ids.length > 0 && ids.every((id) => editingPermissionIds.value.includes(id));
-}
-
-function isGroupIndeterminate(ids: number[]) {
-	const checkedCount = ids.filter((id) => editingPermissionIds.value.includes(id)).length;
-	return checkedCount > 0 && checkedCount < ids.length;
-}
-
-function handleToggleGroup(ids: number[], value: string | number | boolean) {
-	if (value) {
-		editingPermissionIds.value = Array.from(new Set([...editingPermissionIds.value, ...ids]));
-		return;
+async function handleRemoveStaff(staffId: number) {
+	if (!permissionStore.currentRoleId) return;
+	const success = await permissionStore.removeStaff(staffId, permissionStore.currentRoleId);
+	if (success) {
+		ElMessage.success("移除成功");
 	}
-
-	editingPermissionIds.value = editingPermissionIds.value.filter((id) => !ids.includes(id));
 }
+
+// ==================== 权限操作 ====================
 
 async function handleSavePermissions() {
-	if (!permissionRoleId.value) return;
-
-	permissionSubmitLoading.value = true;
-	const success = await permissionStore.savePermissions(permissionRoleId.value, editingPermissionIds.value);
-	permissionSubmitLoading.value = false;
-
-	if (!success) {
-		ElMessage.error("权限保存失败，请检查接口配置");
-		return;
+	if (!permissionStore.currentRoleId) return;
+	const checkedKeys = permissionTreeRef.value?.getCheckedKeys() || [];
+	const halfCheckedKeys = permissionTreeRef.value?.getHalfCheckedKeys() || [];
+	const allKeys = [...(checkedKeys as number[]), ...(halfCheckedKeys as number[])].filter(
+		(key) => typeof key === "number",
+	);
+	const success = await permissionStore.savePermissions(permissionStore.currentRoleId, allKeys);
+	if (success) {
+		ElMessage.success("权限保存成功");
 	}
-
-	permissionDialogVisible.value = false;
-	ElMessage.success("权限保存成功");
-	await permissionStore.fetchSelectedPermissions(permissionRoleId.value);
 }
 
-async function ensureCurrentRole(preferredRoleId?: number | null) {
-	const preferred = preferredRoleId ?? permissionStore.currentRoleId;
-	const matchedRole = permissionStore.roles.find((item) => item.id === preferred);
-	const fallbackRole = matchedRole ?? permissionStore.roles[0];
-
-	if (!fallbackRole) {
-		permissionStore.currentRoleId = null;
-		permissionStore.staffs = [];
-		permissionStore.selectedPermissionIds = [];
-		return;
-	}
-
-	await permissionStore.selectRole(fallbackRole.id);
-}
+// ==================== 生命周期 ====================
 
 onMounted(async () => {
-	const [rolesOk, permissionsOk] = await Promise.all([
-		permissionStore.fetchRoles(),
-		permissionStore.fetchPermissions(),
-	]);
-
-	if (!rolesOk) {
-		ElMessage.error("角色列表加载失败，请检查接口配置");
-	}
-
-	if (!permissionsOk) {
-		ElMessage.error("权限列表加载失败，请检查接口配置");
-	}
-
-	if (permissionStore.roles.length > 0) {
-		await ensureCurrentRole();
-	}
+	await permissionStore.fetchRoles();
+	await permissionStore.fetchPermissions();
 });
 </script>
 
 <style scoped lang="scss">
 .system-permission {
+	padding: 16px;
 	height: 100%;
-	padding: 8px 12px 12px;
-	box-sizing: border-box;
-	background: #f3f5f8;
-}
-
-.permission-shell {
-	display: grid;
-	grid-template-columns: minmax(560px, 1fr) minmax(620px, 1fr);
-	gap: 18px;
-	height: 100%;
-}
-
-.role-panel,
-.staff-panel {
 	display: flex;
 	flex-direction: column;
-	min-width: 0;
-	padding: 28px 18px 16px;
-	background: #fff;
-	border: 1px solid #dfe6ee;
-	overflow: hidden;
 }
 
-.panel-title {
-	margin-bottom: 26px;
-	font-size: 18px;
-	font-weight: 700;
-	color: #111827;
-}
-
-.toolbar-row {
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	margin-bottom: 14px;
-}
-
-.toolbar-row-right {
-	justify-content: flex-start;
-}
-
-.primary-action {
-	padding: 10px 18px;
-	border-radius: 4px;
-}
-
-.role-table,
-.staff-table {
-	display: flex;
+.permission-layout {
 	flex: 1;
-	flex-direction: column;
+	display: flex;
+	gap: 16px;
 	min-height: 0;
 }
 
-.table-header,
-.table-row {
-	display: grid;
-	align-items: center;
-	min-height: 42px;
-	border-bottom: 1px solid #dbe5ef;
-}
-
-.table-header {
-	font-size: 14px;
-	font-weight: 600;
-	color: #7b8794;
-}
-
-.role-grid {
-	grid-template-columns: minmax(220px, 1.3fr) minmax(180px, 1fr) minmax(240px, 1.2fr);
-	column-gap: 12px;
-	padding: 0 8px;
-}
-
-.staff-grid {
-	grid-template-columns: 52px minmax(160px, 1fr) minmax(180px, 1fr);
-	column-gap: 12px;
-	padding: 0 8px;
-}
-
-.table-scroll {
-	flex: 1;
-	min-height: 0;
-}
-
-.role-row {
-	cursor: pointer;
-	transition: background-color 0.2s ease;
-
-	&:hover {
-		background: #f7fbff;
-	}
-
-	&.active {
-		background: #eaf3ff;
-	}
-}
-
-.row-primary,
-.row-secondary {
-	font-size: 15px;
-	line-height: 1.45;
-	color: #111827;
-	word-break: break-all;
-}
-
-.row-actions {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 14px;
-}
-
-.link-button {
-	padding: 0;
-	border: 0;
-	background: transparent;
-	font-size: 15px;
-	line-height: 1.4;
-	color: #409eff;
-	cursor: pointer;
-
-	&.danger {
-		color: #f56c6c;
-	}
-}
-
-.checkbox-col {
-	display: flex;
-	justify-content: center;
-}
-
-.permission-dialog-tip {
-	margin-bottom: 12px;
-	padding: 12px 18px;
-	border: 1px solid #edf2f7;
-	border-radius: 6px;
-	background: #f7f9fc;
-	font-size: 15px;
-	color: #98a2b3;
-}
-
-.permission-groups {
+.role-panel {
+	width: 260px;
+	flex-shrink: 0;
 	display: flex;
 	flex-direction: column;
-	gap: 12px;
-	padding-right: 10px;
-}
-
-.permission-group-card {
-	padding: 14px 12px 16px;
-	border: 1px solid #d8e1ea;
-	border-radius: 6px;
-	background: #fff;
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
-}
-
-.permission-group-title {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	margin-bottom: 12px;
-	font-size: 15px;
-	font-weight: 600;
-	color: #4b5563;
-}
-
-.permission-check-grid {
-	display: grid;
-	grid-template-columns: repeat(5, minmax(0, 1fr));
-	gap: 10px 12px;
-
-	:deep(.el-checkbox) {
-		margin-right: 0;
-		min-width: 0;
-	}
-
-	:deep(.el-checkbox__label) {
-		padding-left: 8px;
-		font-size: 15px;
-		line-height: 1.3;
-		color: #2f86f6;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-
-	:deep(.is-checked .el-checkbox__label) {
-		color: #2f86f6;
-	}
-
-	:deep(.el-checkbox__inner) {
-		border-radius: 2px;
-	}
-}
-
-:deep(.permission-dialog) {
+	border: 1px solid var(--el-border-color-light);
 	border-radius: 8px;
 	overflow: hidden;
 }
 
-:deep(.permission-dialog .el-dialog__header) {
-	margin-right: 0;
-	padding: 12px 18px;
-	background: #dcecff;
-	border-bottom: 1px solid #d2e2f3;
+.panel-header {
+	padding: 12px 16px;
+	font-weight: 600;
+	font-size: 15px;
+	border-bottom: 1px solid var(--el-border-color-light);
+	background-color: var(--el-fill-color-light);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
-:deep(.permission-dialog .el-dialog__title) {
-	font-size: 18px;
-	font-weight: 500;
-	color: #374151;
+.role-list {
+	padding: 8px;
 }
 
-:deep(.permission-dialog .el-dialog__headerbtn) {
-	top: 14px;
-	right: 18px;
+.role-card {
+	padding: 12px;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: all 0.2s;
+	margin-bottom: 4px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	&:hover {
+		background-color: var(--el-fill-color-light);
+	}
+
+	&.active {
+		background-color: var(--el-color-primary-light-9);
+		border-left: 3px solid var(--el-color-primary);
+	}
+
+	.role-info {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.role-name {
+		font-weight: 500;
+		font-size: 14px;
+		margin-bottom: 4px;
+	}
+
+	.role-code {
+		font-size: 12px;
+		color: var(--el-text-color-secondary);
+		font-family: monospace;
+	}
+
+	.role-actions {
+		display: flex;
+		gap: 4px;
+		flex-shrink: 0;
+	}
 }
 
-:deep(.permission-dialog .el-dialog__body) {
-	padding: 16px 18px 12px;
-	background: #fff;
+.right-panel {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
 }
 
-:deep(.permission-dialog .el-dialog__footer) {
-	padding: 12px 18px 16px;
-	border-top: 1px solid #edf2f7;
-	background: #fff;
+.staff-section,
+.permission-section {
+	flex: 1;
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+	border: 1px solid var(--el-border-color-light);
+	border-radius: 8px;
+	overflow: hidden;
 }
 
-@media (max-width: 1360px) {
-	.permission-shell {
-		grid-template-columns: 1fr;
-		height: auto;
-	}
-
-	.role-panel,
-	.staff-panel {
-		min-height: 420px;
-	}
+.section-header {
+	padding: 12px 16px;
+	font-weight: 600;
+	font-size: 15px;
+	border-bottom: 1px solid var(--el-border-color-light);
+	background-color: var(--el-fill-color-light);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
-@media (max-width: 960px) {
-	.system-permission {
-		padding: 8px;
-	}
+.staff-list,
+.permission-tree {
+	padding: 16px;
+	flex: 1;
+}
 
-	.role-grid,
-	.staff-grid,
-	.permission-check-grid {
-		grid-template-columns: 1fr;
-	}
-
-	.table-header {
-		display: none;
-	}
-
-	.table-row {
-		padding: 12px 8px;
-	}
-
-	.row-actions {
-		padding-top: 4px;
-	}
+.empty-placeholder {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 </style>

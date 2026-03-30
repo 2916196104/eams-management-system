@@ -27,7 +27,7 @@ export interface SysParamOptionDTO {
 	/** 排序号 */
 	sortNum: number;
 	/** 参数值 */
-	value: boolean | number | string;
+	value: number | string;
 	/** 值类型 */
 	valueType: string;
 }

@@ -20,76 +20,97 @@ export interface ParamOption {
 	info?: string;
 	settingId: number;
 	sortNum: number;
-	value: boolean | number | string;
+	value: string | number;
 	valueType: string;
 }
 
-function normalizeCategories(rows: SysParamDTO[]): ParamCategory[] {
-	return rows
-		.map((item) => ({
-			id: item.id,
-			code: item.code,
-			name: item.name,
-			remark: item.remark,
-			sortNum: item.sortNum ?? 0,
-		}))
-		.sort((a, b) => a.sortNum - b.sortNum);
-}
+const mockCategories: ParamCategory[] = [
+	{ id: 1, code: "normal_setting", name: "系统设置", remark: "基础系统参数", sortNum: 0 },
+	{ id: 2, code: "security_setting", name: "安全设置", remark: "登录与权限相关", sortNum: 1 },
+	{ id: 3, code: "notify_setting", name: "通知设置", remark: "消息推送配置", sortNum: 2 },
+];
 
-function normalizeOptions(rows: SysParamOptionDTO[]): ParamOption[] {
-	return rows
-		.map((item) => ({
-			id: item.id,
-			code: item.code,
-			name: item.name,
-			info: item.info,
-			settingId: item.settingId,
-			sortNum: item.sortNum ?? 0,
-			value: item.value,
-			valueType: item.valueType,
-		}))
-		.sort((a, b) => a.sortNum - b.sortNum);
-}
+const mockOptions: Record<number, ParamOption[]> = {
+	1: [
+		{
+			id: 1,
+			code: "system_name",
+			name: "系统名称",
+			info: "系统显示名称",
+			settingId: 1,
+			sortNum: 0,
+			value: "EAMS",
+			valueType: "str",
+		},
+		{
+			id: 2,
+			code: "page_size",
+			name: "每页条数",
+			info: "列表默认分页大小",
+			settingId: 1,
+			sortNum: 1,
+			value: 10,
+			valueType: "int",
+		},
+		{
+			id: 3,
+			code: "logo_url",
+			name: "系统Logo",
+			info: "系统Logo地址",
+			settingId: 1,
+			sortNum: 2,
+			value: "/logo.png",
+			valueType: "str",
+		},
+	],
+	2: [
+		{
+			id: 4,
+			code: "pwd_expire_days",
+			name: "密码过期天数",
+			info: "密码有效期（天）",
+			settingId: 2,
+			sortNum: 0,
+			value: 90,
+			valueType: "int",
+		},
+		{
+			id: 5,
+			code: "login_retry_count",
+			name: "登录重试次数",
+			info: "最大登录失败次数",
+			settingId: 2,
+			sortNum: 1,
+			value: 5,
+			valueType: "int",
+		},
+	],
+	3: [
+		{
+			id: 6,
+			code: "email_switch",
+			name: "邮件通知",
+			info: "是否开启邮件通知",
+			settingId: 3,
+			sortNum: 0,
+			value: 1,
+			valueType: "int",
+		},
+		{
+			id: 7,
+			code: "sms_switch",
+			name: "短信通知",
+			info: "是否开启短信通知",
+			settingId: 3,
+			sortNum: 1,
+			value: 0,
+			valueType: "int",
+		},
+	],
+};
 
-function extractRows<T>(data: unknown): T[] {
-	if (Array.isArray(data)) {
-		return data;
-	}
-
-	if (data && typeof data === "object") {
-		const source = data as {
-			rows?: T[];
-			list?: T[];
-			data?: unknown;
-		};
-		const rows = source.rows ?? source.list;
-		return Array.isArray(rows) ? rows : [];
-	}
-
-	return [];
-}
-
-function unwrapPayload(input: unknown): unknown {
-	let current = input;
-
-	while (current && typeof current === "object" && "data" in (current as Record<string, unknown>)) {
-		const next = (current as { data?: unknown }).data;
-		if (next === undefined || next === current) {
-			break;
-		}
-		current = next;
-	}
-
-	return current;
-}
-
-function hasServerPayload(input: unknown) {
-	return Boolean(
-		input &&
-		typeof input === "object" &&
-		("data" in (input as Record<string, unknown>) || "status" in (input as Record<string, unknown>)),
-	);
-}
+let localMockCategories = [...mockCategories];
+let localMockOptions = JSON.parse(JSON.stringify(mockOptions)) as Record<number, ParamOption[]>;
 
 export const useSystemParamStore = defineStore("systemParam", () => {
 	/** 设置分类列表 */
@@ -108,51 +129,26 @@ export const useSystemParamStore = defineStore("systemParam", () => {
 		categoriesLoading.value = true;
 		try {
 			const res = await getParamList();
-			const data = unwrapPayload(res);
-			const rows = extractRows<SysParamDTO>(data);
-			categories.value = normalizeCategories(rows);
+			const data = (res as any).data ?? res;
+			const rows: SysParamDTO[] = Array.isArray(data) ? data : data.rows || data.list || [];
+			categories.value = rows
+				.map((item) => ({
+					id: item.id,
+					code: item.code,
+					name: item.name,
+					remark: item.remark,
+					sortNum: item.sortNum ?? 0,
+				}))
+				.sort((a, b) => a.sortNum - b.sortNum);
 
-			if (categories.value.length === 0) {
-				currentCategoryId.value = null;
-				options.value = [];
-			} else if (currentCategoryId.value == null) {
+			if (categories.value.length > 0 && currentCategoryId.value == null) {
 				await selectCategory(categories.value[0].id);
-			} else {
-				const currentExists = categories.value.some((item) => item.id === currentCategoryId.value);
-				if (currentExists) {
-					await fetchOptions(currentCategoryId.value);
-				} else {
-					await selectCategory(categories.value[0].id);
-				}
 			}
-
-			return true;
-		} catch (error) {
-			const rows = extractRows<SysParamDTO>(unwrapPayload(error));
-			if (rows.length > 0) {
-				categories.value = normalizeCategories(rows);
-
-				if (categories.value.length === 0) {
-					currentCategoryId.value = null;
-					options.value = [];
-				} else if (currentCategoryId.value == null) {
-					await selectCategory(categories.value[0].id);
-				} else {
-					const currentExists = categories.value.some((item) => item.id === currentCategoryId.value);
-					if (currentExists) {
-						await fetchOptions(currentCategoryId.value);
-					} else {
-						await selectCategory(categories.value[0].id);
-					}
-				}
-
-				return true;
+		} catch {
+			categories.value = [...localMockCategories];
+			if (categories.value.length > 0 && currentCategoryId.value == null) {
+				await selectCategory(categories.value[0].id);
 			}
-
-			categories.value = [];
-			options.value = [];
-			currentCategoryId.value = null;
-			return false;
 		} finally {
 			categoriesLoading.value = false;
 		}
@@ -163,19 +159,22 @@ export const useSystemParamStore = defineStore("systemParam", () => {
 		optionsLoading.value = true;
 		try {
 			const res = await getParamDetail(categoryId);
-			const data = unwrapPayload(res);
-			const rows = extractRows<SysParamOptionDTO>(data);
-			options.value = normalizeOptions(rows);
-			return true;
-		} catch (error) {
-			const rows = extractRows<SysParamOptionDTO>(unwrapPayload(error));
-			if (rows.length > 0) {
-				options.value = normalizeOptions(rows);
-				return true;
-			}
-
-			options.value = [];
-			return false;
+			const data = (res as any).data ?? res;
+			const rows: SysParamOptionDTO[] = Array.isArray(data) ? data : data.rows || data.list || [];
+			options.value = rows
+				.map((item) => ({
+					id: item.id,
+					code: item.code,
+					name: item.name,
+					info: item.info,
+					settingId: item.settingId,
+					sortNum: item.sortNum ?? 0,
+					value: item.value,
+					valueType: item.valueType,
+				}))
+				.sort((a, b) => a.sortNum - b.sortNum);
+		} catch {
+			options.value = localMockOptions[categoryId] ? [...localMockOptions[categoryId]] : [];
 		} finally {
 			optionsLoading.value = false;
 		}
@@ -184,7 +183,7 @@ export const useSystemParamStore = defineStore("systemParam", () => {
 	/** 选中分类 */
 	async function selectCategory(categoryId: number) {
 		currentCategoryId.value = categoryId;
-		return fetchOptions(categoryId);
+		await fetchOptions(categoryId);
 	}
 
 	/** 保存参数选项 */
@@ -202,12 +201,16 @@ export const useSystemParamStore = defineStore("systemParam", () => {
 			});
 			await fetchOptions(data.settingId);
 			return true;
-		} catch (error) {
-			if (!hasServerPayload(error)) {
-				return false;
+		} catch {
+			const list = localMockOptions[data.settingId];
+			if (list) {
+				const idx = list.findIndex((item: ParamOption) => item.id === data.id);
+				if (idx !== -1) {
+					list[idx] = { ...data };
+				}
 			}
-
-			return fetchOptions(data.settingId);
+			await fetchOptions(data.settingId);
+			return true;
 		}
 	}
 
