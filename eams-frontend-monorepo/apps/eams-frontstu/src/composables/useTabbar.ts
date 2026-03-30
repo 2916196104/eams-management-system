@@ -8,6 +8,8 @@ export interface TabbarItem {
 
 const tabbarItems = ref<TabbarItem[]>([
 	{ name: "home", value: null, active: true, title: "首页", icon: "home" },
+	{ name: "schedule", value: null, active: false, title: "课表", icon: "calendar" },
+	{ name: "select", value: null, active: false, title: "选课", icon: "browse" },
 	{ name: "mine", value: null, active: false, title: "我的", icon: "user" },
 ]);
 
@@ -33,11 +35,7 @@ export function useTabbar() {
 
 	const setTabbarItemActive = (name: string) => {
 		tabbarItems.value.forEach((item) => {
-			if (item.name === name) {
-				item.active = true;
-			} else {
-				item.active = false;
-			}
+			item.active = item.name === name;
 		});
 	};
 

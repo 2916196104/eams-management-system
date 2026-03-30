@@ -278,5 +278,6 @@ const menus = reactive([
 		path: "/sample/attendanceManagement",
 		text: "弹窗点名管理",
 	},
+
 ]);
 </script>

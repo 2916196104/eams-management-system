@@ -1,0 +1,535 @@
+/**
+ * 学员请假查询参数
+ */
+export interface StudentLeaveQueryDTO {
+	/** 查询页码 */
+	pageIndex?: number;
+	/** 查询条数 */
+	pageSize?: number;
+	/** 学员姓名/电话 */
+	nameOrPhone?: string;
+	/** 教师 ID */
+	teacherId?: number;
+	/** 开始时间 */
+	startDate?: string;
+	/** 结束时间 */
+	endDate?: string;
+}
+
+/**
+ * 学员请假数据项
+ */
+export interface StudentLeaveItemDTO {
+	/** 请假表 ID */
+	id?: number;
+	/** 学员姓名 */
+	studentName?: string;
+	/** 电话 */
+	mobile?: string;
+	/** 请假课程 */
+	courseInfo?: string;
+	/** 任课老师 */
+	teacherNames?: string;
+	/** 请假原因 */
+	reason?: string;
+	/** 请假时间 */
+	addTime?: string;
+	/** 请假状态 */
+	state?: string;
+	/** 允许其他字段 */
+	[property: string]: any;
+}
+
+/**
+ * 课程表查询参数
+ */
+export interface CourseListQueryDTO {
+	/** 当前页码 */
+	pageIndex?: number;
+	/** 每页显示最大数据条数 */
+	pageSize?: number;
+	/** 周期 */
+	cycle?: number;
+	/** 班级名称 */
+	className?: string;
+	/** 课程名字 */
+	courseName?: string;
+	/** 老师姓名 */
+	teacherName?: string;
+	/** 学生姓名 */
+	studentName?: string;
+	/** 开始日期 */
+	startDate?: string;
+	/** 结束日期 */
+	endDate?: string;
+}
+
+/**
+ * 课程表数据项
+ */
+export interface CourseListVO {
+	/** 课表 ID */
+	id?: number;
+	/** 上课时间 */
+	lessonTimeText?: string;
+	/** 课程 ID */
+	courseId?: number;
+	/** 课程名称 */
+	courseName?: string;
+	/** 班级 ID */
+	classId?: number;
+	/** 班级名称 */
+	className?: string;
+	/** 老师 ID 列表 */
+	teacherIds?: string;
+	/** 老师名称列表 */
+	teacherNames?: string;
+	/** 课程类型 */
+	courseType?: string;
+	/** 助教 ID 列表 */
+	assistantIds?: string;
+	/** 助教名称列表 */
+	assistantNames?: string;
+	/** 教室 ID */
+	classroomId?: number;
+	/** 教室名称 */
+	classroomName?: string;
+	/** 可预约状态 */
+	canReserve?: string;
+	/** 学生数 */
+	studentCount?: number;
+	/** 限制人数 */
+	maxStudentCount?: number;
+	/** 签到数 */
+	checkInCount?: number;
+	/** 到课率 */
+	attendanceRate?: string;
+	/** 消课基数 */
+	decLessonCount?: number;
+	/** 已消课数 */
+	consumedCount?: number;
+	/** 上课状态 */
+	lessonStatus?: string;
+	/** 课程状态 */
+	lessonStatus2?: string;
+	/** 允许其他字段 */
+	[property: string]: any;
+}
+
+/**
+ * 课表日历查询参数
+ */
+export interface LessonCalendarQueryDTO {
+	/** 查询页码 */
+	pageIndex?: number;
+	/** 查询条数 */
+	pageSize?: number;
+	/** 班级名称 */
+	className?: string;
+	/** 课程名称 */
+	courseName?: string;
+	/** 老师名称 */
+	teacherName?: string;
+	/** 科目名称 */
+	subjectName?: string;
+	/** 教室名称 */
+	classroomName?: string;
+	/** 视图开始日期 */
+	startDate?: string;
+	/** 视图结束日期 */
+	endDate?: string;
+	/** 视图类型 */
+	viewType?: number;
+	/** 周期 */
+	period?: string;
+	/** 用户唯一 ID */
+	userId?: number;
+}
+
+/**
+ * 课表日历数据项
+ */
+export interface LessonCalendarVO {
+	/** 课表 ID */
+	id?: number;
+	/** 标题 */
+	title?: string;
+	/** 课程名称 */
+	courseName?: string;
+	/** 老师名称 */
+	teacherName?: string;
+	/** 学生名称 */
+	studentName?: string;
+	/** 班级类型 */
+	classType?: string;
+	/** 上课日期 */
+	Date?: string;
+	/** 开始时间 */
+	startTime?: string;
+	/** 结束时间 */
+	endTime?: string;
+	/** 班级名称 */
+	className?: string;
+	/** 教室名称 */
+	classroomName?: string;
+	/** 课程状态 */
+	courseStatus?: string;
+	/** 课表日历类型 */
+	courseCalendarType?: boolean;
+	/** 允许其他字段 */
+	[property: string]: any;
+}
+
+/**
+ * 课次详情数据项
+ */
+export interface CourseDetailVO {
+	/** 标题 */
+	title?: string;
+	/** 课程名称 */
+	courseName?: string;
+	/** 课程编号 */
+	courseNo?: string;
+	/** 班级名称 */
+	className?: string;
+	/** 班级编号 */
+	classNo?: string;
+	/** 课程类型 */
+	courseType?: string;
+	/** 上课时间文本 */
+	lessonTimeText?: string;
+	/** 教室名称 */
+	classroomName?: string;
+	/** 教室编号 */
+	classroomNo?: string;
+	/** 老师名称 */
+	teacherName?: string;
+	/** 老师编号 */
+	teacherNo?: string;
+	/** 助教名称 */
+	assistantName?: string;
+	/** 助教编号 */
+	assistantNo?: string;
+	/** 实到/应到 */
+	attendInfo?: string;
+	/** 消课基数 */
+	decLessonCount?: number;
+	/** 是否可预约 */
+	canReserve?: string;
+	/** 状态 */
+	status?: string;
+	/** 允许其他字段 */
+	[property: string]: any;
+}
+
+/**
+ * 课后点评查询参数
+ */
+export interface EvaluationQueryDTO {
+	/** 开始时间 */
+	startDate?: string;
+	/** 结束时间 */
+	endDate?: string;
+	/** 老师 ID */
+	teacherId?: string;
+	/** 老师姓名 */
+	teacherName?: string;
+	/** 学生 ID */
+	id?: string;
+	/** 学生姓名 */
+	name?: string;
+}
+
+/**
+ * 课后点评数据项
+ */
+export interface EvaluationVO {
+	/** 评价序号 */
+	id?: number;
+	/** 老师 ID */
+	teacherId?: number;
+	/** 老师姓名 */
+	teacherName?: string;
+	/** 学生 ID */
+	studentId?: number;
+	/** 学生姓名 */
+	studentName?: string;
+	/** 课次 ID */
+	lessonId?: number;
+	/** 课程标题 */
+	courseTitle?: string;
+	/** 综合评分 */
+	overallScore?: number;
+	/** 课堂气氛 */
+	atmosphereScore?: number;
+	/** 授课态度 */
+	attitudeScore?: number;
+	/** 教学效果 */
+	effectScore?: number;
+	/** 评价内容 */
+	content?: string;
+	/** 允许其他字段 */
+	[property: string]: any;
+}
+
+/**
+ * 保存点评请求参数
+ */
+export interface EvaluationSaveDTO {
+	/** Id（是每一条信息的id，不是学生id） */
+	id?: number;
+	/** 老师 id */
+	teacherId?: number;
+	/** 老师姓名 */
+	teacherName?: string;
+	/** 学生 id */
+	studentId?: number;
+	/** 学生姓名 */
+	studentName?: string;
+	/** 课次 id */
+	lessonId?: number;
+	/** 课程标题 */
+	courseTitle?: string;
+	/** 综合评分 */
+	overallScore?: number;
+	/** 课堂气氛 */
+	atmosphereScore?: number;
+	/** 授课态度 */
+	attitudeScore?: number;
+	/** 教学效果 */
+	effectScore?: number;
+	/** 评语 */
+	content?: string;
+}
+
+/**
+ * 保存点评响应
+ */
+export interface EvaluationSaveResponseDTO {
+	code?: number;
+	message?: string;
+	data?: number;
+}
+
+/**
+ * 删除课次响应
+ */
+export interface DeleteCoursesResponseDTO {
+	code?: number;
+	message?: string;
+	data?: string;
+}
+
+/**
+ * 停/复课响应
+ */
+export interface ResumeCoursesResponseDTO {
+	code?: number;
+	message?: string;
+	data?: number;
+}
+
+/**
+ * 批量修改课次请求参数
+ */
+export interface BatchUpdateCoursesDTO {
+	/** 需要修改的课表ID集合 */
+	lessonIds: number[];
+	/** 调整天数（-7到7） */
+	dayOffset?: number;
+	/** 新上课老师ID */
+	teacherId?: number;
+	/** 新上课老师名称 */
+	teacherName?: string;
+	/** 新助教ID */
+	assistantId?: number;
+	/** 新助教名称 */
+	assistantName?: string;
+	/** 新教室ID */
+	classroomId?: number;
+	/** 新教室名称 */
+	classroomName?: string;
+	/** 新开始时间 */
+	startTime?: string;
+	/** 新结束时间 */
+	endTime?: string;
+}
+
+/**
+ * 批量修改课次响应
+ */
+export interface BatchUpdateCoursesResponseDTO {
+	code?: number;
+	message?: string;
+	data?: string;
+}
+
+/**
+ * 修改课次请求参数
+ */
+export interface UpdateCourseDTO {
+	/** 课程 ID */
+	id: number;
+	/** 课程标题 */
+	title?: string;
+	/** 班级名 */
+	className?: string;
+	/** 班级 ID */
+	classId?: number;
+	/** 教师姓名 */
+	teacherName?: string;
+	/** 教师 ID */
+	teacherId?: number;
+	/** 助教姓名 */
+	assistantName?: string;
+	/** 助教 ID */
+	assistantId?: number;
+	/** 开始时间 */
+	startDate?: string;
+	/** 结束时间 */
+	endDate?: string;
+	/** 教室 ID */
+	roomId?: number;
+	/** 教室名称 */
+	roomName?: string;
+	/** 消课基数 */
+	decCount?: number;
+	/** 是否开启预约 */
+	enableReserve?: boolean;
+	/** 是否批量同步后续相同时间课程 */
+	batchSyncTime?: boolean;
+	/** 是否检查排课冲突 */
+	checkConflict?: boolean;
+}
+
+/**
+ * 修改课次响应
+ */
+export interface UpdateCourseResponseDTO {
+	code?: number;
+	message?: string;
+	data?: string;
+}
+
+/**
+ * 重复排课的单个周期配置
+ */
+export interface RepeatScheduleSettingDTO {
+	/** 课程表编号 */
+	scheduleId?: string;
+	/** 星期几上课 */
+	weeks: string;
+	/** 上课开始时间 */
+	startTime: string;
+	/** 上课结束时间 */
+	endTime: string;
+	/** 教室编号 */
+	roomId?: number;
+}
+
+/**
+ * 重复排课请求参数
+ */
+export interface RepeatScheduleRequestDTO {
+	/** 课程编号 */
+	id?: string;
+	/** 班级编号 */
+	classId: number;
+	/** 班级名称 */
+	className: string;
+	/** 老师 ID */
+	teacherId: number;
+	/** 上课老师 */
+	teacherName: string;
+	/** 助教 ID */
+	assistantId?: number;
+	/** 助教老师 */
+	assistantName?: string;
+	/** 课程开始时间 */
+	startTime: string;
+	/** 课程结束时间 */
+	endTime: string;
+	/** 学员扣课次数 */
+	descLessonCount?: number;
+	/** 排课次数 */
+	times?: number;
+	/** 排除节日 */
+	excludeHoliday?: string;
+	/** 课程状态 */
+	status?: string;
+	/** 周期配置 */
+	lessonScheduleSettingDtos: RepeatScheduleSettingDTO[];
+}
+
+/**
+ * 重复排课响应
+ */
+export interface RepeatScheduleResponseDTO {
+	code?: number;
+	message?: string;
+	data?: string;
+}
+
+/**
+ * 预约课程开关请求参数
+ */
+export interface SwitchScheduleRequestDTO {
+	/** 课程编号 */
+	id?: string;
+	/** 课程预约开关 */
+	status?: string;
+}
+
+/**
+ * 预约课程开关响应
+ */
+export interface SwitchScheduleResponseDTO {
+	code?: number;
+	message?: string;
+	data?: string;
+}
+
+/**
+ * 自由排课请求参数
+ */
+export interface FreeScheduleRequestDTO {
+	/** 课程编号 */
+	id?: string;
+	/** 班级编号 */
+	classId: number;
+	/** 班级名称 */
+	className: string;
+	/** 老师 ID */
+	teacherId: number;
+	/** 上课老师 */
+	teacherName: string;
+	/** 助教 ID */
+	assistantId?: number;
+	/** 助教老师 */
+	assistantName?: string;
+	/** 课程开始时间 */
+	startTime: string;
+	/** 课程结束时间 */
+	endTime: string;
+	/** 学员扣课次数 */
+	descLessonCount?: number;
+	/** 排课次数 */
+	times?: number;
+	/** 排除节日 */
+	excludeHoliday?: string;
+	/** 课程状态 */
+	status?: string;
+	/** 是否可预约 */
+	canReserve?: boolean;
+	/** 周期配置 */
+	lessonScheduleSettingDtos: RepeatScheduleSettingDTO[];
+}
+
+/**
+ * 自由排课响应
+ */
+export interface FreeScheduleResponseDTO {
+	code?: number;
+	message?: string;
+	data?: string;
+}

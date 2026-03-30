@@ -1,6 +1,6 @@
 <template>
 	<section class="f1nav-demo">
-		<EamsNav :items="items" :show-logo="false" @select="handleSelect" />
+		<EamsNav :menus="menus" :show-home="false" :router="false" @select="handleSelect" />
 		<div class="f1nav-demo__main">
 			<div class="f1nav-demo__card">
 				<div class="f1nav-demo__title">f1nav（mynav 组件）示例</div>
@@ -18,24 +18,29 @@ import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import EamsNav from "@/components/mynav/EamsNav.vue";
 import { eamsNavItems } from "@/components/mynav/nav-data";
+import type { EamsNavMenuItem } from "@/components/mynav/type";
 
 const router = useRouter();
 const route = useRoute();
 const prefix = "/sample/f1nav";
 
-const items = computed(() =>
+const menus = computed<EamsNavMenuItem[]>(() =>
 	eamsNavItems.map((group) => ({
-		...group,
+		id: group.key,
+		text: group.label,
+		icon: group.icon,
 		path: group.path ? `${prefix}${group.path}` : undefined,
 		children: (group.children ?? []).map((child) => ({
-			...child,
+			id: child.key,
+			text: child.label,
 			path: `${prefix}${child.path}`,
 		})),
 	})),
 );
 
-function handleSelect(payload: { path: string }) {
-	if (payload?.path) router.push(payload.path);
+function handleSelect(item?: EamsNavMenuItem) {
+	const targetPath = item?.path || item?.href;
+	if (targetPath) router.push(targetPath);
 }
 </script>
 

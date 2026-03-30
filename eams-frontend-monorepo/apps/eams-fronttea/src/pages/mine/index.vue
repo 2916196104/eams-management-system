@@ -1,77 +1,88 @@
-<script lang="ts" setup>
+<script setup lang="ts">
+import TeacherNavBar from "@/components/teacher/TeacherNavBar.vue";
+import TeacherSectionCard from "@/components/teacher/TeacherSectionCard.vue";
+import { withTeacherBackQuery } from "@/utils/teacherNavigation";
+
 definePage({
 	name: "mine",
-	layout: "tabbar",
+	layout: "page",
 	style: {
-		navigationBarTitleText: "我的",
+		navigationBarTitleText: "教师资料",
 		titleNView: false,
 	},
 });
-// 个人信息
-const { userInfo } = useUserStore();
 
-// 获取路由实例
 const router = useRouter();
+const currentRoute = useRoute();
+const userStore = useUserStore();
+const { teacherInfo } = storeToRefs(userStore);
 
-// 页面跳转方法
 function navigateTo(name: string) {
 	router.push({
 		name,
-	});
+		query: withTeacherBackQuery(currentRoute),
+	} as any);
 }
 
-// 打开链接
-function openUrl(url: string) {
-	window.open(url, "_blank");
-}
+onShow(() => {
+	void userStore.loadCurrentUserInfo();
+});
 </script>
 
 <template>
-	<view class="box-border">
-		<!-- 个人信息 -->
-		<view
-			class="flex gap-10 flex-justify-between flex-items-center rounded-lg bg-white px-4 py-3 dark:bg-[var(--wot-dark-background2)]"
-		>
-			<view>
-				<wd-avatar :text="userInfo.nickName" size="large" bg-color="#1E90FF" color="#fff" />
+	<view class="teacher-profile-page">
+		<teacher-nav-bar title="教师资料" :show-refresh="false" />
+		<view class="teacher-profile-card">
+			<view class="teacher-profile-card__avatar">
+				<wd-avatar :text="teacherInfo.name" size="large" bg-color="#1699ff" color="#fff" />
 			</view>
-			<view class="text-gray-500 dark:text-gray-300">
-				<text class="block">昵称：{{ userInfo.nickName }}</text>
-				<text class="block">手机：{{ userInfo.phone }}</text>
-				<text>性别：{{ userInfo.sex }}</text>
-			</view>
-			<view>
-				<wd-button type="primary" size="small" plain>编辑</wd-button>
+			<view class="teacher-profile-card__main">
+				<text class="teacher-profile-card__name">{{ teacherInfo.name }}</text>
+				<text class="teacher-profile-card__meta">{{ teacherInfo.role }}</text>
+				<text class="teacher-profile-card__meta">{{ teacherInfo.phone || "未设置手机号" }}</text>
 			</view>
 		</view>
-		<!-- 基础设置 -->
-		<title-block title="基础设置" transparent>
-			<wd-cell-group border custom-class="rounded-2! overflow-hidden">
-				<wd-cell title="🔮 设置主题" is-link @click="navigateTo('them')" />
+
+		<teacher-section-card title="基础设置">
+			<wd-cell-group border custom-class="overflow-hidden rounded-2!">
+				<wd-cell title="主题设置" is-link @click="navigateTo('them')" />
+				<wd-cell title="关于系统" is-link @click="navigateTo('about')" />
 			</wd-cell-group>
-		</title-block>
-		<!-- 使用示例参考 -->
-		<title-block title="使用参考" transparent>
-			<wd-cell-group border custom-class="rounded-2! overflow-hidden">
-				<wd-cell title="🧩 WotUI 组件库" is-link @click="openUrl('https://wot-ui.cn/')" />
-				<wd-cell title="🚦 Router 路由使用" is-link @click="openUrl('https://starter.wot-ui.cn/guide/router.html')" />
-				<wd-cell title="🌐 Alova 网络请求" is-link @click="openUrl('https://starter.wot-ui.cn/guide/request.html')" />
-				<wd-cell title="🎨 Icon 图标" is-link @click="openUrl('https://starter.wot-ui.cn/guide/icons.html')" />
-				<wd-cell title="✨ Unocss 原子化" is-link @click="openUrl('https://starter.wot-ui.cn/guide/styling.html')" />
-				<wd-cell
-					title="🍍 Pinia 持久化"
-					is-link
-					@click="openUrl('https://starter.wot-ui.cn/guide/state-management.html')"
-				/>
-				<wd-cell
-					title="💬 Fedback 反馈组件"
-					is-link
-					@click="openUrl('https://starter.wot-ui.cn/guide/feedback.html')"
-				/>
-				<wd-cell title="📊 uni-echarts" is-link @click="openUrl('https://starter.wot-ui.cn/guide/uni-echarts.html')" />
-			</wd-cell-group>
-		</title-block>
+		</teacher-section-card>
 	</view>
 </template>
 
-<style scoped></style>
+<style scoped>
+.teacher-profile-page {
+	min-height: 100vh;
+	padding: 0 12px 18px;
+	background: #f5f6fa;
+}
+
+.teacher-profile-card {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	margin-top: 12px;
+	border-radius: 14px;
+	background: #fff;
+	padding: 18px 16px;
+}
+
+.teacher-profile-card__main {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.teacher-profile-card__name {
+	font-size: 18px;
+	font-weight: 600;
+	color: #111827;
+}
+
+.teacher-profile-card__meta {
+	font-size: 14px;
+	color: #98a2b3;
+}
+</style>
