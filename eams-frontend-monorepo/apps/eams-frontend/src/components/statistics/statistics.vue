@@ -84,6 +84,9 @@ onMounted(() => {
 .statistics :deep(.el-card__body) {
 	padding: 0px;
 }
+.statistics :deep(.el-card__body) {
+	overflow: hidden;
+}
 .statistics .wrapper {
 	display: flex;
 	align-items: center;

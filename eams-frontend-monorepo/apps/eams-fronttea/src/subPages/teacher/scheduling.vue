@@ -291,6 +291,16 @@ function resolveNumericId(value: string, label: string) {
 	return parsed;
 }
 
+function resolveRequiredId(value: string, label: string) {
+	const trimmed = value?.trim?.() ?? value;
+	if (!trimmed) {
+		toast.show(`${label}缺失或格式不正确`);
+		return null;
+	}
+
+	return trimmed;
+}
+
 async function submitRepeatSchedule() {
 	if (!scheduleForm.startDate || !scheduleForm.endDate) {
 		toast.show("请选择开始和结束日期");
@@ -302,37 +312,39 @@ async function submitRepeatSchedule() {
 		return;
 	}
 
-	const classId = resolveNumericId(scheduleForm.classId, "班级ID");
+	const classId = resolveRequiredId(scheduleForm.classId, "班级ID");
 	if (!classId) return;
 
-	const courseId = resolveNumericId(scheduleForm.courseId, "课程ID");
+	const courseId = resolveRequiredId(scheduleForm.courseId, "课程ID");
 	if (!courseId) return;
 
-	const teacherId = resolveNumericId(scheduleForm.mainTeacherId, "上课老师ID");
+	const teacherId = resolveRequiredId(scheduleForm.mainTeacherId, "上课老师ID");
 	if (!teacherId) return;
 
-	const classroomId = resolveNumericId(scheduleForm.classroomId, "教室ID");
-	if (!classroomId) return;
-
-	const assistantId = scheduleForm.assistantTeacherId ? Number(scheduleForm.assistantTeacherId) : undefined;
+	const classroomId = scheduleForm.classroomId?.trim?.() ? scheduleForm.classroomId.trim() : undefined;
+	const assistantId = scheduleForm.assistantTeacherId?.trim?.() ? scheduleForm.assistantTeacherId.trim() : undefined;
 	const limitNum = Number(scheduleForm.limitNum || 0);
 
 	await (Apis as any).scheduling.post_scheduling_repeat_create({
 		data: {
-			id: classId,
-			course_id: courseId,
-			teacher_ids: teacherId,
-			assistant_ids: Number.isFinite(assistantId) ? assistantId : undefined,
-			classroom_id: classroomId,
-			start_date: scheduleForm.startDate,
-			end_date: scheduleForm.endDate,
-			weekDays: selectedWeekdays.value,
-			start_time: scheduleForm.startTime,
-			end_time: scheduleForm.endTime,
+			classId,
+			courseId,
+			teacherId,
+			assistantId,
+			classroomId,
+			startDate: scheduleForm.startDate,
+			endDate: scheduleForm.endDate,
 			limitNum: Number.isFinite(limitNum) ? limitNum : 0,
-			exclude_holiday: skipHoliday.value,
-			bookable: bookable.value,
-			conflict: conflict.value,
+			skipHoliday: skipHoliday.value,
+			enableBooking: bookable.value,
+			checkConflict: String(conflict.value),
+			periods: [
+				{
+					weekDays: selectedWeekdays.value,
+					startTime: scheduleForm.startTime,
+					endTime: scheduleForm.endTime,
+				},
+			],
 		},
 	});
 }
@@ -343,32 +355,32 @@ async function submitFreeSchedule() {
 		return;
 	}
 
-	const classId = resolveNumericId(scheduleForm.classId, "班级ID");
+	const classId = resolveRequiredId(scheduleForm.classId, "班级ID");
 	if (!classId) return;
 
-	const courseId = resolveNumericId(scheduleForm.courseId, "课程ID");
+	const courseId = resolveRequiredId(scheduleForm.courseId, "课程ID");
 	if (!courseId) return;
 
-	const teacherId = resolveNumericId(scheduleForm.mainTeacherId, "上课老师ID");
+	const teacherId = resolveRequiredId(scheduleForm.mainTeacherId, "上课老师ID");
 	if (!teacherId) return;
 
-	const classroomId = resolveNumericId(scheduleForm.classroomId, "教室ID");
-	if (!classroomId) return;
-
-	const assistantId = scheduleForm.assistantTeacherId ? Number(scheduleForm.assistantTeacherId) : undefined;
+	const classroomId = scheduleForm.classroomId?.trim?.() ? scheduleForm.classroomId.trim() : undefined;
+	const assistantId = scheduleForm.assistantTeacherId?.trim?.() ? scheduleForm.assistantTeacherId.trim() : undefined;
 	const limitNum = Number(scheduleForm.limitNum || 0);
 
 	await (Apis as any).scheduling.post_scheduling_free_create({
 		data: {
-			id: classId,
-			course_id: courseId,
-			teacher_ids: teacherId,
-			assistant_ids: Number.isFinite(assistantId) ? assistantId : undefined,
-			classroom_id: classroomId,
-			date: scheduleForm.classDate,
-			start_time: scheduleForm.startTime,
-			end_time: scheduleForm.endTime,
+			classId,
+			courseId,
+			teacherId,
+			assistantId,
+			classroomId,
+			startDate: scheduleForm.classDate,
+			startTime: scheduleForm.startTime,
+			endTime: scheduleForm.endTime || undefined,
 			limitNum: Number.isFinite(limitNum) ? limitNum : 0,
+			enableBooking: bookable.value,
+			checkConflict: String(conflict.value),
 		},
 	});
 }

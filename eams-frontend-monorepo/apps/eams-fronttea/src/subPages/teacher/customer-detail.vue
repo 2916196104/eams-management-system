@@ -27,7 +27,7 @@ interface CustomerLessonItem {
 	name: string;
 	progress: string;
 	deadline: string;
-	remainingTimes: string;
+	restTimes: string;
 }
 
 const route = useRoute() as { query?: Record<string, string | string[] | undefined> };
@@ -77,7 +77,7 @@ function normalizeLessons(source: unknown) {
 			name: item.name || "--",
 			progress: item.progress || "--",
 			deadline: item.deadline || "--",
-			remainingTimes: item.remainingTimes || item.resttimes || "--",
+			restTimes: String(item.restTimes ?? item.remainingTimes ?? item.resttimes ?? "--"),
 		} satisfies CustomerLessonItem;
 	});
 }
@@ -168,7 +168,7 @@ onShow(() => {
 						<view class="teacher-customer-lesson__title">{{ item.name }}</view>
 						<view class="teacher-customer-lesson__meta">学习进度：{{ item.progress }}</view>
 						<view class="teacher-customer-lesson__meta">有效期：{{ item.deadline }}</view>
-						<view class="teacher-customer-lesson__meta">剩余次数：{{ item.remainingTimes }}</view>
+						<view class="teacher-customer-lesson__meta">剩余次数：{{ item.restTimes }}</view>
 					</view>
 				</view>
 				<teacher-empty-state v-else :title="lessonLoading ? '加载中...' : '暂无课程记录'" compact />

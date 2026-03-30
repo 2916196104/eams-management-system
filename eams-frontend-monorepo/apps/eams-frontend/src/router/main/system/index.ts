@@ -44,6 +44,14 @@ const routes = [
 		},
 		component: () => import("@/views/system/OperationLog.vue"),
 	},
+	{
+		path: "/system/system-parameter",
+		name: "SystemParam",
+		meta: {
+			label: "系统参数",
+		},
+		component: () => import("@/views/system/system-param.vue"),
+	},
 ];
 
 export default routes;

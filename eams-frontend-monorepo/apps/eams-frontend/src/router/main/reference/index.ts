@@ -92,13 +92,12 @@ const routes = [
 		component: placeholderView,
 	},
 	{
-		path: "/system/system-parameter",
-		name: "SystemParameter",
+		path: "/system/param",
+		name: "SystemParam",
 		meta: {
 			label: "系统参数",
-			description: "系统级参数配置页面后续可继续补齐。",
 		},
-		component: placeholderView,
+		component: () => import("@/views/system/system-param.vue"),
 	},
 	{
 		path: "/system/role-permission",
@@ -107,7 +106,7 @@ const routes = [
 			label: "角色与权限",
 			description: "角色、菜单权限和数据权限后续可继续补齐。",
 		},
-		component: placeholderView,
+		component: () => import("@/views/system/system-permission.vue"),
 	},
 	{
 		path: "/system/wechat-menu",
