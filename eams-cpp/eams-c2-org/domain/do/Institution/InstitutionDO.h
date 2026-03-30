@@ -16,18 +16,33 @@ class InstitutionDO : public BaseDO {
     MYSQL_SYNTHESIZE(uint64_t, creator, Creator);
     MYSQL_SYNTHESIZE(std::string, addTime, AddTime);
     MYSQL_SYNTHESIZE(int, level, Level);
+    MYSQL_SYNTHESIZE(std::string, shortname, Shortname);
+    MYSQL_SYNTHESIZE(std::string, contactName, ContactName);    
+    MYSQL_SYNTHESIZE(std::string, phone, Phone);        
+    MYSQL_SYNTHESIZE(std::string, fax, Fax);            
+    MYSQL_SYNTHESIZE(std::string, email, Email);        
+    MYSQL_SYNTHESIZE(int, sortNum, SortNum);                  
+    MYSQL_SYNTHESIZE(int, state, State);             
+    MYSQL_SYNTHESIZE(std::string, info, Info);
 
 public:
     // 构造函数：指定表名 "org"
     InstitutionDO() : BaseDO("org") {
         // 注册主键和字段 (第一个参数是数据库列名，第二个是类型标识符，第三个是变量名)
-        // 类型标识："s"=string, "i"=int (文档默认只写了 sidf，对于 bigint 用 i 或 s 视底层驱动而定)
         MYSQL_ADD_FIELD_PK("id", "i", id);
         MYSQL_ADD_FIELD("pid", "i", pid);
         MYSQL_ADD_FIELD("name", "s", name);
         MYSQL_ADD_FIELD("creator", "i", creator);
         MYSQL_ADD_FIELD("add_time", "s", addTime);
         MYSQL_ADD_FIELD("level", "i", level);
+        MYSQL_ADD_FIELD("shortname", "s", shortname);
+        MYSQL_ADD_FIELD("contact_name", "s", contactName);
+        MYSQL_ADD_FIELD("phone", "s", phone);
+        MYSQL_ADD_FIELD("fax", "s", fax);
+        MYSQL_ADD_FIELD("email", "s", email);
+        MYSQL_ADD_FIELD("sort_num", "i", sortNum);
+        MYSQL_ADD_FIELD("state", "i", state);
+        MYSQL_ADD_FIELD("info", "s", info);
     }
 };
 

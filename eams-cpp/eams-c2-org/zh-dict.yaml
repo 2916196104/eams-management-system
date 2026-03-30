@@ -4,6 +4,15 @@ institution:
   name: 机构名称
   parentId: 父机构编号
   children: 子机构列表
+  level: 级别
+  shortName: 简称
+  contact: 联系人
+  phone: 电话
+  fax: 传真
+  email: 邮箱
+  sort: 排序
+  status: 状态
+  description: 说明
  tags:
   t1: 机构管理
  tree:
