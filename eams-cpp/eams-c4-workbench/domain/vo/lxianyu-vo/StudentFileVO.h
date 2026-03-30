@@ -10,7 +10,7 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * 示例显示JsonVO，用于响应给客户端的Json对象
+ * 绀轰緥鏄剧ずJsonVO锛岀敤浜庡搷搴旂粰瀹㈡埛绔殑Json瀵硅薄
  */
 class StudentFileJsonVO : public JsonVO<StudentFileDTO::Wrapper> {
 	DTO_INIT(StudentFileJsonVO, JsonVO<StudentFileDTO::Wrapper>);
