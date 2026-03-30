@@ -9,17 +9,18 @@ class intendedstudentDTO : public oatpp::DTO
 {
 	DTO_INIT(intendedstudentDTO, DTO);
 	//学生姓名
-	API_DTO_FIELD_REQUIRE(String, stuname, ZH_WORDS_GETTER("intendedstudent.stuname"), true);
+	
+	API_DTO_FIELD_REQUIRE(String, studentName, ZH_WORDS_GETTER("intendedstudent.stuname"), true);
 	//手机号
-	API_DTO_FIELD_REQUIRE(String, phonenumber, ZH_WORDS_GETTER("intendedstudent.phonenumber"), true);
+	API_DTO_FIELD_REQUIRE(String, phoneNumber, ZH_WORDS_GETTER("intendedstudent.phonenumber"), true);
 	//学生类别
-	API_DTO_FIELD_REQUIRE(Int8, stutype, ZH_WORDS_GETTER("intendedstudent.stutype"), true);
+	API_DTO_FIELD_REQUIRE(Int8, studentType, ZH_WORDS_GETTER("intendedstudent.stutype"), true);
 	//性别
 	API_DTO_FIELD_REQUIRE(Int8, sex, ZH_WORDS_GETTER("intendedstudent.sex"), true);
 	//出生年月
 	API_DTO_FIELD_DEFAULT(String, birthday, ZH_WORDS_GETTER("intendedstudent.birthday"));
 	//身份证号
-	API_DTO_FIELD_DEFAULT(String, cardid, ZH_WORDS_GETTER("intendedstudent.cardid"));
+	API_DTO_FIELD_DEFAULT(String, cardId, ZH_WORDS_GETTER("intendedstudent.cardid"));
 	//备注信息
 	API_DTO_FIELD_DEFAULT(String, text, ZH_WORDS_GETTER("intendedstudent.text"));
 	// 关联一个PayloadDTO负载数据对象
@@ -28,10 +29,10 @@ public:
 	//数据校验
 	std::string validate()
 	{
-		if (!stuname || stuname->empty())
+		if (!studentName || studentName->empty())
 			return "name invalidate.";
-		if (!phonenumber || phonenumber->empty())
-			return "phonenumber invalidate.";
+		if (!phoneNumber || phoneNumber->empty())
+			return "phoneNumber invalidate.";
 		return "";
 	}
 };

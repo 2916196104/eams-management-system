@@ -1,6 +1,5 @@
 #pragma once
 
-
 //#include "ApiHelper.h"
 //#include "../Macros.h"
 //#include "ServerInfo.h"

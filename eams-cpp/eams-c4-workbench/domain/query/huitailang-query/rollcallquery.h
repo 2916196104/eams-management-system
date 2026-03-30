@@ -13,9 +13,9 @@ class RollcallQuery : public PageQuery
 	DTO_INIT(RollcallQuery, PageQuery);
 	
 	//½ÌÊ¦id
-	API_DTO_FIELD_REQUIRE(String, techid, ZH_WORDS_GETTER("rollcall.teacherid"),true);
+	API_DTO_FIELD_REQUIRE(String, teacherId, ZH_WORDS_GETTER("rollcall.teacherid"),true);
 	//¿Î³Ìid
-	API_DTO_FIELD_REQUIRE(String, courseid, ZH_WORDS_GETTER("rollcall.courseid"),true);
+	API_DTO_FIELD_REQUIRE(String, courseId, ZH_WORDS_GETTER("rollcall.courseid"),true);
 	
 };
 

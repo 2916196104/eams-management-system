@@ -12,7 +12,7 @@ uint64_t IntendstudentService::addintendstudent(const intendedstudentDTO::Wrappe
 {
 	// 组装DO数据
 	StudentDO data;
-	ZO_STAR_DOMAIN_DTO_TO_DO(data, dto, Name, stuname, Stage, stutype ,Gender, sex, Birthday,birthday, Idcard,cardid, Remark,text);
+	ZO_STAR_DOMAIN_DTO_TO_DO(data, dto, Name, studentName, Stage, studentType ,Gender, sex, Birthday,birthday, Idcard,cardId, Remark,text);
 	// phonenumber
 	// 生成ID
 	SnowFlake uf(1,1);
@@ -21,17 +21,17 @@ uint64_t IntendstudentService::addintendstudent(const intendedstudentDTO::Wrappe
 	UserDAO udao;
 	UserDO udo;
 	//cout << dto->phonenumber.getValue("0") << endl;
-	auto resutlt = udao.QueryUid(dto->phonenumber.getValue("0"));
+	auto resutlt = udao.QueryUid(dto->phoneNumber.getValue("0"));
 	if (resutlt.size() == 0)
 	{
 		udo.setId(uf.nextId());
-		udo.setMobile(dto->phonenumber.getValue("0"));
+		udo.setMobile(dto->phoneNumber.getValue("0"));
 		if (udao.insert(udo) == 0)
 		{
 			return 0;
 		}
 		//resutlt.push_back(udo);
-		resutlt = udao.QueryUid(dto->phonenumber.getValue("0"));
+		resutlt = udao.QueryUid(dto->phoneNumber.getValue("0"));
 	}
 	data.setUserId(resutlt.front().getId());
 

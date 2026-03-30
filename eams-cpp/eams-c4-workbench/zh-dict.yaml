@@ -19,6 +19,7 @@ class:
   name: 班级名
   grade: 年级id
 
+
  tag: 排课
  query:
   summary: 获取班级列表   
@@ -40,15 +41,14 @@ rollcall:
   getrollrecord: 获取点名记录
   checkinresult: 签到结果
 intendedstudent:
- stuname: 学生姓名
- phonenumber: 手机号
- stutype: 学生类型
- sex: 性别
- birthday: 出生年月
- cardid: 身份证号
- text: 备注信息
-
- text2: 添加学员
+  stuname: 学生姓名
+  phonenumber: 手机号
+  stutype: 学生类型
+  sex: 性别
+  birthday: 出生年月
+  cardid: 身份证号
+  text: 备注信息
+  text2: 添加学员
 workbench:
  tag: 学生档案
  progress:

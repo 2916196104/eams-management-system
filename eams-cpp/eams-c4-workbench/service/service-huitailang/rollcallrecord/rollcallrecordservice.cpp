@@ -29,7 +29,7 @@ rollcallPageDTO::Wrapper RollcallrecordService::listAll(const RollcallQuery::Wra
 	for (RollcallrecordViewDO& sub : result)
 	{
 		auto dto = rollcallDTO::createShared();
-		ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub, stuname, StudentName, checkindate, Sign_time, checkinresult, Sign_state);
+		ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub, studentName, StudentName, checkinDate, Sign_time, checkinResult, Sign_state);
 		
 		pages->addData(dto);
 	}

@@ -1,6 +1,7 @@
 #pragma once
 #ifndef STUDENTDO_H
 #define STUDENTDO_H
+#include "DoInclude.h"
 
 #include "../do/DoInclude.h"
 

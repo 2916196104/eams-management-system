@@ -7,15 +7,15 @@ std::string RollcallrecordDAO::queryConditionBuilder(const RollcallQuery::Wrappe
 {
 	stringstream sqlCondition;
 	sqlCondition << " WHERE 1=1";
-	if (query->techid)
+	if (query->teacherId)
 	{
 		sqlCondition << " AND t1.teacher_id=?";
-		SQLPARAMS_PUSH(params, "s", std::string, query->techid.getValue(""));
+		SQLPARAMS_PUSH(params, "s", std::string, query->teacherId.getValue(""));
 	}
-	if (query->courseid)
+	if (query->courseId)
 	{
 		sqlCondition << " AND t1.lesson_id=?";
-		SQLPARAMS_PUSH(params, "s", std::string, query->courseid.getValue(""));
+		SQLPARAMS_PUSH(params, "s", std::string, query->courseId.getValue(""));
 	}
 
 	return sqlCondition.str();

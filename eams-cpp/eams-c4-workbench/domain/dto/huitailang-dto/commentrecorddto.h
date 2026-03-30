@@ -10,11 +10,11 @@ class CommentrecordDTO : public oatpp::DTO
 {
 	DTO_INIT(CommentrecordDTO, DTO);
 	//学生姓名
-	API_DTO_FIELD_REQUIRE(String, stuname, ZH_WORDS_GETTER("comment.stuname"), true);
+	API_DTO_FIELD_REQUIRE(String, studentName, ZH_WORDS_GETTER("comment.stuname"), true);
 	//评论内容
-	API_DTO_FIELD_REQUIRE(String, commenttext, ZH_WORDS_GETTER("comment.text"), true);
+	API_DTO_FIELD_REQUIRE(String, commentText, ZH_WORDS_GETTER("comment.text"), true);
 	//评论时间
-	API_DTO_FIELD_REQUIRE(String, commentdate, ZH_WORDS_GETTER("comment.date"), true);
+	API_DTO_FIELD_REQUIRE(String, commentDate, ZH_WORDS_GETTER("comment.date"), true);
 	//综合评价
 	API_DTO_FIELD_REQUIRE(Int8, score, ZH_WORDS_GETTER("comment.score"), true);
 	//是否匿名

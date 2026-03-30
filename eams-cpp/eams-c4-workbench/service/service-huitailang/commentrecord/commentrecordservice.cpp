@@ -30,14 +30,15 @@ CommentrecordPageDTO::Wrapper CommentrecordService::listAll(const CommentrecordQ
 	for (CommentrecordViewDO& sub : result)
 	{
 		auto dto = CommentrecordDTO::createShared();
-		ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub, stuname, StudentName, commenttext, Content, commentdate, AddTime, score, Score1);
+		ZO_STAR_DOMAIN_DO_TO_DTO(dto, sub, studentName, StudentName, commentText, Content, commentDate, AddTime, score, Score1);
 		if (sub.getAnonymity() == 1)
 		{
-			dto->stuname = ZH_WORDS_GETTER("comment.anonymityname");
+			dto->studentName = ZH_WORDS_GETTER("comment.anonymityname");
 			//dto->stuname = oatpp::DTO::String("ÄäÃûÓÃ»§");
 		}
 		pages->addData(dto);
 	}
+	
 	return pages;
 }
 

@@ -13,7 +13,7 @@ class CommentrecordQuery : public PageQuery
 	DTO_INIT(CommentrecordQuery, PageQuery);
 
 	//ΩÃ ¶id
-	API_DTO_FIELD_REQUIRE(String, techid, ZH_WORDS_GETTER("comment.teacherid"), true);
+	API_DTO_FIELD_REQUIRE(String, teacherId, ZH_WORDS_GETTER("comment.teacherid"), true);
 
 };
 
