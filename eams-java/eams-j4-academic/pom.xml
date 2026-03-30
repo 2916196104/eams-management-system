@@ -22,6 +22,13 @@
             <groupId>com.zeroone.star</groupId>
             <artifactId>eams-common</artifactId>
         </dependency>
+
+        <!-- 内置模块 -->
+        <!-- domain -->
+        <dependency>
+            <groupId>com.zeroone.star</groupId>
+            <artifactId>eams-domain</artifactId>
+        </dependency>
         <!-- apis -->
         <dependency>
             <groupId>com.zeroone.star</groupId>
@@ -102,6 +109,61 @@
                     </dbConfig>
                     <!-- 生成代码输出根目录 -->
                     <outDir>${project.basedir}/src/main/java</outDir>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <configuration>
+                    <!-- Docker 远程管理地址 -->
+                    <dockerHost>https://192.168.220.128:2375</dockerHost>
+
+                    <!-- CA 证书位置 -->
+                    <certPath>/home/docker-ca</certPath>
+
+                    <images>
+                        <image>
+                            <!-- Docker 镜像名称定义 -->
+                            <name>01star/${project.artifactId}:${project.version}</name>
+
+                            <!-- 指定 Dockerfile 所在目录 -->
+                            <build>
+                                <contextDir>${project.basedir}</contextDir>
+                            </build>
+
+                            <!-- 别名用于容器命名 -->
+                            <alias>${project.artifactId}</alias>
+
+                            <!-- 容器 run 相关配置 -->
+                            <run>
+                                <!-- 配置运行时容器命名策略为:别名,如果不指定则默认为 none,即使用随机分配名称 -->
+                                <namingStrategy>alias</namingStrategy>
+
+                                <!-- 端口映射 -->
+                                <ports>
+                                    <port>9999:9999</port>
+                                </ports>
+
+                                <!-- 数据卷 -->
+                                <volumes>
+                                    <bind>
+                                        <volume>/etc/localtime:/etc/localtime</volume>
+                                        <volume>/home/app/${project.artifactId}/logs:/tmp/logs</volume>
+                                    </bind>
+                                </volumes>
+
+                                <!-- 设置环境变量 -->
+                                <env>
+                                    <!-- JVM 参数 -->
+                                    <JAVA_OPTS>-Xms256m -Xmx256m</JAVA_OPTS>
+                                    <!-- 启动替换参数 -->
+                                    <SPRING_ARGS>
+                                        -spring.profiles.active=test spring.cloud.nacos.discovery.ip=192.168.220.128
+                                    </SPRING_ARGS>
+                                </env>
+                            </run>
+                        </image>
+                    </images>
                 </configuration>
             </plugin>
         </plugins>

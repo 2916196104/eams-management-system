@@ -49,7 +49,7 @@
             <!-- 系统内容公用模块定义 -->
             <dependency>
                 <groupId>com.zeroone.star</groupId>
-                <artifactId>eams-apis</artifactId>
+                <artifactId>eams-domain</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
@@ -59,7 +59,7 @@
             </dependency>
             <dependency>
                 <groupId>com.zeroone.star</groupId>
-                <artifactId>eams-domain</artifactId>
+                <artifactId>eams-apis</artifactId>
                 <version>${revision}</version>
             </dependency>
         </dependencies>
