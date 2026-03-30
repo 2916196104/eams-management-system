@@ -9,7 +9,7 @@ import java.util.Set;
 /*
  * 工具类：计算天数 (ScheduleUtils.java)
  **/
-public class CoursePlanUtils {
+public class ScheduleUtils {
     /**
      * 计算在指定日期范围内，符合指定星期字符串的天数总和
      * @param startDate 开始日期 (包含)

@@ -15,7 +15,7 @@ import java.util.List;
 /*
 * 描述：排课计划服务接口
 * */
-public interface ScheduleService extends IService<LessonSchedule> {
+public interface CoursePlanService extends IService<LessonSchedule> {
     /*
     * 分页查询排课计划
     * */

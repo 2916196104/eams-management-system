@@ -3,6 +3,11 @@ server:
 spring:
   application:
     name: ${sn.courseplan}
+  # 关闭邮件健康检查
+management:
+  health:
+    mail:
+      enabled: false
   # PDF 配置
 pdf:
   conf: classpath:pdf/fop.xconf

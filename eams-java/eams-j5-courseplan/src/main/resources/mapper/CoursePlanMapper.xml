@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.j5.courseplan.mapper.ScheduleMapper">
+
+    <select id="listAll" resultType="com.zeroone.star.project.vo.j5.courseplan.SchedulePlanVO">
+        select
+        ls.id,
+        (
+        select
+        class.name
+        from class
+        where ls.class_id = class.id and class.deleted = 0
+        ) as className,
+        (
+        select
+        course.name
+        from course
+        where ls.course_id = course.id and course.deleted = 0
+        ) as courseName,
+        ls.state,
+        IFNULL( NULLIF(ls.conflict_ids, ''), '无冲突') as conflictIds,
+        (
+        select
+        group_concat(s.name separator ',')
+        from staff s left join lesson_teacher  lt
+        on s.id = lt.teacher_id and lt.type_num = 1
+        where find_in_set(s.id, ls.teacher_ids) and s.deleted = 0
+        ) as teacherNames,
+        (
+        select
+        group_concat(s.name separator ',')
+        from staff s left join lesson_teacher  lt
+        on s.id = lt.teacher_id and lt.type_num = 2 and s.deleted = 0
+        where find_in_set(s.id, ls.teacher_ids)
+        ) AS assistantTeacherNames,
+        ls.start_date,
+        ls.end_date,
+        (
+        select group_concat(
+        concat(
+        lss.weeks,' ',
+        DATE_FORMAT(lss.start_time,'%H:%i'),'~',
+        DATE_FORMAT(lss.end_time,'%H:%i')
+        )
+        separator ','
+        )
+        from lesson_schedule_setting lss
+        where lss.schedule_id = ls.id
+        ) as date,
+        ls.times,
+        ls.dec_lesson_count,
+        ifnull(
+        (
+        select
+        lesson.dec_count
+        from lesson
+        where lesson.schedule_id = ls.id and lesson.deleted = 0
+        ),1) as decCount,
+        ifnull(ls.exclude_holiday,0) as excludeHoliday,
+        (
+        SELECT GROUP_CONCAT(classroom.name SEPARATOR ', ')
+        FROM lesson_schedule_setting lss
+        LEFT JOIN classroom ON lss.room_id = classroom.id AND classroom.deleted = 0
+        WHERE lss.schedule_id = ls.id
+        ) as classRoomName
+        from lesson_schedule ls
+        <where>
+            ls.deleted = 0
+            <if test="query.classId != null">
+                and ls.class_id = #{query.classId}
+            </if>
+            <if test="query.courseName != null and query.courseName != ''">
+                and ls.course_id in (
+                select
+                id
+                from course
+                where name like concat('%',#{query.courseName},'%')
+                )
+            </if>
+        </where>
+        order by ifnull(ls.start_date,0) desc, ls.id
+    </select>
+</mapper>

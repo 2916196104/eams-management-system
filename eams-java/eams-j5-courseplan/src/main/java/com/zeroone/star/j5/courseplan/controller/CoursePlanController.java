@@ -3,7 +3,7 @@ package com.zeroone.star.j5.courseplan.controller;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.zeroone.star.j5.courseplan.service.ClassService;
-import com.zeroone.star.j5.courseplan.service.ScheduleService;
+import com.zeroone.star.j5.courseplan.service.CoursePlanService;
 import com.zeroone.star.j5.courseplan.service.StaffService;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j5.courseplan.BatchGenerateLessonDTO;
@@ -45,7 +45,7 @@ import java.util.List;
 @Validated
 public class CoursePlanController implements CoursePlanApi {
     @Resource
-    private ScheduleService scheduleService;
+    private CoursePlanService coursePlanService;
     @Resource
     private ClassService classService;
     @Resource
@@ -59,7 +59,7 @@ public class CoursePlanController implements CoursePlanApi {
     public JsonVO<PageDTO<SchedulePlanVO>> queryPage(SchedulePlanQuery query) {
         log.info("查询参数：{}", query); // 添加日志
         // 将page转为需要的pageDTO
-        PageDTO<SchedulePlanVO> page = PageDTO.create(scheduleService.listAll(query));
+        PageDTO<SchedulePlanVO> page = PageDTO.create(coursePlanService.listAll(query));
         return JsonVO.success(page);
     }
 
@@ -73,7 +73,7 @@ public class CoursePlanController implements CoursePlanApi {
     @Override
     public JsonVO<Long> saveSchedule(@RequestBody @Validated ScheduleSaveDTO scheduleSaveDTO) {
         System.out.println(">>>>>>>>>> 我收到请求了！ <<<<<<<<<<");
-        return scheduleService.saveOrUpdateSchedule(scheduleSaveDTO);
+        return coursePlanService.saveOrUpdateSchedule(scheduleSaveDTO);
     }
 
     /**
@@ -93,7 +93,7 @@ public class CoursePlanController implements CoursePlanApi {
     @ApiOperation("删除计划（支持批量删除）")
     @Override
     public JsonVO<List<Long>> deleteSchedule(@RequestBody List<Long> ids) {
-        return JsonVO.success(scheduleService.deleteSchedule(ids));
+        return JsonVO.success(coursePlanService.deleteSchedule(ids));
     }
 
     /*
@@ -103,7 +103,7 @@ public class CoursePlanController implements CoursePlanApi {
     @ApiOperation("获取计划详情")
     @Override
     public JsonVO<LessonScheduleVO> getScheduleById(@PathVariable Long id) {
-        return JsonVO.success(scheduleService.getScheduleById(id));
+        return JsonVO.success(coursePlanService.getScheduleById(id));
     }
 
 

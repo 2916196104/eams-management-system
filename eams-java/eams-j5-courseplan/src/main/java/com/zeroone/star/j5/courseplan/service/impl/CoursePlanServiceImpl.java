@@ -12,10 +12,10 @@ import com.zeroone.star.j5.courseplan.entity.Staff;
 import com.zeroone.star.j5.courseplan.entity.StaffOrgInfo;
 import com.zeroone.star.j5.courseplan.mapper.ScheduleMapper;
 import com.zeroone.star.j5.courseplan.service.LessonScheduleSettingService;
-import com.zeroone.star.j5.courseplan.service.ScheduleService;
+import com.zeroone.star.j5.courseplan.service.CoursePlanService;
 import com.zeroone.star.j5.courseplan.service.StaffOrgInfoService;
 import com.zeroone.star.j5.courseplan.service.StaffService;
-import com.zeroone.star.j5.courseplan.utils.CoursePlanUtils;
+import com.zeroone.star.j5.courseplan.utils.ScheduleUtils;
 import com.zeroone.star.project.components.user.UserHolder;
 import com.zeroone.star.project.dto.j5.courseschedule.LessonScheduleSettingDTO;
 import com.zeroone.star.project.dto.j5.courseschedule.ScheduleSaveDTO;
@@ -33,13 +33,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, LessonSchedule> implements ScheduleService {
+public class CoursePlanServiceImpl extends ServiceImpl<ScheduleMapper, LessonSchedule> implements CoursePlanService {
     @Autowired
     private UserHolder userHolder;
     @Autowired
     private ScheduleMapper scheduleMapper;
     @Autowired
-    private ScheduleService scheduleService;
+    private CoursePlanService coursePlanService;
     @Autowired
     private LessonScheduleSettingService lessonScheduleSettingService;
     @Autowired
@@ -84,7 +84,7 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, LessonSched
             // 遍历每一个子表设置项（每一行代表一个独立的时间段规则）
             for (LessonScheduleSettingDTO setting : lessonScheduleSettingList) {
                 // 1. 计算当前这一行规则（比如：周一 08:00-09:00）在范围内有多少天
-                int ruleCount = CoursePlanUtils.calculateRuleOccurrences(
+                int ruleCount = ScheduleUtils.calculateRuleOccurrences(
                         lessonSchedule.getStartDate(),
                         lessonSchedule.getEndDate(),
                         setting.getWeeks()
@@ -171,7 +171,7 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, LessonSched
     @Override
     public LessonScheduleVO getScheduleById(Long id) {
         // 1. 获取主表数据并转换 (保持原样，这行已经很简洁了)
-        LessonSchedule byId = scheduleService.getById(id);
+        LessonSchedule byId = coursePlanService.getById(id);
         LessonScheduleVO lessonScheduleVO = BeanUtil.toBean(byId, LessonScheduleVO.class);
 
         // 2. 查询子表数据
@@ -199,7 +199,7 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, LessonSched
     @Override
     public List<Long> deleteSchedule(List<Long> ids) {
         // 1、根据传入的id查询表中数据
-        List<LessonSchedule> lessonSchedules = scheduleService.listByIds(ids);
+        List<LessonSchedule> lessonSchedules = coursePlanService.listByIds(ids);
         // 如果没有找到任何记录，直接返回空列表，无需执行删除
         if (lessonSchedules.isEmpty()){
             return new ArrayList<>();
@@ -211,7 +211,7 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, LessonSched
                 .collect(Collectors.toList());
 
         // 3、执行批量删除
-        boolean delete = scheduleService.removeByIds(realIds);
+        boolean delete = coursePlanService.removeByIds(realIds);
 
         // 4、同样执行批量删除关联表lesson_schedule_setting的数据
         LambdaQueryWrapper<LessonScheduleSetting> queryWrapper = new LambdaQueryWrapper<LessonScheduleSetting>()

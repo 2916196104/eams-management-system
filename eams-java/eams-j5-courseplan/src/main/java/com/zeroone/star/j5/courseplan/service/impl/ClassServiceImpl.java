@@ -9,6 +9,7 @@ import com.zeroone.star.project.query.j5.courseplan.ClassByNameQuery;
 import com.zeroone.star.project.vo.j5.courseplan.ClassOptionVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.zeroone.star.j5.courseplan.entity.Class;
 
 @Service
 public class ClassServiceImpl extends ServiceImpl<ClassMapper, Class> implements ClassService {
@@ -24,6 +25,6 @@ public class ClassServiceImpl extends ServiceImpl<ClassMapper, Class> implements
         Page<ClassOptionVO> page = new Page<>(query.getPageIndex(), query.getPageSize());
 
         // 2、因为是多表联查，所以需要用xml获取数据
-        return classMapper.getListByClassName(page,query);
+        return classMapper.listByClassName(page,query);
     }
 }
