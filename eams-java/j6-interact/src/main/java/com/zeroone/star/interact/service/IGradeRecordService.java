@@ -26,5 +26,5 @@ public interface IGradeRecordService extends IService<GradeRecord> {
     JsonVO<List<Long>> deleteGradeRecord(List<Long> ids);
 
     // 导入成绩
-    JsonVO<Map<Long, Object>> addGrades(Long grade_id, List<GradeRecordDTO> gradeRecords);
+    JsonVO<String> addGrades(Long grade_id, List<GradeRecordDTO> gradeRecords);
 }

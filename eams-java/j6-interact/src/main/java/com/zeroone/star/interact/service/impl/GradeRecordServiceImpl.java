@@ -1,13 +1,17 @@
 package com.zeroone.star.interact.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zeroone.star.interact.entity.GradeRecord;
+import com.zeroone.star.interact.entity.Student;
 import com.zeroone.star.interact.mapper.GradeRecordMapper;
+import com.zeroone.star.interact.mapper.StudentMapper;
 import com.zeroone.star.interact.service.IGradeRecordService;
 import com.zeroone.star.project.dto.j6.interact.GradeRecordDTO;
 import com.zeroone.star.project.vo.JsonVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,23 +64,55 @@ public class GradeRecordServiceImpl extends ServiceImpl<GradeRecordMapper, Grade
     /**
      * 导入成绩
      */
+    // 假设你有一个可以查询学生信息的 Mapper
+    @Autowired
+    private StudentMapper studentMapper;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public JsonVO<Map<Long, Object>> addGrades(Long gradeId, List<GradeRecordDTO> gradeRecords) {
-        Map<Long, Object> result = new HashMap<>();
+    public JsonVO<String> addGrades(Long gradeId, List<GradeRecordDTO> gradeRecords) {
+        if (gradeRecords == null || gradeRecords.isEmpty()) {
+            return JsonVO.fail("导入数据为空");
+        }
 
         for (GradeRecordDTO dto : gradeRecords) {
-            try {
-                GradeRecord entity = new GradeRecord();
-                BeanUtils.copyProperties(dto, entity);
-                entity.setGradeId(gradeId);
-                entity.setAddTime(LocalDateTime.now());
-                save(entity);
-                result.put(dto.getStudentId(), "导入成功");
-            } catch (Exception e) {
-                result.put(dto.getStudentId(), "导入失败：" + e.getMessage());
+            Long finalStudentId = dto.getStudentId();
+
+            // 1. 如果 Excel 没填 ID，根据姓名去查 Student 表
+            if (finalStudentId == null) {
+                LambdaQueryWrapper<Student> studentQuery = new LambdaQueryWrapper<>();
+                studentQuery.eq(Student::getName, dto.getStudentName()).last("LIMIT 1");
+                Student student = studentMapper.selectOne(studentQuery);
+
+                // 逻辑：学生不存在则整体导入失败（触发事务回滚）
+                if (student == null) {
+                    throw new RuntimeException("导入失败：系统中找不到姓名为 [" + dto.getStudentName() + "] 的学生");
+                }
+                finalStudentId = student.getId();
+            }
+
+            // 2. 检查该学生在该考核项(gradeId)下是否已有成绩
+            LambdaQueryWrapper<GradeRecord> gradeQuery = new LambdaQueryWrapper<>();
+            gradeQuery.eq(GradeRecord::getGradeId, gradeId)
+                    .eq(GradeRecord::getStudentId, finalStudentId);
+
+            GradeRecord oldRecord = this.getOne(gradeQuery);
+
+            if (oldRecord != null) {
+                // 存在则覆盖成绩
+                oldRecord.setScore(dto.getScore());
+                this.updateById(oldRecord);
+            } else {
+                // 不存在则新增记录
+                GradeRecord newRecord = new GradeRecord();
+                newRecord.setGradeId(gradeId);
+                newRecord.setStudentId(finalStudentId);
+                newRecord.setScore(dto.getScore());
+                newRecord.setAddTime(LocalDateTime.now());
+                this.save(newRecord);
             }
         }
-        return JsonVO.success(result);
+
+        return JsonVO.success("成绩同步成功");
     }
 }

@@ -1,7 +1,9 @@
 package com.zeroone.star.interact.controller;
 
 import cn.hutool.core.collection.CollUtil;
+import com.alibaba.excel.EasyExcel;
 import com.zeroone.star.interact.service.GradeFormService;
+import com.zeroone.star.project.components.easyexcel.EasyExcelComponent;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.interact.service.IGradeRecordService;
 import com.zeroone.star.project.dto.j6.interact.GradeListDTO;
@@ -15,8 +17,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +32,8 @@ public class GradeController implements GradeApis {
     @Resource
     private IGradeRecordService gradeRecordService;
 
+    @Resource
+    EasyExcelComponent easyExcelComponent;
 
     @Resource
     private GradeFormService gradeFormService;
@@ -133,17 +139,34 @@ public class GradeController implements GradeApis {
 
     /**
      * 导入成绩
-     *
-     * @param gradeId
-     * @param gradeRecords
      * @return
      */
-    @PostMapping("/file")
+    @PostMapping("/file/{gradeId}")
     @ApiOperation("导入成绩")
-    @Override
-    public JsonVO<Map<Long, Object>> addGrades( @RequestParam Long gradeId,
-                                                @RequestBody List<GradeRecordDTO> gradeRecords) {
-        return gradeRecordService.addGrades(gradeId, gradeRecords);
+    @ResponseBody
+
+    public JsonVO<String> addGrades(@PathVariable Long gradeId, MultipartFile file) {
+        try {
+            // 【看这里】：调用组件的 3个参数 方法
+            List<GradeRecordDTO> dataList = EasyExcel.read(file.getInputStream())
+                    .head(GradeRecordDTO.class)
+                    .sheet()
+                    .headRowNumber(2) //
+                    .doReadSync();
+
+            if (dataList.isEmpty()) {
+                return JsonVO.fail("文件内无有效数据");
+            }
+
+            // 往下传给 Service 处理业务逻辑
+            return gradeRecordService.addGrades(gradeId, dataList);
+
+        } catch (IOException e) {
+            return JsonVO.fail("文件读取异常：" + e.getMessage());
+        } catch (Exception e) { // 捕获可能出现的数据转换异常等
+            e.printStackTrace();
+            return JsonVO.fail("解析或导入失败：" + e.getMessage());
+        }
     }
 
 }
