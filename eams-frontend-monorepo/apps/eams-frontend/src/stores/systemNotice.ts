@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { getNoticeList, editNotice, delNotice, getNoticeDetail } from "@/apis/system/notice";
+import { delNotice, editNotice, getNoticeDetail, getNoticeList } from "@/apis/system/notice";
 import type { INoticeList, INoticeSave } from "@/apis/system/notice/type";
 
 export interface NoticeItem {
@@ -15,45 +15,75 @@ export interface NoticeItem {
 	updateTime?: string;
 }
 
-const mockData: NoticeItem[] = [
-	{
-		id: 1,
-		title: "系统升级通知",
-		content: "系统将于今晚10点进行升级，请提前保存数据。",
-		createTime: "2026-03-20 10:00:00",
-		updateTime: "2026-03-20 10:00:00",
-	},
-	{
-		id: 2,
-		title: "春季优惠活动",
-		content: "春季报名优惠活动开始啦，详情请查看公告栏。",
-		createTime: "2026-03-18 14:30:00",
-		updateTime: "2026-03-19 09:00:00",
-	},
-	{
-		id: 3,
-		title: "课程调整公告",
-		content: "部分课程时间有所调整，请注意查看课程表。",
-		createTime: "2026-03-15 16:00:00",
-		updateTime: "2026-03-15 16:00:00",
-	},
-	{
-		id: 4,
-		title: "端午节放假通知",
-		content: "端午节放假三天，6月10日至6月12日。",
-		createTime: "2026-03-10 08:00:00",
-		updateTime: "2026-03-12 10:30:00",
-	},
-	{
-		id: 5,
-		title: "新员工入职培训",
-		content: "本周五进行新员工培训，地点：会议室A。",
-		createTime: "2026-03-08 11:00:00",
-		updateTime: "2026-03-08 11:00:00",
-	},
-];
+function unwrapPayload(input: unknown): unknown {
+	let current = input;
 
-let localMockData = [...mockData];
+	while (current && typeof current === "object" && "data" in (current as Record<string, unknown>)) {
+		const next = (current as { data?: unknown }).data;
+		if (next === undefined || next === current) {
+			break;
+		}
+		current = next;
+	}
+
+	return current;
+}
+
+function hasServerPayload(input: unknown) {
+	return Boolean(
+		input &&
+		typeof input === "object" &&
+		("data" in (input as Record<string, unknown>) || "status" in (input as Record<string, unknown>)),
+	);
+}
+
+function extractNoticeRows(data: unknown): NoticeItem[] {
+	if (Array.isArray(data)) {
+		return data as NoticeItem[];
+	}
+
+	if (data && typeof data === "object") {
+		const source = data as { records?: NoticeItem[]; list?: NoticeItem[]; rows?: NoticeItem[] };
+		const rows = source.records ?? source.list ?? source.rows;
+		return Array.isArray(rows) ? rows : [];
+	}
+
+	return [];
+}
+
+function extractNoticeTotal(data: unknown, rows: NoticeItem[]) {
+	if (data && typeof data === "object" && "total" in (data as Record<string, unknown>)) {
+		const total = (data as { total?: number }).total;
+		if (typeof total === "number") {
+			return total;
+		}
+	}
+
+	return rows.length;
+}
+
+function normalizeNotice(detail: unknown): NoticeItem | null {
+	if (!detail || typeof detail !== "object") {
+		return null;
+	}
+
+	const source = detail as Partial<NoticeItem>;
+	if (source.id == null) {
+		return null;
+	}
+
+	return {
+		id: Number(source.id),
+		title: source.title ?? "",
+		content: source.content ?? "",
+		type: source.type,
+		publisher: source.publisher,
+		isTop: source.isTop,
+		isEnable: source.isEnable,
+		createTime: source.createTime ?? "",
+		updateTime: source.updateTime,
+	};
+}
 
 export const useSystemNoticeStore = defineStore("systemNotice", () => {
 	const tableData = ref<NoticeItem[]>([]);
@@ -66,89 +96,77 @@ export const useSystemNoticeStore = defineStore("systemNotice", () => {
 		pageNum: 1,
 	});
 
-	/** 获取列表 */
 	async function fetchList() {
 		loading.value = true;
 		try {
 			const res = await getNoticeList(searchParams.value);
-			// res 是 JsonVO 格式 { code, message, data }
-			const data = (res as any).data ?? res;
-			const rows: NoticeItem[] = data.records || data.list || data.rows || (Array.isArray(data) ? data : []);
+			const payload = unwrapPayload(res);
+			const rows = extractNoticeRows(payload);
 			tableData.value = rows;
-			total.value = data.total ?? rows.length;
-		} catch {
-			// API 不可用时使用 mock 数据
-			const title = searchParams.value.title ?? "";
-			const filtered = localMockData.filter((item) => item.title.includes(title));
-			const start = ((searchParams.value.pageNum ?? 1) - 1) * (searchParams.value.pageSize ?? 10);
-			tableData.value = filtered.slice(start, start + (searchParams.value.pageSize ?? 10));
-			total.value = filtered.length;
+			total.value = extractNoticeTotal(payload, rows);
+			return true;
+		} catch (error) {
+			const payload = unwrapPayload(error);
+			const rows = extractNoticeRows(payload);
+			if (rows.length > 0 || hasServerPayload(error)) {
+				tableData.value = rows;
+				total.value = extractNoticeTotal(payload, rows);
+				return true;
+			}
+
+			tableData.value = [];
+			total.value = 0;
+			return false;
 		} finally {
 			loading.value = false;
 		}
 	}
 
-	/** 保存公告（新增/编辑） */
 	async function saveNotice(data: INoticeSave) {
 		try {
 			await editNotice(data);
 			await fetchList();
 			return true;
-		} catch {
-			// mock 模式：本地操作
-			if (data.id === 0) {
-				const newId = localMockData.length > 0 ? Math.max(...localMockData.map((i) => i.id)) + 1 : 1;
-				const now = new Date().toLocaleString("zh-CN");
-				localMockData.unshift({
-					id: newId,
-					title: data.title,
-					content: data.content,
-					createTime: now,
-					updateTime: now,
-				});
-			} else {
-				const idx = localMockData.findIndex((item) => item.id === data.id);
-				if (idx !== -1) {
-					localMockData[idx].title = data.title;
-					localMockData[idx].content = data.content;
-					localMockData[idx].updateTime = new Date().toLocaleString("zh-CN");
-				}
+		} catch (error) {
+			if (!hasServerPayload(error)) {
+				return false;
 			}
-			await fetchList();
-			return true;
+
+			return fetchList();
 		}
 	}
 
-	/** 删除公告 */
 	async function deleteNotice(ids: number[]) {
 		try {
 			await delNotice({ ids });
 			await fetchList();
 			return true;
-		} catch {
-			// mock 模式：本地操作
-			localMockData = localMockData.filter((item) => !ids.includes(item.id));
-			await fetchList();
-			return true;
+		} catch (error) {
+			if (!hasServerPayload(error)) {
+				return false;
+			}
+
+			return fetchList();
 		}
 	}
 
-	/** 获取详情 */
 	async function fetchDetail(id: number) {
 		try {
 			const res = await getNoticeDetail(id);
-			return ((res as any).data ?? res) as NoticeItem;
-		} catch {
-			return localMockData.find((item) => item.id === id) ?? null;
+			return normalizeNotice(unwrapPayload(res));
+		} catch (error) {
+			if (!hasServerPayload(error)) {
+				return null;
+			}
+
+			return normalizeNotice(unwrapPayload(error));
 		}
 	}
 
-	/** 设置搜索参数 */
 	function setSearchParams(params: Partial<INoticeList>) {
 		searchParams.value = { ...searchParams.value, ...params };
 	}
 
-	/** 重置搜索参数 */
 	function resetSearchParams() {
 		searchParams.value = { title: "", pageSize: 10, pageNum: 1 };
 	}
