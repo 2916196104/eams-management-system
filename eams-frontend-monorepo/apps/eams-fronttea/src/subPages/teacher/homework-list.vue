@@ -124,10 +124,10 @@ async function loadHomework(nextPage = 1, append = false) {
 	try {
 		const response = await (Apis as any).homework.get_homework_list({
 			params: {
-				admin_id: userStore.teacherInfo.id,
+				teacher_id: userStore.teacherInfo.id,
 				class_id: selectedClassId.value,
-				page: nextPage,
-				size: pageSize,
+				pageIndex: nextPage,
+				pageSize,
 			},
 		});
 

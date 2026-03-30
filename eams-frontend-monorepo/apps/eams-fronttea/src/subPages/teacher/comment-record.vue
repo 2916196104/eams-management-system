@@ -12,16 +12,15 @@ definePage({
 
 interface TeacherCommentItem {
 	id?: string;
-	name?: string;
+	studentName?: string;
+	commentText?: string;
+	commentDate?: string;
 	score?: number;
 	isSign?: boolean;
-	evaluation?: string;
-	Operator?: string;
-	operationTime?: string;
-	teacherId?: number;
+	teacherId?: number | string;
 	teacherName?: string;
-	studentId?: number;
-	lessonId?: number;
+	studentId?: number | string;
+	lessonId?: number | string;
 	courseTitle?: string;
 }
 
@@ -49,15 +48,55 @@ const commentForm = reactive({
 
 const scoreOptions = [1, 2, 3, 4, 5];
 const hasMore = computed(() => pageIndex.value < pages.value);
+const hasReadonlyRows = computed(() => commentList.value.some((item) => !canComment(item)));
 
-function normalizeRows(data: any): Array<TeacherCommentItem> {
-	if (Array.isArray(data?.rows)) return data.rows;
-	if (Array.isArray(data?.data?.rows)) return data.data.rows;
-	return [];
+function normalizePage(source: any) {
+	const payload = source?.data?.data ?? source?.data ?? source ?? {};
+	const rows = Array.isArray(payload.rows)
+		? payload.rows
+		: Array.isArray(payload.list)
+			? payload.list
+			: Array.isArray(payload.records)
+				? payload.records
+				: Array.isArray(payload)
+					? payload
+					: [];
+
+	return {
+		pageIndex: Number(payload.pageIndex ?? payload.page ?? 1),
+		pages: Number(payload.pages ?? payload.total_page ?? 0),
+		total: Number(payload.total ?? rows.length),
+		rows: rows.map((item: any) => {
+			const scoreValue = Number(item.score);
+			return {
+				id: item.id ? String(item.id) : undefined,
+				studentName: item.studentName ?? item.name ?? "--",
+				commentText: item.commentText ?? item.evaluation ?? "",
+				commentDate: item.commentDate ?? item.operationTime ?? "",
+				score: Number.isFinite(scoreValue) ? scoreValue : undefined,
+				isSign: typeof item.isSign === "boolean" ? item.isSign : item.is_signed,
+				teacherId: item.teacherId,
+				teacherName: item.teacherName ?? item.Operator,
+				studentId: item.studentId,
+				lessonId: item.lessonId,
+				courseTitle: item.courseTitle,
+			} satisfies TeacherCommentItem;
+		}),
+	};
+}
+
+function canComment(item: TeacherCommentItem) {
+	return Boolean(item.id && item.studentId && item.lessonId);
 }
 
 function scoreClass(score?: number) {
 	if (typeof score !== "number") return "teacher-comment__score--empty";
+	if (score <= 5) {
+		if (score >= 5) return "teacher-comment__score--excellent";
+		if (score >= 4) return "teacher-comment__score--good";
+		if (score >= 3) return "teacher-comment__score--pass";
+		return "teacher-comment__score--warn";
+	}
 	if (score >= 90) return "teacher-comment__score--excellent";
 	if (score >= 80) return "teacher-comment__score--good";
 	if (score >= 60) return "teacher-comment__score--pass";
@@ -65,17 +104,27 @@ function scoreClass(score?: number) {
 }
 
 function scoreText(score?: number) {
-	return typeof score === "number" ? `${score}分` : "未评分";
+	if (typeof score !== "number") return "未评分";
+	return score <= 5 ? `${score}星` : `${score}分`;
 }
 
 function openCommentPopup(item: TeacherCommentItem) {
+	if (!canComment(item)) {
+		uni.showToast({ title: "当前记录缺少点评主键，只支持查看", icon: "none" });
+		return;
+	}
+
 	currentComment.value = item;
-	const baseScore = typeof item.score === "number" ? Math.min(Math.max(Math.round(item.score / 20), 1), 5) : 5;
+	const baseScore = typeof item.score === "number"
+		? item.score <= 5
+			? Math.min(Math.max(Math.round(item.score), 1), 5)
+			: Math.min(Math.max(Math.round(item.score / 20), 1), 5)
+		: 5;
 	commentForm.overallScore = baseScore;
 	commentForm.atmosphereScore = baseScore;
 	commentForm.attitudeScore = baseScore;
 	commentForm.effectScore = baseScore;
-	commentForm.content = item.evaluation || "";
+	commentForm.content = item.commentText || "";
 	popupVisible.value = true;
 }
 
@@ -85,23 +134,27 @@ function closeCommentPopup() {
 }
 
 async function loadComments(nextPage = 1, append = false) {
+	if (!teacherInfo.value.id) {
+		await userStore.loadCurrentUserInfo();
+	}
+
 	const targetLoading = append ? loadingMore : loading;
 	targetLoading.value = true;
 
 	try {
-		const res: any = await (Apis as any).course.get_course_record_comment_cs_comment_list({
+		const res: any = await (Apis as any).comment.get_comment_record({
 			params: {
+				teacherId: teacherInfo.value.id,
 				pageIndex: nextPage,
 				pageSize,
 			},
 		});
 
-		const pageData = res?.data || {};
-		const rows = normalizeRows(pageData);
-		pageIndex.value = Number(pageData.pageIndex || nextPage);
-		pages.value = Number(pageData.pages || 0);
-		total.value = Number(pageData.total || 0);
-		commentList.value = append ? [...commentList.value, ...rows] : rows;
+		const pageData = normalizePage(res);
+		pageIndex.value = pageData.pageIndex;
+		pages.value = pageData.pages;
+		total.value = pageData.total;
+		commentList.value = append ? [...commentList.value, ...pageData.rows] : pageData.rows;
 	} catch {
 		if (!append) commentList.value = [];
 		uni.showToast({ title: "点评记录加载失败", icon: "none" });
@@ -127,15 +180,17 @@ async function submitComment() {
 	try {
 		const teacherId = Number(teacherInfo.value.id);
 		const recordId = currentComment.value.id ? Number(currentComment.value.id) : undefined;
+		const studentId = Number(currentComment.value.studentId);
+		const lessonId = Number(currentComment.value.lessonId);
 
 		await (Apis as any).course.put_course_record_comment_comment_stu({
 			data: {
 				id: Number.isFinite(recordId) ? recordId : undefined,
 				teacherId: Number.isFinite(teacherId) ? teacherId : currentComment.value.teacherId,
-				teacherName: teacherInfo.value.name || currentComment.value.teacherName || currentComment.value.Operator,
-				studentId: currentComment.value.studentId,
-				studentName: currentComment.value.name,
-				lessonId: currentComment.value.lessonId,
+				teacherName: teacherInfo.value.name || currentComment.value.teacherName,
+				studentId: Number.isFinite(studentId) ? studentId : undefined,
+				studentName: currentComment.value.studentName,
+				lessonId: Number.isFinite(lessonId) ? lessonId : undefined,
 				courseTitle: currentComment.value.courseTitle,
 				overallScore: commentForm.overallScore,
 				atmosphereScore: commentForm.atmosphereScore,
@@ -169,12 +224,16 @@ onShow(() => {
 					<text>共 {{ total }} 条点评</text>
 				</view>
 
-				<view v-for="item in commentList" :key="item.id" class="teacher-comment">
+				<view v-if="hasReadonlyRows" class="teacher-comment-page__tip">
+					当前 c4 点评记录接口主要提供列表展示，缺少主键的记录将先只读展示。
+				</view>
+
+				<view v-for="item in commentList" :key="`${item.id ?? item.studentName}-${item.commentDate}`" class="teacher-comment">
 					<view class="teacher-comment__header">
 						<view>
-							<view class="teacher-comment__student">{{ item.name || "未命名学生" }}</view>
+							<view class="teacher-comment__student">{{ item.studentName || "未命名学员" }}</view>
 							<view class="teacher-comment__meta">
-								{{ item.Operator || "未设置点评人" }} · {{ item.operationTime || "暂无时间" }}
+								{{ item.commentDate || "暂无时间" }}
 							</view>
 						</view>
 						<view class="teacher-comment__score" :class="scoreClass(item.score)">
@@ -183,7 +242,7 @@ onShow(() => {
 					</view>
 
 					<view class="teacher-comment__tags">
-						<view class="teacher-comment__tag" :class="{ 'teacher-comment__tag--active': item.isSign }">
+						<view v-if="typeof item.isSign === 'boolean'" class="teacher-comment__tag" :class="{ 'teacher-comment__tag--active': item.isSign }">
 							{{ item.isSign ? "已签到" : "未签到" }}
 						</view>
 						<view v-if="item.courseTitle" class="teacher-comment__tag">
@@ -192,10 +251,10 @@ onShow(() => {
 					</view>
 
 					<view class="teacher-comment__body">
-						{{ item.evaluation || "暂无点评内容" }}
+						{{ item.commentText || "暂无点评内容" }}
 					</view>
 
-					<view class="teacher-comment__actions">
+					<view v-if="canComment(item)" class="teacher-comment__actions">
 						<wd-button size="small" plain @click="openCommentPopup(item)">去点评</wd-button>
 					</view>
 				</view>
@@ -211,7 +270,7 @@ onShow(() => {
 		<wd-popup v-model="popupVisible" position="bottom" custom-class="teacher-comment-popup">
 			<view class="teacher-comment-popup__body">
 				<view class="teacher-comment-popup__title">
-					点评{{ currentComment?.name || "学员" }}
+					点评 {{ currentComment?.studentName || "学员" }}
 				</view>
 
 				<view class="teacher-comment-popup__group">
@@ -313,6 +372,15 @@ onShow(() => {
 	padding: 0 2px;
 	font-size: 13px;
 	color: #8b95a7;
+}
+
+.teacher-comment-page__tip {
+	border-radius: 14px;
+	background: #fff7ed;
+	padding: 12px 14px;
+	font-size: 13px;
+	line-height: 1.7;
+	color: #f97316;
 }
 
 .teacher-comment {
