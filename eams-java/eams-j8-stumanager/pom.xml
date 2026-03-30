@@ -90,7 +90,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.zeroone.star.login.StudentApplication</mainClass>
+                    <mainClass>com.zeroone.star.stumanager.StumanagerApplication</mainClass>
                 </configuration>
             </plugin>
             <plugin>
