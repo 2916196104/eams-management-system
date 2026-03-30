@@ -11,6 +11,10 @@ import {
 	getNoticeListApi,
 	getMonthlyTrendApi,
 	getCourseTop5Api,
+	postMyClientApi,
+	postMyEnrollmentApi,
+	postPaymentApi,
+	getPaymentDetailApi,
 } from "@/apis/console";
 import { useUserStore } from "@/stores/user";
 const userStore = useUserStore();
@@ -356,7 +360,123 @@ export const useEchartsStore = defineStore("echarts", () => {
 		fetchCourseTop5,
 	};
 });
+export const useClientStore = defineStore("client", () => {
+	// 表格数据
+	const tableData = ref([]);
+	const total = ref(0);
+	const loading = ref(false);
 
+	// 查询条件
+	const query = ref({
+		name: "",
+		pageNum: 1,
+		pageSize: 10,
+	});
+
+	// 获取列表
+	const fetchList = async (query) => {
+		loading.value = true;
+		try {
+			const res = await postMyClientApi(query);
+			tableData.value = res.data.list || [];
+			total.value = res.data.total || 0;
+		} catch (err) {
+			console.error(err);
+		} finally {
+			loading.value = false;
+		}
+	};
+
+	return {
+		tableData,
+		total,
+		loading,
+		query,
+		fetchList,
+	};
+});
+export const useEnrollmentStore = defineStore("enrollment", () => {
+	// 表格数据
+	const tableData = ref([]);
+	const total = ref(0);
+	const loading = ref(false);
+
+	// 查询条件
+	const query = ref({
+		name: "",
+		pageIndex: 1,
+		pageSize: 10,
+	});
+
+	// 获取列表
+	const fetchList = async (query) => {
+		loading.value = true;
+		try {
+			const res = await postMyEnrollmentApi(query);
+			tableData.value = res.data.rows || [];
+			total.value = res.data.total || 0;
+		} catch (err) {
+			console.error(err);
+		} finally {
+			loading.value = false;
+		}
+	};
+
+	return {
+		tableData,
+		total,
+		loading,
+		query,
+		fetchList,
+	};
+});
+export const usePaymentStore = defineStore("payment", () => {
+	// 表格数据
+	const tableData = ref([]);
+	const total = ref(0);
+	const loading = ref(false);
+	const detail = ref({});
+	// 查询条件
+	const query = ref({
+		name: "",
+		pageNum: 1,
+		pageSize: 10,
+	});
+
+	// 获取列表
+	const fetchList = async (query) => {
+		loading.value = true;
+		try {
+			const res = await postPaymentApi(query);
+			tableData.value = res.data.rows || [];
+			total.value = res.data.total || 0;
+		} catch (err) {
+			console.error(err);
+		} finally {
+			loading.value = false;
+		}
+	};
+	// 获取请款详情
+	const fetchDetail = async (id) => {
+		try {
+			const res = await getPaymentDetailApi(id);
+			detail.value = res.data || {};
+			return detail.value;
+		} catch (err) {
+			console.error("获取请款详情失败", err);
+			detail.value = {};
+			return {};
+		}
+	};
+	return {
+		tableData,
+		total,
+		loading,
+		query,
+		fetchList,
+		fetchDetail,
+	};
+});
 /* 日期格式化 */
 function formatDate(date) {
 	if (!date) return "";

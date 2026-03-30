@@ -70,3 +70,31 @@ export const getCourseTop5Api = (params) => {
 		params,
 	});
 };
+
+/**
+ * 我的客户查询 - j1
+ */
+export const postMyClientApi = (params) => {
+	return http.post("/console/my-customer", params);
+};
+
+/**
+ * 我的报名查询 - j1
+ */
+export const postMyEnrollmentApi = (params) => {
+	return http.post("/console/my-enrollment", params);
+};
+
+/**
+ * 获取我的请款-j1
+ */
+export const postPaymentApi = (params) => {
+	return http.post("/console/my-payment", params);
+};
+
+/**
+ * 请款信息详情查询 - j6
+ */
+export const getPaymentDetailApi = (id) => {
+	return http.get(`/j6/finance/cashout/detail/${id}`);
+};
