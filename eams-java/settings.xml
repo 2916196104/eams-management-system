@@ -51,7 +51,7 @@ under the License.
    |
    | Default: ${user.home}/.m2/repository
   -->
-  <localRepository>C:\Users\19696\.m2\repository</localRepository>
+  <localRepository>D:\Maven\Repository</localRepository>
   
 
   <!-- interactiveMode
