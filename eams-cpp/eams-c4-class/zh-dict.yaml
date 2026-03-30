@@ -1,10 +1,10 @@
 ﻿class:
   tag: 班级
-  query-class-student-list:
+  queryClassStudentList:
     summary: 获取班级学员列表（分页）
-  query-class-student-detail:
+  queryClassStudentDetail:
     summary: 获取班级学员详情
-  query-class-student-course-list:
+  queryClassStudentCourseList:
     summary: 获取班级学员课程列表（分页）
   field:
     classId: 班级ID
@@ -57,7 +57,6 @@
 
 class1:
  summary: 获取班级详情
- detail.ID: 唯一标识ID
 
 Class:
   get:

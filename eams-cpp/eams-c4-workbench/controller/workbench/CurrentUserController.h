@@ -16,8 +16,8 @@ class CurrentUserController : public oatpp::web::server::api::ApiController
 {
 	API_ACCESS_DECLARE(CurrentUserController);
 public:
-	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("workbench-he.query-current-user-info.summary"), queryCurrentUserInfo, CurrentUserInfoJsonVO::Wrapper, API_TAG);
-	ENDPOINT(API_M_GET, "/c4/workbench/query-current-user-info", queryCurrentUserInfo, API_HANDLER_AUTH_PARAME) {
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("workbench-he.queryCurrentUserInfo.summary"), queryCurrentUserInfo, CurrentUserInfoJsonVO::Wrapper, API_TAG);
+	ENDPOINT(API_M_GET, "/c4/workbench/queryCurrentUserInfo", queryCurrentUserInfo, API_HANDLER_AUTH_PARAME) {
 		API_HANDLER_RESP_VO(execQueryCurrentUserInfo(authObject));
 	}
 

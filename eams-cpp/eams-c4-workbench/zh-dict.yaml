@@ -11,15 +11,12 @@ teacher:
   position_name: 教师职务名称
  query:
   summary: 获取教师列表
-
  tag: 排课
 class:
  field:
   id: 班级id
   name: 班级名
   grade: 年级id
-
-
  tag: 排课
  query:
   summary: 获取班级列表   
@@ -109,11 +106,9 @@ schedule:
   api:
     createRepeat: 创建重复排课
     createFree: 创建自由排课
-
     tag: 排课
 test:
   repeat: 重复排课创建成功  
-
   free: 自由排课创建成功
 customer:
  tags: 
@@ -200,14 +195,13 @@ StudentFile:
    
 workbench-he:
   tag: 用户相关
-  query-current-user-info:
+  queryCurrentUserInfo:
     summary: 获取当前用户信息
   current-user:
     field:
       id: 当前用户唯一标识
       username: 当前用户名
       authorities: 当前用户管理权限
-
 
 homework:
   tag: 作业

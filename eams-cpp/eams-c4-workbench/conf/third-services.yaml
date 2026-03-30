@@ -1,4 +1,4 @@
-rocket-mq:
+﻿rocket-mq:
   name-server: 192.168.80.128:9876
 fastdfs:
   charset: UTF-8
@@ -9,5 +9,5 @@ fastdfs:
   connection-pool-max-idle: 20
   connection-pool-max-total: 20
   connection-pool-min-idle: 2
-  nginx-servers: 192.168.80.128:8888
+  nginx-servers: localhost:8888
   tracker-servers: 192.168.80.128:22122
