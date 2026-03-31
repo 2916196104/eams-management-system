@@ -2,7 +2,6 @@ package com.zeroone.star.interact.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import lombok.Data;
 
 /**
@@ -25,6 +24,5 @@ public class Student {
     /**
      * 姓名
      */
-
     private String name;
 }

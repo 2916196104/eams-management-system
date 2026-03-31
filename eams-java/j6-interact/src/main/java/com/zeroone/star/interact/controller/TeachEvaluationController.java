@@ -17,7 +17,7 @@ import javax.annotation.Resource;
 
 @Validated
 @RestController
-@RequestMapping("j6/teachEvaluation")
+@RequestMapping("/j6-interact/teachEvaluation")
 @Api(tags = "学评教")
 public class TeachEvaluationController implements TeachEvaluationApis {
 

@@ -3,7 +3,6 @@ package com.zeroone.star.interact.controller;
 import cn.hutool.core.collection.CollUtil;
 import com.alibaba.excel.EasyExcel;
 import com.zeroone.star.interact.service.GradeFormService;
-import com.zeroone.star.project.components.easyexcel.EasyExcelComponent;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.interact.service.IGradeRecordService;
 import com.zeroone.star.project.dto.j6.interact.GradeListDTO;
@@ -24,15 +23,12 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("j6/grade")
+@RequestMapping("/j6-interact/grade")
 @Api(tags = "成绩单")
 public class GradeController implements GradeApis {
 
     @Resource
     private IGradeRecordService gradeRecordService;
-    @Resource
-    EasyExcelComponent easyExcelComponent;
-
     @Resource
     private GradeFormService gradeFormService;
 

@@ -28,7 +28,7 @@ import java.util.List;
  * @since 2026-03-16
  */
 @RestController
-@RequestMapping("/j6/homework")
+@RequestMapping("/j6-interact/homework")
 @Api(tags = "课后作业")
 public class HomeworkController implements HomeworkApis {
 
