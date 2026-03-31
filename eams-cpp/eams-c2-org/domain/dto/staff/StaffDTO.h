@@ -17,25 +17,25 @@ class StaffDTO : public oatpp::DTO {
     // 1. 主键&基础标识字段
     API_DTO_FIELD_DEFAULT(UInt64, id, "field.id");                // bigint → 不动
     API_DTO_FIELD_DEFAULT(UInt64, orgId, "field.orgId");         // bigint → 不动
-    API_DTO_FIELD_DEFAULT(Int8, deleted, "field.deleted");       // tinyint Int32 → Int8
-    API_DTO_FIELD_DEFAULT(Int8, isInner, "field.isInner");       // tinyint Int32 → Int8
+    API_DTO_FIELD_DEFAULT(Int32, deleted, "field.deleted");       // tinyint Int32 → Int8
+    API_DTO_FIELD_DEFAULT(Int32, isInner, "field.isInner");       // tinyint Int32 → Int8
 
     // 2. 核心业务字段（必展示）
     API_DTO_FIELD_DEFAULT(String, name, "field.name");
     API_DTO_FIELD_DEFAULT(String, mobile, "field.mobile");
     API_DTO_FIELD_DEFAULT(String, idCard, "field.idCard");
     API_DTO_FIELD_DEFAULT(String, headImg, "field.headImg");
-    API_DTO_FIELD_DEFAULT(Int8, state, "field.state");           // tinyint Int32 → Int8
+    API_DTO_FIELD_DEFAULT(Int32, state, "field.state");           // tinyint Int32 → Int8
 
     // 3. 基础信息字段（可选展示）
     API_DTO_FIELD_DEFAULT(UInt64, wxAccessId, "field.wxAccessId");// bigint → 不动
     API_DTO_FIELD_DEFAULT(String, email, "field.email");
     API_DTO_FIELD_DEFAULT(String, birthday, "field.birthday");
-    API_DTO_FIELD_DEFAULT(Int8, gender, "field.gender");         // tinyint Int32 → Int8
+    API_DTO_FIELD_DEFAULT(Int32, gender, "field.gender");         // tinyint Int32 → Int8
     API_DTO_FIELD_DEFAULT(String, school, "field.school");
-    API_DTO_FIELD_DEFAULT(Int8, degree, "field.degree");         // tinyint Int32 → Int8
+    API_DTO_FIELD_DEFAULT(Int32, degree, "field.degree");         // tinyint Int32 → Int8
     API_DTO_FIELD_DEFAULT(String, remark, "field.remark");
-    API_DTO_FIELD_DEFAULT(Int8, isManager, "field.isManager");   // tinyint Int32 → Int8
+    API_DTO_FIELD_DEFAULT(Int32, isManager, "field.isManager");   // tinyint Int32 → Int8
     API_DTO_FIELD_DEFAULT(String, hireDate, "field.hireDate");
     API_DTO_FIELD_DEFAULT(String, fireDate, "field.fireDate");
     API_DTO_FIELD_DEFAULT(String, intro, "field.intro");

@@ -17,6 +17,7 @@ class StaffBatchDeleteQuery : public DTO
 
     // 批量员工ID列表（核心字段）
     API_DTO_FIELD_DEFAULT(List<String>, staffIds, {});  // 默认空列表，避免空指针
+    //API_DTO_FIELD_DEFAULT(List<UInt64>, staffIds, "staffIds");
 };
 
 #include OATPP_CODEGEN_END(DTO)

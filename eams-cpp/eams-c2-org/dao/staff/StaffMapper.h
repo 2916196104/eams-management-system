@@ -4,7 +4,6 @@
 #include "Mapper.h"
 #include "domain/do/staff/StaffDO.h"
 
-// 员工结果集映射器：将ResultSet转换为PtrStaffDO
 class StaffMapper : public Mapper<PtrStaffDO>
 {
 public:
@@ -12,24 +11,22 @@ public:
 	{
 		PtrStaffDO staffDO = std::make_shared<StaffDO>();
 
-		// ====================== 方案二修改核心 ======================
-		// bigint unsigned 字段 → 使用 getUInt64 转为 uint64_t
+		// bigint unsigned
 		staffDO->setId(resultSet->getUInt64("id"));
 		staffDO->setWxAccessId(resultSet->getUInt64("wx_access_id"));
 		staffDO->setCreator(resultSet->getUInt64("creator"));
 		staffDO->setEditor(resultSet->getUInt64("editor"));
 		staffDO->setOrgId(resultSet->getUInt64("org_id"));
 
-		// tinyint 字段 → 强转 char
-		staffDO->setGender((char)resultSet->getInt("gender"));
-		staffDO->setDegree((char)resultSet->getInt("degree"));
-		staffDO->setState((char)resultSet->getInt("state"));
-		staffDO->setIsManager((char)resultSet->getInt("is_manager"));
-		staffDO->setDeleted((char)resultSet->getInt("deleted"));
-		staffDO->setIsInner((char)resultSet->getInt("is_inner"));
-		// ===========================================================
+		// tinyint → 直接用 getInt 赋值给 int 类型
+		staffDO->setGender(resultSet->getInt("gender"));
+		staffDO->setDegree(resultSet->getInt("degree"));
+		staffDO->setState(resultSet->getInt("state"));
+		staffDO->setIsManager(resultSet->getInt("is_manager"));
+		staffDO->setDeleted(resultSet->getInt("deleted"));
+		staffDO->setIsInner(resultSet->getInt("is_inner"));
 
-		// 字符串/日期/小数 保持不变
+		// 字符串/小数
 		staffDO->setName(resultSet->getString("name"));
 		staffDO->setIdCard(resultSet->getString("id_card"));
 		staffDO->setHeadImg(resultSet->getString("head_img"));

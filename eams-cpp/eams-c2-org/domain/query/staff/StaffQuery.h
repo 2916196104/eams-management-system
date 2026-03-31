@@ -15,6 +15,7 @@ class StaffQuery : public DTO
     DTO_INIT(StaffQuery, DTO);
 
     API_DTO_FIELD_DEFAULT(String, id, "id");
+    //API_DTO_FIELD_DEFAULT(List<UInt64>, staffIds, "staffIds");
 };
 
 #include OATPP_CODEGEN_END(DTO)

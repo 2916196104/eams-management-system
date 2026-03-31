@@ -33,7 +33,7 @@ DeleteResultJsonVO::Wrapper StaffController::execRemoveStaffByIds(const StaffBat
         return jvo;
     }
 
-    // 2. 调用Service层执行删除（修正方法名：batchDeleteStaff）
+    // 2. 调用Service层执行删除
     StaffService staffService;
     bool deleteSuccess = staffService.batchDeleteStaff(ids);
     // 执行数据删除
