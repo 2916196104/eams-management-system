@@ -21,7 +21,7 @@ import java.util.List;
  * 年级管理接口实现
  */
 @RestController
-@RequestMapping("/j6/eas/class_grade")
+@RequestMapping("/j6-eas/class_grade")
 @Api(tags = "年级管理")
 public class GradeManagerController implements GradeManagerApis {
 
