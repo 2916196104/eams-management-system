@@ -51,7 +51,7 @@ under the License.
    |
    | Default: ${user.home}/.m2/repository
   -->
-  <localRepository>D:\Maven\repository</localRepository>
+  <localRepository>E:\tool\maven\repository</localRepository>
 
 
   <!-- interactiveMode
