@@ -43,7 +43,7 @@ Router::Router(Endpoints* docEndpoints, HttpRouter* router)
 
 void Router::initRouter()
 {
-	//#TIP :系统扩展路由定义，写在这个后面
+
 	ROUTER_SIMPLE_BIND(GetCommonDatetime);
 	ROUTER_SIMPLE_BIND(Record_comment);
 	ROUTER_SIMPLE_BIND(Record_name);

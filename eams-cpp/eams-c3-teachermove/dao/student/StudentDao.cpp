@@ -62,7 +62,14 @@ std::list<StudentDO> StudentDAO::selectWithPage(const StudentQuery::Wrapper& que
 //     return sqlSession->executeQuery<StudentDO>(sql, StudentMapper(), "%s", name);
 // }
 
-
+StudentDO StudentDAO::selectById(std::string id)
+{
+	const std::string sql =
+		"SELECT s.name, IFNULL(u.mobile,''), s.gender FROM student s "
+		"LEFT JOIN `user` u ON s.user_id = u.id "
+		"WHERE s.id = ? AND s.deleted = 0 LIMIT 1";
+	return sqlSession->executeQueryOne<StudentDO>(sql, StudentMapper(), "%s", id);
+}
 
 // ========== 增删改方法 ==========
 

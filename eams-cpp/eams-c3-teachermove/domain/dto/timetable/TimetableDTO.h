@@ -17,7 +17,7 @@ class TimetableDTO : public oatpp::DTO
 class TimetableStudentDTO : public oatpp::DTO {
 	DTO_INIT(TimetableStudentDTO, DTO)
 
-		API_DTO_FIELD(String, id, ZH_WORDS_GETTER("timetable.dto.TimetableStudentDTO.studentID"), true, "10001")
+		API_DTO_FIELD(String, id, ZH_WORDS_GETTER("timetable.dto.TimetableStudentDTO.studentId"), true, "10001")
 		API_DTO_FIELD(String, name, ZH_WORDS_GETTER("timetable.dto.TimetableStudentDTO.studentName"), true, "111")
 		API_DTO_FIELD(String, phone, ZH_WORDS_GETTER("timetable.dto.TimetableStudentDTO.phone"), false, "15865842975")
 		API_DTO_FIELD(String, gender, ZH_WORDS_GETTER("timetable.dto.TimetableStudentDTO.gender"), false, "1")
@@ -115,8 +115,8 @@ class EvaluateDTO : public oatpp::DTO
 		info->description = ZH_WORDS_GETTER("evaluate.field.score");
 	}
 	// 是否签到
-	DTO_FIELD(Boolean, isSign);
-	DTO_FIELD_INFO(isSign) {
+	DTO_FIELD(String, sign_state);
+	DTO_FIELD_INFO(sign_state) {
 		info->description = ZH_WORDS_GETTER("evaluate.field.has_sign");
 	}
 	// 点评
@@ -124,7 +124,7 @@ class EvaluateDTO : public oatpp::DTO
 	DTO_FIELD_INFO(evaluation) {
 		info->description = ZH_WORDS_GETTER("evaluate.field.evaluation");
 	}
-	// 点评人
+
 	DTO_FIELD(String, Operator);
 	DTO_FIELD_INFO(Operator) {
 		info->description = ZH_WORDS_GETTER("evaluate.field.operator");
@@ -164,7 +164,7 @@ class EvaluationDTO : public oatpp::DTO {
 	// 评语
 	DTO_FIELD(String, evaluation);
 	DTO_FIELD_INFO(evaluation) {
-		info->description = ZH_WORDS_GETTER("evaluate.field.evalution");
+		info->description = ZH_WORDS_GETTER("evaluate.field.evaluation");
 	}
 };
 
@@ -174,13 +174,12 @@ class EvaluateRspDTO : public oatpp::DTO {
 	DTO_INIT(EvaluateRspDTO, oatpp::DTO);
 
 
-	// 定义信息的唯一id号
 	DTO_FIELD(String, id);
 	DTO_FIELD_INFO(id) {
 		info->description = ZH_WORDS_GETTER("evaluate.field.id");
 	}
 
-	// 定义错误码
+
 	DTO_FIELD(Int8, code);
 	DTO_FIELD_INFO(code) {
 		info->description = ZH_WORDS_GETTER("evaluate.response.code");
