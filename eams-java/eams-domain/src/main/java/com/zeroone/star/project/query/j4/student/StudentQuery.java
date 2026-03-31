@@ -29,6 +29,13 @@ public class StudentQuery extends PageQuery {
     @ApiModelProperty("电话")
     private String phone;
 
-    @ApiModelProperty("顾问ID")
+    @ApiModelProperty(value = "状态")
+    private String status;
+
+    @ApiModelProperty(value = "顾问ID")
     private String advisorId;
+
+    // 课程ID，用于筛选
+    private Long courseId;
+}
 }

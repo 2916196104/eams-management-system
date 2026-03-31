@@ -1,6 +1,7 @@
 package com.zeroone.star.student.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -129,4 +130,19 @@ public class StudentCourse implements Serializable {
      * 报名老师所属组织ID
      */
     private Long orgId;
+    // 数据库不存在，仅用于展示
+    @TableField(exist = false)
+    private String name;      // 学员姓名
+    @TableField(exist = false)
+    private String mobile;    // 家长手机号
+    @TableField(exist = false)
+    private String courseName;// 课程名称（来自 course.name）
+    @TableField(exist = false)
+    private Integer lessonCount;
+    @TableField(exist = false)
+    private Integer completeLessonCount;
+    @TableField(exist = false)
+    private Integer remainingLessonCount;
+    @TableField(exist = false)
+    private Integer decLessonCount;
 }

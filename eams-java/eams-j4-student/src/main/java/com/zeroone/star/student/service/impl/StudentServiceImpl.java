@@ -37,6 +37,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -62,6 +63,9 @@ import java.util.regex.Pattern;
 @Slf4j
 @Service
 public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> implements IStudentService {
+
+    @Resource
+    private StudentCourseMapper studentCourseMapper;
 
     @Resource
     private EasyExcelComponent easyExcelComponent;
@@ -743,5 +747,64 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     public StudentDTO getStudentDetail(Integer id) {
         // 直接返回查询到的数据，不进行 Result 包装
         return studentMapper.selectStudentDetail(id);
+    }
+
+    /**
+     * 保存学员
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean saveStudent(Student student) {
+        Assert.notNull(student, "学员信息不能为空");
+        Assert.hasText(student.getName(), "学员姓名不能为空");
+
+        // ===================== 强制补齐所有数据库必填字段 =====================
+        // 家长ID（必须有）
+        if (student.getUserId() == null) {
+            student.setUserId(1L);
+        }
+
+        // 家庭关系
+        if (student.getFamilyRel() == null) {
+            student.setFamilyRel(1);
+        }
+
+        // 默认家长查看
+        if (student.getAsDefault() == null) {
+            student.setAsDefault(true);
+        }
+
+        // 组织ID
+        if (student.getOrgId() == null) {
+            student.setOrgId(1L);
+        }
+
+        // 系统字段
+        student.setDeleted(0);
+        student.setAddTime(LocalDateTime.now());
+        student.setCreator(1L);
+        student.setEditor(1L);
+        student.setEditTime(LocalDateTime.now());
+
+        // ====================================================================
+
+        return save(student);
+    }
+    /**
+     * 获取学员课次数据
+     */
+    @Override
+    public List<StudentCourse> listCourseTimesByStudentId(Long studentId) {
+        Assert.notNull(studentId, "学员ID不能为空");
+        return studentCourseMapper.listCourseTimesByStudentId(studentId);
+    }
+    /**
+     * 获取课时汇总列表
+     */
+    @Override
+    public Page<StudentCourse> getLessonSummaryPage(Page<StudentCourse> page, StudentQuery query) {
+        Assert.notNull(page, "分页参数不能为空");
+        Assert.notNull(query, "查询条件不能为空");
+        return (Page<StudentCourse>) studentCourseMapper.getLessonSummaryPage(page, query);
     }
 }

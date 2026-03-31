@@ -1,5 +1,6 @@
 package com.zeroone.star.student.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j4.student.*;
@@ -9,6 +10,7 @@ import com.zeroone.star.project.query.j4.student.CourseQuery;
 import com.zeroone.star.project.query.j4.student.FollowUpQuery;
 import com.zeroone.star.project.query.j4.student.StudentQuery;
 import com.zeroone.star.student.entity.Student;
+import com.zeroone.star.student.entity.StudentCourse;
 import org.springframework.web.multipart.MultipartFile;
 import com.zeroone.star.project.vo.j4.student.FollowUpVO;
 
@@ -48,9 +50,32 @@ public interface IStudentService extends IService<Student> {
 
     /**
      * 导出在线学员
-     * @param outputStream
+     * @return
      */
-    void exportOnlineStudent(ServletOutputStream outputStream);
+    byte[] exportOnlineStudent();
+
+    /**
+     * 保存学员（带业务校验）
+     * @param student 学员实体
+     * @return 保存是否成功
+     */
+    boolean saveStudent(Student student);
+
+    /**
+     * 获取学员课次数据
+     * @param studentId 学员ID
+     * @return 学员签约/课次实体
+     */
+    List<StudentCourse> listCourseTimesByStudentId(Long studentId);
+
+    /**
+     * 课时汇总列表（条件+分页）
+     * 支持：学员ID、姓名、手机号查询
+     * @param page 分页对象
+     * @param query 查询条件
+     * @return 分页结果
+     */
+    Page<StudentCourse> getLessonSummaryPage(Page<StudentCourse> page, StudentQuery query);
 
     PageDTO<ResponseDTO> listall(StudentQuery condition);
 

@@ -178,5 +178,15 @@ public class Student implements Serializable {
      */
     private Integer gradeId;
 
+    @ApiModelProperty(value = "手机号")
+    private String mobile;       // 家长手机号
 
+    @ApiModelProperty(value = "家长姓名")
+    private String userName;     // 家长姓名
+
+    @ApiModelProperty(value = "来源")
+    private String source;       // 来源
+
+    @ApiModelProperty(value = "入学时间")
+    private LocalDateTime admissionTime; // 入学时间
 }

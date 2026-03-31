@@ -91,5 +91,7 @@ public class StudentDTO {
     @ApiModelProperty(value = "业务专用：关联课程ID", example = "1")
     private Long courseId;
 
+    @ApiModelProperty(value = "家长ID")
+    private Long userId;   // 必须加
 
 }

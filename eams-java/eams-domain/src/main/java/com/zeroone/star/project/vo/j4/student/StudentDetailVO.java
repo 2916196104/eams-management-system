@@ -38,4 +38,11 @@ public class StudentDetailVO {
 
     @ApiModelProperty(value = "实付金额", example = "1800.00")
     private BigDecimal paidAmount;
+
+    @ApiModelProperty(value = "课程名称", example = "钢琴入门课")
+    private String courseName;          // 新增：课程名称
+
+    @ApiModelProperty(value = "学习进度", example = "8/50")
+    private String progress;            // 格式：已完成/总数
+
 }
