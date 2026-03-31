@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/j6/ccf")
+@RequestMapping("/j6-ccf")
 @Api(tags = "销课课酬")
 public class ClassConsumptionFeeController implements ClassConsumptionFeeApis {
     @Autowired

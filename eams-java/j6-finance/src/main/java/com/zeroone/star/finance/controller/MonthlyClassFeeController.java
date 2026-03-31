@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/j6/mcf")
+@RequestMapping("/j6-mcf")
 @Api(tags = "月课时费")
 public class MonthlyClassFeeController implements MonthlyClassFeeApis {
 

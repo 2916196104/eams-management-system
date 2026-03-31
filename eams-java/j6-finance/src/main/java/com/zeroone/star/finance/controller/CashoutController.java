@@ -21,7 +21,7 @@ import javax.annotation.Resource;
  * 请款管理接口实现
  */
 @RestController
-@RequestMapping("/j6/finance/cashout")
+@RequestMapping("/j6-finance/cashout")
 @Api(tags = "请款管理")
 public class CashoutController implements CashoutApis {
 

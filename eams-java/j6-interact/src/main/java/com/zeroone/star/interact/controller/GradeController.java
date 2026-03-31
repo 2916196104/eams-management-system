@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("j6/grade")
+@RequestMapping("j6-grade")
 @Api(tags = "成绩单")
 public class GradeController implements GradeApis {
 

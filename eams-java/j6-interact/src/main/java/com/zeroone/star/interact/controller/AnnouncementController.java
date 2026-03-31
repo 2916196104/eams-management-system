@@ -27,7 +27,7 @@ import java.util.List;
  * @since 2026-03-28
  */
 @RestController
-@RequestMapping("/j6/interact/announcement")
+@RequestMapping("/j6-interact/announcement")
 @Api(tags = "公告管理")
 public class AnnouncementController implements AnnouncementApis {
 
