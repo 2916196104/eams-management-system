@@ -1,4 +1,4 @@
-﻿staff:
+staff:
   tag: 员工管理
   # 接口级中文描述（可选，对齐add-address的summary格式）
   query-all:
@@ -129,6 +129,7 @@ position:
       positionid: 该职位id
       scopetype: 数据权限范围类型
 
+
 institution:
   field:
     id: 机构编号 
@@ -165,3 +166,6 @@ institution:
     summary: 获取机构详情
   delete:
     summary: 删除机构
+
+# ɾ��ְλ�ӿ�����
+# position.delete.ids.description: "Ҫɾ����ְλID�б�"

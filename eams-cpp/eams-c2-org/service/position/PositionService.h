@@ -1,7 +1,7 @@
 #ifndef _POSITIONSERVICE_H_
 #define _POSITIONSERVICE_H_
 
-#include "../../domain/dto/postion/PositionDTO.h"
+#include "../../domain/dto/position/PositionDTO.h"
 
 class PositionService {
 
@@ -18,6 +18,7 @@ public:
                                     const oatpp::String &keyWord);
 
   int64_t savePosition(const PositionSaveRequestDTO::Wrapper &dto);
+  bool deletePositions(const std::vector<int64_t>& ids);
 };
 
 #endif

@@ -4,6 +4,7 @@
 #define _POSITIONDTODATA_H_
 
 #include "../../GlobalInclude.h"
+#include "PermissionDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
@@ -22,6 +23,9 @@ class PositionDataDTO : public oatpp::DTO
 	API_DTO_FIELD_REQUIRE(String, ownerOrgField, ZH_WORDS_GETTER("datapermission.psdto.ownerorgfield"), false);
 	API_DTO_FIELD_REQUIRE(Int64, position_Id, ZH_WORDS_GETTER("datapermission.psdto.positionid"), true);
 	API_DTO_FIELD_REQUIRE(Int8, scopeType, ZH_WORDS_GETTER("datapermission.psdto.scopetype"), false);
+	//DTO_FIELD(Int32, id);               // 职位ID
+	DTO_FIELD(String, name);             // 职位名称
+	DTO_FIELD(Vector<oatpp::Object<PermissionDTO>>, permissions);  // 权限列表
 };
 
 #include OATPP_CODEGEN_END(DTO)

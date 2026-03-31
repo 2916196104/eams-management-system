@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef _POSITIONDATA_CONTROLLER_ 
 #define _POSITIONDATA_CONTROLLER_ 
@@ -6,7 +6,7 @@
 #include "domain/vo/BaseJsonVO.h"
 #include "ApiHelper.h"
 #include "ServerInfo.h"
-#include "../../domain/dto/postion/PositionDataDTO.h"
+#include "../../domain/dto/position/PositionDataDTO.h"
 
 // 1 定义API控制器使用宏
 #include OATPP_CODEGEN_BEGIN(ApiController)
@@ -17,9 +17,9 @@
  */
 class PositionDataController : public oatpp::web::server::api::ApiController // 1 继承控制器
 {
-  // 2 定义控制器访问入口
-  API_ACCESS_DECLARE(PositionDataController);
-  // 3 定义接口
+	// 2 定义控制器访问入口
+	API_ACCESS_DECLARE(PositionDataController);
+	// 3 定义接口
 public:
 
 	// -01: 修改或者新增职位数据权限接口，只完成了新增的逻辑，修改的逻辑还需要完善；并且新增数据是还会报错

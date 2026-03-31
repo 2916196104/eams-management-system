@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "domain/dto/postion/PositionDataDTO.h"
+#include "domain/dto/position/PositionDataDTO.h"
 #include "id/SnowFlake.h"
 #include "dao/DataPermission/PermissionDAO.h"
 using namespace oatpp;
