@@ -1,4 +1,4 @@
-package com.zeroone.star.j5.appoint.DO;
+package com.zeroone.star.project.DO.j5.appoint;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

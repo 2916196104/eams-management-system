@@ -1,6 +1,5 @@
-package com.zeroone.star.j5.studentleave.VO;
+package com.zeroone.star.project.vo.j5.studentleave;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

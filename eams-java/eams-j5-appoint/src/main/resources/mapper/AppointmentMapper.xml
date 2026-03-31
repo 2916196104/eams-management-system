@@ -3,7 +3,7 @@
 <mapper namespace="com.zeroone.star.j5.appoint.mapper.AppointmentMapper">
 
     <select id="selectAppointmentInfoTimeInterval"
-            resultType="com.zeroone.star.j5.appoint.VO.AppointmentCalendarVO">
+            resultType="com.zeroone.star.project.vo.j5.appoint.AppointmentCalendarVO">
         select a.id, s.name as student_name, u.mobile, l.title as lesson_title,
                l.date, l.start_time, a.add_time as appoint_time, st.name as verify_staff, a.remark,
                case a.verify_state

@@ -1,4 +1,4 @@
-package com.zeroone.star.j5.appoint.VO;
+package com.zeroone.star.project.vo.j5.appoint;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

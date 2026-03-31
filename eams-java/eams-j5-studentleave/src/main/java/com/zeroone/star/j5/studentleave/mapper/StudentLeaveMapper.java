@@ -1,11 +1,9 @@
 package com.zeroone.star.j5.studentleave.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zeroone.star.j5.studentleave.DO.StudentLeaveDO;
-import com.zeroone.star.j5.studentleave.VO.StudentLeaveListVO;
-import com.zeroone.star.project.dto.j5.studentleave.StudentLeaveListDTO;
+import com.zeroone.star.project.DO.j5.studentleave.StudentLeaveDO;
+import com.zeroone.star.project.vo.j5.studentleave.StudentLeaveListVO;
 import com.zeroone.star.project.query.j5.studentleave.StudentLeaveQuery;
 import org.apache.ibatis.annotations.Mapper;
 

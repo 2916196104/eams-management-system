@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zeroone.star.j5.studentleave.mapper.StudentLeaveMapper">
 
-    <select id="selectPageStudentLeave" resultType="com.zeroone.star.j5.studentleave.VO.StudentLeaveListVO">
+    <select id="selectPageStudentLeave" resultType="com.zeroone.star.project.vo.j5.studentleave.StudentLeaveListVO">
 
         select sl.id, s.name as student_name, u.mobile, l.title as course,
                l.date, l.start_time, l.end_time, st.name as teacher_names, sl.reason, sl.add_time, sl.state as state_code,

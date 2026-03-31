@@ -1,16 +1,12 @@
 package com.zeroone.star.j5.appoint.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zeroone.star.j5.appoint.DO.AppointmentDO;
-import com.zeroone.star.j5.appoint.VO.AppointmentCalendarVO;
+import com.zeroone.star.project.DO.j5.appoint.AppointmentDO;
+import com.zeroone.star.project.vo.j5.appoint.AppointmentCalendarVO;
 import com.zeroone.star.j5.appoint.mapper.AppointmentMapper;
 import com.zeroone.star.j5.appoint.service.IAppointmentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j5.appoint.AppointmentCalendarDTO;
-import com.zeroone.star.project.dto.j5.studentleave.StudentLeaveListDTO;
 import com.zeroone.star.project.query.j5.appoint.AppointmentCalendarQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

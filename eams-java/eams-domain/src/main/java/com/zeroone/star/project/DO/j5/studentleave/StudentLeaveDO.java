@@ -1,4 +1,4 @@
-package com.zeroone.star.j5.studentleave.DO;
+package com.zeroone.star.project.DO.j5.studentleave;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
