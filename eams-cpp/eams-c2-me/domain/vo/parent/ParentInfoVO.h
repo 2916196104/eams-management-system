@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef _PARENT_VO_
-#define _PARENT_VO_
+#ifndef _PARENTINFO_VO_
+#define _PARENTINFO_VO_
 
 #include "../../GlobalInclude.h"
 #include "../../dto/parent/ParentDTO.h"
@@ -11,10 +11,10 @@
 /*
  * 显示JsonVO，用于响应给客户端的Json对象 
  */
-class ParentJsonVO : public JsonVO<ParentDTO::Wrapper> {
-  DTO_INIT(ParentJsonVO, JsonVO<ParentDTO::Wrapper>);
+class ParentInfoJsonVO : public JsonVO<ParentDTO::Wrapper> {
+  DTO_INIT(ParentInfoJsonVO, JsonVO<ParentDTO::Wrapper>);
 };
 
 #include OATPP_CODEGEN_END(DTO)
-#endif // !_PARENT_VO_
+#endif // !_PARENTINFO_VO_
 
