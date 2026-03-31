@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "ClassStudentDAO.h"
+#include "ClassStudentDao.h"
 #include "ClassStudentMapper.h"
 
 // 1. 查询总条数 (用于分页计算)

@@ -6,21 +6,21 @@
 #include "../../domain/query/backhomework/backhomeworkQuery.h"
 #include "../../domain/dto/backhomework/backhomeworkDTO.h"
 #include "../../domain/do/homework/HomeworkDO.h"
-#include "../../domain/do/homework/homeworkRecordDO.h"
+#include "../../domain/do/homework/HomeworkRecordDO.h"
 #include "../../dao/homework/HomeworkRecordDao.h"
 
 
 /**
- * Ê¾Àı·şÎñÊµÏÖ£¬ÑİÊ¾»ù´¡µÄÊ¾Àı·şÎñÊµÏÖ
+ * ç¤ºä¾‹æœåŠ¡å®ç°ï¼Œæ¼”ç¤ºåŸºç¡€çš„ç¤ºä¾‹æœåŠ¡å®ç°
  */
 class HomeworkService
 {
 public:
-	// »ñÈ¡×÷ÒµÁĞ±í£¬·ÖÒ³²éÑ¯
+	// è·å–ä½œä¸šåˆ—è¡¨ï¼Œåˆ†é¡µæŸ¥è¯¢
 	GetHomeworkListPageDTO::Wrapper gethomeworklist(const GetHomeworkListQuery::Wrapper& query);
-	// »ñÈ¡×÷ÒµÏêÇé
+	// è·å–ä½œä¸šè¯¦æƒ…
 	GetHomeworkDetailDTO::Wrapper gethomeworkdetail(int64_t id);
-	// ±£´æ×÷Òµ
+	// ä¿å­˜ä½œä¸š
 	bool saveHomework(const SaveHomeworkDTO::Wrapper& dto);
 };
 

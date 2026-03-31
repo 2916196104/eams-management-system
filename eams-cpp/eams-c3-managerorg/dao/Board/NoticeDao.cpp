@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "NoticeDAO.h"
+#include "NoticeDao.h"
 #include "NoticeMapper.h"
 #include "domain/query/BoardManager/BoardManagerQuery.h"
 

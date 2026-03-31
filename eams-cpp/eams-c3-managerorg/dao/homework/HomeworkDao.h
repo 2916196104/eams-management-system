@@ -1,9 +1,9 @@
 #ifndef _HOMEWORKDAO_H_
 #define _HOMEWORKDAO_H_
-#include "BaseDao.h"
+#include "BaseDAO.h"
 #include "domain/do/homework/HomeworkDO.h"
-#include "domain/dto/backhomework/BackHomeworkDTO.h"
-#include "domain/query/backhomework/backhomeworkquery.h"
+#include "domain/dto/backhomework/backhomeworkDTO.h"
+#include "domain/query/backhomework/backhomeworkQuery.h"
 
 
 //课后作业操作类

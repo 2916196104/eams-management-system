@@ -4,7 +4,7 @@
 
 #include "BaseDAO.h"
 #include "../../domain/do/homework/HomeworkRecordDO.h"
-#include "../../domain/query/backhomework/BackhomeworkQuery.h"
+#include "../../domain/query/backhomework/backhomeworkQuery.h"
 
 class HomeworkRecordDAO : public BaseDAO
 {

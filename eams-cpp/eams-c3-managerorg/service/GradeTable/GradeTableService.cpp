@@ -1,7 +1,7 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "GradeTableService.h"
 
-#include "dao/Grade/GradeDAO.h"
+#include "dao/Grade/GradeDao.h"
 #include "dao/Grade/GradeRecordDao.h"
 
 /* Delete List */

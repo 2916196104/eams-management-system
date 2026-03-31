@@ -1,4 +1,4 @@
-﻿{
+{
   "configurations": [
     {
       "name": "x64-Debug",
@@ -43,11 +43,11 @@
     },
     {
       "name": "Linux-GCC-Release",
-      "generator": "Ninja",
+      "generator": "Unix Makefiles",
       "configurationType": "RelWithDebInfo",
       "cmakeExecutable": "cmake",
       "remoteCopySourcesExclusionList": [ ".vs", ".git", "out", "imgs", "*.lib", "*.dll", "*.md", "*.bat" ],
-      "cmakeCommandArgs": "",
+      "cmakeCommandArgs": "-DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++",
       "buildCommandArgs": "",
       "ctestCommandArgs": "",
       "inheritEnvironments": [ "linux_x64" ],

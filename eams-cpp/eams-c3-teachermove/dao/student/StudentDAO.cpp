@@ -1,16 +1,16 @@
 #include "stdafx.h"
-#include "StudentDAO.h"
+#include "StudentDao.h"
 #include "StudentMapper.h"
 
 
-// ========== Ë½ÓĞ·½·¨£º²éÑ¯Ìõ¼ş¹¹½¨Æ÷ ==========
+// ========== ç§æœ‰æ–¹æ³•ï¼šæŸ¥è¯¢æ¡ä»¶æ„å»ºå™¨ ==========
 std::string StudentDAO::queryConditionBuilder(
     const StudentQuery::Wrapper& query, SqlParams& params)
 {
     stringstream sqlCondition;
     sqlCondition << " WHERE 1=1";
 
-    // ¸ù¾İ Query µÄ×Ö¶Î¶¯Ì¬Æ´½Ó WHERE Ìõ¼ş
+    // æ ¹æ® Query çš„å­—æ®µåŠ¨æ€æ‹¼æ¥ WHERE æ¡ä»¶
     if (query->name) {
         sqlCondition << " AND s.`name`=?";
         SQLPARAMS_PUSH(params, "s", std::string, query->name.getValue(""));
@@ -24,9 +24,9 @@ std::string StudentDAO::queryConditionBuilder(
     return sqlCondition.str();
 }
 
-// ========== ²éÑ¯·½·¨ ==========
+// ========== æŸ¥è¯¢æ–¹æ³• ==========
 
-// Í³¼ÆÊı¾İÌõÊı
+// ç»Ÿè®¡æ•°æ®æ¡æ•°
 uint64_t StudentDAO::count(const StudentQuery::Wrapper& query)
 {
     SqlParams params;
@@ -35,27 +35,27 @@ uint64_t StudentDAO::count(const StudentQuery::Wrapper& query)
     return sqlSession->executeQueryNumerical(sql, params);
 }
 
-// ·ÖÒ³²éÑ¯Êı¾İ
+// åˆ†é¡µæŸ¥è¯¢æ•°æ®
 std::list<StudentDO> StudentDAO::selectWithPage(const StudentQuery::Wrapper& query)
 {
     SqlParams params;
     string sql = "SELECT s.name, u.mobile, s.gender FROM student s INNER JOIN `user` u ON s.user_id = u.id";
 
-    // ¹¹½¨²éÑ¯Ìõ¼ş
+    // æ„å»ºæŸ¥è¯¢æ¡ä»¶
     sql += queryConditionBuilder(query, params);
 
-    // ¹¹½¨ÅÅĞòÓï¾ä
+    // æ„å»ºæ’åºè¯­å¥
     sql += " ORDER BY s.`id` DESC ";
 
-    // ¹¹½¨·ÖÒ³Ìõ¼ş
+    // æ„å»ºåˆ†é¡µæ¡ä»¶
     sql += " LIMIT " + std::to_string((query->pageIndex - 1) * query->pageSize)
         + "," + std::to_string(query->pageSize);
 
-    // Ö´ĞĞ²éÑ¯
+    // æ‰§è¡ŒæŸ¥è¯¢
     return sqlSession->executeQuery<StudentDO>(sql, StudentMapper(), params);
 }
 
-// // Í¨¹ıĞÕÃûÄ£ºı²éÑ¯
+// // é€šè¿‡å§“åæ¨¡ç³ŠæŸ¥è¯¢
 // std::list<StudentDO> StudentDAO::selectByName(const string& name)
 // {
 //     string sql = "SELECT id,name,sex,age FROM student WHERE `name` LIKE CONCAT('%',?,'%')";
@@ -64,30 +64,30 @@ std::list<StudentDO> StudentDAO::selectWithPage(const StudentQuery::Wrapper& que
 
 
 
-// ========== ÔöÉ¾¸Ä·½·¨ ==========
+// ========== å¢åˆ æ”¹æ–¹æ³• ==========
 
-// ²åÈëÊı¾İ
+// æ’å…¥æ•°æ®
 uint64_t StudentDAO::insert(const StudentDO& data)
 {
-    // Ê¹ÓÃ BaseDAO µÄÍ¨ÓÃ²åÈë·½·¨
+    // ä½¿ç”¨ BaseDAO çš„é€šç”¨æ’å…¥æ–¹æ³•
     return BaseDAO::insert(data);
 }
 
-// ÅúÁ¿²åÈëÊı¾İ
+// æ‰¹é‡æ’å…¥æ•°æ®
 uint64_t StudentDAO::insertBatch(const std::list<StudentDO>& datas)
 {
-    // Ê¹ÓÃ BaseDAO µÄÍ¨ÓÃÅúÁ¿²åÈë·½·¨
+    // ä½¿ç”¨ BaseDAO çš„é€šç”¨æ‰¹é‡æ’å…¥æ–¹æ³•
     return BaseDAO::insertBatch(datas);
 }
 
-// ¸üĞÂÊı¾İ
+// æ›´æ–°æ•°æ®
 uint64_t StudentDAO::update(const StudentDO& data)
 {
-    // Ê¹ÓÃ BaseDAO µÄÍ¨ÓÃ¸üĞÂ·½·¨
+    // ä½¿ç”¨ BaseDAO çš„é€šç”¨æ›´æ–°æ–¹æ³•
     return BaseDAO::update(data);
 }
 
-// Í¨¹ıIDÉ¾³ıÊı¾İ
+// é€šè¿‡IDåˆ é™¤æ•°æ®
 uint64_t StudentDAO::deleteById(const std::string& id)
 {
     string sql = "DELETE FROM sample WHERE `id`=?";

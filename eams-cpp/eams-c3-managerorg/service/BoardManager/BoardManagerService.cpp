@@ -46,7 +46,11 @@ oatpp::UInt64 BoardService::saveBoard(const BoardAddDTO::Wrapper& dto)
 		data.setEditTime(SimpleDateTimeFormat::format());
 		// 执行数据修改
 		NoticeDAO dao;
-		return dao.update(data) == 1 ? data.getId() : 0;
+		if (dao.update(data) == 1) {
+			return data.getId();
+		} else {
+			return oatpp::UInt64(static_cast<v_uint64>(0));
+		}
 	}
 	else
 	{
@@ -61,7 +65,11 @@ oatpp::UInt64 BoardService::saveBoard(const BoardAddDTO::Wrapper& dto)
 		data.setAddTime(SimpleDateTimeFormat::format());
 		// 执行数据添加
 		NoticeDAO dao;
-		return dao.insert(data) == 1 ? data.getId() : 0;
+		if (dao.insert(data) == 1) {
+			return data.getId();
+		} else {
+			return oatpp::UInt64(static_cast<v_uint64>(0));
+		}
 	}
 	
 
@@ -80,7 +88,7 @@ bool BoardService::updateData1(const oatpp::List<oatpp::String>& ids, const Boar
 		data.setEditTime(SimpleDateTimeFormat::format());
 		// 执行数据修改
 		NoticeDAO dao;
-		if (!(dao.update2(data) == 1 ? data.getId() : 0))
+		if ((dao.update2(data) != 1) || (data.getId() == 0))
 		{
 			return false;
 		}
@@ -101,7 +109,7 @@ bool BoardService::updateData2(const oatpp::List<oatpp::String>& ids, const Boar
 		data.setEditTime(SimpleDateTimeFormat::format());
 		// 执行数据修改
 		NoticeDAO dao;
-		if (!(dao.update1(data) == 1 ? data.getId() : 0))
+		if ((dao.update1(data) != 1) || (data.getId() == 0))
 		{
 			return false;
 		}

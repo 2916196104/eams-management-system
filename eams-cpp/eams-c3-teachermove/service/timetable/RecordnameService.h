@@ -27,7 +27,7 @@
 #include "domain/dto/timetable/TimetableDTO.h"
 #include "domain/vo/timetable/GetDetailCSVO.h"
 #include "domain/vo/timetable/GetStuListVO.h"
-#include "dao/class_student/ClassStudentDAO.h"
+#include "dao/class_student/ClassStudentDao.h"
 
 class RecordnameService
 {

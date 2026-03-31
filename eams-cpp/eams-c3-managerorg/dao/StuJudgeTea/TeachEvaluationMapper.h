@@ -5,9 +5,7 @@
 #include "Mapper.h"
 #include "domain/do/StuJudgeTea/TeachEvaluationDO.h"
 
-/**
- * ?¡ì????¡À¨ª¡Á???????????
- */
+
 class StuJudgeTeaMapper : public Mapper<PtrStuJudgeTeaDO>
 {
 public:
@@ -49,10 +47,10 @@ public:
 		data->setOrgId(resultSet->getUInt64("org_id"));
 		if (data->getOrgId() != 0)
 		{
-			PtrOrgDO or = std::make_shared<OrgDO>();
-			or->setId(data->getOrgId());
-			or->setName(resultSet->getString("org_name"));
-			data->setOrg(or);
+			PtrOrgDO org = std::make_shared<OrgDO>();
+			org->setId(data->getOrgId());
+			org->setName(resultSet->getString("org_name"));
+			data->setOrg(org);
 		}
 		return data;
 	}

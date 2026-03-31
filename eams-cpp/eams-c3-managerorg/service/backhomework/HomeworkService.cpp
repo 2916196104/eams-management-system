@@ -1,19 +1,19 @@
 
 #include "stdafx.h"
 #include "HomeworkService.h"
-#include "../../dao/homework/HomeworkRecordDAO.h"
-#include "../../dao/homework/HomeworkDAO.h"
+#include "../../dao/homework/HomeworkRecordDao.h"
+#include "../../dao/homework/HomeworkDao.h"
 #include "id/UuidFacade.h"
 #include "SimpleDateTimeFormat.h"
 
 GetHomeworkListPageDTO::Wrapper HomeworkService::gethomeworklist(const GetHomeworkListQuery::Wrapper& query)
 {
-	// ¹¹½¨·µ»Ø¶ÔÏó
+	// æ„å»ºè¿”å›å¯¹è±¡
 	auto pages = GetHomeworkListPageDTO::createShared();
 	pages->pageIndex = query->pageIndex;
 	pages->pageSize = query->pageSize;
 
-	// ²éÑ¯Êı¾İ×ÜÌõÊı
+	// æŸ¥è¯¢æ•°æ®æ€»æ¡æ•°
 	HomeworkDao dao;
 	uint64_t count = dao.count(query);
 	if (count <= 0)
@@ -21,11 +21,11 @@ GetHomeworkListPageDTO::Wrapper HomeworkService::gethomeworklist(const GetHomewo
 		return pages;
 	}
 
-	// ·ÖÒ³²éÑ¯Êı¾İ
+	// åˆ†é¡µæŸ¥è¯¢æ•°æ®
 	pages->total = count;
 	pages->calcPages();
-	list<HomeworkDO> result = dao.gethomeworklist(query);  //ÎŞÌõ¼şÊ±£¬MySQL_Prepared_ResultSet::getInt: invalid value of 'columnIndex'
-	// ½«DO×ª»»³ÉDTO
+	list<HomeworkDO> result = dao.gethomeworklist(query);  //æ— æ¡ä»¶æ—¶ï¼ŒMySQL_Prepared_ResultSet::getInt: invalid value of 'columnIndex'
+	// å°†DOè½¬æ¢æˆDTO
 	for (HomeworkDO& sub : result)
 	{
 		auto dto = GetHomeworkListDTO::createShared();
@@ -37,21 +37,21 @@ GetHomeworkListPageDTO::Wrapper HomeworkService::gethomeworklist(const GetHomewo
 
 GetHomeworkDetailDTO::Wrapper HomeworkService::gethomeworkdetail(int64_t id)
 {
-	// ²éÑ¯Êı¾İ
+	// æŸ¥è¯¢æ•°æ®
 	HomeworkDao dao;
 	auto res = dao.gethomeworkdetail(id);
 
-	// Ã»ÓĞ²éÑ¯µ½Êı¾İ
+	// æ²¡æœ‰æŸ¥è¯¢åˆ°æ•°æ®
 	if (!res)
 		return nullptr;
 
-	// ²éÑ¯µ½Êı¾İ×ª»»³ÉDTO
+	// æŸ¥è¯¢åˆ°æ•°æ®è½¬æ¢æˆDTO
 	auto dto = GetHomeworkDetailDTO::createShared();
 	ZO_STAR_DOMAIN_DO_TO_DTO_1(dto, res, classId, ClassId, title, Title, content,Content);
 	return dto;
 }
 
-//ÓÃÓÚÉú³ÉËæ»úÊı£¬ÔİÊ±ÓÃÕâ¸ö£¬ºóĞø¿ÉÒÔ¸Ä³ÉÑ©»¨Ëã·¨Éú³ÉµÄid
+//ç”¨äºç”Ÿæˆéšæœºæ•°ï¼Œæš‚æ—¶ç”¨è¿™ä¸ªï¼Œåç»­å¯ä»¥æ”¹æˆé›ªèŠ±ç®—æ³•ç”Ÿæˆçš„id
 int getRandomRange(int min, int max) {
 	static bool flag = false;
 	if (!flag) {
@@ -61,45 +61,45 @@ int getRandomRange(int min, int max) {
 	return min + rand() % (max - min + 1);
 }
 
-//±£´æ×÷Òµ--ĞŞ¸Ä/ĞÂÔö×÷Òµ
+//ä¿å­˜ä½œä¸š--ä¿®æ”¹/æ–°å¢ä½œä¸š
 bool HomeworkService::saveHomework(const SaveHomeworkDTO::Wrapper& dto)
 {
-	if (dto->id) {   //Èç¹ûid´æÔÚ£¬ËµÃ÷ÊÇĞŞ¸Ä×÷Òµ
-		// ×é×°DOÊı¾İ
+	if (dto->id) {   //å¦‚æœidå­˜åœ¨ï¼Œè¯´æ˜æ˜¯ä¿®æ”¹ä½œä¸š
+		// ç»„è£…DOæ•°æ®
 		HomeworkDO data;
 		ZO_STAR_DOMAIN_DTO_TO_DO(data, dto,Id, id , ClassId, classId,Title, title, Content, content,Editor, editor);
 		
 		HomeworkRecordDO homeworkrecord_data;
 		ZO_STAR_DOMAIN_DTO_TO_DO(homeworkrecord_data, dto, Id,id,Content, content);
-		// ÉèÖÃĞŞ¸ÄÊ±¼ä
-		data.setEditTime(SimpleDateTimeFormat::format()); //Ö»ÓÃ¸øhomework±íÉèÖÃĞŞ¸ÄÊ±¼ä£¬homework_record±í²»ĞèÒªĞŞ¸ÄÊ±¼ä
-		// Ö´ĞĞÊı¾İĞŞ¸Ä
-		// ²éÑ¯Êı¾İÊÇ·ñ´æÔÚ£¿
+		// è®¾ç½®ä¿®æ”¹æ—¶é—´
+		data.setEditTime(SimpleDateTimeFormat::format()); //åªç”¨ç»™homeworkè¡¨è®¾ç½®ä¿®æ”¹æ—¶é—´ï¼Œhomework_recordè¡¨ä¸éœ€è¦ä¿®æ”¹æ—¶é—´
+		// æ‰§è¡Œæ•°æ®ä¿®æ”¹
+		// æŸ¥è¯¢æ•°æ®æ˜¯å¦å­˜åœ¨ï¼Ÿ
 		HomeworkDao dao;
 		HomeworkRecordDAO record_dao;
 		
 		return dao.update(data) && record_dao.update(homeworkrecord_data);
 	}
-	else {       //Èç¹ûid²»´æÔÚ£¬ËµÃ÷ÊÇĞÂÔö×÷Òµ
-		// ×é×°homework±íµÄDOÊı¾İ,Òª¸ø°à¼¶id£¬×÷Òµ±êÌâ£¬×÷ÒµÄÚÈİ£¬´´½¨ÈË
+	else {       //å¦‚æœidä¸å­˜åœ¨ï¼Œè¯´æ˜æ˜¯æ–°å¢ä½œä¸š
+		// ç»„è£…homeworkè¡¨çš„DOæ•°æ®,è¦ç»™ç­çº§idï¼Œä½œä¸šæ ‡é¢˜ï¼Œä½œä¸šå†…å®¹ï¼Œåˆ›å»ºäºº
 		HomeworkDO homework_data;
 		ZO_STAR_DOMAIN_DTO_TO_DO(homework_data, dto, ClassId, classId, Title, title,  Content, content, Creator, creator);
-		//×é×°homework_record±íµÄDOÊı¾İ£¬Òª¸øÑ§Éúid£¬ÄÚÈİ
+		//ç»„è£…homework_recordè¡¨çš„DOæ•°æ®ï¼Œè¦ç»™å­¦ç”Ÿidï¼Œå†…å®¹
 		HomeworkRecordDO homeworkrecord_data;
 		ZO_STAR_DOMAIN_DTO_TO_DO(homeworkrecord_data, dto,StudentId,studentid,Content,content);
 		
-		// Éú³ÉID£¬sampleÖĞµÄidÊÇstringÀàĞÍ£¬µ«ÊÇhomeworkµÄidÊÇint64ÀàĞÍµÄ£¬µ«ÊÇĞ´homeworkDOµÄÈË¸øID¶¨ÒåÎªint
+		// ç”ŸæˆIDï¼Œsampleä¸­çš„idæ˜¯stringç±»å‹ï¼Œä½†æ˜¯homeworkçš„idæ˜¯int64ç±»å‹çš„ï¼Œä½†æ˜¯å†™homeworkDOçš„äººç»™IDå®šä¹‰ä¸ºint
 		//UuidFacade uf;
 		//data.setId(uf.genUuid());
-		// ÎÒÕâÊÇÓÃËæ»úÉú³ÉµÄintËÄ×Ö½ÚµÄid£¬ºóĞø¿ÉÒÔ¸Ä³ÉÑ©»¨Ëã·¨Éú³ÉµÄid
-		int id = getRandomRange(1, 2147483647);  //·Ö±ğ¸øhomework±íºÍhomework_record±í¸³Öµid
+		// æˆ‘è¿™æ˜¯ç”¨éšæœºç”Ÿæˆçš„intå››å­—èŠ‚çš„idï¼Œåç»­å¯ä»¥æ”¹æˆé›ªèŠ±ç®—æ³•ç”Ÿæˆçš„id
+		int id = getRandomRange(1, 2147483647);  //åˆ†åˆ«ç»™homeworkè¡¨å’Œhomework_recordè¡¨èµ‹å€¼id
 		homework_data.setId(id);
 		homeworkrecord_data.setId(id);
-		// ÉèÖÃ´´½¨Ê±¼ä
-		string add_time = SimpleDateTimeFormat::format(); //·Ö±ğ¸øhomework±íºÍhomework_record±í¸³Öµ´´½¨Ê±¼ä
+		// è®¾ç½®åˆ›å»ºæ—¶é—´
+		string add_time = SimpleDateTimeFormat::format(); //åˆ†åˆ«ç»™homeworkè¡¨å’Œhomework_recordè¡¨èµ‹å€¼åˆ›å»ºæ—¶é—´
 		homework_data.setAddTime(add_time);
 		homeworkrecord_data.setAddTime(add_time);
-		// Ö´ĞĞÊı¾İÌí¼Ó,
+		// æ‰§è¡Œæ•°æ®æ·»åŠ ,
 		HomeworkDao dao;
 		HomeworkRecordDAO record_dao;
 

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "HomeworkRecordDAO.h"
+#include "HomeworkRecordDao.h"
 #include "HomeworkRecordMapper.h"
 
 // 分页查询作业提交记录
