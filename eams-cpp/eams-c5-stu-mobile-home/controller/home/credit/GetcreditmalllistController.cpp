@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "GetCreditMallListController.h"
+#include "GetcreditmalllistController.h"
 #include "service/home/credit/GetCreditMallListService.h"
 
 

@@ -30,7 +30,7 @@
 #include "controller/schedule/AppointmentController.h"
 #include "home/homework/HomeworkController.h"
 #include"home/class/ClassStudentController.h"
-#include "home/credit/GetCreditMallListController.h"
+#include "home/credit/GetcreditmalllistController.h"
 
 
 // 如果定义了关闭Swagger文档宏

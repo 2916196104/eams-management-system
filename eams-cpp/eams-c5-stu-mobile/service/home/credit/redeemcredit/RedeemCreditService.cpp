@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #include "SimpleDateTimeFormat.h"
 #include "dao/home/credit/redeemcredit/RedeemCreditDAO.h"
-#include "id/snowFlake.h"
+#include "id/SnowFlake.h"
 
 
 std::string RedeemCreditService::saveData(const RedeemCreditDTO::Wrapper& dto)
