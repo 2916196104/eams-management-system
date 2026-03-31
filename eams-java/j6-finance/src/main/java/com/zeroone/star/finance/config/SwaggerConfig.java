@@ -19,6 +19,7 @@ public class SwaggerConfig {
         return SwaggerCore.defaultDocketBuilder(
             "财务管理模块",
             "com.zeroone.star.finance.controller",
+
             "finance"
         );
     }

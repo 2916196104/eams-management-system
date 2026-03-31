@@ -18,14 +18,13 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.List;
 
 /**
  * 款项管理Controller
  */
 @RestController
-@RequestMapping("/j6/finance/fund")
+@RequestMapping("/j6-finance/fund")
 @Api(tags = "款项管理")
 public class FundManageController implements FundManageApis {
 
