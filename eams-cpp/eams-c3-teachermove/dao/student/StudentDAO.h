@@ -8,7 +8,7 @@
 #include "../../domain/query/student/StudentQuery.h"
 
 /**
- * Ê¾Àý±íÊý¾Ý¿â²Ù×÷ÊµÏÖ
+ * Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½
  */
 class StudentDAO : public BaseDAO
 {
@@ -17,37 +17,37 @@ private:
     // Method:      queryConditionBuilder
     // FullName:    StudentDAO::queryConditionBuilder
     // Access:      private 
-    // Returns:     std::string ·µ»ØÌõ¼þSQLÓï¾ä£¬¼´WHERE²¿·ÖµÄÓï¾ä
-    // Parameter:   const StudentQuery::Wrapper& query ²éÑ¯Êý¾Ý¶ÔÏó
-    // Parameter:   SqlParams& params ´æ·Å²éÑ¯Êý¾ÝµÄ²ÎÊý¶ÔÏó
-    // Description: ²éÑ¯Ìõ¼þ¹¹½¨Æ÷£¬¸ù¾ÝStudentQuery¶ÔÏó¶¯Ì¬¹¹½¨²éÑ¯Ìõ¼þÏà¹Ø²ÎÊý
+    // Returns:     std::string ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SQLï¿½ï¿½ä£¬ï¿½ï¿½WHEREï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½
+    // Parameter:   const StudentQuery::Wrapper& query ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ý¶ï¿½ï¿½ï¿½
+    // Parameter:   SqlParams& params ï¿½ï¿½Å²ï¿½Ñ¯ï¿½ï¿½ï¿½ÝµÄ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    // Description: ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½StudentQueryï¿½ï¿½ï¿½ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½
     //************************************
     inline std::string queryConditionBuilder(
         const StudentQuery::Wrapper& query, SqlParams& params);
 
 public:
-    // Í³¼ÆÊý¾ÝÌõÊý
+    // Í³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     uint64_t count(const StudentQuery::Wrapper& query);
 
-    // ·ÖÒ³²éÑ¯Êý¾Ý
+    // ï¿½ï¿½Ò³ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
     std::list<StudentDO> selectWithPage(const StudentQuery::Wrapper& query);
 
-    // Í¨¹ýÐÕÃû²éÑ¯Êý¾Ý
+    // Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
     // std::list<StudentDO> selectByName(const string& name);
 
-    // Í¨¹ýID²éÑ¯Êý¾Ý
+    // Í¨ï¿½ï¿½IDï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
     StudentDO selectById(std::string id);
 
-    // ²åÈëÊý¾Ý
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     uint64_t insert(const StudentDO& data);
 
-    // ÅúÁ¿²åÈëÊý¾Ý
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     uint64_t insertBatch(const std::list<StudentDO>& datas);
 
-    // ¸üÐÂÊý¾Ý
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     uint64_t update(const StudentDO& data);
 
-    // Í¨¹ýIDÉ¾³ýÊý¾Ý
+    // Í¨ï¿½ï¿½IDÉ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     uint64_t deleteById(const std::string& id);
 };
 
