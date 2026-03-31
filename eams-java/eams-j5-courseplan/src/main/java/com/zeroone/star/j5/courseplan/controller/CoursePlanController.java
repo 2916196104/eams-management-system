@@ -114,13 +114,14 @@ public class CoursePlanController implements CoursePlanApi {
     @Override
     @PostMapping("/batch-generate")
     @ApiOperation(
-        value = "批量生成课表",
-        notes = "根据排课计划批量生成课表数据，包括课次、教师关联、学生关联等。支持排除节假日、覆盖已生成课表等功能。"
+            value = "批量生成课表",
+            notes = "根据排课计划批量生成课表数据，包括课次、教师关联、学生关联等。支持排除节假日、覆盖已生成课表等功能。"
     )
     @ApiOperationSupport(order = 1, author = "j5-courseschedule")
     public JsonVO<BatchGenerateLessonVO> batchGenerateLessons(
             @Valid @RequestBody BatchGenerateLessonDTO dto) {
-        return null;
+        BatchGenerateLessonVO result = coursePlanService.batchGenerateLessons(dto);
+        return JsonVO.success(result);
     }
 
     /**
@@ -130,13 +131,14 @@ public class CoursePlanController implements CoursePlanApi {
     @Override
     @PostMapping("/conflict-check")
     @ApiOperation(
-        value = "冲突检查",
-        notes = "检查排课计划是否存在教师时间冲突、教室占用冲突等问题。支持按教师、教室或全部类型进行检查。"
+            value = "冲突检查",
+            notes = "检查排课计划是否存在教师时间冲突、教室占用冲突等问题。支持按教师、教室或全部类型进行检查。"
     )
     @ApiOperationSupport(order = 2, author = "j5-courseschedule")
     public JsonVO<ConflictCheckVO> checkConflict(
             @Valid @RequestBody ConflictCheckDTO dto) {
-        return null;
+        ConflictCheckVO result = coursePlanService.checkConflict(dto);
+        return JsonVO.success(result);
     }
 
     /**
@@ -146,13 +148,13 @@ public class CoursePlanController implements CoursePlanApi {
     @Override
     @DeleteMapping("/delete-lessons")
     @ApiOperation(
-        value = "删除已生成课表",
-        notes = "删除指定排课计划生成的课表数据，包括课次、教师关联、学生关联。支持强制删除已签到的课次。"
+            value = "删除已生成课表",
+            notes = "删除指定排课计划生成的课表数据，包括课次、教师关联、学生关联。支持强制删除已签到的课次。"
     )
     @ApiOperationSupport(order = 3, author = "j5-courseschedule")
     public JsonVO<DeleteLessonResultVO> deleteLessons(
             @Valid @RequestBody DeleteLessonDTO dto) {
-        // 模拟返回测试数据
-        return null;
+        DeleteLessonResultVO result = coursePlanService.deleteLessons(dto);
+        return JsonVO.success(result);
     }
 }

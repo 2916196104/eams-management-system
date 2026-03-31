@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zeroone.star.education.mapper.StaffMapper">
+<mapper namespace="com.zeroone.star.j5.courseplan.mapper.StaffMapper">
     <select id="getListByTeacherName" resultType="com.zeroone.star.project.vo.j5.courseplan.TeacherOptionVO">
         SELECT
         s.id AS id,
