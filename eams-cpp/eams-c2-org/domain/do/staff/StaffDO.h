@@ -11,10 +11,10 @@
 class StaffDO : public BaseDO
 {
 	// 基础信息
-	MYSQL_SYNTHESIZE(string, id, Id);          // 主键ID
+	MYSQL_SYNTHESIZE(uint64_t, id, Id);          // 主键ID
 	MYSQL_SYNTHESIZE(string, name, Name);      // 姓名
 	MYSQL_SYNTHESIZE(string, mobile, Mobile);  // 手机号
-	MYSQL_SYNTHESIZE(string, wxAccessId, WxAccessId); // 微信登录ID
+	MYSQL_SYNTHESIZE(uint64_t, wxAccessId, WxAccessId); // 微信登录ID
 	MYSQL_SYNTHESIZE(string, email, Email);    // 邮箱
 	MYSQL_SYNTHESIZE(string, birthday, Birthday); // 生日
 	MYSQL_SYNTHESIZE(int, gender, Gender);     // 性别
@@ -32,15 +32,15 @@ class StaffDO : public BaseDO
 	// 系统字段
 	MYSQL_SYNTHESIZE(string, addTime, AddTime); // 创建时间
 	MYSQL_SYNTHESIZE(string, editTime, EditTime); // 编辑时间
-	MYSQL_SYNTHESIZE(string, creator, Creator); // 创建人
-	MYSQL_SYNTHESIZE(string, editor, Editor);   // 编辑人
+	MYSQL_SYNTHESIZE(uint64_t, creator, Creator); // 创建人
+	MYSQL_SYNTHESIZE(uint64_t, editor, Editor);   // 编辑人
 	MYSQL_SYNTHESIZE(int, deleted, Deleted);    // 逻辑删除标记
 
 	// 其他字段
 	MYSQL_SYNTHESIZE(string, password, Password); // 密码
 	MYSQL_SYNTHESIZE(double, classFee, ClassFee); // 课时费
 	MYSQL_SYNTHESIZE(double, assistantFee, AssistantFee); // 助教费
-	MYSQL_SYNTHESIZE(string, orgId, OrgId);     // 所属组织ID
+	MYSQL_SYNTHESIZE(uint64_t, orgId, OrgId);     // 所属组织ID
 	MYSQL_SYNTHESIZE(int, isInner, IsInner);    // 是否内部人员
 
 public:
@@ -48,11 +48,11 @@ public:
 	StaffDO() : BaseDO("staff")
 	{
 		// 主键
-		MYSQL_ADD_FIELD_PK("id", "s", id);
+		MYSQL_ADD_FIELD_PK("id", "q", id);
 		// 基础信息字段映射
 		MYSQL_ADD_FIELD("name", "s", name);
 		MYSQL_ADD_FIELD("mobile", "s", mobile);
-		MYSQL_ADD_FIELD("wx_access_id", "s", wxAccessId);
+		MYSQL_ADD_FIELD("wx_access_id", "q", wxAccessId);
 		MYSQL_ADD_FIELD("email", "s", email);
 		MYSQL_ADD_FIELD("birthday", "s", birthday);
 		MYSQL_ADD_FIELD("gender", "i", gender);
@@ -69,14 +69,14 @@ public:
 		// 系统字段
 		MYSQL_ADD_FIELD("add_time", "s", addTime);
 		MYSQL_ADD_FIELD("edit_time", "s", editTime);
-		MYSQL_ADD_FIELD("creator", "s", creator);
-		MYSQL_ADD_FIELD("editor", "s", editor);
+		MYSQL_ADD_FIELD("creator", "q", creator);
+		MYSQL_ADD_FIELD("editor", "q", editor);
 		MYSQL_ADD_FIELD("deleted", "i", deleted);
 		// 其他字段
 		MYSQL_ADD_FIELD("password", "s", password);
 		MYSQL_ADD_FIELD("class_fee", "d", classFee);
 		MYSQL_ADD_FIELD("assistant_fee", "d", assistantFee);
-		MYSQL_ADD_FIELD("org_id", "s", orgId);
+		MYSQL_ADD_FIELD("org_id", "q", orgId);
 		MYSQL_ADD_FIELD("is_inner", "i", isInner);
 	}
 };
