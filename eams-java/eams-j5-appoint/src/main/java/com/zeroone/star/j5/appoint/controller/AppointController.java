@@ -1,16 +1,19 @@
 package com.zeroone.star.j5.appoint.controller;
 
+import com.zeroone.star.j5.appoint.service.IAppointmentService;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j5.appoint.AppointmentDTO;
 import com.zeroone.star.project.j5.appoint.AppointmentApis;
 import com.zeroone.star.project.query.j5.appoint.AppointmentCalendarQuery;
 import com.zeroone.star.project.query.j5.appoint.AppointmentQuery;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.vo.j5.appoint.AppointmentCalendarVO;
+import com.zeroone.star.project.dto.j5.appoint.AppointmentCalendarDTO;
 import com.zeroone.star.project.vo.j5.appoint.AppointmentDetailVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,11 +32,14 @@ import java.util.List;
 @Api(tags = "预约管理")
 public class AppointController implements AppointmentApis {
 
+    @Autowired
+    private IAppointmentService appointmentService;
+
     @Override
     @ApiOperation("获取预约日历（条件）")
-    @GetMapping("/j5/calendar")
-    public JsonVO<List<AppointmentCalendarVO>> queryAppointmentCalendar(AppointmentCalendarQuery appointmentCalendarQuery) {
-        return null;
+    @GetMapping("/calendar")
+    public JsonVO<List<AppointmentCalendarDTO>> queryAppointmentCalendar(@Validated AppointmentCalendarQuery appointmentCalendarQuery) {
+        return JsonVO.success(appointmentService.listAppointmentCalendar(appointmentCalendarQuery));
     }
 
     @GetMapping("/list")
