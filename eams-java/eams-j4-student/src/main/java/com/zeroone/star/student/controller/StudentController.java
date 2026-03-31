@@ -474,8 +474,8 @@ public class StudentController implements StudentApis {
         // 只保留 courseId 生效
         // 其他条件全部置为 null，让 SQL 不拼接它们
 
-        long pageIndex = query.getPageIndex() != null ? query.getPageIndex() : 1;
-        long pageSize = query.getPageSize() != null ? query.getPageSize() : 10;
+        long pageIndex = query.getPageIndex();
+        long pageSize = query.getPageSize();
         Page<StudentCourse> page = new Page<>(pageIndex, pageSize);
 
         Page<StudentCourse> result = studentService.getLessonSummaryPage(page, query);

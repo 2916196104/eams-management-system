@@ -52,7 +52,7 @@ public interface IStudentService extends IService<Student> {
      * 导出在线学员
      * @return
      */
-    byte[] exportOnlineStudent();
+    byte[] exportOnlineStudent(ServletOutputStream outputStream);
 
     /**
      * 保存学员（带业务校验）

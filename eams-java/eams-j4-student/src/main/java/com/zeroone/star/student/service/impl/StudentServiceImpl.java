@@ -44,9 +44,7 @@ import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -474,16 +472,19 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
 
     /**
      * 导出在线学员
+     *
      * @param outputStream
+     * @return
      */
     @Override
-    public void exportOnlineStudent(ServletOutputStream outputStream) {
+    public byte[] exportOnlineStudent(ServletOutputStream outputStream) {
         List<StudentExportExcelVO> exportData = this.baseMapper.selectOnlineStudentExportData();
 
         // 将装配好的 VO 列表使用 EasyExcel 写入输出流
         EasyExcel.write(outputStream, StudentExportExcelVO.class)
                 .sheet("在线学员")
                 .doWrite(exportData);
+        return null;
     }
 
     @Override

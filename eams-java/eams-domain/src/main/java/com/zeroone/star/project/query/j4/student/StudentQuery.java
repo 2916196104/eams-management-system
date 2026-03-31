@@ -38,4 +38,3 @@ public class StudentQuery extends PageQuery {
     // 课程ID，用于筛选
     private Long courseId;
 }
-}
