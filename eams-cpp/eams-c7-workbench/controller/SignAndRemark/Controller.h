@@ -10,7 +10,7 @@
 #include "domain/vo/SignAndRemark/SignVO.h"
 #include "domain/query/homework/HomeworkQuery.h"
 #include "domain/dto/homework/HomeworkDTO.h"
-#include "domain/vo/homework/HomeworkVO.h"
+#include "domain/vo/homework/homeworklist/HomeworkListVO.h"
 #include "domain/query/SignAndRemark/RemarkQuery.h"
 #include "domain/dto/SignAndRemark/RemarkDTO.h"
 #include "domain/vo/SignAndRemark/RemarkVO.h"
@@ -41,14 +41,14 @@ public:	//定义接口
 	API_HANDLER_RESP_VO(execQuerySignPage(query));
 		);
 	
-	// 3.1 定义获取作业列表（条件+分页）接口描述
-	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("c7.query-homewk-page.summary"), queryhomwkPage, HomeworkQuery, HomeworkPageJsonVO::Wrapper, API_TAG2);
+	//// 3.1 定义获取作业列表（条件+分页）接口描述
+	//API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("c7.query-homewk-page.summary"), queryhomwkPage, HomeworkQuery, HomeworkPageJsonVO::Wrapper, API_TAG2);
 
-	// 3.2 定义获取作业列表（条件+分页）接口处理
-	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c7/homework", queryhomwkPage, QUERIES(QueryParams, queryParams),
-		API_HANDLER_QUERY_PARAM(query, HomeworkQuery, queryParams);
-	API_HANDLER_RESP_VO(execQueryHomeworkPage(query));
-		);
+	//// 3.2 定义获取作业列表（条件+分页）接口处理
+	//API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c7/homework", queryhomwkPage, QUERIES(QueryParams, queryParams),
+	//	API_HANDLER_QUERY_PARAM(query, HomeworkQuery, queryParams);
+	//API_HANDLER_RESP_VO(execQueryHomeworkPage(query));
+	//	);
 
 	// 3.1 定义获取点评列表（条件+分页）接口描述
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("c7.query-remark-page.summary"), queryremarkPage, RemarkQuery, RemarkPageJsonVO::Wrapper, API_TAG3);

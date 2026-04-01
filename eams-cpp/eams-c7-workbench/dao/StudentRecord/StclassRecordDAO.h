@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include"BaseDAO.h"
+#include "../../domain/dto/StudentRecord/StlistDTO.h"
 #include "../../domain/query/StudentRecord/StlistQuery.h"
 #include "../../domain/do/StudentRecord/stclassrecord/StclassRecordDO.h"
 #include "../../domain/query/StudentRecord/StclassRecordQuery.h"

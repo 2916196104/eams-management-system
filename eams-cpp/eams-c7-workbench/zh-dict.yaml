@@ -320,3 +320,13 @@ translation:
  tag: 备注
  refund: 退款信息
 
+homeworklist:
+ dto:
+  title: 作业标题
+  number: 提交人数
+  className: 班级名称
+  courseName: 课程名称
+ controller:
+  tag4: 学生作业列表
+  title: 学生作业列表查询（分页）
+

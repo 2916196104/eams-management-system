@@ -11,7 +11,7 @@ inline std::string StclassRecordDAO::queryConditionBuilder(const StlistQuery::Wr
 		sqlCondition << " AND student.`name`=?";
 		SQLPARAMS_PUSH(params, "s", std::string, query->name.getValue(""));
 	}
-	if(query->mobile)
+	if (query->mobile)
 	{
 		sqlCondition << " AND user.`mobile`=?";
 		SQLPARAMS_PUSH(params, "s", std::string, query->mobile.getValue(""));

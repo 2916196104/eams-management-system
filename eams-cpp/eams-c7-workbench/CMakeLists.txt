@@ -39,51 +39,8 @@ if(WIN32)
 endif()
 
 # 编译可执行文件
-add_executable(${appName}
-    ${SC_FILES}
-    "controller/UserRelated/ChangePictureController.cpp"
-    "controller/UserRelated/UserInformationController.cpp"
-    "controller/UserRelated/UserProfileController.cpp"
-    "controller/Course/CourseController.cpp"
-    "controller/MyCustomers/GetMyCustomersController.cpp"
-    "controller/MyCustomers/GetStudentCoursesController.cpp"
-    "controller/MyCustomers/GetStudentDetailController.cpp"
-    "controller/SignAndRemark/Controller.cpp"
-    "controller/Homework/HomeworkController.cpp"
-    "controller/UserRelated/MonthlyDataController.cpp"
-    "controller/Schedule/SelectClassController.cpp"
-    "controller/Schedule/SelectTeacherController.cpp"
-    "controller/Schedule/ClassroomController.cpp"
-    "controller/Schedule/freeCoursesArrangeController.cpp"
-    "controller/Schedule/repeatCoursesArrangeController.cpp"
-    "controller/StudentRecord/StclassRecordController.cpp"
-    "controller/StudentRecord/StlistController.cpp"
-    "controller/StudentRecord/StprofileDetailsController.cpp"
-    "controller/AddStudent/PostStudentInfo.cpp"
-    "controller/RegistRecord/GetRegistRecordDetailsController.cpp"
-    "controller/RegistRecord/GetRegistRecordListController.cpp"
-    "controller/StudentRecord/student_coursecontroller.cpp"
-    "dao/StudentRecord/student_courseDAO.cpp" 
-    "controller/AddStudent/PostStudentInfo.h"
-    "controller/RegistRecord/GetRegistRecordDetailsController.h"
-    "controller/RegistRecord/GetRegistRecordListController.h"
-    "controller/StudentRecord/student_coursecontroller.h"
-    "dao/StudentRecord/student_courseDAO.h"
-    "dao/StudentRecord/student_courseMapper.h"
-    "domain/do/StudentRecord/classroom/classroomdo.h"
-    "domain/do/StudentRecord/student_course/student_coursedo.h"
-    "domain/do/StudentRecord/view/student_courseviewdo.h"
-    "domain/dto/StudentRecord/student_courseDTO.h"
-    "domain/dto/AddStudent/AddStudentDTO.h"
-    "domain/dto/RegistRecord/RegistRecordDTO.h"
-    "domain/query/StudentRecord/studentinformation.h"
-    "domain/query/AddStudent/AddStudentQuery.h"
-    "domain/query/RegistRecord/RegistRecordQuery.h"
-    "domain/vo/StudentRecord/student_courseVO.h"
-    "domain/vo/AddStudent/AddStudentVO.h"
-    "domain/vo/RegistRecord/RegistRecordVO.h"
- "dao/StudentRecord/StclassRecordDAO.cpp" "dao/StudentRecord/StclassRecordDAO.h" "dao/StudentRecord/StclassRecordMapper.h" "dao/StudentRecord/StlistDAO.cpp" "dao/StudentRecord/StlistDAO.h" "dao/StudentRecord/StlistMapper.h" "dao/StudentRecord/StprofileDetailsDAO.cpp" "dao/StudentRecord/StprofileDetailsDAO.h" "dao/StudentRecord/StprofileDetailsMapper.h" "domain/do/StudentRecord/stclassrecord/StclassRecordDO.h" "domain/do/StudentRecord/stlist/StlistDO.h" "domain/do/StudentRecord/stprofiledetails/StprofileDetailsDO.h" "service/StudentRecord/stclassrecord/StclassRecordService.cpp" "service/StudentRecord/stclassrecord/StclassRecordService.h" "service/StudentRecord/stlist/StlistService.cpp" "service/StudentRecord/stlist/StlistService.h" "service/StudentRecord/stprofiledetails/StprofileDetailsService.cpp" "service/StudentRecord/stprofiledetails/StprofileDetailsService.h" "dao/UserRelated/AttachmentDAO.cpp" "dao/UserRelated/AttachmentDAO.h" "dao/UserRelated/AttachmentMapper.h" "dao/UserRelated/PermissionDAO.cpp" "dao/UserRelated/PermissionDAO.h" "dao/UserRelated/PermissionMapper.h" "dao/UserRelated/RoleDAO.cpp" "dao/UserRelated/RoleDAO.h" "dao/UserRelated/RoleMapper.h" "dao/UserRelated/UserProfileDAO.cpp" "dao/UserRelated/UserProfileDAO.h" "dao/UserRelated/UserProfileMapper.h" "domain/do/UserRelated/AttachmentDO.h" "domain/do/UserRelated/SysPermissionDO.h" "domain/do/UserRelated/SysRoleDO.h" "domain/do/UserRelated/SysRolePermissionDO.h" "domain/do/UserRelated/SysUserRoleDO.h" "domain/do/UserRelated/UserRelatedDO.h" "service/UserRelated/UpdateHeadImgService.cpp" "service/UserRelated/UpdateHeadImgService.h" "service/UserRelated/UserInformationService.cpp" "service/UserRelated/UserInformationService.h" "service/UserRelated/UserProfileService.cpp" "service/UserRelated/UserProfileService.h" "controller/Course/RegisterController.cpp" "controller/Course/RegisterController.h" "dao/Course/CourseDAO.cpp" "dao/Course/CourseDAO.h" "dao/Course/CourseMapper.h" "dao/Course/RegisterDAO.cpp" "dao/Course/RegisterDAO.h" "dao/Course/RegisterMapper.h" "domain/do/Course/CourseDO.h" "domain/do/Course/RegisterDO.h" "domain/dto/Course/RegisterDTO.h" "service/Course/CourseService.cpp" "service/Course/CourseService.h" "service/Course/RegisterService.cpp" "service/Course/RegisterService.h" "dao/Mycustomers/StudentCourseDAO.cpp" "dao/Mycustomers/StudentCourseDAO.h" "dao/Mycustomers/StudentCourseMapper.h" "dao/Mycustomers/StudentDAO.cpp" "dao/Mycustomers/StudentDAO.h" "dao/Mycustomers/StudentMapper.h" "domain/do/Mycustomers/StudentCourseDo.h" "domain/do/Mycustomers/StudentDo.h" "service/Mycustomers/MyCustomersService.cpp" "service/Mycustomers/MyCustomersService.h")
-# 发布Swagger文档包宏定义
+add_executable(${appName} ${SC_FILES})
+	# 发布Swagger文档包宏定义
 if(DEFINED _RELEASE_DOC_)
 	target_compile_definitions(${appName} PRIVATE _RELEASE_DOC_)
 endif()

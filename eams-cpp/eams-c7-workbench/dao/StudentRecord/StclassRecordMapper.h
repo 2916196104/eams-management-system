@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "Mapper.h"
-#include "../../domain/do/StudentRecord/stclassrecord/StclassRecordDO.h"
+#include "domain/do/StudentRecord/stclassrecord/StclassRecordDO.h"
 
 class StclassRecordViewMapper :public Mapper<StclassRecordViewDO>
 {
