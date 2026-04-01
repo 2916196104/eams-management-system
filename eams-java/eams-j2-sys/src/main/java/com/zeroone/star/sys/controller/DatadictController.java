@@ -82,8 +82,8 @@ public class DatadictController implements DatadictApis {
     @ApiOperation(value = "获取字典名称列表")
     @Override
     public JsonVO<PageDTO<DatadictVO>> listDatadictByDictIdPage(
-            Long dictId,
-            PageQuery query) {
+            @NotNull(message = "字典类型ID不能为空") @RequestParam("dictId") Long dictId,
+            @Valid @RequestBody PageQuery query) {
         return JsonVO.success(dictItemService.listDatadictByDictIdPage(dictId, query));
     }
 
