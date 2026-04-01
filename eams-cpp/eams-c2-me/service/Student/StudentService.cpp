@@ -6,11 +6,10 @@
 #include "domain/do/Student/StudentDO.h"
 #include <cstdint>
 
-// 计算年龄（无需修改）
+// 计算年龄
 int StudentService::calculateAge(const std::string& birthday)
 {
 	if (birthday.empty()) return 0;
-
 	int year = stoi(birthday.substr(0, 4));
 	int month = stoi(birthday.substr(5, 2));
 	int day = stoi(birthday.substr(8, 2));
@@ -28,8 +27,8 @@ int StudentService::calculateAge(const std::string& birthday)
 	return age;
 }
 
-// 【修改】参数类型：int -> char
-std::string StudentService::convertGender(char genderCode)
+// 参数为 int，匹配DO
+std::string StudentService::convertGender(int genderCode)
 {
 	switch (genderCode) {
 	case 1:  return "MALE";
@@ -38,8 +37,8 @@ std::string StudentService::convertGender(char genderCode)
 	}
 }
 
-// 【修改】参数类型：int -> char
-std::string StudentService::convertStage(char stageCode)
+// 参数为 int，匹配DO
+std::string StudentService::convertStage(int stageCode)
 {
 	switch (stageCode) {
 	case 1:  return "GRADUATION";
@@ -48,7 +47,7 @@ std::string StudentService::convertStage(char stageCode)
 	}
 }
 
-// 查询学生列表（核心类型适配）
+// 查询学生列表
 StudentPageDTO::Wrapper StudentService::listAll(const StudentQuery::Wrapper& query)
 {
 	auto page = StudentPageDTO::createShared();
@@ -66,25 +65,22 @@ StudentPageDTO::Wrapper StudentService::listAll(const StudentQuery::Wrapper& que
 
 	std::list<PtrStudentDO> list = dao.selectAll(query);
 
-	// DO -> DTO 类型完全适配新DO
 	for (PtrStudentDO& sub : list)
 	{
 		auto dto = StudentDTO::createShared();
 
-		// 宏转换基础字段（自动匹配新DO的get方法）
+		// 基础字段映射
 		ZO_STAR_DOMAIN_DO_TO_DTO_1(dto, sub,
 			name, Name,
 			headImg, HeadImg,
 			birthday, Birthday
 		);
 
-		// 【关键1】uint64_t 类型的 id 转字符串，赋值给DTO
+		// uint64_t 转字符串给DTO
 		dto->id = std::to_string(sub->getId()).c_str();
-
-		// 【关键2】char 类型的 credit 转 int32，赋值给DTO
-		dto->credit = (int32_t)sub->getCredit();
-
-		// 【关键3】char 类型的 gender/stage 转换
+		// int 直接赋值
+		dto->credit = sub->getCredit();
+		// 枚举转换
 		dto->age = calculateAge(sub->getBirthday());
 		dto->gender = convertGender(sub->getGender());
 		dto->stage = convertStage(sub->getStage());
