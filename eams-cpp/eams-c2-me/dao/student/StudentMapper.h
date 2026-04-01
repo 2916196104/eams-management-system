@@ -12,16 +12,21 @@ public:
     PtrStudentDO mapper(ResultSet* resultSet) const override
     {
         PtrStudentDO stuDO = make_shared<StudentDO>();
-        // 数据库字段 → DO 完全匹配新类型
-        stuDO->setId(std::stoull(resultSet->getString("id")));  // uint64_t
+        // 严格匹配 StudentDO 类型，int 直接赋值，无强转
+        stuDO->setId(std::stoull(resultSet->getString("id")));
+        stuDO->setUserId(std::stoull(resultSet->getString("user_id")));
+        stuDO->setFamilyRel(resultSet->getInt("family_rel"));
+        stuDO->setAsDefault(resultSet->getInt("as_default"));
+        stuDO->setSchoolId(std::stoull(resultSet->getString("school_id")));
         stuDO->setName(resultSet->getString("name"));
-        stuDO->setGender(resultSet->getInt("gender"));         // int 直接赋值
-        stuDO->setStage(resultSet->getInt("stage"));           // int 直接赋值
+        stuDO->setDeleted(resultSet->getInt("deleted"));
+        stuDO->setStage(resultSet->getInt("stage"));
+        stuDO->setGender(resultSet->getInt("gender"));
         stuDO->setBirthday(resultSet->getString("birthday"));
         stuDO->setHeadImg(resultSet->getString("head_img"));
-        stuDO->setCredit(resultSet->getInt("credit"));         // int 直接赋值
+        stuDO->setCredit(resultSet->getInt("credit"));
+
         return stuDO;
     }
 };
-
 #endif
