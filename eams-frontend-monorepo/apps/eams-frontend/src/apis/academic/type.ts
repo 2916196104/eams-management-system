@@ -519,8 +519,6 @@ export interface FreeScheduleRequestDTO {
 	excludeHoliday?: string;
 	/** 课程状态 */
 	status?: string;
-	/** 是否可预约 */
-	canReserve?: boolean;
 	/** 周期配置 */
 	lessonScheduleSettingDtos: RepeatScheduleSettingDTO[];
 }

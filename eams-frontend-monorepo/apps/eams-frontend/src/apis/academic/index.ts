@@ -352,7 +352,6 @@ function buildFreeScheduleQueryParams(params: FreeScheduleRequestDTO) {
 	assignIfDefined("times", params.times);
 	assignIfDefined("excludeHoliday", params.excludeHoliday);
 	assignIfDefined("status", params.status);
-	assignIfDefined("canReserve", params.canReserve);
 
 	params.lessonScheduleSettingDtos.forEach((item, index) => {
 		assignIfDefined(`lessonScheduleSettingDtos[${index}].scheduleId`, item.scheduleId);
