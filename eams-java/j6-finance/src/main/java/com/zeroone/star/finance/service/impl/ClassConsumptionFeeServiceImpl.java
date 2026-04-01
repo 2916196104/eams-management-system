@@ -1,17 +1,14 @@
 package com.zeroone.star.finance.service.impl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zeroone.star.finance.mapper.ClassConsumptionFeeMapper;
 import com.zeroone.star.finance.service.ClassConsumptionFeeService;
+import com.zeroone.star.finance.mapper.ClassConsumptionFeeMapper;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.query.j6.finance.ClassConsumptionFeeQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j6.finance.ClassConsumptionFeeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class ClassConsumptionFeeServiceImpl implements ClassConsumptionFeeService {
