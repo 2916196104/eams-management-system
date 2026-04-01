@@ -27,7 +27,7 @@ class ListQuery : public PageQuery {
 // 继承自PageQuery，自动包含分页字段
 class DetailQuery : public oatpp::DTO {
 	DTO_INIT(DetailQuery, DTO);
-	API_DTO_FIELD_DEFAULT(Int32, id, ZH_WORDS_GETTER("help.id"));//加入id这个查询参数
+	API_DTO_FIELD_DEFAULT(UInt64, id, ZH_WORDS_GETTER("help.id"));//加入id这个查询参数
 };
 
 #include OATPP_CODEGEN_END(DTO)

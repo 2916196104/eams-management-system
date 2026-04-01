@@ -63,7 +63,7 @@ public:
 private:
     // 定义接口执行函数
     UsageGuideJsonVO::Wrapper executeQueryAll(const ListQuery::Wrapper& query);
-    UsageDetailJsonVO::Wrapper executeQueryOne(const String& id);
+    UsageDetailJsonVO::Wrapper executeQueryOne(const string& id);
 };
 
 #undef API_TAG

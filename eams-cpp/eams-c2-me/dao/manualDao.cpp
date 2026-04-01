@@ -60,7 +60,7 @@ std::list<ManualDO> manualDAO::showList(const ListQuery::Wrapper& query)
 	string sql = "SELECT id, title ,add_time,edit_time FROM help ";
 
 	// 2. 添加排序  优先按sort_num降序，最后按ID降序
-	sql += " ORDER BY `sort_num` DESC, `id` DESC ";
+	sql += " ORDER BY `sort_num` DESC, `id` ASC ";
 
 	// 3. 添加分页限制  LIMIT 0, 5 表示：跳过0条，取5条
 	sql += queryListBuilder(query, params);
