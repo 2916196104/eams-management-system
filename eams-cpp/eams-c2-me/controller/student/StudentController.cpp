@@ -3,10 +3,11 @@
 #include "./service/GradeService.h"
 
 
-GradePageJsonVO::Wrapper StudentController::executeQueryGrade(const GradeQuery::Wrapper& query) {
+GradeListJsonVO::Wrapper StudentController::executeQueryGrade() {
+	
 	GradeService gs;
-	auto vo = GradePageJsonVO::createShared();
-	vo->success(gs.listAllGrade(query));
+	auto vo = GradeListJsonVO::createShared();
+	vo->success(gs.listAllGrade());
 	return vo;
 }
 
