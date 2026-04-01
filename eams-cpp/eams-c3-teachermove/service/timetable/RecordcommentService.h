@@ -13,4 +13,11 @@ public:
 	EvaluatePageDTO::Wrapper getEvaluationList(const EvaluationQuery::Wrapper& query);
 };
 
+class RecordcommentService
+{
+public:
+	EvaluatePageJsonVO::Wrapper queryEvaluation(const EvaluationQuery::Wrapper& query);
+	EvaluateRspJsonVO::Wrapper modifyEvaluation(const EvaluationDTO::Wrapper& dto, const PayloadDTO& payload);
+};
+
 #endif

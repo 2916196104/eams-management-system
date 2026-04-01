@@ -12,5 +12,6 @@ EvaluatePageJsonVO::Wrapper Record_comment::execQueryEvaluation(const Evaluation
 
 EvaluateRspJsonVO::Wrapper Record_comment::execModifyEvaluate(const EvaluationDTO::Wrapper& dto, const PayloadDTO& payload)
 {	
-	return EvaluateRspJsonVO::Wrapper();
+	RecordcommentService service;
+	return service.modifyEvaluation(dto, payload);
 }
