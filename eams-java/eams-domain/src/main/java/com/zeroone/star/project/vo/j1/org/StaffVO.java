@@ -25,14 +25,10 @@ public class StaffVO {
    private String account;
    @ApiModelProperty(value = "在职状态",example ="1" )
    private Integer statue;
-   @ApiModelProperty(value ="员工id",example="1")
-   private  long id;
-   @ApiModelProperty(value ="所属机构id")
-   private long orgId;
    @ApiModelProperty
    private Integer gender;
    @ApiModelProperty
-   private Long positionId;
+   private long orgId;
 @ApiModelProperty
    private Integer isManger;
  @ApiModelProperty

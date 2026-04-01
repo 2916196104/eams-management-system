@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.project.j1.orgmanager.mapper.staff.ClassroomMapper">
+
+    <resultMap type="com.zeroone.star.project.DO.Classroom" id="ClassroomMap">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="address" column="address" />
+        <result property="area" column="area" />
+        <result property="remark" column="remark" />
+        <result property="creator" column="creator" />
+        <result property="editor" column="editor" />
+        <result property="addTime" column="add_time" />
+        <result property="editTime" column="edit_time" />
+        <result property="deleted" column="deleted" />
+        <result property="schoolId" column="school_id" />
+        <result property="orgId" column="org_id" />
+    </resultMap>
+
+</mapper>

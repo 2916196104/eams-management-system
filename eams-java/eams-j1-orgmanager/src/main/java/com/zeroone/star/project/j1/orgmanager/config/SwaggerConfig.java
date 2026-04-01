@@ -20,7 +20,7 @@ public class SwaggerConfig {
     @Bean
     public Docket orgManagerApi() {
         return SwaggerCore.defaultDocketBuilder(
-                "职位管理模块",
+                "组织页面",
                 "com.zeroone.star.project.j1.orgmanager.controller",
                 "j1-orgmanager"
         );
