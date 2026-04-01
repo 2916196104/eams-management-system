@@ -1,16 +1,97 @@
 #include "GetCourseEvaluationDAO.h"
 #include "GetCourseEvaluationMapper.h"
 
+std::string GetCourseEvaluation::queryConditionBuilder(const EvaluationQuery::Wrapper& query, SqlParams& params)
+{
+	std::string whereSql = " WHERE 1=1 ";
+	if (!query)
+	{
+		return whereSql;
+	}
+
+	if (query->lesson_id)
+	{
+		whereSql += " AND ls.`lesson_id` = ?";
+		SQLPARAMS_PUSH(params, "ll", int64_t, static_cast<int64_t>(query->lesson_id.getValue(0)));
+	}
+
+	if (query->name && !query->name->empty())
+	{
+		whereSql += " AND stu.`name` LIKE ?";
+		SQLPARAMS_PUSH(params, "s", std::string, "%" + query->name.getValue("") + "%");
+	}
+
+	if (query->score)
+	{
+		whereSql += " AND ls.`score` = ?";
+		SQLPARAMS_PUSH(params, "i", int32_t, static_cast<int32_t>(query->score.getValue(0)));
+	}
+
+	if (query->isSign)
+	{
+		if (query->isSign.getValue(false))
+		{
+			whereSql += " AND ls.`sign_state` <> 0";
+		}
+		else
+		{
+			whereSql += " AND ls.`sign_state` = 0";
+		}
+	}
+
+	if (query->isEvaluate)
+	{
+		if (query->isEvaluate.getValue(false))
+		{
+			whereSql += " AND ls.`evaluation` IS NOT NULL AND ls.`evaluation` <> ''";
+		}
+		else
+		{
+			whereSql += " AND (ls.`evaluation` IS NULL OR ls.`evaluation` = '')";
+		}
+	}
+
+	return whereSql;
+}
+
+uint64_t GetCourseEvaluation::count(const EvaluationQuery::Wrapper& query)
+{
+	if (!query || !query->lesson_id)
+	{
+		return 0;
+	}
+
+	SqlParams params;
+	std::string sql =
+		"SELECT COUNT(1) "
+		"FROM `lesson_student` AS ls "
+		"JOIN `student` AS stu ON stu.`id` = ls.`student_id` ";
+	sql += queryConditionBuilder(query, params);
+
+	SqlSession* sqlSession = getSqlSession();
+	if (!sqlSession)
+	{
+		std::cerr << "[GetCourseEvaluationDAO::count]: 获取数据库回话失败" << std::endl;
+		return 0;
+	}
+
+	return sqlSession->executeQueryNumerical(sql, params);
+}
+
 std::list<PtrEvaluationViewDO> GetCourseEvaluation::selectWithPage(const EvaluationQuery::Wrapper& query)
 {	
-	
+	if (!query || !query->lesson_id)
+	{
+		return std::list<PtrEvaluationViewDO>();
+	}
+
 	std::string sql = R"(
 		SELECT 
 			ls.`id` AS ID, 
 			ls.`student_id` AS StudentID, 
 			stu.`name` AS StudentName,
-			ls.`teacher_id` AS TeacherID,
-			stuff.`name` AS TeacherName,
+			ls.`evaluate_teacher` AS TeacherID,
+			IFNULL(stf.`name`, '') AS TeacherName,
 			ls.`score` AS Score,
 			ls.`evaluate_time` AS EvaluationTime,
 			ls.`evaluation` AS Evaluation,
@@ -21,12 +102,10 @@ std::list<PtrEvaluationViewDO> GetCourseEvaluation::selectWithPage(const Evaluat
 			`student` AS stu
 		ON	
 			stu.`id` = ls.`student_id`
-		JOIN
-			`stuff` AS stuff
+		LEFT JOIN
+			`staff` AS stf
 		ON 
-			stuff.`id` = ls.`teacher_id`
-		WHERE
-			1=1
+			stf.`id` = ls.`evaluate_teacher`
 	)";
 
 	SqlSession* sqlSession = getSqlSession();
@@ -36,26 +115,25 @@ std::list<PtrEvaluationViewDO> GetCourseEvaluation::selectWithPage(const Evaluat
 	}
 	// 构建查询条件
 	SqlParams params;
-	if (query->lesson_id) {
-		sql += " AND ls.`lesson_id` = ?";
-		SQLPARAMS_PUSH(params, "ll", uint64_t, query->lesson_id.getValue(1));
-	}
-	else {
-		std::cerr << "[GetCourseEvaluationDAO::selectWithPage]: 缺少查询参数" << std::endl;
-		return std::list<PtrEvaluationViewDO>();
-	}
+	sql += queryConditionBuilder(query, params);
 	// 构建排序语句
-	sql += " ORDER BY ls.`evaluate_time` DESC";
-	if (query->pageIndex || query->pageSize) {
-		uint64_t offset = (query->pageIndex.getValue(1) - 1) * query->pageSize.getValue(10);
-		sql += " LIMIT ? OFFSET ?";
-		SQLPARAMS_PUSH(params, "ull", uint64_t, query->pageSize.getValue(10));
-		SQLPARAMS_PUSH(params, "ull", uint64_t, offset);
+	sql += " ORDER BY IFNULL(ls.`evaluate_time`, ls.`add_time`) DESC, ls.`id` DESC";
+
+	uint64_t pageIndex = query->pageIndex ? query->pageIndex.getValue(1) : 1;
+	uint64_t pageSize = query->pageSize ? query->pageSize.getValue(10) : 10;
+	if (pageIndex == 0)
+	{
+		pageIndex = 1;
 	}
-	else {
-		std::cerr << "[GetCourseEvaluationDAO::selectWithPage]: 缺少分页参数" << std::endl;
-		return std::list<PtrEvaluationViewDO>();
+	if (pageSize == 0)
+	{
+		pageSize = 10;
 	}
+	const uint64_t offset = (pageIndex - 1) * pageSize;
+	sql += " LIMIT ?, ?";
+	SQLPARAMS_PUSH(params, "ull", uint64_t, offset);
+	SQLPARAMS_PUSH(params, "ull", uint64_t, pageSize);
+
 	// 执行查询
 	return sqlSession->executeQuery<PtrEvaluationViewDO>(sql, EvaluationViewMapper(), params);
 }

@@ -40,8 +40,9 @@ private:
 	// Parameter:   SqlParams& params 存放查询数据的参数对象
 	// Description: 查询条件构建器，根据SampleQuery对象动态构建查询条件相关参数
 	//************************************
-	inline std::string queryConditionBuilder(const EvaluationQuery::Wrapper& query, SqlParams& params);
+	std::string queryConditionBuilder(const EvaluationQuery::Wrapper& query, SqlParams& params);
 public:
+	uint64_t count(const EvaluationQuery::Wrapper& query);
 	// 分页查询数据
 	std::list<PtrEvaluationViewDO> selectWithPage(const EvaluationQuery::Wrapper& query);
 };

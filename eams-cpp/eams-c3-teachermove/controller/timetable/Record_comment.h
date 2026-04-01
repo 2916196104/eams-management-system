@@ -19,8 +19,6 @@ class Record_comment : public oatpp::web::server::api::ApiController
 	API_ACCESS_DECLARE(Record_comment);
 public:		//定义接口
 
-
-
 	// 2. 定义 获取课次点评列表（条件+分页）
 	ENDPOINT_INFO(queryEvaluation) {
 		// 定义接口标题
@@ -44,14 +42,10 @@ public:		//定义接口
 		API_HANDLER_RESP_VO(execQueryEvaluation(userQuery));
 	}
 
-
 	// 3. 定义 点评指定学员
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("evaluate.title2"), modifyEvaluation, EvaluateRspJsonVO::Wrapper, API_TAG);
 	// 3.2 定义修改接口处理
 	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "course/record-comment/comment-stu", modifyEvaluation, BODY_DTO(EvaluationDTO::Wrapper, dto), execModifyEvaluate(dto, authObject->getPayload()));
-
-
-
 
 private:	//定义接口执行函数
 	EvaluatePageJsonVO::Wrapper execQueryEvaluation(const EvaluationQuery::Wrapper& query);
