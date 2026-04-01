@@ -1,6 +1,6 @@
 FROM openjdk:8
 MAINTAINER Cangshuisi
-ADD target/eams-login-1.0.0-SNAPSHOT.jar app.jar
+ADD target/eams-j8-stumanager-1.0.0-SNAPSHOT.jar app.jar
 ENV JAVA_OPTS="-Xms256m -Xmx256m"
 ENV SPRING_ARGS=""
 RUN echo "JAVA_OPTS=" $JAVA_OPTS
