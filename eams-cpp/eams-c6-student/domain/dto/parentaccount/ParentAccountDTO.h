@@ -7,9 +7,7 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-/**
- * ??????DTO
- */
+
 class ParentAccountQueryDTO : public oatpp::DTO
 {
 	DTO_INIT(ParentAccountQueryDTO, DTO);

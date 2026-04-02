@@ -20,6 +20,12 @@ class FileJsonVO:public JsonVO<FileOnlyDTO::Wrapper>
 public:
     DTO_INIT(FileJsonVO, JsonVO<FileOnlyDTO::Wrapper>)
 };
+class PayFeesJsonVO :public JsonVO<PayFeesDTO::Wrapper> {
+    DTO_INIT(PayFeesJsonVO,JsonVO<PayFeesDTO::Wrapper>)
+};
+class RefundJsonVO :public JsonVO<RefundDTO::Wrapper> {
+    DTO_INIT(RefundJsonVO, JsonVO<RefundDTO::Wrapper>)
+};
 
 class CourseCountJsonVO : public JsonVO<CourseCountDTO::Wrapper> {
 public:
@@ -38,5 +44,31 @@ class QueryFollowUprecordsJsonVO : public JsonVO<QueryFollowUprecordsDTO::Wrappe
 };
 
 
+/**
+ * 班级列表响应VO
+ **/
+class getClassListPageJsonVO : public JsonVO<getClassListPageDTO::Wrapper> {
+    DTO_INIT(getClassListPageJsonVO, JsonVO<getClassListPageDTO::Wrapper>);
+};
+
+/**
+ * 课程统计响应VO
+ **/
+class getCourseStatisticsPageJsonVO : public JsonVO<getCourseStatisticsPageDTO::Wrapper> {
+    DTO_INIT(getCourseStatisticsPageJsonVO, JsonVO<getCourseStatisticsPageDTO::Wrapper>);
+};
+
+/**
+ * 加入班级响应VO
+ */
+class JoinclassJsonVO : public JsonVO<JoinclassDTO::Wrapper> {
+    DTO_INIT(JoinclassJsonVO, JsonVO<JoinclassDTO::Wrapper>);
+};
+/**
+ * 加入班级分页查询响应VO
+ */
+class JoinclassPageJsonVO : public JsonVO<JoinclassPageDTO::Wrapper> {
+    DTO_INIT(JoinclassPageJsonVO, JsonVO<JoinclassPageDTO::Wrapper>);
+};
 #include OATPP_CODEGEN_END(DTO)
 #endif

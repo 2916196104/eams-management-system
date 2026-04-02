@@ -6,6 +6,7 @@
 #include "Macros.h"
 #include "ServerInfo.h"
 #include "domain/vo/BaseJsonVO.h"
+#include "domain/dto/finishstudent/FinishStudentDTO.h"
 #include "domain/query/finishstudent/FinishStudentQuery.h"
 #include "domain/vo/finishstudent/FinishStudentVO.h"
 #include "service/finishstudent/FinishStudentService.h"
@@ -13,9 +14,7 @@
 #include OATPP_CODEGEN_BEGIN(ApiController)
 using namespace oatpp;
 #define API_TAG ZH_WORDS_GETTER("finishstudent.api-tag")
-/**
- * 结业学员控制器
- */
+
 class FinishStudentController : public oatpp::web::server::api::ApiController
 {
 	API_ACCESS_DECLARE(FinishStudentController);
@@ -23,24 +22,17 @@ private:
 	//FinishStudentService m_finishStudentService;
 	FinishStudentService m_finishStudentService;
 public:
-	// 导出接口描述
+	// export
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("finishstudent.interface.export-finish-student"), exportFinishStudent, Void, API_TAG);
-	// 导出接口处理
-	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c6/finish-student/export", exportFinishStudent, BODY_DTO(List<String>, ids),
+	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_POST, "/c6/finish-student/export", exportFinishStudent, BODY_DTO(List<UInt64>, ids),
 		return execExportFinishStudent(ids););
 
-	
-	//API_DEF_ENDPOINT_INFO_FILE_AUTH(ZH_WORDS_GETTER("finishstudent.interface.import-finish-student"), importFinishStudent, oatpp::swagger::Binary, StringJsonVO::Wrapper, API_TAG);
-	//// 导入接口处理
-	//API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c6/finish-student/import", importFinishStudent, REQUEST(std::shared_ptr<IncomingRequest>, request), execImportFinishStudent(request));
-
-	// 导入接口描述
-	API_DEF_ENDPOINT_INFO_FILE_AUTH(ZH_WORDS_GETTER("finishstudent.interface.import-finish-student"), importFinishStudent, oatpp::swagger::Binary, StringJsonVO::Wrapper, API_TAG);
-	// 导入接口处理
+	// import
+	API_DEF_ENDPOINT_INFO_FILE_AUTH(ZH_WORDS_GETTER("finishstudent.interface.import-finish-student"), importFinishStudent, FinishStudentImportDTO::Wrapper, StringJsonVO::Wrapper, API_TAG);
 	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c6/finish-student/import", importFinishStudent, REQUEST(std::shared_ptr<IncomingRequest>, request), execImportFinishStudent(request));
 
 private:
-	std::shared_ptr<OutgoingResponse> execExportFinishStudent(const List<String>& ids);
+	std::shared_ptr<OutgoingResponse> execExportFinishStudent(const List<UInt64>& ids);
 	StringJsonVO::Wrapper execImportFinishStudent(std::shared_ptr<IncomingRequest> request);
 };
 
@@ -48,3 +40,6 @@ private:
 #include OATPP_CODEGEN_END(ApiController)
 
 #endif // !_FINISH_STUDENT_CONTROLLER_H_
+
+
+

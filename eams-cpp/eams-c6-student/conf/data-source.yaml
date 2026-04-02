@@ -4,11 +4,11 @@ spring:
     username: root
     password: 123456
     druid:
-     max-active: 5
+     max-active: 100
   redis:
     host: 192.168.149.1
     port: 6379
-    password: 01star
+    password: 
   data:
     mongodb:
       uri: mongodb://awei:123456@192.168.220.128:27017/firstDb

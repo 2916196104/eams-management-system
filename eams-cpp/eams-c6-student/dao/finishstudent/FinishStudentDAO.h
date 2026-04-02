@@ -5,15 +5,16 @@
 #include "BaseDAO.h"
 #include "ApiHelper.h"
 #include "domain/dto/finishstudent/FinishStudentDTO.h"
+#include "domain/do/student/StudentDO.h"
 
-/**
- * 缁撲笟瀛﹀憳鏁版嵁璁块棶灞?
- */
+
 class FinishStudentDAO : public BaseDAO
 {
 public:
-	std::list<FinishStudentDTO::Wrapper> listFinishStudentByIds(const oatpp::List<oatpp::String>& ids);
-	int updateFinishStudent(const FinishStudentDTO::Wrapper& dto);
+	std::list<FinishStudentDTO::Wrapper> listFinishStudentByIds(const oatpp::List<oatpp::UInt64>& ids);
+	int updateFinishStudentBatch(const std::list<FinishStudentDO>& rows);
 };
 
 #endif // !_FINISH_STUDENT_DAO_H_
+
+

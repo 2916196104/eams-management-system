@@ -6,6 +6,25 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
+ * 在线学员导出对象
+ */
+class OnlineExportDTO : public oatpp::DTO
+{
+    DTO_INIT(OnlineExportDTO, DTO);
+
+    DTO_FIELD(UInt64, id);              // 学员ID（数据库主键）
+    DTO_FIELD(String, name);            // 学员姓名
+    DTO_FIELD(String, mobile);          // 手机号码（user.mobile）
+    DTO_FIELD(Int32, gender);           // 性别（student.gender：0女 1男）
+    DTO_FIELD(String, parentName);      // 家长姓名（user.name）
+    DTO_FIELD(Int32, familyRel);        // 家长关系（student.family_rel：0本人 1父亲 2母亲 3其他）
+    DTO_FIELD(String, schoolName);      // 学校名称（org.name）
+    DTO_FIELD(String, gradeName);       // 年级名称（class_grade.name）
+    DTO_FIELD(String, counselorName);   // 顾问姓名（staff.name）
+    DTO_FIELD(String, birthday);        // 生日（student.birthday）
+};
+
+/**
  * 在线学员导入数据
  */
 class OnlineAddDTO : public oatpp::DTO

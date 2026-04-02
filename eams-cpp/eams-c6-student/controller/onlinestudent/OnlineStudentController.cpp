@@ -2,30 +2,79 @@
 #include "OnlineStudentController.h"
 #include "ExcelComponent.h"
 #include "SimpleDateTimeFormat.h"
+#include "../../service/onlinestudent/OnlineStudentService.h"
+
+#pragma execution_character_set("utf-8")
 
 // 执行导出
 std::shared_ptr<oatpp::web::server::api::ApiController::OutgoingResponse> OnlineStudentController::execExportExcel(
 	const List<String>& ids)
 {
-	// 从数据库中查询stage为1的学员
-	// ...
+	// 将前端 String 转换为 c++ string
+	std::vector<std::string> idVec;
+	for (const auto& id : *ids) {
+		if (id)
+		{
+			idVec.push_back(*id);
+		}
+	}
 
-	// 生成 Excel
+	// 查询数据
+	auto result = OnlineService().listByIds(idVec);
+
+	// 将数据写入到 Excel 中
 	auto buff = ExcelComponent().writeVectorToBuff("online_student",
 		[&](ExcelComponent* ex) {
 			// 写入表头
 			ex->addHeader({
-				ZH_WORDS_GETTER("onlinestudent.field.student.id") ,
-				ZH_WORDS_GETTER("onlinestudent.field.student.name"),
-				ZH_WORDS_GETTER("onlinestudent.field.student.mobile"),
-				ZH_WORDS_GETTER("onlinestudent.field.student.sex"),
-				ZH_WORDS_GETTER("onlinestudent.field.student.parent"),
-				ZH_WORDS_GETTER("onlinestudent.field.student.parent-rel"),
-				ZH_WORDS_GETTER("onlinestudent.field.student.school"),
-				ZH_WORDS_GETTER("onlinestudent.field.student.grade"),
-				ZH_WORDS_GETTER("onlinestudent.field.student.counselor"),
-				ZH_WORDS_GETTER("onlinestudent.field.student.birthday")
-			});
+				ZH_WORDS_GETTER("intendedstudent.field.student.id") ,
+				ZH_WORDS_GETTER("intendedstudent.field.student.name"),
+				ZH_WORDS_GETTER("intendedstudent.field.student.mobile"),
+				ZH_WORDS_GETTER("intendedstudent.field.student.sex"),
+				ZH_WORDS_GETTER("intendedstudent.field.student.parent"),
+				ZH_WORDS_GETTER("intendedstudent.field.student.parent-rel"),
+				ZH_WORDS_GETTER("intendedstudent.field.student.school"),
+				ZH_WORDS_GETTER("intendedstudent.field.student.grade"),
+				ZH_WORDS_GETTER("intendedstudent.field.student.counselor"),
+				ZH_WORDS_GETTER("intendedstudent.field.student.birthday")
+				});
+
+			// 写入数据
+			int row = 2;
+			int col = 1;
+
+			// 转换数组（性别、关系）
+			const char* genderArr[] = { "女", "男" };
+			const char* relArr[] = { "本人", "父亲", "母亲", "其他" };
+			for (auto& item : result) {
+				col = 1;
+
+				// ID (UInt64 -> string)
+				ex->setCellValue(row, col++, std::to_string(item->id));
+				// 姓名
+				ex->setCellValue(row, col++, item->name);
+				// 手机号码
+				ex->setCellValue(row, col++, item->mobile);
+				// 性别转换（0女 1男）
+				int gender = item->gender;
+				std::string genderStr = (gender >= 0 && gender <= 1) ? genderArr[gender] : "未知";
+				ex->setCellValue(row, col++, genderStr);
+				// 家长姓名
+				ex->setCellValue(row, col++, item->parentName);
+				// 家长关系转换（0本人 1父亲 2母亲 3其他）
+				int rel = item->familyRel;
+				std::string relStr = (rel >= 0 && rel <= 3) ? relArr[rel] : "其他";
+				ex->setCellValue(row, col++, relStr);
+				// 学校
+				ex->setCellValue(row, col++, item->schoolName);
+				// 年级
+				ex->setCellValue(row, col++, item->gradeName);
+				// 顾问
+				ex->setCellValue(row, col++, item->counselorName);
+				// 生日
+				ex->setCellValue(row, col, item->birthday);
+				ex->setRowProperties(row++);
+			}
 		});
 
 	// 组装下发数据
@@ -35,15 +84,14 @@ std::shared_ptr<oatpp::web::server::api::ApiController::OutgoingResponse> Online
 	// 创建响应头
 	auto response = createResponse(Status::CODE_200, fstring);
 
-	// 设置响应头信息
-	std::string filename = "rp-online-" + SimpleDateTimeFormat::format() + ".xlsx";
+	// 设置响应头信息（下载文件名）
+	std::string filename = "online-students-" + SimpleDateTimeFormat::format() + ".xlsx";
 	response->putHeader("Content-Disposition", "attachment; filename=" + filename);
-	response->putHeader(Header::CONTENT_TYPE, " application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+	response->putHeader(Header::CONTENT_TYPE, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
-	// 响应成功结果
+	// 返回成功结果
 	return response;
 }
-
 // 执行导入
 StringJsonVO::Wrapper OnlineStudentController::execImportExcel(
 	std::shared_ptr<IncomingRequest> request,

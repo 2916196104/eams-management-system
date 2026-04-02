@@ -14,7 +14,17 @@ common:
   modify-student-points: 调整学员积分
   add-follow-up-record: 添加跟进记录
   query-follow-up-records: 获取跟进记录
+  pay-fees: 缴欠费
+  refund: 退款
+  
  field:
+  fees:
+   handler: 收款经手人
+   pay-amount: 付费总金额
+   subject-id: 科目id
+   course-id: 课程id
+   lessons: 退课课时
+   reason: 退款原因
   contact-record:
    ids: 跟进记录 ID 列表
   file:

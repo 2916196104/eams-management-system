@@ -1,25 +1,9 @@
-#pragma once
-/*
- Copyright Zero One Star. All rights reserved.
-
- @Author: awei
- @Date: 2022/10/25 14:23:49
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
-	  https://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-*/
-#ifndef _SAMPLE_DAO_
-#define _SAMPLE_DAO_
+﻿#pragma once
+#ifndef _COMMON_DAO_
+#define _COMMON_DAO_
 #include "BaseDAO.h"
+#include "../../domain/do/student/StudentDO.h"
+#include "../../domain/do/common/CommonDO.h"
 #include "../../domain/query/common/CommonQuery.h"
 #include "../../domain/dto/common/CommonDTO.h"
 class StudentDAO :public BaseDAO
@@ -32,8 +16,76 @@ class RegistrationRecordDAO :public BaseDAO
 {
 public:
 	uint64_t count(uint64_t studentId);
-	// 不使用 DO：SQL JOIN 结果直接映射成 DTO
+	// 涓嶄娇鐢?DO锛歋QL JOIN 缁撴灉鐩存帴鏄犲皠鎴?DTO
 	std::list<RegistrationDTO::Wrapper> selectRegistrationRecordWithPage(const RegistrationPageQuery::Wrapper& query);
-	
+
 };
-#endif // !_SAMPLE_DAO_
+
+/**
+ * 班级列表数据访问对象
+ */
+class getClassListDAO : public BaseDAO
+{
+private:
+	std::string queryConditionBuilder(const getClassListQuery::Wrapper& query, SqlParams& params);
+public:
+	// 统计数据条数
+	uint64_t count(const getClassListQuery::Wrapper& query);
+	// 分页查询数据
+	std::list<getClassListDO> selectWithPage(const getClassListQuery::Wrapper& query);
+	std::list<PtrgetClassListDO> selectWithPagePtr(const getClassListQuery::Wrapper& query);
+};
+
+
+/**
+ * 课程统计数据访问对象
+ */
+class getCourseStatisticsDAO : public BaseDAO
+{
+private:
+	std::string queryConditionBuilder(const getCourseStatisticsQuery::Wrapper& query, SqlParams& params);
+public:
+	// 统计数据条数
+	uint64_t count(const getCourseStatisticsQuery::Wrapper& query);
+	// 分页查询数据
+	std::list<getCourseStatisticsDO> selectWithPage(const getCourseStatisticsQuery::Wrapper& query);
+	std::list<PtrgetCourseStatisticsDO> selectWithPagePtr(const getCourseStatisticsQuery::Wrapper& query);
+};
+
+
+/**
+ * 课程统计数据访问对象
+ */
+class JoinclassDAO : public BaseDAO
+{
+private:
+	std::string queryConditionBuilder(const JoinclassQuery::Wrapper& query, SqlParams& params);
+public:
+	// 统计数据条数
+	uint64_t count(const JoinclassQuery::Wrapper& query);
+	// 分页查询数据
+	std::list<JoinclassDO> selectWithPage(const JoinclassQuery::Wrapper& query);
+	std::list<PtrJoinclassDO> JoinclassDAO::selectWithPagePtr(const JoinclassQuery::Wrapper& query);
+};
+/**
+ * 学生课程数据访问对象
+ */
+class StudentCourseDAO : public BaseDAO {
+public:
+	PtrStudentCourseDO StudentCourseDAO::selectByIds(
+		uint64_t studentId,
+		uint64_t courseId,
+		uint64_t subjectId
+	);
+	int updatePayStatus(uint64_t id, double paidAmount, int payOff);
+private:
+
+};
+class RefundDAO :public BaseDAO {
+public:
+	PtrRefundDO selectByIds(uint64_t student_course_id);
+private:
+};
+
+#endif 
+

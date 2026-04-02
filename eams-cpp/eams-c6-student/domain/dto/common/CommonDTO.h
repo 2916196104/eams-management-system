@@ -63,6 +63,26 @@ class FileOnlyDTO :public oatpp::DTO {
 	//API_DTO_FIELD_DEFAULT(oatpp::swagger::Binary, file, ZH_WORDS_GETTER("common.field.file.file"),true);多出第四个参数导致编译错误
 	API_DTO_FIELD_REQUIRE(oatpp::swagger::Binary, file, ZH_WORDS_GETTER("common.field.file.file"), true);
 };
+class PayFeesDTO :public oatpp::DTO {
+	DTO_INIT(PayFeesDTO, DTO);
+	API_DTO_FIELD_DEFAULT(Float64, payAmount, ZH_WORDS_GETTER("common.filed.fees.pay-amount"), true);
+	API_DTO_FIELD_DEFAULT(String, handler, ZH_WORDS_GETTER("common.filed.fees.handler"), false);
+	API_DTO_FIELD_DEFAULT(UInt64, studentId, ZH_WORDS_GETTER("common.files.student.id"), true);
+	API_DTO_FIELD_DEFAULT(UInt64, courseId, ZH_WORDS_GETTER("common.filed.fees.course-id"), true);
+	API_DTO_FIELD_DEFAULT(UInt64, subjectId, ZH_WORDS_GETTER("common.filed.fees.subject-id"), true);
+
+
+
+};
+class RefundDTO :public oatpp::DTO {
+	DTO_INIT(RefundDTO, DTO);
+	API_DTO_FIELD_DEFAULT(UInt64, refundAmount, ZH_WORDS_GETTER("common.filed.fees.refund-amount"), true);
+	API_DTO_FIELD_DEFAULT(UInt64, lessons, ZH_WORDS_GETTER("common.filed.fees.lessons"), true);
+	API_DTO_FIELD_DEFAULT(String, reason, ZH_WORDS_GETTER("common.filed.fees.reason"), true);
+	API_DTO_FIELD_DEFAULT(UInt64, studentId, ZH_WORDS_GETTER("common.files.student.id"), true);
+	API_DTO_FIELD_DEFAULT(UInt64, courseId, ZH_WORDS_GETTER("common.filed.fees.course-id"), true);
+	API_DTO_FIELD_DEFAULT(UInt64, subjectId, ZH_WORDS_GETTER("common.filed.fees.subject-id"), true);
+};
 class CourseCountDTO :public oatpp::DTO {
 	DTO_INIT(CourseCountDTO, DTO);
 	API_DTO_FIELD_DEFAULT(String, courseName, ZH_WORDS_GETTER("common.field.course.name"));
@@ -235,8 +255,253 @@ public:
 	DTO_INIT(QueryFollowUprecordsDTO, PageDTO<QueryDTO::Wrapper>);
 };
 
+/**
+ * �༶�б������������
+ */
+class getClassListAddDTO : public oatpp::DTO
+{
+	DTO_INIT(getClassListAddDTO, DTO);
+	// ���
+	DTO_FIELD(String, id);
+	DTO_FIELD_INFO(id) {
+		info->description = ZH_WORDS_GETTER("getClassList.id");
+	}
+	// �༶����
+	DTO_FIELD(String, className);
+	DTO_FIELD_INFO(className) {
+		info->description = ZH_WORDS_GETTER("getClassList.name");
+	}
+	// ��Ŀ
+	DTO_FIELD(String, subject);
+	DTO_FIELD_INFO(subject) {
+		info->description = ZH_WORDS_GETTER("getClassList.subject");
+	}
+	// ����
+	DTO_FIELD(String, classroom);
+	DTO_FIELD_INFO(classroom) {
+		info->description = ZH_WORDS_GETTER("getClassList.classroom");
+	}
+	// ѧ����
+	DTO_FIELD(UInt32, studentCount);
+	DTO_FIELD_INFO(studentCount) {
+		info->description = ZH_WORDS_GETTER("getClassList.studentCount");
+	}
+	// ��������
+	DTO_FIELD(UInt32, maxStudentCount);
+	DTO_FIELD_INFO(maxStudentCount) {
+		info->description = ZH_WORDS_GETTER("getClassList.maxStudentCount");
+	}
+	// ����һ��PayloadDTO�������ݶ���
+	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
+public:
+	// ����У��
+	std::string validate()
+	{
+		// У��༶����
+		if (!className || className->empty())
+			return "className invalidate.";
+
+		// У���Ŀ
+		if (!subject || subject->empty())
+			return "subject invalidate.";
+
+		// У�����
+		if (!classroom || classroom->empty())
+			return "classroom invalidate.";
+
+		// У��ѧ����
+		if (!studentCount || studentCount > maxStudentCount)
+			return "studentCount invalidate.";
+
+		// У����������
+		if (!maxStudentCount || maxStudentCount <= 0)
+			return "maxStudentCount invalidate.";
+
+		return "";
+	}
+};
+
+/**
+ *  �༶�б�������
+ */
+class getClassListDTO : public getClassListAddDTO
+{
+	DTO_INIT(getClassListDTO, getClassListAddDTO);
+	// ���
+	DTO_FIELD(String, id);
+	DTO_FIELD_INFO(id) {
+		info->description = ZH_WORDS_GETTER("getClassList.id");
+	}
+};
+
+/**
+ * �༶�б��ҳ��ѯ�������
+ */
+class getClassListPageDTO : public PageDTO<getClassListDTO::Wrapper>
+{
+	DTO_INIT(getClassListPageDTO, PageDTO<getClassListDTO::Wrapper>);
+};
 
 
 
+/**
+ * �γ�ͳ�������������
+ */
+class getCourseStatisticsAddDTO : public oatpp::DTO
+{
+	DTO_INIT(getCourseStatisticsAddDTO, DTO);
+	// �γ�
+	DTO_FIELD(String, course);
+	DTO_FIELD_INFO(course) {
+		info->description = ZH_WORDS_GETTER("getCourseStatistics.course");
+	}
+	// �ܿ�ʱ
+	DTO_FIELD(UInt32, totalHours);
+	DTO_FIELD_INFO(totalHours) {
+		info->description = ZH_WORDS_GETTER("getCourseStatistics.totalHours");
+	}
+	// ʣ���ʱ
+	DTO_FIELD(UInt32, remainingHours);
+	DTO_FIELD_INFO(remainingHours) {
+		info->description = ZH_WORDS_GETTER("getCourseStatistics.remainingHours");
+	}
+	// ���Ͽ�ʱ
+	DTO_FIELD(UInt32, attendedHours);
+	DTO_FIELD_INFO(attendedHours) {
+		info->description = ZH_WORDS_GETTER("getCourseStatistics.attendedHours");
+	}
+	// ��������
+	DTO_FIELD(String, expireDate);
+	DTO_FIELD_INFO(expireDate) {
+		info->description = ZH_WORDS_GETTER("getCourseStatistics.expireDate");
+	}
+	//������ȼ�
+	DTO_FIELD(UInt32, cancelPriority);
+	DTO_FIELD_INFO(cancelPriority) {
+		info->description = ZH_WORDS_GETTER("getCourseStatistics.cancelPriority");
+	}
+
+	// ����һ��PayloadDTO�������ݶ���
+	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
+public:
+	// ����У��
+	std::string validate()
+	{
+		// У��γ�����
+		if (!course || course->empty())
+			return "course invalidate.";
+
+		// У���ܿ�ʱ
+		if (!totalHours || totalHours <= 0)
+			return "totalHours invalidate.";
+
+		// У��ʣ���ʱ
+		if (!remainingHours)
+			return "remainingHours invalidate.";
+
+		// У�����Ͽ�ʱ
+		if (!attendedHours)
+			return "attendedHours invalidate.";
+
+		// У�鵽�����ڸ�ʽ���򵥷ǿ�У�飬�����ϸ��ʽ����չ��
+		if (!expireDate || expireDate->empty())
+			return "expireDate invalidate.";
+
+		// У��������ȼ�
+		if (!cancelPriority || cancelPriority > 5) // �������ȼ���ΧΪ1-5���ɸ���ҵ�����
+			return "cancelPriority invalidate.";
+
+		// У���ʱ�߼���ϵ�����Ͽ�ʱ + ʣ���ʱ <= �ܿ�ʱ
+		if (totalHours && attendedHours && remainingHours) {
+			if (attendedHours + remainingHours > totalHours) {
+				return "The sum of attendedHours and remainingHours cannot exceed totalHours.";
+			}
+		}
+
+		// У�����Ͽ�ʱ���ܴ����ܿ�ʱ
+		if (totalHours && attendedHours && attendedHours > totalHours) {
+			return "attendedHours cannot exceed totalHours.";
+		}
+
+		// У��ʣ���ʱ���ܴ����ܿ�ʱ
+		if (totalHours && remainingHours && remainingHours > totalHours) {
+			return "remainingHours cannot exceed totalHours.";
+		}
+
+		return "";
+	}
+};
+/**
+ * �γ�ͳ�ƴ������
+ */
+class getCourseStatisticsDTO : public getCourseStatisticsAddDTO
+{
+	DTO_INIT(getCourseStatisticsDTO, getCourseStatisticsAddDTO);
+	// ���
+	DTO_FIELD(String, id);
+	DTO_FIELD_INFO(id) {
+		info->description = ZH_WORDS_GETTER("getCourseStatistics.id");
+	}
+};
+/**
+ * �γ�ͳ�Ʒ�ҳ��ѯ�������
+ */
+class getCourseStatisticsPageDTO : public PageDTO<getCourseStatisticsDTO::Wrapper>
+{
+	DTO_INIT(getCourseStatisticsPageDTO, PageDTO<getCourseStatisticsDTO::Wrapper>);
+};
+
+
+
+
+/**
+ * ����༶�����������
+ */
+class JoinclassAddDTO : public oatpp::DTO
+{
+	DTO_INIT(JoinclassAddDTO, DTO);
+	// �༶����
+	DTO_FIELD(String, className);
+	DTO_FIELD_INFO(className) {
+		info->description = ZH_WORDS_GETTER("JoinClass.name");
+	}
+	// ��У
+	DTO_FIELD(String, school);
+	DTO_FIELD_INFO(school) {
+		info->description = ZH_WORDS_GETTER("JoinClass.school");
+	}
+
+	// ����һ��PayloadDTO�������ݶ���
+	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
+public:
+	// ����У��
+	std::string validate()
+	{
+		if (!className || className->empty())
+			return "className invalidate.";
+		if (!school || school->empty())
+			return "school invalidate.";
+		return "";
+	}
+};
+/**
+ * ����༶�������
+ */
+class  JoinclassDTO : public  JoinclassAddDTO
+{
+	DTO_INIT(JoinclassDTO, JoinclassAddDTO);
+	// ���
+	DTO_FIELD(String, id);
+	DTO_FIELD_INFO(id) {
+		info->description = ZH_WORDS_GETTER("JoinClass.id");
+	}
+};
+/**
+ * ����༶��ҳ�������
+ */
+class JoinclassPageDTO : public PageDTO<JoinclassDTO::Wrapper>
+{
+	DTO_INIT(JoinclassPageDTO, PageDTO<JoinclassDTO::Wrapper>);
+};
 #include OATPP_CODEGEN_END(DTO)
 #endif

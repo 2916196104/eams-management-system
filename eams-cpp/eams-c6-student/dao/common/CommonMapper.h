@@ -1,14 +1,16 @@
-#pragma once
+﻿#pragma once
 #ifndef COMMONMAPPER_H
 #define COMMONMAPPER_H
 #include "Mapper.h"
 #include "../../domain/dto/common/CommonDTO.h"
+#include "../../domain/do/student/StudentDO.h"
+#include "../../domain/do/common/CommonDO.h"
 class RegistrationRecordMapper : public Mapper<RegistrationDTO::Wrapper> {
 public:
 	RegistrationDTO::Wrapper mapper(ResultSet* rs) const override {
 		auto dto = RegistrationDTO::createShared();
 
-		// SQL 顺序（保持你当前 CommonDAO.cpp 的 SELECT 字段顺序）
+		// SQL 椤哄簭锛堜繚鎸佷綘褰撳墠 CommonDAO.cpp 鐨?SELECT 瀛楁椤哄簭锛?
 		// 1 sc.add_time
 		// 2 c.name
 		// 3 sub.name
@@ -45,7 +47,7 @@ public:
 		dto->refundDescripe = rs->getString(14).c_str();
 		dto->refundStatus = rs->getInt(15);
 
-		// 当前 SQL 未返回 sc.id，因此 dto->id 不赋值（可在需要时把 sc.id 加到 SELECT 前面并同步调整下标）
+		// 褰撳墠 SQL 鏈繑鍥?sc.id锛屽洜姝?dto->id 涓嶈祴鍊硷紙鍙湪闇€瑕佹椂鎶?sc.id 鍔犲埌 SELECT 鍓嶉潰骞跺悓姝ヨ皟鏁翠笅鏍囷級
 		return dto;
 	}
 };
@@ -74,5 +76,185 @@ public:
 	}
 };
 
+// 班级列表字段匹配映射
+class getClassListMapper : public Mapper<getClassListDO>
+{
+public:
+	getClassListDO mapper(ResultSet* resultSet) const override
+	{
+		getClassListDO data;
+		data.setId(resultSet->getString(1));
+		data.setClassName(resultSet->getString(2));
+		data.setSubject(resultSet->getString(3));
+		data.setClassroom(resultSet->getString(4));
+		data.setStudentCount(resultSet->getInt(5));
+		data.setMaxStudentCount(resultSet->getInt(6));
+		return data;
+	}
+};
 
-#endif
+// 班级列表字段匹配映射 - 创建智能指针对象
+class PtrgetClassListMapper : public Mapper<PtrgetClassListDO>
+{
+public:
+	PtrgetClassListDO mapper(ResultSet* resultSet) const override
+	{
+		auto data = std::make_shared<getClassListDO>();
+		data->setId(resultSet->getString(1));
+		data->setClassName(resultSet->getString(2));
+		data->setSubject(resultSet->getString(3));
+		data->setClassroom(resultSet->getString(4));
+		data->setStudentCount(resultSet->getInt(5));
+		data->setMaxStudentCount(resultSet->getInt(6));
+		return data;
+	}
+};
+
+// 课程统计字段匹配映射
+class getCourseStatisticsMapper : public Mapper<getCourseStatisticsDO>
+{
+public:
+	getCourseStatisticsDO mapper(ResultSet* resultSet) const override
+	{
+		getCourseStatisticsDO data;
+		data.setCourse(resultSet->getString(1));
+		data.setTotalHours(resultSet->getInt(2));
+		data.setRemainingHours(resultSet->getInt(3));
+		data.setAttendedHours(resultSet->getInt(4));
+		data.setExpireDate(resultSet->getString(5));
+		data.setCancelPriority(resultSet->getInt(6));
+		return data;
+	}
+};
+
+//课程统计字段匹配映射 - 创建智能指针对象
+class PtrgetCourseStatisticsMapper : public Mapper<PtrgetCourseStatisticsDO>
+{
+public:
+	PtrgetCourseStatisticsDO mapper(ResultSet* resultSet) const override
+	{
+		auto data = std::make_shared<getCourseStatisticsDO>();
+		data->setCourse(resultSet->getString(1));
+		data->setTotalHours(resultSet->getInt(2));
+		data->setRemainingHours(resultSet->getInt(3));
+		data->setAttendedHours(resultSet->getInt(4));
+		data->setExpireDate(resultSet->getString(5));
+		data->setCancelPriority(resultSet->getInt(6));
+		return data;
+	}
+};
+
+// 加入班级字段匹配映射
+class JoinclassMapper : public Mapper<JoinclassDO>
+{
+public:
+	JoinclassDO mapper(ResultSet* resultSet) const override
+	{
+		JoinclassDO data;
+		data.setClassName(resultSet->getString(1));
+		data.setSchool(resultSet->getString(2));
+		return data;
+	}
+};
+
+// 加入班级字段匹配映射 - 创建智能指针对象
+
+class PtrJoinclassMapper : public Mapper<PtrJoinclassDO>
+{
+public:
+	PtrJoinclassDO mapper(ResultSet* resultSet) const override
+	{
+		auto data = std::make_shared<JoinclassDO>();
+		data->setClassName(resultSet->getString(1));
+		data->setSchool(resultSet->getString(2));
+		return data;
+	}
+};
+//student_course数据表字段匹配映射
+class PtrStudentCourseMapper : public Mapper<PtrStudentCourseDO> {
+public:
+	PtrStudentCourseDO mapper(ResultSet* resultSet) const override {
+		auto data = std::make_shared<StudentCourseDO>();
+
+		// 核心ID
+		data->setId(resultSet->getUInt64("id"));
+		data->setStudentId(resultSet->getUInt64("student_id"));
+		data->setCourseId(resultSet->getUInt64("course_id"));
+		data->setSubjectId(resultSet->getUInt64("subject_id"));
+
+		// 时间
+		data->setStartDate(resultSet->getString("start_date"));
+		data->setExpireDate(resultSet->getString("expire_date"));
+
+		// 备注
+		data->setRemark(resultSet->getUInt64("remark"));
+
+		// 课次
+		data->setCountLessonTotal(resultSet->getUInt64("count_lesson_total"));
+		data->setCountLessonComplete(resultSet->getUInt64("count_lesson_complete"));
+		data->setCountLessonRefund(resultSet->getUInt64("count_lesson_refund"));
+
+		// 金额
+		data->setCourseAmount(resultSet->getDouble("course_amount"));
+		data->setDiscountAmount(resultSet->getDouble("discount_amount"));
+		data->setAmount(resultSet->getDouble("amount"));
+		data->setPaidAmount(resultSet->getDouble("paid_amount"));
+
+		// 支付状态
+		data->setPayOff(resultSet->getInt("pay_off"));
+
+		// 操作人 / 创建人 / 编辑人
+		data->setOpt(resultSet->getUInt64("operator"));
+		data->setCreator(resultSet->getUInt64("creator"));
+		data->setAddTime(resultSet->getString("add_time"));
+		data->setEditor(resultSet->getUInt64("editor"));
+		data->setEditTime(resultSet->getString("edit_time"));
+
+		// 状态
+		data->setDeleted(resultSet->getInt("deleted"));
+		data->setVerifyState(resultSet->getInt("verify_state"));
+
+		// 提醒与优先级
+		data->setWarningTimes(resultSet->getInt("warning_times"));
+		data->setPriority(resultSet->getInt("priority"));
+
+		// 单价与体验
+		data->setUnitPrice(resultSet->getDouble("unit_price"));
+		data->setFromTrial(resultSet->getInt("from_trial"));
+
+		// 组织ID
+		data->setOrgId(resultSet->getUInt64("org_id"));
+
+		return data;
+	}
+};
+class PtrRefundMapper :public Mapper<PtrRefundDO> {
+public:
+	PtrRefundDO mapper(ResultSet* resultSet) const override {
+		auto data = std::make_shared<RefundDO>();
+		data->setStudentCourseId(resultSet->getUInt64("student_course_id"));
+		data->setId(resultSet->getUInt64("id"));
+		data->setStudentId(resultSet->getUInt64("student_id"));
+		data->setStudentCourseId(resultSet->getUInt64("student_course_id"));
+		data->setRefundAmount(resultSet->getDouble("refund_amount"));
+		data->setRefundLessonCount(resultSet->getUInt64("refund_lesson_count"));
+		data->setApplyTime(resultSet->getString("apply_time"));
+		data->setRemark(resultSet->getString("remark"));
+		data->setVerifyState(resultSet->getInt("verify_state"));
+		return data;
+	}
+private:
+};
+class StudentCourseMapper : public Mapper<StudentCourseDO>
+{
+public:
+	StudentCourseDO mapper(ResultSet* resultSet) const override
+	{
+		StudentCourseDO data;
+		data.setStudentId(resultSet->getUInt64("student_id"));
+		data.setCourseId(resultSet->getUInt64("course_id"));
+		data.setSubjectId(resultSet->getUInt64("subject_id"));
+		return data;
+	}
+};
+#endif 

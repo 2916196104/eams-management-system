@@ -5,15 +5,12 @@
 #include "ApiHelper.h"
 #include "dao/finishstudent/FinishStudentDAO.h"
 
-/**
- * 缁撲笟瀛﹀憳涓氬姟灞?
- */
 class FinishStudentService
 {
 private:
 	FinishStudentDAO m_finishStudentDAO;
 public:
-	std::list<FinishStudentDTO::Wrapper> listFinishStudentByIds(const oatpp::List<oatpp::String>& ids);
+	std::list<FinishStudentDTO::Wrapper> listFinishStudentByIds(const oatpp::List<oatpp::UInt64>& ids);
 	int importFinishStudent(const std::list<FinishStudentDTO::Wrapper>& rows);
 };
 
