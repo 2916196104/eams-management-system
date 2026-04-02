@@ -651,7 +651,12 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
 
     @Override
     public Long removeFollowUp(Long id) {
-        contactRecordMapper.deleteById(id);
+        int rowsAffected = contactRecordMapper.deleteById(id);
+
+        // 如果受影响行数为0，说明数据不存在，删除失败
+        if (rowsAffected == 0) {
+            throw new RuntimeException("删除失败，跟进记录不存在 (ID: " + id + ")");
+        }
         return id;
     }
 

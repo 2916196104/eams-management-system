@@ -112,15 +112,15 @@
                     <!-- 数据库连接信息配置 -->
                     <dbConfig>
                         <!-- 数据库主机地址 -->
-                        <host>192.168.85.128</host>
+                        <host>111.228.43.9</host>
                         <!-- 数据库端口 -->
-                        <port>33060</port>
+                        <port>3307</port>
                         <!-- 数据库名称 -->
                         <dbname>zo_eams</dbname>
                         <!-- 数据库用户名 -->
                         <username>root</username>
                         <!-- 数据库密码 -->
-                        <password>Nacos@123456</password>
+                        <password>V9sgZWAO6JZ6BRPuvcRM</password>
                     </dbConfig>
                     <!-- 生成代码输出根目录 -->
                     <outDir>${project.basedir}/src/main/java</outDir>
