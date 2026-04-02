@@ -10,7 +10,7 @@ public:
 };
 class RegistrationRecordService {
 public:
-	std::list<RegistrationDTO::Wrapper> GetRegistrationRecordWithPage(RegistrationPageQuery::Wrapper query);
+	RegistrationPageDTO::Wrapper GetRegistrationRecordWithPage(RegistrationPageQuery::Wrapper query);
 	
 };
 

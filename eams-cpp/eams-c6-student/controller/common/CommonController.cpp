@@ -5,7 +5,8 @@ StudentJsonVO::Wrapper CommonController::executeGetStudentById(UInt64 id) {
 	auto jvo=StudentJsonVO::createShared();
 	StudentService service;
 	auto data=service.GetStudentDetailById(id);
-	return StudentJsonVO::createShared();
+	jvo->success(data);
+	return jvo;
 }
 StringJsonVO::Wrapper CommonController::executeModifyStudentPicture(const ModifyStudentHeadImgDTO::Wrapper& dto)
 {
@@ -19,6 +20,7 @@ RegistrationPageJsonVO::Wrapper CommonController::executeQueryRegistrationRecord
 	auto jvo = RegistrationPageJsonVO::createShared();
 	RegistrationRecordService service;
 	auto data=service.GetRegistrationRecordWithPage(query);
+	jvo->success(data);
 	return jvo;
 }
 /**

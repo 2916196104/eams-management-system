@@ -9,6 +9,7 @@ void StudentDAO::updateStudentHeadImg(uint64_t studentId, const std::string& hea
 	SQLPARAMS_PUSH(params, "ull", uint64_t, studentId);
 	sqlSession->executeUpdate(sql, params);
 }
+
 StudentDTO::Wrapper StudentDAO::getStudentDetailById(uint64_t studentId) {
 	string sql = "select stu.head_img,stu.name,u.mobile, "
 		"coalesce(sum(sc.count_lesson_total - sc.count_lesson_complete), 0) as cll,"

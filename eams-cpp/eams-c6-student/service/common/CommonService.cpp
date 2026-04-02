@@ -14,8 +14,21 @@ StudentDTO::Wrapper StudentService::GetStudentDetailById(uint64_t studentId) {
 	StudentDAO dao;
 	return dao.getStudentDetailById(studentId);
 }
-std::list<RegistrationDTO::Wrapper> RegistrationRecordService::GetRegistrationRecordWithPage(RegistrationPageQuery::Wrapper query) {
+RegistrationPageDTO::Wrapper RegistrationRecordService::GetRegistrationRecordWithPage(RegistrationPageQuery::Wrapper query) {
+	auto pages = RegistrationPageDTO::createShared();
 	RegistrationRecordDAO dao;
-	return dao.selectRegistrationRecordWithPage(query);
-}
+	pages->pageIndex = query->pageIndex;
+	pages->pageSize = query->pageSize;
+	uint64_t count = dao.count(query->id);
+	if (count <= 0) {
+		return pages;
+	}
+	pages->total = count;
+	pages->calcPages();
+	auto results = dao.selectRegistrationRecordWithPage(query);
+	for (auto& result : results) {
+		pages->addData(result);
+	}
+	return pages;
 
+}
