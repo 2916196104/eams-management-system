@@ -2,9 +2,9 @@
 	<div class="system-param">
 		<div class="legacy-panel">
 			<aside class="param-sidebar" v-loading="paramStore.categoriesLoading">
-				<div class="sidebar-title">系统设置</div>
 				<el-scrollbar class="sidebar-scroll">
 					<div class="category-list">
+						<div class="category-group-label">参数分类</div>
 						<button
 							v-for="category in paramStore.categories"
 							:key="category.id"
@@ -21,6 +21,7 @@
 			</aside>
 
 			<section class="param-content">
+				<div class="content-category-title">{{ currentCategory?.name ?? "参数设置" }}</div>
 				<div class="content-header">
 					<div class="header-cell">设置项</div>
 					<div class="header-cell">设置值</div>
@@ -181,21 +182,22 @@ onMounted(async () => {
 	background: #fff;
 }
 
-.sidebar-title {
-	padding: 28px 38px 16px;
-	font-size: 18px;
-	line-height: 1.2;
-	font-weight: 500;
-	color: #409eff;
-}
-
 .sidebar-scroll {
 	flex: 1;
 	min-height: 0;
 }
 
 .category-list {
-	padding: 4px 0 26px;
+	padding: 18px 0 26px;
+}
+
+.category-group-label {
+	padding: 0 38px 14px;
+	font-size: 13px;
+	line-height: 1.2;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	color: #98a2b3;
 }
 
 .category-item {
@@ -225,6 +227,14 @@ onMounted(async () => {
 	flex-direction: column;
 	min-width: 0;
 	background: #fff;
+}
+
+.content-category-title {
+	padding: 24px 34px 10px;
+	font-size: 20px;
+	line-height: 1.2;
+	font-weight: 500;
+	color: #409eff;
 }
 
 .content-header {
