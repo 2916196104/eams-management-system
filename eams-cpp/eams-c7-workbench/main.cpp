@@ -44,6 +44,9 @@ void parseServerArgs(int argc, char* argv[]) {
 	std::string dbHost = "";
 	int dbPort = -1;
 	int dbMax = -1;
+	// 雪花算法配置
+	int datacenterId = 1;
+	int machineId = 1;
 #ifdef LINUX
 	// Nacos配置参数
 	std::string nacosAddr = "";
@@ -129,6 +132,11 @@ void parseServerArgs(int argc, char* argv[]) {
 			dbPassword = dbPassword == "" ? yaml.getString(&node, "spring.datasource.password") : dbPassword;
 			dbMax = dbMax == -1 ? atoi(yaml.getString(&node, "spring.datasource.druid.max-active").c_str()) : dbMax;
 		}
+		// 读取雪花算法配置
+		std::string dcId = yaml.getString(&node, "snowflake.datacenter-id");
+		std::string mId = yaml.getString(&node, "snowflake.machine-id");
+		if (!dcId.empty()) datacenterId = atoi(dcId.c_str());
+		if (!mId.empty()) machineId = atoi(mId.c_str());
 	}
 
 	// 记录服务器配置到内存中方便使用
@@ -139,6 +147,8 @@ void parseServerArgs(int argc, char* argv[]) {
 	ServerInfo::getInstance().setDbHost(dbHost);
 	ServerInfo::getInstance().setDbPort(dbPort);
 	ServerInfo::getInstance().setDbMax(dbMax);
+	ServerInfo::getInstance().setDatacenterId(datacenterId);
+	ServerInfo::getInstance().setMachineId(machineId);
 #ifdef LINUX
 	ServerInfo::getInstance().setNacosAddr(nacosAddr);
 	ServerInfo::getInstance().setNacosNs(nacosNs);

@@ -21,15 +21,15 @@ private:
 
 public:
 	// 3 定义接口
-	
+
 	// 3.1 定义新增接口描述
-	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("freecourses.post.summary"), addFreeCoursesArrange, freeCoursesArrangeJsonVO::Wrapper, API_TAG);
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("freecourses.post.summary"), addFreeCoursesArrange, StringJsonVO::Wrapper, API_TAG);
 	// 3.2 定义新增接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/lesson_schedule/free", addFreeCoursesArrange, BODY_DTO(freeCoursesArrangeDTO::Wrapper, dto), execAddSample(dto));
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/FreeCoursesArrange", addFreeCoursesArrange, BODY_DTO(freeCoursesArrangeDTO::Wrapper, dto), execAddSample(dto, authObject->getPayload()));
 
 private:
 	// 3.3 演示新增数据
-	freeCoursesArrangeJsonVO::Wrapper execAddSample(const freeCoursesArrangeDTO::Wrapper& dto);
+	StringJsonVO::Wrapper execAddSample(const freeCoursesArrangeDTO::Wrapper& dto, const PayloadDTO& payload);
 };
 
 

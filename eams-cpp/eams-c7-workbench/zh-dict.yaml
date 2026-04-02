@@ -178,14 +178,6 @@ monthly_data:
  monthly_registration_amount: 月报名金额
  new_monthly_students: 月新增学员
 
-classroom:
- tag: 教室管理
- field:
-  id: 教室id
-  name: 教室名称
-  address: 教室地址
- query-page: 
-  summary: 获取教室列表(条件+分页)
 
 repeatcourses:
  tag: 重复排课

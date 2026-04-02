@@ -17,7 +17,7 @@ class periodDTO :public oatpp::DTO
 	API_DTO_FIELD_REQUIRE(UInt32, dec_class_time, ZH_WORDS_GETTER("repeatcourses.field.decclasstime"), false);
 
 };
-	
+
 
 #include OATPP_CODEGEN_END(DTO)
 #endif

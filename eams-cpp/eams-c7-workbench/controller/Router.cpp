@@ -30,7 +30,6 @@
 #include "schedule/SelectClassController.h"
 #include "schedule/SelectTeacherController.h"
 #include "UserRelated/MonthlyDataController.h"
-#include "Schedule/ClassroomController.h"
 #include "Schedule/repeatCoursesArrangeController.h"
 #include "Schedule/freeCoursesArrangeController.h"
 #include "StudentRecord/StlistController.h"
@@ -74,7 +73,6 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(SelectClassController);
 	ROUTER_SIMPLE_BIND(SelectTeacherController);
 	ROUTER_SIMPLE_BIND(MonthlyDataController);
-	ROUTER_SIMPLE_BIND(ClassroomController);
 	ROUTER_SIMPLE_BIND(repeatCoursesArrangeController);
 	ROUTER_SIMPLE_BIND(freeCoursesArrangeController);
 	ROUTER_SIMPLE_BIND(StlistController);

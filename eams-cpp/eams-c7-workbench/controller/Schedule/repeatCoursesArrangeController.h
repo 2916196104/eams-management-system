@@ -20,15 +20,15 @@ private:
 
 public:
 	// 3 定义接口
-	
+
 	// 3.1 定义新增接口描述
-	API_DEF_ENDPOINT_INFO_AUTH( ZH_WORDS_GETTER("repeatcourses.post.summary"), addRepeatCoursesArrange, repeatCoursesArrangeJsonVO::Wrapper, API_TAG);
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("repeatcourses.post.summary"), addRepeatCoursesArrange, StringJsonVO::Wrapper, API_TAG);
 	// 3.2 定义新增接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/lesson_schedule/repeat", addRepeatCoursesArrange, BODY_DTO(repeatCoursesArrangeDTO::Wrapper, dto), execAddSample(dto));
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/RepeatCoursesArrange", addRepeatCoursesArrange, BODY_DTO(repeatCoursesArrangeDTO::Wrapper, dto), execAddSample(dto, authObject->getPayload()));
 
 private:
 	// 3.3 演示新增数据
-	repeatCoursesArrangeJsonVO::Wrapper execAddSample(const repeatCoursesArrangeDTO::Wrapper& dto);
+	StringJsonVO::Wrapper execAddSample(const repeatCoursesArrangeDTO::Wrapper& dto, const PayloadDTO& payload);
 };
 
 
