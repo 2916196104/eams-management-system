@@ -1,4 +1,4 @@
-FROM crpi-5yw4kk2bxbk3nj6k.cn-hangzhou.personal.cr.aliyuncs.com/01xq/openjdk:8
+FROM openjdk:8
 MAINTAINER isme
 ADD target/eams-j2-sys-1.0.0-SNAPSHOT.jar app.jar
 ENV JAVA_OPTS="-Xms256m -Xmx256m"
