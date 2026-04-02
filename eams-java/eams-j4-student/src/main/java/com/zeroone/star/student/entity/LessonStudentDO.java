@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @TableName("lesson_student")
 public class LessonStudentDO {
+    @TableId(type = IdType.AUTO)
     private Long id;
     private Long lessonId;
     private Integer classId;

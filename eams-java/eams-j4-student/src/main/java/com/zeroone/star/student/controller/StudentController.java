@@ -878,4 +878,33 @@ public class StudentController implements StudentApis {
         // 包装进 Result 的 result 字段
         return Result.build(detail);
     }
+
+    /**
+     * 1. 获取账号列表（条件+分页）
+     */
+    @PostMapping("/list")
+    @ApiOperation("获取账号列表（条件+分页）")
+    public JsonVO<Page<UserVO>> listUser(@RequestBody UserQueryDTO query) {
+        return JsonVO.success(userService.listUser(query));
+    }
+
+    /**
+     * 2. 修改账号信息
+     */
+    @PutMapping("/update")
+    @ApiOperation("修改账号信息")
+    public JsonVO<String> updateUser(@Validated @RequestBody UserUpdateDTO dto) {
+        userService.updateUser(dto);
+        return JsonVO.success("修改成功");
+    }
+
+    /**
+     * 3. 修改密码
+     */
+    @PutMapping("/updatePwd")
+    @ApiOperation("修改密码")
+    public JsonVO<String> updatePassword(@Validated @RequestBody UserUpdatePwdDTO dto) {
+        userService.updatePassword(dto);
+        return JsonVO.success("密码修改成功");
+    }
 }
