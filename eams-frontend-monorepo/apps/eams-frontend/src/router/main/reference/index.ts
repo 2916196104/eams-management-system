@@ -38,24 +38,6 @@ const routes = [
 		component: placeholderView,
 	},
 	{
-		path: "/material/manage",
-		name: "MaterialManage",
-		meta: {
-			label: "物料管理",
-			description: "物料目录、领用记录和库存能力后续可继续补齐。",
-		},
-		component: placeholderView,
-	},
-	{
-		path: "/material/inventory",
-		name: "MaterialInventory",
-		meta: {
-			label: "库存记录",
-			description: "库存流水、预警和盘点能力后续可继续补齐。",
-		},
-		component: placeholderView,
-	},
-	{
 		path: "/interaction/teacher-review",
 		name: "InteractionTeacherReview",
 		meta: {
