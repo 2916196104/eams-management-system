@@ -25,9 +25,10 @@ interface RegistrationRecordItem {
 	amount?: number;
 	paid_amount?: number;
 	count_lesson_total?: number;
+	count_lesson_complete?: number;
 	count_lesson_remaining?: number;
-	type?: string;
-	verify_state?: string;
+	lesson_type?: string | number;
+	verify_state?: string | number;
 	expired?: boolean;
 }
 
@@ -49,7 +50,17 @@ const studentName = computed(() => currentStudent.value?.name || "");
 const hasMore = computed(() => pageIndex.value < pages.value);
 
 function normalizeRows(data: any): Array<RegistrationRecordItem> {
-	return Array.isArray(data?.rows) ? data.rows : [];
+	const rows = Array.isArray(data?.rows) ? data.rows : [];
+	return rows.map((item: any) => {
+		const totalLessons = Number(item?.count_lesson_total || 0);
+		const completedLessons = Number(item?.count_lesson_complete || 0);
+		return {
+			...item,
+			count_lesson_total: totalLessons,
+			count_lesson_complete: completedLessons,
+			count_lesson_remaining: Math.max(totalLessons - completedLessons, 0),
+		};
+	});
 }
 
 function formatAmount(value?: number) {
@@ -188,7 +199,7 @@ watch(excludeExpired, () => {
 					</view>
 
 					<view class="record-card__footer">
-						<text>{{ item.type || "未设置报名类型" }}</text>
+						<text>{{ item.lesson_type || "未设置报名类型" }}</text>
 						<text>{{ item.verify_state || "未设置审核状态" }}</text>
 					</view>
 				</view>

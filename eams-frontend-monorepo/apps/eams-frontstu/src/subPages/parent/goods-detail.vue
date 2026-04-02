@@ -41,8 +41,8 @@ interface GoodsDetail {
 	specs?: string;
 	deliveryInfo?: string;
 	limitNum?: number;
-	exchangeStartTime?: number;
-	exchangeEndTime?: number;
+	exchangeStartTime?: string | number;
+	exchangeEndTime?: string | number;
 }
 
 // 兑换规则与提交结果结构
@@ -82,14 +82,12 @@ const exchangeResult = ref<ExchangeResult | null>(null);
 
 const form = reactive({
 	num: 1,
-	receiverName: "",
-	receiverPhone: "",
-	receiverAddress: "",
 	remark: "",
 });
 
 // 当前礼品与可提交状态
 const goodsId = computed(() => Number(route.query?.id || 0));
+const studentId = computed(() => Number(currentStudent.value?.id || 0));
 const detailImages = computed(() =>
 	String(detail.value?.detailImages || "")
 		.split(",")
@@ -100,9 +98,9 @@ const canSubmit = computed(() => {
 	return Number(detail.value?.state) === 1 && Number(detail.value?.storage || 0) > 0;
 });
 
-function formatTime(value?: number) {
+function formatTime(value?: string | number) {
 	if (!value) return "未设置";
-	const date = new Date(Number(value));
+	const date = new Date(value);
 	if (Number.isNaN(date.getTime())) return String(value);
 	const year = date.getFullYear();
 	const month = `${date.getMonth() + 1}`.padStart(2, "0");
@@ -131,15 +129,16 @@ function orderStateText(status?: number) {
 
 function resetForm() {
 	form.num = 1;
-	form.receiverName = currentStudent.value?.name || "";
-	form.receiverPhone = userStore.userInfo.phone || "";
-	form.receiverAddress = "";
 	form.remark = "";
 }
 
 function openApplyPopup() {
 	if (!detail.value?.id) {
 		globalToast.error("缺少礼品信息");
+		return;
+	}
+	if (!studentId.value) {
+		globalToast.error("缺少学生信息");
 		return;
 	}
 	if (!canSubmit.value) {
@@ -172,18 +171,6 @@ function validateForm() {
 		globalToast.warning("兑换数量不能超过限兑数量");
 		return false;
 	}
-	if (!form.receiverName.trim()) {
-		globalToast.warning("请填写收货人姓名");
-		return false;
-	}
-	if (!/^1\d{10}$/.test(form.receiverPhone.trim())) {
-		globalToast.warning("请填写正确的手机号");
-		return false;
-	}
-	if (!form.receiverAddress.trim()) {
-		globalToast.warning("请填写收货地址");
-		return false;
-	}
 	return true;
 }
 
@@ -203,9 +190,7 @@ async function submitExchange() {
 					data: {
 						goodsId: detail.value?.id,
 						num: form.num,
-						receiverName: form.receiverName.trim(),
-						receiverPhone: form.receiverPhone.trim(),
-						receiverAddress: form.receiverAddress.trim(),
+						studentId: studentId.value,
 						remark: form.remark.trim(),
 					},
 				});
@@ -237,8 +222,8 @@ async function loadDetail() {
 	loading.value = true;
 	try {
 		const [detailRes, ruleRes]: any = await Promise.all([
-			Apis.home.get_c1_exchange_goods_detail_id({
-				pathParams: {
+			(Apis as any).home.get_c1_exchange_goods_detail_id({
+				params: {
 					id: goodsId.value,
 				},
 			}),
@@ -394,21 +379,6 @@ onMounted(() => {
 				<view class="apply-popup__field">
 					<text class="apply-popup__label">兑换数量</text>
 					<input v-model.number="form.num" class="apply-popup__input" type="number" placeholder="请输入兑换数量" />
-				</view>
-
-				<view class="apply-popup__field">
-					<text class="apply-popup__label">收货人姓名</text>
-					<input v-model="form.receiverName" class="apply-popup__input" placeholder="请输入收货人姓名" />
-				</view>
-
-				<view class="apply-popup__field">
-					<text class="apply-popup__label">收货人手机号</text>
-					<input v-model="form.receiverPhone" class="apply-popup__input" type="number" placeholder="请输入手机号" />
-				</view>
-
-				<view class="apply-popup__field">
-					<text class="apply-popup__label">收货地址</text>
-					<textarea v-model="form.receiverAddress" class="apply-popup__textarea" placeholder="请输入收货地址" />
 				</view>
 
 				<view class="apply-popup__field">
