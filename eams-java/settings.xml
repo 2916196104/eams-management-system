@@ -51,7 +51,7 @@ under the License.
    |
    | Default: ${user.home}/.m2/repository
   -->
-  <localRepository>D:\Program\java_develop\apache-maven-3.9.11\mvn_repo</localRepository>
+  <localRepository>/home/zhouyifei/Java_Project/zero-one-eams2603-j3-0b13992721ebd2911b00b2be0c2e8a783f9569ad/resouce</localRepository>
   
 
   <!-- interactiveMode

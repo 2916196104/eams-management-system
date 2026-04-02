@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -43,4 +44,9 @@ public class Student implements Serializable {
      * 删除标记
      */
     private Integer deleted;
+
+    /**
+     * 更改时间
+     */
+    private LocalDateTime edit_time;
 }
