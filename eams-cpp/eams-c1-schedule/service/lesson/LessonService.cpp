@@ -47,6 +47,7 @@ bool LessonService::signLesson(uint64_t lessonId, const PayloadDTO& payload)
 
 	// 查出课程
 	LessonDO lessonDO = dao.selectById(lessonId);
+	if (!lessonDO.getIdPtr())return false;
 	if (lessonDO.getId() == 0) return false;
 
 	// 业务规则校验
