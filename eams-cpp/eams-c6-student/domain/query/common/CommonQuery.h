@@ -6,10 +6,8 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 class RegistrationPageQuery :public PageQuery {
 	DTO_INIT(RegistrationPageQuery, PageQuery);
-	API_DTO_FIELD_DEFAULT(Int64, id, ZH_WORDS_GETTER("common.field.student.id"));
+	API_DTO_FIELD_DEFAULT(UInt64, id, ZH_WORDS_GETTER("common.field.student.id"));
 };
-
-
 
 /**
  * 示例分页查询对象

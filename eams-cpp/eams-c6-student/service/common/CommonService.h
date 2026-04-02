@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -22,32 +22,42 @@
 #include "domain/vo/Common/CommonVO.h"
 #include "domain/query/Common/CommonQuery.h"
 #include "domain/dto/Common/CommonDTO.h"
+#include "../../dao/common/CommonDAO.h"
+class StudentService {
+public:
+	void ModifyStudentHeadImg(ModifyStudentHeadImgDTO::Wrapper dto);
+	StudentDTO::Wrapper GetStudentDetailById(uint64_t studentId);
+};
+class RegistrationRecordService {
+public:
+	RegistrationPageDTO::Wrapper GetRegistrationRecordWithPage(RegistrationPageQuery::Wrapper query);
 
-//°à¼¶ÁĞ±í·şÎñ
+};
+//ç­çº§åˆ—è¡¨æœåŠ¡
 class getClassListService
 {
 public:
-	// ·ÖÒ³²éÑ¯ËùÓĞ°à¼¶ÁĞ±íÊı¾İ
+	// åˆ†é¡µæŸ¥è¯¢æ‰€æœ‰ç­çº§åˆ—è¡¨æ•°æ®
 	getClassListPageDTO::Wrapper listAll(const getClassListQuery::Wrapper& query);
 };
 
-//¿Î³ÌÍ³¼Æ·şÎñ
+//ï¿½Î³ï¿½Í³ï¿½Æ·ï¿½ï¿½ï¿½
 class getCourseStatisticsService
 {
 public:
-	// ·ÖÒ³²éÑ¯¿Î³ÌÍ³¼ÆÊı¾İ
+	// ï¿½ï¿½Ò³ï¿½ï¿½Ñ¯ï¿½Î³ï¿½Í³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	getCourseStatisticsPageDTO::Wrapper listAll(const getCourseStatisticsQuery::Wrapper& query);
 
 };
 
-//¼ÓÈë°à¼¶·şÎñ
+//ï¿½ï¿½ï¿½ï¿½à¼¶ï¿½ï¿½ï¿½ï¿½
 class JoinclassService
 {
 public:
-	// ·ÖÒ³²éÑ¯¿É¼ÓÈëµÄ°à¼¶ÁĞ±í
+	// ï¿½ï¿½Ò³ï¿½ï¿½Ñ¯ï¿½É¼ï¿½ï¿½ï¿½Ä°à¼¶ï¿½Ğ±ï¿½
 	JoinclassPageDTO::Wrapper listAll(const JoinclassQuery::Wrapper& query);
 
-	// Ñ§Éú¼ÓÈë°à¼¶µÄ½Ó¿Ú£¨ĞÂÔö£©
+	// Ñ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½à¼¶ï¿½Ä½Ó¿Ú£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	bool joinClass(const oatpp::String& studentId, const oatpp::String& className);
 
 };

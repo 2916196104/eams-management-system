@@ -1,63 +1,63 @@
-#pragma once
+ï»¿#pragma once
 #ifndef STUDENTDO_H
 #define STUDENTDO_H 
 
 #include "../DoInclude.h"
 class StaffDO : public BaseDO {
 public:
-	// Ö°¹¤id
+	// èŒå·¥id
 	MYSQL_SYNTHESIZE(long long, id, Id);
-	// Ö°¹¤ĞÕÃû
+	// èŒå·¥å§“å
 	MYSQL_SYNTHESIZE(string, name, Name);
-	// ÊÖ»úºÅ
+	// æ‰‹æœºå·
 	MYSQL_SYNTHESIZE(string, mobile, Mobile);
-	// Î¢ĞÅµÇÂ¼id
+	// å¾®ä¿¡ç™»å½•id
 	MYSQL_SYNTHESIZE(int, wxAccessId, WxAccessId);
 	// email
 	MYSQL_SYNTHESIZE(string, email, Email);
-	//ÉúÈÕ
+	//ç”Ÿæ—¥
 	MYSQL_SYNTHESIZE(string, birthday, BirthDay);
-	//ĞÔ±ğ
+	//æ€§åˆ«
 	MYSQL_SYNTHESIZE(int, sex, Sex);
-	//Éí·İÖ¤
+	//èº«ä»½è¯
 	MYSQL_SYNTHESIZE(string, idCard, IdCard);
-	//±ÏÒµÑ§Ğ£
+	//æ¯•ä¸šå­¦æ ¡
 	MYSQL_SYNTHESIZE(string, school, School);
-	//Ñ§Àú
+	//å­¦å†
 	MYSQL_SYNTHESIZE(int, degree, Degree);
-	//±¸×¢
+	//å¤‡æ³¨
 	MYSQL_SYNTHESIZE(string, remark, Remark);
-	//ÔÚÖ°×´Ì¬
+	//åœ¨èŒçŠ¶æ€
 	MYSQL_SYNTHESIZE(int, state, State);
-	//ÊÇ·ñÊÇ¹ÜÀíÕß
+	//æ˜¯å¦æ˜¯ç®¡ç†è€…
 	MYSQL_SYNTHESIZE(int, isManager, IsManager);
-	//Í·Ïñ
+	//å¤´åƒ
 	MYSQL_SYNTHESIZE(string, headImg, HeadImg);
-	//ÈëÖ°ÈÕÆÚ
+	//å…¥èŒæ—¥æœŸ
 	MYSQL_SYNTHESIZE(string, hireDate, HireDate);
-	//ÀëÖ°ÈÕÆÚ
+	//ç¦»èŒæ—¥æœŸ
 	MYSQL_SYNTHESIZE(string, fireDate, FireDate);
-	//½éÉÜ
+	//ä»‹ç»
 	MYSQL_SYNTHESIZE(string, introduction, Introduction);
-	//´´½¨Ê±¼ä
+	//åˆ›å»ºæ—¶é—´
 	MYSQL_SYNTHESIZE(string, addTime, AddTime);
-	//±à¼­Ê±¼ä
+	//ç¼–è¾‘æ—¶é—´
 	MYSQL_SYNTHESIZE(string, editTime, EditTime);
-	//´´½¨ÈË
+	//åˆ›å»ºäºº
 	MYSQL_SYNTHESIZE(string, creator, Creator);
-	//±à¼­ÈË
+	//ç¼–è¾‘äºº
 	MYSQL_SYNTHESIZE(string, editor, Editor);
-	//ÊÇ·ñÉ¾³ı
+	//æ˜¯å¦åˆ é™¤
 	MYSQL_SYNTHESIZE(int, deleted, Deleted);
-	//ÃÜÂë
+	//å¯†ç 
 	MYSQL_SYNTHESIZE(string, password, Password);
-	//¿ÎÊ±·Ñ
+	//è¯¾æ—¶è´¹
 	MYSQL_SYNTHESIZE(int, classFee, ClassFee);
-	//Öú½Ì·Ñ
+	//åŠ©æ•™è´¹
 	MYSQL_SYNTHESIZE(int, assistantFee, AssistantFee);
-	//staffËùÊô×éÖ¯id
+	//staffæ‰€å±ç»„ç»‡id
 	MYSQL_SYNTHESIZE(long long, orgId, OrgId);
-	//ÊÇ·ñÄÚ²¿ÈËÔ±
+	//æ˜¯å¦å†…éƒ¨äººå‘˜
 	MYSQL_SYNTHESIZE(int, isInner, IsInner);
 public:
 	StaffDO() : BaseDO("staff")
@@ -94,35 +94,35 @@ public:
 
 class UserDO : public BaseDO
 {
-	MYSQL_SYNTHESIZE(uint64_t, id, Id);//id` bigint unsigned NOT NULL COMMENT 'ÓÃ»§Ö÷¼ü',
+	MYSQL_SYNTHESIZE(uint64_t, id, Id);//id` bigint unsigned NOT NULL COMMENT 'ç”¨æˆ·ä¸»é”®',
 
-	MYSQL_SYNTHESIZE(string, name, Name);//`name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '¼Ò³¤ĞÕÃû',
+	MYSQL_SYNTHESIZE(string, name, Name);//`name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'å®¶é•¿å§“å',
 
-	MYSQL_SYNTHESIZE(int, wx_access_id, Wx_access_id);//`wx_access_id` int DEFAULT NULL COMMENT 'Î¢ĞÅid',
+	MYSQL_SYNTHESIZE(int, wx_access_id, Wx_access_id);//`wx_access_id` int DEFAULT NULL COMMENT 'å¾®ä¿¡id',
 
-	MYSQL_SYNTHESIZE(string, mobile, Mobile);//`mobile` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ÊÖ»úºÅÕËºÅ',
+	MYSQL_SYNTHESIZE(string, mobile, Mobile);//`mobile` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'æ‰‹æœºå·è´¦å·',
 
 	MYSQL_SYNTHESIZE(string, email, Email);//`email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'email',
 
-	MYSQL_SYNTHESIZE(int, state, State);	//`state` tinyint(1) DEFAULT '1' COMMENT 'ÕËºÅ×´Ì¬'
+	MYSQL_SYNTHESIZE(int, state, State);	//`state` tinyint(1) DEFAULT '1' COMMENT 'è´¦å·çŠ¶æ€'
 
-	MYSQL_SYNTHESIZE(string, password, Password);//`password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'ÃÜÂë',
+	MYSQL_SYNTHESIZE(string, password, Password);//`password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'å¯†ç ',
 
-	MYSQL_SYNTHESIZE(int, login_times, Login_times);//`login_times` int DEFAULT '0' COMMENT 'µÇÂ¼´ÎÊı',
+	MYSQL_SYNTHESIZE(int, login_times, Login_times);//`login_times` int DEFAULT '0' COMMENT 'ç™»å½•æ¬¡æ•°',
 
-	MYSQL_SYNTHESIZE(string, latest_login_time, Latest_login_time);//`latest_login_time` datetime DEFAULT NULL COMMENT 'ÉÏ´ÎµÇÂ¼Ê±¼ä',
+	MYSQL_SYNTHESIZE(string, latest_login_time, Latest_login_time);//`latest_login_time` datetime DEFAULT NULL COMMENT 'ä¸Šæ¬¡ç™»å½•æ—¶é—´',
 
-	MYSQL_SYNTHESIZE(string, latest_login_ip, Latest_login_ip);//`latest_login_ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'ÉÏ´ÎµÇÂ¼ip',
+	MYSQL_SYNTHESIZE(string, latest_login_ip, Latest_login_ip);//`latest_login_ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'ä¸Šæ¬¡ç™»å½•ip',
 
-	MYSQL_SYNTHESIZE(string, add_time, Add_time);//`add_time` datetime DEFAULT NULL COMMENT '¼ÓÈëÊ±¼ä',
+	MYSQL_SYNTHESIZE(string, add_time, Add_time);//`add_time` datetime DEFAULT NULL COMMENT 'åŠ å…¥æ—¶é—´',
 
-	MYSQL_SYNTHESIZE(string, remark, Remark);//`remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '±¸×¢',
+	MYSQL_SYNTHESIZE(string, remark, Remark);//`remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'å¤‡æ³¨',
 
-	MYSQL_SYNTHESIZE(uint64_t, creator, Creator);//`creator` bigint DEFAULT NULL COMMENT 'Ìí¼ÓÕß',
+	MYSQL_SYNTHESIZE(uint64_t, creator, Creator);//`creator` bigint DEFAULT NULL COMMENT 'æ·»åŠ è€…',
 
-	MYSQL_SYNTHESIZE(uint64_t, school_id, School_id);//`school_id` bigint DEFAULT NULL COMMENT 'ËùÊôÑ§Ğ£id',
+	MYSQL_SYNTHESIZE(uint64_t, school_id, School_id);//`school_id` bigint DEFAULT NULL COMMENT 'æ‰€å±å­¦æ ¡id',
 
-	MYSQL_SYNTHESIZE(uint64_t, org_id, Org_id);//`org_id` bigint DEFAULT NULL COMMENT '´´½¨ÕßËùÊô×éÖ¯ID',
+	MYSQL_SYNTHESIZE(uint64_t, org_id, Org_id);//`org_id` bigint DEFAULT NULL COMMENT 'åˆ›å»ºè€…æ‰€å±ç»„ç»‡ID',
 
 
 public:
@@ -173,6 +173,68 @@ public:
 	MYSQL_SYNTHESIZE(string, latestLoginIp, LatestLoginIp);
 	MYSQL_SYNTHESIZE(string, addTime, AddTime);
 	MYSQL_SYNTHESIZE(int32_t, state, State);
+};
+class QueryStudentbyIdDO : public BaseDO {
+public:
+	// ç€›ï¸¾æ•“id
+	MYSQL_SYNTHESIZE(long long, id, Id);
+	// ç€›ï¸¾æ•“æ¿®æ’³æ‚•
+	MYSQL_SYNTHESIZE(string, name, Name);
+	// éµå¬«æº€é™?
+	MYSQL_SYNTHESIZE(string, phone, Phone);
+	// é¥å‰§å¢–ç’ºîˆšç·
+	MYSQL_SYNTHESIZE(string, picturePath, PicturePath);
+	// é“â•€ç¶‘ç’‡å‰§â–¼é?
+	MYSQL_SYNTHESIZE(int, leftCourseCount, LeftCourseCount);
+	// é“â•€ç¶‘ç»‰îˆšå
+	MYSQL_SYNTHESIZE(int, leftPoints, LeftPoints);
+	// é—ƒèˆµî†Œ
+	MYSQL_SYNTHESIZE(int, stage, Stage);
+	// é¬ÑƒåŸ†
+	MYSQL_SYNTHESIZE(int, sex, Sex);
+	// éªæ’®ç·
+	MYSQL_SYNTHESIZE(int, age, Age);
+	// é¢ç†¸æ£©
+	MYSQL_SYNTHESIZE(string, birthday, Birthday);
+	// éŸ¬î‚¡å”¤ç’‡ä½¸å½¿
+	MYSQL_SYNTHESIZE(string, identificationNumber, IdentificationNumber);
+	// ç€¹å •æš±æ¿®æ’³æ‚•
+	MYSQL_SYNTHESIZE(string, parentName, ParentName);
+	// éå´‡éƒ´ç»«è¯²ç€·
+	MYSQL_SYNTHESIZE(string, relationType, RelationType);
+	// éªå¯¸éª‡
+	MYSQL_SYNTHESIZE(int, grade, Grade);
+	// éãƒ¥î„Ÿéƒå •æ£¿
+	MYSQL_SYNTHESIZE(string, enterTime, EnterTime);
+	// ç»®å‰§â€˜éãƒ¥î„Ÿéƒå •æ£¿
+	MYSQL_SYNTHESIZE(string, accurateEnterTime, AccurateEnterTime);
+	// æ¾¶å›¨æ•
+	MYSQL_SYNTHESIZE(string, note, Note);
+	// ç’‡å‰§â–¼æ©æ¶˜å®³
+	MYSQL_SYNTHESIZE(string, courseProgress, CourseProgress);
+
+public:
+	QueryStudentbyIdDO() : BaseDO("student")  // é‹å›ªî†•ç›ã„¥æ‚•æ¶“?"student"é”›å²ƒî‡¬éè§„åµç€¹ç‚ºæª¯ç›ã„¥æ‚•æ·‡î†½æ•¼
+	{
+		MYSQL_ADD_FIELD_PK("id", "l", id);
+		MYSQL_ADD_FIELD("name", "s", name);
+		MYSQL_ADD_FIELD("phone", "s", phone);
+		MYSQL_ADD_FIELD("head_img", "s", picturePath);
+		MYSQL_ADD_FIELD("left_course_count", "i", leftCourseCount);
+		MYSQL_ADD_FIELD("left_points", "i", leftPoints);
+		MYSQL_ADD_FIELD("stage", "i", stage);
+		MYSQL_ADD_FIELD("sex", "i", sex);
+		MYSQL_ADD_FIELD("age", "i", age);
+		MYSQL_ADD_FIELD("birthday", "s", birthday);
+		MYSQL_ADD_FIELD("identification_number", "s", identificationNumber);
+		MYSQL_ADD_FIELD("parent_name", "s", parentName);
+		MYSQL_ADD_FIELD("relation_type", "s", relationType);
+		MYSQL_ADD_FIELD("grade", "i", grade);
+		MYSQL_ADD_FIELD("enter_time", "s", enterTime);
+		MYSQL_ADD_FIELD("accurate_enter_time", "s", accurateEnterTime);
+		MYSQL_ADD_FIELD("note", "s", note);
+		MYSQL_ADD_FIELD("course_progress", "s", courseProgress);
+	}
 };
 
 class FinishStudentQueryDO : public BaseDO
@@ -245,26 +307,26 @@ public:
 typedef std::shared_ptr<StaffDO> PtrStaffDO;
 
 
-// °à¼¶Ñ§Ô±Êı¾İ¿âÊµÌåÀà
+// ç­çº§å­¦å‘˜æ•°æ®åº“å®ä½“ç±»
 class ClassStudentDO : public BaseDO
 {
-	// Ö÷¼ü
+	// ä¸»é”®
 	MYSQL_SYNTHESIZE(string, id, Id);
-	// °à¼¶id
+	// ç­çº§id
 	MYSQL_SYNTHESIZE(string, classId, ClassId);
-	// Ñ§Éúid
+	// å­¦ç”Ÿid
 	MYSQL_SYNTHESIZE(string, studentId, StudentId);
-	// Ìí¼ÓÊ±¼ä
+	// æ·»åŠ æ—¶é—´
 	MYSQL_SYNTHESIZE(string, addTime, AddTime);
-	// ´´½¨ÈË
+	// åˆ›å»ºäºº
 	MYSQL_SYNTHESIZE(string, creator, Creator);
-	// ¼ÓÈëÔ­Òò
+	// åŠ å…¥åŸå› 
 	MYSQL_SYNTHESIZE(int, reason, Reason);
-	// É¾³ı±ê¼Ç
+	// åˆ é™¤æ ‡è®°
 	MYSQL_SYNTHESIZE(int, deleted, Deleted);
-	// ±¸×¢ĞÅÏ¢
+	// å¤‡æ³¨ä¿¡æ¯
 	MYSQL_SYNTHESIZE(string, remark, Remark);
-	// Ä¬ÈÏÏû·Ñ¿Î³Ì
+	// é»˜è®¤æ¶ˆè´¹è¯¾ç¨‹
 	MYSQL_SYNTHESIZE(string, consumeCourseId, ConsumeCourseId);
 
 public:
@@ -283,21 +345,21 @@ public:
 };
 
 /**
-°à¼¶ÁĞ±íÊı¾İ¿âÊµÌåÀà
+ç­çº§åˆ—è¡¨æ•°æ®åº“å®ä½“ç±»
 **/
 class getClassListDO : public BaseDO
 {
-	// ĞòºÅ
+	// åºå·
 	MYSQL_SYNTHESIZE(string, id, Id);
-	// °à¼¶Ãû³Æ
+	// ç­çº§åç§°
 	MYSQL_SYNTHESIZE(string, className, ClassName);
-	// ¿ÆÄ¿
+	// ç§‘ç›®
 	MYSQL_SYNTHESIZE(string, subject, Subject);
-	// ½ÌÊÒ
+	// æ•™å®¤
 	MYSQL_SYNTHESIZE(string, classroom, Classroom);
-	// Ñ§ÉúÊı
+	// å­¦ç”Ÿæ•°
 	MYSQL_SYNTHESIZE(int, studentCount, StudentCount);
-	// ÈËÊıÉÏÏŞ
+	// äººæ•°ä¸Šé™
 	MYSQL_SYNTHESIZE(int, maxStudentCount, MaxStudentCount);
 
 public:
@@ -315,21 +377,21 @@ typedef std::shared_ptr<getClassListDO> PtrgetClassListDO;
 
 
 /**
- ¿Î³ÌÍ³¼ÆÊı¾İ¿âÊµÌåÀà
+ è¯¾ç¨‹ç»Ÿè®¡æ•°æ®åº“å®ä½“ç±»
 **/
 class getCourseStatisticsDO : public BaseDO
 {
-	// ¿Î³Ì
+	// è¯¾ç¨‹
 	MYSQL_SYNTHESIZE(string, course, Course);
-	// ×Ü¿ÎÊ±
+	// æ€»è¯¾æ—¶
 	MYSQL_SYNTHESIZE(int, totalHours, TotalHours);
-	// Ê£Óà¿ÎÊ±
+	// å‰©ä½™è¯¾æ—¶
 	MYSQL_SYNTHESIZE(int, remainingHours, RemainingHours);
-	// ÒÑÉÏ¿ÎÊ±
+	// å·²ä¸Šè¯¾æ—¶
 	MYSQL_SYNTHESIZE(int, attendedHours, AttendedHours);
-	// µ½ÆÚÈÕÆÚ
+	// åˆ°æœŸæ—¥æœŸ
 	MYSQL_SYNTHESIZE(string, expireDate, ExpireDate);
-	// Çå¿ÎÓÅÏÈ¼¶
+	// æ¸…è¯¾ä¼˜å…ˆçº§
 	MYSQL_SYNTHESIZE(int, cancelPriority, CancelPriority);
 
 public:
@@ -347,13 +409,13 @@ typedef std::shared_ptr<getCourseStatisticsDO> PtrgetCourseStatisticsDO;
 
 
 /**
-? ¼ÓÈë°à¼¶Êı¾İ¿âÊµÌåÀà
+? åŠ å…¥ç­çº§æ•°æ®åº“å®ä½“ç±»
 **/
 class JoinclassDO : public BaseDO
 {
-	// °à¼¶Ãû³Æ
+	// ç­çº§åç§°
 	MYSQL_SYNTHESIZE(string, className, ClassName);
-	// ·ÖĞ£
+	// åˆ†æ ¡
 	MYSQL_SYNTHESIZE(string, school, School);
 
 public:
@@ -366,7 +428,7 @@ public:
 typedef std::shared_ptr<JoinclassDO> PtrJoinclassDO;
 
 /**
-*  Excelµ¼Èëµ¼³öÊı¾İ¿âÊµÌåÀà
+*  Excelå¯¼å…¥å¯¼å‡ºæ•°æ®åº“å®ä½“ç±»
 **/
 class ExcelStudentDO : public BaseDO
 {

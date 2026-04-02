@@ -1,11 +1,82 @@
-#pragma once
-#ifndef _COMMON_MAPPER_
-#define _COMMON_MAPPER_
-
+ï»¿#pragma once
+#ifndef COMMONMAPPER_H
+#define COMMONMAPPER_H
 #include "Mapper.h"
+#include "../../domain/dto/common/CommonDTO.h"
 #include "../../domain/do/student/StudentDO.h"
 #include "../../domain/do/common/CommonDO.h"
-// °à¼¶ÁĞ±í×Ö¶ÎÆ¥ÅäÓ³Éä
+class RegistrationRecordMapper : public Mapper<RegistrationDTO::Wrapper> {
+public:
+	RegistrationDTO::Wrapper mapper(ResultSet* rs) const override {
+		auto dto = RegistrationDTO::createShared();
+
+		// SQL æ¤¤å“„ç°­é”›å œç¹šé¸ä½·ç¶˜è¤°æ’³å¢  CommonDAO.cpp é¨?SELECT ç€›æ¥î†Œæ¤¤å“„ç°­é”›?
+		// 1 sc.add_time
+		// 2 c.name
+		// 3 sub.name
+		// 4 sc.count_lesson_total
+		// 5 sc.unit_price
+		// 6 sc.course_amount
+		// 7 sc.discount_amount
+		// 8 sc.paid_amount
+		// 9 sc.amount-sc.paid_amount
+		// 10 sc.start_date
+		// 11 sc.expire_date
+		// 12 ref.refund_amount
+		// 13 ref.refund_amount/sc.unit_price
+		// 14 ref.remark
+		// 15 ref.verify_state
+
+		dto->addTime = rs->getString(1).c_str();
+		dto->course = rs->getString(2).c_str();
+		dto->subject = rs->getString(3).c_str();
+
+		dto->buyCount = rs->getInt(4);
+		dto->UnitPrice = rs->getInt(5);
+		dto->coursePrice = rs->getInt(6);
+
+		dto->salePrice = rs->getInt(7);
+		dto->realityPrice = rs->getInt(8);
+		dto->arrearage = rs->getInt(9);
+
+		dto->beginTime = rs->getString(10).c_str();
+		dto->endTime = rs->getString(11).c_str();
+
+		dto->refundPrice = rs->getInt(12);
+		dto->dropClassCount = rs->getInt(13);
+		dto->refundDescripe = rs->getString(14).c_str();
+		dto->refundStatus = rs->getInt(15);
+
+		// è¤°æ’³å¢  SQL éˆî‡ç¹‘é¥?sc.idé”›å±½æ´œå§?dto->id æ¶“å¶ˆç¥´éŠç¡·ç´™é™îˆšæ¹ªé—‡â‚¬ç‘•ä½¹æ¤‚é¶?sc.id é”çŠ²åŸŒ SELECT é“å¶‰æ½°éªè·ºæ‚“å§ãƒ¨çšŸéç¿ ç¬…éå›·ç´š
+		return dto;
+	}
+};
+class StudentDetailMapper :public Mapper<StudentDTO::Wrapper> {
+public:
+	StudentDTO::Wrapper mapper(ResultSet* rs) const override {
+		auto dto = StudentDTO::createShared();
+		dto->picturePath = rs->getString(1).c_str();
+		dto->name = rs->getString(2).c_str();
+		dto->phone = rs->getString(3).c_str();
+		dto->leftCourseCount = rs->getInt(4);
+		dto->leftPoints = rs->getInt(5);
+		dto->stage = rs->getInt(6);
+		dto->sex = rs->getInt(7);
+		dto->age = rs->getInt(8);
+		dto->birthday = rs->getString(9).c_str();
+		dto->identificationNumber = rs->getString(10).c_str();
+		dto->parentName = rs->getString(11).c_str();
+		dto->relationType = rs->getInt(12);
+		dto->grade = rs->getInt(13);
+		dto->enterTime = rs->getString(14).c_str();
+		dto->accurateEnterTime = rs->getString(15).c_str();
+		dto->note = rs->getString(16).c_str();
+		dto->courseProgress = rs->getInt(17);
+		return dto;
+	}
+};
+
+// ç­çº§åˆ—è¡¨å­—æ®µåŒ¹é…æ˜ å°„
 class getClassListMapper : public Mapper<getClassListDO>
 {
 public:
@@ -22,7 +93,7 @@ public:
 	}
 };
 
-// °à¼¶ÁĞ±í×Ö¶ÎÆ¥ÅäÓ³Éä - ´´½¨ÖÇÄÜÖ¸Õë¶ÔÏó
+// ç­çº§åˆ—è¡¨å­—æ®µåŒ¹é…æ˜ å°„ - åˆ›å»ºæ™ºèƒ½æŒ‡é’ˆå¯¹è±¡
 class PtrgetClassListMapper : public Mapper<PtrgetClassListDO>
 {
 public:
@@ -39,7 +110,7 @@ public:
 	}
 };
 
-// ¿Î³ÌÍ³¼Æ×Ö¶ÎÆ¥ÅäÓ³Éä
+// è¯¾ç¨‹ç»Ÿè®¡å­—æ®µåŒ¹é…æ˜ å°„
 class getCourseStatisticsMapper : public Mapper<getCourseStatisticsDO>
 {
 public:
@@ -56,7 +127,7 @@ public:
 	}
 };
 
-//¿Î³ÌÍ³¼Æ×Ö¶ÎÆ¥ÅäÓ³Éä - ´´½¨ÖÇÄÜÖ¸Õë¶ÔÏó
+//è¯¾ç¨‹ç»Ÿè®¡å­—æ®µåŒ¹é…æ˜ å°„ - åˆ›å»ºæ™ºèƒ½æŒ‡é’ˆå¯¹è±¡
 class PtrgetCourseStatisticsMapper : public Mapper<PtrgetCourseStatisticsDO>
 {
 public:
@@ -73,7 +144,7 @@ public:
 	}
 };
 
-// ¼ÓÈë°à¼¶×Ö¶ÎÆ¥ÅäÓ³Éä
+// åŠ å…¥ç­çº§å­—æ®µåŒ¹é…æ˜ å°„
 class JoinclassMapper : public Mapper<JoinclassDO>
 {
 public:
@@ -86,7 +157,7 @@ public:
 	}
 };
 
-// ¼ÓÈë°à¼¶×Ö¶ÎÆ¥ÅäÓ³Éä - ´´½¨ÖÇÄÜÖ¸Õë¶ÔÏó
+// åŠ å…¥ç­çº§å­—æ®µåŒ¹é…æ˜ å°„ - åˆ›å»ºæ™ºèƒ½æŒ‡é’ˆå¯¹è±¡
 
 class PtrJoinclassMapper : public Mapper<PtrJoinclassDO>
 {
@@ -99,59 +170,59 @@ public:
 		return data;
 	}
 };
-//student_courseÊı¾İ±í×Ö¶ÎÆ¥ÅäÓ³Éä
+//student_courseæ•°æ®è¡¨å­—æ®µåŒ¹é…æ˜ å°„
 class PtrStudentCourseMapper : public Mapper<PtrStudentCourseDO> {
 public:
 	PtrStudentCourseDO mapper(ResultSet* resultSet) const override {
 		auto data = std::make_shared<StudentCourseDO>();
 
-		// ºËĞÄID
+		// æ ¸å¿ƒID
 		data->setId(resultSet->getUInt64("id"));
 		data->setStudentId(resultSet->getUInt64("student_id"));
 		data->setCourseId(resultSet->getUInt64("course_id"));
 		data->setSubjectId(resultSet->getUInt64("subject_id"));
 
-		// Ê±¼ä
+		// æ—¶é—´
 		data->setStartDate(resultSet->getString("start_date"));
 		data->setExpireDate(resultSet->getString("expire_date"));
 
-		// ±¸×¢
+		// å¤‡æ³¨
 		data->setRemark(resultSet->getUInt64("remark"));
 
-		// ¿Î´Î
+		// è¯¾æ¬¡
 		data->setCountLessonTotal(resultSet->getUInt64("count_lesson_total"));
 		data->setCountLessonComplete(resultSet->getUInt64("count_lesson_complete"));
 		data->setCountLessonRefund(resultSet->getUInt64("count_lesson_refund"));
 
-		// ½ğ¶î
+		// é‡‘é¢
 		data->setCourseAmount(resultSet->getDouble("course_amount"));
 		data->setDiscountAmount(resultSet->getDouble("discount_amount"));
 		data->setAmount(resultSet->getDouble("amount"));
 		data->setPaidAmount(resultSet->getDouble("paid_amount"));
 
-		// Ö§¸¶×´Ì¬
+		// æ”¯ä»˜çŠ¶æ€
 		data->setPayOff(resultSet->getInt("pay_off"));
 
-		// ²Ù×÷ÈË / ´´½¨ÈË / ±à¼­ÈË
+		// æ“ä½œäºº / åˆ›å»ºäºº / ç¼–è¾‘äºº
 		data->setOpt(resultSet->getUInt64("operator"));
 		data->setCreator(resultSet->getUInt64("creator"));
 		data->setAddTime(resultSet->getString("add_time"));
 		data->setEditor(resultSet->getUInt64("editor"));
 		data->setEditTime(resultSet->getString("edit_time"));
 
-		// ×´Ì¬
+		// çŠ¶æ€
 		data->setDeleted(resultSet->getInt("deleted"));
 		data->setVerifyState(resultSet->getInt("verify_state"));
 
-		// ÌáĞÑÓëÓÅÏÈ¼¶
+		// æé†’ä¸ä¼˜å…ˆçº§
 		data->setWarningTimes(resultSet->getInt("warning_times"));
 		data->setPriority(resultSet->getInt("priority"));
 
-		// µ¥¼ÛÓëÌåÑé
+		// å•ä»·ä¸ä½“éªŒ
 		data->setUnitPrice(resultSet->getDouble("unit_price"));
 		data->setFromTrial(resultSet->getInt("from_trial"));
 
-		// ×éÖ¯ID
+		// ç»„ç»‡ID
 		data->setOrgId(resultSet->getUInt64("org_id"));
 
 		return data;

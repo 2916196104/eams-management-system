@@ -1,9 +1,32 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "CommonController.h"
+#include "../../service/common/CommonService.h"
 #include<iostream>
 #include "../../lib-mysql/include/ConnectionPool.h"
 #include "../../domain/do/DoInclude.h"
 #include "../../dao/common/CommonDAO.h"
+StudentJsonVO::Wrapper CommonController::executeGetStudentById(UInt64 id) {
+	auto jvo = StudentJsonVO::createShared();
+	StudentService service;
+	auto data = service.GetStudentDetailById(id);
+	jvo->success(data);
+	return jvo;
+}
+StringJsonVO::Wrapper CommonController::executeModifyStudentPicture(const ModifyStudentHeadImgDTO::Wrapper& dto)
+{
+	auto jvo = StringJsonVO::createShared();
+	StudentService service;
+	service.ModifyStudentHeadImg(dto);
+	jvo->success("success");
+	return jvo;
+}
+RegistrationPageJsonVO::Wrapper CommonController::executeQueryRegistrationRecordByPage(const RegistrationPageQuery::Wrapper& query) {
+	auto jvo = RegistrationPageJsonVO::createShared();
+	RegistrationRecordService service;
+	auto data = service.GetRegistrationRecordWithPage(query);
+	jvo->success(data);
+	return jvo;
+}
 PayFeesJsonVO::Wrapper helper(const PayFeesDTO::Wrapper& dto) {
 	auto vo = PayFeesJsonVO::createShared();
 	StudentCourseDAO dao;
@@ -48,7 +71,7 @@ PayFeesJsonVO::Wrapper helper(const PayFeesDTO::Wrapper& dto) {
 
 
 PayFeesJsonVO::Wrapper CommonController::exePayFees(const PayFeesDTO::Wrapper& dto) {
-	//²ÎÊýÐ£Ñé
+	//ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½
 	auto vo = PayFeesJsonVO::createShared();
 	if (!dto) {
 		vo->setStatus(RS_FAIL);
@@ -76,8 +99,8 @@ PayFeesJsonVO::Wrapper CommonController::exePayFees(const PayFeesDTO::Wrapper& d
 		return vo;
 	}
 	return helper(dto);
-	//ÒµÎñÂß¼­
-	//1.´´½¨Êý¾Ý¿â
+	//Òµï¿½ï¿½ï¿½ß¼ï¿½
+	//1.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½
 	//ConnPool pool("127.0.0.1:3307/zo_eams", "root", "270153", 100);
 	//Connection* conn = pool.GetConnection();
 	//if (!conn) {
@@ -85,49 +108,49 @@ PayFeesJsonVO::Wrapper CommonController::exePayFees(const PayFeesDTO::Wrapper& d
 	//	vo->message = "The server is busy, please try again later";
 	//	return vo;
 	//}
-	////2.´ÓÊý¾Ý¿âÖÐµÄstudent_coruse±íÖÐ²éÕÒÊÇ·ñÓÐstudentId¡¢courseId¡¢subjectId£¬Ã»ÓÐµÄ»°·µ»Ø´íÎó
+	////2.ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½Ðµï¿½student_coruseï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½studentIdï¿½ï¿½courseIdï¿½ï¿½subjectIdï¿½ï¿½Ã»ï¿½ÐµÄ»ï¿½ï¿½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½
 	//PreparedStatement* pstmt = conn->prepareStatement(
 	//	"SELECT pay_off, amount,paid_amount FROM student_course WHERE student_id = ? AND course_id = ? AND subject_id = ?"
 	//);
-	//pstmt->setInt(1, dto->studentId);   // Ñ§ÉúID
-	//pstmt->setInt(2, dto->courseId);    // ¿Î³ÌID
-	//pstmt->setInt(3, dto->subjectId);   // ¿ÆÄ¿ID
-	//// Ö´ÐÐ²éÑ¯
+	//pstmt->setInt(1, dto->studentId);   // Ñ§ï¿½ï¿½ID
+	//pstmt->setInt(2, dto->courseId);    // ï¿½Î³ï¿½ID
+	//pstmt->setInt(3, dto->subjectId);   // ï¿½ï¿½Ä¿ID
+	//// Ö´ï¿½Ð²ï¿½Ñ¯
 	//ResultSet* res = pstmt->executeQuery();
 	//if (!res->next()) {
 	//	vo->setStatus(RS_FAIL);
 	//	vo->message = "Student course record not found";
 
-	//	// ÊÍ·Å×ÊÔ´
+	//	// ï¿½Í·ï¿½ï¿½ï¿½Ô´
 	//	delete res;
 	//	delete pstmt;
 	//	pool.ReleaseConnection(conn);
 	//	return vo;
 	//}
-	//double amount = res->getDouble("amount");    // ×Ü½ð¶î
-	//double paidAmount = res->getDouble("paid_amount"); // ÒÑÖ§¸¶½ð¶î
-	//int  payOff = res->getInt("pay_off");//ÊÇ·ñ¸¶Çå
-	////3.²é¿´ÊÇ·ñÒÑ¸¶Çå£¬ÒÑ¸¶Çå·µ»Ø"ÒÑ¸¶Çå"
+	//double amount = res->getDouble("amount");    // ï¿½Ü½ï¿½ï¿½
+	//double paidAmount = res->getDouble("paid_amount"); // ï¿½ï¿½Ö§ï¿½ï¿½ï¿½ï¿½ï¿½
+	//int  payOff = res->getInt("pay_off");//ï¿½Ç·ï¿½ï¿½ï¿½
+	////3.ï¿½é¿´ï¿½Ç·ï¿½ï¿½Ñ¸ï¿½ï¿½å£¬ï¿½Ñ¸ï¿½ï¿½å·µï¿½ï¿½"ï¿½Ñ¸ï¿½ï¿½ï¿½"
 	//if (payOff == 1) {
 	//	vo->setStatus(RS_FAIL);
 	//	vo->message = "Paid in full";
-	//	// ÊÍ·Å×ÊÔ´
+	//	// ï¿½Í·ï¿½ï¿½ï¿½Ô´
 	//	delete res;
 	//	delete pstmt;
 	//	pool.ReleaseConnection(conn);
 	//	return vo;
 	//}
-	////4.²é¿´»¹Ê£ÏÂÎ´¸¶µÄ¿î¶î£¬¿´amountÊÇ·ñ´óÓÚÎ´¸¶µÄ¿î¶î£¬´óµÄ»°·µ»Ø´íÎó
+	////4.ï¿½é¿´ï¿½ï¿½Ê£ï¿½ï¿½Î´ï¿½ï¿½ï¿½Ä¿ï¿½î£¬ï¿½ï¿½amountï¿½Ç·ï¿½ï¿½ï¿½ï¿½Î´ï¿½ï¿½ï¿½Ä¿ï¿½î£¬ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½
 	//if (int(amount - paidAmount) < int(dto->payAmount)) {
 	//	vo->setStatus(RS_FAIL);
 	//	vo->message = "The amount paid exceeds the amount due";
-	//	// ÊÍ·Å×ÊÔ´
+	//	// ï¿½Í·ï¿½ï¿½ï¿½Ô´
 	//	delete res;
 	//	delete pstmt;
 	//	pool.ReleaseConnection(conn);
 	//	return vo;
 	//}
-	////5.¸üÐÂÎ´¸¶µÄ¿î¶î£¬·µ»Ø»¹Î´½áÇåµÄ¿îÏî£¬²¢´ø»Ø³É¹¦ÐÅÏ¢
+	////5.ï¿½ï¿½ï¿½ï¿½Î´ï¿½ï¿½ï¿½Ä¿ï¿½î£¬ï¿½ï¿½ï¿½Ø»ï¿½Î´ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½î£¬ï¿½ï¿½ï¿½ï¿½ï¿½Ø³É¹ï¿½ï¿½ï¿½Ï¢
 	//paidAmount += dto->payAmount;
 	//if (paidAmount == amount) payOff = 1;
 	//pstmt = conn->prepareStatement(
@@ -146,7 +169,7 @@ PayFeesJsonVO::Wrapper CommonController::exePayFees(const PayFeesDTO::Wrapper& d
 	//}
 	//else {
 	//	vo->setStatus(RS_SUCCESS);
-	//	std::string respondse = "Ö§¸¶³É¹¦,Ê£Óà´ý½É½ð¶îÎª£º" + std::to_string((amount - paidAmount));
+	//	std::string respondse = "Ö§ï¿½ï¿½ï¿½É¹ï¿½,Ê£ï¿½ï¿½ï¿½ï¿½É½ï¿½ï¿½Îªï¿½ï¿½" + std::to_string((amount - paidAmount));
 	//	vo->message = respondse;
 	//}
 	//delete res;
@@ -202,10 +225,10 @@ RefundJsonVO::Wrapper CommonController::executeRefund(const RefundDTO::Wrapper& 
 	//std::cout << data->getPaidAmount() << " " << dto->refundAmount;
 	auto insertData = std::make_shared<RefundDO>();
 	time_t now = time(NULL);
-	// ½«µ±Ç°Ê±¼ä×ª»»Îª±¾µØÊ±¼ä
+	// ï¿½ï¿½ï¿½ï¿½Ç°Ê±ï¿½ï¿½×ªï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 	struct tm* local_tm = localtime(&now);
 
-	// Ê¹ÓÃ strftime ¸ñÊ½»¯Ê±¼ä
+	// Ê¹ï¿½ï¿½ strftime ï¿½ï¿½Ê½ï¿½ï¿½Ê±ï¿½ï¿½
 	char buffer[80];
 	strftime(buffer, 80, "%Y-%m-%d %H:%M:%S", local_tm);
 	insertData->setApplyTime(buffer);
@@ -215,7 +238,7 @@ RefundJsonVO::Wrapper CommonController::executeRefund(const RefundDTO::Wrapper& 
 	insertData->setStudentCourseId(data->getId());
 	insertData->setVerifyState(0);
 	insertData->setStudentId(dto->studentId);
-	
+
 
 	auto row = Dao.insertAutoPk(*insertData);
 	if (row == 0) {
@@ -230,20 +253,20 @@ RefundJsonVO::Wrapper CommonController::executeRefund(const RefundDTO::Wrapper& 
 	}
 }
 /**
- * µ÷Õû»ý·ÖÖ´ÐÐº¯Êý
+ * è°ƒæ•´ç§¯åˆ†æ‰§è¡Œå‡½æ•°
  */
 StringJsonVO::Wrapper CommonController::execModifyPoints(const ModifyPointsDTO::Wrapper& dto, const PayloadDTO& payload)
 {
-	// ¶¨Òå·µ»ØÊý¾Ý¶ÔÏó
+	// å®šä¹‰è¿”å›žæ•°æ®å¯¹è±¡
 	auto jvo = StringJsonVO::createShared();
-	// ²ÎÊýÐ£Ñé
+	// å‚æ•°æ ¡éªŒ
 	if (!dto->id)
 	{
 		jvo->init(nullptr, RS_PARAMS_INVALID);
 		return jvo;
 	}
 
-	//// Ö´ÐÐÊý¾ÝÐÞ¸Ä
+	//// æ‰§è¡Œæ•°æ®ä¿®æ”¹
 	//dto->setPayload(&payload);
 	//if (AdjustPointsService().updateData(dto)) {
 	//	jvo->success(dto->name);
@@ -252,27 +275,27 @@ StringJsonVO::Wrapper CommonController::execModifyPoints(const ModifyPointsDTO::
 	//{
 	//	jvo->fail(dto->name);
 	//}
-	// ÏìÓ¦½á¹û
+	// å“åº”ç»“æžœ
 	return jvo;
 }
 
 
 
 /**
- * Ìí¼Ó¸ú½ø¼ÇÂ¼Ö´ÐÐº¯Êý
+ * æ·»åŠ è·Ÿè¿›è®°å½•æ‰§è¡Œå‡½æ•°
  */
 StringJsonVO::Wrapper CommonController::execAddFollowUpRecord(const AddFollowUpRecordDTO::Wrapper& dto, const PayloadDTO& payload)
 {
-	// ¶¨Òå·µ»ØÊý¾Ý¶ÔÏó
+	// å®šä¹‰è¿”å›žæ•°æ®å¯¹è±¡
 	auto jvo = StringJsonVO::createShared();
-	// ²ÎÊýÐ£Ñé
+	// å‚æ•°æ ¡éªŒ
 	if (!dto->id)
 	{
 		jvo->init(nullptr, RS_PARAMS_INVALID);
 		return jvo;
 	}
 
-	// Ö´ÐÐÊý¾ÝÐÞ¸Ä
+	// æ‰§è¡Œæ•°æ®ä¿®æ”¹
 	//dto->setPayload(&payload);
 	//if (AddFollowUpRecordService().updateData(dto)) {
 	//	jvo->success(dto->name);
@@ -281,15 +304,15 @@ StringJsonVO::Wrapper CommonController::execAddFollowUpRecord(const AddFollowUpR
 	//{
 	//	jvo->fail(dto->name);
 	//}
-	//// ÏìÓ¦½á¹û
+	//// å“åº”ç»“æžœ
 	return jvo;
 }
 
 QueryFollowUprecordsJsonVO::Wrapper CommonController::execQueryFollowUprecords(const FollowUprecordsQuery::Wrapper& query)
 {
-	// ²éÑ¯Êý¾Ý
+	// æŸ¥è¯¢æ•°æ®
 	//auto result = SampleService().listAll(query);
-	// ÏìÓ¦½á¹û
+	// å“åº”ç»“æžœ
 	auto jvo = QueryFollowUprecordsJsonVO::createShared();
 	jvo->success(QueryFollowUprecordsDTO::createShared());
 	return jvo;

@@ -1,58 +1,74 @@
-#pragma once
+ï»¿#pragma once
 #ifndef _COMMON_DAO_
 #define _COMMON_DAO_
 #include "BaseDAO.h"
 #include "../../domain/do/student/StudentDO.h"
-#include "../../domain/query/common/CommonQuery.h"
 #include "../../domain/do/common/CommonDO.h"
+#include "../../domain/query/common/CommonQuery.h"
+#include "../../domain/dto/common/CommonDTO.h"
+class StudentDAO :public BaseDAO
+{
+public:
+	void updateStudentHeadImg(uint64_t studentId, const std::string& headImg);
+	StudentDTO::Wrapper getStudentDetailById(uint64_t studentId);
+};
+class RegistrationRecordDAO :public BaseDAO
+{
+public:
+	uint64_t count(uint64_t studentId);
+	// æ¶“å¶„å¨‡é¢?DOé”›æ­‹QL JOIN ç¼æ’´ç‰é©å­˜å¸´é„çŠ²çš é´?DTO
+	std::list<RegistrationDTO::Wrapper> selectRegistrationRecordWithPage(const RegistrationPageQuery::Wrapper& query);
+
+};
+
 /**
- * °à¼¶ÁĞ±íÊı¾İ·ÃÎÊ¶ÔÏó
+ * ç­çº§åˆ—è¡¨æ•°æ®è®¿é—®å¯¹è±¡
  */
 class getClassListDAO : public BaseDAO
 {
 private:
-	 std::string queryConditionBuilder(const getClassListQuery::Wrapper& query, SqlParams& params);
+	std::string queryConditionBuilder(const getClassListQuery::Wrapper& query, SqlParams& params);
 public:
-	// Í³¼ÆÊı¾İÌõÊı
+	// ç»Ÿè®¡æ•°æ®æ¡æ•°
 	uint64_t count(const getClassListQuery::Wrapper& query);
-	// ·ÖÒ³²éÑ¯Êı¾İ
+	// åˆ†é¡µæŸ¥è¯¢æ•°æ®
 	std::list<getClassListDO> selectWithPage(const getClassListQuery::Wrapper& query);
 	std::list<PtrgetClassListDO> selectWithPagePtr(const getClassListQuery::Wrapper& query);
 };
 
 
 /**
- * ¿Î³ÌÍ³¼ÆÊı¾İ·ÃÎÊ¶ÔÏó
+ * è¯¾ç¨‹ç»Ÿè®¡æ•°æ®è®¿é—®å¯¹è±¡
  */
 class getCourseStatisticsDAO : public BaseDAO
 {
 private:
-	 std::string queryConditionBuilder(const getCourseStatisticsQuery::Wrapper& query, SqlParams& params);
+	std::string queryConditionBuilder(const getCourseStatisticsQuery::Wrapper& query, SqlParams& params);
 public:
-	// Í³¼ÆÊı¾İÌõÊı
+	// ç»Ÿè®¡æ•°æ®æ¡æ•°
 	uint64_t count(const getCourseStatisticsQuery::Wrapper& query);
-	// ·ÖÒ³²éÑ¯Êı¾İ
+	// åˆ†é¡µæŸ¥è¯¢æ•°æ®
 	std::list<getCourseStatisticsDO> selectWithPage(const getCourseStatisticsQuery::Wrapper& query);
 	std::list<PtrgetCourseStatisticsDO> selectWithPagePtr(const getCourseStatisticsQuery::Wrapper& query);
 };
 
 
 /**
- * ¿Î³ÌÍ³¼ÆÊı¾İ·ÃÎÊ¶ÔÏó
+ * è¯¾ç¨‹ç»Ÿè®¡æ•°æ®è®¿é—®å¯¹è±¡
  */
 class JoinclassDAO : public BaseDAO
 {
 private:
-	 std::string queryConditionBuilder(const JoinclassQuery::Wrapper& query, SqlParams& params);
+	std::string queryConditionBuilder(const JoinclassQuery::Wrapper& query, SqlParams& params);
 public:
-	// Í³¼ÆÊı¾İÌõÊı
+	// ç»Ÿè®¡æ•°æ®æ¡æ•°
 	uint64_t count(const JoinclassQuery::Wrapper& query);
-	// ·ÖÒ³²éÑ¯Êı¾İ
+	// åˆ†é¡µæŸ¥è¯¢æ•°æ®
 	std::list<JoinclassDO> selectWithPage(const JoinclassQuery::Wrapper& query);
 	std::list<PtrJoinclassDO> JoinclassDAO::selectWithPagePtr(const JoinclassQuery::Wrapper& query);
 };
 /**
- * Ñ§Éú¿Î³ÌÊı¾İ·ÃÎÊ¶ÔÏó
+ * å­¦ç”Ÿè¯¾ç¨‹æ•°æ®è®¿é—®å¯¹è±¡
  */
 class StudentCourseDAO : public BaseDAO {
 public:
@@ -71,9 +87,5 @@ public:
 private:
 };
 
-
-
-
-
-
 #endif 
+

@@ -1,18 +1,44 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "CommonService.h"
 #include "../../dao/Common/CommonDAO.h"
 #include "id/UuidFacade.h"
 #include "SimpleDateTimeFormat.h"
-
-//°à¼¶ÁĞ±í·şÎñ
+void StudentService::ModifyStudentHeadImg(ModifyStudentHeadImgDTO::Wrapper dto) {
+	uint64_t id = dto->id;
+	std::string headImg = dto->picturePath;
+	StudentDAO dao;
+	dao.updateStudentHeadImg(id, headImg);
+}
+StudentDTO::Wrapper StudentService::GetStudentDetailById(uint64_t studentId) {
+	StudentDAO dao;
+	return dao.getStudentDetailById(studentId);
+}
+RegistrationPageDTO::Wrapper RegistrationRecordService::GetRegistrationRecordWithPage(RegistrationPageQuery::Wrapper query) {
+	auto pages = RegistrationPageDTO::createShared();
+	RegistrationRecordDAO dao;
+	pages->pageIndex = query->pageIndex;
+	pages->pageSize = query->pageSize;
+	uint64_t count = dao.count(query->id);
+	if (count <= 0) {
+		return pages;
+	}
+	pages->total = count;
+	pages->calcPages();
+	auto results = dao.selectRegistrationRecordWithPage(query);
+	for (auto& result : results) {
+		pages->addData(result);
+	}
+	return pages;
+}
+//ç­çº§åˆ—è¡¨æœåŠ¡
 getClassListPageDTO::Wrapper getClassListService::listAll(const getClassListQuery::Wrapper& query)
 {
-	// ¹¹½¨·µ»Ø¶ÔÏó
+	// æ„å»ºè¿”å›å¯¹è±¡
 	auto pages = getClassListPageDTO::createShared();
 	pages->pageIndex = query->pageIndex;
 	pages->pageSize = query->pageSize;
 
-	// ²éÑ¯Êı¾İ×ÜÌõÊı
+	// æŸ¥è¯¢æ•°æ®æ€»æ¡æ•°
 	getClassListDAO dao;
 	uint64_t count = dao.count(query);
 	if (count <= 0)
@@ -20,12 +46,12 @@ getClassListPageDTO::Wrapper getClassListService::listAll(const getClassListQuer
 		return pages;
 	}
 
-	// ·ÖÒ³²éÑ¯Êı¾İ
+	// åˆ†é¡µæŸ¥è¯¢æ•°æ®
 	pages->total = count;
 	pages->calcPages();
 	std::list<getClassListDO> result = dao.selectWithPage(query);
 
-	// ½«DO×ª»»³ÉDTO
+	// å°†DOè½¬æ¢æˆDTO
 	for (getClassListDO& sub : result)
 	{
 		auto dto = getClassListDTO::createShared();
@@ -41,15 +67,15 @@ getClassListPageDTO::Wrapper getClassListService::listAll(const getClassListQuer
 	return pages;
 }
 
-//¿Î³ÌÍ³¼Æ·şÎñ
+//è¯¾ç¨‹ç»Ÿè®¡æœåŠ¡
 getCourseStatisticsPageDTO::Wrapper getCourseStatisticsService::listAll(const getCourseStatisticsQuery::Wrapper& query)
 {
-	// ¹¹½¨·µ»Ø¶ÔÏó
+	// æ„å»ºè¿”å›å¯¹è±¡
 	auto pages = getCourseStatisticsPageDTO::createShared();
 	pages->pageIndex = query->pageIndex;
 	pages->pageSize = query->pageSize;
 
-	// ²éÑ¯Êı¾İ×ÜÌõÊı
+	// æŸ¥è¯¢æ•°æ®æ€»æ¡æ•°
 	getCourseStatisticsDAO dao;
 	uint64_t count = dao.count(query);
 	if (count <= 0)
@@ -57,12 +83,12 @@ getCourseStatisticsPageDTO::Wrapper getCourseStatisticsService::listAll(const ge
 		return pages;
 	}
 
-	// ·ÖÒ³²éÑ¯Êı¾İ
+	// åˆ†é¡µæŸ¥è¯¢æ•°æ®
 	pages->total = count;
 	pages->calcPages();
 	std::list<getCourseStatisticsDO> result = dao.selectWithPage(query);
 
-	// ½«DO×ª»»³ÉDTO
+	// å°†DOè½¬æ¢æˆDTO
 	for (getCourseStatisticsDO& sub : result)
 	{
 		auto dto = getCourseStatisticsDTO::createShared();
@@ -78,15 +104,15 @@ getCourseStatisticsPageDTO::Wrapper getCourseStatisticsService::listAll(const ge
 	return pages;
 }
 
-// ·ÖÒ³²éÑ¯¿É¼ÓÈëµÄ°à¼¶ÁĞ±í
+// åˆ†é¡µæŸ¥è¯¢å¯åŠ å…¥çš„ç­çº§åˆ—è¡¨
 JoinclassPageDTO::Wrapper JoinclassService::listAll(const JoinclassQuery::Wrapper& query)
 {
-	// ¹¹½¨·µ»Ø¶ÔÏó
+	// æ„å»ºè¿”å›å¯¹è±¡
 	auto pages = JoinclassPageDTO::createShared();
 	pages->pageIndex = query->pageIndex;
 	pages->pageSize = query->pageSize;
 
-	// ²éÑ¯Êı¾İ×ÜÌõÊı
+	// æŸ¥è¯¢æ•°æ®æ€»æ¡æ•°
 	JoinclassDAO dao;
 	uint64_t count = dao.count(query);
 	if (count <= 0)
@@ -94,12 +120,12 @@ JoinclassPageDTO::Wrapper JoinclassService::listAll(const JoinclassQuery::Wrappe
 		return pages;
 	}
 
-	// ·ÖÒ³²éÑ¯Êı¾İ
+	// åˆ†é¡µæŸ¥è¯¢æ•°æ®
 	pages->total = count;
 	pages->calcPages();
 	std::list<JoinclassDO> result = dao.selectWithPage(query);
 
-	// ½«DO×ª»»³ÉDTO
+	// å°†DOè½¬æ¢æˆDTO
 	for (JoinclassDO& sub : result)
 	{
 		auto dto = JoinclassDTO::createShared();
@@ -111,25 +137,26 @@ JoinclassPageDTO::Wrapper JoinclassService::listAll(const JoinclassQuery::Wrappe
 	return pages;
 }
 
-// Ñ§Éú¼ÓÈë°à¼¶µÄÊµÏÖ
+// å­¦ç”ŸåŠ å…¥ç­çº§çš„å®ç°
 bool JoinclassService::joinClass(const oatpp::String& studentId, const oatpp::String& className)
 {
-	
-	// ´´½¨Ñ§Éú°à¼¶¹ØÏµ¼ÇÂ¼
+
+	// åˆ›å»ºå­¦ç”Ÿç­çº§å…³ç³»è®°å½•
 	ClassStudentDO classStudent;
 	UuidFacade uf;
 	classStudent.setId(uf.genUuid());
 	classStudent.setClassId(className);
 	classStudent.setStudentId(studentId);
 	classStudent.setAddTime(SimpleDateTimeFormat::format());
-	classStudent.setDeleted(0);  // Î´É¾³ı
-	classStudent.setReason(0);    // Ä¬ÈÏÔ­Òò
+	classStudent.setDeleted(0);  // æœªåˆ é™¤
+	classStudent.setReason(0);    // é»˜è®¤åŸå› 
 
-	// ÉèÖÃ´´½¨ÈË
-	// ÕâÀïĞèÒª»ñÈ¡µ±Ç°µÇÂ¼ÓÃ»§ĞÅÏ¢
+	// è®¾ç½®åˆ›å»ºäºº
+	// è¿™é‡Œéœ€è¦è·å–å½“å‰ç™»å½•ç”¨æˆ·ä¿¡æ¯
 
-	// ±£´æµ½Êı¾İ¿â
-	// ÕâÀïĞèÒªÊµÏÖClassStudentDAOµÄ²åÈë·½·¨
+	// ä¿å­˜åˆ°æ•°æ®åº“
+	// è¿™é‡Œéœ€è¦å®ç°ClassStudentDAOçš„æ’å…¥æ–¹æ³•
 
-	return true;  // ÔİÊ±·µ»Øtrue£¬Êµ¼ÊĞèÒªÊµÏÖ
+	return true;  // æš‚æ—¶è¿”å›trueï¼Œå®é™…éœ€è¦å®ç°
 }
+
