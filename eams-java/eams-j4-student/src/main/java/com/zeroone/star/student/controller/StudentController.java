@@ -56,7 +56,7 @@ import java.util.List;
  * @since 2026-03-23
  */
 @RestController
-@RequestMapping("/j4/student")
+@RequestMapping("/student")
 @Api(tags = "学员管理")
 @Validated
 public class StudentController implements StudentApis {
