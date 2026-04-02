@@ -16,10 +16,11 @@
 class SignQuery :public PageQuery
 {
 	DTO_INIT(SignQuery, PageQuery);
-	API_DTO_FIELD_DEFAULT(UInt64, id, ZH_WORDS_GETTER("c7.field.stu-id"));
-	API_DTO_FIELD_REQUIRE(String, name, ZH_WORDS_GETTER("c7.field.stu-name"), true);
-	API_DTO_FIELD_REQUIRE(String, sign, ZH_WORDS_GETTER("c7.field.stu-sign"), true);
-	API_DTO_FIELD_REQUIRE(String, date, ZH_WORDS_GETTER("c7.field.date"), true);
+
+	//API_DTO_FIELD_REQUIRE(UInt64, t_id, ZH_WORDS_GETTER("sign.field.teacher-id"), true);
+
+	// 关联一个PayloadDTO负载数据对象
+	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
 };
 
 

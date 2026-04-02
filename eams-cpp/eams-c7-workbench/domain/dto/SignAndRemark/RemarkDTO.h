@@ -15,12 +15,12 @@
 class RemarkDTO : public oatpp::DTO
 {
 	DTO_INIT(RemarkDTO, DTO);
-	API_DTO_FIELD_DEFAULT(UInt64, id, ZH_WORDS_GETTER("c7.field.stu-id"));
-	API_DTO_FIELD_REQUIRE(String, name, ZH_WORDS_GETTER("c7.field.stu-name"), true);
-	API_DTO_FIELD_REQUIRE(String, remark, ZH_WORDS_GETTER("c7.field.remark"), true);
-	API_DTO_FIELD_REQUIRE(UInt64, remarkstar, ZH_WORDS_GETTER("c7.field.remark-star"), true);
-	API_DTO_FIELD_REQUIRE(String, remarker, ZH_WORDS_GETTER("c7.field.remarker"), true);
-	API_DTO_FIELD_REQUIRE(String, remarktime, ZH_WORDS_GETTER("c7.field.remark-time"), true);
+	//API_DTO_FIELD_DEFAULT(UInt64, id, ZH_WORDS_GETTER("remark.field.stu-id"));
+	API_DTO_FIELD_REQUIRE(String, stu_name, ZH_WORDS_GETTER("remark.field.stu-name"), true);
+	API_DTO_FIELD_REQUIRE(String, remark, ZH_WORDS_GETTER("remark.field.remark"), true);
+	API_DTO_FIELD_REQUIRE(UInt64, score, ZH_WORDS_GETTER("remark.field.score"), true);
+	API_DTO_FIELD_REQUIRE(String, teacher_name, ZH_WORDS_GETTER("remark.field.teacher-name"), true);
+	API_DTO_FIELD_REQUIRE(String, remark_time, ZH_WORDS_GETTER("remark.field.remark-time"), true);
 };
 
 

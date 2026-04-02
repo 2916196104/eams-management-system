@@ -41,6 +41,9 @@
 #include "AddStudent/PostStudentInfo.h"
 #include "Course/RegisterController.h"
 #include "Homework/HomeworkListController.h"
+#include "Schedule/ClassroomController.h"
+#include "SignAndRemark/RemarkController.h"
+#include "SignAndRemark/SignController.h"
 
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
@@ -84,4 +87,7 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(PostStudentInfoController);
 	ROUTER_SIMPLE_BIND(RegisterController);
 	ROUTER_SIMPLE_BIND(HomeworkListController);
+	ROUTER_SIMPLE_BIND(SignController);
+	ROUTER_SIMPLE_BIND(RemarkController);
+	ROUTER_SIMPLE_BIND(ClassroomController);
 }

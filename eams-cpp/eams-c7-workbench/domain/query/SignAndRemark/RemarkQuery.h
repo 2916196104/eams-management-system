@@ -16,12 +16,15 @@
 class RemarkQuery :public PageQuery
 {
 	DTO_INIT(RemarkQuery, PageQuery);
-	API_DTO_FIELD_DEFAULT(UInt64, id, ZH_WORDS_GETTER("c7.field.stu-id"));
+	/*API_DTO_FIELD_DEFAULT(UInt64, id, ZH_WORDS_GETTER("c7.field.stu-id"));
 	API_DTO_FIELD_REQUIRE(String, name, ZH_WORDS_GETTER("c7.field.stu-name"), true);
 	API_DTO_FIELD_REQUIRE(String, remark, ZH_WORDS_GETTER("c7.field.remark"), true);
 	API_DTO_FIELD_REQUIRE(UInt64, remarkstar, ZH_WORDS_GETTER("c7.field.remark-star"), true);
 	API_DTO_FIELD_REQUIRE(String, remarker, ZH_WORDS_GETTER("c7.field.remarker"), true);
 	API_DTO_FIELD_REQUIRE(String, remarktime, ZH_WORDS_GETTER("c7.field.remark-time"), true);
+	*/
+	// 关联一个PayloadDTO负载数据对象
+	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
 };
 
 
