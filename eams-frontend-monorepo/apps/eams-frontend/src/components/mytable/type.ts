@@ -53,6 +53,8 @@ export interface MyTableColumn {
 	"show-overflow-tooltip"?: boolean;
 	/** 列对齐方式 */
 	align?: "left" | "center" | "right";
+	/** 是否可见 */
+	visible?: boolean;
 }
 
 /** 自定义表格操作列数据模型 */
@@ -98,6 +100,8 @@ export interface MyTableOperationsBtnAttr {
 	link?: boolean;
 	/** 是否禁用 */
 	disabled?: boolean;
+	/** 按钮样式 */
+	style?: Record<string, string>;
 }
 
 /**
