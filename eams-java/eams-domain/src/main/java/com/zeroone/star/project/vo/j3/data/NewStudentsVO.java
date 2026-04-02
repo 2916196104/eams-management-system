@@ -2,14 +2,12 @@ package com.zeroone.star.project.vo.j3.data;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
-import jdk.vm.ci.meta.Local;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
 @Data
-public class newStudentsVO {
+public class NewStudentsVO {
     @ApiModelProperty(value = "新学员数量",example = "100")
     private Integer count;
 

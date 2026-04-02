@@ -1,6 +1,7 @@
 package com.zeroone.star.eamsj3data.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.github.yulichang.base.MPJBaseMapper;
 import com.zeroone.star.eamsj3data.entity.Student;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,5 +13,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @version 1.0.0
  */
 @Mapper
-public interface StudentMapper extends BaseMapper<Student> {
+public interface StudentMapper extends MPJBaseMapper<Student> {
 }

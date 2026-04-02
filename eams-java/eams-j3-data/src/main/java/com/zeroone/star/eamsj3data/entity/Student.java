@@ -49,4 +49,9 @@ public class Student implements Serializable {
      * 更改时间
      */
     private LocalDateTime edit_time;
+
+    /**
+     * 学生姓名
+     */
+    private String name;
 }

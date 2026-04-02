@@ -1,25 +1,21 @@
 package com.zeroone.star.eamsj3data.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zeroone.star.eamsj3data.entity.Student;
 import com.zeroone.star.eamsj3data.mapper.StudentMapper;
 import com.zeroone.star.eamsj3data.service.StudentService;
-import com.zeroone.star.project.vo.j3.data.newStudentsVO;
-import org.springframework.beans.BeanUtils;
+import com.zeroone.star.project.vo.j3.data.NewStudentsVO;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> implements StudentService {
-
     @Override
-    public List<newStudentsVO> getNewStudentsStagesInfo(
+    public List<NewStudentsVO> getNewStudentsStagesInfo(
             LocalDateTime beginTime,
             LocalDateTime endTime) {
         QueryWrapper<Student> wrapper = new QueryWrapper<>();
@@ -34,7 +30,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
 
         return maps.stream().map(m ->{
             return BeanUtil.
-                    fillBeanWithMap(m,new newStudentsVO(),false);
+                    fillBeanWithMap(m,new NewStudentsVO(),false);
         }).collect(Collectors.toList());
     }
 }
