@@ -8,7 +8,7 @@ bool AppointmentService::addAppointment(const ScheduleAppointmentDTO::Wrapper& d
 {
 	// 基础参数校验
 	if (!dto->lessonId || !dto->studentId) {
-		throw std::runtime_error("参数校验失败：排课ID或学生ID不能为空！");
+		throw std::runtime_error(u8"参数校验失败：排课ID或学生ID不能为空！");
 	}
 	uint64_t lessonId = dto->lessonId.getValue(0);
 	uint64_t studentId = dto->studentId.getValue(0);
@@ -17,12 +17,12 @@ bool AppointmentService::addAppointment(const ScheduleAppointmentDTO::Wrapper& d
 	// 校验是否重复预约
 	AppointmentDAO appointmentDao;
 	if (appointmentDao.selectCountByStudentAndLesson(studentId, lessonId) > 0) {
-		throw std::runtime_error("您已预约过该课程，请勿重复操作！");
+		throw std::runtime_error(u8"您已预约过该课程，请勿重复操作！");
 	}
 
 	uint64_t courseId = appointmentDao.getCourseIdByScheduleId(lessonId);
 	if (!courseId) {
-		throw std::runtime_error("该课次不存在或已取消！");
+		throw std::runtime_error(u8"该课次不存在或已取消！");
 	}
 
 
@@ -39,7 +39,7 @@ bool AppointmentService::addAppointment(const ScheduleAppointmentDTO::Wrapper& d
 
 	// 既没有体验卡，也没有正式课时
 	if (trialRecordId == 0 && !hasCourseQuota) {
-		throw std::runtime_error("您的课时余额不足，且无可用体验卡，无法预约！");
+		throw std::runtime_error(u8"您的课时余额不足，且无可用体验卡，无法预约！");
 	}
 
 	// 创建 DO 对象，准备装载数据

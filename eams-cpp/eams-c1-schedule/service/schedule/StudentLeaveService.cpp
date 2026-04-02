@@ -15,12 +15,12 @@ bool StudentLeaveService::addLeave(const ScheduleLeaveDTO::Wrapper& dto)
 
 	// 课次实体校验
 	if (!leaveDao.checkLessonExists(lessonId)) {
-		throw std::runtime_error("该课次不存在或已被系统取消，无法请假！");
+		throw std::runtime_error(u8"该课次不存在或已被系统取消，无法请假！");
 	}
 
 	// 防重复请假
 	if (leaveDao.checkHasLeaveRecord(studentId, lessonId) > 0) {
-		throw std::runtime_error("您已提交过该课次的请假申请，请勿重复操作！");
+		throw std::runtime_error(u8"您已提交过该课次的请假申请，请勿重复操作！");
 	}
 
 	// 创建 DO 对象，装配数据
