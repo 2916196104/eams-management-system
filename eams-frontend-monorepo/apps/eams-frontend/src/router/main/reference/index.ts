@@ -2,42 +2,6 @@ const placeholderView = () => import("@/views/common/MenuPlaceholder.vue");
 
 const routes = [
 	{
-		path: "/course/manage",
-		name: "CourseManage",
-		meta: {
-			label: "课程管理",
-			description: "课程基础信息和课程资料维护后续可继续在这里补齐。",
-		},
-		component: placeholderView,
-	},
-	{
-		path: "/course/subject",
-		name: "CourseSubject",
-		meta: {
-			label: "科目管理",
-			description: "科目树、科目属性和启用状态后续可继续扩展。",
-		},
-		component: placeholderView,
-	},
-	{
-		path: "/ops/order-management",
-		name: "OperationsOrderManagement",
-		meta: {
-			label: "订单管理",
-			description: "订单列表、支付状态和订单详情后续可继续接入。",
-		},
-		component: placeholderView,
-	},
-	{
-		path: "/ops/homework",
-		name: "OperationsHomework",
-		meta: {
-			label: "课后作业",
-			description: "课后作业列表、批改与统计后续可继续接入。",
-		},
-		component: placeholderView,
-	},
-	{
 		path: "/interaction/teacher-review",
 		name: "InteractionTeacherReview",
 		meta: {

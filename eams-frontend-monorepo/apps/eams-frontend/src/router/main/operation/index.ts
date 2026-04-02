@@ -1,4 +1,22 @@
 const routes = [
+	// 订单管理
+	{
+		path: "/ops/order-management",
+		name: "OperationsOrderManagement",
+		component: () => import("@/views/operation/order-management/index.vue"),
+	},
+	// 订单退款
+	{
+		path: "/ops/refund-management",
+		name: "OperationsRefundManagement",
+		component: () => import("@/views/operation/refund-management/index.vue"),
+	},
+	// 订单评价
+	{
+		path: "/ops/evaluation-management",
+		name: "OperationsEvaluationManagement",
+		component: () => import("@/views/operation/evaluation-management/index.vue"),
+	},
 	// 体验卡管理
 	{
 		path: "/ops/trialCardManagement",
