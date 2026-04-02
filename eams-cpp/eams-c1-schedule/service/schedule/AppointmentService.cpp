@@ -37,7 +37,6 @@ bool AppointmentService::addAppointment(const ScheduleAppointmentDTO::Wrapper& d
 		hasCourseQuota = appointmentDao.getStudentCourseRemain(studentId, courseId) > 0;
 	}
 
-	// 4. 终极宣判
 	// 既没有体验卡，也没有正式课时
 	if (trialRecordId == 0 && !hasCourseQuota) {
 		throw std::runtime_error("您的课时余额不足，且无可用体验卡，无法预约！");
