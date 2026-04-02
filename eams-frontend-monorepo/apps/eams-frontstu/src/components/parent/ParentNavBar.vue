@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import router from "@/router";
 const props = withDefaults(
 	defineProps<{
 		title?: string;
@@ -22,7 +23,17 @@ const emit = defineEmits<{
 }>();
 
 function handleBack() {
-	uni.navigateBack();
+	const pages = getCurrentPages();
+	if (pages.length > 1) {
+		uni.navigateBack({
+			fail() {
+				router.pushTab({ name: "home" });
+			},
+		});
+		return;
+	}
+
+	router.pushTab({ name: "home" });
 }
 
 function handleRightClick() {

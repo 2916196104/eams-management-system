@@ -16,10 +16,11 @@ definePage({
 });
 
 interface HomeworkDetail {
-	homework_id?: string;
+	id?: number;
 	title?: string;
-	class_name?: string;
+	classId?: number;
 	content?: string;
+	addTime?: string;
 }
 
 interface HomeworkSubmitResult {
@@ -45,6 +46,7 @@ const submitResult = ref<HomeworkSubmitResult | null>(null);
 
 const homeworkId = computed(() => Number(route.query?.id || 0));
 const studentId = computed(() => Number(currentStudent.value?.id || 0));
+const deleteRecordId = computed(() => Number(submitResult.value?.recordId || 0));
 
 function normalizeSubmitResult(res: any): HomeworkSubmitResult | null {
 	if (!res) return null;
@@ -100,14 +102,15 @@ function askSubmitContent() {
 async function submitHomework(content: string) {
 	submitLoading.value = true;
 	try {
-		const res: any = await Apis.home.post_c1_homework_submit({
-			params: {
-				studentId: studentId.value,
-			},
+		const res: any = await (Apis as any).home.post_c1_homework_submit({
 			data: {
 				homeworkId: homeworkId.value,
-				content,
+				studentId: studentId.value,
+				editor: Number(userStore.userInfo.id || 0),
+				homework_content: detail.value?.content || content,
+				homework_record_content: content,
 				images: "",
+				editTime: new Date().toISOString(),
 			},
 		});
 
@@ -137,11 +140,20 @@ function confirmDeleteHomework() {
 }
 
 async function deleteHomework() {
+	if (!deleteRecordId.value) {
+		globalToast.warning("当前缺少作业记录 ID，暂时无法删除");
+		return;
+	}
+
 	deleteLoading.value = true;
 	try {
-		await Apis.home.delete_c1_homework_delete({
+		await (Apis as any).home.delete_c1_homework_delete({
+			pathParams: {
+				id: deleteRecordId.value,
+			},
 			params: {
 				homeworkId: homeworkId.value,
+				studentId: studentId.value,
 			},
 		});
 
@@ -178,7 +190,7 @@ onMounted(() => {
 
 				<view class="detail-card__section">
 					<view class="detail-card__label">班级名称</view>
-					<view class="detail-card__text">{{ detail.class_name || "未设置班级" }}</view>
+					<view class="detail-card__text">{{ detail.classId || "未设置班级" }}</view>
 				</view>
 
 				<view class="detail-card__section">

@@ -140,7 +140,22 @@ function parseDate(dateText: string) {
 }
 
 function normalizeScheduleList(data: any): Array<ScheduleItem> {
-	return Array.isArray(data) ? data : [];
+	const rows = Array.isArray(data?.rows) ? data.rows : Array.isArray(data) ? data : [];
+	return rows.map((item: any) => ({
+		id: Number(item?.id || 0) || undefined,
+		startTime: item?.startTime,
+		endTime: item?.endTime,
+		courseStatusText: item?.state,
+		scheduleType: item?.bookable ? 2 : 1,
+		className: item?.className,
+		courseName: item?.courseName,
+		teacherName: item?.teacherNames,
+		classroomName: item?.classroom,
+		signInStatusText: item?.studentSignState,
+		canSignIn: Boolean(item?.studentCanSign),
+		canLeave: Boolean(item?.studentCanLeave),
+		canReserve: Boolean(item?.bookable),
+	}));
 }
 
 function scheduleStatusClass(text?: string) {
@@ -177,9 +192,11 @@ function toggleCalendar() {
 async function loadSchedule() {
 	loading.value = true;
 	try {
-		const res: any = await Apis.schedule.get_schedule_query({
+		const res: any = await (Apis as any).schedule.get_schedule_query({
 			params: {
-				queryDate: selectedDate.value,
+				date: selectedDate.value,
+				pageIndex: 1,
+				pageSize: 100,
 			},
 		});
 		scheduleList.value = normalizeScheduleList(res?.data);
@@ -207,9 +224,9 @@ async function handleReserve(item: ScheduleItem) {
 
 			actionLoadingId.value = scheduleId;
 			try {
-				const response: any = await Apis.schedule.post_schedule_appointment({
+				const response: any = await (Apis as any).schedule.post_schedule_appointment({
 					data: {
-						scheduleId,
+						lessonId: scheduleId,
 						studentId: studentId.value,
 					},
 				});
@@ -239,9 +256,9 @@ async function handleSignIn(item: ScheduleItem) {
 
 			actionLoadingId.value = scheduleId;
 			try {
-				const response: any = await Apis.schedule.post_schedule_sign_in({
-					data: {
-						scheduleId,
+				const response: any = await (Apis as any).schedule.post_schedule_sign_in({
+					pathParams: {
+						lessonId: scheduleId,
 					},
 				});
 				globalToast.success(response?.message || "签到成功");
@@ -277,9 +294,9 @@ function handleLeave(item: ScheduleItem) {
 
 			actionLoadingId.value = scheduleId;
 			try {
-				const response: any = await Apis.schedule.post_schedule_leave({
+				const response: any = await (Apis as any).schedule.post_schedule_leave({
 					data: {
-						scheduleId,
+						lessonId: scheduleId,
 						studentId: studentId.value,
 						reason,
 					},

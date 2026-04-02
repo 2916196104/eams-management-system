@@ -88,10 +88,28 @@ async function loadRemainingLessons(studentId: number) {
 			},
 		});
 		const rows = Array.isArray(res?.data?.rows) ? res.data.rows : [];
-		remainingLessons.value = rows.reduce((sum: number, item: any) => sum + Number(item?.count_lesson_remaining || 0), 0);
+		remainingLessons.value = rows.reduce((sum: number, item: any) => {
+			const totalLessons = Number(item?.count_lesson_total || 0);
+			const completedLessons = Number(item?.count_lesson_complete || 0);
+			return sum + Math.max(totalLessons - completedLessons, 0);
+		}, 0);
 	}
 	catch {
 		remainingLessons.value = 0;
+	}
+}
+
+async function loadTrialCardCount() {
+	try {
+		const res: any = await (Apis as any).home.get_app_sCenter_course_myTrialList({
+			params: {
+				userId: String(userInfo.value.id || ""),
+			},
+		});
+		trialCardCount.value = Array.isArray(res?.data) ? res.data.length : 0;
+	}
+	catch {
+		trialCardCount.value = 0;
 	}
 }
 
@@ -105,7 +123,7 @@ async function loadSummary() {
 		return;
 	}
 
-	await Promise.all([loadPoints(studentId), loadRemainingLessons(studentId)]);
+	await Promise.all([loadPoints(studentId), loadRemainingLessons(studentId), loadTrialCardCount()]);
 }
 
 onShow(() => {

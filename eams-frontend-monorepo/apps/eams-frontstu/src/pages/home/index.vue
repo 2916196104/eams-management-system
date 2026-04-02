@@ -45,8 +45,9 @@ interface RegistrationRecordItem {
 	subject_name?: string;
 	expire_date?: string;
 	count_lesson_total?: number;
+	count_lesson_complete?: number;
 	count_lesson_remaining?: number;
-	verify_state?: string;
+	verify_state?: string | number;
 	expired?: boolean;
 }
 
@@ -88,13 +89,39 @@ function normalizeNotice(data: any): AdvertisementItem | null {
 
 // 课表数据标准化，仅保留普通课表
 function normalizeScheduleList(data: any): Array<ScheduleItem> {
-	if (!Array.isArray(data)) return [];
-	return data.filter((item) => item && item.scheduleType !== 2 && !item.canReserve);
+	const rows = Array.isArray(data?.rows) ? data.rows : Array.isArray(data) ? data : [];
+	return rows
+		.map((item: any) => ({
+			id: Number(item?.id || 0) || undefined,
+			startTime: item?.startTime,
+			endTime: item?.endTime,
+			courseStatusText: item?.state,
+			scheduleType: item?.bookable ? 2 : 1,
+			className: item?.className,
+			courseName: item?.courseName,
+			teacherName: item?.teacherNames,
+			classroomName: item?.classroom,
+			signInStatusText: item?.studentSignState,
+			canSignIn: Boolean(item?.studentCanSign),
+			canLeave: Boolean(item?.studentCanLeave),
+			canReserve: Boolean(item?.bookable),
+		}))
+		.filter((item: ScheduleItem) => item.scheduleType !== 2 && !item.canReserve);
 }
 
 // 我的课程列表数据标准化
 function normalizeCourseRows(data: any): Array<RegistrationRecordItem> {
-	return Array.isArray(data?.rows) ? data.rows : [];
+	const rows = Array.isArray(data?.rows) ? data.rows : [];
+	return rows.map((item: any) => {
+		const totalLessons = Number(item?.count_lesson_total || 0);
+		const completedLessons = Number(item?.count_lesson_complete || 0);
+		return {
+			...item,
+			count_lesson_total: totalLessons,
+			count_lesson_complete: completedLessons,
+			count_lesson_remaining: Math.max(totalLessons - completedLessons, 0),
+		};
+	});
 }
 
 // 获取顶部公告
@@ -131,9 +158,11 @@ async function loadTodaySchedule() {
 	try {
 		const today = new Date();
 		const queryDate = `${today.getFullYear()}-${`${today.getMonth() + 1}`.padStart(2, "0")}-${`${today.getDate()}`.padStart(2, "0")}`;
-		const res: any = await Apis.schedule.get_schedule_query({
+		const res: any = await (Apis as any).schedule.get_schedule_query({
 			params: {
-				queryDate,
+				date: queryDate,
+				pageIndex: 1,
+				pageSize: 20,
 			},
 		});
 		todayScheduleList.value = normalizeScheduleList(res?.data).slice(0, 3);

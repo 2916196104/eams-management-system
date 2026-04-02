@@ -17,12 +17,13 @@ definePage({
 type AttendanceTab = "all" | "sign" | "leave" | "absent" | "patch";
 
 interface AttendanceRecordItem {
-	id: number;
+	id?: number;
 	signState?: string;
 	decLessonCount?: number;
 	signType?: string;
 	signTime?: string;
-	lessonId: number;
+	lessonId?: number;
+	teacherId?: number;
 	lessonTitle?: string;
 	courseName?: string;
 	canEvaluate?: boolean;
@@ -61,7 +62,22 @@ const records = ref<Array<AttendanceRecordItem>>([]);
 const studentId = computed(() => Number(currentStudent.value?.id || 0));
 
 function normalizeRows(data: any): Array<AttendanceRecordItem> {
-	return Array.isArray(data?.rows) ? data.rows : [];
+	const rows = Array.isArray(data?.rows) ? data.rows : [];
+	return rows.map((item: any, index: number) => ({
+		id: item?.id ?? item?.lesson_id ?? item?.lessonId ?? index + 1,
+		signState: typeof item?.signState === "string" ? item.signState : Number(item?.signState) === 1 ? "补签" : "签到",
+		decLessonCount: item?.decLessonCount,
+		signType: item?.signType,
+		signTime: item?.signTime,
+		lessonId: Number(item?.lesson_id ?? item?.lessonId ?? 0) || undefined,
+		teacherId: Number(item?.teacher_id ?? item?.teacherId ?? 0) || undefined,
+		lessonTitle: item?.lessonTitle,
+		courseName: item?.courseName,
+		canEvaluate: Number(item?.canEvaluate || 0) === 1 || item?.canEvaluate === true,
+		date: item?.date,
+		startTime: item?.startTime,
+		endTime: item?.endTime,
+	}));
 }
 
 function resolveRecordCategory(record: AttendanceRecordItem): Exclude<AttendanceTab, "all"> {
@@ -163,24 +179,57 @@ async function loadAttendanceRecords() {
 
 async function handleEvaluate(record: AttendanceRecordItem) {
 	if (!record.canEvaluate || !studentId.value) return;
-
-	actionLoadingId.value = record.id;
-	try {
-		const res: any = await Apis.home.post_home_attendance_records_evaluate({
-			params: {
-				student_id: studentId.value,
-			},
-		});
-
-		globalMessage.alert({
-			title: "课次评价信息",
-			msg: buildEvaluateMessage(res?.data),
-		});
-	} catch {
-		uni.showToast({ title: "评价信息加载失败", icon: "none" });
-	} finally {
-		actionLoadingId.value = null;
+	if (!record.lessonId || !record.teacherId) {
+		uni.showToast({ title: "当前记录缺少评价所需字段", icon: "none" });
+		return;
 	}
+
+	globalMessage.prompt({
+		title: "提交课次评价",
+		msg: "请输入本次课次评价",
+		inputPlaceholder: "请输入评价内容",
+		success: async (res) => {
+			if (res.action !== "confirm") return;
+
+			const content = `${res.value || ""}`.trim();
+			if (!content) {
+				uni.showToast({ title: "评价内容不能为空", icon: "none" });
+				return;
+			}
+
+			actionLoadingId.value = Number(record.id || 0);
+			try {
+				await (Apis as any).home.post_home_attendance_records_evaluate({
+					data: {
+						lesson_id: record.lessonId,
+						teacher_id: record.teacherId,
+						score1: 5,
+						score2: 5,
+						score3: 5,
+						score4: 5,
+						content,
+						student_id: studentId.value,
+						anonymity: 0,
+					},
+				});
+
+				globalMessage.alert({
+					title: "评价已提交",
+					msg: buildEvaluateMessage({
+						courseName: record.courseName,
+						title: record.lessonTitle,
+						date: record.date,
+						startTime: record.startTime,
+						endTime: record.endTime,
+					}),
+				});
+			} catch {
+				uni.showToast({ title: "提交评价失败", icon: "none" });
+			} finally {
+				actionLoadingId.value = null;
+			}
+		},
+	});
 }
 
 async function refreshPage() {
