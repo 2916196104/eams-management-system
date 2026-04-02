@@ -169,9 +169,14 @@ export const ADMIN_NAVIGATION: AdminNavSection[] = [
 				path: "/ops/order-management",
 			},
 			{
-				id: "operations-homework",
-				text: "课后作业",
-				path: "/ops/homework",
+				id: "operations-refund",
+				text: "订单退款",
+				path: "/ops/refund-management",
+			},
+			{
+				id: "operations-evaluation",
+				text: "订单评价",
+				path: "/ops/evaluation-management",
 			},
 			{
 				id: "operations-trialCardManagement",
