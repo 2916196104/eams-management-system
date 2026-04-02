@@ -28,7 +28,7 @@
 /**
  * 定义显示对象
  */
-class ReviewRecordPageJsonVO : JsonVO<ReviewRecordPageDTO::Wrapper>
+class ReviewRecordPageJsonVO : public JsonVO<ReviewRecordPageDTO::Wrapper>
 {
 	DTO_INIT(ReviewRecordPageJsonVO, JsonVO<ReviewRecordPageDTO::Wrapper>)
 };

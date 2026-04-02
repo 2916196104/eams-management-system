@@ -50,11 +50,12 @@ public: // 定义接口
 	// 3.1 定义获取小红点提醒接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(
 		ZH_WORDS_GETTER("bulletin.query-red.summary"), qureyRed, redJsonVO::Wrapper, BULLETIN_TAG,
+		API_DEF_ADD_QUERY_PARAMS(Int64, "student_id", ZH_WORDS_GETTER("user.field.student_id"), 1, true);
 		);
 	// 3.2 定义获取小红点提醒接口处理
-	ENDPOINT(API_M_GET, "/app/sCenter/student/redpoint", qureyRed, API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_GET, "/app/sCenter/student/redpoint", qureyRed, QUERY(Int64, student_id), API_HANDLER_AUTH_PARAME) {
 		// 响应结果
-		API_HANDLER_RESP_VO(executeQueryRed());
+		API_HANDLER_RESP_VO(executeQueryRed(student_id));
 	}
 
 private: // 定义接口执行函数
@@ -66,7 +67,7 @@ private: // 定义接口执行函数
 	listPageJsonVO::Wrapper executeQueryList(const PageQuery::Wrapper& query);
 
 	// 3 获取红点
-	redJsonVO::Wrapper executeQueryRed();
+	redJsonVO::Wrapper executeQueryRed(const Int64& student_id);
 };
 
 #include OATPP_CODEGEN_END(ApiController)

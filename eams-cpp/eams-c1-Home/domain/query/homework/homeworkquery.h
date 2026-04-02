@@ -37,7 +37,16 @@ class HomeworkQuery : public PageQuery
 	API_DTO_FIELD(String, courseName, ZH_WORDS_GETTER("homework.field.courseName"), false, "");
 
 };
+/**
+ * 作业删除信息传递
+ */
+class HomeworkDeleteQuery : public oatpp::DTO
+{
+	DTO_INIT(HomeworkDeleteQuery, DTO);
 
+	API_DTO_FIELD_REQUIRE(UInt64, homeworkId, ZH_WORDS_GETTER("homework.record.homework_id"), true);
+	API_DTO_FIELD_REQUIRE(UInt64, studentId, ZH_WORDS_GETTER("homework.record.student_id"), true);
+};
 #include OATPP_CODEGEN_END(DTO)
 
 #endif // !_HOMEWORKQUERY_H_

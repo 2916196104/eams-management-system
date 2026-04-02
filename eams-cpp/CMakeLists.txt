@@ -169,4 +169,4 @@ add_subdirectory ("eams-c1-login")
 add_subdirectory ("eams-c1-schedule")
 
 #临时引入arch-demo
-add_subdirectory ("arch-demo")
+#add_subdirectory ("arch-demo")

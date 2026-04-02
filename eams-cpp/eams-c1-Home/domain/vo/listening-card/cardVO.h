@@ -22,7 +22,7 @@
 
 #include "../../GlobalInclude.h"
 #include "domain/dto/listening-card/cardDTO.h"
-
+#include "../lib-oatpp/include/domain/vo/BaseJsonVO.h"
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 ///**

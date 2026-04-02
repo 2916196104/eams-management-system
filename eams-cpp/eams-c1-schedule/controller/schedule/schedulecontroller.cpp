@@ -17,10 +17,11 @@
  limitations under the License.
 */
 #include "stdafx.h"
-#include "ScheduleController.h"
+#include "schedulecontroller.h"
 #include "service/schedule/AppointmentService.h"
 #include "service/schedule/StudentLeaveService.h"
-#
+#include "service/lesson/LessonService.h"
+
 //实现接口执行函数
 //家长提交预约申请逻辑
 StringJsonVO::Wrapper ScheduleController::execAddAppointment(const ScheduleAppointmentDTO::Wrapper& dto, const PayloadDTO& payload) {
@@ -92,58 +93,38 @@ StringJsonVO::Wrapper ScheduleController::execAddLeave(const ScheduleLeaveDTO::W
 	return jvo;
 }
 
-// 后续引入 Service 层
-// #include "..."
-
-// ==============================================================================
-// 接口 1：获取课表列表 (GET /schedule/query)
-// ==============================================================================
-
-// 实现 execQuerySchedule 函数
-ListJsonVO<ScheduleVO::Wrapper>::Wrapper ScheduleController::execQuerySchedule(const ScheduleQuery::Wrapper& query, const PayloadDTO& payload)
+LessonPageJsonVO::Wrapper ScheduleController::execListLesson(const LessonQuery::Wrapper& query, const PayloadDTO& payload)
 {
-	// 可能的参数校验：用于检查 query->queryDate 是否是合法的日期格式
-	// 考虑到日期往往是选取合法值而非手动输入，这里仅做保留提示
+	// 实例化 Service
+	LessonService service;
+	auto resultPage = service.listLesson(query, payload);
 
-	// 调用 Service 层
-	// 暂无 Service 实现，仅做保留
-	auto result = oatpp::List<ScheduleVO::Wrapper>::createShared();
-
-	// 构造统一的 JSON 返回对象
-	auto jvo = ListJsonVO<ScheduleVO::Wrapper>::createShared();
-	jvo->success(result); // 使用你们 BaseJsonVO.h 里的 success 方法包装数据
+	// 构造返回对象
+	auto jvo = LessonPageJsonVO::createShared();
+	jvo->success(resultPage);
 	return jvo;
 }
 
-
-// ==============================================================================
-// 接口 2：学生签到 (POST /schedule/sign-in)
-// ==============================================================================
-
-// 实现 execSignIn 函数
-StringJsonVO::Wrapper ScheduleController::execSignIn(const SignInDTO::Wrapper& dto, const PayloadDTO& payload)
+// 参数改为 Int64 lessonId，而不是 DTO
+StringJsonVO::Wrapper ScheduleController::execSignLesson(const Int64& lessonId, const PayloadDTO& payload)
 {
 	auto jvo = StringJsonVO::createShared();
 
-	// 参数校验 (在 DTO 里写的 validate 函数)
-	std::string errmsg = dto->validate();
-	if (errmsg != "")
-	{
-		// 使用 JsonVO.h 里的 init 方法返回参数错误
-		jvo->init(errmsg, RS_PARAMS_INVALID);
+	// 参数校验
+	if (!lessonId || lessonId <= 0) {
+		jvo->init("lessonId invalidate.", RS_PARAMS_INVALID);
 		return jvo;
 	}
 
-	// 调用 Service 层
-	// 
-	bool isSuccess = true; // 模拟成功
+	// 调用 Service
+	LessonService service;
+	bool isSuccess = service.signLesson(lessonId.getValue(0), payload);
 
-	// 响应结果
 	if (isSuccess) {
-		jvo->success(ZH_WORDS_GETTER("schedule.signin.success"));
+		jvo->success(ZH_WORDS_GETTER("lesson.sign.success"));
 	}
 	else {
-		jvo->fail(ZH_WORDS_GETTER("schedule.signin.fail"));
+		jvo->fail(ZH_WORDS_GETTER("lesson.sign.fail"));
 	}
 
 	return jvo;

@@ -30,20 +30,16 @@
 class ListeningCardDTO :public oatpp::DTO
 {
 	DTO_INIT(ListeningCardDTO, DTO);
-	//试听卡对应的课程名
-	API_DTO_FIELD_REQUIRE(String, course, ZH_WORDS_GETTER("listening-card.course"), true);
+	//试听卡对应的课程ID
+	API_DTO_FIELD_REQUIRE(Int64, courseId, ZH_WORDS_GETTER("listening-card.course"), true);
 	//试听卡名称
-	API_DTO_FIELD_REQUIRE(String, name, ZH_WORDS_GETTER("listening-card.name"), true);
-	//试听卡领取的截止时间
-	API_DTO_FIELD_REQUIRE(String,deadline, ZH_WORDS_GETTER("listening-card.deadline"), true);
+	API_DTO_FIELD_REQUIRE(String, title, ZH_WORDS_GETTER("listening-card.name"), true);
 	//试听卡有效日期
-	API_DTO_FIELD_REQUIRE(String, effective_date, ZH_WORDS_GETTER("listening-card.effective_date"), true);
-	//试听卡剩余量
-	API_DTO_FIELD_REQUIRE(String, surplus, ZH_WORDS_GETTER("listening-card.surplus"), true);
+	API_DTO_FIELD_REQUIRE(String, endDate, ZH_WORDS_GETTER("listening-card.effective_date"), true);
 	//试听卡次数
-	API_DTO_FIELD_REQUIRE(String, cnt, ZH_WORDS_GETTER("listening-card.cnt"), true);
+	API_DTO_FIELD_REQUIRE(Int64, lessonCount, ZH_WORDS_GETTER("listening-card.cnt"), true);
 	//试听卡领取时间
-	API_DTO_FIELD_REQUIRE(String, receive_time, ZH_WORDS_GETTER("listening-card.receive_time"),false);
+	API_DTO_FIELD_REQUIRE(String, addTime, ZH_WORDS_GETTER("listening-card.receive_time"),false);
 };
 
 /**
@@ -54,15 +50,44 @@ class ListeningCardPageDTO :public PageDTO<ListeningCardDTO::Wrapper>
 	DTO_INIT(ListeningCardPageDTO, PageDTO<ListeningCardDTO::Wrapper>);
 };
 
+
 /**
-  * 领取试听卡数据传输对象
+  * 领取试听卡请求参数数据传输对象
+  * 包含创建一条完整领取记录所需的全部参数
   */
-class receiveCardDTO :public oatpp::DTO {
-	DTO_INIT(receiveCardDTO, DTO);
-	//用户名
-	API_DTO_FIELD_REQUIRE(String, userName, ZH_WORDS_GETTER("listening-card.userName"), true);
-	//试听卡名称
-	API_DTO_FIELD_REQUIRE(String, cardName, ZH_WORDS_GETTER("listening-card.name"), true);
+class receiveCardDTO : public oatpp::DTO {
+    DTO_INIT(receiveCardDTO, DTO);
+
+    // 用户要领取的体验卡ID
+    API_DTO_FIELD_REQUIRE(Int64, trialId, ZH_WORDS_GETTER("listening-card.trialID"), true);
+    // 领取用户的账号ID (对应 course_trial_record.user_id)
+    API_DTO_FIELD_REQUIRE(Int64, userId, ZH_WORDS_GETTER("listening-card.userID"), true);
+
+    // 学生ID 
+    API_DTO_FIELD_REQUIRE(Int64, studentId, ZH_WORDS_GETTER("listening-card.studentID"), true);
+    // 学生所属学校ID
+    API_DTO_FIELD_REQUIRE(Int64, schoolId, ZH_WORDS_GETTER("listening-card.schoolID"), true);
+    // 学生的顾问
+    API_DTO_FIELD_REQUIRE(Int64, counselor, ZH_WORDS_GETTER("listening-card.counselor"), true);
+
+
+
+    // 体验卡对应的课程ID 
+    API_DTO_FIELD_REQUIRE(Int64, courseId, ZH_WORDS_GETTER("listening-card.courseID"), true);
+    // 领取的课时数量
+    API_DTO_FIELD_REQUIRE(Int32, lessonCount, ZH_WORDS_GETTER("listening-card.lessonCount"), true);
+
+    //到期日期
+    API_DTO_FIELD_REQUIRE(String, endDate, ZH_WORDS_GETTER("listening-card.endDate"),true);
+
+    //add日期
+    API_DTO_FIELD_REQUIRE(String, addTime, ZH_WORDS_GETTER("listening-card.endDate"), true);
+
+    //add日期
+    API_DTO_FIELD_REQUIRE(Int64, studentCourseId, ZH_WORDS_GETTER("listening-card.endDate"), true);
+
+    // 关联一个PayloadDTO负载数据对象
+    CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
 };
 
  /**
@@ -72,58 +97,55 @@ class cardDTO : public oatpp::DTO {
     DTO_INIT(cardDTO, DTO);
 
     // 主键ID
-    API_DTO_FIELD_DEFAULT(UInt64, id, ZH_WORDS_GETTER("listening-card.field.id"));
+    API_DTO_FIELD_DEFAULT(UInt64, id, ZH_WORDS_GETTER("listening-card.field.card.id"));
     // 课程ID
-    API_DTO_FIELD_DEFAULT(UInt64, courseId, ZH_WORDS_GETTER("listening-card.field.courseId"));
+    API_DTO_FIELD_DEFAULT(UInt64, courseId, ZH_WORDS_GETTER("listening-card.field.card.courseId"));
     // 课程名称
-	API_DTO_FIELD_DEFAULT(String, courseName, ZH_WORDS_GETTER("listening-card.field.courseName"));
+	API_DTO_FIELD_DEFAULT(String, courseName, ZH_WORDS_GETTER("listening-card.field.card.courseName"));
     // 体验卡名称
-    API_DTO_FIELD_DEFAULT(String, title, ZH_WORDS_GETTER("listening-card.field.title"));
+    API_DTO_FIELD_DEFAULT(String, title, ZH_WORDS_GETTER("listening-card.field.card.title"));
     // 发行数量
-    API_DTO_FIELD_DEFAULT(Int32, quantity, ZH_WORDS_GETTER("listening-card.field.quantity"));
+    API_DTO_FIELD_DEFAULT(Int32, quantity, ZH_WORDS_GETTER("listening-card.field.card.quantity"));
     // 剩余数量
-    API_DTO_FIELD_DEFAULT(Int32, remainingQuantity, ZH_WORDS_GETTER("listening-card.field.remainingQuantity"));
+    API_DTO_FIELD_DEFAULT(Int32, remainingQuantity, ZH_WORDS_GETTER("listening-card.field.card.remainingQuantity"));
     // 课时数
-    API_DTO_FIELD_DEFAULT(UInt32, lessonCount, ZH_WORDS_GETTER("listening-card.field.lessonCount"));
+    API_DTO_FIELD_DEFAULT(UInt32, lessonCount, ZH_WORDS_GETTER("listening-card.field.card.lessonCount"));
     // 领取后有效天数
-    API_DTO_FIELD_DEFAULT(Int32, expireDays, ZH_WORDS_GETTER("listening-card.field.expireDays"));
+    API_DTO_FIELD_DEFAULT(Int32, expireDays, ZH_WORDS_GETTER("listening-card.field.card.expireDays"));
     // 发行结束日期
-    API_DTO_FIELD_DEFAULT(String, endDate, ZH_WORDS_GETTER("listening-card.field.endDate"));
+    API_DTO_FIELD_DEFAULT(String, endDate, ZH_WORDS_GETTER("listening-card.field.card.endDate"));
     // 启用状态（1：启用，0：禁用）
-    API_DTO_FIELD_DEFAULT(Int8, state, ZH_WORDS_GETTER("listening-card.field.state"));
-    // 创建人
-    API_DTO_FIELD_DEFAULT(Int64, creator, ZH_WORDS_GETTER("listening-card.field.creator"));
-    // 编辑人
-    API_DTO_FIELD_DEFAULT(Int64, editor, ZH_WORDS_GETTER("listening-card.field.editor"));
+    API_DTO_FIELD_DEFAULT(Int8, state, ZH_WORDS_GETTER("listening-card.field.card.state"));
+	// 编辑时间 
+	API_DTO_FIELD_DEFAULT(String, editTime, ZH_WORDS_GETTER("listening-card.field.card.editTime"));
+	// 编辑者姓名
+	API_DTO_FIELD_DEFAULT(String, editorName, ZH_WORDS_GETTER("listening-card.field.card.editorName"));
+	// 领取记录数
+	API_DTO_FIELD_DEFAULT(Int32, recordCount, ZH_WORDS_GETTER("listening-card.field.card.recordCount"));
 };
 
 /**
- * 试听卡规则DTO（从setting_option表读取的公共规则）
- */
+ * 试听卡规则DTO
+*/
 class cardRuleDTO : public oatpp::DTO {
     DTO_INIT(cardRuleDTO, DTO);
-    // 规则内容（一段文字）
-    API_DTO_FIELD_DEFAULT(String, content, ZH_WORDS_GETTER("listening-card.field.ruleContent"));
-    // 规则描述
-    API_DTO_FIELD_DEFAULT(String, description, ZH_WORDS_GETTER("listening-card.field.ruleDescription"));
+	// 规则ID
+	API_DTO_FIELD_DEFAULT(UInt64, id, ZH_WORDS_GETTER("listening-card.field.rule.id"));
+	// 规则组ID
+	API_DTO_FIELD_DEFAULT(UInt64, settingId, ZH_WORDS_GETTER("listening-card.field.rule.settingId"));
+	// 规则名称
+	API_DTO_FIELD_DEFAULT(String, name, ZH_WORDS_GETTER("listening-card.field.rule.name"));
+	// 规则码
+	API_DTO_FIELD_DEFAULT(String, code, ZH_WORDS_GETTER("listening-card.field.rule.code"));
+	// 规则值
+	API_DTO_FIELD_DEFAULT(String, value, ZH_WORDS_GETTER("listening-card.field.rule.value"));
+	// 规则值类型
+	API_DTO_FIELD_DEFAULT(String, valueType, ZH_WORDS_GETTER("listening-card.field.rule.valueType"));
+	// 规则说明
+	API_DTO_FIELD_DEFAULT(String, info, ZH_WORDS_GETTER("listening-card.field.rule.info"));
+	// 规则排序
+	API_DTO_FIELD_DEFAULT(Int32, sortNum, ZH_WORDS_GETTER("listening-card.field.rule.sortNum"));
 };
-
-/**
- * 试听卡列表请求DTO（无分页参数）
- */
-/*****************   暂时无用（可拓展） *******************/
-//class cardListRequestDTO : public oatpp::DTO {
-//    DTO_INIT(cardListRequestDTO, DTO);
-//
-//    // 课程ID筛选（可选）
-//    API_DTO_FIELD_DEFAULT(UInt64, courseId, ZH_WORDS_GETTER("trialcard.field.courseId"));
-//    // 启用状态筛选（可选）
-//    API_DTO_FIELD_DEFAULT(Int8, state, ZH_WORDS_GETTER("trialcard.field.state"));
-//    // 组织ID筛选（可选）
-//    API_DTO_FIELD_DEFAULT(Int64, orgId, ZH_WORDS_GETTER("common.field.orgId"));
-//    // 关键字搜索（可选）
-//    API_DTO_FIELD_DEFAULT(String, keyword, ZH_WORDS_GETTER("common.field.keyword"));
-// };
 
 #include OATPP_CODEGEN_END(DTO)
 

@@ -22,13 +22,13 @@
 #include "ApiHelper.h"
 #include "controller/registration-records/registrationcontroller.h"
 #include"listening-card/cardcontroller.h"
-#include "score/scorecontroller.h"		
+#include "score/scorecontroller.h"
 #include "points-exchange/exchangecontroller.h"
 #include "controller/review-records/reviewcontroller.h"
 #include "class/classcontroller.h"
 #include "homework/homeworkcontroller.h"
 #include "attendance-records/attendancecontroller.h"
-#include "bulletin/bulletincontroller.h"
+#include "bulletin/bulletinController.h"
 // 如果定义了关闭Swagger文档宏
 #ifdef CLOSE_SWAGGER_DOC
 // 简化绑定控制器宏定义
@@ -60,4 +60,5 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(cardController);
 	ROUTER_SIMPLE_BIND(bulletinController);
 	ROUTER_SIMPLE_BIND(HomeworkController);
+	cout << "test" << endl;
 }
