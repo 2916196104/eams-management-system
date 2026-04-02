@@ -115,6 +115,11 @@ class EvaluateDTO : public oatpp::DTO
 		info->description = ZH_WORDS_GETTER("evaluate.field.score");
 	}
 	// 是否签到
+	DTO_FIELD(Boolean, isSign);
+	DTO_FIELD_INFO(isSign) {
+		info->description = ZH_WORDS_GETTER("evaluate.field.has_sign");
+	}
+	// 是否签到
 	DTO_FIELD(String, sign_state);
 	DTO_FIELD_INFO(sign_state) {
 		info->description = ZH_WORDS_GETTER("evaluate.field.has_sign");

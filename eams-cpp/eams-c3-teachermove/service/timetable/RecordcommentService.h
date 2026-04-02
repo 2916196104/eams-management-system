@@ -3,15 +3,10 @@
 #ifndef __RECORDCOMMENT_SERVICE_H__
 #define __RECORDCOMMENT_SERVICE_H__
 
-#include "domain/GlobalInclude.h"
+
 #include "domain/query/timetable/TimetableQuery.h"
 #include "domain/dto/timetable/TimetableDTO.h"
-
-class RecordCommentService
-{
-public:
-	EvaluatePageDTO::Wrapper getEvaluationList(const EvaluationQuery::Wrapper& query);
-};
+#include "domain/vo/timetable/TimetableVO.h"
 
 class RecordcommentService
 {
@@ -20,4 +15,10 @@ public:
 	EvaluateRspJsonVO::Wrapper modifyEvaluation(const EvaluationDTO::Wrapper& dto, const PayloadDTO& payload);
 };
 
-#endif
+class RecordCommentService
+{
+public:
+	EvaluatePageDTO::Wrapper getEvaluationList(const EvaluationQuery::Wrapper& query);
+};
+
+#endif // __RECORDCOMMENT_SERVICE_H__
