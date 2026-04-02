@@ -126,7 +126,10 @@ homework:
     list:
       summary: "获取作业提交记录列表"
   review:
-    summary: "点评作业"
+   success: "点评成功"
+   fail: "点评失败"
+   param_incomplete: "参数不完整"
+   record_not_found: "提交记录不存在"
   field:
     id: "作业ID"
     class-id: "班级ID"

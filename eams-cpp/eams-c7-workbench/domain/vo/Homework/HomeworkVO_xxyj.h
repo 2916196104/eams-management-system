@@ -4,7 +4,7 @@
 #define _HOMEWORK_VO_H_
 
 #include "../../GlobalInclude.h"
-#include "../eams-c7-workbench/domain/dto/Homework/HomeworkDTO_xxyj.h"
+#include "../../dto/homework/HomeworkDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
@@ -20,13 +20,6 @@ class HomeworkDetailJsonVO : public JsonVO<HomeworkDetailDTO::Wrapper> {
  */
 class HomeworkRecordJsonVO : public JsonVO<HomeworkRecordDTO::Wrapper> {
     DTO_INIT(HomeworkRecordJsonVO, JsonVO<HomeworkRecordDTO::Wrapper>);
-};
-
-/**
- * 作业提交记录列表显示JsonVO
- */
-class HomeworkRecordListJsonVO : public JsonVO<HomeworkRecordListDTO::Wrapper> {
-    DTO_INIT(HomeworkRecordListJsonVO, JsonVO<HomeworkRecordListDTO::Wrapper>);
 };
 
 /**

@@ -26,7 +26,6 @@
 #include "MyCustomers/GetMyCustomersController.h"
 #include "MyCustomers/GetStudentCoursesController.h"
 #include "MyCustomers/GetStudentDetailController.h"
-#include "SignAndRemark/Controller.h"
 #include "Homework/HomeworkController.h"
 #include "schedule/SelectClassController.h"
 #include "schedule/SelectTeacherController.h"
@@ -71,7 +70,6 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(GetMyCustomersController);
 	ROUTER_SIMPLE_BIND(GetStudentCoursesController);
 	ROUTER_SIMPLE_BIND(GetStudentDetailController);
-	ROUTER_SIMPLE_BIND(Controller);
 	ROUTER_SIMPLE_BIND(HomeworkController);
 	ROUTER_SIMPLE_BIND(SelectClassController);
 	ROUTER_SIMPLE_BIND(SelectTeacherController);
