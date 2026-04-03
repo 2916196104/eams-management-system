@@ -20,13 +20,13 @@ export default defineConfig({
 			"/api": {
 				changeOrigin: true,
 				//FIXME[TEST_CODE]:使用Apifox云MOCK,联调阶段需要修改成网关地址
-				target: "https://m1.apifoxmock.com/m1/7961050-7713339-default",
+				target: "http://47.118.19.252:10001",
 				rewrite: (path) => path.replace(/^\/api/, ""),
 			},
 			"/captcha": {
 				changeOrigin: true,
 				//FIXME[TEST_CODE]:联调阶段需要修改成网关地址
-				target: "http://localhost:10680",
+				target: "http://47.118.19.252:10001",
 				rewrite: (path) => path.replace(/^\/captcha/, ""),
 			},
 		},
