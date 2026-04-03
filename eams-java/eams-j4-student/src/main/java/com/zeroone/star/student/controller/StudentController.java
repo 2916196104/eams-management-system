@@ -882,7 +882,7 @@ public class StudentController implements StudentApis {
     /**
      * 1. 获取账号列表（条件+分页）
      */
-    @PostMapping("/list")
+    @GetMapping("/user/list")
     @ApiOperation("获取账号列表（条件+分页）")
     public JsonVO<Page<UserVO>> listUser(@RequestBody UserQueryDTO query) {
         return JsonVO.success(userService.listUser(query));
@@ -891,7 +891,7 @@ public class StudentController implements StudentApis {
     /**
      * 2. 修改账号信息
      */
-    @PutMapping("/update")
+    @PutMapping("/user/update")
     @ApiOperation("修改账号信息")
     public JsonVO<String> updateUser(@Validated @RequestBody UserUpdateDTO dto) {
         userService.updateUser(dto);
@@ -901,7 +901,7 @@ public class StudentController implements StudentApis {
     /**
      * 3. 修改密码
      */
-    @PutMapping("/updatePwd")
+    @PutMapping("/user/updatePwd")
     @ApiOperation("修改密码")
     public JsonVO<String> updatePassword(@Validated @RequestBody UserUpdatePwdDTO dto) {
         userService.updatePassword(dto);
