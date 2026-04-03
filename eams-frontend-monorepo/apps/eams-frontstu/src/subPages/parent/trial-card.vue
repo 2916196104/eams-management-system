@@ -28,6 +28,7 @@ interface TrialCardItem {
 	expireDays?: number;
 	endDate?: string;
 	state?: number;
+	addTime?: string;
 }
 
 interface TrialCardRule {
@@ -50,7 +51,7 @@ const rule = ref<TrialCardRule | null>(null);
 
 const title = computed(() => (activeTab.value === "unclaimed" ? "领取试听卡" : "我的试听卡"));
 const emptyText = computed(() => (activeTab.value === "unclaimed" ? "暂无试听卡" : "暂无已领取试听卡"));
-const currentUserName = computed(() => currentStudent.value?.name || userInfo.value?.nickName || "");
+const currentUserId = computed(() => Number(userInfo.value?.id || 0));
 const ruleSummary = computed(() => rule.value?.description || "领取试听卡后可以免费体验课程");
 
 const availableCards = computed(() =>
@@ -79,6 +80,20 @@ async function loadTrialCards() {
 	cards.value = Array.isArray(res?.data) ? res.data : [];
 }
 
+async function loadMyTrialCards() {
+	if (!currentUserId.value) {
+		claimedCards.value = [];
+		return;
+	}
+
+	const res: any = await (Apis as any).home.get_app_sCenter_course_myTrialList({
+		params: {
+			userId: String(currentUserId.value || 0),
+		},
+	});
+	claimedCards.value = Array.isArray(res?.data) ? res.data : [];
+}
+
 async function loadTrialCardRule() {
 	const res: any = await Apis.home.get_c1_home_card_rule();
 	rule.value = res?.data || null;
@@ -87,9 +102,10 @@ async function loadTrialCardRule() {
 async function loadPageData() {
 	loading.value = true;
 	try {
-		await Promise.all([loadTrialCards(), loadTrialCardRule()]);
+		await Promise.all([loadTrialCards(), loadMyTrialCards(), loadTrialCardRule()]);
 	} catch {
 		cards.value = [];
+		claimedCards.value = [];
 		rule.value = null;
 		uni.showToast({ title: "试听卡加载失败", icon: "none" });
 	} finally {
@@ -121,8 +137,8 @@ function updateClaimedState(item: TrialCardItem) {
 
 function confirmClaim(item: TrialCardItem) {
 	if (item.state === 0 || (item.remainingQuantity || 0) <= 0) return;
-	if (!currentUserName.value) {
-		globalToast.error("缺少用户名称");
+	if (!currentUserId.value || !currentStudent.value?.id) {
+		globalToast.error("缺少用户或学生信息");
 		return;
 	}
 
@@ -141,15 +157,27 @@ async function claimCard(item: TrialCardItem) {
 
 	receivingId.value = item.id;
 	try {
-		const res: any = await Apis.home.put_c1_card_put({
+		const res: any = await (Apis as any).home.put_c1_card_put({
+			pathParams: {
+				trialId: item.id,
+			},
 			data: {
-				userName: currentUserName.value,
-				cardName: item.title || "",
+				trialId: item.id,
+				userId: currentUserId.value,
+				studentId: Number(currentStudent.value?.id || 0),
+				schoolId: 0,
+				counselor: 0,
+				courseId: Number(item.courseId || 0),
+				lessonCount: Number(item.lessonCount || 0),
+				endDate: item.endDate || "",
+				addTime: new Date().toISOString(),
+				studentCourseId: 0,
 			},
 		});
 
 		updateClaimedState(item);
 		activeTab.value = "claimed";
+		await loadMyTrialCards();
 		globalToast.success(res?.message || "领取成功");
 	} catch {
 		globalToast.error("领取试听卡失败");

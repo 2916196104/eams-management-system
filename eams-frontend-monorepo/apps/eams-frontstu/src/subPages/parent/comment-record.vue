@@ -19,6 +19,7 @@ interface ReviewRecordItem {
 	content?: string;
 	score?: number;
 	add_time?: string;
+	lesson_title?: string;
 }
 
 const userStore = useUserStore();
@@ -37,7 +38,18 @@ const studentName = computed(() => currentStudent.value?.name || "");
 const hasMore = computed(() => pageIndex.value < pages.value);
 
 function normalizeRows(data: any): Array<ReviewRecordItem> {
-	return Array.isArray(data?.rows) ? data.rows : [];
+	const rows = Array.isArray(data?.rows) ? data.rows : [];
+	return rows.map((item: any) => ({
+		id: item?.id,
+		creator_name:
+			item?.evaluate_teacher_name ??
+			item?.evaluateTeacherName ??
+			(typeof item?.evaluate_teacher === "number" ? `教师 ${item.evaluate_teacher}` : item?.evaluate_teacher),
+		content: item?.evaluation ?? item?.content,
+		score: item?.score,
+		add_time: item?.evaluate_time ?? item?.add_time,
+		lesson_title: item?.lesson_title,
+	}));
 }
 
 function scoreText(score?: number) {

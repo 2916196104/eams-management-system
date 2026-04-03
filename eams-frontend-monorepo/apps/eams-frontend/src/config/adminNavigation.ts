@@ -169,9 +169,34 @@ export const ADMIN_NAVIGATION: AdminNavSection[] = [
 				path: "/ops/order-management",
 			},
 			{
-				id: "operations-homework",
-				text: "课后作业",
-				path: "/ops/homework",
+				id: "operations-refund",
+				text: "订单退款",
+				path: "/ops/refund-management",
+			},
+			{
+				id: "operations-evaluation",
+				text: "订单评价",
+				path: "/ops/evaluation-management",
+			},
+			{
+				id: "operations-trialCardManagement",
+				text: "体验卡管理",
+				path: "/ops/trialCardManagement",
+			},
+			{
+				id: "operations-PointsGift",
+				text: "积分礼品",
+				path: "/ops/pointsGift",
+			},
+			{
+				id: "operations-PointsRedemption",
+				text: "积分兑换",
+				path: "/ops/pointsRedemption",
+			},
+			{
+				id: "operations-pointsRecord",
+				text: "积分记录",
+				path: "/ops/pointsRecord",
 			},
 		],
 	},
