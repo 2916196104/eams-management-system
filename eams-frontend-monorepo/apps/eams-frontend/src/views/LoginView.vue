@@ -84,7 +84,7 @@ const showTestLink = ref(import.meta.env.DEV);
 
 // 是否启用验证码
 const enableVerify = ref(!import.meta.env.DEV);
-
+//const enableVerify = ref(true);
 // 获取router对象
 const $router = useRouter();
 

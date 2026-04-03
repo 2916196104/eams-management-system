@@ -17,7 +17,7 @@ export const login = async (data: LoginDTO, success: RequestCallback, fail: Requ
 	try {
 		// 发送登录请求
 		const res = await http.post<Oauth2TokenDTO>(currBaseUrl + "/auth-login", data, {
-			upType: DataUpType.form,
+			upType: DataUpType.json,
 		});
 		// 记录Token到本地
 		if (res.data) {
