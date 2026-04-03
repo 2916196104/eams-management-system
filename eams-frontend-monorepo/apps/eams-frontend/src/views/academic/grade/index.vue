@@ -267,13 +267,13 @@ const loadData = async () => {
       pageSize: pagination.pageSize,
     };
     const res = await getGradeList(params);
-    if (res.data.code === 0) {
-      tableData.value = res.data.data.records;
-      pagination.total = res.data.data.total;
+    if (res.data?.code === 0) {
+      tableData.value = res.data?.data?.records || [];
+      pagination.total = res.data?.data?.total || 0;
     } else {
-      ElMessage.error(res.data.message);
+      ElMessage.error(res.data?.message || '请求失败');
     }
-  } catch (error) {
+  } catch {
     ElMessage.error('加载数据失败');
   } finally {
     loading.value = false;
@@ -362,12 +362,12 @@ const handleDelete = (row: GradeItem) => {
   }).then(async () => {
     try {
       const res = await deleteGrade([row.id]);
-      if (res.data.code === 0) {
+      if (res.data?.code === 0) {
         ElMessage.success('删除成功');
         if (tableData.value.length === 1 && pagination.pageIndex > 1) pagination.pageIndex--;
         loadData();
       } else {
-        ElMessage.error(res.data.message);
+        ElMessage.error(res.data?.message || '删除失败');
       }
     } catch (error) {
       ElMessage.error('删除失败');
@@ -386,13 +386,13 @@ const handleBatchDelete = () => {
   }).then(async () => {
     try {
       const res = await deleteGrade(selectedIds.value);
-      if (res.data.code === 0) {
+      if (res.data?.code === 0) {
         ElMessage.success('删除成功');
         selectedIds.value = [];
         if (tableData.value.length === selectedIds.value.length && pagination.pageIndex > 1) pagination.pageIndex--;
         loadData();
       } else {
-        ElMessage.error(res.data.message);
+        ElMessage.error(res.data?.message || '删除失败');
       }
     } catch (error) {
       ElMessage.error('删除失败');
@@ -414,14 +414,14 @@ const confirmUpgrade = async () => {
   upgradeLoading.value = true;
   try {
     const res = await upgradeGrade(selectedIds.value);
-    if (res.data.code === 0) {
+    if (res.data?.code === 0) {
       ElMessage.success('升级成功');
       upgradeDialogVisible.value = false;
       selectedIds.value = [];
       selectedGrades.value = [];
       loadData();
     } else {
-      ElMessage.error(res.data.message);
+      ElMessage.error(res.data?.message || '升级失败');
     }
   } catch (error) {
     ElMessage.error('升级失败');
@@ -438,12 +438,12 @@ const handleSubmit = async () => {
   submitLoading.value = true;
   try {
     const res = await saveGrade(formData);
-    if (res.data.code === 0) {
+    if (res.data?.code === 0) {
       ElMessage.success('保存成功');
       dialogVisible.value = false;
       loadData();
     } else {
-      ElMessage.error(res.data.message);
+      ElMessage.error(res.data?.message || '保存失败');
     }
   } catch (error) {
     ElMessage.error('保存失败');
