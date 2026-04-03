@@ -4,6 +4,8 @@
 
 uint64_t CreditMallListDAO::count(const CreditMallListQuery::Wrapper& query)
 {
+	//string test = query->name;
+	//std::cout << test << std::endl;
 	string sql = "SELECT count(id) FROM credit_mall ";
 	SqlParams params;
 	if (query->name)
@@ -20,7 +22,7 @@ std::list<PtrCreditMallListDO> CreditMallListDAO::selectAll(const CreditMallList
 	SqlParams params;
 	if (query->name)
 	{
-		sql += "WHERE cm.name LIKE CONCAT('%',?,'%') ";
+		sql += "WHERE name LIKE CONCAT('%',?,'%') ";
 		SQLPARAMS_PUSH(params, "s", std::string, query->name.getValue(""));
 	}
 	sql += "LIMIT ?,?";
