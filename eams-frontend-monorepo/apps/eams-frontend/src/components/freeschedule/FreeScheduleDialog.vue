@@ -2,6 +2,9 @@
 	<el-dialog v-model="dialogVisible" title="自由排课" width="800px" :close-on-click-modal="false">
 		<div class="free-schedule-form">
 			<div class="form-tip">大批量排课推荐使用排课计划。</div>
+			<div v-if="!classOptions.length && !teacherOptions.length" class="form-tip">
+				请先查询课程表数据，再从当前结果中复用班级、老师和教室选项。
+			</div>
 
 			<el-form :model="formData" :rules="formRules" ref="formRef" label-width="96px">
 				<el-row :gutter="20">
@@ -106,11 +109,7 @@
 							<div class="form-tip">表示签到消课量</div>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
-						<el-form-item label="开启预约">
-							<el-switch v-model="formData.canReserve" />
-						</el-form-item>
-					</el-col>
+					<el-col :span="12"></el-col>
 				</el-row>
 			</el-form>
 		</div>
@@ -125,25 +124,26 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { nextTick, reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
-import type { FormRules } from "element-plus";
+import type { FormInstance, FormRules } from "element-plus";
 import { freeSchedule } from "@/apis/academic";
-import type { FreeScheduleRequestDTO } from "@/apis/academic/type";
+import type { CourseListVO, FreeScheduleRequestDTO } from "@/apis/academic/type";
 
 interface FreeScheduleFormData {
-	classId: number | undefined;
-	className: string;
-	teacherId: number | undefined;
-	teacherName: string;
+	classId?: number;
+	teacherId?: number;
 	assistantId: number | undefined;
-	assistantName: string;
 	roomId: number | undefined;
 	classDate: string;
 	startTime: string;
 	endTime: string;
 	descLessonCount: number | undefined;
-	canReserve: boolean;
+}
+
+interface OpenDialogPayload {
+	selectedRow?: CourseListVO;
+	candidateRows?: CourseListVO[];
 }
 
 interface SelectOption {
@@ -152,49 +152,26 @@ interface SelectOption {
 }
 
 const dialogVisible = ref(false);
-const formRef = ref();
+const formRef = ref<FormInstance>();
 const submitting = ref(false);
 const emit = defineEmits<{
 	(event: "success"): void;
 }>();
 
-// 模拟数据 - 实际应该从 API 获取
-const classOptions: SelectOption[] = [
-	{ value: 1, label: "1 班" },
-	{ value: 2, label: "2 班" },
-	{ value: 3, label: "3 班" },
-];
-
-const teacherOptions: SelectOption[] = [
-	{ value: 1, label: "王老师" },
-	{ value: 2, label: "李老师" },
-	{ value: 3, label: "张老师" },
-];
-
-const assistantOptions: SelectOption[] = [
-	{ value: 1, label: "助教 A" },
-	{ value: 2, label: "助教 B" },
-];
-
-const roomOptions: SelectOption[] = [
-	{ value: 101, label: "101 教室" },
-	{ value: 102, label: "102 教室" },
-	{ value: 201, label: "201 教室" },
-];
+const classOptions = ref<SelectOption[]>([]);
+const teacherOptions = ref<SelectOption[]>([]);
+const assistantOptions = ref<SelectOption[]>([]);
+const roomOptions = ref<SelectOption[]>([]);
 
 const formData = reactive<FreeScheduleFormData>({
 	classId: undefined,
-	className: "",
 	teacherId: undefined,
-	teacherName: "",
 	assistantId: undefined,
-	assistantName: "",
 	roomId: undefined,
 	classDate: "",
 	startTime: "",
 	endTime: "",
 	descLessonCount: undefined,
-	canReserve: false,
 });
 
 const formRules: FormRules<FreeScheduleFormData> = {
@@ -205,9 +182,63 @@ const formRules: FormRules<FreeScheduleFormData> = {
 	endTime: [{ required: true, message: "请选择结束时间", trigger: "change" }],
 };
 
+function splitByComma(value?: string) {
+	return (value || "")
+		.split(/[,\uFF0C]/)
+		.map((item) => item.trim())
+		.filter(Boolean);
+}
+
+function parseIdNameOptions(idsText?: string, namesText?: string): SelectOption[] {
+	const ids = splitByComma(idsText)
+		.map((item) => Number(item))
+		.filter((item) => Number.isFinite(item));
+	const names = splitByComma(namesText);
+
+	return ids.slice(0, names.length).map((value, index) => ({
+		value,
+		label: names[index],
+	}));
+}
+
+function uniqueOptions(options: SelectOption[]) {
+	const optionMap = new Map<number, string>();
+
+	options.forEach((option) => {
+		if (!optionMap.has(option.value)) {
+			optionMap.set(option.value, option.label);
+		}
+	});
+
+	return Array.from(optionMap.entries()).map(([value, label]) => ({ value, label }));
+}
+
 function getOptionLabel(options: SelectOption[], value?: number) {
 	if (typeof value !== "number") return "";
 	return options.find((option) => option.value === value)?.label || "";
+}
+
+function buildCandidateOptions(rows: CourseListVO[]) {
+	const nextClassOptions: SelectOption[] = [];
+	const nextTeacherOptions: SelectOption[] = [];
+	const nextAssistantOptions: SelectOption[] = [];
+	const nextRoomOptions: SelectOption[] = [];
+
+	rows.forEach((row) => {
+		if (typeof row.classId === "number" && row.className) {
+			nextClassOptions.push({ value: row.classId, label: row.className });
+		}
+		if (typeof row.classroomId === "number" && row.classroomName) {
+			nextRoomOptions.push({ value: row.classroomId, label: row.classroomName });
+		}
+		nextTeacherOptions.push(...parseIdNameOptions(row.teacherIds, row.teacherNames));
+		nextAssistantOptions.push(...parseIdNameOptions(row.assistantIds, row.assistantNames));
+	});
+
+	classOptions.value = uniqueOptions(nextClassOptions);
+	teacherOptions.value = uniqueOptions(nextTeacherOptions);
+	assistantOptions.value = uniqueOptions(nextAssistantOptions);
+	roomOptions.value = uniqueOptions(nextRoomOptions);
 }
 
 function getWeekValue(dateText: string) {
@@ -218,19 +249,47 @@ function getWeekValue(dateText: string) {
 	return String(day === 0 ? 7 : day);
 }
 
+function appendSeconds(time: string) {
+	return time.length === 5 ? `${time}:00` : time;
+}
+
+function extractLessonMeta(lessonTimeText?: string) {
+	const dateText = lessonTimeText?.match(/\d{4}-\d{2}-\d{2}/)?.[0] || "";
+	const times = lessonTimeText?.match(/\d{2}:\d{2}(?::\d{2})?/g) || [];
+	return {
+		date: dateText,
+		startTime: times[0]?.slice(0, 5) || "",
+		endTime: times[1]?.slice(0, 5) || "",
+	};
+}
+
+function resetForm(selectedRow?: CourseListVO) {
+	const lessonMeta = extractLessonMeta(selectedRow?.lessonTimeText);
+	Object.assign(formData, {
+		classId: selectedRow?.classId,
+		teacherId: parseIdNameOptions(selectedRow?.teacherIds, selectedRow?.teacherNames)[0]?.value,
+		assistantId: parseIdNameOptions(selectedRow?.assistantIds, selectedRow?.assistantNames)[0]?.value,
+		roomId: selectedRow?.classroomId,
+		classDate: lessonMeta.date,
+		startTime: lessonMeta.startTime,
+		endTime: lessonMeta.endTime,
+		descLessonCount: selectedRow?.decLessonCount && selectedRow.decLessonCount > 0 ? selectedRow.decLessonCount : undefined,
+	});
+}
+
 function buildRequestPayload(): FreeScheduleRequestDTO {
 	const payload: FreeScheduleRequestDTO = {
 		classId: formData.classId!,
-		className: getOptionLabel(classOptions, formData.classId),
+		className: getOptionLabel(classOptions.value, formData.classId),
 		teacherId: formData.teacherId!,
-		teacherName: getOptionLabel(teacherOptions, formData.teacherId),
-		startTime: `${formData.classDate} ${formData.startTime}:00`,
-		endTime: `${formData.classDate} ${formData.endTime}:00`,
+		teacherName: getOptionLabel(teacherOptions.value, formData.teacherId),
+		startTime: `${formData.classDate} ${appendSeconds(formData.startTime)}`,
+		endTime: `${formData.classDate} ${appendSeconds(formData.endTime)}`,
 		lessonScheduleSettingDtos: [
 			{
 				weeks: getWeekValue(formData.classDate),
-				startTime: formData.startTime + ":00",
-				endTime: formData.endTime + ":00",
+				startTime: appendSeconds(formData.startTime),
+				endTime: appendSeconds(formData.endTime),
 				roomId: formData.roomId,
 			},
 		],
@@ -238,9 +297,8 @@ function buildRequestPayload(): FreeScheduleRequestDTO {
 
 	if (formData.assistantId) {
 		payload.assistantId = formData.assistantId;
-		payload.assistantName = getOptionLabel(assistantOptions, formData.assistantId);
+		payload.assistantName = getOptionLabel(assistantOptions.value, formData.assistantId);
 	}
-
 	if (formData.descLessonCount) {
 		payload.descLessonCount = formData.descLessonCount;
 	}
@@ -280,24 +338,20 @@ async function handleSubmit() {
 	});
 }
 
-// 暴露方法
 defineExpose({
-	openDialog() {
+	openDialog(payload: OpenDialogPayload = {}) {
+		const rows = [...(payload.candidateRows || [])];
+		if (payload.selectedRow) {
+			rows.unshift(payload.selectedRow);
+		}
+
+		buildCandidateOptions(rows);
+		const defaultRow = payload.selectedRow || rows[0];
+		resetForm(defaultRow);
 		dialogVisible.value = true;
-		// 重置表单
-		Object.assign(formData, {
-			classId: undefined,
-			className: "",
-			teacherId: undefined,
-			teacherName: "",
-			assistantId: undefined,
-			assistantName: "",
-			roomId: undefined,
-			classDate: "",
-			startTime: "",
-			endTime: "",
-			descLessonCount: undefined,
-			canReserve: false,
+
+		nextTick(() => {
+			formRef.value?.clearValidate();
 		});
 	},
 	closeDialog() {

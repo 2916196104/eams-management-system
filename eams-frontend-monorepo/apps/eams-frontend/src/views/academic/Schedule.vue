@@ -480,6 +480,11 @@ type RepeatScheduleDialogInstance = {
 	closeDialog: () => void;
 };
 
+type FreeScheduleDialogInstance = {
+	openDialog: (payload?: { selectedRow?: CourseListVO; candidateRows?: CourseListVO[] }) => void;
+	closeDialog: () => void;
+};
+
 type CourseDetailDialogInstance = {
 	openDialog: (row: CourseListVO) => void;
 	closeDialog: () => void;
@@ -538,6 +543,8 @@ const TEXT = {
 	pendingEdit: "\u7F16\u8F91\u529F\u80FD\u5F85\u63A5\u5165",
 	repeatScheduleEmpty:
 		"\u5F53\u524D\u6CA1\u6709\u53EF\u7528\u7684\u8BFE\u6B21\u6570\u636E\uff0c\u8BF7\u5148\u67E5\u8BE2\u6216\u4F7F\u7528 mock \u6570\u636E",
+	freeScheduleEmpty:
+		"\u5F53\u524D\u6CA1\u6709\u53EF\u7528\u7684\u8BFE\u6B21\u6570\u636E\uff0c\u8BF7\u5148\u67E5\u8BE2\u518D\u8FDB\u884C\u81EA\u7531\u6392\u8BFE",
 	loadFailed: "\u52A0\u8F7D\u6570\u636E\u5931\u8D25",
 	evaluationLoadFailed: "\u52A0\u8F7D\u70B9\u8BC4\u6570\u636E\u5931\u8D25",
 	tableLessonTime: "\u4E0A\u8BFE\u65F6\u95F4",
@@ -1145,7 +1152,7 @@ const pageData = ref(createPageDTO<CourseListVO>());
 const selectedRows = ref<CourseListVO[]>([]);
 const courseDetailDialogRef = ref<CourseDetailDialogInstance | null>(null);
 const repeatScheduleDialogRef = ref<RepeatScheduleDialogInstance | null>(null);
-const freeScheduleDialogRef = ref<InstanceType<typeof FreeScheduleDialog> | null>(null);
+const freeScheduleDialogRef = ref<FreeScheduleDialogInstance | null>(null);
 const evaluationDialogVisible = ref(false);
 const evaluationEditDialogVisible = ref(false);
 const evaluationSubmitting = ref(false);
@@ -1972,7 +1979,16 @@ function handleRepeatSchedule() {
 }
 
 function handleFreeSchedule() {
-	freeScheduleDialogRef.value?.openDialog();
+	const candidateRows = pageData.value.rows || [];
+	if (!candidateRows.length) {
+		ElMessage.warning(TEXT.freeScheduleEmpty);
+		return;
+	}
+
+	freeScheduleDialogRef.value?.openDialog({
+		selectedRow: selectedRows.value[0],
+		candidateRows,
+	});
 }
 
 async function handleBatchDelete() {
