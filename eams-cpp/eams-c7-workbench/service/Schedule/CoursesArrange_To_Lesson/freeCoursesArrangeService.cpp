@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "FreeCoursesArrangeService.h"
+#include "freeCoursesArrangeService.h"
 #include "dao/Schedule/lesson/LessonDAO.h"
 #include "dao/Schedule/lesson/LessonTeacherDAO.h"
 #include "dao/Schedule/lesson/LessonStudentDAO.h"

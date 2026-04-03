@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "Mapper.h"
-#include "domain/do/HomeWork/homeworklist/HomeworkListDO.h"
+#include "domain/do/Homework/homeworklist/HomeworkListDO.h"
 
 class HomeworkListViewMapper :public Mapper<HomeworkListViewDO>
 {

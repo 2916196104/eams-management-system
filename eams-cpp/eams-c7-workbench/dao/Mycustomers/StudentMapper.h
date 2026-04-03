@@ -3,7 +3,7 @@
 #define _StudentMapper_
 
 #include "Mapper.h"
-#include "../../domain/do/Mycustomers/StudentDO.h"
+#include "domain/do/Mycustomers/StudentDo.h"
 
 // —ß‘±”≥…‰
 class StudentMapper : public Mapper<StudentDO>

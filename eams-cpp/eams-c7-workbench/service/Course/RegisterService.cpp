@@ -38,7 +38,7 @@ std::string RegisterService::saveReg(const RegisterAddDTO::Wrapper& dto)
 		const char* startDate = dto->startDate ? dto->startDate->c_str() : "";
 		if (startDate && strlen(startDate) > 10) {
 			char buf[11] = { 0 };
-			strncpy_s(buf, startDate, 10);
+			strncpy(buf, startDate, 10);
 			data.setStartDate(buf);
 		}
 		else {
@@ -48,7 +48,7 @@ std::string RegisterService::saveReg(const RegisterAddDTO::Wrapper& dto)
 		const char* expireDate = dto->expireDate ? dto->expireDate->c_str() : "";
 		if (expireDate && strlen(expireDate) > 10) {
 			char buf[11] = { 0 };
-			strncpy_s(buf, expireDate, 10);
+			strncpy(buf, expireDate, 10);
 			data.setExpireDate(buf);
 		}
 		else {
@@ -63,7 +63,7 @@ std::string RegisterService::saveReg(const RegisterAddDTO::Wrapper& dto)
 		const char* tip = dto->tip ? dto->tip->c_str() : "";
 		if (tip && strlen(tip) > 255) {
 			char buf[256] = { 0 };
-			strncpy_s(buf, tip, 255);
+			strncpy(buf, tip, 255);
 			data.setRemark(buf);
 		}
 		else {

@@ -4,7 +4,7 @@
 #define _HOMEWORK_VO_H_
 
 #include "../../GlobalInclude.h"
-#include "../../dto/homework/HomeworkDTO.h"
+#include "../../dto/Homework/HomeworkDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 

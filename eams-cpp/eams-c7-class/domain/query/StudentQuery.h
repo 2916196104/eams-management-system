@@ -4,7 +4,7 @@
 #define _STUDENT_QUERY_H_
 
 #include "../GlobalInclude.h"
-#include "domain/Query/PageQuery.h"
+#include "../lib-oatpp/include/domain/query/PageQuery.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 

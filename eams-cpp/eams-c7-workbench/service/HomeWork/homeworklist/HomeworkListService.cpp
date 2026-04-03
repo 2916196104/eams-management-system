@@ -2,7 +2,7 @@
 
 #include "stdafx.h"
 #include "HomeworkListService.h"
-#include "dao/HomeWork/homeworklist/HomeworkListDAO.h"
+#include "dao/Homework/homeworklist/HomeworkListDAO.h"
 
 HomeworkListPageDTO::Wrapper HomeworkListService::listAll(const HomeworkListQuery::Wrapper& query)
 {

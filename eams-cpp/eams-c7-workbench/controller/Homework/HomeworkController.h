@@ -7,8 +7,8 @@
 #include "ApiHelper.h"
 #include "ServerInfo.h"
 #include "domain/vo/Homework/HomeworkVO_xxyj.h"
-#include "domain/query/homework/HomeworkQuery_xxyj.h"
-#include "domain/dto/homework/HomeworkDTO.h"
+#include "domain/query/Homework/HomeworkQuery_xxyj.h"
+#include "domain/dto/Homework/HomeworkDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
 #define API_TAG ZH_WORDS_GETTER("homework.tag")

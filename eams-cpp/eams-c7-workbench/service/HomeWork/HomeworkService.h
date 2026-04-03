@@ -5,7 +5,7 @@
 
 #include "domain/dto/Homework/HomeworkDTO.h"
 #include "domain/vo/Homework/HomeworkVO_xxyj.h"
-#include "domain/query/homework/HomeworkQuery_xxyj.h"
+#include "domain/query/Homework/HomeworkQuery_xxyj.h"
 
 class HomeworkService {
 public:

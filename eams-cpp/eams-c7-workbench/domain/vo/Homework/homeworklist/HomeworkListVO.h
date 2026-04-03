@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "../../../GlobalInclude.h"
-#include "../../../dto/HomeWork/homeworklist/HomeworkListDTO.h"
+#include "domain/dto/Homework/homeworklist/HomeworkListDTO.h"
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 class HomeworkListJsonVO :public JsonVO<HomeworkListDTO::Wrapper>

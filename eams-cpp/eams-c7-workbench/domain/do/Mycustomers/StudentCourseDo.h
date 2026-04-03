@@ -3,7 +3,7 @@
 #define _STUDENT_COURSE_DO_
 
 #include "../DoInclude.h"
-#include "../../../lib-mysql/include/SqlHelper.h"
+#include "../lib-mysql/include/SqlHelper.h"
 /**
  * student_course 表对应的数据库实体类
  */

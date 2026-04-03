@@ -1,9 +1,9 @@
 ﻿#pragma once
 
 #include "domain/vo/BaseJsonVO.h"
-#include "../../domain/dto/HomeWork/homeworklist/HomeworkListDTO.h"
-#include "../../domain/query/HomeWork/homeworklist/HomeworkListQuery.h"
-#include "../../domain/vo/HomeWork/homeworklist/HomeworkListVO.h"
+#include "domain/dto/Homework/homeworklist/HomeworkListDTO.h"
+#include "domain/query/Homework/homeworklist/HomeworkListQuery.h"
+#include "domain/vo/Homework/homeworklist/HomeworkListVO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
 #define API_TAG4 ZH_WORDS_GETTER("homeworklist.controller.tag4")

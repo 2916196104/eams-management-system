@@ -11,7 +11,7 @@ static oatpp::String genderToString(int gender) {
 	default: return "";
 	}
 }
-
+ 
 UserProfileDTO::Wrapper UserProfileService::getUserProfile(long long userId) {
 
 	//创建一个UserProfileDTO对象

@@ -2,7 +2,7 @@
 #ifndef _SELECTTEACHERVO_H_
 #define _SELECTTEACHERVO_H_
 #include "../../GlobalInclude.h"
-#include "../../dto/schedule/SelectTeacherDTO .h"
+#include "../../dto/Schedule/SelectTeacherDTO .h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 

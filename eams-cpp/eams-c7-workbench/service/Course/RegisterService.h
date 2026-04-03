@@ -2,7 +2,7 @@
 #ifndef _REGISTERSERVICE_H_
 #define _REGISTERSERVICE_H_
 
-#include "../../domain/dto/course/RegisterDTO.h"
+#include "../../domain/dto/Course/RegisterDTO.h"
 
 class RegisterService
 {

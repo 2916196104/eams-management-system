@@ -1,7 +1,7 @@
 ﻿
 #include "stdafx.h"
 #include "HomeworkListController.h"
-#include "../../service/HomeWork/homeworklist/HomeworkListService.h"
+#include "service/Homework/homeworklist/HomeworkListService.h"
 #include "../ApiDeclarativeServicesHelper.h"
 #include "ExcelComponent.h"
 #include "SimpleDateTimeFormat.h"

@@ -19,7 +19,7 @@
 */
 #ifndef _ADDSTUDENTDTO_H_
 #define _ADDSTUDENTDTO_H_
-#include "../../domain/GlobalInclude.h" 
+#include "domain/GlobalInclude.h" 
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 

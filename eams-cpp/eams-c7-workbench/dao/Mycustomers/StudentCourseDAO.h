@@ -3,8 +3,8 @@
 #define _StudentCourseDAO_
 
 #include "BaseDAO.h"
-#include "../../domain/do/Mycustomers/StudentCourseDO.h"
-#include "../../domain/query/Mycustomers/MyCustomersQuery.h"
+#include "../../domain/do/Mycustomers/StudentCourseDo.h"
+#include "../../domain/query/MyCustomers/MyCustomersQuery.h"
 
 class StudentCourseDAO : public BaseDAO
 {

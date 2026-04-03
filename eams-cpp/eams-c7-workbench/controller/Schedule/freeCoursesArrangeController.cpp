@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "freeCoursesArrangeController.h"
-#include "../../service/Schedule/CoursesArrange_To_Lesson/FreeCoursesArrangeService.h"
+#include "service/Schedule/CoursesArrange_To_Lesson/freeCoursesArrangeService.h"
 
 StringJsonVO::Wrapper freeCoursesArrangeController::execAddSample(const freeCoursesArrangeDTO::Wrapper& dto, const PayloadDTO& payload)
 {

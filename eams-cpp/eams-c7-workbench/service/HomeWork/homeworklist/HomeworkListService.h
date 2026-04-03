@@ -1,8 +1,8 @@
 ﻿#pragma once
 
-#include "domain/query/HomeWork/homeworklist/HomeworkListQuery.h"
+#include "domain/query/Homework/homeworklist/HomeworkListQuery.h"
 #include "domain/dto/Homework/homeworklist/HomeworkListDTO.h"
-#include "domain/vo/HomeWork/homeworklist/HomeworkListVO.h"
+#include "domain/vo/Homework/homeworklist/HomeworkListVO.h"
 
 class HomeworkListService
 {

@@ -5,7 +5,7 @@
 #include "../eams-c7-workbench/domain/query/StudentRecord/StlistQuery.h"
 #include "../eams-c7-workbench/domain/vo/StudentRecord/StclassRecordVO.h"
 #include "../eams-c7-workbench/domain/query/StudentRecord/StclassRecordQuery.h"
-#include "../eams-c7-workbench/domain/DTO/StudentRecord/StclassRecordDTO.h"
+#include "../eams-c7-workbench/domain/dto/StudentRecord/StclassRecordDTO.h"
 
 class StclassRecordService
 {

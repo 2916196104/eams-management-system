@@ -4,7 +4,7 @@
 #define _STUDENT_DTO_H_
 
 #include "../GlobalInclude.h"
-#include "domain/DTO/PageDTO.h"
+#include "domain/dto/PageDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 

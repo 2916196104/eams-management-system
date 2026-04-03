@@ -4,8 +4,8 @@
 
 #include "domain/vo/BaseJsonVO.h"
 #include "ApiHelper.h"
-#include "../../domain/query/Mycustomers/MyCustomersQuery.h"
-#include "../../domain/vo/Mycustomers/MyCustomersVO.h"
+#include "domain/query/MyCustomers/MyCustomersQuery.h"
+#include "domain/vo/MyCustomers/MyCustomersVO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
 

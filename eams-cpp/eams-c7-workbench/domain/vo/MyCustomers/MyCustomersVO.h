@@ -5,8 +5,8 @@
 #include "../../GlobalInclude.h"
 #include "oatpp/core/macro/codegen.hpp"
 #include "oatpp/core/Types.hpp"
-#include "../../dto/Mycustomers/MyCustomersDTO.h"
-#include "../../../lib-oatpp/include/domain/vo/BaseJsonVO.h"
+#include "domain/dto/MyCustomers/MyCustomersDTO.h"
+#include "../lib-oatpp/include/domain/vo/BaseJsonVO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 

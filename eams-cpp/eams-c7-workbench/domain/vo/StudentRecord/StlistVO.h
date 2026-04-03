@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "../../GlobalInclude.h"
-#include "../../DTO/StudentRecord/StlistDTO.h"
+#include "domain/dto/StudentRecord/StlistDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 //显示jsonVO，用于响应给客户端的json对象

@@ -3,10 +3,10 @@
 #ifndef _MY_CUSTOMERS_SERVICE_
 #define _MY_CUSTOMERS_SERVICE_
 
-#include "../../domain/query/Mycustomers/MyCustomersQuery.h"
-#include "../../domain/dto/Mycustomers/MyCustomersDTO.h"
-#include "../../dao/Mycustomers/StudentDAO.h"
-#include "../../dao/Mycustomers/StudentCourseDAO.h"
+#include "domain/query/MyCustomers/MyCustomersQuery.h"
+#include "domain/dto/MyCustomers/MyCustomersDTO.h"
+#include "dao/Mycustomers/StudentDAO.h"
+#include "dao/Mycustomers/StudentCourseDAO.h"
 
 /**
  * 我的客户服务实现

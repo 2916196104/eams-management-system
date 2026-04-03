@@ -2,8 +2,8 @@
 
 
 #include"BaseDAO.h"
-#include "domain/do/HomeWork/homeworklist/HomeworkListDO.h"
-#include "domain/query/HomeWork/homeworklist/HomeworkListQuery.h"
+#include "domain/do/Homework/homeworklist/HomeworkListDO.h"
+#include "domain/query/Homework/homeworklist/HomeworkListQuery.h"
 
 class HomeworkListDAO :public BaseDAO
 {

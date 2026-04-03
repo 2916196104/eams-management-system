@@ -2,7 +2,7 @@
 #ifndef _SELECTCLASSVO_H_
 #define _SELECTCLASSVO_H_
 #include "../../GlobalInclude.h"
-#include "../../dto/schedule/SelectClassDTO.h"
+#include "domain/dto/Schedule/SelectClassDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 

@@ -22,8 +22,8 @@
 #define _POSTSTUDENTINFOCONTROLLER_
 
 #include "domain/vo/BaseJsonVO.h"
-#include "domain/vo/Addstudent/AddStudentVO.h"
-#include "domain/dto/Addstudent/AddStudentDTO.h"
+#include "domain/vo/AddStudent/AddStudentVO.h"
+#include "domain/dto/AddStudent/AddStudentDTO.h"
 #include "ApiHelper.h"
 #include "ServerInfo.h"
 #include "Macros.h"

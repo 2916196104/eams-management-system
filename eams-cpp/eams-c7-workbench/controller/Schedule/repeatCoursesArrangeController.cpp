@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "repeatCoursesArrangeController.h"
-#include "../../service/Schedule/CoursesArrange_To_Lesson/RepeatCoursesArrangeService.h"
+#include "service/Schedule/CoursesArrange_To_Lesson/repeatCoursesArrangeService.h"
 
 //接收web的执行后，调用service层接口进行数据新增，根据执行结果返回对应响应结果
 StringJsonVO::Wrapper repeatCoursesArrangeController::execAddSample(const repeatCoursesArrangeDTO::Wrapper& dto, const PayloadDTO& payload)
