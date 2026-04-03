@@ -23,6 +23,11 @@
 
 classInfoJsonVO::Wrapper classController::execQueryClassInfo(const UInt32 &class_id) {
 	auto res = ClassService().getById(class_id);
+	if (res == nullptr) {
+		auto jvo = classInfoJsonVO::createShared();
+		jvo->fail(nullptr);
+		return jvo;
+	}
 	auto jvo = classInfoJsonVO::createShared();
 	jvo->success(res);
 	return jvo;

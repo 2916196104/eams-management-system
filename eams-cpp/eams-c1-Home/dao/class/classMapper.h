@@ -147,6 +147,7 @@ public:
     {
         ClassDO data;
         // class 表字段
+		//data.setId(resultSet->getInt("id"));
 		data.setName(resultSet->getString("name"));
 		data.setStartDate(resultSet->getString("start_date"));
 		data.setEndDate(resultSet->getString("end_date"));

@@ -36,6 +36,8 @@ end_date 计划结业日期,date,YES
 class ClassDTO : public oatpp::DTO
 {
 	DTO_INIT(ClassDTO, DTO);
+	//id
+	API_DTO_FIELD_DEFAULT(UInt32, id, ZH_WORDS_GETTER("class.id"));
 	// 班级名
 	API_DTO_FIELD_REQUIRE(String, class_name, ZH_WORDS_GETTER("class.class_name"), true);
 	// 教师名称

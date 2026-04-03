@@ -80,6 +80,9 @@ ClassInfoDTO::Wrapper ClassService::getById(const uint64_t& id)
     ClassDAO dao;
     ClassDO result = dao.selectById(id);
     auto dto = ClassInfoDTO::createShared();
+	if (!result.getIdPtr()) {
+        return nullptr;
+    }
     ZO_STAR_DOMAIN_DO_TO_DTO(
         dto, result,
         class_name, Name,

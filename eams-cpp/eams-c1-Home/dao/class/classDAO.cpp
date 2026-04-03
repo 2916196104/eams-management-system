@@ -103,7 +103,8 @@ ClassDO ClassDAO::selectById(const uint64_t& id)
     SqlParams params;
 
     std::string sql =
-        "select t1.name,"
+        "select t1.id,"
+        " t1.name, "
         " t4.name teacher_name,"
         " t3.name classroom,"
         " t7.name course_name,"
