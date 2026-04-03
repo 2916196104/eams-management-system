@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "AppointmentService.h"
 #include "dao/schedule/AppointmentDAO.h"     
 #include "SimpleDateTimeFormat.h"         
@@ -6,46 +6,46 @@
 
 bool AppointmentService::addAppointment(const ScheduleAppointmentDTO::Wrapper& dto)
 {
-	// »ù´¡²ÎÊıĞ£Ñé
+	// åŸºç¡€å‚æ•°æ ¡éªŒ
 	if (!dto->lessonId || !dto->studentId) {
-		throw std::runtime_error(u8"²ÎÊıĞ£ÑéÊ§°Ü£ºÅÅ¿ÎID»òÑ§ÉúID²»ÄÜÎª¿Õ£¡");
+		throw std::runtime_error(u8"å‚æ•°æ ¡éªŒå¤±è´¥ï¼šæ’è¯¾IDæˆ–å­¦ç”ŸIDä¸èƒ½ä¸ºç©ºï¼");
 	}
 	uint64_t lessonId = dto->lessonId.getValue(0);
 	uint64_t studentId = dto->studentId.getValue(0);
 
 
-	// Ğ£ÑéÊÇ·ñÖØ¸´Ô¤Ô¼
+	// æ ¡éªŒæ˜¯å¦é‡å¤é¢„çº¦
 	AppointmentDAO appointmentDao;
 	if (appointmentDao.selectCountByStudentAndLesson(studentId, lessonId) > 0) {
-		throw std::runtime_error(u8"ÄúÒÑÔ¤Ô¼¹ı¸Ã¿Î³Ì£¬ÇëÎğÖØ¸´²Ù×÷£¡");
+		throw std::runtime_error(u8"æ‚¨å·²é¢„çº¦è¿‡è¯¥è¯¾ç¨‹ï¼Œè¯·å‹¿é‡å¤æ“ä½œï¼");
 	}
 
 	uint64_t courseId = appointmentDao.getCourseIdByScheduleId(lessonId);
 	if (!courseId) {
-		throw std::runtime_error(u8"¸Ã¿Î´Î²»´æÔÚ»òÒÑÈ¡Ïû£¡");
+		throw std::runtime_error(u8"è¯¥è¯¾æ¬¡ä¸å­˜åœ¨æˆ–å·²å–æ¶ˆï¼");
 	}
 
 
-	// ÏÈ²éÓĞÃ»ÓĞ¿ÉÓÃµÄÌåÑé¿¨
+	// å…ˆæŸ¥æœ‰æ²¡æœ‰å¯ç”¨çš„ä½“éªŒå¡
 	auto cardInfo = appointmentDao.getValidTrialCard(studentId, courseId);
 	uint64_t trialRecordId = cardInfo.first;
 	uint64_t trialId = cardInfo.second;
 
-	// Èç¹ûÃ»ÓĞÌåÑé¿¨£¬ÔÙÈ¥²éÕıÊ½¿ÎÊ±Óà¶î
+	// å¦‚æœæ²¡æœ‰ä½“éªŒå¡ï¼Œå†å»æŸ¥æ­£å¼è¯¾æ—¶ä½™é¢
 	bool hasCourseQuota = false;
 	if (trialRecordId == 0) {
 		hasCourseQuota = appointmentDao.getStudentCourseRemain(studentId, courseId) > 0;
 	}
 
-	// ¼ÈÃ»ÓĞÌåÑé¿¨£¬Ò²Ã»ÓĞÕıÊ½¿ÎÊ±
+	// æ—¢æ²¡æœ‰ä½“éªŒå¡ï¼Œä¹Ÿæ²¡æœ‰æ­£å¼è¯¾æ—¶
 	if (trialRecordId == 0 && !hasCourseQuota) {
-		throw std::runtime_error(u8"ÄúµÄ¿ÎÊ±Óà¶î²»×ã£¬ÇÒÎŞ¿ÉÓÃÌåÑé¿¨£¬ÎŞ·¨Ô¤Ô¼£¡");
+		throw std::runtime_error(u8"æ‚¨çš„è¯¾æ—¶ä½™é¢ä¸è¶³ï¼Œä¸”æ— å¯ç”¨ä½“éªŒå¡ï¼Œæ— æ³•é¢„çº¦ï¼");
 	}
 
-	// ´´½¨ DO ¶ÔÏó£¬×¼±¸×°ÔØÊı¾İ
+	// åˆ›å»º DO å¯¹è±¡ï¼Œå‡†å¤‡è£…è½½æ•°æ®
 	AppointmentDO data;
 
-	// ½« DTO µÄÊı¾İ×ª»»³É DO
+	// å°† DTO çš„æ•°æ®è½¬æ¢æˆ DO
 	data.setLessonId(lessonId);
 	data.setStudentId(studentId);
 	data.setCourseId(courseId);
@@ -53,21 +53,21 @@ bool AppointmentService::addAppointment(const ScheduleAppointmentDTO::Wrapper& d
 		data.setTrialRecordId(trialRecordId);
 		data.setTrialId(trialId);
 	}
-	// ²¹È«ÒµÎñÒş²Ø×Ö¶Î
-	// ÉèÖÃÔ¤Ô¼Ê±¼äÎªµ±Ç°ÏµÍ³Ê±¼ä
+	// è¡¥å…¨ä¸šåŠ¡éšè—å­—æ®µ
+	// è®¾ç½®é¢„çº¦æ—¶é—´ä¸ºå½“å‰ç³»ç»Ÿæ—¶é—´
 	data.setAddTime(SimpleDateTimeFormat::format());
 
-	// ÉèÖÃÄ¬ÈÏµÄÉóºË×´Ì¬£º1£¨±íÊ¾´ıÉóºË/Î´´¦Àí£©
+	// è®¾ç½®é»˜è®¤çš„å®¡æ ¸çŠ¶æ€ï¼š1ï¼ˆè¡¨ç¤ºå¾…å®¡æ ¸/æœªå¤„ç†ï¼‰
 	data.setVerifyState(1);
 	SnowFlake sf(1, 1);
 	uint64_t newId = sf.nextId();
 	data.setId(newId);
-	// 4. Ö´ĞĞÊı¾İ¿â²åÈë
+	// 4. æ‰§è¡Œæ•°æ®åº“æ’å…¥
 	AppointmentDAO dao;
-	// ¼Ì³Ğ×Ô BaseDAO µÄ insert ·½·¨»á×Ô¶¯°Ñ data ÀïµÄÊı¾İÆ´×°³É INSERT SQL ·¢¸ø MySQL
+	// ç»§æ‰¿è‡ª BaseDAO çš„ insert æ–¹æ³•ä¼šè‡ªåŠ¨æŠŠ data é‡Œçš„æ•°æ®æ‹¼è£…æˆ INSERT SQL å‘ç»™ MySQL
 
 	int rows = dao.insert(data);
 
-	// Èç¹ûÊÜÓ°ÏìµÄĞĞÊıµÈÓÚ 1£¬ËµÃ÷²åÈë³É¹¦
+	// å¦‚æœå—å½±å“çš„è¡Œæ•°ç­‰äº 1ï¼Œè¯´æ˜æ’å…¥æˆåŠŸ
 	return rows == 1;
 }

@@ -2,7 +2,7 @@
 #ifndef _APPOINTMENT_SERVICE_H_
 #define _APPOINTMENT_SERVICE_H_
 
-#include "domain/dto/schedule/scheduleDTO.h" 
+#include "domain/dto/schedule/ScheduleDTO.h" 
 
 /**
  * Ô¤Ô¼·þÎñÂß¼­²ã
