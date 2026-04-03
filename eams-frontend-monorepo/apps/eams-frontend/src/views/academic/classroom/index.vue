@@ -224,13 +224,13 @@ const loadData = async () => {
       pageSize: pagination.pageSize,
     };
     const res = await getClassroomList(params);
-    if (res.data.code === 0) {
-      tableData.value = res.data.data.records;
-      pagination.total = res.data.data.total;
+     if (res.data?.code === 0) {
+      tableData.value = res.data?.data?.records || [];
+      pagination.total = res.data?.data?.total || 0;
     } else {
-      ElMessage.error(res.data.message);
+      ElMessage.error(res.data?.message || '请求失败');
     }
-  } catch (error) {
+  } catch {
     ElMessage.error('加载数据失败');
   } finally {
     loading.value = false;
@@ -319,13 +319,13 @@ const handleDelete = (row: ClassroomItem) => {
   }).then(async () => {
     try {
       const res = await deleteClassroom([row.id]);
-      if (res.data.code === 0) {
-        ElMessage.success('删除成功');
-        if (tableData.value.length === 1 && pagination.pageIndex > 1) pagination.pageIndex--;
-        loadData();
-      } else {
-        ElMessage.error(res.data.message);
-      }
+      if (res.data?.code === 0) {
+  ElMessage.success('删除成功');
+  if (tableData.value.length === 1 && pagination.pageIndex > 1) pagination.pageIndex--;
+  loadData();
+} else {
+  ElMessage.error(res.data?.message || '删除失败');
+}
     } catch (error) {
       ElMessage.error('删除失败');
     }
@@ -343,14 +343,14 @@ const handleBatchDelete = () => {
   }).then(async () => {
     try {
       const res = await deleteClassroom(selectedIds.value);
-      if (res.data.code === 0) {
-        ElMessage.success('删除成功');
-        selectedIds.value = [];
-        if (tableData.value.length === selectedIds.value.length && pagination.pageIndex > 1) pagination.pageIndex--;
-        loadData();
-      } else {
-        ElMessage.error(res.data.message);
-      }
+      if (res.data?.code === 0) {
+  ElMessage.success('删除成功');
+  selectedIds.value = [];
+  if (tableData.value.length === selectedIds.value.length && pagination.pageIndex > 1) pagination.pageIndex--;
+  loadData();
+} else {
+  ElMessage.error(res.data?.message || '删除失败');
+}
     } catch (error) {
       ElMessage.error('删除失败');
     }
@@ -365,13 +365,13 @@ const handleSubmit = async () => {
   submitLoading.value = true;
   try {
     const res = await saveClassroom(formData);
-    if (res.data.code === 0) {
-      ElMessage.success('保存成功');
-      dialogVisible.value = false;
-      loadData();
-    } else {
-      ElMessage.error(res.data.message);
-    }
+    if (res.data?.code === 0) {
+  ElMessage.success('保存成功');
+  dialogVisible.value = false;
+  loadData();
+} else {
+  ElMessage.error(res.data?.message || '保存失败');
+}
   } catch (error) {
     ElMessage.error('保存失败');
   } finally {

@@ -298,8 +298,9 @@ const conflictDialogVisible = ref(false);
 const conflictResult = ref<any>(null);
 
 // 表单数据
-const formData = reactive<SaveSchedulePlanParams>({
+const formData = reactive<any>({
   classId: 0,
+	courseId: 0,
   assistantIds: [],
   decLessonCount: 1,
   endDate: '',
@@ -336,11 +337,11 @@ const loadData = async () => {
       courseName: searchForm.courseName || undefined,
     };
     const res = await getSchedulePlanList(params);
-    if (res.data.code === 0) {
-      tableData.value = res.data.data.records;
-      pagination.total = res.data.data.total;
+    if (res.data?.code === 0) {
+      tableData.value = res.data?.data?.records || [];
+      pagination.total = res.data?.data?.total || 0;
     } else {
-      ElMessage.error(res.data.message);
+      ElMessage.error(res.data?.message || '请求失败');
     }
   } catch (error) {
     ElMessage.error('加载数据失败');
@@ -439,8 +440,9 @@ const addSetting = () => {
 /**
  * 删除排课设置
  */
-const removeSetting = (index: number) => {
-  formData.setting.splice(index, 1);
+const removeSetting = (index: number | string) => {
+  const idx = typeof index === 'string' ? parseInt(index) : index;
+  formData.setting.splice(idx, 1);
 };
 
 /**
@@ -454,11 +456,11 @@ const handleBatchGenerate = () => {
   }).then(async () => {
     try {
       const res = await batchGenerateLesson({ scheduleIds: selectedIds.value });
-      if (res.data.code === 0) {
+      if (res.data?.code === 0) {
         ElMessage.success('生成成功');
         loadData();
       } else {
-        ElMessage.error(res.data.message);
+        ElMessage.error(res.data?.message || '生成失败');
       }
     } catch (error) {
       ElMessage.error('生成失败');
@@ -477,13 +479,13 @@ const handleBatchDelete = () => {
   }).then(async () => {
     try {
       const res = await deleteSchedulePlan(selectedIds.value);
-      if (res.data.code === 0) {
+      if (res.data?.code === 0) {
         ElMessage.success('删除成功');
         selectedIds.value = [];
         if (tableData.value.length === selectedIds.value.length && pagination.pageIndex > 1) pagination.pageIndex--;
         loadData();
       } else {
-        ElMessage.error(res.data.message);
+        ElMessage.error(res.data?.message || '删除失败');
       }
     } catch (error) {
       ElMessage.error('删除失败');
@@ -497,11 +499,11 @@ const handleBatchDelete = () => {
 const handleCheckConflict = async () => {
   try {
     const res = await checkConflict({ scheduleIds: selectedIds.value });
-    if (res.data.code === 0) {
+    if (res.data?.code === 0) {
       conflictResult.value = res.data.data;
       conflictDialogVisible.value = true;
     } else {
-      ElMessage.error(res.data.message);
+      ElMessage.error(res.data?.message || '检查失败');
     }
   } catch (error) {
     ElMessage.error('检查失败');
@@ -516,12 +518,12 @@ const handleSubmit = async () => {
   submitLoading.value = true;
   try {
     const res = await saveSchedulePlan(formData);
-    if (res.data.code === 0) {
+    if (res.data?.code === 0) {
       ElMessage.success('保存成功');
       dialogVisible.value = false;
       loadData();
     } else {
-      ElMessage.error(res.data.message);
+      ElMessage.error(res.data?.message || '保存失败');
     }
   } catch (error) {
     ElMessage.error('保存失败');
@@ -559,7 +561,7 @@ const loadOptions = async () => {
   // 真实接口调用
   // try {
   //   const res = await getTeacherList({ type: 1 });
-  //   if (res.data.code === 0) {
+  //   if (res.data?.code === 0) {
   //     teacherOptions.value = res.data.data.records;
   //   }
   // } catch (error) {

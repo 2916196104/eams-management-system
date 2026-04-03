@@ -155,6 +155,8 @@ const searchForm = reactive({
   teacherId: undefined as number | undefined,
   gradeId: undefined as number | undefined,
   beOver: undefined as boolean | undefined,
+	 courseName: '',
+  teacherName: '',
 });
 
 
@@ -212,19 +214,15 @@ const loadData = async () => {
       className: searchForm.className || undefined,
       courseName: searchForm.courseName || undefined,
       teacherName: searchForm.teacherName || undefined,
-      // 新增字段
-      classroomName: searchForm.classroomId ? undefined : undefined, // 需要根据实际后端字段调整
-      gradeName: searchForm.gradeId ? undefined : undefined,
-      beOver: searchForm.beOver,
     };
     const res = await getClassList(params);
-    if (res.data.code === 0) {
-      tableData.value = res.data.data.records;
-      pagination.total = res.data.data.total;
+    if (res.data?.code === 0) {
+      tableData.value = res.data?.data?.records || [];
+      pagination.total = res.data?.data?.total || 0;
     } else {
-      ElMessage.error(res.data.message);
+      ElMessage.error(res.data?.message || '请求失败');
     }
-  } catch (error) {
+  } catch {
     ElMessage.error('加载数据失败');
   } finally {
     loading.value = false;
@@ -327,14 +325,14 @@ const handleDelete = (row: ClassItem) => {
   }).then(async () => {
     try {
       const res = await deleteClass([row.id]);
-      if (res.data.code === 0) {
+      if (res.data?.code === 0) {
         ElMessage.success('删除成功');
         if (tableData.value.length === 1 && pagination.pageIndex > 1) pagination.pageIndex--;
         loadData();
       } else {
-        ElMessage.error(res.data.message);
+        ElMessage.error(res.data?.message || '删除失败');
       }
-    } catch (error) {
+    } catch {
       ElMessage.error('删除失败');
     }
   });
@@ -351,13 +349,13 @@ const handleBatchDelete = () => {
   }).then(async () => {
     try {
       const res = await deleteClass(selectedIds.value);
-      if (res.data.code === 0) {
+      if (res.data?.code === 0) {
         ElMessage.success('删除成功');
         selectedIds.value = [];
         if (tableData.value.length === selectedIds.value.length && pagination.pageIndex > 1) pagination.pageIndex--;
         loadData();
       } else {
-        ElMessage.error(res.data.message);
+        ElMessage.error(res.data?.message ||'删除失败' );
       }
     } catch (error) {
       ElMessage.error('删除失败');
@@ -376,11 +374,11 @@ const handleOver = (row: ClassItem) => {
   }).then(async () => {
     try {
       const res = await overClass([row.id]);
-      if (res.data.code === 0) {
+      if (res.data?.code === 0) {
         ElMessage.success('结业成功');
         loadData();
       } else {
-        ElMessage.error(res.data.message);
+        ElMessage.error(res.data?.message || '结业失败');
       }
     } catch (error) {
       ElMessage.error('操作失败');
@@ -399,12 +397,12 @@ const handleBatchOver = () => {
   }).then(async () => {
     try {
       const res = await overClass(selectedIds.value);
-      if (res.data.code === 0) {
+      if (res.data?.code === 0) {
         ElMessage.success('结业成功');
         selectedIds.value = [];
         loadData();
       } else {
-        ElMessage.error(res.data.message);
+        ElMessage.error(res.data?.message || '结业失败');
       }
     } catch (error) {
       ElMessage.error('操作失败');
@@ -420,12 +418,12 @@ const handleSubmit = async () => {
   submitLoading.value = true;
   try {
     const res = await saveClass(formData);
-    if (res.data.code === 0) {
+    if (res.data?.code === 0) {
       ElMessage.success('保存成功');
       dialogVisible.value = false;
       loadData();
     } else {
-      ElMessage.error(res.data.message);
+      ElMessage.error(res.data?.message || '保存失败');
     }
   } catch (error) {
     ElMessage.error('保存失败');

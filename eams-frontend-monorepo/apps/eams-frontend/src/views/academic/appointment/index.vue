@@ -383,7 +383,10 @@ const selectedDateAppointments = computed(() => {
 });
 
 // 状态映射
-const getStateType = (state: string) => ({ '0': 'warning', '1': 'success', '2': 'info' }[state] || 'info');
+const getStateType = (state: string): 'warning' | 'success' | 'info' | 'primary' | 'danger' => {
+  const map: Record<string, any> = { '0': 'warning', '1': 'success', '2': 'info' };
+  return map[state] || 'info';
+};
 const getStateText = (state: string) => ({ '0': '待审核', '1': '已确认', '2': '已取消' }[state] || '未知');
 const getStateClass = (state: string) => ({ '0': 'pending', '1': 'confirmed', '2': 'cancelled' }[state] || '');
 
@@ -401,10 +404,10 @@ const loadListData = async () => {
       verifyState: searchForm.verifyState || undefined,
     };
     const res = await getAppointmentList(params);
-    if (res.data.code === 0) {
-      tableData.value = res.data.data.records;
-      pagination.total = res.data.data.total;
-    } else ElMessage.error(res.data.message);
+    if (res.data?.code === 0) {
+      tableData.value = res.data?.data?.records || [];
+      pagination.total = res.data?.data?.total || 0;
+    } else ElMessage.error(res.data?.message || '请求失败');
   } catch { ElMessage.error('加载数据失败'); } finally { loading.value = false; }
 };
 
@@ -420,29 +423,29 @@ const handleCurrentChange = (page: number) => { pagination.pageIndex = page; loa
 const handleApprove = async (row: AppointmentItem) => {
   await ElMessageBox.confirm(`确定确认 ${row.studentName} 的预约吗？`, '提示', { type: 'info' });
   const res = await approveAppointment([row.id]);
-  if (res.data.code === 0) { ElMessage.success('确认成功'); loadListData(); }
-  else ElMessage.error(res.data.message);
+  if (res.data?.code === 0) { ElMessage.success('确认成功'); loadListData(); }
+  else ElMessage.error(res.data?.message || '确认失败');
 };
 
 const handleCancel = async (row: AppointmentItem) => {
   await ElMessageBox.confirm(`确定取消 ${row.studentName} 的预约吗？`, '提示', { type: 'warning' });
   const res = await cancelAppointment([row.id]);
-  if (res.data.code === 0) { ElMessage.success('取消成功'); loadListData(); }
-  else ElMessage.error(res.data.message);
+  if (res.data?.code === 0) { ElMessage.success('取消成功'); loadListData(); }
+  else ElMessage.error(res.data?.message || '取消失败');
 };
 
 const handleBatchApprove = async () => {
   await ElMessageBox.confirm(`确定确认选中的 ${selectedIds.value.length} 个预约吗？`, '提示', { type: 'info' });
   const res = await approveAppointment(selectedIds.value);
-  if (res.data.code === 0) { ElMessage.success('确认成功'); selectedIds.value = []; loadListData(); }
-  else ElMessage.error(res.data.message);
+  if (res.data?.code === 0) { ElMessage.success('确认成功'); selectedIds.value = []; loadListData(); }
+  else ElMessage.error(res.data?.message || '确认失败');
 };
 
 const handleBatchCancel = async () => {
   await ElMessageBox.confirm(`确定取消选中的 ${selectedIds.value.length} 个预约吗？`, '提示', { type: 'warning' });
   const res = await cancelAppointment(selectedIds.value);
-  if (res.data.code === 0) { ElMessage.success('取消成功'); selectedIds.value = []; loadListData(); }
-  else ElMessage.error(res.data.message);
+  if (res.data?.code === 0) { ElMessage.success('取消成功'); selectedIds.value = []; loadListData(); }
+  else ElMessage.error(res.data?.message || '取消失败');
 };
 
 const handleBatchReschedule = () => { ElMessage.info('批量调课功能开发中'); };
@@ -479,7 +482,7 @@ const loadCalendarData = async () => {
   const endDate = dayjs(calendarDate.value).endOf('month').format('YYYY-MM-DD');
   try {
     const res = await getAppointmentCalendar({ startDate, endDate });
-    if (res.data.code === 0) calendarData.value = res.data.data;
+    if (res.data?.code === 0) calendarData.value = res.data.data || [];
   } catch { console.error('加载日历数据失败'); }
 };
 
@@ -488,7 +491,7 @@ const getAppointmentsByDateTime = (date: string, hour: number) => calendarData.v
 
 const showAppointmentDetail = async (item: AppointmentCalendarVo) => {
   const res = await getAppointmentDetail(item.id);
-  if (res.data.code === 0) {
+  if (res.data?.code === 0 && res.data?.data ){
     await ElMessageBox.confirm(
       `学生：${res.data.data.studentName}\n课程：${res.data.data.lessonTitle}\n时间：${res.data.data.lessonTime}\n状态：${getStateText(res.data.data.verifyState)}`,
       '预约详情',
