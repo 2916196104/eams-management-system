@@ -4,6 +4,7 @@ package com.zeroone.star.eamsj3data.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.yulichang.base.MPJBaseMapper;
 import com.zeroone.star.eamsj3data.entity.StudentCourse;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * * <p>
@@ -13,5 +14,6 @@ import com.zeroone.star.eamsj3data.entity.StudentCourse;
  * * @version 1.0.0
  *
  */
+@Mapper
 public interface StudentCourseMapper extends MPJBaseMapper<StudentCourse> {
 }

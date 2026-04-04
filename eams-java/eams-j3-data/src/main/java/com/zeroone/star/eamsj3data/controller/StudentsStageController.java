@@ -32,8 +32,8 @@ public class StudentsStageController implements StudentsStagesApis {
     @GetMapping("newStudentCounts")
     @ApiOperation("获取新学员信息")
     public JsonVO<List<NewStudentsVO>> getNewStudentsStagesInfo(
-            @RequestParam(required = false) @DateTimeFormat LocalDateTime beginTime,
-            @RequestParam(required = false) @DateTimeFormat LocalDateTime endTime) {
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime beginTime,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime endTime) {
         List<NewStudentsVO> queryAns =
                 studentService.getNewStudentsStagesInfo(beginTime,endTime);
         if(queryAns==null){
@@ -46,8 +46,8 @@ public class StudentsStageController implements StudentsStagesApis {
     @GetMapping("studentLessonCounts")
     @ApiOperation("获取学院课时排行前20")
     public JsonVO<List<StudentLessonCountsVO>> getStudentLessonCounts(
-           @RequestParam(required = false) @DateTimeFormat LocalDateTime beginTime,
-           @RequestParam(required = false) @DateTimeFormat LocalDateTime endTime) {
+           @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime beginTime,
+           @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime endTime) {
         List<StudentLessonCountsVO> queryAns =
                 studentCourseService.getStudentLessonCounts(beginTime,endTime);
         if(queryAns==null){

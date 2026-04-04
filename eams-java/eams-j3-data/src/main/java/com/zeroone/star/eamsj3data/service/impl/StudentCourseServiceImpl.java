@@ -10,10 +10,14 @@ import com.zeroone.star.eamsj3data.mapper.StudentMapper;
 import com.zeroone.star.eamsj3data.service.StudentCourseService;
 import com.zeroone.star.project.vo.j3.data.StudentLessonCountsVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static java.lang.Math.min;
+
+@Service
 public class StudentCourseServiceImpl extends ServiceImpl<StudentCourseMapper, StudentCourse> implements StudentCourseService {
     @Autowired
     private StudentMapper studentMapper;
@@ -25,15 +29,17 @@ public class StudentCourseServiceImpl extends ServiceImpl<StudentCourseMapper, S
         wrapper.selectAs(Student::getId, StudentLessonCountsVO::getStudentId)
                 .selectAs(Student::getName, StudentLessonCountsVO::getStudentName)
                 .selectSum(StudentCourse::getCountLessonComplete, StudentLessonCountsVO::getLessonCount)
-                .leftJoin(Student.class,Student::getId,StudentCourse::getStudentId)
-                .groupBy(Student::getId)
-                .orderByDesc(StudentLessonCountsVO::getLessonCount)
+                .leftJoin(StudentCourse.class,StudentCourse::getStudentId,Student::getId)
+                .ge(beginTime!=null,StudentCourse::getEditTime,beginTime)
+                .le(endTime!=null,StudentCourse::getEditTime,endTime)
+                .groupBy(Student::getId,Student::getName)
+                .orderByDesc("sum(count_lesson_complete)")
                 .last("Limit 20");
 
         List<StudentLessonCountsVO> res =
                 studentMapper.selectJoinList(StudentLessonCountsVO.class,wrapper);
 
-        for(int i = 0;i < 20;i++){
+        for(int i = 0;i < min(20,res.size());i++){
             res.get(i).setStudentRank(i + 1);
         }
         return res;

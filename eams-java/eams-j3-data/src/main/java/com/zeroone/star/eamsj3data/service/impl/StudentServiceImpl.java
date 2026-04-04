@@ -7,12 +7,14 @@ import com.zeroone.star.eamsj3data.entity.Student;
 import com.zeroone.star.eamsj3data.mapper.StudentMapper;
 import com.zeroone.star.eamsj3data.service.StudentService;
 import com.zeroone.star.project.vo.j3.data.NewStudentsVO;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Service
 public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> implements StudentService {
     @Override
     public List<NewStudentsVO> getNewStudentsStagesInfo(

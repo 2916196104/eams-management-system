@@ -7,6 +7,7 @@ import com.zeroone.star.project.vo.j3.data.NewStudentsVO;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 public interface StudentService extends IService<Student> {
     List<NewStudentsVO> getNewStudentsStagesInfo(LocalDateTime beginTime, LocalDateTime endTime);
 }
