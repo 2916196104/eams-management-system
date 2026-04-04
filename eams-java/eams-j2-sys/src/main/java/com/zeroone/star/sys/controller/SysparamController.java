@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("j2-sys/sysparam")
+@RequestMapping("/j2-sys/sysparam")
 @Api(tags = "系统参数")
 public class SysparamController implements SysparamApis {
 
@@ -30,7 +30,7 @@ public class SysparamController implements SysparamApis {
     private ISettingService settingService;
 
 
-    @GetMapping()
+    @GetMapping("/list")
     @ApiOperation("获取设置列表")
     @Override
     public JsonVO<List<SettingDTO>> listSetting() {
@@ -62,7 +62,7 @@ public class SysparamController implements SysparamApis {
         return JsonVO.success(dtoList);
     }
 
-    @PutMapping
+    @PutMapping("/update")
     @ApiOperation("保存设置")
     @Override
     public JsonVO<String> updateSettingOption(@RequestBody SettingOptionDTO settingOptionDTO) {

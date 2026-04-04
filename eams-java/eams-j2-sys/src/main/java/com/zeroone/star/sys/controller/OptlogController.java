@@ -27,14 +27,14 @@ import javax.annotation.Resource;
  * @since 2026-03-15
  */
 @RestController
-@RequestMapping("/sys/optlog")
+@RequestMapping("/j2-sys/optlog")
 @Api(tags = "操作日志")
 public class OptlogController implements OptlogApis {
 
     @Resource
     private OptlogService optlogService;
 
-    @GetMapping
+    @GetMapping("/list")
     @ApiOperation("获取操作日志(条件+分页）")
     @Override
     public JsonVO<PageDTO<OptlogDTO>> queryOptlog(OptlogQuery query) {

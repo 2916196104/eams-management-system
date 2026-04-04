@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/sys/datadict")
-@Api(tags = "数据字典管理")
+@RequestMapping("/j2-sys/datadict")
+@Api(tags = "数据字典")
 @Validated
 public class DatadictController implements DatadictApis {
 
@@ -54,7 +54,7 @@ public class DatadictController implements DatadictApis {
         // 3. 返回结果：包装成 JsonVO
         return JsonVO.success(dtoList);
     }
-    @GetMapping("/type")
+    @GetMapping("/typelist")
     @ApiOperation("获取字典类型列表(条件+分页)")
     public JsonVO<PageDTO<DictItemDTO>> queryPage(DictItemQuery condition) {
         PageDTO<DictItemDTO> pageData = dictItemService.queryPage(condition);

@@ -45,7 +45,7 @@ import java.util.stream.Collectors;
  * @date 2026/3/16
  */
 @RestController
-@RequestMapping("/sys/roleperm")
+@RequestMapping("/j2-sys/roleperm")
 @Api(tags = "角色权限")
 public class RolepermController implements RolepermApis {
     @Resource
@@ -82,7 +82,7 @@ public class RolepermController implements RolepermApis {
         }
         return sysRole;
     }
-    @ApiOperation("获取角色名称列表")
+    @ApiOperation("获取角色名称列表（条件）")
     @GetMapping("/nameList")
     public JsonVO<List<RolepermDTO>> getNameList(RolepermQuery query) {
         QueryWrapper<SysRole> wrapper = new QueryWrapper<>();
@@ -93,7 +93,7 @@ public class RolepermController implements RolepermApis {
         return JsonVO.success(dtoList);
     }
 
-    @ApiOperation("获取角色分页列表")
+    @ApiOperation("获取角色列表（分页＋条件）")
     @GetMapping("/page")
     public JsonVO<List<RolepermDTO>> getPage(RolepermQuery query) {
         long pageIndex = (query.getPageIndex() > 0 ? query.getPageIndex() : 1);
@@ -111,7 +111,7 @@ public class RolepermController implements RolepermApis {
     }
 
     @ApiOperation("保存角色")
-    @PostMapping("/save")
+    @PostMapping("/save/role")
     public JsonVO<RolepermDTO> saveRole(RolepermDTO dto) {
         if (dto == null) {
             return JsonVO.fail("参数无效");
@@ -129,7 +129,7 @@ public class RolepermController implements RolepermApis {
     /**
      * 负责人：isme
      */
-    @DeleteMapping
+    @DeleteMapping("/remove/role")
     @ApiOperation("删除角色")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "roleId", value = "角色ID（推荐传此参数）", paramType = "query", dataType = "int", example = "1"),

@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Api(tags = "附件管理")
 @Slf4j
-@RequestMapping("/sys/attach")
+@RequestMapping("/j2-sys/attach")
 @RestController
 public class AttachmentController implements AttachmentApis {
 
@@ -61,7 +61,7 @@ public class AttachmentController implements AttachmentApis {
      * @return 修改结果
      */
     @PutMapping("/update")
-    @ApiOperation("修改附件信息")
+    @ApiOperation("修改附件")
     @Override
     public JsonVO<AttachmentUpdateVO> updateAttachment(@RequestBody @Valid AttachmentUpdateDTO updateDTO) {
         try {

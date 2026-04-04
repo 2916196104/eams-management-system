@@ -23,15 +23,15 @@ import java.time.LocalDateTime;
 // ... existing code ...
 
 @RestController
-@Api(tags = "节假日管理")
-@RequestMapping("/sys/holiday")
+@Api(tags = "节日管理")
+@RequestMapping("/j2-sys/holiday")
 public class HolidayController implements HolidayApis {
 
     @Autowired
     private IHolidayService holidayService;
 
     @GetMapping("/list")
-    @ApiOperation("获取节日列表 (条件(年份) + 分页)")
+    @ApiOperation("获取已设置的节日(条件 + 分页)")
     @Override
     public JsonVO<PageDTO<HolidayDTO>> pageQueryHoliday(
             @ApiParam(value = "节日查询参数", hidden = true) HolidayQuery query) {

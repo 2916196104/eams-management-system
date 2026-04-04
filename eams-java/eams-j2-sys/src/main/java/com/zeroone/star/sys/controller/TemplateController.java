@@ -23,7 +23,7 @@ import java.util.List;
  * @since 2026-03-18
  */
 @RestController
-@RequestMapping("/sys/template")
+@RequestMapping("/j2-sys/template")
 @Api(tags = "模板管理")
 @Validated
 public class TemplateController implements TemplateApis {
@@ -52,7 +52,7 @@ public class TemplateController implements TemplateApis {
      * 负责人：Emanon
      */
     @PostMapping("/add")
-    @ApiOperation(value = "新增模版数据")
+    @ApiOperation(value = "新增模版")
     @Override
     public JsonVO<String> addTemplate(@RequestBody TemplateDTO dto) {
         if(dto == null){
@@ -65,7 +65,7 @@ public class TemplateController implements TemplateApis {
     }
 
     @PostMapping("/update")
-    @ApiOperation(value = "修改模版数据")
+    @ApiOperation(value = "修改模版")
     @Override
     public JsonVO<String> modifyTemplate(@RequestBody TemplateDTO dto) {
         if(dto.getId() == null){
@@ -77,8 +77,8 @@ public class TemplateController implements TemplateApis {
         return JsonVO.fail("修改模版数据失败");
     }
 
-    @DeleteMapping("/delete")
-    @ApiOperation(value = "删除模版数据")
+    @DeleteMapping("")
+    @ApiOperation(value = "删除模版")
     @Override
     public JsonVO<String> removeTemplate(List<String> ids) {
         if(ids.isEmpty()){
