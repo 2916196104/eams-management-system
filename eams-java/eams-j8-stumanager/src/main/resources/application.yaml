@@ -3,10 +3,10 @@ server:
 spring:
   application:
     name: ${sn.stumanager}
-  cloud:
-    nacos:
-      discovery:
-        ephemeral: false
+#  cloud:
+#    nacos:
+#      discovery:
+#        ephemeral: false
   jackson:
     date-format: yyyy-MM-dd
     time-format: HH:mm
