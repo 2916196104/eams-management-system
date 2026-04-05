@@ -20,8 +20,8 @@
 #include "Router.h"
 #include "ApiHelper.h"
 #include "institution/InstitutionController.h"
-#include "postion/PositionController.h"
-#include "postion/PositionDataController.h"
+#include "position/PositionController.h"
+#include "position/PositionDataController.h"
 #include "staff/LessonController.h"
 #include "staff/StaffController.h"
 

@@ -8,14 +8,15 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /*
-	家长数据传输对象
+  家长数据传输对象
  */
-class ParentDTO : public oatpp::DTO {
-  DTO_INIT(ParentDTO, DTO);
+class ParentInfoDTO : public oatpp::DTO {
+  DTO_INIT(ParentInfoDTO, DTO);
+	DTO_FIELD(UInt64, id);
   DTO_FIELD(String, name);
   DTO_FIELD(String, phone);
   // 注册时间
-  DTO_FIELD(String, regDate);
+  DTO_FIELD(String, datetime);
 
 };
 
