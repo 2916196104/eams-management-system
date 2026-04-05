@@ -24,7 +24,7 @@
         ) ls ON ls.lesson_id = l.id
         <where>
             lt.teacher_id IS NOT NULL
-            AND l.state = 2
+
             AND IFNULL(l.deleted, 0) = 0
             AND IFNULL(ls.dec_lesson_count, 0) > 0
             <if test="condition != null and condition.name != null and condition.name != ''">

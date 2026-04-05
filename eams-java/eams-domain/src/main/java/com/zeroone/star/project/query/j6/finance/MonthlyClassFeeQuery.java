@@ -3,7 +3,9 @@ import com.zeroone.star.project.query.PageQuery;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /*
@@ -16,16 +18,20 @@ public class MonthlyClassFeeQuery extends PageQuery {
     /*
     老师姓名，用来指定查询，不必须
      */
-    @ApiModelProperty(value = "姓名", example = "张三")
+    @ApiModelProperty(value = "姓名", example = "赵")
     private String name;
     /*
     开始时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty(value = "开始时间", example = "2023-01-01")
-    private LocalDateTime startTime;
+    private LocalDate startTime;
     /*
     结束时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty(value = "结束时间", example = "2023-01-31")
-    private LocalDateTime endTime;
+    private LocalDate endTime;
+
+
 }
