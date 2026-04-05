@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
  * @version 1.0.0
  */
 @RestController
-@RequestMapping("/course")
+@RequestMapping("/j3/course")
 @Api(tags = "课程管理")
 @Validated
 public class CourseController implements CourseApis {
