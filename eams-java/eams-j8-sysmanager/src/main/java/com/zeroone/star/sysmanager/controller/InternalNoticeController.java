@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
  * 实现 InternalNoticeApis 接口，统一规范
  */
 @Api(tags = "内部公告管理")
-@RequestMapping("/sys/internal-notice")
+@RequestMapping("/j8-sys/internal-notice")
 @RestController
 public class InternalNoticeController implements InternalNoticeApis {
 

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  */
 @Api(tags = "通知设置")
 @RestController
-@RequestMapping("/sys/notice-setting")
+@RequestMapping("/j8-sys/notice-setting")
 public class NoticeSettingController implements NoticeSettingApis {
 
     @Resource

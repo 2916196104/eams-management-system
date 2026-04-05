@@ -1,6 +1,6 @@
 FROM openjdk:8
-MAINTAINER 01star
-ADD target/eams-login-1.0.0-SNAPSHOT.jar app.jar
+MAINTAINER aike
+ADD target/eams-j8-sysmanager-1.0.0-SNAPSHOT.jar app.jar
 ENV JAVA_OPTS="-Xms256m -Xmx256m"
 ENV SPRING_ARGS=""
 RUN echo "JAVA_OPTS=" $JAVA_OPTS
