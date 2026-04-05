@@ -3,7 +3,7 @@
 #define _PARENTINFO_QUERY_
 
 #include "../../GlobalInclude.h"
-#include "../../dto/parent/ParentDTO.h"
+#include "../../dto/parent/ParentInfoDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 

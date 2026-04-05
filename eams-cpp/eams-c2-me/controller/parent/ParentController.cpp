@@ -1,16 +1,16 @@
 #include "stdafx.h"
 #include "ParentController.h"
 
-ParentJsonVO::Wrapper ParentController::execQueryInfo(const ParentDTO::Wrapper &dto) {
+ParentInfoJsonVO::Wrapper ParentController::execQueryInfo(const ParentInfoDTO::Wrapper &dto) {
   return {};
 }
 
-ParentJsonVO::Wrapper ParentController::execModifyName(const ParentDTO::Wrapper& dto, const PayloadDTO& payload)
+ParentInfoJsonVO::Wrapper ParentController::execModifyName(const ParentInfoDTO::Wrapper& dto, const PayloadDTO& payload)
 {
   return {};
 }
 
-ParentJsonVO::Wrapper ParentController::execModifyPassword(const ParentDTO::Wrapper& dto)
+ParentInfoJsonVO::Wrapper ParentController::execModifyPassword(const ParentInfoDTO::Wrapper& dto)
 {
   return {};
 }
