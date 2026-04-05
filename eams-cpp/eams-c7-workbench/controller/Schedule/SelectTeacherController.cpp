@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "SelectTeacherController.h"
+#include "../../service/Schedule/SelectTeacherService.h"
 
 //StringJsonVO::Wrapper SelectTeacherController::executeQuerySelectTeacher(const PageQuery::Wrapper& query)
 //{
@@ -10,8 +11,10 @@
 
 SelectTeacherPageJsonVO::Wrapper SelectTeacherController::executeQueryTeacherPage(const SelectTeacherQuery::Wrapper& query)
 {
-	//auto vo = SelectClassPageJsonVO::createShared();
-	//vo->success(String((ZH_WORDS_GETTER("select_class.resp"))));
-	//return vo;
-	return {};
+	// 查询数据
+	auto result = SelectTeacherService().listAll(query);
+	// 响应结果
+	auto jvo = SelectTeacherPageJsonVO::createShared();
+	jvo->success(result);
+	return jvo;
 }
