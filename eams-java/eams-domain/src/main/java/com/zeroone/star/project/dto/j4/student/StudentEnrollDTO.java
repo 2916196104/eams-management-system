@@ -16,7 +16,7 @@ public class StudentEnrollDTO {
     @ApiModelProperty(value = "课程ID", required = true, example = "1")
     private Long courseId;
 
-    @ApiModelProperty(value = "科目ID", example = "8")
+    @ApiModelProperty(value = "科目ID", required = true, example = "8")
     private Long subjectId;
 
     @ApiModelProperty(value = "总课时数", example = "11")

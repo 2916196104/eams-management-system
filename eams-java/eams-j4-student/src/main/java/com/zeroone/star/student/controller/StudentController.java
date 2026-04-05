@@ -126,7 +126,7 @@ public class StudentController implements StudentApis {
     }
 
 
-    @PostMapping("/follow-up")
+    @PostMapping("/follow-up/add")
     @ApiOperation("添加跟进记录")
     @Override
     public JsonVO<Long> saveFollowUp(@RequestBody @Validated FollowUpDTO followUpDTO) {
@@ -143,7 +143,7 @@ public class StudentController implements StudentApis {
         return JsonVO.success(id);
     }
 
-    @DeleteMapping("/follow-up/{id}")
+    @DeleteMapping("/follow-up/delete/{id}")
     @ApiOperation("删除跟进记录（单个删除）")
     @Override
     public JsonVO<Long> deleteFollowUp(@PathVariable Long id) {
