@@ -84,15 +84,12 @@ public interface StudentMapper extends BaseMapper<Student> {
     @Update("UPDATE student SET stage = #{stage} WHERE id = #{id}")
     int updateStudentStage(StudentDTO studentDTO);
 
-    /**
-     * 插入报名表 (student_course)
-     */
     @Insert("INSERT INTO student_course " +
-            "(student_id, course_id, subject_id, start_date, expire_date, remark, " +
+            "(id, student_id, course_id, subject_id, start_date, expire_date, remark, " + // <--- 1. 这里加上 id
             "count_lesson_total, count_lesson_complete, amount, paid_amount, " +
             "operator, creator, add_time, verify_state, unit_price) " +
             "VALUES " +
-            "(#{studentId}, #{courseId}, #{subjectId}, #{startDate}, #{expireDate}, #{remark}, " +
+            "(#{id}, #{studentId}, #{courseId}, #{subjectId}, #{startDate}, #{expireDate}, #{remark}, " + // <--- 2. 这里加上 #{id}
             "#{countLessonTotal}, 0, #{amount}, #{paidAmount}, " +
             "#{staffId}, #{staffId}, NOW(), 1, #{unitPrice})")
     int insertStudentCourse(StudentEnrollDTO enrollDTO);
@@ -101,9 +98,9 @@ public interface StudentMapper extends BaseMapper<Student> {
      * 插入课时变更流水表 (student_lesson_count_log)
      */
     @Insert("INSERT INTO student_lesson_count_log " +
-            "(student_id, course_id, change_count, remaining_count, staff_id, add_time, stage, remark) " +
+            "(id, student_id, course_id, change_count, remaining_count, staff_id, add_time, stage, remark) " +
             "VALUES " +
-            "(#{studentId}, #{courseId}, #{countLessonTotal}, #{countLessonTotal}, #{staffId}, NOW(), 1, '报名')")
+            "(#{id}, #{studentId}, #{courseId}, #{countLessonTotal}, #{countLessonTotal}, #{staffId}, NOW(), 1, '报名')")
     int insertEnrollLog(StudentEnrollDTO enrollDTO);
 
 

@@ -1,15 +1,25 @@
 package com.zeroone.star.project.dto.j4.student;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
+@Setter
+@Getter
 @ApiModel("学员报名请求对象")
 public class StudentEnrollDTO {
+
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    private Long id;
+
     @ApiModelProperty(value = "学员ID", required = true, example = "1")
     private Long studentId;
 

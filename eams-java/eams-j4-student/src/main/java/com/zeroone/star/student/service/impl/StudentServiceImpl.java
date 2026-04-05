@@ -735,9 +735,11 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     @Transactional(rollbackFor = Exception.class) // 保证两个表同时成功
     public boolean saveStudentEnroll(StudentEnrollDTO enrollDTO) {
 
+        // 生成雪花算法 ID
+        long id = cn.hutool.core.util.IdUtil.getSnowflakeNextId();
+        enrollDTO.setId(id);
         // 1. 写入报名主表
         int count1 = studentMapper.insertStudentCourse(enrollDTO);
-
         // 2. 写入课时流水表
         int count2 = studentMapper.insertEnrollLog(enrollDTO);
 
