@@ -85,36 +85,38 @@ cus:
     type: 类型
     notes: 备注
 
-c7:
- tags:
-  tag1:点名记录
-  tag2:作业记录
-  tag3:点评记录
+sign:
+ tag: 点名记录
  query-sign-page:
   summary: 获取点名记录列表（条件+分页）
- query-homewk-page:
-  summary: 获取作业记录列表 (条件+分页)
- query-remark-page:
-  summary: 获取点评记录列表 (条件+分页)
  field:
-  course-id: 课程编号
-  course-name: 课程名称
-  class-id: 班级编号
-  class-name: 班级名称
   stu-id: 学生编号
   stu-name: 学生名称
   date: 上课时间
   stu-sign: 已签到
-  wk-name: 作业名称
-  wk-commit-count: 提交数量
-  id : 编号
-  name: 名称
+  teacher-id: 当前管理员编号
+
+remark:
+ tag: 点评记录
+ query-remark-page:
+  summary: 获取点评记录列表 (条件+分页)
+ field:
+  stu-id: 学生编号
+  stu-name: 学生名称
   remark: 评语
-  remarker: 点评人
   remark-time: 点评时间
-  remark-star: 评星
+  score: 评分
   teacher-id: 当前管理员编号
   teacher-name: 当前管理员名称
+
+classroom:
+ tag: 教室管理
+ field:
+  id: 教室id
+  name: 教室名称
+  address: 教室地址
+ query-page: 
+  summary: 获取教室列表(条件+分页)
 
 homework:
   tag: "作业管理"
