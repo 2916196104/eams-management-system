@@ -16,7 +16,7 @@ UsageGuideJsonVO::Wrapper ManualController::executeQueryAll(const ListQuery::Wra
 }
 
 //执行获取说明列表中，编号为id的数据的详细信息的响应
-UsageDetailJsonVO::Wrapper ManualController::executeQueryOne(const String& id)
+UsageDetailJsonVO::Wrapper ManualController::executeQueryOne(const string& id)
 {
 	auto vo = UsageDetailJsonVO::createShared();// 创建返回对象
 	UsageGuideService service;

@@ -5,7 +5,7 @@
 //DO对象与数据库表结构一一对应，用于DAO层与数据库交互
 class ManualDO : public BaseDO {
 	// 使用宏定义字段 提供get、set方法
-	MYSQL_SYNTHESIZE(__int64, _id, Id);
+	MYSQL_SYNTHESIZE(uint64_t, _id, Id);
 	MYSQL_SYNTHESIZE(std::string, _title, Title);
 	MYSQL_SYNTHESIZE(std::string, _content, Content);
 	MYSQL_SYNTHESIZE(std::string, _type, Type);
