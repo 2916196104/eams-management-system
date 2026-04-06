@@ -30,13 +30,14 @@ class StudentController : public oatpp::web::server::api::ApiController // 1 继
   API_ACCESS_DECLARE(StudentController);
   // 3 定义接口
 public:
-	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("student.query.grade"), queryGrade, GradeQuery, GradePageJsonVO::Wrapper, API_TAG);
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("student.query.grade"), queryGrade, GradeListJsonVO::Wrapper, API_TAG);
 	// 定义查询所有用户信息接口端点
-	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/me/getOptionalGrade", queryGrade, GradeQuery, executeQueryGrade(query));
-private: // 定义接口执行函数
-	
-	GradePageJsonVO::Wrapper executeQueryGrade(const GradeQuery::Wrapper& query);
-
+	//API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/me/getOptionalGrade", queryGrade, GradeQuery, executeQueryGrade(query));
+	ENDPOINT(API_M_GET, "/me/getOptionalGrade", queryGrade,API_HANDLER_AUTH_PARAME) {
+		return createDtoResponse(Status::CODE_200, executeQueryGrade());
+		
+	}
+    
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("student.query.point"), queryPoint, PointQuery, PointPageJsonVO::Wrapper, API_TAG);
 	// 定义查询所有用户信息接口端点
 	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/me/getMyPoint", queryPoint, PointQuery, executeQueryPoint(query));
@@ -94,9 +95,7 @@ public:
 	//==========接口3上传头像接口（示例，未实现）==================//
     //
 
-
-private: // 定义接口执行函数
-	PointPageJsonVO::Wrapper executeQueryPoint(const PointQuery::Wrapper& query);
+    
     API_DEF_ENDPOINT_INFO_QUERY_AUTH(
         ZH_WORDS_GETTER("student.getStudentList"),// 接口标题
         queryAllUser,               // 端点函数名
@@ -124,6 +123,9 @@ private: // 定义接口执行函数
 	);
 
 private: // 定义接口执行函数
+	PointPageJsonVO::Wrapper executeQueryPoint(const PointQuery::Wrapper& query);
+
+private: // 定义接口执行函数
 	JsonVO<oatpp::Any>::Wrapper executeSwitchStudent(int64_t id);
 
     JsonVO<oatpp::Any>::Wrapper executeRemoveUser(const IdQuery::Wrapper& query);
@@ -135,6 +137,7 @@ private: // 定义接口执行函数
     //接口2 新增用户信息
     StringJsonVO::Wrapper executeAddStudent(const StudentAddDTO::Wrapper& dto);
 
+	GradeListJsonVO::Wrapper executeQueryGrade();
 };
 
 #undef API_TAG

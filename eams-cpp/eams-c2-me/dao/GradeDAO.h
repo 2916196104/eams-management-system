@@ -19,10 +19,9 @@ private:
 	// Parameter:   SqlParams& params 存放查询数据的参数对象
 	// Description: 查询条件构建器，根据GradeQuery对象动态构建查询条件相关参数
 	//************************************
-	inline std::string queryConditionBuilder(const GradeQuery::Wrapper& query, SqlParams& params);
+	
 public:
-	// 统计数据条数
-	uint64_t count(const GradeQuery::Wrapper& query);
+
 	// 分页查询数据
-	std::list<GradeDO> selectWithPage(const GradeQuery::Wrapper& query);
+	std::list<GradeDO> selectWithPage();
 };
