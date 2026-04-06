@@ -1,5 +1,4 @@
-// dao/position/PositionDataPermissionDao.h
-#pragma once
+
 #include <vector>
 #include "../../domain/do/position/PositionDataPermissionDO.h"
 

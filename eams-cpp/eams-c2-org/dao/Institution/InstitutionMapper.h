@@ -6,10 +6,18 @@ class PtrInstitutionMapper : public Mapper<PtrInstitutionDO> {
 public:
     PtrInstitutionDO mapper(ResultSet* resultSet) const override {
         auto data = std::make_shared<InstitutionDO>();
-        // 索引从 1 开始
-        data->setId(resultSet->getUInt64(1));
-        data->setName(resultSet->getString(2));
-        data->setPid(resultSet->getUInt64(3));
+        data->setId(resultSet->getUInt64("id"));
+        data->setName(resultSet->getString("name"));
+        data->setPid(resultSet->getUInt64("pid"));
+        data->setLevel(resultSet->getInt("level"));
+        data->setShortname(resultSet->getString("shortname"));
+        data->setContactName(resultSet->getString("contact_name"));
+        data->setPhone(resultSet->getString("phone"));
+        data->setFax(resultSet->getString("fax"));
+        data->setEmail(resultSet->getString("email"));
+        data->setSortNum(resultSet->getInt("sort_num"));
+        data->setState(resultSet->getInt("state"));
+        data->setInfo(resultSet->getString("info"));
         return data;
     }
 };

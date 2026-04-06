@@ -12,14 +12,25 @@ oatpp::List<oatpp::Object<InstitutionDTO>> InstitutionService::getTree() {
     std::map<uint64_t, oatpp::Object<InstitutionDTO>> nodeMap;
     auto allNodes = oatpp::List<oatpp::Object<InstitutionDTO>>::createShared();
 
-    // 1. 手动将 DO 转 DTO (不使用宏,防前端精度丢失)
+    // 1. 手动将 DO 转 DTO
     for (const auto& doObj : doList) {
         auto dto = InstitutionDTO::createShared();
-        dto->id = std::to_string(doObj->getId()).c_str();
-        dto->name = doObj->getName().c_str();
-        dto->parentId = std::to_string(doObj->getPid()).c_str();
 
-        nodeMap[doObj->getId()] = dto;
+        dto->id = doObj->getId();
+        dto->name = doObj->getName().c_str();
+        dto->parentId = doObj->getPid();
+        dto->level = doObj->getLevel();
+        dto->shortname = doObj->getShortname().c_str();
+        dto->contactName = doObj->getContactName().c_str();
+        dto->phone = doObj->getPhone().c_str();
+        dto->fax = doObj->getFax().c_str();
+        dto->email = doObj->getEmail().c_str();
+        dto->sortNum = doObj->getSortNum();
+        dto->state = doObj->getState();
+        dto->info = doObj->getInfo().c_str();
+
+        // 存入 Map 和全量列表
+        nodeMap[dto->id] = dto; 
         allNodes->push_back(dto);
     }
 
@@ -44,21 +55,38 @@ oatpp::List<oatpp::Object<InstitutionDTO>> InstitutionService::getTree() {
 oatpp::String InstitutionService::saveInstitution(const oatpp::Object<InstitutionDTO>& dto, const oatpp::String& username) {
     InstitutionDO data;
 
-    // 生成 ID (假设你们框架里有 UuidFacade)
-    UuidFacade uf;
-    data.setId(std::stoull(uf.genUuid()));
+    // 判断是新增还是修改
+    if (!dto->id || dto->id == 0) {
+        // 新增：生成新 ID
+        UuidFacade uf;
+        data.setId(std::stoull(uf.genUuid()));
+    } else {
+        // 修改：使用传入的 ID
+        data.setId(dto->id);
+    }
 
     data.setName(dto->name.getValue(""));
-    data.setPid(dto->parentId ? std::stoull(dto->parentId.getValue("")) : 0);
+    data.setPid(dto->parentId ? dto->parentId.getValue(0) : 0);
 
-    // 审计字段
-    // data.setCreator(std::stoull(username->std_str())); 
-    data.setAddTime("2026-03-01 10:00:00"); // 实际应调用 SimpleDateTimeFormat::format()
-    data.setLevel(3);
+    data.setLevel(dto->level ? dto->level.getValue(0) : 0);
+    data.setShortname(dto->shortname.getValue(""));
+    data.setContactName(dto->contactName.getValue(""));
+    data.setPhone(dto->phone.getValue(""));
+    data.setFax(dto->fax.getValue(""));
+    data.setEmail(dto->email.getValue(""));
+    data.setSortNum(dto->sortNum ? dto->sortNum.getValue(0) : 0);
+    data.setState(dto->state ? dto->state.getValue(0) : 0);
+    data.setInfo(dto->info.getValue(""));
 
     InstitutionDAO dao;
-    // 直接调用基类的 insert！自动生成 SQL 并绑定参数！
-    int rows = dao.insert(data);
+    int rows;
+    if (!dto->id || dto->id == 0) {
+        // 新增：执行插入
+        rows = dao.insert(data);
+    } else {
+        // 修改：执行更新
+        rows = dao.update(data); // 需要在 DAO 中实现 update 方法
+    }
 
     return rows == 1 ? "保存成功" : "";
 }

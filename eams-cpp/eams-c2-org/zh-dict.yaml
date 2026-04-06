@@ -169,3 +169,26 @@ institution:
 
 # ɾ��ְλ�ӿ�����
 # position.delete.ids.description: "Ҫɾ����ְλID�б�"
+ field:
+  id: 机构编号
+  name: 机构名称
+  parentId: 父机构编号
+  children: 子机构列表
+  level: 级别
+  shortName: 简称
+  contact: 联系人
+  phone: 电话
+  fax: 传真
+  email: 邮箱
+  sort: 排序
+  status: 状态
+  description: 说明
+ tags:
+  t1: 机构管理
+ tree:
+  summary: 获取机构名称树
+ save:
+  summary: 保存机构名称
+ api:
+  get: 获取机构树
+  save: 保存机构
