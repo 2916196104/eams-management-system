@@ -22,13 +22,13 @@
 
 #include "domain/vo/BaseJsonVO.h"
 #include "ApiHelper.h"
-#include "../eams-c7-class/domain/GlobalInclude.h"
+#include "domain/GlobalInclude.h"
 #include "../nacos-register/Macros.h"
-#include "../../domain/query/StudentQuery.h"
-#include "../../domain/vo/StudentVO.h"
+#include "domain/query/StudentQuery.h"
+#include "domain/vo/StudentVO.h"
 #include OATPP_CODEGEN_BEGIN(ApiController) //<- Begin Codegen
 
-#define API_TAG ZH_WORDS_GETTER("stu.student.list.tag")
+#define API_TAG ZH_WORDS_GETTER("class.student.list.tag")
 
 /**
  * 获取班级学员列表控制器
@@ -41,7 +41,7 @@ class GetClassStudentListController : public oatpp::web::server::api::ApiControl
 public:
     // 定义获取班级学员列表接口描述（分页查询+条件查询）
     API_DEF_ENDPOINT_INFO_QUERY_AUTH(
-        ZH_WORDS_GETTER("stu.get-class-student-list"), // 接口标题
+        ZH_WORDS_GETTER("class.get-class-student-list"), // 接口标题
         getClassStudentList,                                      // 接口方法名
         ClassStudentListQuery,                                    // 查询参数类型
         ClassStudentPageJsonVO::Wrapper,                          // 响应类型

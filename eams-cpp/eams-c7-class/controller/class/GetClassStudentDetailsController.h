@@ -22,12 +22,12 @@
 
 #include "domain/vo/BaseJsonVO.h"
 #include "ApiHelper.h"
-#include "../eams-c7-class/domain/GlobalInclude.h"
+#include "domain/GlobalInclude.h"
 #include "../nacos-register/Macros.h"
-#include "../../domain/vo/StudentVO.h"
+#include "domain/vo/StudentVO.h"
 #include OATPP_CODEGEN_BEGIN(ApiController) //<- Begin Codegen
 
-#define API_TAG ZH_WORDS_GETTER("stu.student.details.tag")
+#define API_TAG ZH_WORDS_GETTER("class.student.details.tag")
 
 /**
  * 获取班级学员详情控制器
@@ -40,17 +40,18 @@ class GetClassStudentDetailsController : public oatpp::web::server::api::ApiCont
 public:
     // 定义获取班级学员详情接口描述
     API_DEF_ENDPOINT_INFO_AUTH(
-        ZH_WORDS_GETTER("stu.get-class-student-details"), // 接口标题
+        ZH_WORDS_GETTER("class.get-class-student-details"), // 接口标题
         getClassStudentDetails,                                      // 接口方法名
         StudentDetailJsonVO::Wrapper,                                // 响应类型
         API_TAG,                                                     // 接口标签
-        API_DEF_ADD_PATH_PARAMS(String, "studentId", ZH_WORDS_GETTER("stu.field.studentId"), "sample_student_id", true);
+        API_DEF_ADD_PATH_PARAMS(String, "studentId", ZH_WORDS_GETTER("class.field.studentId"), "sample_student_id", true);
     );
 
     // 定义获取班级学员详情接口端点
+    // 定义获取班级学员详情接口端点
     API_HANDLER_ENDPOINT_AUTH(
         API_M_GET,                                    // 请求方法
-        "/c7/class/GetClassStudentDetails",     // 请求路径
+        "/c7/class/GetClassStudentDetails/{studentId}", // 请求路径 ← 添加了 {studentId}
         getClassStudentDetails,                       // 接口方法名
         PATH(String, studentId, "studentId"),         // 路径参数
         executeGetClassStudentDetails(studentId, authObject->getPayload())  // 执行方法
