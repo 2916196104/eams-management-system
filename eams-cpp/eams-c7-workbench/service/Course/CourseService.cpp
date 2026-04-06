@@ -43,10 +43,10 @@ CoursePageDTO::Wrapper CourseService::listAll(const CourseQuery::Wrapper& query)
     return pages;
 }
 
-CourseDTO::Wrapper CourseService::getByName(std::string courseName)
+CourseDTO::Wrapper CourseService::getById(std::string courseId)
 {
     CourseDAO dao;
-    auto dataList = dao.selectByName(courseName);
+    auto dataList = dao.selectById(courseId);
 
     if (dataList.empty()) return nullptr;
 

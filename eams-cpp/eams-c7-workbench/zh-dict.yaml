@@ -38,6 +38,7 @@ course:
         2: 小班课
         3: 1v1
     field:
+        courseId: 课程ID
         course: 课程
         reportType: 报名类型
         stuName: 学生姓名

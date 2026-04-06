@@ -11,6 +11,6 @@ private:
 public:
 	uint64_t count(const CourseQuery::Wrapper& query);
 	std::list<CourseDO> selectWithPage(const CourseQuery::Wrapper& query);
-	std::list<CourseDO> selectByName(const string& courseName);
+	std::list<CourseDO> selectById(const string& courseId);
 };
 #endif

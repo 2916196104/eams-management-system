@@ -11,7 +11,7 @@ public:
     CourseDO mapper(ResultSet* resultSet) const override
     {
         CourseDO data;
-        data.setId(resultSet->getString(1));
+        data.setCourseId(resultSet->getString(1));
         data.setCourseName(resultSet->getString(2));
         data.setSubjectId(resultSet->getInt(3));
         data.setSubjectName(resultSet->getString(4));
@@ -32,7 +32,7 @@ public:
     PtrCourseDO mapper(ResultSet* resultSet) const override
     {
         auto data = make_shared<CourseDO>();
-        data->setId(resultSet->getString(1));
+        data->setCourseId(resultSet->getString(1));
         data->setCourseName(resultSet->getString(2));
         data->setSubjectId(resultSet->getInt(3));
         data->setSubjectName(resultSet->getString(4));

@@ -9,6 +9,6 @@ class CourseService
 {
 public:
     CoursePageDTO::Wrapper listAll(const CourseQuery::Wrapper& query);
-    CourseDTO::Wrapper getByName(std::string courseName); 
+    CourseDTO::Wrapper getById(std::string courseId); 
 };
 #endif

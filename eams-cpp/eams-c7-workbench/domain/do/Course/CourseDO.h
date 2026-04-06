@@ -7,7 +7,7 @@
 
 class CourseDO : public BaseDO
 {
-    MYSQL_SYNTHESIZE(string, id, Id);
+    MYSQL_SYNTHESIZE(string, courseId, CourseId);
     MYSQL_SYNTHESIZE(string, courseName, CourseName);
     MYSQL_SYNTHESIZE(int, subjectId, SubjectId);
     MYSQL_SYNTHESIZE(string, subjectName, SubjectName);
@@ -22,7 +22,7 @@ class CourseDO : public BaseDO
 public:
     CourseDO() : BaseDO("zo_eams")
     {
-        MYSQL_ADD_FIELD_PK("id", "s", id);
+        MYSQL_ADD_FIELD_PK("id", "s", courseId);
         MYSQL_ADD_FIELD("name", "s", courseName);
         MYSQL_ADD_FIELD("subject_id", "i", subjectId);
         MYSQL_ADD_FIELD("subject_name", "s", subjectName);

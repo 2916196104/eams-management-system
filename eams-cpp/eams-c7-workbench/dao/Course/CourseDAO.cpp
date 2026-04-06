@@ -53,7 +53,7 @@ std::list<CourseDO> CourseDAO::selectWithPage(const CourseQuery::Wrapper& query)
     return sqlSession->executeQuery<CourseDO>(sql, CourseMapper(), params);
 }
 
-std::list<CourseDO> CourseDAO::selectByName(const string& courseName)
+std::list<CourseDO> CourseDAO::selectById(const string& courseId)
 {
     string sql = R"(
         SELECT 
@@ -70,10 +70,10 @@ std::list<CourseDO> CourseDAO::selectByName(const string& courseName)
             c.description
         FROM course c
         LEFT JOIN subject s ON c.subject_id = s.id
-        WHERE c.name = ?
+        WHERE c.id = ?
     )";
 
     SqlParams params;
-    SQLPARAMS_PUSH(params, "s", std::string, courseName);
+    SQLPARAMS_PUSH(params, "s", std::string, courseId);
     return sqlSession->executeQuery<CourseDO>(sql, CourseMapper(), params);
 }

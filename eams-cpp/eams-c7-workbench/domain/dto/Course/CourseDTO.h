@@ -8,6 +8,7 @@
 class CourseDTO : public oatpp::DTO
 {
 	DTO_INIT(CourseDTO, DTO);
+	API_DTO_FIELD_DEFAULT(String, courseId, ZH_WORDS_GETTER("course.field.courseId"));
 	API_DTO_FIELD_DEFAULT(String, courseName, ZH_WORDS_GETTER("course.field.courseName"));
 	API_DTO_FIELD_DEFAULT(String, subjectName, ZH_WORDS_GETTER("course.field.subjectName"));
 	API_DTO_FIELD_DEFAULT(String, lessonType, ZH_WORDS_GETTER("course.field.lessonType"));

@@ -15,10 +15,10 @@ class CourseController : public web::server::api::ApiController
 {
 	API_ACCESS_DECLARE(CourseController);
 public:
-	// 1. 根据课程名字查询课程详情
+	// 1. 根据课程Id查询课程详情
 	API_DEF_ENDPOINT_INFO_AUTH(
 		ZH_WORDS_GETTER("course.detail.summary"), queryCourseDetail, CourseDetailJsonVO::Wrapper, API_TAG,
-		API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("course.field.courseName"), "", true);
+		API_DEF_ADD_QUERY_PARAMS(String, "courseId", ZH_WORDS_GETTER("course.field.courseId"), "", true);
 	);
 
 	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c7/workbench/courseDetail", queryCourseDetail,
