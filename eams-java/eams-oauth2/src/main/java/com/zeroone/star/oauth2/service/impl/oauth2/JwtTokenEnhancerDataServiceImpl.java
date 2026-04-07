@@ -8,24 +8,21 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * <p>
- * 描述：Jwt Token增强数据处理服务实现
- * </p>
- * <p>版权：&copy;01星球</p>
- * <p>地址：01星球总部</p>
- * @author 阿伟学长
- * @version 1.0.0
- */
 @Service
 public class JwtTokenEnhancerDataServiceImpl implements JwtTokenEnhancerDataService {
+
     @Override
     public Map<String, Object> enhance(SecurityUser securityUser) {
-        User user = (User) securityUser.getExtendsObject();
         Map<String, Object> info = new HashMap<>(4);
+        if (!(securityUser.getExtendsObject() instanceof User)) {
+            return info;
+        }
+
+        User user = (User) securityUser.getExtendsObject();
         info.put("id", user.getId());
         info.put("org_id", user.getOrgId());
         info.put("name", user.getName());
+        info.put("terminal_type", user.getTerminalType());
         return info;
     }
 }
