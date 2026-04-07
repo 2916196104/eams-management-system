@@ -22,6 +22,9 @@
 
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/query/PageQuery.h"
+#include "domain/query/RegistRecord/RegistRecordQuery.h"
+#include "domain/vo/RegistRecord/RegistRecordVO.h"
+#include "service/RegistRecord/RegistRecordService.h"
 #include "ApiHelper.h"
 #include "ServerInfo.h"
 #include "Macros.h"
@@ -33,35 +36,23 @@ class GetRegistRecordDetailsController : public oatpp::web::server::api::ApiCont
 	API_ACCESS_DECLARE(GetRegistRecordDetailsController);
 public://定义接口
 	ENDPOINT(API_M_GET, "/RegistRecordDetails", querydetails, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
-		API_HANDLER_QUERY_PARAM(query, PageQuery, params);
-		API_HANDLER_RESP_VO(executeQueryRegistRecordDetails(query));
+		API_HANDLER_QUERY_PARAM(query, RegistRecordQuery, params);
+		API_HANDLER_RESP_VO(execQueryById(query->id));
 	}
 
 	ENDPOINT_INFO(querydetails) {
 		info->summary = ZH_WORDS_GETTER("translation.RegistRecordDetails");
-		API_DEF_ADD_QUERY_PARAMS(String, "studentName", ZH_WORDS_GETTER("translation.studentName"), "", true);
-		API_DEF_ADD_QUERY_PARAMS(String, "courseName", ZH_WORDS_GETTER("translation.courseName"), "", true);
-		API_DEF_ADD_QUERY_PARAMS(String, "subjectName", ZH_WORDS_GETTER("translation.subjectName"), "", true);
-		API_DEF_ADD_QUERY_PARAMS(String, "startDate", ZH_WORDS_GETTER("translation.startDate"), "2026-01-01", true);
-		API_DEF_ADD_QUERY_PARAMS(Int32, "courseFee", ZH_WORDS_GETTER("translation.courseFee"), 0, true);
-		API_DEF_ADD_QUERY_PARAMS(Int32, "amount", ZH_WORDS_GETTER("translation.amount"), 0, true);
-		API_DEF_ADD_QUERY_PARAMS(Int32, "paidAmount", ZH_WORDS_GETTER("translation.paidAmount"), 0, true);
-		API_DEF_ADD_QUERY_PARAMS(Int32, "debt", ZH_WORDS_GETTER("translation.debt"), 0, true);
-		API_DEF_ADD_QUERY_PARAMS(String, "expireDate", ZH_WORDS_GETTER("translation.expireDate"), "2026-01-01", true);
-		API_DEF_ADD_QUERY_PARAMS(String, "addTime", ZH_WORDS_GETTER("translation.addTime"), "2026-01-01", true);
-		API_DEF_ADD_QUERY_PARAMS(String, "tag", ZH_WORDS_GETTER("translation.tag"), "", false);
-		API_DEF_ADD_QUERY_PARAMS(Int32, "countLessonTotal", ZH_WORDS_GETTER("translation.countLessonTotal"), 0, true);
-		API_DEF_ADD_QUERY_PARAMS(Int32, "doneLesson", ZH_WORDS_GETTER("translation.doneLesson"), 0, true);
-		API_DEF_ADD_QUERY_PARAMS(String, "refund", ZH_WORDS_GETTER("translation.refund"), "", false);
+		API_DEF_ADD_QUERY_PARAMS(String, "id", ZH_WORDS_GETTER("translation.id"), "", true);
+		
 		//支持授权
 		API_DEF_ADD_AUTH();
 		//定义响应参数格式
-		API_DEF_ADD_RSP_JSON(StringJsonVO::Wrapper);
+		API_DEF_ADD_RSP_JSON(RegistRecordJsonVO::Wrapper);
 		//定义请求参数格式
 		API_DEF_ADD_PAGE_PARAMS();
 	}
 private://定义执行函数
-	StringJsonVO::Wrapper executeQueryRegistRecordDetails(const PageQuery::Wrapper& query);
+	RegistRecordJsonVO::Wrapper execQueryById(const String& id);
 };
 
 

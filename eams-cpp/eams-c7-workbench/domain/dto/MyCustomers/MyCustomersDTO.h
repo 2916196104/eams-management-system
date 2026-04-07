@@ -29,9 +29,9 @@ class MyCustomersDTO : public oatpp::DTO
 	DTO_INIT(MyCustomersDTO, DTO);
 
 	// 客户姓名
-	API_DTO_FIELD_DEFAULT(String, MyCustomersName, u8"姓名");
+	API_DTO_FIELD_DEFAULT(String, MyCustomersName, ZH_WORDS_GETTER("cus.field.name"));
 	// 电话号码
-	API_DTO_FIELD_DEFAULT(String, phoneNumber, u8"电话号码");
+	API_DTO_FIELD_DEFAULT(String, phoneNumber, ZH_WORDS_GETTER("cus.field.phoneNumber"));
 };
 
 // 2. 客户详情 DTO
@@ -39,13 +39,13 @@ class MyCustomerDetailDTO : public oatpp::DTO
 {
 	DTO_INIT(MyCustomerDetailDTO, DTO);
 
-	API_DTO_FIELD_DEFAULT(String, MyCustomersName, u8"姓名");
-	API_DTO_FIELD_DEFAULT(String, phoneNumber, u8"电话号码");
-	API_DTO_FIELD_DEFAULT(Boolean, sex, u8"性别");
-	API_DTO_FIELD_DEFAULT(Int64, age, u8"年龄");
-	API_DTO_FIELD_DEFAULT(String, birth, u8"生日");
-	API_DTO_FIELD_DEFAULT(String, type, u8"类型");
-	API_DTO_FIELD_DEFAULT(String, notes, u8"备注");
+	API_DTO_FIELD_DEFAULT(String, MyCustomersName, ZH_WORDS_GETTER("cus.field.name"));
+	API_DTO_FIELD_DEFAULT(String, phoneNumber, ZH_WORDS_GETTER("cus.field.phoneNumber"));
+	API_DTO_FIELD_DEFAULT(String, sex, ZH_WORDS_GETTER("cus.field.sex"));
+	API_DTO_FIELD_DEFAULT(Int64, age, ZH_WORDS_GETTER("cus.field.age"));
+	API_DTO_FIELD_DEFAULT(String, birth, ZH_WORDS_GETTER("cus.field.birth"));
+	API_DTO_FIELD_DEFAULT(String, type, ZH_WORDS_GETTER("cus.field.type"));
+	API_DTO_FIELD_DEFAULT(String, notes, ZH_WORDS_GETTER("cus.field.notes"));
 };
 
 
@@ -54,10 +54,12 @@ class StudentCourseDTO : public oatpp::DTO
 {
 	DTO_INIT(StudentCourseDTO, DTO);
 
-	API_DTO_FIELD_DEFAULT(String, courseName, u8"课程名称");
-	API_DTO_FIELD_DEFAULT(String, progress, u8"学习进度");
-	API_DTO_FIELD_DEFAULT(String, remainingLessons, u8"剩余课次");
-	API_DTO_FIELD_DEFAULT(String, expireTime, u8"到期时间");
+	API_DTO_FIELD_DEFAULT(String, courseName, ZH_WORDS_GETTER("cus.course.field.courseName"));
+	API_DTO_FIELD_DEFAULT(Int64, totalLessons, ZH_WORDS_GETTER("cus.course.field.totalLessons"));
+	API_DTO_FIELD_DEFAULT(Int64, finishedLessons, ZH_WORDS_GETTER("cus.course.field.finishedLessons"));
+	API_DTO_FIELD_DEFAULT(Int64, remainingLessons, ZH_WORDS_GETTER("cus.course.field.remainingLessons"));
+	API_DTO_FIELD_DEFAULT(String, progress, ZH_WORDS_GETTER("cus.course.field.progress"));
+	API_DTO_FIELD_DEFAULT(String, expireTime, ZH_WORDS_GETTER("cus.course.field.expireTime"));
 };
 
 // 分页 DTO（自动适配列表）

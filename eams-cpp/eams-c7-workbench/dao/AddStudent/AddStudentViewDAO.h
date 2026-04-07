@@ -3,7 +3,7 @@
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2022/10/25 11:34:14
+ @Date: 2025/07/12 21:01:07
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,21 +17,21 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#ifndef _ADDSTUDENTVO_H_
-#define _ADDSTUDENTVO_H_
+#ifndef _ADDSTUDENTVIEWDAO_H_
+#define _ADDSTUDENTVIEWDAO_H_
+#include "BaseDAO.h"
+#include "domain/do/AddStudent/AddStudentViewDO.h"
 
-#include "domain/GlobalInclude.h"
-#include "domain/dto/AddStudent/AddStudentDTO.h"
-#include OATPP_CODEGEN_BEGIN(DTO)
-
-
-class AddStudentVO
+/**
+ * 文件数据操作类
+ */
+class AddStudentViewDAO : public BaseDAO
 {
+public:
+	// 根据phone查询user_id
+	uint64_t getUserIdByPhone(string phone);
 
 };
 
-
-
-#include OATPP_CODEGEN_END(DTO)
-
-#endif // !_SAMPLE_VO_
+#endif // !#define _ADDSTUDENTVIEWDAO_H_
+#pragma once

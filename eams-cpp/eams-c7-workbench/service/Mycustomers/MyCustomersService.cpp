@@ -54,10 +54,12 @@ MyCustomerDetailDTO::Wrapper MyCustomersService::getStudentDetail(uint64_t stude
     // DO → DTO 转换
     dto->MyCustomersName = data->getName();
     dto->phoneNumber = data->getMobile();
-    dto->sex = (data->getGender() == 1);  // 假设1为男
+    dto->sex = (data->getGender() == 1) ? ZH_WORDS_GETTER("cus.field.sex.male")
+        : ZH_WORDS_GETTER("cus.field.sex.female");  // 假设1为男
     dto->age = data->getAge();
     dto->birth = data->getBirthday();
-    dto->type = (data->getStage() == 1 ? "正式" : "试用");
+    dto->type = (data->getStage() == 1 ? ZH_WORDS_GETTER("cus.field.type.formal")
+        : ZH_WORDS_GETTER("cus.field.type.trial"));
     dto->notes = data->getRemark();
 
     return dto;
@@ -85,8 +87,9 @@ StudentCoursesPageDTO::Wrapper MyCustomersService::listStudentCourses(const Stud
     for (StudentCourseDO& sub : result) {
         auto dto = StudentCourseDTO::createShared();
         dto->courseName = sub.getCourseName();
-        dto->progress = to_string(sub.getCountLessonComplete()) + "/" + to_string(sub.getCountLessonTotal());
-        dto->remainingLessons = to_string(sub.getCountLessonTotal() - sub.getCountLessonComplete());
+        dto->totalLessons = sub.getCountLessonTotal();    // 总次数（int）
+        dto->finishedLessons = sub.getCountLessonComplete(); // 已学次数（int）
+        dto->remainingLessons = sub.getCountLessonTotal() - sub.getCountLessonComplete();
         dto->expireTime = sub.getExpireDate();
         pages->addData(dto);
     }

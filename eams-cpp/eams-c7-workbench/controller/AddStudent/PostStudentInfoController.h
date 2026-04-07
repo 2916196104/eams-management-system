@@ -30,31 +30,32 @@
 
 #include OATPP_CODEGEN_BEGIN(ApiController) //<- Begin Codegen
 
+#define API_TAG ZH_WORDS_GETTER("translation.tags.t1")
+#define API_TAG2 ZH_WORDS_GETTER("translation.tags.t2")
+
 class PostStudentInfoController : public oatpp::web::server::api::ApiController
 {
 	//定义控制器访问入口
 	API_ACCESS_DECLARE(PostStudentInfoController);
 public://定义接口
-    // 使用 Object<AddStudentDTO> 作为 BODY_DTO 类型
-	// 注意这里去掉了并不存在的 API_HANDLER_BODY_DTO，因为 oatpp 宏 BODY_DTO 已经完成绑定
-	ENDPOINT(API_M_POST, "/add_student/info", createStudent, BODY_DTO(Object<AddStudentDTO>, studentDto), API_HANDLER_AUTH_PARAME) {
-		API_HANDLER_RESP_VO(executeCreateStudent(studentDto));
-	}
-
-	ENDPOINT_INFO(createStudent) {
-		info->summary = ZH_WORDS_GETTER("translation.AddStudent");
-		info->addConsumes<Object<AddStudentDTO>>("application/json");
-		//支持授权
-		API_DEF_ADD_AUTH();
-		//定义响应参数格式
-		API_DEF_ADD_RSP_JSON(StringJsonVO::Wrapper);
-		//定义请求参数格式
-		API_DEF_ADD_PAGE_PARAMS();
-	}
+	//ENDPOINT_INFO(createStudent) {
+	//	info->summary = ZH_WORDS_GETTER("translation.AddStudent");
+	//	info->addConsumes<Object<AddStudentDTO>>("application/json");
+	//	//支持授权
+	//	API_DEF_ADD_AUTH();
+	//	//定义响应参数格式
+	//	API_DEF_ADD_RSP_JSON(StringJsonVO::Wrapper);
+	//	//定义请求参数格式
+	//	API_DEF_ADD_PAGE_PARAMS();
+	//}
+	// 3.1 定义新增接口描述
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("translation.post.summary"), createStudent, StringJsonVO::Wrapper, API_TAG);
+	// 3.2 定义新增接口处理
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/add_student/info", createStudent, BODY_DTO(AddStudentDTO::Wrapper, dto), execAddStudent(dto, authObject->getPayload()));
 
 private://定义执行函数
     // 使用 AddStudentDTO::Wrapper 作为入参和 Object<T> 完全一致
-	StringJsonVO::Wrapper executeCreateStudent(const AddStudentDTO::Wrapper& studentDto);
+	StringJsonVO::Wrapper execAddStudent(const AddStudentDTO::Wrapper& studentDto, const PayloadDTO& payload);
 };
 
 /**
@@ -81,7 +82,8 @@ private://定义执行函数
 *	"data": null
 * }
 */
-
+#undef API_TAG
+#undef API_TAG2
 #include OATPP_CODEGEN_END(ApiController) //<- End Codegen
 
 #endif // _POSTSTUDENTINFOCONTROLLER_

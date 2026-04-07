@@ -21,7 +21,9 @@
 #define _GETREGISTRECORDLISTCONTROLLER_
 
 #include "domain/vo/BaseJsonVO.h"
-#include "domain/query/PageQuery.h"
+#include "domain/query/RegistRecord/RegistRecordQuery.h"
+#include "domain/vo/RegistRecord/RegistRecordVO.h"
+#include "service/RegistRecord/RegistRecordService.h"
 #include "ApiHelper.h"
 #include "ServerInfo.h"
 #include "Macros.h"
@@ -33,26 +35,26 @@ class GetRegistRecordListController : public oatpp::web::server::api::ApiControl
 	API_ACCESS_DECLARE(GetRegistRecordListController);
 public://定义接口
 	ENDPOINT(API_M_GET, "/RegistRecordList", querydetails, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
-		API_HANDLER_QUERY_PARAM(query, PageQuery, params);
-		API_HANDLER_RESP_VO(executeQueryRegistRecordList(query));
+		API_HANDLER_QUERY_PARAM(query, RegistRecordQuery, params);
+		API_HANDLER_RESP_VO(execQueryRegistRecordList(query));
 	}
 
 	ENDPOINT_INFO(querydetails) {
 		info->summary = ZH_WORDS_GETTER("translation.RegistRecordList");
 		API_DEF_ADD_QUERY_PARAMS(String, "studentName", ZH_WORDS_GETTER("translation.studentName"), "", true);
-		API_DEF_ADD_QUERY_PARAMS(String, "courseName", ZH_WORDS_GETTER("translation.courseName"), "", true);
-		API_DEF_ADD_QUERY_PARAMS(String, "paidAmount", ZH_WORDS_GETTER("translation.paidAmount"), "", true);
-		API_DEF_ADD_QUERY_PARAMS(String, "startDate", ZH_WORDS_GETTER("translation.startDate"), "2026-01-01", true);
-		API_DEF_ADD_QUERY_PARAMS(String, "expireDate", ZH_WORDS_GETTER("translation.expireDate"), "2026-01-01", true);
+		API_DEF_ADD_QUERY_PARAMS(String, "courseName", ZH_WORDS_GETTER("translation.courseName"), "", false);
+		API_DEF_ADD_QUERY_PARAMS(Float64, "paidAmount", ZH_WORDS_GETTER("translation.paidAmount"), 0.0, false);
+		API_DEF_ADD_QUERY_PARAMS(String, "startDate", ZH_WORDS_GETTER("translation.startDate"), "2026-01-01", false);
+		API_DEF_ADD_QUERY_PARAMS(String, "expireDate", ZH_WORDS_GETTER("translation.expireDate"), "2026-01-01", false);
 		//支持授权
 		API_DEF_ADD_AUTH();
 		//定义响应参数格式
-		API_DEF_ADD_RSP_JSON(StringJsonVO::Wrapper);
+		API_DEF_ADD_RSP_JSON(RegistRecordPageJsonVO::Wrapper);
 		//定义请求参数格式
 		API_DEF_ADD_PAGE_PARAMS();
 	}
 private://定义执行函数
-	StringJsonVO::Wrapper executeQueryRegistRecordList(const PageQuery::Wrapper& query);
+	RegistRecordPageJsonVO::Wrapper execQueryRegistRecordList(const RegistRecordQuery::Wrapper& query);
 };
 
 

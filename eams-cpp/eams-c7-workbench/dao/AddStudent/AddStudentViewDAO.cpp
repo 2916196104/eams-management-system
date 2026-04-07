@@ -1,9 +1,8 @@
-#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
  @Author: awei
- @Date: 2022/10/25 11:34:14
+ @Date: 2025/07/15 15:54:59
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,21 +16,18 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-#ifndef _ADDSTUDENTVO_H_
-#define _ADDSTUDENTVO_H_
-
-#include "domain/GlobalInclude.h"
-#include "domain/dto/AddStudent/AddStudentDTO.h"
-#include OATPP_CODEGEN_BEGIN(DTO)
-
-
-class AddStudentVO
+#include "stdafx.h"
+#include "dao/AddStudent/AddStudentViewDAO.h"
+#include "dao/AddStudent/AddStudentViewMapper.h"
+#include "SqlHelper.h"
+uint64_t AddStudentViewDAO::getUserIdByPhone(string phone)
 {
+	if (phone.empty()) return 0;
 
-};
+    // ÍÆ¼öÐ´·¨£¨·ÀÖ¹×¢ÈëÇÒÂß¼­ÇåÎú£©£º
+    string sql = "select id from user where mobile = ? LIMIT 1;";
+    uint64_t userId = sqlSession->executeQueryNumerical(sql, "s", phone);
 
+	return userId;
+}
 
-
-#include OATPP_CODEGEN_END(DTO)
-
-#endif // !_SAMPLE_VO_

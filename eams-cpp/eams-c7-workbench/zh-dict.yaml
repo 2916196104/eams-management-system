@@ -80,11 +80,24 @@ cus:
   field:
     name: 学员名称
     phoneNumber: 学员电话
-    sex: 性别
+    sex:
+      male: 男      
+      female: 女   
     age: 年龄
-    brith: 生日
-    type: 类型
+    birth: 生日
+    type: 
+      formal: 正式   
+      trial: 试用 
+
     notes: 备注
+  course:
+    field:
+      courseName: 课程名称
+      totalLessons: 总次数
+      finishedLessons: 已学次数
+      remainingLessons: 剩余次数
+      progress: 学习进度
+      expireTime: 到期时间
 
 sign:
  tag: 点名记录
@@ -298,25 +311,51 @@ StudentRecord:
    course_balance: 剩余
 
 translation:
- summary: 测试接口
- resp: 操作成功
- RegistRecordList: 获取报名记录（分页）
- RegistRecordDetails: 获取报名记录详情
- AddStudent: 添加意向学员
- studentName: 学生姓名
- courseName: 课程名称
- courseFee: 课程金额
- paidAmount: 实付金额
- startDate: 开始时间
- expireDate: 过期日期
- countLessonTotal: 总购买课次
- doneLesson: 已完成课次
- amount: 优惠金额
- subjectName: 课程科目
- debt: 欠款金额
- addTime: 提交时间
- tag: 备注
- refund: 退款信息
+    summary: 测试接口
+    resp: 操作成功
+    RegistRecordList: 获取报名记录（分页）
+    RegistRecordDetails: 获取报名记录详情
+    AddStudent: 添加意向学员
+    studentName: 学生姓名
+    courseName: 课程名称
+    courseFee: 课程金额
+    paidAmount: 实付金额
+    startDate: 开始时间
+    expireDate: 过期日期
+    countLessonTotal: 总购买课次
+    remainingCount: 剩余课次
+    countLessonComplete: 已完成课次
+    amount: 成交金额
+    courseAmount: 套餐金额
+    discountAmount: 优惠金额
+    refundAmount: 退款金额
+    refundLessonCount: 退费课时
+    subjectName: 课程科目
+    debt: 欠款金额
+    addTime: 提交时间
+    remark: 备注
+    refund: 退款信息
+    username: 家长姓名
+    kinship: 亲属关系
+    admitTime: 入学时间
+    grade: 年级
+    schoolId: 校区
+    sourse: 来源
+    payOff: 是否付清
+    id: 标识
+
+    post:
+        summary: 添加意向学员
+    tags:
+        t1: 基础示例接口
+        t2: 声明式服务示例接口
+    field:
+        name: 姓名
+        phonenumber: 电话号码
+        stage: 阶段状态
+        gender: 性别
+        birthday: 生日
+        idcard: 身份证号
 
 homeworklist:
  dto:
