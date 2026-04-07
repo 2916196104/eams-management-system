@@ -200,7 +200,7 @@ function getSnowflakeStyle() {
 .login-container {
 	width: 100%;
 	height: 100vh;
-	background: #48a8f6;
+	background: #0d7dd8;
 	display: flex;
 	align-items: center;
 	justify-content: center;
