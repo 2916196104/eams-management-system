@@ -3,10 +3,8 @@ package com.zeroone.star.j5.courseschedule.service;
 import com.baomidou.mybatisplus.extension.service.*;
 import com.zeroone.star.j5.courseschedule.entity.LessonStudent;
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.dto.j5.courseschedule.LessonChangeStateDTO;
-import com.zeroone.star.project.dto.j5.courseschedule.LessonCountLogQueryDTO;
-import com.zeroone.star.project.dto.j5.courseschedule.LessonParamDTO;
-import com.zeroone.star.project.dto.j5.courseschedule.LessonSignSaveDTO;
+import com.zeroone.star.project.dto.j5.courseschedule.*;
+import io.swagger.models.auth.In;
 
 import java.util.List;
 
@@ -19,7 +17,7 @@ import java.util.List;
  * @author 冷月葬花魂
  * @version 1.0.0
  */
-public interface ICourseStudentService extends IService<LessonStudent> {
+public interface CourseStudentService extends IService<LessonStudent> {
 
     /**
      * Query lesson list with pagination.
@@ -51,4 +49,10 @@ public interface ICourseStudentService extends IService<LessonStudent> {
      * Query lesson count logs.
      */
     PageDTO<?> queryLessonCountLog(LessonCountLogQueryDTO queryDTO);
+
+    Boolean updateCourses(BatchUpdateCourseDTO batchUpdateCourseDTO);
+    
+    Boolean updateCourse(UpdateCourseDTO updateCourseDTO);
+
+    Boolean deleteCourses(List<Long> ids);
 }
