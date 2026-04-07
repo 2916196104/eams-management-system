@@ -103,16 +103,18 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
         UserDTO dto = getCurrentUserDTO();
         return dto != null ? dto.getOrgId() : 1L; // 兜底1L，绝对不空
     }
+/**
+分页查询
 
+ **/
     @Override
     public JsonVO<PageDTO<StaffVO>> queryPage(StaffQuery condition) {
         Long orgId = getSafeOrgId();
 
-        long pageNo = condition.getPageIndex();
-        long pageSize = condition.getPageSize();
-        PageHelper.startPage((int) pageNo, (int) pageSize);
+        // 1. 构建 MP 分页对象
+        Page<Staff> page = new Page<>(condition.getPageIndex(), condition.getPageSize());
 
-        // 无条件查询全部（只查未删除）
+        // 2. 构建条件
         LambdaQueryWrapper<Staff> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Staff::getDeleted, 0);
 
@@ -126,43 +128,39 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
         if (condition.getStatue() != null) {
             queryWrapper.eq(Staff::getState, condition.getStatue());
         }
+        staffMapper.selectPage(page, queryWrapper);
 
-        List<Staff> staffList = staffMapper.selectList(queryWrapper);
-        PageInfo<Staff> pageInfo = new PageInfo<>(staffList);
+        // 4. 转 VO
+        List<StaffVO> voList = page.getRecords().stream().map(staffDO -> {
+            StaffVO staffVO = new StaffVO();
+            try {
+                BeanUtils.copyProperties(staffDO, staffVO);
+            } catch (Exception e) {
+            }
 
-        List<StaffVO> voList = pageInfo.getList().stream()
-                .map(staffDO -> {
-                    StaffVO staffVO = new StaffVO();
-                    try {
-                        BeanUtils.copyProperties(staffDO, staffVO);
-                    } catch (Exception e) {
-                        // 复制失败跳过，避免整个接口挂掉
+            StaffOrginfo orgInfoDO = staffOrginfoMapper.selectOne(
+                    Wrappers.lambdaQuery(StaffOrginfo.class)
+                            .eq(StaffOrginfo::getStaffId, staffDO.getId())
+                            .eq(StaffOrginfo::getDeleted, 0)
+            );
+
+            if (orgInfoDO != null) {
+                staffVO.setOrgId(orgId);
+                if (orgInfoDO.getPositionId() != null) {
+                    StaffPosition positionDO = staffPositionMapper.selectById(orgInfoDO.getPositionId());
+                    if (positionDO != null) {
+                        staffVO.setPositionName(positionDO.getName());
                     }
-                    StaffOrginfo orgInfoDO = staffOrginfoMapper.selectOne(
-                            Wrappers.lambdaQuery(StaffOrginfo.class)
-                                    .eq(StaffOrginfo::getStaffId, staffDO.getId())
-                                    .eq(StaffOrginfo::getDeleted, 0)
-                    );
+                }
+            }
+            return staffVO;
+        }).collect(Collectors.toList());
 
-                    if (orgInfoDO != null) {
-                        // 只赋值非空字段，绝对不抛异常
-                        staffVO.setOrgId(orgId);
-                        if (orgInfoDO.getPositionId() != null) {
-                            StaffPosition positionDO = staffPositionMapper.selectById(orgInfoDO.getPositionId());
-                            if (positionDO != null) {
-                                staffVO.setPositionName(positionDO.getName());
-                            }
-                        }
-                    }
-
-                    return staffVO;
-                })
-                .collect(Collectors.toList());
-
+        // 5. 封装返回
         PageDTO<StaffVO> pageDTO = PageDTO.create(new Page<StaffVO>()
-                .setCurrent(pageNo)
-                .setSize(pageSize)
-                .setTotal(pageInfo.getTotal())
+                .setCurrent(page.getCurrent())
+                .setSize(page.getSize())
+                .setTotal(page.getTotal())
                 .setRecords(voList)
         );
 
