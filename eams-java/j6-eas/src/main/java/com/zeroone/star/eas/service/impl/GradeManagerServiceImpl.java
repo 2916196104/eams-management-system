@@ -179,13 +179,13 @@ public class GradeManagerServiceImpl extends ServiceImpl<ClassGradeMapper, Class
         // 查询需要升级的年级
         List<ClassGrade> gradeList = this.listByIds(ids);
         for (ClassGrade grade : gradeList) {
-            // 年级升级：入学年份减1
-            grade.setYear(grade.getYear() - 1);
-            // 更新年级名称：例如"2024级"变为"2023级"
+            // 年级升级：入学年份加1
+            grade.setYear(grade.getYear() + 1);
+            // 更新年级名称：例如"2024级"变为"2025级"
             String name = grade.getName();
             if (name != null && name.matches("\\d{4}级")) {
                 int year = Integer.parseInt(name.substring(0, 4));
-                grade.setName((year - 1) + "级");
+                grade.setName((year + 1) + "级");
             }
             grade.setEditTime(LocalDateTime.now());
         }

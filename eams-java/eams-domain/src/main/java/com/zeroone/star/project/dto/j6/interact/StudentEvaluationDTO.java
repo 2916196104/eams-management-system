@@ -1,10 +1,12 @@
 package com.zeroone.star.project.dto.j6.interact;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -36,6 +38,8 @@ public class StudentEvaluationDTO implements Serializable {
     @ApiModelProperty(value = "点评老师", example = "张老师")
     private String evaluateTeacherName;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @ApiModelProperty(value = "点评时间", example = "2024-06-01 12:00")
     private LocalDateTime evaluateTime;
 }

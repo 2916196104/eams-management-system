@@ -1,8 +1,10 @@
 package com.zeroone.star.project.dto.j6.interact;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -28,6 +30,9 @@ public class HomeworkListDto {
 
     @ApiModelProperty(value = "提交数",example = "0")
     private Integer submit_data;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @ApiModelProperty(value = "发布时间",example = "2022.1.1")
     private LocalDateTime add_time;
 }

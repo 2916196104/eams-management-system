@@ -1,8 +1,10 @@
 package com.zeroone.star.project.dto.j6.interact;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -42,6 +44,8 @@ public class AnnouncementDTO {
     @ApiModelProperty(value = "发布者姓名", example = "管理员")
     private String creatorName;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @ApiModelProperty(value = "发布时间", example = "2026-03-17 10:00:00")
     private LocalDateTime createTime;
 
