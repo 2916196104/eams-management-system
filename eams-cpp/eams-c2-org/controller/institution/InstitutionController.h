@@ -44,7 +44,7 @@ private:
         API_DEF_ADD_RSP_JSON_WRAPPER(StringJsonVO);
         API_DEF_ADD_TAG(API_TAG);
         API_DEF_ADD_PAGE_PARAMS();
-        API_DEF_ADD_QUERY_PARAMS(Int64, "pid", ZH_WORDS_GETTER("institution.field.pid"), 0LL, false);
+        //API_DEF_ADD_QUERY_PARAMS(UInt64, "pid", ZH_WORDS_GETTER("institution.field.pid"), 0LL, false);
         API_DEF_ADD_QUERY_PARAMS(Int32, "type", ZH_WORDS_GETTER("institution.field.type"), 0, false);
         API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("institution.field.name"), "", false);
     }

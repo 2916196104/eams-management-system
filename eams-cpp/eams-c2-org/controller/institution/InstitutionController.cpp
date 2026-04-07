@@ -32,6 +32,7 @@ StringJsonVO::Wrapper InstitutionController::execSaveInstitution(const Instituti
   else {
     jvo->fail("save failed: internal error");
   }
+  return jvo;
 }
 
 StringJsonVO::Wrapper InstitutionController::execQueryInstitutionList()

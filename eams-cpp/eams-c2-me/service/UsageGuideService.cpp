@@ -4,7 +4,7 @@
 #include "domain/do/manualDO.h"
 
 //查询数据库，将所有列表信息封装为dto返回
-UsageListDTO::Wrapper UsageGuideService:: UsageGuideService::listAll(const ListQuery::Wrapper& query)
+UsageListDTO::Wrapper UsageGuideService::listAll(const ListQuery::Wrapper& query)
 {
 	// 【步骤1】创建返回对象
 	auto pages = UsageListDTO::createShared();
@@ -46,7 +46,7 @@ UsageListDTO::Wrapper UsageGuideService:: UsageGuideService::listAll(const ListQ
 }
 
 //查询数据库，将某一详细信息封装为dto返回
-UsageGuideDetailDto::Wrapper UsageGuideService::UsageGuideService::getById(std::string id)
+UsageGuideDetailDto::Wrapper UsageGuideService::getById(std::string id)
 {
 	// 【步骤1】调用DAO查询
 	manualDAO dao;

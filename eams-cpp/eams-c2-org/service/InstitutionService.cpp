@@ -53,40 +53,42 @@ oatpp::List<oatpp::Object<InstitutionDTO>> InstitutionService::getTree() {
 }
 
 oatpp::String InstitutionService::saveInstitution(const oatpp::Object<InstitutionDTO>& dto, const oatpp::String& username) {
-    InstitutionDO data;
+    //InstitutionDO data;
 
-    // 判断是新增还是修改
-    if (!dto->id || dto->id == 0) {
-        // 新增：生成新 ID
-        UuidFacade uf;
-        data.setId(std::stoull(uf.genUuid()));
-    } else {
-        // 修改：使用传入的 ID
-        data.setId(dto->id);
-    }
+    //// 判断是新增还是修改
+    //if (!dto->id || dto->id == 0) {
+    //    // 新增：生成新 ID
+    //    UuidFacade uf;
+    //    data.setId(std::stoull(uf.genUuid()));
+    //} else {
+    //    // 修改：使用传入的 ID
+    //    data.setId(dto->id);
+    //}
 
-    data.setName(dto->name.getValue(""));
-    data.setPid(dto->parentId ? dto->parentId.getValue(0) : 0);
+    //data.setName(dto->name.getValue(""));
+    //data.setPid(dto->parentId ? dto->parentId.getValue(0) : 0);
 
-    data.setLevel(dto->level ? dto->level.getValue(0) : 0);
-    data.setShortname(dto->shortname.getValue(""));
-    data.setContactName(dto->contactName.getValue(""));
-    data.setPhone(dto->phone.getValue(""));
-    data.setFax(dto->fax.getValue(""));
-    data.setEmail(dto->email.getValue(""));
-    data.setSortNum(dto->sortNum ? dto->sortNum.getValue(0) : 0);
-    data.setState(dto->state ? dto->state.getValue(0) : 0);
-    data.setInfo(dto->info.getValue(""));
+    //data.setLevel(dto->level ? dto->level.getValue(0) : 0);
+    //data.setShortname(dto->shortname.getValue(""));
+    //data.setContactName(dto->contactName.getValue(""));
+    //data.setPhone(dto->phone.getValue(""));
+    //data.setFax(dto->fax.getValue(""));
+    //data.setEmail(dto->email.getValue(""));
+    //data.setSortNum(dto->sortNum ? dto->sortNum.getValue(0) : 0);
+    //data.setState(dto->state ? dto->state.getValue(0) : 0);
+    //data.setInfo(dto->info.getValue(""));
 
-    InstitutionDAO dao;
-    int rows;
-    if (!dto->id || dto->id == 0) {
-        // 新增：执行插入
-        rows = dao.insert(data);
-    } else {
-        // 修改：执行更新
-        rows = dao.update(data); // 需要在 DAO 中实现 update 方法
-    }
+    //InstitutionDAO dao;
+    //int rows;
+    //if (!dto->id || dto->id == 0) {
+    //    // 新增：执行插入
+    //    rows = dao.insert(data);
+    //} else {
+    //    // 修改：执行更新
+    //    rows = dao.update(data); // 需要在 DAO 中实现 update 方法
+    //}
 
-    return rows == 1 ? "保存成功" : "";
+    //return rows == 1 ? "保存成功" : "";
+
+    return "";
 }

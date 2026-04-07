@@ -1,11 +1,11 @@
 #include "PositionService.h"
-#include "Macros.h"
-#include "NacosClient.h"
 #include "dao/position/PositionDAO.h"
 
-#include "RedisClient.h"
 #include "oatpp/parser/json/mapping/ObjectMapper.hpp"
 #include "sw/redis++/redis.h"
+#include "Macros.h"
+#include "NacosClient.h"
+#include "RedisClient.h"
 
 #include <cstdint>
 #include <string>
@@ -22,16 +22,16 @@ oatpp::Vector<PositionItemDTO::Wrapper> PositionService::fetchAllPosition() {
   // RedisClient redisClient("192.168.1.100", 6379, "redis123");
 
   auto cached = redis.execute<sw::redis::OptionalString>(
-      [&](sw::redis::Redis *r) { return r->get(kCacheKey); });
+	  [&](sw::redis::Redis *r) { return r->get(kCacheKey); });
 
   if (cached) {
-    try {
-      return mapper->readFromString<oatpp::Vector<PositionItemDTO::Wrapper>>(
-          oatpp::String(cached.value().c_str()));
-    } catch (...) {
-      redis.execute<long long>(
-          [&](sw::redis::Redis *r) { return r->del(kCacheKey); }); // 删除坏key
-    }
+	try {
+	  return mapper->readFromString<oatpp::Vector<PositionItemDTO::Wrapper>>(
+		  oatpp::String(cached.value().c_str()));
+	} catch (...) {
+	  redis.execute<long long>(
+		  [&](sw::redis::Redis *r) { return r->del(kCacheKey); }); // 删除坏key
+	}
   }
 
   PositionDAO dao;
@@ -39,21 +39,21 @@ oatpp::Vector<PositionItemDTO::Wrapper> PositionService::fetchAllPosition() {
   auto doList = dao.fetchAll();
 
   for (const auto &item : doList) {
-    auto dto = PositionItemDTO::createShared();
-    dto->id = item.getId();
-    dto->name = item.getname().c_str();
-    rDTO->push_back(dto);
+	auto dto = PositionItemDTO::createShared();
+	dto->id = item.getId();
+	dto->name = item.getname().c_str();
+	rDTO->push_back(dto);
   }
 
   const long long ttlSeconds =
-      (rDTO->empty() ? kEmptyCacheTtlSeconds : kCacheTtlSeconds);
+	  (rDTO->empty() ? kEmptyCacheTtlSeconds : kCacheTtlSeconds);
 
   auto json = mapper->writeToString(rDTO);
   if (json) {
-    redis.execute<int>([&](sw::redis::Redis *r) {
-      r->setex(kCacheKey, ttlSeconds, json.getValue(""));
-      return 1;
-    });
+	redis.execute<int>([&](sw::redis::Redis *r) {
+	  r->setex(kCacheKey, ttlSeconds, json.getValue(""));
+	  return 1;
+	});
   }
 
   return rDTO;
@@ -61,8 +61,8 @@ oatpp::Vector<PositionItemDTO::Wrapper> PositionService::fetchAllPosition() {
 
 PositionService::PageQueryResult
 PositionService::pageQueryPosition(const oatpp::Int32 &pageNum,
-                                   const oatpp::Int32 &pageSize,
-                                   const oatpp::String &keyWord) {
+								   const oatpp::Int32 &pageSize,
+								   const oatpp::String &keyWord) {
 
   PageQueryResult result;
   result.data = oatpp::Vector<PositionItemDTO::Wrapper>::createShared();
@@ -79,17 +79,17 @@ PositionService::pageQueryPosition(const oatpp::Int32 &pageNum,
   // TODO: total也许可以用redis缓存
   result.total = static_cast<int32_t>(total);
   result.totalPages =
-      static_cast<int32_t>((total + limit - 1) / static_cast<uint64_t>(limit));
+	  static_cast<int32_t>((total + limit - 1) / static_cast<uint64_t>(limit));
   if (total == 0) {
-    // 数据库返回错误或者无数据无需查询
-    return result;
+	// 数据库返回错误或者无数据无需查询
+	return result;
   }
   auto doList = dao.selectPageByNameLike(page, limit, keyword);
   for (const auto &item : doList) {
-    auto dto = PositionItemDTO::createShared();
-    dto->id = item.getId();
-    dto->name = item.getname().c_str();
-    result.data->push_back(dto);
+	auto dto = PositionItemDTO::createShared();
+	dto->id = item.getId();
+	dto->name = item.getname().c_str();
+	result.data->push_back(dto);
   }
 
   return result;
@@ -102,8 +102,8 @@ PositionService::savePosition(const PositionSaveRequestDTO::Wrapper &dto) {
   auto name = dto->name;
 
   if (!dto->id) {
-    const uint64_t id = dao.insertPosition(name);
-    return id > 0 ? static_cast<int64_t>(id) : -1;
+	const uint64_t id = dao.insertPosition(name);
+	return id > 0 ? static_cast<int64_t>(id) : -1;
   }
 
   const int rows = dao.updatePositionNameById(dto->id, name);
@@ -111,7 +111,7 @@ PositionService::savePosition(const PositionSaveRequestDTO::Wrapper &dto) {
 }
 
 bool PositionService::deletePositions(const std::vector<int64_t>& ids) {
-    if (ids.empty()) return false;
-    PositionDAO dao;
-    return dao.deleteByIds(ids);
+	if (ids.empty()) return false;
+	PositionDAO dao;
+	return dao.deleteByIds(ids);
 }

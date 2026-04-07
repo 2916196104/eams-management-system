@@ -1,3 +1,4 @@
+#pragma once
 #ifndef _POSITIONDAO_H_
 #define _POSITIONDAO_H_
 

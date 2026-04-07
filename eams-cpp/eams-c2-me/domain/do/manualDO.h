@@ -9,11 +9,11 @@ class ManualDO : public BaseDO {
 	MYSQL_SYNTHESIZE(std::string, _title, Title);
 	MYSQL_SYNTHESIZE(std::string, _content, Content);
 	MYSQL_SYNTHESIZE(std::string, _type, Type);
-	MYSQL_SYNTHESIZE(__int64, _creator, Creator);
+	MYSQL_SYNTHESIZE(int64_t, _creator, Creator);
 	MYSQL_SYNTHESIZE(std::string, _addTime, AddTime);
 	MYSQL_SYNTHESIZE(bool, _deleted, Deleted);
 	MYSQL_SYNTHESIZE(std::string, _editTime, EditTime);
-	MYSQL_SYNTHESIZE(__int64, _editor, Editor);
+	MYSQL_SYNTHESIZE(int64_t, _editor, Editor);
 	MYSQL_SYNTHESIZE(bool, _state, State);
 	MYSQL_SYNTHESIZE(int, _sortNum, SortNum);
 public:
