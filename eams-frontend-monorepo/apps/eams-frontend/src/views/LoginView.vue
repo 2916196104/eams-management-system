@@ -232,19 +232,24 @@ function getSnowflakeStyle() {
 /* 雪花飘落动画 */
 @keyframes snowfall {
 	0% {
-		transform: translateY(0) translateX(0);
+		transform: translateY(-10px) translateX(0);
 		opacity: 0;
 	}
-	10% {
-		opacity: 1;
+	15% {
+		opacity: 0.8;
 	}
-	90% {
-		opacity: 1;
+	85% {
+		opacity: 0.8;
 	}
 	100% {
-		transform: translateY(100vh) translateX(20px);
+		transform: translateY(100vh) translateX(30px);
 		opacity: 0;
 	}
+}
+
+/* 优化雪花渲染性能 */
+.snowflake {
+	will-change: transform, opacity;
 }
 
 .login-wrapper {
