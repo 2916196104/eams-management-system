@@ -2,15 +2,12 @@ package com.zeroone.star.j5.courseschedule.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.*;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zeroone.star.j5.courseschedule.entity.Lesson;
-import com.zeroone.star.project.DO.j5.courseschedule.LessonDo;
 import com.zeroone.star.project.dto.j5.courseschedule.LessonParamDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-
-import java.util.List;
 
 /**
  * <p>
@@ -22,7 +19,7 @@ import java.util.List;
  * @version 1.0.0
  */
 @Mapper
-public interface LessonMapper extends BaseMapper<LessonDo> {
+public interface LessonMapper extends BaseMapper<Lesson> {
 
     /**
      * 条件+分页列表查询
@@ -49,6 +46,4 @@ public interface LessonMapper extends BaseMapper<LessonDo> {
             "ORDER BY l.date DESC, l.start_time DESC" +
             "</script>")
     IPage<Lesson> selectLessonPage(Page<Lesson> page, @Param("param") LessonParamDTO param);
-
-
 }

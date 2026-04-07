@@ -9,7 +9,6 @@ import com.zeroone.star.j5.courseschedule.mapper.LessonMapper;
 import com.zeroone.star.j5.courseschedule.mapper.LessonStudentMapper;
 import com.zeroone.star.j5.courseschedule.mapper.LessonTeacherMapper;
 import com.zeroone.star.j5.courseschedule.service.CourseStudentService;
-import com.zeroone.star.project.DO.j5.courseschedule.LessonDo;
 import com.zeroone.star.project.DO.j5.courseschedule.LessonTeacherDo;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j5.courseschedule.*;
@@ -79,13 +78,13 @@ public class CourseStudentServiceImpl extends ServiceImpl<LessonStudentMapper, L
     @Override
     @Transactional
     public Boolean updateCourse(UpdateCourseDTO dto) {
-        LessonDo lesson = lessonMapper.selectById(dto.getId());
+        Lesson lesson = lessonMapper.selectById(dto.getId());
         if (lesson == null) {
             throw new RuntimeException("课次不存在");
         }
         //  更新 lesson
         if (!isAllNull(dto)) {
-            LessonDo updateDo = new LessonDo();
+            Lesson updateDo = new Lesson();
             BeanUtils.copyProperties(dto, updateDo);
             lessonMapper.updateById(updateDo);
         }
@@ -141,33 +140,33 @@ public class CourseStudentServiceImpl extends ServiceImpl<LessonStudentMapper, L
     @Transactional
     public Boolean updateCourses(BatchUpdateCourseDTO dto) {
 
-        List<LessonDo> lessons = lessonMapper.selectBatchIds(dto.getUpdateIds());
+        List<Lesson> lessons = lessonMapper.selectBatchIds(dto.getUpdateIds());
         if (lessons == null || lessons.isEmpty()) {
             throw new RuntimeException("课次不存在");
         }
-        // 获取 lessonDo 下的 status，判断是否为 1，有一个不是 1 就返回 0
-        for (LessonDo lesson : lessons) {
+        // 获取 lesson 下的 status，判断是否为 1，有一个不是 1 就返回 0
+        for (Lesson lesson : lessons) {
             if (lesson.getState() != 1) {
                 log.error("课次状态异常，只能选中进行中的课程");
                 return false;
             }
         }
         //更新部分数据
-        LambdaUpdateWrapper<LessonDo> updateWrapper = new LambdaUpdateWrapper<>();
+        LambdaUpdateWrapper<Lesson> updateWrapper = new LambdaUpdateWrapper<>();
         if (dto.getStartTime() != null) {
-            updateWrapper.set(LessonDo::getStartTime, dto.getStartTime());
+            updateWrapper.set(Lesson::getStartTime, dto.getStartTime());
         }
         if (dto.getEndTime() != null) {
-            updateWrapper.set(LessonDo::getEndTime, dto.getEndTime());
+            updateWrapper.set(Lesson::getEndTime, dto.getEndTime());
         }
         if (dto.getRoomId() != null) {
-            updateWrapper.set(LessonDo::getRoomId, dto.getRoomId());
+            updateWrapper.set(Lesson::getRoomId, dto.getRoomId());
         }
         // 特殊处理：DATE_ADD 函数（MP 支持直接拼 SQL 片段）
         if (dto.getChangeDays() != null) {
             updateWrapper.setSql("date = DATE_ADD(date, INTERVAL " + dto.getChangeDays() + " DAY)");
         }
-        updateWrapper.in(LessonDo::getId, dto.getUpdateIds());
+        updateWrapper.in(Lesson::getId, dto.getUpdateIds());
         lessonMapper.update(null, updateWrapper);
 
         if (dto.getTeacherIds() != null || dto.getAssistantIds() != null) {

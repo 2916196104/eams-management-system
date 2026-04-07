@@ -35,6 +35,7 @@ public class LessonCalendarVO {
     @ApiModelProperty("教室名称")
     private String classroomName;   // 教室名称
 
+
     @ApiModelProperty("课程状态")
     private String courseStatus;     // 课程状态
 

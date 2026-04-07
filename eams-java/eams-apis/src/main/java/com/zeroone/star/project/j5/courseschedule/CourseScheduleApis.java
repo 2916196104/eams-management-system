@@ -4,21 +4,19 @@ import com.zeroone.star.project.dto.j5.courseschedule.*;
 import com.zeroone.star.project.query.j5.courseschedule.*;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.vo.j5.courseschedule.CourseDetailVO;
-import com.zeroone.star.project.vo.j5.courseschedule.CourseListVO;
-import com.zeroone.star.project.vo.j5.courseschedule.EvaluationVO;
-import com.zeroone.star.project.vo.j5.courseschedule.LessonCalendarVO;
+import com.zeroone.star.project.vo.j5.courseschedule.*;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 import java.util.List;
 import java.util.Map;
 
 public interface CourseScheduleApis {
-    JsonVO<List<LessonCalendarVO>> queryCalendar(CourseQuery condition);
+    JsonVO<List<LessonCalendarVO>> queryCalendar(LessonQueryDTO query);
 
-    JsonVO<PageDTO<CourseListVO>> queryCourseList(CourseListQuery courseListQuery);
+    JsonVO<PageDTO<LessonListVO>> queryCourseList(LessonQueryDTO query);
 
-    JsonVO<CourseDetailVO> queryCourseDetail(Long id);
+    JsonVO<LessonDetailVO> queryCourseDetail(@PathVariable Long id);
 
     //重复排课
     JsonVO<String> repeatSchedule(CourseScheduleDTO courseScheduleDTO);
