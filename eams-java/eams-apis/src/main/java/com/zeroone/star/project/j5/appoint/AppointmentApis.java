@@ -1,19 +1,24 @@
 package com.zeroone.star.project.j5.appoint;
 
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.dto.j5.appoint.AppointmentDTO;
+import com.zeroone.star.project.dto.j5.appoint.AppointmentCalendarDTO;
 import com.zeroone.star.project.query.j5.appoint.AppointmentCalendarQuery;
 import com.zeroone.star.project.query.j5.appoint.AppointmentQuery;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.dto.j5.appoint.AppointmentCalendarDTO;
 import com.zeroone.star.project.vo.j5.appoint.AppointmentDetailVO;
+import com.zeroone.star.project.vo.j5.appoint.AppointmentListVO;
 
 import java.util.List;
 
 /**
+ * <p>
+ * 预约接口声明
+ * </p>
+ *
+ * @author makise
+ * @since 2026/3/23
  */
 public interface AppointmentApis {
-
     /**
      * @return
      */
@@ -29,7 +34,7 @@ public interface AppointmentApis {
      * @param appointmentQuery
      * @return
      */
-    JsonVO<PageDTO<AppointmentDTO>> queryPage(AppointmentQuery appointmentQuery);
+    JsonVO<PageDTO<AppointmentListVO>> queryPage(AppointmentQuery appointmentQuery);
 
 
     /**
@@ -53,6 +58,5 @@ public interface AppointmentApis {
      * @return
      */
     JsonVO<List<Long>> cancelAppointment(List<Long> ids);
-
 
 }

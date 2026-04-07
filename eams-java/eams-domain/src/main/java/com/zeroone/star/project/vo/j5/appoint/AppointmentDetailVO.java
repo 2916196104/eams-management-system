@@ -1,14 +1,19 @@
 package com.zeroone.star.project.vo.j5.appoint;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
 /**
+ * <p>
  * 预约课程详情信息弹窗 VO
+ * </p>
+ *
+ * @author makise
+ * @since 2026/3/23
  */
 @Data
-@ApiModel(value = "CourseDetailVO", description = "课程详情弹窗信息")
+@ApiModel(value = "AppointmentDetailVO", description = "课程详情弹窗信息")
 public class AppointmentDetailVO {
 
     @ApiModelProperty(value = "标题", example = "钢琴入门课")
@@ -62,4 +67,26 @@ public class AppointmentDetailVO {
 
     @ApiModelProperty(value = "状态(如：已结课)", example = "已结课")
     private String statusText;
+
+    // ---------------- 以下为后端处理数据所需的隐藏字段 ----------------
+
+    @JsonIgnore // 查出来但不返回给前端JSON
+    @ApiModelProperty(hidden = true)
+    private java.time.LocalDate rawDate;
+
+    @JsonIgnore
+    @ApiModelProperty(hidden = true)
+    private java.time.LocalTime rawStartTime;
+
+    @JsonIgnore
+    @ApiModelProperty(hidden = true)
+    private java.time.LocalTime rawEndTime;
+
+    @JsonIgnore
+    @ApiModelProperty(hidden = true)
+    private Integer rawCourseType; // 接收 course_type 的数字值
+
+    @JsonIgnore
+    @ApiModelProperty(hidden = true)
+    private Integer rawState; // 接收 lesson_state 的数字值
 }
