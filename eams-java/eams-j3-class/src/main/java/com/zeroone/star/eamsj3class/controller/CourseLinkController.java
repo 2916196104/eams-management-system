@@ -24,7 +24,7 @@ import java.util.List;
  * @since 2026-03-25
  */
 @RestController
-@RequestMapping("j3/cl")
+@RequestMapping("j3-course")
 @Api(tags = "关联课程")
 public class CourseLinkController implements CourseLinkApis {
     @Resource
@@ -37,7 +37,7 @@ public class CourseLinkController implements CourseLinkApis {
         PageDTO<CourseLinkDTO> page = service.listAll(condition);
         return JsonVO.success(page);
     }
-    @PostMapping
+    @PostMapping("/add-courselink")
     @ApiOperation("添加关联课程（支持多选）")
     @Override
     public JsonVO<Long> saveCourseLink(CourseLinkDTO courseLinkDTO) {

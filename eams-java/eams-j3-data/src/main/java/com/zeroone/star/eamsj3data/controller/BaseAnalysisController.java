@@ -22,7 +22,7 @@ import java.util.List;
  * @version 1.0.0
  */
 @RestController
-@RequestMapping("/j3/statis")
+@RequestMapping("/j3-statis")
 @Api(tags = "学员统计")
 public class BaseAnalysisController implements BaseAnalysisApis {
 

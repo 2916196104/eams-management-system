@@ -25,10 +25,6 @@
             <artifactId>eams-common</artifactId>
         </dependency>
         <!-- apis -->
-        <dependency>
-            <groupId>com.zeroone.star</groupId>
-            <artifactId>eams-apis</artifactId>
-        </dependency>
         <!-- nacos相关 -->
         <!-- alibaba nacos discovery -->
         <dependency>
@@ -152,7 +148,7 @@
                                 <namingStrategy>alias</namingStrategy>
                                 <!-- 端口映射 -->
                                 <ports>
-                                    <port>2000:20000</port>
+                                    <port>20008:20008</port>
                                 </ports>
                                 <!-- 数据卷 -->
                                 <volumes>

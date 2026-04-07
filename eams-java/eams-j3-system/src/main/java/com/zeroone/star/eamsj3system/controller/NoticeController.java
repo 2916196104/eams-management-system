@@ -20,7 +20,7 @@ import java.util.List;
  * @author 阿伟
  */
 @RestController
-@RequestMapping("/notice")
+@RequestMapping("/j3-system")
 @Api(tags = "内部公告")
 public class NoticeController {
 

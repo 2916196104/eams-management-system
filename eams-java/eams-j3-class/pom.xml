@@ -94,7 +94,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.homework.eamsj3class.EamsJ3ClassApplication</mainClass>
+                    <mainClass>com.zeroone.star.eamsj3class.EamsJ3ClassApplication</mainClass>
                 </configuration>
             </plugin>
             <plugin>
@@ -113,6 +113,7 @@
                             <!-- 指定Dockerfile所在目录 -->
                             <build>
                                 <contextDir>${project.basedir}</contextDir>
+
                             </build>
                             <!-- 别名用于容器命名 -->
                             <alias>${project.artifactId}</alias>
@@ -122,7 +123,7 @@
                                 <namingStrategy>alias</namingStrategy>
                                 <!-- 端口映射 -->
                                 <ports>
-                                    <port>2000:20000</port>
+                                    <port>20005:20005</port>
                                 </ports>
                                 <!-- 数据卷 -->
                                 <volumes>

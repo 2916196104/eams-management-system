@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2026-03-23
  */
 @RestController
-@RequestMapping("/j3/class/shop-order-item")
+@RequestMapping("/j3-course/shop-order-item")
 public class ShopOrderItemController {
 
 }

@@ -15,7 +15,7 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("j3/cs")
+@RequestMapping("j3-course")
 @Api(tags = "课程章节设置")
 public class CourseSectionController implements CourseSectionApis {
 

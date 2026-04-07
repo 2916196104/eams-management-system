@@ -6,6 +6,7 @@
         <groupId>com.zeroone.star</groupId>
         <artifactId>zero-one-cloud-build</artifactId>
         <version>1.0.0-SNAPSHOT</version>
+
         <relativePath/>
     </parent>
     <artifactId>eams-java</artifactId>

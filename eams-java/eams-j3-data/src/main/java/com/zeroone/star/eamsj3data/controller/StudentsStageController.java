@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("j3/static")
+@RequestMapping("j3-static")
 @Api(tags = "学员统计")
 public class StudentsStageController implements StudentsStagesApis {
     @Autowired

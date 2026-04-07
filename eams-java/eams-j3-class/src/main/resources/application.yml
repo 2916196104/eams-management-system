@@ -1,6 +1,6 @@
 server:
-  port: ${sp.course}
+  port: ${sp.j3-class}
 spring:
   application:
-    name: ${sn.course}
+    name: ${sn.j3-class}
 

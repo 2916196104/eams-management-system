@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("j3/statis")
+@RequestMapping("j3-statis")
 @Api(tags = "销售统计")
 public class SalesStatisticController implements SalesStatisticApi {
 

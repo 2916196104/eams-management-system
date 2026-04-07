@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 
 
 @RestController
-@RequestMapping("j3/statis")
+@RequestMapping("j3-statis")
 @Api(tags = "学评教，课时统计")
 public class TeachingStatsController implements TeachingStatsApis {
 

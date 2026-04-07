@@ -30,7 +30,8 @@ public class MaterialServiceImpl extends ServiceImpl<MaterialMapper, Material> i
             MaterialDTO dto = new MaterialDTO();
             dto.setMaterialName(material.getName());
             dto.setMaterialCode(material.getCategoryName());
-            dto.setMaterialBelong2(material.getSchoolId().toString());
+            // 检查schoolId是否为null
+            dto.setMaterialBelong2(material.getSchoolId() != null ? material.getSchoolId().toString() : "");
             dto.setMaterialnums(material.getStorage());
             dto.setMaterialstime(material.getEditTime() != null ? material.getEditTime().toString() : "");
             dto.setMaterialstatus(material.getState() != null && material.getState() == 1);
@@ -59,7 +60,12 @@ public class MaterialServiceImpl extends ServiceImpl<MaterialMapper, Material> i
         Material material = new Material();
         material.setName(materialDTO.getMaterialName());
         material.setCategoryName(materialDTO.getMaterialCode());
-        material.setSchoolId(Long.valueOf(materialDTO.getMaterialBelong2()));
+        // 检查materialBelong2是否为空
+        if (materialDTO.getMaterialBelong2() != null && !materialDTO.getMaterialBelong2().isEmpty()) {
+            material.setSchoolId(Long.valueOf(materialDTO.getMaterialBelong2()));
+        } else {
+            material.setSchoolId(1L); // 默认值
+        }
         material.setStorage(materialDTO.getMaterialnums());
         material.setState(materialDTO.isMaterialstatus() ? 1 : 0);
         material.setEditTime(new Date());

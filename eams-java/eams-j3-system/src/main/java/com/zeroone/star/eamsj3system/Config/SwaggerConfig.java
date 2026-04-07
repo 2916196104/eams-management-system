@@ -12,7 +12,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 public class SwaggerConfig {
     @Bean
     Docket SwaggerApi(){
-        return SwaggerCore.defaultDocketBuilder("通知设置模块","com.zeroone.star.eamsj3system.Controller","system");
+        return SwaggerCore.defaultDocketBuilder("通知设置模块","com.zeroone.star.eamsj3system.controller","system");
     }
 
 }

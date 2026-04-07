@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2026-03-23
  */
 @RestController
-@RequestMapping("/eamsj3class/subject")
+@RequestMapping("j3-course/eamsj3class/subject")
 public class SubjectController {
 
 }
