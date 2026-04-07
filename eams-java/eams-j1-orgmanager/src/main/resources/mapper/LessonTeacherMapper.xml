@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.project.j1.orgmanager.mapper.staff.LessonTeacherMapper">
+
+    <resultMap type="com.zeroone.star.project.DO.LessonTeacher" id="LessonTeacherMap">
+        <id property="id" column="id" />
+        <result property="lessonId" column="lesson_id" />
+        <result property="teacherId" column="teacher_id" />
+        <result property="commission" column="commission" />
+        <result property="typeNum" column="type_num" />
+    </resultMap>
+
+</mapper>

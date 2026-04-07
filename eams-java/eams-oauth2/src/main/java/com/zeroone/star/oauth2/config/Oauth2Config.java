@@ -1,7 +1,8 @@
 package com.zeroone.star.oauth2.config;
 
-import com.zeroone.cloud.starter.oauth2.annotation.EnableZoOauth2;
+import com.zeroone.cloud.starter.oauth2.autoconfiguration.Oauth2ServerConfig;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /**
  * <p>
@@ -13,6 +14,6 @@ import org.springframework.context.annotation.Configuration;
  * @version 1.0.0
  */
 @Configuration
-@EnableZoOauth2
+@Import(Oauth2ServerConfig.class)
 public class Oauth2Config {
 }

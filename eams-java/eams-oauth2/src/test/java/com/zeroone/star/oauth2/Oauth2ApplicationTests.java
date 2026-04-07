@@ -1,19 +1,17 @@
 package com.zeroone.star.oauth2;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.annotation.Resource;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
 class Oauth2ApplicationTests {
-    @Resource
-    PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Test
-    void contextLoads() {
-        System.out.println(passwordEncoder.encode("123456"));
+    void passwordEncoderCanRoundTripPassword() {
+        String encodedPassword = passwordEncoder.encode("123456");
+        assertTrue(passwordEncoder.matches("123456", encodedPassword));
     }
-
 }
