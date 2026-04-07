@@ -16,52 +16,52 @@ export interface CourseItemDTO {
  * 课时汇总查询参数
  */
 export interface ClassSummaryQueryDTO {
-	/** 顾问 ID */
-	advisorId?: string;
-	/** 姓名 */
+	/** 年级 ID */
+	gradeId?: number;
+	/** 学员姓名 */
 	name?: string;
+	/** 手机号 */
+	mobile?: string;
+	/** 阶段 */
+	stage?: string;
+	/** 状态 */
+	status?: string;
+	/** 课程 ID */
+	courseId?: number;
 	/** 查询页码 */
 	pageIndex?: number;
 	/** 查询条数 */
 	pageSize?: number;
-	/** 电话 */
-	phone?: string;
-	/** 状态 */
-	status?: string;
-	/** 学员 ID */
-	studentId?: string;
-	/** 课程名称 */
-	courseName?: string;
 }
 
 /**
- * 课时汇总数据项
+ * 课时汇总数据项（LessonSummaryVO）
  */
 export interface ClassSummaryItemDTO {
-	/** 已完成数量 */
-	completeCount?: number;
-	/** 课程名称 */
-	courseName?: string;
-	/** 过期日期 */
-	expireDate?: string;
-	/** 优先级 */
-	priority?: number;
-	/** 剩余金额 */
-	remainingAmount?: number;
-	/** 剩余数量 */
-	remainingCount?: number;
-	/** 科目名称 */
-	subjectName?: string;
+	/** 主键 ID */
+	id?: number;
+	/** 班级 ID */
+	classId?: number;
 	/** 学员 ID */
 	studentId?: string;
 	/** 学员姓名 */
-	studentName?: string;
-	/** 学员电话 */
-	studentPhone?: string;
-	/** 总数量 */
-	totalCount?: number;
-	/** 单价 */
-	unitPrice?: number;
+	name?: string;
+	/** 手机号 */
+	mobile?: string;
+	/** 课时 ID */
+	lessonId?: number;
+	/** 课时数 */
+	lessonCount?: number;
+	/** 递减课时数 */
+	decLessonCount?: number;
+	/** 教师 ID */
+	teacherId?: number;
+	/** 签到状态 */
+	signState?: number;
+	/** 签到时间 */
+	signTime?: string;
+	/** 签到类型 */
+	signType?: number;
 	/** 允许其他字段 */
 	[property: string]: any;
 }

@@ -23,7 +23,7 @@ const currBaseUrl = "/j4/student";
  * @param params 查询参数
  */
 export const getClassSummaryPage = async (params: ClassSummaryQueryDTO) => {
-	const res = await http.post<PageDTO<ClassSummaryItemDTO>>(currBaseUrl + "/getCourseCounter", params);
+	const res = await http.get<PageDTO<ClassSummaryItemDTO>>(currBaseUrl + "/list-hour-summary", params);
 	return res;
 };
 
