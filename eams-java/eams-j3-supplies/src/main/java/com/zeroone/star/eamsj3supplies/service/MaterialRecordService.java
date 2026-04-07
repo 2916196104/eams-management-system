@@ -39,77 +39,92 @@ public class MaterialRecordService {
 
     @Transactional(rollbackFor = Exception.class)
     public JsonVO<MaterialStockVO> changeMaterialAmount(MaterialStockChangeDTO materialStockChangeDTO) {
-        MaterialChangeTypeEnum changeTypeEnum = MaterialChangeTypeEnum.fromCode(materialStockChangeDTO.getChangeType());
-        if (changeTypeEnum == null) {
-            return JsonVO.fail("变动类型不合法");
-        }
+        try {
+            // 检查materialStockChangeDTO是否为null
+            if (materialStockChangeDTO == null) {
+                return JsonVO.fail("参数不能为空");
+            }
+            
+            MaterialChangeTypeEnum changeTypeEnum = MaterialChangeTypeEnum.fromCode(materialStockChangeDTO.getChangeType());
+            if (changeTypeEnum == null) {
+                return JsonVO.fail("变动类型不合法");
+            }
 
-        int delta = changeTypeEnum.toDelta(materialStockChangeDTO.getAmount());
-        LambdaUpdateChainWrapper<Material> updateChain = new LambdaUpdateChainWrapper<>(materialMapper);
-        // 计算库存增减量：入库为正，出库为负
-        updateChain.eq(Material::getId, materialStockChangeDTO.getMaterialId())
-                .eq(Material::getDeleted, 0)
-                .setSql("storage = storage + " + delta)
-                .set(Material::getEditTime, new Date());
-        if (delta < 0) {
-            // 条件更新库存：避免库存扣成负数
-            updateChain.ge(Material::getStorage, -delta);
-        }
-        int affected = updateChain.update() ? 1 : 0;
-        if (affected <= 0) {
-            return JsonVO.fail("库存不足或物料不存在");
-        }
+            int delta = changeTypeEnum.toDelta(materialStockChangeDTO.getAmount());
+            LambdaUpdateChainWrapper<Material> updateChain = new LambdaUpdateChainWrapper<>(materialMapper);
+            // 计算库存增减量：入库为正，出库为负
+            updateChain.eq(Material::getId, materialStockChangeDTO.getMaterialId())
+                    .eq(Material::getDeleted, 0)
+                    .setSql("storage = storage + " + delta)
+                    .set(Material::getEditTime, new Date());
+            if (delta < 0) {
+                // 条件更新库存：避免库存扣成负数
+                updateChain.ge(Material::getStorage, -delta);
+            }
+            int affected = updateChain.update() ? 1 : 0;
+            if (affected <= 0) {
+                return JsonVO.fail("库存不足或物料不存在");
+            }
 
-        Material material = materialMapper.selectById(materialStockChangeDTO.getMaterialId());
-        if (material == null) {
-            return JsonVO.fail("物料不存在");
+            Material material = materialMapper.selectById(materialStockChangeDTO.getMaterialId());
+            if (material == null) {
+                return JsonVO.fail("物料不存在");
+            }
+
+            MaterialRecord record = new MaterialRecord();
+            record.setId(System.currentTimeMillis() + ThreadLocalRandom.current().nextInt(1000));
+            record.setMaterialId(materialStockChangeDTO.getMaterialId());
+            record.setAmount(delta);
+            record.setReason(materialStockChangeDTO.getReason());
+            record.setChangeType(changeTypeEnum.getCode());
+            record.setDeleted(0);
+            Date now = new Date();
+            record.setAddTime(now);
+            record.setEditTime(now);
+            materialRecordMapper.insert(record);
+
+            MaterialStockChangedDTO changedDTO = new MaterialStockChangedDTO();
+            changedDTO.setName(material.getName());
+            changedDTO.setStorage(material.getStorage());
+            return JsonVO.success(materialStructMapper.toMaterialStockVO(changedDTO));
+        } catch (Exception e) {
+            // 捕获所有异常，避免500错误
+            return JsonVO.fail("操作失败：" + e.getMessage());
         }
-
-        MaterialRecord record = new MaterialRecord();
-        record.setId(System.currentTimeMillis() + ThreadLocalRandom.current().nextInt(1000));
-        record.setMaterialId(materialStockChangeDTO.getMaterialId());
-        record.setAmount(delta);
-        record.setReason(materialStockChangeDTO.getReason());
-        record.setChangeType(changeTypeEnum.getCode());
-        record.setDeleted(0);
-        Date now = new Date();
-        record.setAddTime(now);
-        record.setEditTime(now);
-        materialRecordMapper.insert(record);
-
-        MaterialStockChangedDTO changedDTO = new MaterialStockChangedDTO();
-        changedDTO.setName(material.getName());
-        changedDTO.setStorage(material.getStorage());
-        return JsonVO.success(materialStructMapper.toMaterialStockVO(changedDTO));
     }
 
     public JsonVO<PageDTO<MaterialRecordVO>> queryMaterialRecordPage(MaterialRecordQuery query) {
-        if (query == null){
-            return JsonVO.fail("query为空");
-        }
-        Page<MaterialRecord> page = new Page<>(query.getPageIndex(), query.getPageSize());
-        IPage<MaterialRecord> pageData = materialRecordMapper.selectPage(
-                page,
-                Wrappers.<MaterialRecord>lambdaQuery()
-                        .eq(MaterialRecord::getDeleted, 0)
-                        .eq(query.getMaterialId() != null, MaterialRecord::getMaterialId, query.getMaterialId())
-                        .eq(query.getStudentId() != null, MaterialRecord::getStudentId, query.getStudentId())
-                        .eq(query.getApplyStaffId() != null, MaterialRecord::getStaffId, query.getApplyStaffId())
-                        .eq(query.getChangeType() != null, MaterialRecord::getChangeType, query.getChangeType())
-                        .ge(query.getBeginDate() != null && !query.getBeginDate().isEmpty(),
-                                MaterialRecord::getAddTime, toDateTime(query.getBeginDate(), false))
-                        .le(query.getEndDate() != null && !query.getEndDate().isEmpty(),
-                                MaterialRecord::getAddTime, toDateTime(query.getEndDate(), true))
-                        .orderByDesc(MaterialRecord::getAddTime)
-        );
+        try {
+            if (query == null){
+                return JsonVO.fail("query为空");
+            }
+            Page<MaterialRecord> page = new Page<>(query.getPageIndex(), query.getPageSize());
+            IPage<MaterialRecord> pageData = materialRecordMapper.selectPage(
+                    page,
+                    Wrappers.<MaterialRecord>lambdaQuery()
+                            .eq(MaterialRecord::getDeleted, 0)
+                            .eq(query.getMaterialId() != null, MaterialRecord::getMaterialId, query.getMaterialId())
+                            .eq(query.getStudentId() != null, MaterialRecord::getStudentId, query.getStudentId())
+                            .eq(query.getApplyStaffId() != null, MaterialRecord::getStaffId, query.getApplyStaffId())
+                            .eq(query.getChangeType() != null, MaterialRecord::getChangeType, query.getChangeType())
+                            .ge(query.getBeginDate() != null && !query.getBeginDate().isEmpty(),
+                                    MaterialRecord::getAddTime, toDateTime(query.getBeginDate(), false))
+                            .le(query.getEndDate() != null && !query.getEndDate().isEmpty(),
+                                    MaterialRecord::getAddTime, toDateTime(query.getEndDate(), true))
+                            .orderByDesc(MaterialRecord::getAddTime)
+            );
 
-        PageDTO<MaterialRecordVO> result = new PageDTO<>();
-        result.setPageIndex(pageData.getCurrent());
-        result.setPageSize(pageData.getSize());
-        result.setTotal(pageData.getTotal());
-        result.setPages(pageData.getPages());
-        result.setRows(materialStructMapper.toMaterialRecordVOList(pageData.getRecords()));
-        return JsonVO.success(result);
+            PageDTO<MaterialRecordVO> result = new PageDTO<>();
+            result.setPageIndex(pageData.getCurrent());
+            result.setPageSize(pageData.getSize());
+            result.setTotal(pageData.getTotal());
+            result.setPages(pageData.getPages());
+            result.setRows(materialStructMapper.toMaterialRecordVOList(pageData.getRecords()));
+            return JsonVO.success(result);
+        } catch (Exception e) {
+            // 捕获所有异常，避免500错误
+            return JsonVO.fail("查询失败：" + e.getMessage());
+        }
     }
 
     private LocalDateTime toDateTime(String date, boolean endOfDay) {
