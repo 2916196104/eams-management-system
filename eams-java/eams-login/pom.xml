@@ -35,6 +35,10 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
         <!-- alibaba sentinel -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -73,7 +77,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.zeroone.star.login.StudentApplication</mainClass>
+                    <mainClass>com.zeroone.star.login.LoginApplication</mainClass>
                 </configuration>
             </plugin>
             <plugin>
@@ -81,9 +85,9 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <configuration>
                     <!-- Docker 远程管理地址-->
-                    <dockerHost>https://192.168.220.128:2375</dockerHost>
+                    <dockerHost>https://192.168.88.129:2376</dockerHost>
                     <!-- CA 证书位置 -->
-                    <certPath>/home/docker-ca</certPath>
+                    <certPath>D:/Download/docker-ca</certPath>
                     <!-- 镜像设置 -->
                     <images>
                         <image>
@@ -101,7 +105,7 @@
                                 <namingStrategy>alias</namingStrategy>
                                 <!-- 端口映射 -->
                                 <ports>
-                                    <port>10200:10200</port>
+                                    <port>13000:13000</port>
                                 </ports>
                                 <!-- 数据卷 -->
                                 <volumes>
@@ -116,7 +120,7 @@
                                     <JAVA_OPTS>-Xms256m -Xmx256m</JAVA_OPTS>
                                     <!-- 启动替换参数 -->
                                     <SPRING_ARGS>
-                                        --spring.profiles.active=test --spring.cloud.nacos.discovery.ip=192.168.220.128
+                                        --spring.profiles.active=test --spring.cloud.nacos.discovery.ip=8.130.89.82
                                     </SPRING_ARGS>
                                 </env>
                             </run>
