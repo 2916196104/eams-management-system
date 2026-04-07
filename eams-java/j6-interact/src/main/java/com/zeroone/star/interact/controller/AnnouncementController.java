@@ -37,7 +37,7 @@ public class AnnouncementController implements AnnouncementApis {
     @Autowired
     private FastDfsClientComponent fastDfsClient;
 
-    @Value("${fastdfs.nginx-host:http://localhost:8888}")
+    @Value("${fastdfs.nginx-host:http://47.103.79.46:8888}")
     private String fastDfsNginxHost;
 
     @GetMapping("/list")
