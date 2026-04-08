@@ -23,7 +23,7 @@ PointPageJsonVO::Wrapper StudentController::executeQueryPoint(const PointQuery::
 }
 
 #include "StudentController.h"
-#include "service/Student/StudentService.h"
+#include "service/student/StudentService.h"
 
 //JsonVO<oatpp::Any>::Wrapper StudentController::executeRemoveUser(const IdQuery::Wrapper& query)
 //{
@@ -40,7 +40,7 @@ PointPageJsonVO::Wrapper StudentController::executeQueryPoint(const PointQuery::
 //    return vo;
 //}
 #include "StudentController.h"
-#include "service/Student/StudentService.h"
+//#include "service/student/StudentService.h"
 #include <cstdint>
 #include <stdexcept>
 

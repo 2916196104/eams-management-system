@@ -3,7 +3,7 @@
 #define _STUDENTMAPPER_H_
 
 #include "Mapper.h"
-#include "domain/do/Student/StudentDO.h"
+#include "domain/do/student/StudentDO.h"
 #include <string>
 
 class StudentMapper : public Mapper<PtrStudentDO>

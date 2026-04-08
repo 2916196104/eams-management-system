@@ -10,15 +10,15 @@
 #include "./domain/query/GradeQuery.h"
 #include "./domain/vo/PointPageJsonVO.h"
 #include "./domain/query/PointQuery.h"
-#include "domain/query/Student/IdQuery.h"
+#include "domain/query/student/IdQuery.h"
 #include "Macros.h"     //中文词典
 #include "domain/dto/student/StudentDTO.h"       // 学员相关DTO（StudentDTO、StudentAddDTO等）
 
 
 // #include "domain/query/StudentQuery/StudentQuery.h"
-#include "domain/query/Student/StudentQuery.h"
-#include "domain/query/Student/IdQuery.h"
-#include "domain/vo/Student/StudentVO.h"
+#include "domain/query/student/StudentQuery.h"
+#include "domain/query/student/IdQuery.h"
+#include "domain/vo/student/StudentVO.h"
 
 // 生成API控制器代码宏
 #include OATPP_CODEGEN_BEGIN(ApiController)

@@ -3,9 +3,9 @@
 #define _STUDENTDAO_H_
 
 #include "BaseDAO.h"
-#include "domain/do/Student/StudentDO.h"
+#include "domain/do/student/StudentDO.h"
 #include "domain/dto/student/StudentDTO.h"
-#include "domain/query/Student/StudentQuery.h"
+#include "domain/query/student/StudentQuery.h"
 #include <cstdint>
 
 class StudentDAO :public BaseDAO

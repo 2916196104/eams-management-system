@@ -2,7 +2,7 @@
 #ifndef _STUDENTSERVICE_H_
 #define _STUDENTSERVICE_H_
 
-#include "domain/query/Student/StudentQuery.h"
+#include "domain/query/student/StudentQuery.h"
 #include "domain/dto/student/StudentDTO.h"
 #include "dao/student/StudentDAO.h"
 #include <cstdint>
