@@ -1,7 +1,10 @@
 package com.zeroone.star.project.j1.orgmanager.controller;
 
+import cn.hutool.json.JSONUtil;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.zeroone.star.project.DO.PositionDataPermissionDO;
+import com.zeroone.star.project.components.jwt.JwtComponent;
+import com.zeroone.star.project.components.jwt.PayloadDTO;
 import com.zeroone.star.project.components.user.UserDTO;
 import com.zeroone.star.project.components.user.UserHolder;
 import com.zeroone.star.project.dto.PageDTO;
@@ -34,8 +37,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -102,6 +108,9 @@ public class PositionController implements PositionApis {
     @Resource
     private DataPermissionConvert dataPermissionConvert;
 
+    @Resource
+    private UserHolder userHolder;
+
     @Override
     @GetMapping("/queryPermission")
     @ApiOperation("获取职位数据权限列表（条件+分页）")
@@ -112,10 +121,24 @@ public class PositionController implements PositionApis {
     @Override
     @PostMapping("/savePermission")
     @ApiOperation("保存职位数据权限（新增/修改）")
-    public JsonVO<Long> addPositionDataPermission(@RequestBody PositionDataPermissionDTO positionDataPermissionDTO) {
+    public JsonVO<Long> addPositionDataPermission(@RequestBody PositionDataPermissionDTO positionDataPermissionDTO) throws Exception {
         Long id = positionDataPermissionDTO.getId();
         PositionDataPermissionDO permissionDO = dataPermissionConvert.dtoToDo(positionDataPermissionDTO);
         if (id == null) {
+            // 【安全获取当前用户】
+            UserDTO userDTO = userHolder.getCurrentUser();
+            if (userDTO == null) {
+                throw new RuntimeException("获取登录用户信息失败，请重新登录");
+            }
+
+            // 【安全获取 orgId】
+            Long orgId = userDTO.getOrgId();
+            if (orgId == null) {
+                throw new RuntimeException("当前用户部门ID为空，无法保存");
+            }
+
+            // 赋值给 positionId
+            permissionDO.setPositionId(orgId);
             if (dataPermissionService.save(permissionDO)) {
                 return JsonVO.success(permissionDO.getId());
             }

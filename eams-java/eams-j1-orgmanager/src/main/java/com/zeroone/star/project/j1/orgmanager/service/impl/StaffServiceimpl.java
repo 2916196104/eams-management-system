@@ -11,8 +11,8 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+//import com.github.pagehelper.PageHelper;
+//import com.github.pagehelper.PageInfo;
 import com.zeroone.star.project.DO.Class;
 import com.zeroone.star.project.DO.*;
 import com.zeroone.star.project.components.user.UserDTO;
@@ -627,7 +627,7 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
             // ===================== 3. 分页设置 =====================
             long pageNo = condition.getPageIndex();
             long pageSize = condition.getPageSize();
-            PageHelper.startPage((int) pageNo, (int) pageSize);
+//            PageHelper.startPage((int) pageNo, (int) pageSize);
 
             // ===================== 4. 查询老师关联的课次 ID =====================
             LambdaQueryWrapper<LessonTeacher> ltWrapper = new LambdaQueryWrapper<>();
@@ -785,7 +785,7 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
             // ===================== 3. 分页设置 =====================
             long pageNo = condition.getPageIndex();
             long pageSize = condition.getPageSize();
-            PageHelper.startPage((int)pageNo, (int)pageSize);
+//            PageHelper.startPage((int)pageNo, (int)pageSize);
 
             // ===================== 4. 查询老师负责的班级（关键：直接查 class 表） =====================
             LambdaQueryWrapper<Class> classWrapper = new LambdaQueryWrapper<>();
