@@ -9,9 +9,9 @@ class PayloadDTO;
 class SchedulingService {
 public:
 	// 添加重复排课计划
-	bool addRepeatScheduling(const RepeatedSchedulingDTO::Wrapper& dto, const PayloadDTO& payload);
+	std::string addRepeatScheduling(const RepeatedSchedulingDTO::Wrapper& dto, const PayloadDTO& payload);
 	// 添加自由排课计划
-	bool addFreeScheduling(const FreeSchedulingDTO::Wrapper& dto, const PayloadDTO& payload);
+	std::string addFreeScheduling(const FreeSchedulingDTO::Wrapper & dto, const PayloadDTO & payload);
 };
 
 #endif // !_SCHEDULINGSERVICE_H_
