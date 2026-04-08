@@ -11,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +38,8 @@ public class CourseScheduleController implements CourseScheduleApis {
 
     @Resource
     private ILessonStudentService lessonStudentService;
+
+    private final ILessonScheduleService lessonSchduleService;
 
 
     @GetMapping("/calendar")
@@ -69,17 +72,21 @@ public class CourseScheduleController implements CourseScheduleApis {
     @PostMapping("/repeat-schedule")
     @ApiOperation("重复排课")
     @Override
-    public JsonVO<String> repeatSchedule(CourseScheduleDTO courseScheduleVO) {
-        log.info("重复排课，参数：{}", courseScheduleVO);
-        return null;
+    public JsonVO<String> repeatSchedule(@Param("courseScheduleDto")CourseScheduleDTO courseScheduleVO) {
+        log.info("参数：{}",courseScheduleVO);
+        return lessonSchduleService.reapteSchedule(courseScheduleVO);
     }
 
     @PostMapping("/free-schedule")
     @ApiOperation("自由排课")
     @Override
-    public JsonVO<String> freeSchedule(CourseScheduleDTO courseScheduleVO) {
-        return null;
+
+    public JsonVO<String> freeSchedule(@Param("courseScheduleDto")CourseScheduleDTO courseScheduleVO) {
+
+        log.info("参数：{}",courseScheduleVO);
+        return lessonSchduleService.freeSchedule(courseScheduleVO);
     }
+
 
 
     @PutMapping("/update-course")
@@ -113,7 +120,7 @@ public class CourseScheduleController implements CourseScheduleApis {
     @ApiOperation("预约课程开关")
     @Override
     public JsonVO<String> switchSchedule(CourseAppointStatusDTO courseAppointStatusDto) {
-        return null;
+        return  lessonSchduleService.switchSchedule(courseAppointStatusDto);
     }
     @GetMapping("/student-status/list")
     @ApiOperation("分页查询学员上课状态列表")

@@ -1,7 +1,9 @@
 package com.zeroone.star.project.vo.j5.courseschedule;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
+@Data
 public class CourseScheduleSettingVO {
     @ApiModelProperty( value = "课程表编号", example = "1")
     private String scheduleId;

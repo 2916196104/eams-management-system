@@ -1,7 +1,10 @@
 package com.zeroone.star.project.dto.j5.courseschedule;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -19,4 +22,12 @@ public class CourseAppointStatusDTO {
     private String id;
     @ApiModelProperty( value = "课程预约开关", example = "1")
     private String status;
+    
+    // 审计字段（UPDATE 操作需要）
+    @ApiModelProperty(value = "更新人ID")
+    private Long editor;
+    
+    @ApiModelProperty(value = "更新时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime editTime;
 }

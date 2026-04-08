@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zeroone.star.j5.courseschedule.mapper.LessonSchduleMapper">
+
+
+    <insert id="insertBatch"
+            parameterType="com.zeroone.star.project.vo.j5.courseschedule.CourseScheduleSettingVO">
+        insert into lesson_schedule_setting (schedule_id, weeks, start_time, end_time, room_id)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.scheduleId}, #{item.weeks}, #{item.startTime}, #{item.endTime}, #{item.roomId})
+
+        </foreach>
+    </insert>
+    <insert id="reapteSchedule"
+            parameterType="com.zeroone.star.project.dto.j5.courseschedule.CourseScheduleDTO"  useGeneratedKeys="true" keyProperty="id">
+        insert into lesson_schedule (class_id,course_id,teacher_ids, assistant_ids, start_date, end_date, dec_lesson_count, times, exclude_holiday, state, creator, editor, add_time, edit_time)
+        values
+            (#{classId}, #{courseId},#{teacherId}, #{assistantId}, #{startTime}, #{endTime}, #{descLessonCount}, #{times}, #{excludeHoliday}, #{state}, #{creator}, #{editor}, #{addTime}, #{editTime})
+
+    </insert>
+</mapper>

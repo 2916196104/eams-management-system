@@ -1,10 +1,14 @@
 package com.zeroone.star.project.dto.j5.courseschedule;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zeroone.star.project.vo.j5.courseschedule.CourseScheduleSettingVO;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+@Data
 public class CourseScheduleDTO {
     @ApiModelProperty(value = "课程编号", example = "1")
     private String id;
@@ -40,4 +44,19 @@ public class CourseScheduleDTO {
 
     @ApiModelProperty( value = "上课时间设置",example = "填写周几上课，上课时间，和下课时间 ")
     private List<CourseScheduleSettingVO> lessonScheduleSettingDtos;
+
+    // 审计字段（对应数据库字段：creator, editor, add_time, edit_time）
+    @ApiModelProperty(value = "创建人ID")
+    private Long creator;
+    
+    @ApiModelProperty(value = "更新人ID")
+    private Long editor;
+    
+    @ApiModelProperty(value = "创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime addTime;
+    
+    @ApiModelProperty(value = "更新时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime editTime;
 }
