@@ -95,16 +95,16 @@ bool Teach_EvaluationDAO::insert(const Ptrteach_evaluationDO data)
 		") VALUES ("
 		"  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? "
 		")";
-	SQLPARAMS_PUSH(params, "i", uint64_t, data->getId());
-	SQLPARAMS_PUSH(params, "i", uint64_t, data->getLessonId());
-	SQLPARAMS_PUSH(params, "i", uint64_t, data->getTeacherId());
-	SQLPARAMS_PUSH(params, "i", uint64_t, data->getScore1());
-	SQLPARAMS_PUSH(params, "i", uint64_t, data->getScore2());
-	SQLPARAMS_PUSH(params, "i", uint64_t, data->getScore3());
-	SQLPARAMS_PUSH(params, "i", uint64_t, data->getScore4());
+	SQLPARAMS_PUSH(params, "ull", uint64_t, data->getId());
+	SQLPARAMS_PUSH(params, "ull", uint64_t, data->getLessonId());
+	SQLPARAMS_PUSH(params, "ull", uint64_t, data->getTeacherId());
+	SQLPARAMS_PUSH(params, "i", uint32_t, data->getScore1());
+	SQLPARAMS_PUSH(params, "i", uint32_t, data->getScore2());
+	SQLPARAMS_PUSH(params, "i", uint32_t, data->getScore3());
+	SQLPARAMS_PUSH(params, "i", uint32_t, data->getScore4());
 	SQLPARAMS_PUSH(params, "s", std::string, data->getContent());
 	SQLPARAMS_PUSH(params, "s", std::string, data->getAddTime());
-	SQLPARAMS_PUSH(params, "i", uint64_t, data->getStudentId());
-	SQLPARAMS_PUSH(params, "i", uint64_t, data->getAnonymity());
+	SQLPARAMS_PUSH(params, "ull", uint64_t, data->getStudentId());
+	SQLPARAMS_PUSH(params, "ull", uint64_t, data->getAnonymity());
 	return sqlSession->executeUpdate(sql, params);
 }

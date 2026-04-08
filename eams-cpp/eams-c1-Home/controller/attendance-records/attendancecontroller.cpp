@@ -39,12 +39,9 @@ StringJsonVO::Wrapper attendanceController::execEvaluateAttendanceRecords(const 
 
 	dto->setPayload(&payload);
 	std::string id = Teach_EvaluationService().saveData(dto);
-	if (id != "") {
-		jvo->success(id);
+	while (id == "") {
+		id = Teach_EvaluationService().saveData(dto);
 	}
-	else {
-		jvo->fail("");
-	}
-
+	jvo->success(id);
 	return jvo;
 }

@@ -139,18 +139,18 @@ public:
 public:
 	Teach_EvaluationDO(): BaseDO("teach_evaluation")
 	{
-		MYSQL_ADD_FIELD_PK("id", "i", id);
-		MYSQL_ADD_FIELD("lesson_id", "i", lesson_id);
-		MYSQL_ADD_FIELD("teacher_id", "i", teacher_id);
+		MYSQL_ADD_FIELD_PK("id", "ull", id);
+		MYSQL_ADD_FIELD("lesson_id", "ull", lesson_id);
+		MYSQL_ADD_FIELD("teacher_id", "ull", teacher_id);
 		MYSQL_ADD_FIELD("score1", "i", score1);
 		MYSQL_ADD_FIELD("score2", "i", score2);
 		MYSQL_ADD_FIELD("score3", "i", score3);
 		MYSQL_ADD_FIELD("score4", "i", score4);
 		MYSQL_ADD_FIELD("content", "s", content);
 		MYSQL_ADD_FIELD("add_time", "s", add_time);
-		MYSQL_ADD_FIELD("student_id", "i", student_id);
+		MYSQL_ADD_FIELD("student_id", "ull", student_id);
 		MYSQL_ADD_FIELD("anonymity", "i", anonymity);
-		MYSQL_ADD_FIELD("org_id", "i", org_id);
+		MYSQL_ADD_FIELD("org_id", "ull", org_id);
 	}
 };
 
