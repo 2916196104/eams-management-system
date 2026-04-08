@@ -76,6 +76,7 @@ workbench:
   summary: 使用声明式服务查询多条数据
 schedule:
   field:
+    Id: 排课ID
     classId: 班级ID
     courseId: 课程ID
     teacherId: 教师ID
@@ -91,9 +92,11 @@ schedule:
     endTime: 下课时间
     limitNum: 限制人数
     skipHolidays: 跳过节假日
-    enableReservation: 开启预约
-    conflict: 是否冲突
+    enableBooking: 开启预约
+    checkConflict: 是否检查冲突
     date: 上课日期
+    consumedHours: 消课课时
+    periods: 周期列表
   api:
     createRepeat: 创建重复排课
     createFree: 创建自由排课

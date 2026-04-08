@@ -13,11 +13,12 @@ StringJsonVO::Wrapper SchedulingController::executeaddRepateScheduling(const Rep
 	}
 	//执行插入
 	dto->setPayload(&payload);
-	if(SchedulingService().addRepeatScheduling(dto,payload)) {
+	std::string result = SchedulingService().addRepeatScheduling(dto, payload);
+	if(result=="") {
 		jvo->success(std::string("add repeat scheduling success."));
 	}
 	else {
-		jvo->fail(std::string("add repeat scheduling failed."));
+		jvo->fail(result);
 	}
 	//响应结果
 	return jvo;
@@ -34,11 +35,12 @@ StringJsonVO::Wrapper SchedulingController::executeaddFreeScheduling(const FreeS
 	}
 	//执行插入
 	dto->setPayload(&payload);
-	if(SchedulingService().addFreeScheduling(dto,payload)) {
+	std::string result = SchedulingService().addFreeScheduling(dto, payload);
+	if(result=="") {
 		jvo->success(std::string("add free scheduling success."));
 	}
 	else {
-		jvo->fail(std::string("add free scheduling failed."));
+		jvo->fail(result);
 	}
 	//响应结果
 	return jvo;

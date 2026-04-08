@@ -20,7 +20,7 @@ class FreeSchedulingDTO : public oatpp::DTO {
 	//教室id
 	API_DTO_FIELD_DEFAULT(String, classroomId, ZH_WORDS_GETTER("schedule.field.classroomId"));
 	//开始日期
-	API_DTO_FIELD_REQUIRE(String, startDate, ZH_WORDS_GETTER("schedule.field.startDate"), true);
+	API_DTO_FIELD_REQUIRE(List<String>, startDate, ZH_WORDS_GETTER("schedule.field.startDate"), true);
 	// 上课时间（如 "08:30"）
 	API_DTO_FIELD_REQUIRE(String, startTime, ZH_WORDS_GETTER("schedule.field.startTime"), true);
 	// 下课时间（如 "10:00"）
@@ -32,7 +32,9 @@ class FreeSchedulingDTO : public oatpp::DTO {
 	//开启预约
 	API_DTO_FIELD_DEFAULT(Boolean, enableBooking, ZH_WORDS_GETTER("schedule.field.enableBooking"));
 	//是否检查冲突
-	API_DTO_FIELD(String, checkConflict, ZH_WORDS_GETTER("schedule.field.checkConflict"), false, "NULL");
+	API_DTO_FIELD(Boolean, checkConflict, ZH_WORDS_GETTER("schedule.field.checkConflict"), false, false);
+	//星期几
+	API_DTO_FIELD_DEFAULT(List<String>, weeks, ZH_WORDS_GETTER("schedule.field.weeks"))
 	//关联负载数据对象
 	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
 public:
@@ -43,6 +45,7 @@ public:
 		if (!startDate || startDate->empty()) return "startDate invalidate.";
 		if (!startTime || startTime->empty()) return "startTime invalidate.";
 		if (!endTime || endTime->empty()) return "endTime invalidate.";
+		if (!startDate || !weeks || startDate->size() != weeks->size()) return "startDate and weeks invalidate";
 		return "";
 	}
 };
