@@ -34,7 +34,7 @@ public:		//定义接口
 		API_DEF_ADD_QUERY_PARAMS(UInt64, "creator", ZH_WORDS_GETTER("homework.gethomeworklist.creator"), 123, false);       //查询作业的发布者/创建人
 );
 	//定义查询作业列表（条件+分页）处理，GetHomeworkList
-	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "org/backhomework/get-homework-list", GetHomeworkList, QUERIES(QueryParams, queryParams),
+	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "c3-org/backhomework/get-homework-list", GetHomeworkList, QUERIES(QueryParams, queryParams),
 		API_HANDLER_QUERY_PARAM(query, GetHomeworkListQuery, queryParams); API_HANDLER_RESP_VO(execGetHomeworkList(query)););
 
 	//定义获取作业详情描述
