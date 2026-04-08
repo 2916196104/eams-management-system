@@ -107,9 +107,9 @@ public class MaterialRecordService {
                             .eq(query.getStudentId() != null, MaterialRecord::getStudentId, query.getStudentId())
                             .eq(query.getApplyStaffId() != null, MaterialRecord::getStaffId, query.getApplyStaffId())
                             .eq(query.getChangeType() != null, MaterialRecord::getChangeType, query.getChangeType())
-                            .ge(query.getBeginDate() != null && !query.getBeginDate().isEmpty(),
+                            .ge(isValidDate(query.getBeginDate()),
                                     MaterialRecord::getAddTime, toDateTime(query.getBeginDate(), false))
-                            .le(query.getEndDate() != null && !query.getEndDate().isEmpty(),
+                            .le(isValidDate(query.getEndDate()),
                                     MaterialRecord::getAddTime, toDateTime(query.getEndDate(), true))
                             .orderByDesc(MaterialRecord::getAddTime)
             );
@@ -127,8 +127,29 @@ public class MaterialRecordService {
         }
     }
 
+    /**
+     * 判断日期字符串是否为有效的 yyyy-MM-dd 格式
+     */
+    private boolean isValidDate(String date) {
+        if (date == null || date.trim().isEmpty()) {
+            return false;
+        }
+        try {
+            LocalDate.parse(date.trim(), DateTimeFormatter.ISO_LOCAL_DATE);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * 将日期字符串转为 LocalDateTime（起始/截止）
+     */
     private LocalDateTime toDateTime(String date, boolean endOfDay) {
-        LocalDate parsed = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
+        if (!isValidDate(date)) {
+            return null;
+        }
+        LocalDate parsed = LocalDate.parse(date.trim(), DateTimeFormatter.ISO_LOCAL_DATE);
         return endOfDay ? parsed.atTime(23, 59, 59) : parsed.atStartOfDay();
     }
 }

@@ -22,7 +22,7 @@ import javax.validation.Valid;
  * 物料接口实现类
  */
 @RestController
-@RequestMapping("j3/ms")
+@RequestMapping("j3-ms")
 @Api(tags = "物料管理")
 public class SuppliesController implements SuppliesApis {
 
