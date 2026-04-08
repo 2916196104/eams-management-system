@@ -1,4 +1,4 @@
-ï»¿#pragma once
+#pragma once
 /*
  Copyright Zero One Star. All rights reserved.
 
@@ -19,6 +19,7 @@
 */
 #ifndef _COMMON_SERVICE_
 #define _COMMON_SERVICE_
+#include "../../lib-oatpp/include/domain/vo/BaseJsonVO.h"
 #include "domain/vo/common/CommonVO.h"
 #include "domain/query/common/CommonQuery.h"
 #include "domain/dto/common/CommonDTO.h"
@@ -33,33 +34,41 @@ public:
 	RegistrationPageDTO::Wrapper GetRegistrationRecordWithPage(RegistrationPageQuery::Wrapper query);
 
 };
-//ç­çº§åˆ—è¡¨æœåŠ¡
+//°à¼¶ÁĞ±í·şÎñ
 class getClassListService
 {
 public:
-	// åˆ†é¡µæŸ¥è¯¢æ‰€æœ‰ç­çº§åˆ—è¡¨æ•°æ®
+	// ·ÖÒ³²éÑ¯ËùÓĞ°à¼¶ÁĞ±íÊı¾İ
 	getClassListPageDTO::Wrapper listAll(const getClassListQuery::Wrapper& query);
 };
 
-//ï¿½Î³ï¿½Í³ï¿½Æ·ï¿½ï¿½ï¿½
+//¿Î³ÌÍ³¼Æ·şÎñ
 class getCourseStatisticsService
 {
 public:
-	// ï¿½ï¿½Ò³ï¿½ï¿½Ñ¯ï¿½Î³ï¿½Í³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// ·ÖÒ³²éÑ¯ËùÓĞ¿Î³ÌÍ³¼ÆÊı¾İ
 	getCourseStatisticsPageDTO::Wrapper listAll(const getCourseStatisticsQuery::Wrapper& query);
 
 };
 
-//ï¿½ï¿½ï¿½ï¿½à¼¶ï¿½ï¿½ï¿½ï¿½
+//¼ÓÈë°à¼¶·şÎñ
 class JoinclassService
 {
 public:
-	// ï¿½ï¿½Ò³ï¿½ï¿½Ñ¯ï¿½É¼ï¿½ï¿½ï¿½Ä°à¼¶ï¿½Ğ±ï¿½
+	// ·ÖÒ³²éÑ¯¿É¼ÓÈëµÄ°à¼¶ÁĞ±í
 	JoinclassPageDTO::Wrapper listAll(const JoinclassQuery::Wrapper& query);
 
-	// Ñ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½à¼¶ï¿½Ä½Ó¿Ú£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// Ñ§Éú¼ÓÈë°à¼¶
 	bool joinClass(const oatpp::String& studentId, const oatpp::String& className);
 
+};
+
+//¸ú½ø¼ÇÂ¼·şÎñ
+class ContactRecordService
+{
+public:
+	// É¾³ı¸ú½ø¼ÇÂ¼
+	StringJsonVO::Wrapper deleteContactRecord(const DeleteContactRecordDTO::Wrapper& dto);
 };
 
 #endif // !_SAMPLE_SERVICE_

@@ -1,4 +1,4 @@
-ï»¿#pragma once
+#pragma once
 #ifndef _COMMON_DAO_
 #define _COMMON_DAO_
 #include "BaseDAO.h"
@@ -16,59 +16,59 @@ class RegistrationRecordDAO :public BaseDAO
 {
 public:
 	uint64_t count(uint64_t studentId);
-	// æ¶“å¶„å¨‡é¢?DOé”›æ­‹QL JOIN ç¼æ’´ç‰é©å­˜å¸´é„çŠ²çš é´?DTO
+	// ä¸ä½¿ç”?DOï¼šSQL JOIN ç»“æœç›´æ¥æ˜ å°„æˆ?DTO
 	std::list<RegistrationDTO::Wrapper> selectRegistrationRecordWithPage(const RegistrationPageQuery::Wrapper& query);
 
 };
 
 /**
- * ç­çº§åˆ—è¡¨æ•°æ®è®¿é—®å¯¹è±¡
+ * °à¼¶ÁĞ±íÊı¾İ·ÃÎÊ¶ÔÏó
  */
 class getClassListDAO : public BaseDAO
 {
 private:
 	std::string queryConditionBuilder(const getClassListQuery::Wrapper& query, SqlParams& params);
 public:
-	// ç»Ÿè®¡æ•°æ®æ¡æ•°
+	// Í³¼ÆÊı¾İÌõÊı
 	uint64_t count(const getClassListQuery::Wrapper& query);
-	// åˆ†é¡µæŸ¥è¯¢æ•°æ®
+	// ·ÖÒ³²éÑ¯Êı¾İ
 	std::list<getClassListDO> selectWithPage(const getClassListQuery::Wrapper& query);
 	std::list<PtrgetClassListDO> selectWithPagePtr(const getClassListQuery::Wrapper& query);
 };
 
 
 /**
- * è¯¾ç¨‹ç»Ÿè®¡æ•°æ®è®¿é—®å¯¹è±¡
+ * ¿Î³ÌÍ³¼ÆÊı¾İ·ÃÎÊ¶ÔÏó
  */
 class getCourseStatisticsDAO : public BaseDAO
 {
 private:
 	std::string queryConditionBuilder(const getCourseStatisticsQuery::Wrapper& query, SqlParams& params);
 public:
-	// ç»Ÿè®¡æ•°æ®æ¡æ•°
+	// Í³¼ÆÊı¾İÌõÊı
 	uint64_t count(const getCourseStatisticsQuery::Wrapper& query);
-	// åˆ†é¡µæŸ¥è¯¢æ•°æ®
+	// ·ÖÒ³²éÑ¯Êı¾İ
 	std::list<getCourseStatisticsDO> selectWithPage(const getCourseStatisticsQuery::Wrapper& query);
 	std::list<PtrgetCourseStatisticsDO> selectWithPagePtr(const getCourseStatisticsQuery::Wrapper& query);
 };
 
 
 /**
- * è¯¾ç¨‹ç»Ÿè®¡æ•°æ®è®¿é—®å¯¹è±¡
+ * ¿Î³ÌÍ³¼ÆÊı¾İ·ÃÎÊ¶ÔÏó
  */
 class JoinclassDAO : public BaseDAO
 {
 private:
 	std::string queryConditionBuilder(const JoinclassQuery::Wrapper& query, SqlParams& params);
 public:
-	// ç»Ÿè®¡æ•°æ®æ¡æ•°
+	// Í³¼ÆÊı¾İÌõÊı
 	uint64_t count(const JoinclassQuery::Wrapper& query);
-	// åˆ†é¡µæŸ¥è¯¢æ•°æ®
+	// ·ÖÒ³²éÑ¯Êı¾İ
 	std::list<JoinclassDO> selectWithPage(const JoinclassQuery::Wrapper& query);
 	std::list<PtrJoinclassDO> selectWithPagePtr(const JoinclassQuery::Wrapper& query);
 };
 /**
- * å­¦ç”Ÿè¯¾ç¨‹æ•°æ®è®¿é—®å¯¹è±¡
+ * Ñ§Éú¿Î³ÌÊı¾İ·ÃÎÊ¶ÔÏó
  */
 class StudentCourseDAO : public BaseDAO {
 public:
@@ -85,6 +85,12 @@ class RefundDAO :public BaseDAO {
 public:
 	PtrRefundDO selectByIds(uint64_t student_course_id);
 private:
+};
+
+class ContactRecordDAO : public BaseDAO {
+public:
+	// É¾³ı¸ú½ø¼ÇÂ¼£¨ĞŞ¸Ädeleted×Ö¶ÎÎª1£©
+	int deleteContactRecord(uint64_t recordId);
 };
 
 #endif 

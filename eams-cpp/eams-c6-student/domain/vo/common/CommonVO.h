@@ -70,5 +70,7 @@ class JoinclassJsonVO : public JsonVO<JoinclassDTO::Wrapper> {
 class JoinclassPageJsonVO : public JsonVO<JoinclassPageDTO::Wrapper> {
     DTO_INIT(JoinclassPageJsonVO, JsonVO<JoinclassPageDTO::Wrapper>);
 };
+
+
 #include OATPP_CODEGEN_END(DTO)
 #endif
