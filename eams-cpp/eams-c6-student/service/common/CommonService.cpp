@@ -1,4 +1,4 @@
-ï»¿#include "stdafx.h"
+#include "stdafx.h"
 #include "CommonService.h"
 #include "../../dao/common/CommonDAO.h"
 #include "id/UuidFacade.h"
@@ -30,15 +30,15 @@ RegistrationPageDTO::Wrapper RegistrationRecordService::GetRegistrationRecordWit
 	}
 	return pages;
 }
-//ç­çº§åˆ—è¡¨æœåŠ¡
+//°à¼¶ÁĞ±í·şÎñ
 getClassListPageDTO::Wrapper getClassListService::listAll(const getClassListQuery::Wrapper& query)
 {
-	// æ„å»ºè¿”å›å¯¹è±¡
+	// ¹¹½¨·µ»Ø¶ÔÏó
 	auto pages = getClassListPageDTO::createShared();
 	pages->pageIndex = query->pageIndex;
 	pages->pageSize = query->pageSize;
 
-	// æŸ¥è¯¢æ•°æ®æ€»æ¡æ•°
+	// ²éÑ¯Êı¾İ×ÜÌõÊı
 	getClassListDAO dao;
 	uint64_t count = dao.count(query);
 	if (count <= 0)
@@ -46,12 +46,12 @@ getClassListPageDTO::Wrapper getClassListService::listAll(const getClassListQuer
 		return pages;
 	}
 
-	// åˆ†é¡µæŸ¥è¯¢æ•°æ®
+	// ·ÖÒ³²éÑ¯Êı¾İ
 	pages->total = count;
 	pages->calcPages();
 	std::list<getClassListDO> result = dao.selectWithPage(query);
 
-	// å°†DOè½¬æ¢æˆDTO
+	// ½«DO×ª»»³ÉDTO
 	for (getClassListDO& sub : result)
 	{
 		auto dto = getClassListDTO::createShared();
@@ -67,15 +67,15 @@ getClassListPageDTO::Wrapper getClassListService::listAll(const getClassListQuer
 	return pages;
 }
 
-//è¯¾ç¨‹ç»Ÿè®¡æœåŠ¡
+//¿Î³ÌÍ³¼Æ·şÎñ
 getCourseStatisticsPageDTO::Wrapper getCourseStatisticsService::listAll(const getCourseStatisticsQuery::Wrapper& query)
 {
-	// æ„å»ºè¿”å›å¯¹è±¡
+	// ¹¹½¨·µ»Ø¶ÔÏó
 	auto pages = getCourseStatisticsPageDTO::createShared();
 	pages->pageIndex = query->pageIndex;
 	pages->pageSize = query->pageSize;
 
-	// æŸ¥è¯¢æ•°æ®æ€»æ¡æ•°
+	// ²éÑ¯Êı¾İ×ÜÌõÊı
 	getCourseStatisticsDAO dao;
 	uint64_t count = dao.count(query);
 	if (count <= 0)
@@ -83,12 +83,12 @@ getCourseStatisticsPageDTO::Wrapper getCourseStatisticsService::listAll(const ge
 		return pages;
 	}
 
-	// åˆ†é¡µæŸ¥è¯¢æ•°æ®
+	// ·ÖÒ³²éÑ¯Êı¾İ
 	pages->total = count;
 	pages->calcPages();
 	std::list<getCourseStatisticsDO> result = dao.selectWithPage(query);
 
-	// å°†DOè½¬æ¢æˆDTO
+	// ½«DO×ª»»³ÉDTO
 	for (getCourseStatisticsDO& sub : result)
 	{
 		auto dto = getCourseStatisticsDTO::createShared();
@@ -104,15 +104,15 @@ getCourseStatisticsPageDTO::Wrapper getCourseStatisticsService::listAll(const ge
 	return pages;
 }
 
-// åˆ†é¡µæŸ¥è¯¢å¯åŠ å…¥çš„ç­çº§åˆ—è¡¨
+// ·ÖÒ³²éÑ¯¿É¼ÓÈëµÄ°à¼¶ÁĞ±í
 JoinclassPageDTO::Wrapper JoinclassService::listAll(const JoinclassQuery::Wrapper& query)
 {
-	// æ„å»ºè¿”å›å¯¹è±¡
+	// ¹¹½¨·µ»Ø¶ÔÏó
 	auto pages = JoinclassPageDTO::createShared();
 	pages->pageIndex = query->pageIndex;
 	pages->pageSize = query->pageSize;
 
-	// æŸ¥è¯¢æ•°æ®æ€»æ¡æ•°
+	// ²éÑ¯Êı¾İ×ÜÌõÊı
 	JoinclassDAO dao;
 	uint64_t count = dao.count(query);
 	if (count <= 0)
@@ -120,12 +120,12 @@ JoinclassPageDTO::Wrapper JoinclassService::listAll(const JoinclassQuery::Wrappe
 		return pages;
 	}
 
-	// åˆ†é¡µæŸ¥è¯¢æ•°æ®
+	// ·ÖÒ³²éÑ¯Êı¾İ
 	pages->total = count;
 	pages->calcPages();
 	std::list<JoinclassDO> result = dao.selectWithPage(query);
 
-	// å°†DOè½¬æ¢æˆDTO
+	// ½«DO×ª»»³ÉDTO
 	for (JoinclassDO& sub : result)
 	{
 		auto dto = JoinclassDTO::createShared();
@@ -137,26 +137,65 @@ JoinclassPageDTO::Wrapper JoinclassService::listAll(const JoinclassQuery::Wrappe
 	return pages;
 }
 
-// å­¦ç”ŸåŠ å…¥ç­çº§çš„å®ç°
+// Ñ§Éú¼ÓÈë°à¼¶µÄÊµÏÖ
 bool JoinclassService::joinClass(const oatpp::String& studentId, const oatpp::String& className)
 {
 
-	// åˆ›å»ºå­¦ç”Ÿç­çº§å…³ç³»è®°å½•
+	// ´´½¨Ñ§Éú°à¼¶¹ØÏµ¼ÇÂ¼
 	ClassStudentDO classStudent;
 	UuidFacade uf;
 	classStudent.setId(uf.genUuid());
 	classStudent.setClassId(className);
 	classStudent.setStudentId(studentId);
 	classStudent.setAddTime(SimpleDateTimeFormat::format());
-	classStudent.setDeleted(0);  // æœªåˆ é™¤
-	classStudent.setReason(0);    // é»˜è®¤åŸå› 
+	classStudent.setDeleted(0);  // Î´É¾³ı
+	classStudent.setReason(0);    // Ä¬ÈÏÔ­Òò
 
-	// è®¾ç½®åˆ›å»ºäºº
-	// è¿™é‡Œéœ€è¦è·å–å½“å‰ç™»å½•ç”¨æˆ·ä¿¡æ¯
+	// ÉèÖÃ´´½¨ÈË
+	// ÕâÀïĞèÒª»ñÈ¡µ±Ç°µÇÂ¼ÓÃ»§ĞÅÏ¢
 
-	// ä¿å­˜åˆ°æ•°æ®åº“
-	// è¿™é‡Œéœ€è¦å®ç°ClassStudentDAOçš„æ’å…¥æ–¹æ³•
+	// ±£´æµ½Êı¾İ¿â
+	// ÕâÀïĞèÒªÊµÏÖClassStudentDAOµÄ²åÈë·½·¨
 
-	return true;  // æš‚æ—¶è¿”å›trueï¼Œå®é™…éœ€è¦å®ç°
+	return true;  // ÔİÊ±·µ»Øtrue£¬Êµ¼ÊĞèÒªÊµÏÖ
+}
+
+// É¾³ı¸ú½ø¼ÇÂ¼µÄÊµÏÖ
+StringJsonVO::Wrapper ContactRecordService::deleteContactRecord(const DeleteContactRecordDTO::Wrapper& dto)
+{
+	// ÑéÖ¤²ÎÊı
+	if (!dto || !dto->ids || dto->ids->empty()) {
+		auto vo = StringJsonVO::createShared();
+		vo->code = 400;
+		vo->message = "¸ú½ø¼ÇÂ¼ID²»ÄÜÎª¿Õ";
+		return vo;
+	}
+	
+	// Ö»ÔÊĞíÉ¾³ıÒ»Ìõ¼ÇÂ¼
+	if (dto->ids->size() > 1) {
+		auto vo = StringJsonVO::createShared();
+		vo->code = 400;
+		vo->message = "Ö»ÔÊĞíÉ¾³ıÒ»Ìõ¸ú½ø¼ÇÂ¼";
+		return vo;
+	}
+	
+	// Ö´ĞĞÉ¾³ı²Ù×÷
+	ContactRecordDAO dao;
+	int result = dao.deleteContactRecord(static_cast<uint64_t>(*dto->ids->front()));
+	
+	// ¼ì²éÉ¾³ı½á¹û
+	if (result <= 0) {
+		auto vo = StringJsonVO::createShared();
+		vo->code = 500;
+		vo->message = "É¾³ıÊ§°Ü";
+		return vo;
+	}
+	
+	// É¾³ı³É¹¦
+	auto vo = StringJsonVO::createShared();
+	vo->code = 200;
+	vo->message = "É¾³ı³É¹¦";
+	vo->data = "É¾³ıÁË 1 Ìõ¸ú½ø¼ÇÂ¼";
+	return vo;
 }
 

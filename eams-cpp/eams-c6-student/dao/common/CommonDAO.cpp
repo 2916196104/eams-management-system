@@ -1,4 +1,4 @@
-ï»¿#include "stdafx.h"
+#include "stdafx.h"
 #include "CommonDAO.h"
 #include "CommonMapper.h"
 void StudentDAO::updateStudentHeadImg(uint64_t studentId, const std::string& headImg)
@@ -53,7 +53,7 @@ std::list<RegistrationDTO::Wrapper> RegistrationRecordDAO::selectRegistrationRec
 	return sqlSession->executeQuery<RegistrationDTO::Wrapper>(sql, RegistrationRecordMapper(), params);
 }
 
-//ç­çº§åˆ—è¡¨
+//°à¼¶ÁĞ±í
 uint64_t getClassListDAO::count(const getClassListQuery::Wrapper& query)
 {
 	SqlParams params;
@@ -61,7 +61,7 @@ uint64_t getClassListDAO::count(const getClassListQuery::Wrapper& query)
 	sql += queryConditionBuilder(query, params);
 	return sqlSession->executeQueryNumerical(sql, params);
 }
-//ç­çº§åˆ—è¡¨
+//°à¼¶ÁĞ±í
 std::list<getClassListDO> getClassListDAO::selectWithPage(const getClassListQuery::Wrapper& query)
 {
 	SqlParams params;
@@ -72,7 +72,7 @@ std::list<getClassListDO> getClassListDAO::selectWithPage(const getClassListQuer
 
 	return sqlSession->executeQuery<getClassListDO>(sql, getClassListMapper(), params);
 }
-//ç­çº§åˆ—è¡¨
+//°à¼¶ÁĞ±í
 std::list<PtrgetClassListDO> getClassListDAO::selectWithPagePtr(const getClassListQuery::Wrapper& query)
 {
 	SqlParams params;
@@ -83,7 +83,7 @@ std::list<PtrgetClassListDO> getClassListDAO::selectWithPagePtr(const getClassLi
 
 	return sqlSession->executeQuery<PtrgetClassListDO>(sql, PtrgetClassListMapper(), params);
 }
-//ç­çº§åˆ—è¡¨
+//°à¼¶ÁĞ±í
 std::string getClassListDAO::queryConditionBuilder(const getClassListQuery::Wrapper& query, SqlParams& params)
 {
 	stringstream sqlCondition;
@@ -118,7 +118,7 @@ std::string getClassListDAO::queryConditionBuilder(const getClassListQuery::Wrap
 }
 
 
-//è¯¾ç¨‹ç»Ÿè®¡
+//¿Î³ÌÍ³¼Æ
 uint64_t getCourseStatisticsDAO::count(const getCourseStatisticsQuery::Wrapper& query)
 {
 	SqlParams params;
@@ -126,7 +126,7 @@ uint64_t getCourseStatisticsDAO::count(const getCourseStatisticsQuery::Wrapper& 
 	sql += queryConditionBuilder(query, params);
 	return sqlSession->executeQueryNumerical(sql, params);
 }
-//è¯¾ç¨‹ç»Ÿè®¡
+//¿Î³ÌÍ³¼Æ
 std::list<getCourseStatisticsDO> getCourseStatisticsDAO::selectWithPage(const getCourseStatisticsQuery::Wrapper& query)
 {
 	SqlParams params;
@@ -137,7 +137,7 @@ std::list<getCourseStatisticsDO> getCourseStatisticsDAO::selectWithPage(const ge
 
 	return sqlSession->executeQuery<getCourseStatisticsDO>(sql, getCourseStatisticsMapper(), params);
 }
-//è¯¾ç¨‹ç»Ÿè®¡
+//¿Î³ÌÍ³¼Æ
 std::list<PtrgetCourseStatisticsDO> getCourseStatisticsDAO::selectWithPagePtr(const getCourseStatisticsQuery::Wrapper& query)
 {
 	SqlParams params;
@@ -148,7 +148,7 @@ std::list<PtrgetCourseStatisticsDO> getCourseStatisticsDAO::selectWithPagePtr(co
 
 	return sqlSession->executeQuery<PtrgetCourseStatisticsDO>(sql, PtrgetCourseStatisticsMapper(), params);
 }
-//è¯¾ç¨‹ç»Ÿè®¡
+//¿Î³ÌÍ³¼Æ
 std::string getCourseStatisticsDAO::queryConditionBuilder(const getCourseStatisticsQuery::Wrapper& query, SqlParams& params)
 {
 	stringstream sqlCondition;
@@ -254,4 +254,12 @@ PtrRefundDO RefundDAO::selectByIds(uint64_t student_course_id) {
 	string sql = "SELECT * FROM refund WHERE student_course_id=" + std::to_string(student_course_id);
 	return getSqlSession()->executeQueryOne<PtrRefundDO>(sql, PtrRefundMapper(), "");
 
+}
+
+// É¾³ı¸ú½ø¼ÇÂ¼µÄÊµÏÖ
+int ContactRecordDAO::deleteContactRecord(uint64_t recordId) {
+	string sql = "UPDATE contact_record SET deleted=1 WHERE id=?";
+	SqlParams params;
+	SQLPARAMS_PUSH(params, "ull", uint64_t, recordId);
+	return sqlSession->executeUpdate(sql, params);
 }
