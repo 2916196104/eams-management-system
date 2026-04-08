@@ -1,12 +1,12 @@
-package com.zeroone.star.project.query.j2.sys.holiday;
+package com.zeroone.star.project.query.j2.sys;
 
 import com.zeroone.star.project.query.PageQuery;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.time.LocalDate;
 import java.util.List;
+
 
 /**
  * <p>
@@ -17,9 +17,14 @@ import java.util.List;
  * @author Wind
  * @version 1.0.0
  */
+// ... existing code ...
+// ... existing code ...
 @Data
 @ApiModel("节日查询对象")
 public class HolidayQuery extends PageQuery {
-    @ApiModelProperty(value = "节日年份", example = "2026")
-    private Integer year;
+    @ApiModelProperty(value = "节日年份列表", example = "[2025, 2026]")
+    private List<Integer> holidayList;
 }
+
+
+

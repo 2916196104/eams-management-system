@@ -1,8 +1,8 @@
 package com.zeroone.star.project.j2.sys;
 
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.dto.j2.sys.Holiday.HolidayDTO;
-import com.zeroone.star.project.query.j2.sys.holiday.HolidayQuery;
+import com.zeroone.star.project.dto.j2.sys.Holiday.HolidayDTO ;
+import com.zeroone.star.project.query.j2.sys.HolidayQuery;
 import com.zeroone.star.project.vo.JsonVO;
 
 import java.time.LocalDate;
@@ -33,10 +33,13 @@ public interface HolidayApis {
      */
     JsonVO<String> addHoliday(LocalDate holidayTime);
 
+    // ... existing code ...
+
     /**
      * 节日删除
-     * @param holidayTime 要删除数据的编号
+     * @param id 要删除数据的ID
      * @return 删除结果
      */
-    JsonVO<String> removeHoliday(LocalDate holidayTime);
+    JsonVO<String> removeHoliday(Long id);
+
 }

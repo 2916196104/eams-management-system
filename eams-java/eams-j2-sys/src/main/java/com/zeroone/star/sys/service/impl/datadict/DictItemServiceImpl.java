@@ -103,8 +103,8 @@ public class DictItemServiceImpl extends ServiceImpl<DictItemMapper, DictItem> i
     }
 
     @Override
-    public PageDTO<DatadictVO> listDatadictByDictIdPage(Long dictId, PageQuery query) {
-        Page<DictItem> mpPage = new Page<>(query.getPageIndex(), query.getPageSize());
+    public PageDTO<DatadictVO> listDatadictByDictIdPage(Long dictId, Integer pageIndex, Integer pageSize) {
+        Page<DictItem> mpPage = new Page<>(pageIndex, pageSize);
 
         QueryWrapper<DictItem> wrapper = new QueryWrapper<>();
         wrapper.eq("dict_id", dictId);

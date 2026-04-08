@@ -20,7 +20,7 @@ public class HolidayDTO {
     /**
      * 节日id
      */
-    @ApiModelProperty(value = "节日id", example = "2008418408985583617")
+    @ApiModelProperty(value = "节日id", example = "15")
     private Long id;
 
     /**

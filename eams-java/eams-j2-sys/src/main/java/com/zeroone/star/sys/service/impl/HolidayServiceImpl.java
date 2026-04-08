@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
  * 节假日设置 服务实现类
  * </p>
  *
- * @author isme
- * @since 2026-03-25
+ * @author Wind
+ * @since 2026-03-23
  */
 @Service
 public class HolidayServiceImpl extends ServiceImpl<HolidayMapper, Holiday> implements IHolidayService {

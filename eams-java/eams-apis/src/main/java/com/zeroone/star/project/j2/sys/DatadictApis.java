@@ -9,7 +9,9 @@ import com.zeroone.star.project.query.PageQuery;
 import com.zeroone.star.project.query.j2.sys.datadict.DictItemQuery;
 import com.zeroone.star.project.vo.JsonVO;
 import com.zeroone.star.project.vo.j2.sys.Datadict.DatadictVO;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public interface DatadictApis {
@@ -21,11 +23,13 @@ public interface DatadictApis {
     JsonVO<List<DictDTO>> query();
 
     /**
-     *查询数据字典数据类型这个表
-     * @param dictItemQuery
+     * 查询数据字典数据类型这个表
+     * @param dictId
+     * @param pageIndex
+     * @param pageSize
      * @return
      */
-    JsonVO<PageDTO<DictItemDTO>> queryPage(DictItemQuery dictItemQuery);
+    JsonVO<PageDTO<DictItemDTO>> queryPage(@RequestParam Long dictId, @RequestParam Integer pageIndex, @RequestParam Integer pageSize);
 
     /**
      * 保存字典类型
@@ -46,7 +50,11 @@ public interface DatadictApis {
      * @param dictId 字典类型ID（对应dict表的id）
      * @return 该类型下的所有字典列表
      */
-    JsonVO<PageDTO<DatadictVO>> listDatadictByDictIdPage(Long dictId, PageQuery query);
+    JsonVO<PageDTO<DatadictVO>> listDatadictByDictIdPage(
+            @NotNull(message = "字典类型ID不能为空") @RequestParam("dictId") Long dictId,
+            @RequestParam("pageIndex") Integer pageIndex,
+            @RequestParam("pageSize") Integer pageSize
+    );
 
     /**
      * 根据id获取数据字典

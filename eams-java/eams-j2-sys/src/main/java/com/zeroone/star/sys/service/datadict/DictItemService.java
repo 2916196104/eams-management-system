@@ -51,5 +51,5 @@ public interface DictItemService extends IService<DictItem> {
 
     PageDTO<DictItemDTO> queryPage(DictItemQuery condition);
 
-    PageDTO<DatadictVO> listDatadictByDictIdPage(Long dictId, PageQuery query);
+    PageDTO<DatadictVO> listDatadictByDictIdPage(Long dictId, Integer pageIndex, Integer pageSize);
 }

@@ -9,8 +9,8 @@ import org.apache.ibatis.annotations.Mapper;
  * 节假日设置 Mapper 接口
  * </p>
  *
- * @author isme
- * @since 2026-03-25
+ * @author Wind
+ * @since 2026-03-23
  */
 @Mapper
 public interface HolidayMapper extends BaseMapper<Holiday> {

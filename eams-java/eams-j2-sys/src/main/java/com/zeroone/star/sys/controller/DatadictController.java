@@ -56,8 +56,12 @@ public class DatadictController implements DatadictApis {
     }
     @GetMapping("/typelist")
     @ApiOperation("获取字典类型列表(条件+分页)")
-    public JsonVO<PageDTO<DictItemDTO>> queryPage(DictItemQuery condition) {
-        PageDTO<DictItemDTO> pageData = dictItemService.queryPage(condition);
+    public JsonVO<PageDTO<DictItemDTO>> queryPage(@RequestParam Long dictId,@RequestParam Integer pageIndex,@RequestParam Integer pageSize) {
+        DictItemQuery  dictItemQuery=new DictItemQuery();
+        dictItemQuery.setPageIndex(pageIndex);
+        dictItemQuery.setPageSize(pageSize);
+        dictItemQuery.setDictId(dictId);
+        PageDTO<DictItemDTO> pageData = dictItemService.queryPage(dictItemQuery);
         return JsonVO.success(pageData);
     }
 
@@ -83,8 +87,10 @@ public class DatadictController implements DatadictApis {
     @Override
     public JsonVO<PageDTO<DatadictVO>> listDatadictByDictIdPage(
             @NotNull(message = "字典类型ID不能为空") @RequestParam("dictId") Long dictId,
-            @Valid @RequestBody PageQuery query) {
-        return JsonVO.success(dictItemService.listDatadictByDictIdPage(dictId, query));
+            @RequestParam("pageIndex") Integer pageIndex,
+            @RequestParam("pageSize") Integer pageSize) {
+
+        return JsonVO.success(dictItemService.listDatadictByDictIdPage(dictId, pageIndex, pageSize));
     }
 
 

@@ -8,8 +8,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * 节假日设置 服务类
  * </p>
  *
- * @author isme
- * @since 2026-03-25
+ * @author Wind
+ * @since 2026-03-23
  */
 public interface IHolidayService extends IService<Holiday> {
 
