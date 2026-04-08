@@ -26,8 +26,8 @@ export const useStatisticsStore = defineStore("statistics", () => {
 	// ===== getters =====
 	const totalStudents = computed(() => statistics.value.totalStudents || 0);
 	const totalTeachers = computed(() => statistics.value.totalTeachers || 0);
-	const totalCourses = computed(() => statistics.value.totalCourses || 0);
-	const monthEnrollments = computed(() => statistics.value.monthEnrollments || 0);
+	const totalLessons = computed(() => statistics.value.totalLessons || 0);
+	const monthEnrollmentAmount = computed(() => statistics.value.monthEnrollmentAmount || 0);
 
 	// ===== actions =====
 	const fetchStatistics = async () => {
@@ -43,8 +43,8 @@ export const useStatisticsStore = defineStore("statistics", () => {
 		statistics,
 		totalStudents,
 		totalTeachers,
-		totalCourses,
-		monthEnrollments,
+		totalLessons,
+		monthEnrollmentAmount,
 		fetchStatistics,
 	};
 });
@@ -272,7 +272,7 @@ export const useNoticeStore = defineStore("notice", () => {
 	const loading = ref(false);
 
 	/* 查询公告 */
-	const fetchNoticeList = async (params = {}) => {
+	const fetchNoticeList = async (params = { pageIndex: 1, pageSize: 10 }) => {
 		loading.value = true;
 		try {
 			const res = await getNoticeListApi(params);
