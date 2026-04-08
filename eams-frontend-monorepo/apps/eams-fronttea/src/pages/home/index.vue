@@ -37,7 +37,7 @@ const isTodayScheduleLoading = ref(false);
 async function loadHomeData() {
 	isTodayScheduleLoading.value = true;
 	try {
-		await Promise.allSettled([userStore.loadCurrentUserInfo(), userStore.loadScheduleByDate(today.value)]);
+		await Promise.allSettled([userStore.loadCurrentUserInfo(), userStore.loadMonthlyMetrics(), userStore.loadScheduleByDate(today.value)]);
 	} finally {
 		isTodayScheduleLoading.value = false;
 	}
@@ -75,79 +75,97 @@ onShow(() => {
 </script>
 
 <template>
-	<view class="teacher-home">
-		<!-- 顶部应用栏 -->
-		<view class="teacher-home__topbar">
-			<view class="teacher-home__safe" />
-			<view class="teacher-home__topbar-inner">
-				<text class="teacher-home__topbar-title">系统工作台</text>
-				<view class="teacher-home__manager">
-					<view class="i-carbon:user-avatar-filled-alt text-14px text-#4c7cff" />
-					<text>{{ teacherInfo.role }}</text>
-				</view>
-			</view>
-		</view>
+  <view class="teacher-home">
+    <!-- 顶部应用栏 -->
+    <view class="teacher-home__topbar">
+      <view class="teacher-home__safe" />
+      <view class="teacher-home__topbar-inner">
+        <text class="teacher-home__topbar-title">
+          系统工作台
+        </text>
+        <view class="teacher-home__manager">
+          <view class="i-carbon:user-avatar-filled-alt text-14px text-#4c7cff" />
+          <text>{{ teacherInfo.role }}</text>
+        </view>
+      </view>
+    </view>
 
-		<!-- 顶部横幅 -->
-		<view class="teacher-home__banner">
-			<view>
-				<text class="teacher-home__banner-title">{{ bannerTitle }}</text>
-				<text class="teacher-home__banner-subtitle">教培行业云化解决方案</text>
-			</view>
-			<view class="teacher-home__banner-visual">
-				<view class="i-carbon:cloud text-72px text-white" />
-				<view class="teacher-home__banner-rocket i-carbon:rocket text-36px text-#fffbe6" />
-			</view>
-		</view>
+    <!-- 顶部横幅 -->
+    <view class="teacher-home__banner">
+      <view>
+        <text class="teacher-home__banner-title">
+          {{ bannerTitle }}
+        </text>
+        <text class="teacher-home__banner-subtitle">
+          教培行业云化解决方案
+        </text>
+      </view>
+      <view class="teacher-home__banner-visual">
+        <view class="i-carbon:cloud text-72px text-white" />
+        <view class="teacher-home__banner-rocket i-carbon:rocket text-36px text-#fffbe6" />
+      </view>
+    </view>
 
-		<!-- 常用功能 -->
-		<teacher-section-card title="常用功能">
-			<view class="teacher-home__action-grid">
-				<view v-for="action in quickActions" :key="action.id" class="teacher-home__action" @click="navigate(action)">
-					<view class="teacher-home__action-icon" :style="{ backgroundColor: action.iconBg }">
-						<view
-							v-if="action.route === 'teacherAddStudent'"
-							class="i-carbon:user-follow text-24px text-white"
-						/>
-						<view v-else :class="[action.icon, 'text-24px text-white']" />
-					</view>
-					<text class="teacher-home__action-name">{{ action.name }}</text>
-				</view>
-			</view>
-		</teacher-section-card>
+    <!-- 常用功能 -->
+    <teacher-section-card title="常用功能">
+      <view class="teacher-home__action-grid">
+        <view v-for="action in quickActions" :key="action.id" class="teacher-home__action" @click="navigate(action)">
+          <view class="teacher-home__action-icon" :style="{ backgroundColor: action.iconBg }">
+            <view
+              v-if="action.route === 'teacherAddStudent'"
+              class="i-carbon:user-follow text-24px text-white"
+            />
+            <view v-else class="text-24px text-white" :class="[action.icon]" />
+          </view>
+          <text class="teacher-home__action-name">
+            {{ action.name }}
+          </text>
+        </view>
+      </view>
+    </teacher-section-card>
 
-		<!-- 今日课表 -->
-		<teacher-section-card
-			title="今日课表"
-			:extra="isTodayScheduleLoading ? '加载中' : todaySchedules.length ? `${todaySchedules.length}节` : '无课'"
-		>
-			<view v-if="todaySchedules.length" class="teacher-home__schedule-list">
-				<view
-					v-for="item in todaySchedules"
-					:key="item.id"
-					class="teacher-home__schedule-item"
-					@click="openAttendanceDetail(item.lessonId, today)"
-				>
-					<text class="teacher-home__schedule-time">{{ item.startTime }}-{{ item.endTime }}</text>
-					<view class="teacher-home__schedule-main">
-						<text class="teacher-home__schedule-course">{{ item.courseName }}</text>
-						<text class="teacher-home__schedule-meta">{{ item.className }} / {{ item.classroom }}</text>
-					</view>
-				</view>
-			</view>
-			<teacher-empty-state v-else :title="isTodayScheduleLoading ? '加载中...' : '今日无课'" compact />
-		</teacher-section-card>
+    <!-- 今日课表 -->
+    <teacher-section-card
+      title="今日课表"
+      :extra="isTodayScheduleLoading ? '加载中' : todaySchedules.length ? `${todaySchedules.length}节` : '无课'"
+    >
+      <view v-if="todaySchedules.length" class="teacher-home__schedule-list">
+        <view
+          v-for="item in todaySchedules"
+          :key="item.id"
+          class="teacher-home__schedule-item"
+          @click="openAttendanceDetail(item.lessonId, today)"
+        >
+          <text class="teacher-home__schedule-time">
+            {{ item.startTime }}-{{ item.endTime }}
+          </text>
+          <view class="teacher-home__schedule-main">
+            <text class="teacher-home__schedule-course">
+              {{ item.courseName }}
+            </text>
+            <text class="teacher-home__schedule-meta">
+              {{ item.className }} / {{ item.classroom }}
+            </text>
+          </view>
+        </view>
+      </view>
+      <teacher-empty-state v-else :title="isTodayScheduleLoading ? '加载中...' : '今日无课'" compact />
+    </teacher-section-card>
 
-		<!-- 我的本月数据 -->
-		<teacher-section-card title="我的本月数据">
-			<view class="teacher-home__metric-grid">
-				<view v-for="metric in monthMetrics" :key="metric.id" class="teacher-home__metric">
-					<text class="teacher-home__metric-value">{{ metric.value }}</text>
-					<text class="teacher-home__metric-label">{{ metric.label }}</text>
-				</view>
-			</view>
-		</teacher-section-card>
-	</view>
+    <!-- 我的本月数据 -->
+    <teacher-section-card title="我的本月数据">
+      <view class="teacher-home__metric-grid">
+        <view v-for="metric in monthMetrics" :key="metric.id" class="teacher-home__metric">
+          <text class="teacher-home__metric-value">
+            {{ metric.value }}
+          </text>
+          <text class="teacher-home__metric-label">
+            {{ metric.label }}
+          </text>
+        </view>
+      </view>
+    </teacher-section-card>
+  </view>
 </template>
 
 <style scoped>
