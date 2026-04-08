@@ -23,11 +23,11 @@ class SendHomework : public oatpp::web::server::api::ApiController
 public:		//定义接口
 	// 获取作业提交列表（条件+分页）
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("GetHomeworkList.summary"), GetHomeworkList, BackhomeworkQuery, oatpp::List<BackhomeworkVO::Wrapper>, SENDHOMEWORK_API_TAG);
-	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "org/backhomework/get-sendhomework-list", GetHomeworkList, BackhomeworkQuery, executeGetHomeworkList(query));
+	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "c3-org/backhomework/get-sendhomework-list", GetHomeworkList, BackhomeworkQuery, executeGetHomeworkList(query));
 	
 	// 点评作业
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("ReviewHomework.summary"), ReviewHomework, StringJsonVO::Wrapper, SENDHOMEWORK_API_TAG);
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "org/backhomework/review-homework", ReviewHomework, BODY_DTO(ReviewHomework::Wrapper, req), executeReviewHomework(req));
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "c3-org/backhomework/review-homework", ReviewHomework, BODY_DTO(ReviewHomework::Wrapper, req), executeReviewHomework(req));
 
 private:	//定义接口执行函数
 	//获取作业提交列表（条件+分页）

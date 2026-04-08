@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #ifndef __GRADE_TABLE_H__
 #define __GRADE_TABLE_H__
 
@@ -43,7 +43,7 @@ public:
      */
     API_HANDLER_ENDPOINT_OPTION_AUTH(
         API_M_GET,
-        "org/gradetable/get-gradetable-list",
+        "c3-org/gradetable/get-gradetable-list",
         queryPageGradeTable,
         QUERIES(QueryParams, queryParams),
         API_HANDLER_QUERY_PARAM(query, GradeTableQuery, queryParams);
@@ -74,7 +74,7 @@ public:
 
     API_HANDLER_ENDPOINT_AUTH(
         API_M_DEL,
-        "org/gradetable/gradetable-delete",
+        "c3-org/gradetable/gradetable-delete",
         DeleteList,
         BODY_DTO(DeleteListQuery::Wrapper, query),
         ExecDeleteListQuery(query)
@@ -100,7 +100,7 @@ public:
 
     API_HANDLER_ENDPOINT_AUTH(
         API_M_GET,
-        "org/gradetable/save-gradetable",
+        "c3-org/gradetable/save-gradetable",
         SaveList,
         BODY_DTO(SaveListQuery::Wrapper, query),
         ExecSaveListQuery(query)

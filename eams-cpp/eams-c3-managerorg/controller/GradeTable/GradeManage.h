@@ -23,24 +23,24 @@ public:		//定义接口
 	// 3.1 定义获取成绩列表接口描述
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("Grade.query-by-item.summary"), queryPageScore, GradeManageQuery, GradeManagePageJsonVO::Wrapper, API_TAG);
 	// 3.2 定义获取成绩列表接口处理
-	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "org/grademanage/get-grade-list", queryPageScore, QUERIES(QueryParams, queryParams),
+	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "c3-org/grademanage/get-grade-list", queryPageScore, QUERIES(QueryParams, queryParams),
 		API_HANDLER_QUERY_PARAM(query, GradeManageQuery, queryParams);
 	API_HANDLER_RESP_VO(execQueryPageScore(query)););
 
 	// 3.1 定义保存成绩接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("Grade.save.summary"), saveScore, Uint64JsonVO::Wrapper, API_TAG);
 	// 3.2 定义保存成绩接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "org/grademanage/save-grade", saveScore, BODY_DTO(GradeManageDTO::Wrapper, dto), execSave(dto, authObject->getPayload()));
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "c3-org/grademanage/save-grade", saveScore, BODY_DTO(GradeManageDTO::Wrapper, dto), execSave(dto, authObject->getPayload()));
 
 	// 3.1 定义删除成绩接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("Grade.delete.summary"), removeScore, ListJsonVO<String>::Wrapper, API_TAG);
 	// 3.2 定义删除成绩接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_DEL, "org/grademanage/del-grade", removeScore, BODY_DTO(List<String>, ids), execRemove(ids));
+	API_HANDLER_ENDPOINT_AUTH(API_M_DEL, "c3-org/grademanage/del-grade", removeScore, BODY_DTO(List<String>, ids), execRemove(ids));
 
 	// 3.1 定义导入成绩接口描述
 	API_DEF_ENDPOINT_INFO_FILE_AUTH(ZH_WORDS_GETTER("Grade.import.summary"), importScore, GradeManageDTO::Wrapper, StringJsonVO::Wrapper, API_TAG);
 	// 3.2 定义导入成绩接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "org/grademanage/import-grade", importScore, REQUEST(std::shared_ptr<IncomingRequest>, request), execImportScore(request, authObject->getPayload()));
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "c3-org/grademanage/import-grade", importScore, REQUEST(std::shared_ptr<IncomingRequest>, request), execImportScore(request, authObject->getPayload()));
 
 private:	//定义接口执行函数
 	//3.3 定义获取成绩列表执行函数

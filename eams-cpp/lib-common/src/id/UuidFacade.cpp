@@ -26,7 +26,7 @@ void UuidFacade::init()
 #ifdef UUID_SYSTEM_GENERATOR
 	this->system_gen = nullptr;
 #endif
-	// ´´½¨Ëæ»úÉú³ÉÆ÷
+	// åˆ›å»ºéšæœºç”Ÿæˆå™¨
 	if (type == 0)
 	{
 		std::random_device rd;
@@ -37,7 +37,7 @@ void UuidFacade::init()
 		this->random_gen = new uuids::uuid_random_generator(generator);
 	}
 #ifdef UUID_SYSTEM_GENERATOR
-	// ´´½¨ÏµÍ³Éú³ÉÆ÷
+	// åˆ›å»ºç³»ç»Ÿç”Ÿæˆå™¨
 	else if (type == 1)
 	{
 		this->system_gen = new uuids::uuid_system_generator();
@@ -79,7 +79,7 @@ UuidFacade::~UuidFacade()
 
 std::string UuidFacade::genUuid(bool isRemDelimiter /*= true*/)
 {
-	// ´´½¨UUID¶ÔÏó
+	// åˆ›å»ºUUIDå¯¹è±¡
 	uuids::uuid id;
 	if (this->type == 0)
 		id = (*(this->random_gen))();
@@ -90,14 +90,14 @@ std::string UuidFacade::genUuid(bool isRemDelimiter /*= true*/)
 	else
 		return {};
 
-	// ÅĞ¶ÏUUIDÊÇ·ñºÏ·¨
+	// åˆ¤æ–­UUIDæ˜¯å¦åˆæ³•
 	if (id.is_nil()
 		|| id.as_bytes().size() != 16
 		|| id.version() != uuids::uuid_version::random_number_based
 		|| id.variant() != uuids::uuid_variant::rfc)
 		return {};
 
-	// ·µ»ØUUID¶ÔÓ¦µÄ×Ö·û´®
+	// è¿”å›UUIDå¯¹åº”çš„å­—ç¬¦ä¸²
 	std::string uuidstr = uuids::to_string(id);
 	if (isRemDelimiter)
 		StringUtil::replace(&uuidstr, "-", "");

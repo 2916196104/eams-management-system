@@ -36,7 +36,7 @@ public:     // 定义接口（仅查询，无增删改）
     // 2. 定义获取学评教列表接口处理
     API_HANDLER_ENDPOINT_OPTION_AUTH(
         API_M_GET,                                           // 请求方式（GET）
-        "org/StuJudgeTea/get-stu-review-list",                       // 接口路径（模块专属）
+        "c3-org/StuJudgeTea/get-stu-review-list",                       // 接口路径（模块专属）
         queryPageStuJudgeTea,                                 // 端点函数名
         QUERIES(QueryParams, queryParams),                   // 参数解析：查询参数
         // 处理逻辑

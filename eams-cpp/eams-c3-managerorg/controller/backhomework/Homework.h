@@ -45,17 +45,17 @@ public:		//定义接口
 		API_DEF_ADD_QUERY_PARAMS(UInt64, "id", ZH_WORDS_GETTER("homework.gethomeworkdetail.id"), 1, true);  //查询作业，必须传作业id
 	);
 	//定义获取作业描述处理，GetHomeworkDetail
-	API_HANDLER_ENDPOINT_AUTH("GET", "org/backhomework/get-homework-detail", GetHomeworkDetail, QUERY(UInt64, id), execGetHomeworkDetail(id));
+	API_HANDLER_ENDPOINT_AUTH("GET", "c3-org/backhomework/get-homework-detail", GetHomeworkDetail, QUERY(UInt64, id), execGetHomeworkDetail(id));
 
 	//定义保存作业描述，SaveHomework
 	//新增不用上传唯一id，修改要上传唯一id
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("homework.savehomework.summary"), SaveHomework, SaveHomeworkJsonVO::Wrapper, API_TAG,);
 	//定义保存作业处理，SaveHomework
-	API_HANDLER_ENDPOINT_AUTH("POST", "org/backhomework/save-homework", SaveHomework, BODY_DTO(SaveHomeworkDTO::Wrapper, dto), execSaveHomework(dto, authObject->getPayload()));
+	API_HANDLER_ENDPOINT_AUTH("POST", "c3-org/backhomework/save-homework", SaveHomework, BODY_DTO(SaveHomeworkDTO::Wrapper, dto), execSaveHomework(dto, authObject->getPayload()));
 
 	// 删除作业
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("Homework.delHomework"), DeleteHomework, ListJsonVO<String>::Wrapper, API_TAG);
-	API_HANDLER_ENDPOINT_AUTH(API_M_DEL, "org/backhomework/del-homework", DeleteHomework, BODY_DTO(DeleteHomework::Wrapper, dto), executeDelHomework(dto));
+	API_HANDLER_ENDPOINT_AUTH(API_M_DEL, "c3-org/backhomework/del-homework", DeleteHomework, BODY_DTO(DeleteHomework::Wrapper, dto), executeDelHomework(dto));
 
 private:	//定义接口执行函数
 	// 执行函数：作业列表
