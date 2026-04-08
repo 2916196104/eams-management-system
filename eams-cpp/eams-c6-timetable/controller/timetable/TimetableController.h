@@ -29,7 +29,7 @@ public:
     // 1.2 按日期获取课表
     API_HANDLER_ENDPOINT_QUERY_AUTH(
         API_M_GET,
-        "/c6/timetable/query",
+        "/c6-timetable/query",
         queryTimetable,
         TimetableDayQuery,
         executeDayQuery(query)
@@ -46,7 +46,7 @@ public:
     // 2.2 课表签到
     API_HANDLER_ENDPOINT_AUTH(
         API_M_POST,
-        "/c6/timetable/sign",
+        "/c6-timetable/sign",
         signTimetable,
         BODY_DTO(TimetableSignDTO::Wrapper, dto),
         executeSign(dto)
@@ -63,7 +63,7 @@ public:
     // 3.2 预约
     API_HANDLER_ENDPOINT_AUTH(
         API_M_POST,
-        "/c6/timetable/reserve",
+        "/c6-timetable/reserve",
         timeReserve,
         BODY_DTO(ReserveDTO::Wrapper, dto),
         executeReserve(dto)
@@ -80,7 +80,7 @@ public:
     // 4.2 请假
     API_HANDLER_ENDPOINT_AUTH(
         API_M_POST,
-        "/c6/timetable/leave",
+        "/c6-timetable/leave",
         timeLeave,
         BODY_DTO(LeaveDTO::Wrapper, dto),
         executeLeave(dto)
@@ -96,7 +96,6 @@ private:
     // 执行请假
     LeaveVO::Wrapper executeLeave(const LeaveDTO::Wrapper& dto);
 };
-
 
 #include OATPP_CODEGEN_END(ApiController) 
 
