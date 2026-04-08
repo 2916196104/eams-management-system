@@ -37,7 +37,7 @@ import java.util.List;
  * @version 1.0.0
  */
 @RestController()
-@RequestMapping("j1/staff")
+@RequestMapping("org/staff")
 @Api(tags="员工管理")
 @Slf4j
 public class StaffController implements StaffMangerApis {

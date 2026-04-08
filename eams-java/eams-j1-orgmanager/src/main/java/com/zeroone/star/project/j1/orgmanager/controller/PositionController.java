@@ -1,29 +1,18 @@
 package com.zeroone.star.project.j1.orgmanager.controller;
-
-import cn.hutool.json.JSONUtil;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.zeroone.star.project.DO.PositionDataPermissionDO;
-import com.zeroone.star.project.components.jwt.JwtComponent;
-import com.zeroone.star.project.components.jwt.PayloadDTO;
 import com.zeroone.star.project.components.user.UserDTO;
 import com.zeroone.star.project.components.user.UserHolder;
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.dto.j1.org.OrgSaveDTO;
 import com.zeroone.star.project.dto.j1.org.PositionDataPermissionDTO;
 import com.zeroone.star.project.dto.j1.orgmanager.PositionDTO;
 import com.zeroone.star.project.j1.orgmanager.PositionApis;
 import com.zeroone.star.project.j1.orgmanager.mapstruct.DataPermissionConvert;
 import com.zeroone.star.project.j1.orgmanager.service.DataPermissionService;
-import com.zeroone.star.project.j1.orgmanager.service.IOrgService;
 import com.zeroone.star.project.j1.orgmanager.service.IPositionService;
-import com.zeroone.star.project.query.j1.org.OrgQuery;
 import com.zeroone.star.project.query.j1.org.PositionDataPermissionQuery;
 import com.zeroone.star.project.query.j1.orgmanager.PositionQueryCondition;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.vo.ResultStatus;
-import com.zeroone.star.project.vo.j1.org.OrgDetailVO;
-import com.zeroone.star.project.vo.j1.org.OrgListVO;
-import com.zeroone.star.project.vo.j1.org.OrgTreeVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -37,17 +26,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @Validated
-@RequestMapping("/common/position")
+@RequestMapping("/org/position")
 @Api(tags = "职位管理")
 @Slf4j
 
