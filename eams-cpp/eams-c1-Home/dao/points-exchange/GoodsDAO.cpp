@@ -22,10 +22,9 @@ PtrGoodsDetailDO GoodsDAO::selectById(const int64_t& id)
         "FROM credit_mall WHERE id = ? AND deleted = 0";
     
     
-    SQLPARAMS_PUSH(params, "ull", int64_t, id);
+    SQLPARAMS_PUSH(params, "ull", uint64_t, id);
 
-    GoodsMapper goodsMapper;
-    auto resultList = sqlSession->executeQuery<PtrGoodsDetailDO>(sql, goodsMapper, params);
+    auto resultList = sqlSession->executeQuery<PtrGoodsDetailDO>(sql, GoodsMapper(), params);
 
     if (resultList.empty()) {
        throw invalid_argument("Goods not found with id: " + std::to_string(id));

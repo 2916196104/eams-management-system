@@ -33,7 +33,7 @@ public:
         
         // 按照数据库字段映射
        
-        goods->setId(std::stol(result->getString("id")));
+        goods->setId(std::stoull(result->getString("id")));
         goods->setDeleted(result->getInt("deleted"));
         goods->setSchoolId(std::stol(result->getString("school_id")));
         goods->setAddTime(result->getString("add_time"));
