@@ -90,13 +90,12 @@
 			</div>
 			<!-- 批量操作栏 -->
 			<div class="batch-actions">
-				<el-button @click="handleBatchDelete">
-					<!-- 使用 #icon 插槽包裹图标，Element Plus 会自动处理图标与文本的间距和对齐 -->
+				<!-- <el-button @click="handleBatchDelete">
 					<template #icon>
 						<IconifyIconOffline icon="ep/delete" width="14" height="14" />
 					</template>
 					删除
-				</el-button>
+				</el-button> -->
 			</div>
 			<my-table
 				:istabmultiple="true"
