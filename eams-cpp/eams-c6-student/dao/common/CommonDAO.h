@@ -65,14 +65,14 @@ public:
 	uint64_t count(const JoinclassQuery::Wrapper& query);
 	// 分页查询数据
 	std::list<JoinclassDO> selectWithPage(const JoinclassQuery::Wrapper& query);
-	std::list<PtrJoinclassDO> JoinclassDAO::selectWithPagePtr(const JoinclassQuery::Wrapper& query);
+	std::list<PtrJoinclassDO> selectWithPagePtr(const JoinclassQuery::Wrapper& query);
 };
 /**
  * 学生课程数据访问对象
  */
 class StudentCourseDAO : public BaseDAO {
 public:
-	PtrStudentCourseDO StudentCourseDAO::selectByIds(
+	PtrStudentCourseDO selectByIds(
 		uint64_t studentId,
 		uint64_t courseId,
 		uint64_t subjectId

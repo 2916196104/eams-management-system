@@ -86,7 +86,7 @@ public:
 		MYSQL_ADD_FIELD_NULLABLE("paid_amount", "d", paidAmount, false);
 
 		// 支付状态
-		MYSQL_ADD_FIELD("pay_off", "i", payOff, false);
+		MYSQL_ADD_FIELD_NULLABLE("pay_off", "i", payOff, false);
 
 		// 操作人 (允许为空)
 		//MYSQL_ADD_FIELD_NULLABLE("operator", "i", opt, false);

@@ -19,9 +19,9 @@
 */
 #ifndef _COMMON_SERVICE_
 #define _COMMON_SERVICE_
-#include "domain/vo/Common/CommonVO.h"
-#include "domain/query/Common/CommonQuery.h"
-#include "domain/dto/Common/CommonDTO.h"
+#include "domain/vo/common/CommonVO.h"
+#include "domain/query/common/CommonQuery.h"
+#include "domain/dto/common/CommonDTO.h"
 #include "../../dao/common/CommonDAO.h"
 class StudentService {
 public:
