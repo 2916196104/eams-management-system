@@ -54,7 +54,7 @@ SettingJsonVO::Wrapper exchangeController::executeQueryRule(const UInt64& id)
 /*
 查询积分兑换记录详情
 */
-GoodsDetailJsonVO::Wrapper exchangeController::executeGetGoodsDetail(const int64_t& id)
+GoodsDetailJsonVO::Wrapper exchangeController::executeGetGoodsDetail(const UInt64& id)
 {
 
     try

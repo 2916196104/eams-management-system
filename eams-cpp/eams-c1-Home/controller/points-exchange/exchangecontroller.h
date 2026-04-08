@@ -48,11 +48,9 @@ public: // 定义接口
 		API_HANDLER_QUERY_PARAM(query, PageQuery, queryParams); API_HANDLER_RESP_VO(executeQueryAll(query)););
 
 	// 2. 定义获取积分礼品详情接口描述
-	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("exchange.get-goods-detail.summary"), getGoodsDetail, GoodsDetailJsonVO::Wrapper, API_TAG,
-		API_DEF_ADD_PATH_PARAMS(Int64, "id", ZH_WORDS_GETTER("exchange.field.id"), 101, true);
-	);
+	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("exchange.get-goods-detail.summary"), getGoodsDetail, GoodsDetailJsonVO::Wrapper, API_TAG);
 	// 2.2 定义获取积分礼品详情接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/app/sCenter/credit/info", getGoodsDetail, PATH(Int64, id), executeGetGoodsDetail(id));
+	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/app/sCenter/credit/info", getGoodsDetail, QUERY(UInt64, id), executeGetGoodsDetail(id));
 
 	// 3. 定义查询当前用户兑换记录（条件+分页）接口描述
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("exchange.query-accept.summary"), queryAcceptGoods, AcceptGoodsQuery, AcceptGoodsPageJsonVO::Wrapper, API_TAG);
@@ -80,7 +78,7 @@ public: // 定义接口
 
 private: // 定义接口执行函数
 	GoodsPageJsonVO::Wrapper executeQueryAll(const PageQuery::Wrapper& query);
-	GoodsDetailJsonVO::Wrapper executeGetGoodsDetail(const int64_t& id);
+	GoodsDetailJsonVO::Wrapper executeGetGoodsDetail(const UInt64& id);
 	AcceptGoodsPageJsonVO::Wrapper executeQueryAcceptGoods(const AcceptGoodsQuery::Wrapper& acceptGoods);
 	SettingJsonVO::Wrapper executeQueryRule(const UInt64& id);
 	ExchangeResultJsonVO::Wrapper executeSubmitExchange(const ExchangeSubmitDTO::Wrapper& request, const PayloadDTO& payload);
