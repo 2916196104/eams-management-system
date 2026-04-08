@@ -51,7 +51,7 @@ public:
     // 定义获取学员课程列表接口端点
     API_HANDLER_ENDPOINT_QUERY_AUTH(
         API_M_GET,                                 // 请求方法
-        "/c7/class/GetClassStudentCourseList",       // 请求路径
+        "/c7-class/class/GetClassStudentCourseList",       // 请求路径
         getStudentCourseList,                      // 接口方法名
         StudentCourseListQuery,                    // 查询参数类型
         executeGetStudentCourseList(query, authObject->getPayload())  // 执行方法

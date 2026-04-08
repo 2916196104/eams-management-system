@@ -51,7 +51,7 @@ public:
     // 定义获取班级学员详情接口端点
     API_HANDLER_ENDPOINT_AUTH(
         API_M_GET,                                    // 请求方法
-        "/c7/class/GetClassStudentDetails/{studentId}", // 请求路径 ← 添加了 {studentId}
+        "/c7-class/class/GetClassStudentDetails/{studentId}", // 请求路径 ← 添加了 {studentId}
         getClassStudentDetails,                       // 接口方法名
         PATH(String, studentId, "studentId"),         // 路径参数
         executeGetClassStudentDetails(studentId, authObject->getPayload())  // 执行方法
