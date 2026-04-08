@@ -356,14 +356,32 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
             return JsonVO.fail("目标机构ID不合法");
         }
 
+        // 检查员工是否存在或已被删除
+        LambdaQueryWrapper<Staff> staffCheckWrapper = new LambdaQueryWrapper<>();
+        staffCheckWrapper.in(Staff::getId, staffIds).eq(Staff::getDeleted, 0);
+        List<Staff> existingStaff = staffMapper.selectList(staffCheckWrapper);
+        if (existingStaff.size() != staffIds.size()) {
+            return JsonVO.fail("部分员工不存在或已被删除");
+        }
+
+        // 检查目标机构是否存在（假设存在机构表，此处需要根据实际情况调整）
+        // 这里需要根据实际的机构表结构进行检查，暂时跳过具体实现
+
         LambdaUpdateWrapper<Staff> staffUpdate = new LambdaUpdateWrapper<>();
         staffUpdate.in(Staff::getId, staffIds)
                 .set(Staff::getOrgId, targetOrgId);
         int staffUpdateCount = staffMapper.update(new Staff(), staffUpdate);
 
+        // 处理员工转移后的职位信息 - 直接修改职位
+        // 这里假设我们有一个默认的职位分配策略，或者可以根据目标机构的默认职位来设置
+        // 由于不能修改DTO，我们可以为每个员工设置一个默认职位，或者保持原职位不变
         LambdaUpdateWrapper<StaffOrginfo> orgUpdate = new LambdaUpdateWrapper<>();
         orgUpdate.in(StaffOrginfo::getStaffId, staffIds)
                 .set(StaffOrginfo::getOrgId, targetOrgId);
+        
+        // 注意：由于DTO中没有目标职位字段，这里我们保持原职位不变
+        // 如果需要直接修改职位，需要在DTO中添加目标职位字段
+        
         int orgUpdateCount = staffOrginfoMapper.update(null, orgUpdate);
 
         if (staffUpdateCount == 0 && orgUpdateCount == 0) {
@@ -385,13 +403,26 @@ public class StaffServiceimpl extends ServiceImpl<StaffMapper, Staff> implements
             return JsonVO.fail("新密码长度必须在6-20位之间");
         }
 
+        // 检查员工是否存在或已被删除
+        LambdaQueryWrapper<Staff> staffCheckWrapper = new LambdaQueryWrapper<>();
+        staffCheckWrapper.eq(Staff::getId, resetPasswordDTO.getStaffId()).eq(Staff::getDeleted, 0);
+        Staff staff = staffMapper.selectOne(staffCheckWrapper);
+        if (staff == null) {
+            return JsonVO.fail("员工不存在或已被删除");
+        }
+
+        // 检查员工状态，只允许在职员工重置密码
+        if (staff.getState() != 1) {
+            return JsonVO.fail("只有在职员工才能重置密码");
+        }
+
         LambdaUpdateWrapper<Staff> passwordUpdate = new LambdaUpdateWrapper<>();
         passwordUpdate.eq(Staff::getId, resetPasswordDTO.getStaffId())
                 .set(Staff::getPassword, resetPasswordDTO.getNewPassword());
         int updateCount = staffMapper.update(new Staff(), passwordUpdate);
 
         if (updateCount == 0) {
-            return JsonVO.fail("密码重置失败：员工不存在或已被删除");
+            return JsonVO.fail("密码重置失败");
         }
         return JsonVO.success((long) updateCount);
     }
