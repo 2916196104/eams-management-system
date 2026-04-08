@@ -56,11 +56,18 @@ function toDateTimeRange(params: { startDate: string; endDate: string }): { begi
 	return { beginTime, endTime };
 }
 
+function unwrapData(raw: unknown): unknown {
+	if (!raw || typeof raw !== "object") return raw;
+	const data = (raw as { data?: unknown }).data;
+	if (data === undefined) return raw;
+	return data;
+}
+
 export async function queryStudentFunnelByMonth(params: { month: string }): Promise<FunnelSeriesItem[]> {
 	void params;
 	const http = useHttp();
 	const res = await http.get<unknown>("/j3-statis/sales-funnel");
-	const raw = res.data;
+	const raw = unwrapData(res.data);
 	if (!Array.isArray(raw)) throw new Error("销售漏斗接口返回格式不正确");
 
 	const mapped = raw
@@ -88,7 +95,7 @@ export async function queryStudentScorePieByMonth(params: { month: string }): Pr
 export async function queryStudentAgeComposition(): Promise<StudentAgeCompositionItem[]> {
 	const http = useHttp();
 	const res = await http.get<unknown>("/j3-statis/student-age-composition");
-	const raw = res.data;
+	const raw = unwrapData(res.data);
 	if (!Array.isArray(raw)) throw new Error("年龄构成接口返回格式不正确");
 
 	return raw
@@ -110,7 +117,7 @@ export async function queryLeadTrend(params: { startDate: string; endDate: strin
 		beginTime: range.beginTime,
 		endTime: range.endTime,
 	});
-	const raw = res.data;
+	const raw = unwrapData(res.data);
 	if (!Array.isArray(raw)) throw new Error("新增学员趋势接口返回格式不正确");
 
 	const rows = raw
@@ -137,7 +144,7 @@ export async function queryClassHourRank(params: { startDate: string; endDate: s
 		beginTime: range.beginTime,
 		endTime: range.endTime,
 	});
-	const raw = res.data;
+	const raw = unwrapData(res.data);
 	if (!Array.isArray(raw)) throw new Error("学员课时排行接口返回格式不正确");
 
 	const rows = raw

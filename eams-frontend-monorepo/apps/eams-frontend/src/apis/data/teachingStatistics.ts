@@ -20,6 +20,13 @@ export interface TeachScoreRow {
 	teachingEffect: number;
 }
 
+function unwrapData(raw: unknown): unknown {
+	if (!raw || typeof raw !== "object") return raw;
+	const data = (raw as { data?: unknown }).data;
+	if (data === undefined) return raw;
+	return data;
+}
+
 export async function queryTeachClassHour(params: { startDate: string; endDate: string }): Promise<TeachClassHourResult> {
 	const http = useHttp();
 	const res = await http.get<unknown>("/j3-statis/class-hour-stats", {
@@ -29,7 +36,7 @@ export async function queryTeachClassHour(params: { startDate: string; endDate: 
 		pageSize: 10,
 	});
 
-	const raw = res.data;
+	const raw = unwrapData(res.data);
 	const rowsRaw: unknown[] = Array.isArray(raw)
 		? raw
 		: raw && typeof raw === "object" && Array.isArray((raw as Record<string, unknown>).rows)
@@ -66,7 +73,7 @@ export async function queryTeachScoreRank(params: { startDate: string; endDate: 
 		sortOrder: "desc",
 	});
 
-	const raw = res.data;
+	const raw = unwrapData(res.data);
 	const rowsRaw: unknown[] =
 		raw && typeof raw === "object" && Array.isArray((raw as Record<string, unknown>).rows)
 			? ((raw as Record<string, unknown>).rows as unknown[])

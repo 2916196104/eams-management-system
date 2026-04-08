@@ -41,9 +41,26 @@ const emit = defineEmits<ChartEvents>();
 const chartRef = ref<HTMLElement>();
 let chartInstance: echarts.ECharts | null = null;
 
+interface FunnelFormatterParams {
+	name: string;
+	percent?: number;
+}
+
+function formatPercent(percent?: number): string {
+	if (typeof percent !== "number" || !Number.isFinite(percent)) return "0%";
+	return `${Math.max(0, Math.round(percent))}%`;
+}
+
 function renderChart() {
 	if (!chartInstance) return;
-	const maxValue = Math.max(...props.seriesData.map((item) => item.value), 1);
+	const hasPositiveValue = props.seriesData.some((item) => item.value > 0);
+	const renderData = hasPositiveValue
+		? props.seriesData
+		: props.seriesData.map((item, index) => ({
+				...item,
+				value: props.seriesData.length - index,
+			}));
+	const maxValue = Math.max(...renderData.map((item) => item.value), 1);
 
 	const option = {
 		title: {
@@ -57,6 +74,7 @@ function renderChart() {
 			borderColor: "#ddd",
 			borderWidth: 1,
 			textStyle: { color: "#333" },
+			formatter: (params: FunnelFormatterParams) => `漏斗图<br/>${params.name}: ${formatPercent(params.percent)}`,
 		},
 		legend: {
 			show: true,
@@ -74,6 +92,8 @@ function renderChart() {
 				width: "80%",
 				min: 0,
 				max: maxValue,
+				minSize: "20%",
+				maxSize: "100%",
 				sort: "none",
 				orient: "vertical",
 				gap: 2,
@@ -84,7 +104,7 @@ function renderChart() {
 							color: "#ffffff",
 							fontSize: 16,
 							fontWeight: "bold",
-							formatter: (p: any) => `${p.name}`,
+							formatter: (params: FunnelFormatterParams) => `${params.name}: ${formatPercent(params.percent)}`,
 						}
 					: { show: false },
 				labelLine: {
@@ -95,7 +115,7 @@ function renderChart() {
 					borderColor: "#f4f4f4",
 					borderRadius: 2,
 				},
-				data: props.seriesData.map((item) => ({
+				data: renderData.map((item) => ({
 					name: item.name,
 					value: item.value,
 					itemStyle: {
