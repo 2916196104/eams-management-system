@@ -167,9 +167,7 @@ institution:
   delete:
     summary: 删除机构
 
-# ɾ��ְλ�ӿ�����
-# position.delete.ids.description: "Ҫɾ����ְλID�б�"
- field:
+field:
   id: 机构编号
   name: 机构名称
   parentId: 父机构编号
@@ -183,12 +181,12 @@ institution:
   sort: 排序
   status: 状态
   description: 说明
- tags:
+tags:
   t1: 机构管理
- tree:
+tree:
   summary: 获取机构名称树
- save:
+save:
   summary: 保存机构名称
- api:
+api:
   get: 获取机构树
   save: 保存机构
