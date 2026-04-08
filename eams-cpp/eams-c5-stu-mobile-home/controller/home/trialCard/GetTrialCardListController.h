@@ -26,7 +26,7 @@ public:
 		// 定义其他查询参数描述
 		API_DEF_ADD_QUERY_PARAMS(String, "id", ZH_WORDS_GETTER("student.id"), "", true);
 	}
-	ENDPOINT("GET", "/c5/home/trialCard/GetTrialCardList", getTrialCardList, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
+	ENDPOINT("GET", "/c5-home/trialCard/GetTrialCardList", getTrialCardList, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
 		// 解析查询参数为Query领域模型
 		API_HANDLER_QUERY_PARAM(userQuery, GetTrialCardListQuery, queryParams);
 		// 呼叫执行函数响应结果

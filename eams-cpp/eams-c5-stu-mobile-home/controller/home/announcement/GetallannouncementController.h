@@ -29,7 +29,7 @@ public://定义接口
         //API_DEF_ADD_QUERY_PARAMS(String, "type", ZH_WORDS_GETTER("getallannouncement.search2"), ZH_WORDS_GETTER("getallannouncement.teachername1"), false);
     }
     //接口等待后期更改
-    ENDPOINT(API_M_GET, "c5/home/announcement/all/get", Getallannouncement, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
+    ENDPOINT(API_M_GET, "c5-home/announcement/all/get", Getallannouncement, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
         //解析查询参数
         API_HANDLER_QUERY_PARAM(query, AnnouncementQuery, params);
         //响应结果

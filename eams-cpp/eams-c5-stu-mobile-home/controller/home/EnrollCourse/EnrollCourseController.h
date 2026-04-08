@@ -30,7 +30,7 @@ public:
 
 
 	}
-	ENDPOINT(API_M_GET, "c5/home/enrollcourse", EnrollCourse, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_GET, "c5-home/enrollcourse", EnrollCourse, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
 		API_HANDLER_QUERY_PARAM(query, EnrollCourseQuery, params);
 		API_HANDLER_RESP_VO(executeQueryEnrollCourse(query));
 	}

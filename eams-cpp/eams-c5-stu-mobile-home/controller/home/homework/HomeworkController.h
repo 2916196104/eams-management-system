@@ -24,7 +24,7 @@ public:
         API_DEF_ADD_QUERY_PARAMS(Int64, "student_id", ZH_WORDS_GETTER("c5.home.homework.field.student_id"), 1, true);
     }
 
-    ENDPOINT(API_M_GET, "/c5/home/homework/list", Homework, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME)
+    ENDPOINT(API_M_GET, "/c5-home/homework/list", Homework, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME)
     {
         API_HANDLER_QUERY_PARAM(query, HomeworkQuery, params);
         API_HANDLER_RESP_VO(executeQueryHomework(query));

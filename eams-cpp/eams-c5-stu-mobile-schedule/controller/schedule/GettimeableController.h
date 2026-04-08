@@ -36,7 +36,7 @@ public://定义接口
         API_DEF_ADD_QUERY_PARAMS(String,"teacher_info", ZH_WORDS_GETTER("gettimeable.search2"), "Roin"+ZH_WORDS_GETTER("course.teachername1"), false);*/
     }
     //接口等待后期更改
-    ENDPOINT(API_M_GET, "c5/schedule/list/get", ScheduleTimeable, QUERIES(QueryParams, params),API_HANDLER_AUTH_PARAME){
+    ENDPOINT(API_M_GET, "c5-schedule/list/get", ScheduleTimeable, QUERIES(QueryParams, params),API_HANDLER_AUTH_PARAME){
         //解析查询参数
         API_HANDLER_QUERY_PARAM(query,GetTimeableQuery, params);
         //响应结果
