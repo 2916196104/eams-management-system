@@ -25,11 +25,11 @@
 #include "Macros.h"
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/query/PageQuery.h"
-#include "domain/dto/schedule/ScheduleDTO.h"
-#include "domain/query/schedule/ScheduleQuery.h"
-#include "domain/vo/schedule/scheduleVO.h"
-#include "domain/query/lesson/LessonQuery.h"
-#include "domain/vo/lesson/LessonVO.h"
+#include "../../domain/dto/schedule/scheduleDTO.h"
+#include "../../domain/query/schedule/schedulequery.h"
+#include "../../domain/vo/schedule/scheduleVO.h"
+#include "../../domain/query/lesson/LessonQuery.h"
+#include "../../domain/vo/lesson/LessonVO.h"
 #include OATPP_CODEGEN_BEGIN(ApiController)
 //课表模块控制器
 //定义接口分类标签，通过语言包宏获取

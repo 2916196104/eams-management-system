@@ -3,7 +3,7 @@
 #define _APPOINTMENT_DAO_
 
 #include "BaseDAO.h"
-#include "domain/do/schedule/AppointmentDO.h"
+#include "../../domain/do/schedule/appointmentDO.h"
 
 /**
  * 预约表数据库访问层
