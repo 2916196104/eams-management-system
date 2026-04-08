@@ -3,7 +3,7 @@
 #define _STUDENT_LEAVE_DAO_
 
 #include "BaseDAO.h"
-#include "domain/do/schedule/studentLeaveDO.h" // 假设你有这个 DO
+#include "domain/do/schedule/StudentLeaveDO.h" // 假设你有这个 DO
 
 class StudentLeaveDAO : public BaseDAO
 {

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "StudentLeaveService.h"
 #include "dao/schedule/StudentLeaveDAO.h"
 #include "id/SnowFlake.h"
@@ -13,29 +13,29 @@ bool StudentLeaveService::addLeave(const ScheduleLeaveDTO::Wrapper& dto)
 
 	StudentLeaveDAO leaveDao;
 
-	// ¿Î´ÎÊµÌåĞ£Ñé
+	// è¯¾æ¬¡å®ä½“æ ¡éªŒ
 	if (!leaveDao.checkLessonExists(lessonId)) {
-		throw std::runtime_error(u8"¸Ã¿Î´Î²»´æÔÚ»òÒÑ±»ÏµÍ³È¡Ïû£¬ÎŞ·¨Çë¼Ù£¡");
+		throw std::runtime_error(u8"è¯¥è¯¾æ¬¡ä¸å­˜åœ¨æˆ–å·²è¢«ç³»ç»Ÿå–æ¶ˆï¼Œæ— æ³•è¯·å‡ï¼");
 	}
 
-	// ·ÀÖØ¸´Çë¼Ù
+	// é˜²é‡å¤è¯·å‡
 	if (leaveDao.checkHasLeaveRecord(studentId, lessonId) > 0) {
-		throw std::runtime_error(u8"ÄúÒÑÌá½»¹ı¸Ã¿Î´ÎµÄÇë¼ÙÉêÇë£¬ÇëÎğÖØ¸´²Ù×÷£¡");
+		throw std::runtime_error(u8"æ‚¨å·²æäº¤è¿‡è¯¥è¯¾æ¬¡çš„è¯·å‡ç”³è¯·ï¼Œè¯·å‹¿é‡å¤æ“ä½œï¼");
 	}
 
-	// ´´½¨ DO ¶ÔÏó£¬×°ÅäÊı¾İ
+	// åˆ›å»º DO å¯¹è±¡ï¼Œè£…é…æ•°æ®
 	StudentLeaveDO data;
 	data.setLessonId(lessonId);
 	data.setStudentId(studentId);
 	data.setReason(reason);
 
 	data.setAddTime(SimpleDateTimeFormat::format());
-	data.setState(1); // 1 ±íÊ¾Õı³£ÉúĞ§µÄÇë¼Ù¼ÇÂ¼
+	data.setState(1); // 1 è¡¨ç¤ºæ­£å¸¸ç”Ÿæ•ˆçš„è¯·å‡è®°å½•
 
-	// 4. Éú³ÉÎ¨Ò»Ö÷¼ü (Ñ©»¨Ëã·¨)
-	SnowFlake sf(1, 2); // ÎªÁËºÍÔ¤Ô¼Ä£¿éÇø·Ö£¬Äã¿ÉÒÔ¸ø¸ö²»Í¬µÄ»úÆ÷ID
+	// 4. ç”Ÿæˆå”¯ä¸€ä¸»é”® (é›ªèŠ±ç®—æ³•)
+	SnowFlake sf(1, 2); // ä¸ºäº†å’Œé¢„çº¦æ¨¡å—åŒºåˆ†ï¼Œä½ å¯ä»¥ç»™ä¸ªä¸åŒçš„æœºå™¨ID
 	data.setId(sf.nextId());
 
-	// 5. Ö´ĞĞ²åÈëÂä¿â
+	// 5. æ‰§è¡Œæ’å…¥è½åº“
 	return leaveDao.insert(data) == 1;
 }
