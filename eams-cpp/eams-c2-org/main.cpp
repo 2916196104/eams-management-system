@@ -36,7 +36,7 @@
  */
 void parseServerArgs(int argc, char* argv[]) {
 	// 服务器端口
-	std::string serverPort = "8090";
+	std::string serverPort = "8091";
 	// 数据库连接信息
 	std::string dbUsername = "";
 	std::string dbPassword = "";
