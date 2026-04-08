@@ -11,19 +11,17 @@ import type {
 	CampusItemDTO,
 	FollowRecordQueryDTO,
 	FollowRecordItemDTO,
-	FollowStageItemDTO,
 } from "./type";
 import type { PageDTO } from "@/components/mytable/type";
 
 const http = useHttp();
-const currBaseUrl = "/j4/student";
 
 /**
  * 获取课时汇总分页数据
  * @param params 查询参数
  */
 export const getClassSummaryPage = async (params: ClassSummaryQueryDTO) => {
-	const res = await http.get<PageDTO<ClassSummaryItemDTO>>(currBaseUrl + "/list-hour-summary", params);
+	const res = await http.get<PageDTO<ClassSummaryItemDTO>>("/student/list-hour-summary", params);
 	return res;
 };
 
@@ -32,7 +30,7 @@ export const getClassSummaryPage = async (params: ClassSummaryQueryDTO) => {
  * @param params 查询参数
  */
 export const getSignupRecordPage = async (params: SignupRecordQueryDTO) => {
-	const res = await http.get<PageDTO<SignupRecordItemDTO>>(currBaseUrl + "/getSignupRecordList", params);
+	const res = await http.get<PageDTO<SignupRecordItemDTO>>("/student/enroll/list", params);
 	return res;
 };
 
@@ -40,7 +38,7 @@ export const getSignupRecordPage = async (params: SignupRecordQueryDTO) => {
  * 获取课程列表
  */
 export const getCourseList = async () => {
-	const res = await http.get<CourseItemDTO[]>(currBaseUrl + "/getCourseList");
+	const res = await http.get<CourseItemDTO[]>("/student/getCourseList");
 	return res;
 };
 
@@ -49,7 +47,7 @@ export const getCourseList = async () => {
  * @param params 批量报名请求参数
  */
 export const batchSignup = async (params: BatchSignupRequest) => {
-	const res = await http.post(currBaseUrl + "/batchSignup", params);
+	const res = await http.post("/student/batchSignup", params);
 	return res;
 };
 
@@ -58,7 +56,7 @@ export const batchSignup = async (params: BatchSignupRequest) => {
  * @param params 批量删除请求参数
  */
 export const batchDelete = async (params: BatchDeleteRequest) => {
-	const res = await http.post(currBaseUrl + "/batchDelete", params);
+	const res = await http.post("/student/batchDelete", params);
 	return res;
 };
 
@@ -67,7 +65,7 @@ export const batchDelete = async (params: BatchDeleteRequest) => {
  * @param params 导出请求参数
  */
 export const exportSignupRecord = async (params: ExportSignupRecordRequest) => {
-	const res = await http.post(currBaseUrl + "/exportSignupRecord", params, { responseType: "blob" });
+	const res = await http.post("/student/exportSignupRecord", params, { responseType: "blob" });
 	return res;
 };
 
@@ -75,7 +73,7 @@ export const exportSignupRecord = async (params: ExportSignupRecordRequest) => {
  * 获取分校区列表
  */
 export const getCampusList = async () => {
-	const res = await http.get<CampusItemDTO[]>(currBaseUrl + "/getCampusList");
+	const res = await http.get<CampusItemDTO[]>("/student/getCampusList");
 	return res;
 };
 
@@ -83,7 +81,7 @@ export const getCampusList = async () => {
  * 获取课程列表（课时汇总用）
  */
 export const getCourseListForClassSummary = async () => {
-	const res = await http.get<CourseItemDTO[]>(currBaseUrl + "/getCourseList");
+	const res = await http.get<CourseItemDTO[]>("/student/getCourseList");
 	return res;
 };
 
@@ -92,14 +90,24 @@ export const getCourseListForClassSummary = async () => {
  * @param params 查询参数
  */
 export const getFollowRecordPage = async (params: FollowRecordQueryDTO) => {
-	const res = await http.get<PageDTO<FollowRecordItemDTO>>(currBaseUrl + "/follow-up/page", params);
+	const res = await http.get<PageDTO<FollowRecordItemDTO>>("/student/follow-up/page", params);
 	return res;
 };
 
 /**
- * 获取跟进阶段列表
+ * 保存跟进记录
+ * @param params 跟进记录请求参数
  */
-export const getFollowStageList = async () => {
-	const res = await http.get<FollowStageItemDTO[]>(currBaseUrl + "/follow-up/stage-list");
+export const saveFollowUp = async (params: FollowRecordItemDTO) => {
+	const res = await http.post("/student/follow-up/save", params);
+	return res;
+};
+
+/**
+ * 删除跟进记录
+ * @param id 跟进记录 ID
+ */
+export const deleteFollowUp = async (id: number) => {
+	const res = await http.post("/student/follow-up/delete", { id });
 	return res;
 };

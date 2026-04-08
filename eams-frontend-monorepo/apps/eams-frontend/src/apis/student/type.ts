@@ -235,3 +235,13 @@ export interface FollowStageItemDTO {
 	/** 允许其他字段 */
 	[property: string]: any;
 }
+
+/**
+ * 跟进记录导入请求参数
+ */
+export interface FollowRecordImportRequest {
+	/** 跟进记录数据 */
+	data?: FollowRecordItemDTO[];
+	/** 允许其他字段 */
+	[property: string]: any;
+}

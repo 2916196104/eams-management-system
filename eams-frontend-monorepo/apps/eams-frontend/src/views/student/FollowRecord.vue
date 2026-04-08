@@ -12,14 +12,11 @@
 						<el-input v-model="filters.creator" placeholder="请输入跟进人 ID/姓名" clearable class="filter-input" />
 					</div>
 					<div class="filter-item">
-						<label class="filter-label">跟进阶段:</label>
-						<el-select v-model="filters.stage" placeholder="请选择跟进阶段" clearable class="filter-input">
-							<el-option
-								v-for="(item, index) in stageList"
-								:key="item.id || index"
-								:label="item.name || '未知阶段'"
-								:value="Number(item.id)"
-							/>
+						<label class="filter-label">跟进状态:</label>
+						<el-select v-model="filters.stage" placeholder="请选择跟进状态" clearable class="filter-input">
+							<el-option label="潜在客户" :value="1" />
+							<el-option label="意向客户" :value="2" />
+							<el-option label="成交客户" :value="3" />
 						</el-select>
 					</div>
 					<div class="filter-item">
@@ -100,14 +97,17 @@
 				@selection-change="handleSelectionChange"
 			>
 				<template #customercell="{ prop, row }">
-					<template v-if="['contactTime', 'contactNextTime', 'addTime'].includes(prop)">
+					<template v-if="prop === 'studentName'">
+						<el-button link type="primary" @click="openDetailDialog(row)">{{ row.studentName || "-" }}</el-button>
+					</template>
+					<template v-else-if="['contactTime', 'contactNextTime', 'addTime'].includes(prop)">
 						<span :class="getCellClass(prop, row)">{{ row[prop] }}</span>
 					</template>
 					<template v-else-if="prop === 'contactType'">
 						{{ getContactTypeLabel(row[prop]) }}
 					</template>
 					<template v-else-if="prop === 'stage'">
-						{{ getStageLabel(row[prop]) }}
+						<el-tag :type="getStageTagType(row[prop])">{{ getStageLabel(row[prop]) }}</el-tag>
 					</template>
 					<template v-else>
 						{{ row[prop] }}
@@ -116,16 +116,38 @@
 			</my-table>
 		</div>
 	</div>
+	<!-- 跟进记录详情弹窗 -->
+	<el-dialog v-model="detailDialogVisible" title="跟进记录详情" width="600px">
+		<el-descriptions :column="1" border>
+			<el-descriptions-item label="学员">{{ currentRecord.studentName || "-" }}</el-descriptions-item>
+			<el-descriptions-item label="联系电话">{{ currentRecord.contactPhone || "-" }}</el-descriptions-item>
+			<el-descriptions-item label="跟进人">{{ currentRecord.creatorName || "-" }}</el-descriptions-item>
+			<el-descriptions-item label="跟进状态">
+				<el-tag :type="getStageTagType(currentRecord.stage)">{{ getStageLabel(currentRecord.stage) }}</el-tag>
+			</el-descriptions-item>
+			<el-descriptions-item label="联系方式">{{ getContactTypeLabel(currentRecord.contactType) }}</el-descriptions-item>
+			<el-descriptions-item label="跟进时间">{{ currentRecord.contactTime || "-" }}</el-descriptions-item>
+			<el-descriptions-item label="下次联系时间">{{ currentRecord.contactNextTime || "-" }}</el-descriptions-item>
+			<el-descriptions-item label="创建时间">{{ currentRecord.addTime || "-" }}</el-descriptions-item>
+			<el-descriptions-item label="跟进内容" :span="1">
+				<div class="detail-info">{{ currentRecord.info || "暂无跟进内容" }}</div>
+			</el-descriptions-item>
+		</el-descriptions>
+		<template #footer>
+			<el-button @click="detailDialogVisible = false">关闭</el-button>
+			<el-button type="danger" @click="handleDelete(currentRecord.id)">删除</el-button>
+		</template>
+	</el-dialog>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from "vue";
-import { ElMessage } from "element-plus";
+import { ElMessage, ElMessageBox } from "element-plus";
 import { IconifyIconOffline } from "@/components/ReIcon";
 import MyTable from "@/components/mytable/MyTable.vue";
 import { createPageDTO, type MyTableAttr, type MyTableColumn, type PageDTO } from "@/components/mytable/type";
-import { getFollowRecordPage, getFollowStageList } from "@/apis/student";
-import type { FollowRecordItemDTO, FollowStageItemDTO } from "@/apis/student/type";
+import { getFollowRecordPage, deleteFollowUp } from "@/apis/student";
+import type { FollowRecordItemDTO } from "@/apis/student/type";
 
 const filters = reactive({
 	keyword: "",
@@ -135,7 +157,9 @@ const filters = reactive({
 	endTime: "",
 });
 
-const stageList = ref<FollowStageItemDTO[]>([]);
+// 详情弹窗状态
+const detailDialogVisible = ref(false);
+const currentRecord = ref<FollowRecordItemDTO>({});
 
 const tableAttr: MyTableAttr = {
 	"row-key": "id",
@@ -149,7 +173,7 @@ const baseTableColumns: MyTableColumn[] = [
 	{ prop: "creatorName", label: "跟进人", "min-width": 100 },
 	{ prop: "studentName", label: "学员", "min-width": 120 },
 	{ prop: "contactPhone", label: "联系电话", width: "130px", align: "center" },
-	{ prop: "stage", label: "阶段", "min-width": 120 },
+	{ prop: "stage", label: "跟进状态", "min-width": 100, align: "center" },
 	{ prop: "contactType", label: "联系方式", "min-width": 100 },
 	{ prop: "contactNextTime", label: "下次联系", width: "160px", align: "center" },
 	{ prop: "addTime", label: "创建时间", width: "160px", align: "center" },
@@ -204,7 +228,7 @@ function getContactTypeLabel(type?: number) {
 	return typeMap[type] || "未知";
 }
 
-// 获取进展阶段标签
+// 获取跟进状态标签
 function getStageLabel(stage?: number) {
 	if (!stage) return "";
 	const stageMap: Record<number, string> = {
@@ -213,6 +237,48 @@ function getStageLabel(stage?: number) {
 		3: "成交客户",
 	};
 	return stageMap[stage] || "未知";
+}
+
+// 获取跟进状态标签类型
+function getStageTagType(stage?: number): "" | "success" | "warning" | "danger" | "info" {
+	if (!stage) return "info";
+	const typeMap: Record<number, "info" | "warning" | "success"> = {
+		1: "info",
+		2: "warning",
+		3: "success",
+	};
+	return typeMap[stage] || "info";
+}
+
+// 打开详情弹窗
+function openDetailDialog(row: FollowRecordItemDTO) {
+	currentRecord.value = { ...row };
+	detailDialogVisible.value = true;
+}
+
+// 删除跟进记录
+async function handleDelete(id?: number) {
+	if (!id) {
+		ElMessage.warning("缺少记录ID");
+		return;
+	}
+	try {
+		await ElMessageBox.confirm("确定要删除这条跟进记录吗？", "提示", {
+			confirmButtonText: "确定",
+			cancelButtonText: "取消",
+			type: "warning",
+		});
+		const res = await deleteFollowUp(id);
+		if (res.code === 200 || res.code === 0) {
+			ElMessage.success("删除成功");
+			detailDialogVisible.value = false;
+			loadData();
+		} else {
+			ElMessage.error(res.message || "删除失败");
+		}
+	} catch {
+		// 用户取消删除
+	}
 }
 
 function handleSearch() {
@@ -339,18 +405,6 @@ function handleSelectionChange(rows: FollowRecordItemDTO[]) {
 	selectedRows.value = rows;
 }
 
-async function loadStageList() {
-	try {
-		const res = await getFollowStageList();
-		if (res.data) {
-			stageList.value = res.data;
-		}
-	} catch (error) {
-		console.error("加载跟进阶段列表失败:", error);
-		ElMessage.error("加载跟进阶段列表失败");
-	}
-}
-
 async function loadData() {
 	try {
 		const res = await getFollowRecordPage({
@@ -372,7 +426,6 @@ async function loadData() {
 }
 
 onMounted(() => {
-	loadStageList();
 	loadData();
 });
 </script>
@@ -476,6 +529,13 @@ onMounted(() => {
 
 :deep(.cell-add-time) {
 	color: #909399;
+}
+
+/* 详情弹窗样式 */
+.detail-info {
+	white-space: pre-wrap;
+	word-break: break-all;
+	line-height: 1.6;
 }
 
 .column-trigger-wrap {
