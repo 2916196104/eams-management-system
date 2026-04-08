@@ -1,4 +1,4 @@
-import { useHttp } from "@/plugins/http";
+﻿import { useHttp } from "@/plugins/http";
 
 export interface PositionRow {
 	id: string;
@@ -42,7 +42,7 @@ function toNumber(v: unknown, fallback = 0) {
 
 export async function queryPositionList(params: { name?: string; pageIndex: number; pageSize: number }): Promise<PageResult<PositionRow>> {
 	const http = useHttp();
-	const res = await http.get<unknown>("/common/position/list", {
+	const res = await http.get<unknown>("/org/position/list", {
 		name: params.name || undefined,
 		page: params.pageIndex,
 		pageSize: params.pageSize,
@@ -72,7 +72,7 @@ export async function queryPositionList(params: { name?: string; pageIndex: numb
 
 export async function savePosition(payload: { id?: string; name: string }): Promise<void> {
 	const http = useHttp();
-	await http.post("/common/position/save", {
+	await http.post("/org/position/save", {
 		id: payload.id ? toNumber(payload.id) : undefined,
 		name: payload.name,
 	});
@@ -80,13 +80,13 @@ export async function savePosition(payload: { id?: string; name: string }): Prom
 
 export async function deletePositions(ids: string[]): Promise<void> {
 	const http = useHttp();
-	// Apifox 示例里 Body 参数显示为 array[integer]，这里直接发 id 数组
-	await http.post("/common/position/delete", ids.map((i) => toNumber(i)));
+	// Apifox 绀轰緥閲?Body 鍙傛暟鏄剧ず涓?array[integer]锛岃繖閲岀洿鎺ュ彂 id 鏁扮粍
+	await http.post("/org/position/delete", ids.map((i) => toNumber(i)));
 }
 
 export async function queryPositionPermissions(params: { positionId: string; pageIndex: number; pageSize: number }): Promise<PageResult<PositionPermissionRow>> {
 	const http = useHttp();
-	const res = await http.get<unknown>("/common/position/j1/org/query", {
+	const res = await http.get<unknown>("/org/position/queryPermission", {
 		positionId: toNumber(params.positionId),
 		pageIndex: params.pageIndex,
 		pageSize: params.pageSize,
@@ -123,7 +123,7 @@ export async function queryPositionPermissions(params: { positionId: string; pag
 
 export async function savePositionPermission(payload: PositionPermissionSavePayload): Promise<void> {
 	const http = useHttp();
-	await http.post("/common/position/j1/org/save", {
+	await http.post("/org/position/savePermission", {
 		id: payload.id ? toNumber(payload.id) : undefined,
 		entity_name: payload.entityName,
 		owner_field: payload.ownerField,
@@ -135,7 +135,9 @@ export async function savePositionPermission(payload: PositionPermissionSavePayl
 
 export async function removePositionPermissions(ids: string[]): Promise<void> {
 	const http = useHttp();
-	// Apifox 示例显示 body 是 string（如 "1"），也支持批量：这里按 string[] 处理
-	await http.delete("/common/position/j1/org/remove", ids.length === 1 ? ids[0] : ids);
+	// Apifox 绀轰緥鏄剧ず body 鏄?string锛堝 "1"锛夛紝涔熸敮鎸佹壒閲忥細杩欓噷鎸?string[] 澶勭悊
+	await http.delete("/org/position/removePermission", ids.length === 1 ? ids[0] : ids);
 }
+
+
 

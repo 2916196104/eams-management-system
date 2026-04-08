@@ -21,20 +21,20 @@ export interface TeachScoreRow {
 }
 
 export async function queryTeachClassHour(params: { startDate: string; endDate: string }): Promise<TeachClassHourResult> {
-	// Apifox（当前开发）：GET /3/data/class-hour-stats?startDate&endDate
 	const http = useHttp();
-	const res = await http.get<unknown>("/3/data/class-hour-stats", {
+	const res = await http.get<unknown>("/j3-statis/class-hour-stats", {
 		startDate: params.startDate,
 		endDate: params.endDate,
+		pageIndex: 1,
+		pageSize: 10,
 	});
 
 	const raw = res.data;
-	// 兼容：可能是数组，也可能是分页对象（rows）
 	const rowsRaw: unknown[] = Array.isArray(raw)
 		? raw
-		: (raw && typeof raw === "object" && Array.isArray((raw as Record<string, unknown>).rows)
-				? ((raw as Record<string, unknown>).rows as unknown[])
-				: []);
+		: raw && typeof raw === "object" && Array.isArray((raw as Record<string, unknown>).rows)
+			? ((raw as Record<string, unknown>).rows as unknown[])
+			: [];
 
 	if (raw === null || raw === undefined) throw new Error("课时统计接口返回为空");
 
@@ -49,10 +49,6 @@ export async function queryTeachClassHour(params: { startDate: string; endDate: 
 		})
 		.filter((i): i is TeachClassHourRow => Boolean(i));
 
-	if (!rows.length) {
-		return { xAxisData: [], seriesData: [{ name: "课时统计", data: [], color: "#40c9c6" }] };
-	}
-
 	return {
 		xAxisData: rows.map((i) => i.teacherName),
 		seriesData: [{ name: "课时统计", data: rows.map((i) => i.totalHours), color: "#40c9c6" }],
@@ -60,15 +56,12 @@ export async function queryTeachClassHour(params: { startDate: string; endDate: 
 }
 
 export async function queryTeachScoreRank(params: { startDate: string; endDate: string }): Promise<TeachScoreRow[]> {
-	// Apifox（当前开发）：GET /3/data
-	// 该接口返回 PageDTO：{ pageIndex,pageSize,pages,rows,total }
 	const http = useHttp();
-	const res = await http.get<unknown>("/3/data", {
+	const res = await http.get<unknown>("/j3-statis/teachevaluation", {
 		startDate: params.startDate,
 		endDate: params.endDate,
-		// 后端返回前端只展示第一页；表格仍支持前端三态排序
 		pageIndex: 1,
-		pageSize: 50,
+		pageSize: 10,
 		sortBy: "evaluationCount",
 		sortOrder: "desc",
 	});
@@ -79,9 +72,9 @@ export async function queryTeachScoreRank(params: { startDate: string; endDate: 
 			? ((raw as Record<string, unknown>).rows as unknown[])
 			: [];
 
-	if (raw === null || raw === undefined) throw new Error("学评教得分排名接口返回为空");
+	if (raw === null || raw === undefined) throw new Error("学评教得分排行接口返回为空");
 
-	const rows: TeachScoreRow[] = rowsRaw
+	return rowsRaw
 		.map((item) => {
 			if (!item || typeof item !== "object") return null;
 			const o = item as Record<string, unknown>;
@@ -102,7 +95,4 @@ export async function queryTeachScoreRank(params: { startDate: string; endDate: 
 			} as TeachScoreRow;
 		})
 		.filter((i): i is TeachScoreRow => Boolean(i));
-
-	if (!rows.length) return [];
-	return rows;
 }
