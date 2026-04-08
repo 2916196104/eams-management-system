@@ -50,9 +50,9 @@ class LeaveVO : public JsonVO<TimetableActionResultDTO::Wrapper>
 /**
  * «©µΩœÏ”¶
  */
-class TimetableSignVO : public JsonVO<TimetableActionResultDTO::Wrapper>
+class TimetableSignVO : public JsonVO<TimetableSignResultDTO::Wrapper>
 {
-    DTO_INIT(TimetableSignVO, JsonVO<TimetableActionResultDTO::Wrapper>);
+    DTO_INIT(TimetableSignVO, JsonVO<TimetableSignResultDTO::Wrapper>);
 };
 
 #include OATPP_CODEGEN_END(DTO)
