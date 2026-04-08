@@ -47,17 +47,7 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
 
-        <!-- alibaba seata -->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
-        </dependency>
 
-        <!-- openfeign -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
 
         <!-- 数据库相关 -->
         <!-- mp -->
@@ -116,10 +106,10 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <configuration>
                     <!-- Docker 远程管理地址 -->
-                    <dockerHost>https://192.168.220.128:2375</dockerHost>
+                    <dockerHost>https://118.31.118.186:2375</dockerHost>
 
                     <!-- CA 证书位置 -->
-                    <certPath>/home/docker-ca</certPath>
+                    <certPath>D:\docker-ca</certPath>
 
                     <images>
                         <image>
@@ -141,7 +131,7 @@
 
                                 <!-- 端口映射 -->
                                 <ports>
-                                    <port>9999:9999</port>
+                                    <port>10200:10200</port>
                                 </ports>
 
                                 <!-- 数据卷 -->
@@ -158,7 +148,7 @@
                                     <JAVA_OPTS>-Xms256m -Xmx256m</JAVA_OPTS>
                                     <!-- 启动替换参数 -->
                                     <SPRING_ARGS>
-                                        -spring.profiles.active=test spring.cloud.nacos.discovery.ip=192.168.220.128
+                                        --spring.profiles.active=test --spring.cloud.nacos.discovery.ip=118.31.118.186
                                     </SPRING_ARGS>
                                 </env>
                             </run>
