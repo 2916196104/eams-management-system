@@ -74,40 +74,33 @@ public interface StaffMangerApis {
      * @param dto 转出机构请求参数（员工ID列表、目标机构ID）
      * @return 操作结果
      */
-    @ApiOperation("转出机构（支持批量）")
-    @PostMapping("/transfer")
-    JsonVO<Void> batchTransferOrg(@Valid @RequestBody AdminTransferOrgDTO dto);
+    JsonVO<Long> batchTransferOrg(AdminTransferOrgDTO dto);
 
     /**
      * 重置员工密码
      * @param resetPasswordDTO 重置密码参数
      * @return 操作结果
      */
-    @ApiOperation("修改密码")
-    @PostMapping("/reset-password")
-    JsonVO<Void> resetPassword(@Valid @RequestBody ResetPasswordDTO resetPasswordDTO);
+
+    JsonVO<Long> resetPassword(ResetPasswordDTO resetPasswordDTO);
     /**
      * 导出员工信息到Excel
      * @param query 查询条件
      */
-    @ApiOperation("导出数据")
-    @GetMapping("/export")
+
     ResponseEntity<byte[]> exportStaffExcel(StaffQuery query);
     /**
      * 修改员工头像（URL方式，适配已有文件URL场景）
      * @param dto 头像修改DTO
      * @return 操作结果
      */
-    @PutMapping("/{staffId}/url")
-    @ApiOperation("修改头像")
-    JsonVO<Void> updateStaffAvatarByUrl(AdminUpdateStaffAvatarDTO dto);
 
-    @ApiOperation("获取授课记录（条件+分页）")
-    @GetMapping("/{staffId}/lesson")
-    JsonVO<PageDTO<LessonRecordVO>> pageQueryLessonRecord(@RequestBody LessonRecordQuery query);
+    JsonVO<Long> updateStaffAvatarByUrl(AdminUpdateStaffAvatarDTO dto);
 
-    @ApiOperation("获取授课记录（条件+分页）")
-    @GetMapping("/{staffId}/class")
-    JsonVO<PageDTO<ClassRecordVO>> pageQueryClassRecord(@RequestBody ClassRecordQuery query);
+
+    JsonVO<PageDTO<LessonRecordVO>> pageQueryLessonRecord(LessonRecordQuery query);
+
+
+    JsonVO<PageDTO<ClassRecordVO>> pageQueryClassRecord(ClassRecordQuery query);
 
 }

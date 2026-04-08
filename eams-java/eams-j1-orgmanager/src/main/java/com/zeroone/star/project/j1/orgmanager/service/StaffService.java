@@ -37,13 +37,13 @@ public interface StaffService extends IService<Staff> {
      * @param dto 转出机构请求参数
      * @return 操作结果
      */
-    JsonVO<Void> batchTransferOrg(AdminTransferOrgDTO dto);
+    JsonVO<Long> batchTransferOrg(AdminTransferOrgDTO dto);
     /**
      * 重置员工密码
      * @param resetPasswordDTO 重置密码参数
      * @return 操作结果
      */
-    JsonVO<Void> resetPassword(ResetPasswordDTO resetPasswordDTO);
+    JsonVO<Long> resetPassword(ResetPasswordDTO resetPasswordDTO);
     /**
      * 导出员工数据
      */
@@ -54,7 +54,7 @@ public interface StaffService extends IService<Staff> {
      * @param dto 头像修改DTO
      * @throws Exception 业务异常
      */
-    void updateStaffAvatarByUrl(AdminUpdateStaffAvatarDTO dto) throws Exception;
+    JsonVO<Long> updateStaffAvatarByUrl(AdminUpdateStaffAvatarDTO dto);
 
 
     JsonVO<PageDTO<LessonRecordVO>> getLessonRecord(LessonRecordQuery condition);

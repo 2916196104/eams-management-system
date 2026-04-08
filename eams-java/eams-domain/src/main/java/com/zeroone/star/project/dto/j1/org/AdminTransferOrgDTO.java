@@ -1,8 +1,8 @@
 package com.zeroone.star.project.dto.j1.org;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -15,10 +15,11 @@ import java.util.List;
  * @version 1.0.0
  */
 @Data
+@ApiModel("管理员批量转出员工机构数据传输对象")
 public class AdminTransferOrgDTO {
-    @NotEmpty(message = "员工ID列表不能为空")
+    @ApiModelProperty(value = "员工ID集合", required = true)
     private List<Long> staffIds;
 
-    @NotNull(message = "目标机构ID不能为空")
+    @ApiModelProperty(value = "目标机构ID", required = true)
     private Long targetOrgId;
 }

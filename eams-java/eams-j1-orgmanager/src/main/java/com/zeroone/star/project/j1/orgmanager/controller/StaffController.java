@@ -114,33 +114,59 @@ public class StaffController implements StaffMangerApis {
 
 
     @Override
-    public JsonVO<Void> batchTransferOrg(@Valid @RequestBody AdminTransferOrgDTO dto) {
+    @ApiOperation("转出机构（支持批量）")
+    @PostMapping("/transfer")
+    public JsonVO<Long> batchTransferOrg(@RequestBody AdminTransferOrgDTO dto) {
         return staffService.batchTransferOrg(dto);
     }
 
     @Override
-    public JsonVO<Void> resetPassword(@Valid ResetPasswordDTO resetPasswordDTO) {
+    @ApiOperation("修改密码")
+    @PutMapping("/reset-password")
+    public JsonVO<Long> resetPassword(@RequestBody ResetPasswordDTO resetPasswordDTO) {
         return staffService.resetPassword(resetPasswordDTO);
     }
     @Override
+    @ApiOperation("导出数据")
+    @GetMapping("/export")
     public ResponseEntity<byte[]> exportStaffExcel(StaffQuery query) {
         return staffService.exportStaffExcel(query);
     }
     @Override
-    public JsonVO<Void> updateStaffAvatarByUrl(@Valid @RequestBody AdminUpdateStaffAvatarDTO dto) {
-        try {
-            staffService.updateStaffAvatarByUrl(dto);
-            return JsonVO.success(null);
-        } catch (Exception e) {
-            return JsonVO.create(null, ResultStatus.FAIL.getCode(), e.getMessage());
-        }
+    @PutMapping("/avatar/url")
+    @ApiOperation("修改头像")
+    public JsonVO<Long> updateStaffAvatarByUrl(@RequestBody AdminUpdateStaffAvatarDTO dto) {
+        return staffService.updateStaffAvatarByUrl(dto);
     }
     @Override
-    public JsonVO<PageDTO<LessonRecordVO>> pageQueryLessonRecord(LessonRecordQuery query) {
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "Authorization",
+                    value = "认证Token（登录后获取）",
+                    required = true,
+                    dataType = "string",
+                    paramType = "header"
+            )
+    })
+    @ApiOperation(value = "获取授课记录（条件+分页）", notes = "在员工详情页展示，需传入staffId")
+    @GetMapping("/lesson")
+    public JsonVO<PageDTO<LessonRecordVO>> pageQueryLessonRecord(@Valid LessonRecordQuery query) {
         return staffService.getLessonRecord(query);
     }
+
     @Override
-    public JsonVO<PageDTO<ClassRecordVO>> pageQueryClassRecord(ClassRecordQuery query) {
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "Authorization",
+                    value = "认证Token（登录后获取）",
+                    required = true,
+                    dataType = "string",
+                    paramType = "header"
+            )
+    })
+    @ApiOperation(value = "获取带班记录（条件+分页）", notes = "在员工详情页展示，需传入staffId")
+    @GetMapping("/class")
+    public JsonVO<PageDTO<ClassRecordVO>> pageQueryClassRecord(@Valid ClassRecordQuery query) {
         return staffService.getClassRecord(query);
     }
 }

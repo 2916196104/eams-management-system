@@ -1,8 +1,8 @@
 package com.zeroone.star.project.dto.j1.org;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -14,10 +14,11 @@ import javax.validation.constraints.NotNull;
  * @version 1.0.0
  */
 @Data
+@ApiModel("管理员修改员工头像数据传输对象")
 public class AdminUpdateStaffAvatarDTO {
-    @NotNull(message = "员工ID不能为空")
+    @ApiModelProperty(value = "员工ID", required = true)
     private Long staffId;
 
-    @NotBlank(message = "头像URL不能为空")
+    @ApiModelProperty(value = "头像URL", required = true)
     private String avatarUrl;
 }
