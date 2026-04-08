@@ -110,73 +110,6 @@ import { createPageDTO, type MyTableAttr, type MyTableColumn, type PageDTO } fro
 import { getClassSummaryPage } from "@/apis/student";
 import type { ClassSummaryItemDTO } from "@/apis/student/type";
 
-// 是否使用 Mock 数据（后端未完成时使用）
-const USE_MOCK_DATA = true;
-
-// 生成 Mock 数据
-function generateMockClassSummaryData(): ClassSummaryItemDTO[] {
-	const signStates = [
-		{ signState: 0, signType: 0 }, // 未签到
-		{ signState: 1, signType: 0 }, // 已签到 - 正常
-		{ signState: 1, signType: 1 }, // 已签到 - 补签
-		{ signState: 2, signType: 0 }, // 迟到
-		{ signState: 3, signType: 0 }, // 早退
-		{ signState: 4, signType: 2 }, // 缺勤 - 异常
-	];
-
-	const students = [
-		{ name: "张三", mobile: "13800138001", studentId: "S001" },
-		{ name: "李四", mobile: "13800138002", studentId: "S002" },
-		{ name: "王五", mobile: "13800138003", studentId: "S003" },
-		{ name: "赵六", mobile: "13800138004", studentId: "S004" },
-		{ name: "钱七", mobile: "13800138005", studentId: "S005" },
-		{ name: "孙八", mobile: "13800138006", studentId: "S006" },
-		{ name: "周九", mobile: "13800138007", studentId: "S007" },
-		{ name: "吴十", mobile: "13800138008", studentId: "S008" },
-	];
-
-	const data: ClassSummaryItemDTO[] = [];
-	let id = 1;
-
-	students.forEach((student) => {
-		// 每个学生生成 1-3 条课时记录
-		const recordCount = Math.floor(Math.random() * 3) + 1;
-		for (let i = 0; i < recordCount; i++) {
-			const signInfo = signStates[Math.floor(Math.random() * signStates.length)];
-			const lessonCount = Math.floor(Math.random() * 10) + 5;
-			const decLessonCount = Math.floor(Math.random() * lessonCount);
-
-			// 生成签到时间（部分有签到时间，部分没有）
-			let signTime: string | undefined;
-			if (signInfo.signState === 1 || signInfo.signState === 2 || signInfo.signState === 3) {
-				const date = new Date();
-				date.setDate(date.getDate() - Math.floor(Math.random() * 7));
-				date.setHours(Math.floor(Math.random() * 9) + 8, Math.floor(Math.random() * 60));
-				signTime = date.toISOString();
-			} else {
-				signTime = undefined;
-			}
-
-			data.push({
-				id: id++,
-				classId: Math.floor(Math.random() * 5) + 1,
-				studentId: student.studentId,
-				name: student.name,
-				mobile: student.mobile,
-				lessonId: Math.floor(Math.random() * 100) + 1,
-				lessonCount,
-				decLessonCount,
-				teacherId: Math.floor(Math.random() * 10) + 1,
-				signState: signInfo.signState,
-				signTime,
-				signType: signInfo.signType,
-			});
-		}
-	});
-
-	return data;
-}
-
 const filters = reactive({
 	gradeId: undefined as number | undefined,
 	name: "",
@@ -426,34 +359,18 @@ function handleSelectionChange(rows: ClassSummaryItemDTO[]) {
 // 加载数据
 async function loadData() {
 	try {
-		if (USE_MOCK_DATA) {
-			// 使用 Mock 数据
-			console.log("使用 Mock 数据");
-			const mockData = generateMockClassSummaryData();
-			pageData.value = {
-				pageIndex: pageIndex.value,
-				pageSize: pageSize.value,
-				total: mockData.length,
-				rows: mockData,
-			};
-		} else {
-			// 使用真实 API
-			const res = await getClassSummaryPage({
-				pageIndex: pageIndex.value,
-				pageSize: pageSize.value,
-				gradeId: filters.gradeId,
-				name: filters.name,
-				mobile: filters.mobile,
-				stage: filters.stage,
-				status: filters.status,
-				courseId: filters.courseId,
-			});
-			console.log("API 返回数据:", res);
-			if (res.data) {
-				console.log("res.data:", res.data);
-				console.log("res.data.rows:", res.data.rows);
-				pageData.value = res.data;
-			}
+		const res = await getClassSummaryPage({
+			pageIndex: pageIndex.value,
+			pageSize: pageSize.value,
+			gradeId: filters.gradeId,
+			name: filters.name,
+			mobile: filters.mobile,
+			stage: filters.stage,
+			status: filters.status,
+			courseId: filters.courseId,
+		});
+		if (res.data) {
+			pageData.value = res.data;
 		}
 	} catch (error) {
 		console.error("加载数据失败:", error);
