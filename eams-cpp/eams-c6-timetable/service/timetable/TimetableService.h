@@ -33,6 +33,16 @@ private:
 		const oatpp::String& actionType,
 		const oatpp::String& message);
 
+	// 构建签到专用响应DTO
+	oatpp::Object<TimetableSignResultDTO> buildSignResult(
+		bool success,
+		const oatpp::String& lessonId,
+		v_int32 signType,
+		v_int32 signState,
+		const oatpp::String& signStateText,
+		const oatpp::String& signTime,
+		const oatpp::String& message);
+
 public:
 	
 	//按天查询课表	

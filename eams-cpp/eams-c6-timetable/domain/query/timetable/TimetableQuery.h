@@ -3,6 +3,7 @@
 #define TIMETABLE_QUERY_H
 
 #include "../../GlobalInclude.h"
+#include <regex>
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
@@ -17,7 +18,7 @@ class TimetableDayQuery : public oatpp::DTO
     DTO_INIT(TimetableDayQuery, DTO);
 
     API_DTO_FIELD(String, queryDate, ZH_WORDS_GETTER("timetable.field.query.query-date"), true, "");
-    API_DTO_FIELD_DEFAULT(String, studentId, ZH_WORDS_GETTER("timetable.field.query.student-id"));
+    API_DTO_FIELD_REQUIRE(String, studentId, ZH_WORDS_GETTER("timetable.field.query.student-id"), true);
     API_DTO_FIELD(Boolean, includeReservable, ZH_WORDS_GETTER("timetable.field.query.include-reservable"), false, true);
 
 public:
@@ -31,6 +32,14 @@ public:
         {
             return "studentId cannot be empty.";
         }
+
+        static const std::regex datePattern("^\\d{4}-\\d{2}-\\d{2}$");
+        std::string queryDateStr = queryDate.getValue("");
+        if (!std::regex_match(queryDateStr, datePattern))
+        {
+            return "queryDate format must be yyyy-MM-dd.";
+        }
+
         return "";
     }
 };

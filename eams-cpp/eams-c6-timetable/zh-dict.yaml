@@ -20,21 +20,22 @@ timetable:
 
     sign:
       lesson-id: "课程ID"
-      sign-type: "签到方式"
+      sign-type: "签到方式（1-老师管理端操作，2-家长端学生手动签到）"
       student-id: "学员ID"
 
     action:
       success: "是否成功"
       message: "提示消息"
       lesson-id: "课程ID"
-      action-type: "操作类型"
+      action-type: "操作类型（sign签到，reserve预约，leave请假）"
+
 
     calendar:
       date: "日期"
       count: "当天课次数量"
 
     query:
-      query-date: "查询日期"
+      query-date: "查询日期（格式：yyyy-MM-dd，如2026-03-31）"
       year: "年份"
       month: "月份"
       student-id: "学员ID"
@@ -47,7 +48,7 @@ timetable:
       section-title: "分组标题"
       total: "节数"
       course-list: "课程列表"
-      empty-tip: "空态提示"
+      empty-tip: "空态提示（仅当该分组没有课程时返回）"
 
     item:
       lesson-id: "课程ID"
@@ -72,6 +73,16 @@ timetable:
       can-reserve: "是否可预约"
       action-type: "按钮类型"
       action-text: "按钮文本"
+
+    sign-result:
+      success: "是否签到成功"
+      message: "提示信息"
+      lesson-id: "课程ID"
+      sign-type: "签到方式（1-老师管理端操作，2-家长端学生手动签到）"
+      sign-state: "签到结果状态（0未签到，1已签到，2补签，3请假，4旷课）"
+      sign-state-text: "签到结果状态文本"
+      sign-time: "签到时间"
+
   words:
     lesson-section-suffix: " 课表"
     reserve-section-suffix: " 预约课"

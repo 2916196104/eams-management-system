@@ -5,6 +5,40 @@
 #include "SimpleDateTimeFormat.h"
 
 /**
+ * 一个只有这个文件用的工具函数（获取课表功能部分）
+ * 作用：从yyyy-MM-dd输入格式中安全提取year/month
+ */
+namespace
+{
+	bool parseYearMonthFromDate(const std::string& queryDate, int& year, int& month)
+	{
+		year = 0;
+		month = 0;
+
+		if (queryDate.size() != 10)
+		{
+			return false;
+		}
+		if (queryDate[4] != '-' || queryDate[7] != '-')
+		{
+			return false;
+		}
+
+		try
+		{
+			year = std::stoi(queryDate.substr(0, 4));
+			month = std::stoi(queryDate.substr(5, 2));
+		}
+		catch (...)
+		{
+			return false;
+		}
+
+		return year > 0 && month >= 1 && month <= 12;
+	}
+}
+
+/**
  * 将课程视图DO转换为课程卡片DTO
  */
 oatpp::Object<TimetableCourseItemDTO> TimetableService::buildCourseItemDTO(const TimetableCourseViewDO& data)
@@ -75,6 +109,16 @@ oatpp::Object<TimetableSectionDTO> TimetableService::buildLessonSectionDTO(
 	// 设置总数
 	section->total = (v_int32)section->courseList->size();
 
+	// 只有空分组时才返回emptyTip空态提示，有数据时返回空字符串
+	if (section->total > 0)
+	{
+		section->emptyTip = "";
+	}
+	else
+	{
+		section->emptyTip = ZH_WORDS_GETTER("timetable.words.empty-lesson-section").c_str();
+	}
+
 	return section;
 }
 
@@ -106,6 +150,16 @@ oatpp::Object<TimetableSectionDTO> TimetableService::buildReserveSectionDTO(
 	// 设置总数
 	section->total = (v_int32)section->courseList->size();
 
+	// 只有空分组时才返回emptyTip空态提示，有数据时返回空字符串
+	if (section->total > 0)
+	{
+		section->emptyTip = "";
+	}
+	else
+	{
+		section->emptyTip = ZH_WORDS_GETTER("timetable.words.empty-reserve-section").c_str();
+	}
+
 	return section;
 }
 
@@ -133,6 +187,31 @@ oatpp::Object<TimetableActionResultDTO> TimetableService::buildActionResult(
 }
 
 /**
+ * 构建签到专用响应DTO
+ */
+oatpp::Object<TimetableSignResultDTO> TimetableService::buildSignResult(
+	bool success,
+	const oatpp::String& lessonId,
+	v_int32 signType,
+	v_int32 signState,
+	const oatpp::String& signStateText,
+	const oatpp::String& signTime,
+	const oatpp::String& message)
+{
+	auto dto = TimetableSignResultDTO::createShared();
+
+	dto->success = success;
+	dto->lessonId = lessonId;
+	dto->signType = signType;
+	dto->signState = signState;
+	dto->signStateText = signStateText;
+	dto->signTime = signTime;
+	dto->message = message;
+
+	return dto;
+}
+
+/**
  * 按天查询课表
  */
 TimetableVO::Wrapper TimetableService::getDayTimetable(const TimetableDayQuery::Wrapper& query)
@@ -151,37 +230,27 @@ TimetableVO::Wrapper TimetableService::getDayTimetable(const TimetableDayQuery::
 	TimetableDAO dao;
 
 	// 查询当月月历计数
-	// 取查询日期字符串
 	std::string queryDate = query->queryDate.getValue("");
-	// 初始化年月
 	int year = 0;
 	int month = 0;
 
-	// 按 yyyy-MM-dd 截取年份和月份
-	if (queryDate.size() >= 7)
+	// 只有日期格式合法时才解析年月，避免20260331这种格式导致month=33
+	if (parseYearMonthFromDate(queryDate, year, month))
 	{
-		year = std::stoi(queryDate.substr(0, 4));
-		month = std::stoi(queryDate.substr(5, 2));
-	}
+		std::list<TimetableCalendarCountDO> countDatas =
+			dao.selectCalendarCountByMonth(
+				query->studentId.getValue(""),
+				year,
+				month);
 
-	// 查询当月课表计数
-	std::list<TimetableCalendarCountDO> countDatas =
-		dao.selectCalendarCountByMonth(
-			query->studentId.getValue(""),
-			year,
-			month);
-
-	// 转换月历计数DTO
-	for (const auto& one : countDatas)
-	{
-		// 创建单日统计DTO
-		auto item = TimetableCalendarItemDTO::createShared();
-		// 设置日期
-		item->date = one.getDate().c_str();
-		// 设置当天课表数量
-		item->count = one.getCount();
-		// 加入列表
-		data->calendarList->push_back(item);
+		// 转换月历计数DTO
+		for (const auto& one : countDatas)
+		{
+			auto item = TimetableCalendarItemDTO::createShared();
+			item->date = one.getDate().c_str();
+			item->count = one.getCount();
+			data->calendarList->push_back(item);
+		}
 	}
 
 	// 查询课表分组
@@ -194,24 +263,20 @@ TimetableVO::Wrapper TimetableService::getDayTimetable(const TimetableDayQuery::
 	data->lessonSection = buildLessonSectionDTO(query->queryDate, lessonDatas);
 
 	// 查询预约分组
-	// 判断是否需要查询预约分组
 	if (query->includeReservable.getValue(true))
 	{
-		// 查询预约分组数据
 		std::list<TimetableCourseViewDO> reserveDatas =
 			dao.selectReserveSectionByDay(
 				query->studentId.getValue(""),
 				query->queryDate.getValue(""));
 
-		// 构建预约分组
 		data->reserveSection = buildReserveSectionDTO(query->queryDate, reserveDatas);
 	}
 	else
 	{
-		// 不查询预约分组时，返回空分组
 		data->reserveSection = buildReserveSectionDTO(query->queryDate, std::list<TimetableCourseViewDO>());
 	}
-	// 写入成功数据
+
 	result->success(data);
 	return result;
 }
@@ -361,7 +426,15 @@ TimetableSignVO::Wrapper TimetableService::signLesson(const TimetableSignDTO::Wr
 	// 未找到签到记录则返回失败
 	if (!lessonStudent)
 	{
-		result->success(buildActionResult(false, dto->lessonId, "sign", ZH_WORDS_GETTER("timetable.words.sign-record-not-found").c_str()));
+		result->success(buildSignResult(
+			false,
+			dto->lessonId,
+			dto->signType.getValue(2),
+			0,
+			"",
+			"",
+			ZH_WORDS_GETTER("timetable.words.sign-record-not-found").c_str()
+		));
 		return result;
 	}
 
@@ -378,14 +451,37 @@ TimetableSignVO::Wrapper TimetableService::signLesson(const TimetableSignDTO::Wr
 	updateData.setSignTime(SimpleDateTimeFormat::format());
 
 	// 执行更新
+	// 更新失败时：
 	if (dao.updateLessonStudent(updateData) != 1)
 	{
-		result->success(buildActionResult(false, dto->lessonId, "sign", ZH_WORDS_GETTER("timetable.words.sign-failed").c_str()));
+		result->success(buildSignResult(
+			false,
+			dto->lessonId,
+			dto->signType.getValue(2),
+			lessonStudent->getSignState(),
+			lessonStudent->getSignState() == 1 ? ZH_WORDS_GETTER("timetable.words.sign-state-signed").c_str() :
+			lessonStudent->getSignState() == 2 ? ZH_WORDS_GETTER("timetable.words.sign-state-repair").c_str() :
+			lessonStudent->getSignState() == 3 ? ZH_WORDS_GETTER("timetable.words.sign-state-leave").c_str() :
+			lessonStudent->getSignState() == 4 ? ZH_WORDS_GETTER("timetable.words.sign-state-absence").c_str() :
+			ZH_WORDS_GETTER("timetable.words.sign-state-unsigned").c_str(),
+			lessonStudent->getSignTime().c_str(),
+			ZH_WORDS_GETTER("timetable.words.sign-failed").c_str()
+		));
 		return result;
 	}
+	// 更新成功时:
+	auto currentSignTime = SimpleDateTimeFormat::format();
 
-	// 返回签到成功
-	result->success(buildActionResult(true, dto->lessonId, "sign", ZH_WORDS_GETTER("timetable.words.sign-success").c_str()));
+	result->success(buildSignResult(
+		true,
+		dto->lessonId,
+		dto->signType.getValue(2),
+		1,
+		ZH_WORDS_GETTER("timetable.words.sign-state-signed").c_str(),
+		currentSignTime.c_str(),
+		ZH_WORDS_GETTER("timetable.words.sign-success").c_str()
+	));
+
 	return result;
 }
 
