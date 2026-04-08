@@ -104,7 +104,7 @@ ClassDO ClassDAO::selectById(const uint64_t& id)
 
     std::string sql =
         "select t1.id,"
-        " t1.name, "
+        " t1.name,"
         " t4.name teacher_name,"
         " t3.name classroom,"
         " t7.name course_name,"
@@ -121,6 +121,6 @@ ClassDO ClassDAO::selectById(const uint64_t& id)
         " LEFT JOIN class_grade t8 ON t8.id = t1.grade_id"
         " WHERE"
         " t1.id =?";
-    SQLPARAMS_PUSH(params, "i", uint64_t, id);
+    SQLPARAMS_PUSH(params, "ull", uint64_t, id);
 	return sqlSession->executeQueryOne<ClassDO>(sql, ClassInfoMapper(), params);
 }
