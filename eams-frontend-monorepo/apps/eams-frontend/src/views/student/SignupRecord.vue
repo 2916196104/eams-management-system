@@ -8,6 +8,10 @@
 						<el-input v-model="filters.studentName" placeholder="请输入学员姓名" clearable class="filter-input" />
 					</div>
 					<div class="filter-item">
+						<label class="filter-label">课程名称:</label>
+						<el-input v-model="filters.courseName" placeholder="请输入课程名称" clearable class="filter-input" />
+					</div>
+					<div class="filter-item">
 						<label class="filter-label">开始日期:</label>
 						<el-date-picker
 							v-model="filters.startTime"
@@ -30,17 +34,6 @@
 							format="YYYY-MM-DD"
 							value-format="YYYY-MM-DD"
 						/>
-					</div>
-					<div class="filter-item">
-						<label class="filter-label">课程名称:</label>
-						<el-select v-model="filters.courseName" placeholder="请选择课程" clearable class="filter-input">
-							<el-option
-								v-for="(item, index) in courseList"
-								:key="item.id || index"
-								:label="item.name || '未知课程'"
-								:value="item.id || ''"
-							/>
-						</el-select>
 					</div>
 					<div class="filter-item">
 						<label class="filter-label">经办人:</label>
@@ -137,8 +130,8 @@ import { useRouter } from "vue-router";
 import * as XLSX from "xlsx";
 import MyTable from "@/components/mytable/MyTable.vue";
 import { createPageDTO, type MyTableAttr, type MyTableColumn, type PageDTO } from "@/components/mytable/type";
-import { getSignupRecordPage, getCourseList, batchDelete } from "@/apis/student";
-import type { SignupRecordItemDTO, CourseItemDTO } from "@/apis/student/type";
+import { getSignupRecordPage, batchDelete } from "@/apis/student";
+import type { SignupRecordItemDTO } from "@/apis/student/type";
 import {
 	buildSignupRecordExportFilename,
 	buildSignupRecordExportRows,
@@ -154,9 +147,6 @@ const filters = reactive({
 	studentName: "",
 	operatorName: "",
 });
-
-// 课程列表
-const courseList = ref<CourseItemDTO[]>([]);
 
 // 报名记录表格属性
 const tableAttr: MyTableAttr = {
@@ -430,18 +420,6 @@ async function handleBatchDelete() {
 	}
 }
 
-async function loadCourseList() {
-	try {
-		const res = await getCourseList();
-		if (res.data) {
-			courseList.value = res.data;
-		}
-	} catch (error) {
-		console.error("加载课程列表失败:", error);
-		ElMessage.error("加载课程列表失败");
-	}
-}
-
 // 加载数据
 async function loadData() {
 	try {
@@ -467,7 +445,6 @@ async function loadData() {
 
 // 初始化加载数据
 onMounted(() => {
-	loadCourseList();
 	loadData();
 });
 </script>

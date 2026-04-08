@@ -21,7 +21,9 @@ const http = useHttp();
  * @param params 查询参数
  */
 export const getClassSummaryPage = async (params: ClassSummaryQueryDTO) => {
-	const res = await http.get<PageDTO<ClassSummaryItemDTO>>("/student/list-hour-summary", params);
+	const res = await http.get<PageDTO<ClassSummaryItemDTO>>("/student/list-hour-summary", params, {
+		showLoading: false,
+	});
 	return res;
 };
 
@@ -74,14 +76,6 @@ export const exportSignupRecord = async (params: ExportSignupRecordRequest) => {
  */
 export const getCampusList = async () => {
 	const res = await http.get<CampusItemDTO[]>("/student/getCampusList");
-	return res;
-};
-
-/**
- * 获取课程列表（课时汇总用）
- */
-export const getCourseListForClassSummary = async () => {
-	const res = await http.get<CourseItemDTO[]>("/student/getCourseList");
 	return res;
 };
 
