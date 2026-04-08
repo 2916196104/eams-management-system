@@ -29,7 +29,7 @@ HomeworkPageJsonVO::Wrapper HomeworkController::execQueryPage(const HomeworkQuer
 HomeworkDetailJsonVO::Wrapper HomeworkController::execQueryDetail(const UInt64& id)
 {
 	HomeworkService service;
-	return service.queryDetail(id.getValue(0));
+	return service.queryDetail(id);
 }
 
 HomeworkSubmitJsonVO::Wrapper HomeworkController::execQuerySubmit(const HomeworkSubmitDTO::Wrapper& dto)

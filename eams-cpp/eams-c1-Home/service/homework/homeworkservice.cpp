@@ -63,12 +63,12 @@ HomeworkSubmitJsonVO::Wrapper HomeworkService::submitHomework(const HomeworkSubm
 
         // 校验作业存在
         HomeworkDAO homeworkDAO;
-        auto homework = homeworkDAO.selectById(dto->homeworkId);
+        /*auto homework = homeworkDAO.selectById(dto->homeworkId);
         if (!homework || homework->getDeleted() == 1) {
             vo->fail(nullptr);
             return vo;
         }
-
+        */
         // 构建数据
         HomeworkRecordDO recordData;
         recordData.sethomework_id(dto->homeworkId);

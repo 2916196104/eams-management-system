@@ -12,8 +12,8 @@ class HomeworkDAO : public BaseDAO
 public:
     uint64_t count(const HomeworkQuery::Wrapper& query);
     std::vector<HomeworkDTO::Wrapper> selectPage(const HomeworkQuery::Wrapper& query);
-    HomeworkDetailDTO::Wrapper selectDetail(uint64_t id);
-    PtrHomeworkDO selectById(uint64_t id);
+    HomeworkDetailDTO::Wrapper selectDetail(const uint64_t& id);
+    PtrHomeworkDO selectById(const uint64_t& id);
 };
 
 #endif 

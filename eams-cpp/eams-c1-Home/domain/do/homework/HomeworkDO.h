@@ -16,16 +16,16 @@ class HomeworkDO :public BaseDO {
 
 public:
 	HomeworkDO() :BaseDO("homework") {
-		MYSQL_ADD_FIELD_PK("id", "i", id);
-		MYSQL_ADD_FIELD("class_id", "i", classId);
+		MYSQL_ADD_FIELD_PK("id", "ull", id);
+		MYSQL_ADD_FIELD("class_id", "ull", classId);
 		MYSQL_ADD_FIELD("title", "s", title);
 		MYSQL_ADD_FIELD("content", "s", content);
-		MYSQL_ADD_FIELD("creator", "i", creator);
-		MYSQL_ADD_FIELD("editor", "i", editor);
+		MYSQL_ADD_FIELD("creator", "ull", creator);
+		MYSQL_ADD_FIELD("editor", "ull", editor);
 		MYSQL_ADD_FIELD("add_time", "s", addTime);
 		MYSQL_ADD_FIELD("edit_time", "s", editTime);
 		MYSQL_ADD_FIELD("deleted", "i", deleted);
-		MYSQL_ADD_FIELD("org_id", "i", orgId);
+		MYSQL_ADD_FIELD("org_id", "ull", orgId);
 	}
 
 

@@ -39,7 +39,7 @@ std::vector<HomeworkDTO::Wrapper> HomeworkDAO::selectPage(const HomeworkQuery::W
 }
 
 // 3. 获取作业详情
-HomeworkDetailDTO::Wrapper HomeworkDAO::selectDetail(uint64_t id)
+HomeworkDetailDTO::Wrapper HomeworkDAO::selectDetail(const uint64_t& id)
 {
     std::stringstream sql;
     sql << "SELECT id, class_id, title, content, creator, editor, add_time, edit_time, org_id "
@@ -49,7 +49,7 @@ HomeworkDetailDTO::Wrapper HomeworkDAO::selectDetail(uint64_t id)
     return sqlSession->executeQueryOne<HomeworkDetailDTO::Wrapper>(sql.str(), mapper);
 }
 
-PtrHomeworkDO HomeworkDAO::selectById(uint64_t id) {
+PtrHomeworkDO HomeworkDAO::selectById(const uint64_t& id) {
     // 直接把 id 拼到 SQL 里
     std::string sql = "SELECT * FROM homework WHERE id = " + std::to_string(id);
     // 调用无参数的 executeQueryOne
