@@ -76,9 +76,9 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(getrollrecllrecord);
 	ROUTER_SIMPLE_BIND(addintendedstudent);
 
-	//ROUTER_SIMPLE_BIND(ClassHourRecordsController);
-	//ROUTER_SIMPLE_BIND(CourseProgressController);
-	//ROUTER_SIMPLE_BIND(EnrollmentRecordsController);
+	/*ROUTER_SIMPLE_BIND(ClassHourRecordsController);
+	ROUTER_SIMPLE_BIND(CourseProgressController);
+	ROUTER_SIMPLE_BIND(EnrollmentRecordsController);*/
 
 	ROUTER_SIMPLE_BIND(SchedulingController);
 

@@ -566,7 +566,7 @@ CREATE TABLE `lesson_schedule`  (
 
 CREATE TABLE `lesson_schedule_setting`  (
   `id` bigint(20) UNSIGNED NOT NULL COMMENT '主键',
-  `schedule_id` bigint(20) NOT NULL COMMENT '编排计划id',
+  `schedule_id` bigint(20) UNSIGNED NOT NULL COMMENT '编排计划id',
   `weeks` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '星期',
   `start_time` time(0) NOT NULL COMMENT '开始时间',
   `end_time` time(0) NOT NULL COMMENT '结束时间',
