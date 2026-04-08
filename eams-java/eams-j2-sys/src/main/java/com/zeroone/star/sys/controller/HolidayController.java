@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 
 @RestController
 @Api(tags = "节假日管理")
-@RequestMapping("/sys/holiday")
+@RequestMapping("/j2-sys/holiday")
 public class HolidayController implements HolidayApis {
 
     @Autowired
