@@ -8,22 +8,18 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * 定义一个用户信息显示JsonVO对象，用于响应给客户端
+ * 单个学员返回VO
  */
-class UserJsonVO : public JsonVO<StudentDTO::Wrapper>
-{
-	DTO_INIT(UserJsonVO, JsonVO<StudentDTO::Wrapper>);
+class StudentJsonVO : public JsonVO<StudentDTO::Wrapper> {
+    DTO_INIT(StudentJsonVO, JsonVO<StudentDTO::Wrapper>);
 };
 
- 
-
 /**
- * 定义一个用户信息分页显示JsonVO对象，用于响应给客户端
+ * 学员分页列表返回VO
  */
-class StudentPageJsonVO : public JsonVO<StudentPageDTO::Wrapper>
-{
-	DTO_INIT(StudentPageJsonVO, JsonVO<StudentPageDTO::Wrapper>);
+class StudentPageJsonVO : public JsonVO<StudentPageDTO::Wrapper> {
+    DTO_INIT(StudentPageJsonVO, JsonVO<StudentPageDTO::Wrapper>);
 };
 
 #include OATPP_CODEGEN_END(DTO)
-#endif  
+#endif

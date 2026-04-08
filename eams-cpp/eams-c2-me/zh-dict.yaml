@@ -134,3 +134,14 @@ help:
  id: 编号
  title: 标题
  content: 内容
+dtos:
+  # 学生列表 DTO
+  StudentListDTO:
+    id: "主键"
+    name: "姓名"
+    headImg: "头像"
+    credit: "剩余积分"
+    birthday: "生日"
+    age: "年龄"
+    gender: "性别,可用值:FEMALE,MALE,UNKNOWN"
+    stage: "学习阶段,可用值:GRADUATION,INTENTION,STUDYING"   

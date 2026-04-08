@@ -1,6 +1,5 @@
 #pragma once
 
-
 #ifndef _STUDENTQUERY_H_
 #define _STUDENTQUERY_H_
 
@@ -10,15 +9,11 @@
 #include OATPP_CODEGEN_BEGIN(DTO)
 
 /**
- * 定义一个查询用户信息的数据传输模型
+ * 学员列表分页查询参数（继承PageQuery自动包含pageIndex/pageSize）
  */
-class UserQuery : public PageQuery {
-	DTO_INIT(UserQuery, PageQuery);
-
+class StudentQuery : public PageQuery {
+    DTO_INIT(StudentQuery, PageQuery);
 };
 
 #include OATPP_CODEGEN_END(DTO)
-#endif   
-
-
- 
+#endif

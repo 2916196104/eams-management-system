@@ -22,34 +22,35 @@ PointPageJsonVO::Wrapper StudentController::executeQueryPoint(const PointQuery::
 	return vo;
 }
 
-
-JsonVO<oatpp::Any>::Wrapper StudentController::executeSwitchStudent(int64_t id)
-{
-    return JsonVO<oatpp::Any>::createShared();
-}
 #include "StudentController.h"
 #include "service/Student/StudentService.h"
 
-JsonVO<oatpp::Any>::Wrapper StudentController::executeRemoveUser(const IdQuery::Wrapper& query)
-{
-    //只需要返回状态就行
-    auto vo = JsonVO<oatpp::Any>::createShared();
-    StudentService serv;
-    //获取query中的id参数给serv，调用service的deleteStudent方法
-    bool ok = serv.deleteStudent(query->id.getValue(0));
-    if (ok)
-        vo->success(nullptr);
-    else
-        vo->fail(nullptr);
-    //根据逻辑值响应前端
-    return vo;
-}
+//JsonVO<oatpp::Any>::Wrapper StudentController::executeRemoveUser(const IdQuery::Wrapper& query)
+//{
+//    //只需要返回状态就行
+//    auto vo = JsonVO<oatpp::Any>::createShared();
+//    StudentService serv;
+//    //获取query中的id参数给serv，调用service的deleteStudent方法
+//    bool ok = serv.deleteStudent(query->id.getValue(0));
+//    if (ok)
+//        vo->success(nullptr);
+//    else
+//        vo->fail(nullptr);
+//    //根据逻辑值响应前端
+//    return vo;
+//}
 #include "StudentController.h"
+#include "service/Student/StudentService.h"
+#include <cstdint>
+#include <stdexcept>
 
-
-StudentPageJsonVO::Wrapper StudentController::executeQueryAll(const UserQuery::Wrapper& query)
+// ========== 1. 查询学员列表实现 ==========
+StudentPageJsonVO::Wrapper StudentController::executeQueryAll(const StudentQuery::Wrapper& query)
 {
-	return StudentPageJsonVO::createShared();
+    StudentService serv;
+    auto vo = StudentPageJsonVO::createShared();
+    vo->success(serv.listAll(query));
+    return vo;
 }
 #include "StudentController.h"
 
@@ -81,4 +82,53 @@ StringJsonVO::Wrapper StudentController::executeAddStudent(const StudentAddDTO::
     //else
     //    jvo->fail({});
     return jvo;
+}
+// ========== 2. 删除学员实现 ==========
+JsonVO<oatpp::Any>::Wrapper StudentController::executeRemoveUser(const IdQuery::Wrapper& query)
+{
+    auto vo = JsonVO<oatpp::Any>::createShared();
+    StudentService serv;
+
+    // 字符串ID转uint64_t
+    std::string idStr = query->id->c_str();
+    uint64_t targetId;
+
+    try {
+        targetId = (uint64_t)std::stoll(idStr);
+    }
+    catch (const std::invalid_argument&) {
+        vo->fail(nullptr);
+        return vo;
+    }
+    catch (const std::out_of_range&) {
+        vo->fail(nullptr);
+        return vo;
+    }
+
+    bool ok = serv.deleteStudent(targetId);
+    ok ? vo->success(nullptr) : vo->fail(nullptr);
+    return vo;
+}
+
+// ========== 3. 切换学员实现 ==========
+JsonVO<oatpp::Any>::Wrapper StudentController::executeSwitchStudent(const IdQuery::Wrapper& query)
+{
+    auto vo = JsonVO<oatpp::Any>::createShared();
+    StudentService serv;
+
+    // 字符串ID转uint64_t
+    std::string idStr = query->id->c_str();
+    uint64_t targetId;
+
+    try {
+        targetId = std::stoull(idStr);
+    }
+    catch (...) {
+        vo->fail(nullptr);
+        return vo;
+    }
+
+    bool exists = serv.findById(targetId);
+    exists ? vo->success(nullptr) : vo->fail(nullptr);
+    return vo;
 }

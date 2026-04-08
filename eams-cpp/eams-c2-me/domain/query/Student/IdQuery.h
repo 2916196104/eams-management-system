@@ -8,19 +8,15 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
-#include OATPP_CODEGEN_BEGIN(DTO)
-
 /**
- * 定义一个查询用户id
+ * 根据ID查询参数
  */
 class IdQuery : public  oatpp::DTO {
-	DTO_INIT(IdQuery, oatpp::DTO);
-	//和DTO保持一致
-	API_DTO_FIELD(Int64, id, "id", true, Int64());
-
+    DTO_INIT(IdQuery, oatpp::DTO);
+    // 必传ID字段
+    API_DTO_FIELD(String, id, "id", true, String(""));
 };
 
 #include OATPP_CODEGEN_END(DTO)
-
 
 #endif

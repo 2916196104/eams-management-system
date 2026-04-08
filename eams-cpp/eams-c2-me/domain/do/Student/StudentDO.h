@@ -1,92 +1,88 @@
 #pragma once
 
-#ifndef _STUDENTDO_H_
-#define _STUDENTDO_H_
+#ifndef _STUDENT_DO_H_
+#define _STUDENT_DO_H_
 
 #include "../DoInclude.h"
+// 确保 uint64_t 类型可用
+#include <cstdint>
 
+class StudentDO : public BaseDO
+{
+    // bigint类：uint64_t
+    MYSQL_SYNTHESIZE(uint64_t, id, Id);
+    MYSQL_SYNTHESIZE(uint64_t, userId, UserId);
+    // tinyint 全部改成 int
+    MYSQL_SYNTHESIZE(int, familyRel, FamilyRel);
+    MYSQL_SYNTHESIZE(int, asDefault, AsDefault);
 
+    MYSQL_SYNTHESIZE(uint64_t, schoolId, SchoolId);
+    MYSQL_SYNTHESIZE(string, name, Name);
+    // int/tinyint 改成 int
+    MYSQL_SYNTHESIZE(int, deleted, Deleted);
+    MYSQL_SYNTHESIZE(int, stage, Stage);
+    MYSQL_SYNTHESIZE(int, gender, Gender);
 
+    MYSQL_SYNTHESIZE(string, birthday, Birthday);
+    MYSQL_SYNTHESIZE(string, headImg, HeadImg);
+    MYSQL_SYNTHESIZE(uint64_t, joinWay, JoinWay);
+    MYSQL_SYNTHESIZE(string, remark, Remark);
+    MYSQL_SYNTHESIZE(string, graduationDate, GraduationDate);
+    MYSQL_SYNTHESIZE(string, graduationReason, GraduationReason);
+    MYSQL_SYNTHESIZE(string, addTime, AddTime);
 
-//学员信息实体 映射student表
-class StudentDO :public BaseDO
-{  // 宏生成字段的 get/set 方法
+    MYSQL_SYNTHESIZE(uint64_t, counselor, Counselor);
+    MYSQL_SYNTHESIZE(uint64_t, creator, Creator);
+    MYSQL_SYNTHESIZE(uint64_t, editor, Editor);
 
-	MYSQL_SYNTHESIZE(int, id, Id);
-	MYSQL_SYNTHESIZE(int, user_id, User_id);
-	MYSQL_SYNTHESIZE(int, family_rel, Family_rel);
-	MYSQL_SYNTHESIZE(int, as_default, As_default);
-	MYSQL_SYNTHESIZE(int, school_id, School_id);
-	MYSQL_SYNTHESIZE(string, name, Name);
-	MYSQL_SYNTHESIZE(int, deleted, Deleted);
-	MYSQL_SYNTHESIZE(int, stage, Stage);
-	MYSQL_SYNTHESIZE(int, gender, Gender);
-	MYSQL_SYNTHESIZE(string, birthday, Birthday);
-	MYSQL_SYNTHESIZE(string, head_img, Head_img);
-	MYSQL_SYNTHESIZE(int, join_way, Join_way);
-	MYSQL_SYNTHESIZE(string, remark, Remark);
-	MYSQL_SYNTHESIZE(string, graduation_date, Graduation_date);
-	MYSQL_SYNTHESIZE(string, graduation_reason, Graduation_reason);
-	MYSQL_SYNTHESIZE(string, add_time, Add_time);
-	MYSQL_SYNTHESIZE(int, counselor, Counselor);
-	MYSQL_SYNTHESIZE(int, creator, Creator);
-	MYSQL_SYNTHESIZE(int, editor, Editor);
-	MYSQL_SYNTHESIZE(string, edit_time, Edit_time);
-	MYSQL_SYNTHESIZE(string, idcard, Idcard);
-	MYSQL_SYNTHESIZE(string, redpoint_grade, Redpoint_grade);
-	MYSQL_SYNTHESIZE(string, redpoint_evaluate, Redpoint_evaluate);
-	MYSQL_SYNTHESIZE(int, grade, Grade);
-	MYSQL_SYNTHESIZE(string, join_date, Join_date);
-	MYSQL_SYNTHESIZE(int, wx_access_id, Wx_access_id);
-	MYSQL_SYNTHESIZE(int, credit, Credit);
-	MYSQL_SYNTHESIZE(int, org_id, Org_id);
-	MYSQL_SYNTHESIZE(int, grade_id, Grade_id);
+    MYSQL_SYNTHESIZE(string, editTime, EditTime);
+    MYSQL_SYNTHESIZE(string, idcard, Idcard);
+    MYSQL_SYNTHESIZE(string, redpointGrade, RedpointGrade);
+    MYSQL_SYNTHESIZE(string, redpointEvaluate, RedpointEvaluate);
+    MYSQL_SYNTHESIZE(string, grade, Grade);
+    MYSQL_SYNTHESIZE(string, joinDate, JoinDate);
+    MYSQL_SYNTHESIZE(uint64_t, wxAccessId, WxAccessId);
+    // int 改成 int
+    MYSQL_SYNTHESIZE(int, credit, Credit);
+
+    MYSQL_SYNTHESIZE(uint64_t, orgId, OrgId);
+    MYSQL_SYNTHESIZE(int, gradeId, GradeId);
 
 public:
-	// 构造函数：绑定表名和字段映射
-
-	StudentDO() :BaseDO("student")
-	{
-		MYSQL_ADD_FIELD_PK("id", "i", id);
-		MYSQL_ADD_FIELD("user_id", "i", user_id);
-		MYSQL_ADD_FIELD("family_rel", "i", family_rel);
-		MYSQL_ADD_FIELD("as_default", "i", as_default);
-		MYSQL_ADD_FIELD("school_id", "i", school_id);
-		MYSQL_ADD_FIELD("name", "s", name);
-		MYSQL_ADD_FIELD("deleted", "i", deleted);
-		MYSQL_ADD_FIELD("stage", "i", stage);
-		MYSQL_ADD_FIELD("gender", "i", gender);
-		MYSQL_ADD_FIELD("birthday", "s", birthday);
-		MYSQL_ADD_FIELD("head_img", "s", head_img);
-		MYSQL_ADD_FIELD("join_way", "i", join_way);
-		MYSQL_ADD_FIELD("remark", "s", remark);
-		MYSQL_ADD_FIELD("graduation_date", "s", graduation_date);
-		MYSQL_ADD_FIELD("graduation_reason", "s", graduation_reason);
-		MYSQL_ADD_FIELD("add_time", "s", add_time);
-		MYSQL_ADD_FIELD("counselor", "i", counselor);
-		MYSQL_ADD_FIELD("creator", "i", creator);
-		MYSQL_ADD_FIELD("editor", "i", editor);
-		MYSQL_ADD_FIELD("edit_time", "s", edit_time);
-		MYSQL_ADD_FIELD("idcard", "s", idcard);
-		MYSQL_ADD_FIELD("redpoint_grade", "s", redpoint_grade);
-		MYSQL_ADD_FIELD("redpoint_evaluate", "s", redpoint_evaluate);
-		MYSQL_ADD_FIELD("grade", "i", grade);
-		MYSQL_ADD_FIELD("join_date", "s", join_date);
-		MYSQL_ADD_FIELD("wx_access_id", "i", wx_access_id);
-		MYSQL_ADD_FIELD("credit", "i", credit);
-		MYSQL_ADD_FIELD("org_id", "i", org_id);
-		MYSQL_ADD_FIELD("grade_id", "i", grade_id);
-	}
-
+    StudentDO() : BaseDO("student")
+    {
+        MYSQL_ADD_FIELD_PK("id", "ull", id);
+        MYSQL_ADD_FIELD("user_id", "ull", userId);
+        MYSQL_ADD_FIELD("family_rel", "i", familyRel);
+        MYSQL_ADD_FIELD("as_default", "i", asDefault);
+        MYSQL_ADD_FIELD("school_id", "ull", schoolId);
+        MYSQL_ADD_FIELD("name", "s", name);
+        MYSQL_ADD_FIELD("deleted", "i", deleted);
+        MYSQL_ADD_FIELD("stage", "i", stage);
+        MYSQL_ADD_FIELD("gender", "i", gender);
+        MYSQL_ADD_FIELD("birthday", "s", birthday);
+        MYSQL_ADD_FIELD("head_img", "s", headImg);
+        MYSQL_ADD_FIELD("join_way", "ull", joinWay);
+        MYSQL_ADD_FIELD("remark", "s", remark);
+        MYSQL_ADD_FIELD("graduation_date", "s", graduationDate);
+        MYSQL_ADD_FIELD("graduation_reason", "s", graduationReason);
+        MYSQL_ADD_FIELD("add_time", "s", addTime);
+        MYSQL_ADD_FIELD("counselor", "ull", counselor);
+        MYSQL_ADD_FIELD("creator", "ull", creator);
+        MYSQL_ADD_FIELD("editor", "ull", editor);
+        MYSQL_ADD_FIELD("edit_time", "s", editTime);
+        MYSQL_ADD_FIELD("idcard", "s", idcard);
+        MYSQL_ADD_FIELD("redpoint_grade", "s", redpointGrade);
+        MYSQL_ADD_FIELD("redpoint_evaluate", "s", redpointEvaluate);
+        MYSQL_ADD_FIELD("grade", "s", grade);
+        MYSQL_ADD_FIELD("join_date", "s", joinDate);
+        MYSQL_ADD_FIELD("wx_access_id", "ull", wxAccessId);
+        MYSQL_ADD_FIELD("credit", "i", credit);
+        MYSQL_ADD_FIELD("org_id", "ull", orgId);
+        MYSQL_ADD_FIELD("grade_id", "i", gradeId);
+    }
 };
 
-
-
-//定义智能指针
 typedef std::shared_ptr<StudentDO> PtrStudentDO;
 
-
 #endif
-
-
-
