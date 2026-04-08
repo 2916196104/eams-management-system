@@ -7,6 +7,8 @@ import lombok.Data;
 @Data
 public class MaterialDTO  {
 
+    @ApiModelProperty("物料ID")
+    private Long materialId;
     @ApiModelProperty("名称")
     private String materialName;
     @ApiModelProperty("分类")

@@ -29,6 +29,7 @@ public class MaterialServiceImpl extends ServiceImpl<MaterialMapper, Material> i
             List<MaterialDTO> materialDTOs = new ArrayList<>();
             for (Material material : materials) {
                 MaterialDTO dto = new MaterialDTO();
+                dto.setMaterialId(material.getId());
                 dto.setMaterialName(material.getName());
                 dto.setMaterialCode(material.getCategoryName());
                 // 检查schoolId是否为null
@@ -77,8 +78,10 @@ public class MaterialServiceImpl extends ServiceImpl<MaterialMapper, Material> i
             
             // 转换DTO为实体
             Material material = new Material();
+            material.setId(materialDTO.getMaterialId());
             material.setName(materialDTO.getMaterialName());
             material.setCategoryName(materialDTO.getMaterialCode());
+            material.setCategoryId(1L); // 默认值
             // 检查materialBelong2是否为空
             if (materialDTO.getMaterialBelong2() != null && !materialDTO.getMaterialBelong2().isEmpty()) {
                 material.setSchoolId(Long.valueOf(materialDTO.getMaterialBelong2()));
