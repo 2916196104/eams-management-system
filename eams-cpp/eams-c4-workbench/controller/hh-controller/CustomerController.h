@@ -21,7 +21,7 @@ public:
 		ZH_WORDS_GETTER("customer.get.summary"), queryCustomer, CustomerQuery, CustomerPageJsonVO::Wrapper, API_TAG
 	);
 	// 1.客户分页查询接口处理
-	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c4/customer", queryCustomer, CustomerQuery,
+	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c4-workbench/customer", queryCustomer, CustomerQuery,
 		execQueryCustomer(query, authObject->getPayload()));
 	// 2.客户详情查询接口（通过ID查询）
 	API_DEF_ENDPOINT_INFO_AUTH(
@@ -29,13 +29,13 @@ public:
 		API_DEF_ADD_QUERY_PARAMS(String, "id", ZH_WORDS_GETTER("customer.field.id"), "123", true);
 	);
 	// 2.客户详情查询接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c4/customer/detail", queryDetailById, QUERY(String, id), execQueryDetailById(id));
+	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c4-workbench/customer/detail", queryDetailById, QUERY(String, id), execQueryDetailById(id));
 	// 3.客户课程查询接口（通过ID查询）
 	API_DEF_ENDPOINT_INFO_AUTH(
 		ZH_WORDS_GETTER("customer.lesson.summary"), queryLessonById, CustomerLessonListJsonVO::Wrapper, API_TAG,
 		API_DEF_ADD_QUERY_PARAMS(String, "id", ZH_WORDS_GETTER("customer.field.id"), "123", true);
 	);
-	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c4/customer/lesson", queryLessonById, QUERY(String, id), execQueryLessonById(id));
+	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c4-workbench/customer/lesson", queryLessonById, QUERY(String, id), execQueryLessonById(id));
 private:
 	CustomerPageJsonVO::Wrapper execQueryCustomer(const CustomerQuery::Wrapper& query, const PayloadDTO& payload);
 	CustomerDetailJsonVO::Wrapper execQueryDetailById(const String& id);

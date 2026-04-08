@@ -18,7 +18,7 @@ public: // 定义接口
 		API_DEF_ADD_QUERY_PARAMS(String, "name", ZH_WORDS_GETTER("workbench.field.name"), "name", true);
 	);
 	// 3.2 定义获取学员课程进度接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c4/workbench/StudentClassHourRecords", queryNamePage, QUERY(String, name), execQueryNamePage(name));
+	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c4-workbench/StudentClassHourRecords", queryNamePage, QUERY(String, name), execQueryNamePage(name));
 
 private: // 定义接口执行函数
 	//3.3 定义获取学员课程进度接口执行函数

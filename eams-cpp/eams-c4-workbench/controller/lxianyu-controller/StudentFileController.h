@@ -36,7 +36,7 @@ public:
 
 	}
 	// 3.2 定义查询接口处理
-	ENDPOINT(API_M_GET, "/c4/query-studentfile", queryList, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_GET, "/c4-workbench/query-studentfile", queryList, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
 		// 解析查询参数为Query领域模型
 		API_HANDLER_QUERY_PARAM(query, StudentFilePageQuery, params);
 		// 呼叫执行函数响应结果
@@ -56,7 +56,7 @@ public:
 
 	}
 	// 3.2 定义查询接口处理
-	ENDPOINT(API_M_GET, "/c4/query-timetable", queryTimeTable, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_GET, "/c4-workbench/query-timetable", queryTimeTable, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
 		// 解析查询参数为Query领域模型
 		API_HANDLER_QUERY_PARAM(query, StudentTimeTablePageQuery, params);
 		// 呼叫执行函数响应结果
@@ -69,7 +69,7 @@ public:
 		API_DEF_ADD_QUERY_PARAMS(String, "id", ZH_WORDS_GETTER("StudentFile.dissior2.id"), "d934050a8bb373e8f8eed0bf7507ec17", true);
 	);
 	// 3.2 定义ID查询接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c4/query-by-id", queryStudentById, QUERY(String, id), execQueryStudentById(id));
+	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c4-workbench/query-by-id", queryStudentById, QUERY(String, id), execQueryStudentById(id));
 
 private:
 	StudentFilePageJsonVO::Wrapper execQueryList(const StudentFilePageQuery::Wrapper& query);

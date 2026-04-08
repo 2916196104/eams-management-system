@@ -33,7 +33,7 @@ public:
 		API_DEF_ADD_PAGE_PARAMS();
 	}
 	// 3.2 定义获取报名记录接口处理
-	ENDPOINT(API_M_GET, "/c4/workbench/enrollment/record", EnrolledRecord,QUERIES(QueryParams,queryEnrolled),API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_GET, "/c4-workbench/enrollment/record", EnrolledRecord,QUERIES(QueryParams,queryEnrolled),API_HANDLER_AUTH_PARAME) {
 		//解析查询参数
 		API_HANDLER_QUERY_PARAM(RecordQuery, EnrolledQuery, queryEnrolled);
 		// 响应结果
@@ -52,7 +52,7 @@ public:
 		API_DEF_ADD_QUERY_PARAMS(String,"id",ZH_WORDS_GETTER("EnrolledRecord.field.id"),"number", true);
 	}
 	// 3.2 定义获取报名记录详情接口处理
-	ENDPOINT(API_M_GET, "/c4/workbench/enrollment/detail", EnrolledDetail, QUERY(String,id), API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_GET, "/c4-workbench/enrollment/detail", EnrolledDetail, QUERY(String,id), API_HANDLER_AUTH_PARAME) {
 		int Intid = stoi(id);
 		// 响应结果
 		API_HANDLER_RESP_VO(execEnrolledDetail(Intid));

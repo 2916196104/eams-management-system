@@ -21,7 +21,7 @@ public:
 		RepeatedSchedulingVO::Wrapper, 
 		API_TAG);
 	//定义接口处理函数
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c4/scheduling/repeat/create",
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c4-workbench/scheduling/repeat/create",
 		addRepateScheduling,
 		BODY_DTO(RepeatedSchedulingDTO::Wrapper, dto),
 		executeaddRepateScheduling(dto, authObject->getPayload()));
@@ -33,7 +33,7 @@ public:
 		StringJsonVO::Wrapper,
 		API_TAG);
 	//定义接口处理函数
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c4/scheduling/free/create",
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c4-workbench/scheduling/free/create",
 		addFreeScheduling,
 		BODY_DTO(FreeSchedulingDTO::Wrapper, dto),
 		executeaddFreeScheduling(dto, authObject->getPayload()));

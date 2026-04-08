@@ -20,7 +20,7 @@ public: // 定义接口
 
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("intendedstudent.text2"), addstudent, intendedstudentJsonVO::Wrapper, API_TAG);
 	// 3.2 定义新增接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c4/addintendedstudent", addstudent,
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c4-workbench/addintendedstudent", addstudent,
 		BODY_DTO(intendedstudentDTO::Wrapper, dto), executeaddintendedstudent(dto, authObject->getPayload()));
 private: // 定义接口执行函数 执行函数的返回值是响应给前端的json函数
 	//这里返回值stringJsonVo 也是在vo中定义了相应的头文件

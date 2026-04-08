@@ -19,7 +19,7 @@ public:
 	//定义描述
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("teacher.query.summary"), getTeacherList, TeacherQuery, TeacherPageJsonVO::Wrapper, API_TAG);
 	//定义教师查询端点
-	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c4/teacher/list", getTeacherList, QUERIES(QueryParams,queryParams),
+	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c4-workbench/teacher/list", getTeacherList, QUERIES(QueryParams,queryParams),
 		API_HANDLER_QUERY_PARAM(query, TeacherQuery, queryParams);
 		auto result = executeGetTeacherList(query);
 		return createDtoResponse(Status::CODE_200, result);

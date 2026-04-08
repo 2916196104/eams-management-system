@@ -20,7 +20,7 @@ public:
 		ZH_WORDS_GETTER("classroom.get.summary"), queryClassroom, ClassroomQuery, ClassroomPageJsonVO::Wrapper, API_TAG2
 	);
 	// 教室列表查询接口处理
-	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c4/classroom", queryClassroom, ClassroomQuery,
+	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c4-workbench/classroom", queryClassroom, ClassroomQuery,
 		execQueryClassroom(query));
 private:
 	ClassroomPageJsonVO::Wrapper execQueryClassroom(const ClassroomQuery::Wrapper& query);

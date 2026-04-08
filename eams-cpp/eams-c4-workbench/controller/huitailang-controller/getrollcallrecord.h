@@ -19,7 +19,7 @@ public: // 定义接口
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("rollcall.getrollrecord"), queryPage, RollcallQuery, RollCallJsonVO::Wrapper, API_TAG);
 	
 	// 3.2 定义导出接口处理
-	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "c4/getrollcallrecord", queryPage, QUERIES(QueryParams, queryParams),
+	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "c4-workbench/getrollcallrecord", queryPage, QUERIES(QueryParams, queryParams),
 		API_HANDLER_QUERY_PARAM(query, RollcallQuery, queryParams); API_HANDLER_RESP_VO(executeQueryRollCall(query)););
 private: // 定义接口执行函数 执行函数的返回值是响应给前端的json函数
 	//这里返回值stringJsonVo 也是在vo中定义了相应的头文件
