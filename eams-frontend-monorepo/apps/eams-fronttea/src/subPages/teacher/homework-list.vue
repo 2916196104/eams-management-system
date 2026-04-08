@@ -55,7 +55,7 @@ function normalizeClassOptions(source: unknown) {
 	return rawRows.map((item: any, index: number) => {
 		return {
 			id: item.id ?? item.classId ?? item.class_id,
-			name: item.className || item.myclass || item.name || `班级${index + 1}`,
+			name: item.className || item.classname || item.myclass || item.name || `班级${index + 1}`,
 		} satisfies HomeworkClassOption;
 	});
 }
@@ -191,55 +191,67 @@ onShow(() => {
 </script>
 
 <template>
-	<view class="teacher-homework-page">
-		<teacher-nav-bar title="作业列表" @refresh="refreshPage" />
+  <view class="teacher-homework-page">
+    <teacher-nav-bar title="作业列表" @refresh="refreshPage" />
 
-		<view class="teacher-homework-page__content">
-			<view class="teacher-homework-page__classes">
-				<view
-					v-for="item in classOptions"
-					:key="`${item.id ?? item.name}`"
-					class="teacher-homework-page__class-chip"
-					:class="{ 'teacher-homework-page__class-chip--active': selectedClassId === String(item.id) }"
-					@click="selectClass(item.id)"
-				>
-					{{ item.name }}
-				</view>
-			</view>
+    <view class="teacher-homework-page__content">
+      <view class="teacher-homework-page__classes">
+        <view
+          v-for="item in classOptions"
+          :key="`${item.id ?? item.name}`"
+          class="teacher-homework-page__class-chip"
+          :class="{ 'teacher-homework-page__class-chip--active': selectedClassId === String(item.id) }"
+          @click="selectClass(item.id)"
+        >
+          {{ item.name }}
+        </view>
+      </view>
 
-			<view v-if="classOptions.length && !selectedClassId" class="teacher-homework-page__tip">
-				班级接口暂未返回可用 ID，当前无法查询作业数据。
-			</view>
+      <view v-if="classOptions.length && !selectedClassId" class="teacher-homework-page__tip">
+        班级接口暂未返回可用 ID，当前无法查询作业数据。
+      </view>
 
-			<view v-if="homeworkList.length" class="teacher-homework-page__summary">共 {{ total }} 条作业</view>
+      <view v-if="homeworkList.length" class="teacher-homework-page__summary">
+        共 {{ total }} 条作业
+      </view>
 
-			<view v-if="homeworkList.length" class="teacher-homework-page__list">
-				<view v-for="item in homeworkList" :key="item.id" class="teacher-homework-card" @click="openDetail(item)">
-					<view class="teacher-homework-card__header">
-						<view class="teacher-homework-card__title">{{ item.title }}</view>
-						<view class="i-carbon:chevron-right text-16px text-#98a2b3" />
-					</view>
-					<view class="teacher-homework-card__meta">班级：{{ item.className }}</view>
-					<view class="teacher-homework-card__meta">提交人数：{{ item.submitCount }}</view>
-					<view class="teacher-homework-card__meta">创建时间：{{ item.createTime }}</view>
-				</view>
-			</view>
+      <view v-if="homeworkList.length" class="teacher-homework-page__list">
+        <view v-for="item in homeworkList" :key="item.id" class="teacher-homework-card" @click="openDetail(item)">
+          <view class="teacher-homework-card__header">
+            <view class="teacher-homework-card__title">
+              {{ item.title }}
+            </view>
+            <view class="i-carbon:chevron-right text-16px text-#98a2b3" />
+          </view>
+          <view class="teacher-homework-card__meta">
+            班级：{{ item.className }}
+          </view>
+          <view class="teacher-homework-card__meta">
+            提交人数：{{ item.submitCount }}
+          </view>
+          <view class="teacher-homework-card__meta">
+            创建时间：{{ item.createTime }}
+          </view>
+        </view>
+      </view>
 
-			<teacher-empty-state
-				v-else
-				:title="classLoading || loading ? '加载中...' : classOptions.length ? '暂无作业记录' : '暂无班级信息'"
-				compact
-			/>
+      <teacher-empty-state
+        v-else
+        :title="classLoading || loading ? '加载中...' : classOptions.length ? '暂无作业记录' : '暂无班级信息'"
+        compact
+      />
 
-			<view v-if="hasMore" class="teacher-homework-page__more" @click="loadMore">
-				{{ loadingMore ? "加载中..." : "加载更多" }}
-			</view>
-		</view>
+      <view v-if="hasMore" class="teacher-homework-page__more" @click="loadMore">
+        {{ loadingMore ? "加载中..." : "加载更多" }}
+      </view>
+    </view>
 
-		<view class="teacher-homework-page__action">
-			<wd-button type="primary" block @click="goPublishPage">布置新作业</wd-button>
-		</view>
-	</view>
+    <view class="teacher-homework-page__action">
+      <wd-button type="primary" block @click="goPublishPage">
+        布置新作业
+      </wd-button>
+    </view>
+  </view>
 </template>
 
 <style scoped>
