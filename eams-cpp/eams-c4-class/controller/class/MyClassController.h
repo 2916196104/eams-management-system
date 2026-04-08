@@ -31,7 +31,7 @@ public:
 
 	}
 	// 3.2 定义查询接口处理
-	ENDPOINT(API_M_GET, "/c4/class/query-myclass", queryMyClass, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_GET, "/c4-class/query-myclass", queryMyClass, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
 		// 解析查询参数为Query领域模型
 		API_HANDLER_QUERY_PARAM(query, MyClassPageQuery, params);
 		// 呼叫执行函数响应结果
