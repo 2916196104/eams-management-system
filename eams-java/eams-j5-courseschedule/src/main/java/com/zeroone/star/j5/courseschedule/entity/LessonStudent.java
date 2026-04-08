@@ -29,7 +29,7 @@ public class LessonStudent implements Serializable {
     private Long lessonId;
 
     /** 班级id 为空表示调课生 */
-    private Long classId;
+    private Integer classId;
 
     /** 学员id */
     private Long studentId;

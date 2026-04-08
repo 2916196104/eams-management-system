@@ -8,6 +8,9 @@ import com.zeroone.star.project.dto.j5.courseschedule.LessonParamDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+
+import java.util.List;
 
 /**
  * <p>
@@ -20,6 +23,19 @@ import org.apache.ibatis.annotations.Select;
  */
 @Mapper
 public interface LessonMapper extends BaseMapper<Lesson> {
+
+    /**
+     * 批量设置课次状态（停课/复课）
+     * @param lessonIds 课次ID列表
+     * @param state 状态值（0-已停课，1-进行中）
+     * @return 影响行数
+     */
+    @Update("<script>" +
+            "UPDATE lesson SET state = #{state} " +
+            "WHERE id IN " +
+            "<foreach collection='lessonIds' item='id' open='(' separator=',' close=')'>#{id}</foreach>" +
+            "</script>")
+    int batchToggleStatus(@Param("lessonIds") List<Long> lessonIds, @Param("state") Integer state);
 
     /**
      * 条件+分页列表查询
@@ -39,6 +55,10 @@ public interface LessonMapper extends BaseMapper<Lesson> {
             "<foreach collection='param.classIds' item='id' open='(' separator=',' close=')'>#{id}</foreach></if>" +
             "<if test='param.teacherIds != null and param.teacherIds.size() > 0'>AND l.teacher_id IN " +
             "<foreach collection='param.teacherIds' item='id' open='(' separator=',' close=')'>#{id}</foreach></if>" +
+            "<if test='param.studentIds != null and param.studentIds.size() > 0'>AND EXISTS (" +
+            "SELECT 1 FROM lesson_student ls WHERE ls.lesson_id = l.id AND ls.student_id IN " +
+            "<foreach collection='param.studentIds' item='id' open='(' separator=',' close=')'>#{id}</foreach>" +
+            ")</if>" +
             "<if test='param.subjectId != null'>AND c.subject_id = #{param.subjectId}</if>" +
             "<if test='param.roomId != null'>AND l.room_id = #{param.roomId}</if>" +
             "<if test='param.startDate != null'>AND l.date &gt;= #{param.startDate}</if>" +
