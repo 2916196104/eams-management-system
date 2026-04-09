@@ -23,11 +23,7 @@ function navigateTo(name: string) {
 async function login() {
 	try {
 		const res = await Apis.login.post_login_auth_login({
-			data: { 
-				username: username.value, 
-				password: password.value,
-				terminalType: "manager"
-			},
+			data: { username: username.value, password: password.value },
 		});
 
 		if (res.code === 10000) {

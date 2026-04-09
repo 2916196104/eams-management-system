@@ -39,6 +39,11 @@ function editName() {
 					params: {
 						name: nextName,
 					},
+					data: {
+						name: nextName,
+						phone: userInfo.value.phone,
+						regDate: userInfo.value.regDate || "",
+					},
 				});
 				userStore.updateUserInfo({ nickName: nextName });
 				uni.showToast({ title: "修改成功", icon: "success" });
