@@ -69,7 +69,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from "vue";
 import { useStatisticsStore, useScheduleStore, useNoticeStore, useEchartsStore } from "@/stores/console";
-import Statistics from "@/components/statistics/Statistics.vue";
+import Statistics from "@/components/statistics/statistics.vue";
 import MyCalendar from "@/components/mycalendar/MyCalendar.vue";
 import LineChart from "@/components/mychart/LineChart.vue";
 import BarChart from "@/components/mychart/BarChart.vue";

@@ -61,6 +61,7 @@ export interface MyTableColumn {
 export interface MyTableOperationsColumn extends MyTableColumn {
 	/** 按钮尺寸 */
 	size?: "large" | "default" | "small";
+	text?: boolean;
 }
 
 /**

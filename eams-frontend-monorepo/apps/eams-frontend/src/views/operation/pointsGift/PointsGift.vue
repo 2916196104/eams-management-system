@@ -92,7 +92,7 @@
 				v-else
 				:item="item"
 				:model="formDialogProps.data[item.prop]"
-				@update:model="(val) => (formDialogProps.data[item.prop] = val)"
+				@update:model="(val: unknown) => (formDialogProps.data[item.prop] = val)"
 			/>
 		</template>
 	</MyFormDialog>
@@ -120,20 +120,33 @@ import { DeleteFilled, Check, Close } from "@element-plus/icons-vue";
 import MyTable from "@/components/mytable/MyTable.vue";
 import type { PageDTO, MyTableColumn, MyTableOperationsBtn } from "@/components/mytable/type";
 import MyFormDialog from "@/components/mydialog/MyFormDialog.vue";
+import type { MyFormDialogProps } from "@/components/mydialog/type";
 import type { MyFormItemAttr } from "@/components/myform/type";
 import ColumnSetting from "../components/ColumnSetting.vue";
 import PrintTable from "../components/PrintTable.vue";
 import type { ColumnOption } from "../components/ColumnSetting.vue";
 import { computed } from "vue";
 import { getGiftList, deleteGift, useOrbanGift, saveGift } from "@/apis/operation/pointsGift";
+import type { GiftList, SaveGiftParams } from "@/apis/operation/pointsGift/type";
 import { ElMessage, ElMessageBox } from "element-plus";
 import SelectTablePopover from "@/views/material/components/SelectTablePopover.vue";
 import type { SearchField } from "@/views/material/components/type";
 
+interface GiftFormData extends Record<string, any> {
+	id: number | null;
+	giftName: string;
+	materialId: string;
+	materialName: string;
+	category: string;
+	points: number;
+	giftDesc: string;
+	avatar: string;
+}
+
 // ==================== 状态变量 ====================
 const columnSettingVisible = ref(false);
-const originalRows = ref<any[]>([]);
-const selectedRows = ref<any[]>([]);
+const originalRows = ref<GiftList[]>([]);
+const selectedRows = ref<GiftList[]>([]);
 
 // ==================== 分类配置 ====================
 const categoryOptions = ref([
@@ -200,12 +213,12 @@ const taboperbtns = ref<MyTableOperationsBtn[]>([
 	{
 		text: "编辑",
 		evtname: "edit",
-		attr: { type: "primary", text: true, style: { color: "#409eff", border: "none", background: "transparent" } },
+		attr: { type: "primary", link: true, style: { color: "#409eff", border: "none", background: "transparent" } },
 	},
 ]);
 
 // ==================== 表格数据 ====================
-const tabdata = ref<PageDTO<any>>({
+const tabdata = ref<PageDTO<GiftList>>({
 	rows: [
 		{
 			id: 1,
@@ -246,8 +259,8 @@ const form = reactive({ searchTitle: "", enabled: "" });
 
 // ==================== 弹窗配置（终极修复：校验字段和绑定字段完全一致） ====================
 const formDialog = ref();
-const formDialogProps = reactive({
-	data: reactive({
+const formDialogProps = reactive<MyFormDialogProps<GiftFormData>>({
+	data: reactive<GiftFormData>({
 		id: null,
 		giftName: "",
 		materialId: "", // 后端需要的ID，不参与校验
@@ -306,7 +319,7 @@ const handleColumnConfirm = (cols: ColumnOption[]) => {
 	localStorage.setItem("creditExchangeColumns", JSON.stringify(cols));
 };
 const handleColumnReset = () => allColumns.value.forEach((c) => (c.visible = true));
-const handleSelectionChange = (rows: any[]) => (selectedRows.value = rows);
+const handleSelectionChange = (rows: GiftList[]) => (selectedRows.value = rows);
 
 // ==================== 刷新 / 搜索 / 清空 ====================
 const refresh = () => {
@@ -317,8 +330,9 @@ const refresh = () => {
 };
 const search = () => {
 	let filtered = [...originalRows.value];
-	if (form.searchTitle) filtered = filtered.filter((r) => r.giftName.includes(form.searchTitle));
-	if (form.enabled) filtered = filtered.filter((r) => r.state === (form.enabled === "1" ? "启用" : "禁用"));
+	if (form.searchTitle) filtered = filtered.filter((r) => r.giftName?.includes(form.searchTitle));
+	if (form.enabled)
+		filtered = filtered.filter((r) => String(r.state ?? "") === (form.enabled === "1" ? "启用" : "禁用"));
 	tabdata.value.rows = filtered;
 };
 const clear = () => {
@@ -341,7 +355,7 @@ const addGiftClick = () => {
 	formDialogProps.title = "新增礼品";
 	formDialog.value?.openDialog(true);
 };
-const editClick = (index, row, evtname) => {
+const editClick = (_index: number, row: GiftList, evtname: string) => {
 	if (evtname === "edit") {
 		Object.assign(formDialogProps.data, {
 			...row,
@@ -355,13 +369,13 @@ const editClick = (index, row, evtname) => {
 };
 
 // ==================== 完善的onSubmit函数 ====================
-const onSubmit = async (valid: boolean) => {
-	if (!valid) {
+const onSubmit = async (data: GiftFormData) => {
+	if (!data) {
 		ElMessage.warning("请完善必填项");
 		return;
 	}
 
-	const { giftName, materialId, materialName, category, points, giftDesc, avatar, id } = formDialogProps.data;
+	const { giftName, materialId, materialName, category, points, giftDesc, avatar, id } = data;
 
 	// 前端二次校验，双重保障
 	if (!giftName?.trim()) {
@@ -395,7 +409,7 @@ const onSubmit = async (valid: boolean) => {
 	}
 
 	// 构造接口参数（完全匹配接口要求）
-	const requestParams = {
+	const requestParams: SaveGiftParams = {
 		name: giftName.trim(),
 		materialId: String(materialId), // 提交用materialId，后端需要
 		categoryId,
@@ -410,7 +424,7 @@ const onSubmit = async (valid: boolean) => {
 	try {
 		const res = await saveGift(requestParams);
 		// 判断后端业务状态
-		if (res.data.code === 0 || res.data.code === 200) {
+		if (res.code === 10000 || res.code === 200) {
 			ElMessage.success(id ? "修改成功" : "新增成功");
 			formDialog.value?.closeDialog();
 			refresh();
@@ -426,7 +440,7 @@ const onSubmit = async (valid: boolean) => {
 				avatar: "",
 			});
 		} else {
-			ElMessage.error(`保存失败：${res.data.message || "未知错误"}`);
+			ElMessage.error(`保存失败：${res.message || "未知错误"}`);
 		}
 	} catch (error) {
 		console.error("保存失败：", error);
@@ -439,7 +453,9 @@ const deleteClick = () => {
 	if (!selectedRows.value.length) return ElMessage.warning("请选择");
 	ElMessageBox.confirm("确定删除？")
 		.then(async () => {
-			await deleteGift({ name: selectedRows.value.map((r) => r.giftName) });
+			await deleteGift({
+				name: selectedRows.value.map((r) => r.giftName).filter((name): name is string => Boolean(name)),
+			});
 			ElMessage.success("删除成功");
 			refresh();
 			selectedRows.value = [];
@@ -450,7 +466,10 @@ const handleEnable = () => {
 	if (!selectedRows.value.length) return ElMessage.warning("请选择");
 	ElMessageBox.confirm("确定启用？")
 		.then(async () => {
-			await useOrbanGift({ ids: selectedRows.value.map((r) => r.id), status: 1 });
+			await useOrbanGift({
+				ids: selectedRows.value.map((r) => r.id).filter((id): id is string | number => id !== undefined),
+				status: 1,
+			});
 			ElMessage.success("启用成功");
 			refresh();
 			selectedRows.value = [];
@@ -461,7 +480,10 @@ const handleDisable = () => {
 	if (!selectedRows.value.length) return ElMessage.warning("请选择");
 	ElMessageBox.confirm("确定禁用？")
 		.then(async () => {
-			await useOrbanGift({ ids: selectedRows.value.map((r) => r.id), status: 0 });
+			await useOrbanGift({
+				ids: selectedRows.value.map((r) => r.id).filter((id): id is string | number => id !== undefined),
+				status: 0,
+			});
 			ElMessage.success("禁用成功");
 			refresh();
 			selectedRows.value = [];

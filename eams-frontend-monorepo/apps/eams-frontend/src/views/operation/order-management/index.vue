@@ -327,8 +327,8 @@ const coursePageSize = ref(20);
 const courseTotal = ref(0);
 
 // ============ 辅助函数 ============
-const getOrderStatusType = (status: string) => {
-	const map: Record<string, string> = {
+const getOrderStatusType = (status: string): "info" | "success" | "warning" | "danger" => {
+	const map: Record<string, "info" | "success" | "warning" | "danger"> = {
 		未支付: "warning",
 		已付款: "success",
 		已评价: "info",
@@ -337,8 +337,8 @@ const getOrderStatusType = (status: string) => {
 	return map[status] || "info";
 };
 
-const getRefundStatusType = (status: string) => {
-	const map: Record<string, string> = {
+const getRefundStatusType = (status: string): "info" | "success" | "warning" | "danger" => {
+	const map: Record<string, "info" | "success" | "warning" | "danger"> = {
 		已申请: "warning",
 		退款驳回: "danger",
 		已退款: "success",
@@ -502,7 +502,10 @@ const fetchData = async () => {
 			data = data.filter((item) => item.studentId === searchForm.studentId);
 		}
 		if (searchForm.courseId) {
-			data = data.filter((item) => item.orderItems.some((orderItem) => orderItem.courseId === searchForm.courseId));
+			const selectedCourse = mockCourses.find((course) => course.id === searchForm.courseId);
+			if (selectedCourse) {
+				data = data.filter((item) => item.orderItems.some((orderItem) => orderItem.courseName === selectedCourse.name));
+			}
 		}
 		if (searchForm.orderStatusList.length > 0) {
 			data = data.filter((item) => searchForm.orderStatusList.includes(item.orderStatus));

@@ -305,8 +305,8 @@ const mockRefundList = [
 ];
 
 // ============ 辅助函数 ============
-const getStatusType = (status: string) => {
-	const map: Record<string, string> = {
+const getStatusType = (status: string): "info" | "success" | "warning" | "danger" => {
+	const map: Record<string, "info" | "success" | "warning" | "danger"> = {
 		applied: "warning",
 		pending_refund: "info",
 		completed: "success",

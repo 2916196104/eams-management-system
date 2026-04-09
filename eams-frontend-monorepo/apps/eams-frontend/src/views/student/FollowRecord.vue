@@ -240,7 +240,7 @@ function getStageLabel(stage?: number) {
 }
 
 // 获取跟进状态标签类型
-function getStageTagType(stage?: number): "" | "success" | "warning" | "danger" | "info" {
+function getStageTagType(stage?: number): "success" | "warning" | "danger" | "info" {
 	if (!stage) return "info";
 	const typeMap: Record<number, "info" | "warning" | "success"> = {
 		1: "info",

@@ -67,7 +67,7 @@ import { ref, computed, watch, onMounted, onUnmounted } from "vue";
 import { ArrowDown, Search } from "@element-plus/icons-vue";
 import type { MyPersonSelectorProps, PersonData } from "./type";
 
-const rootRef = ref(null);
+const rootRef = ref<HTMLElement | null>(null);
 // 定义组件属性
 const props = withDefaults(defineProps<MyPersonSelectorProps>(), {
 	placeholder: "请选择",
@@ -190,9 +190,9 @@ watch(
 );
 
 // 点击外部关闭选择器
-function handleClickOutside(event) {
+function handleClickOutside(event: MouseEvent) {
 	const target = event.target;
-	if (rootRef.value && !rootRef.value.contains(target)) {
+	if (rootRef.value && target instanceof Node && !rootRef.value.contains(target)) {
 		selectorVisible.value = false;
 	}
 }

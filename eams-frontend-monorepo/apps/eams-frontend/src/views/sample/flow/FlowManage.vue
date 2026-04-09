@@ -248,7 +248,7 @@ const formDialog = ref();
 
 // 定义对话框属性
 const cusprops = reactive<MyDialogProps<ProcessDefinitionVO>>({
-	data: {},
+	data: {} as ProcessDefinitionVO,
 	title: "流程设计",
 	fullscreen: true,
 });
