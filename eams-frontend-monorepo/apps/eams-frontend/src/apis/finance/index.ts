@@ -1,4 +1,4 @@
-import type { PageDTO, PageQuery } from "@/apis/type";
+import { createPageDTO, type PageDTO, type PageQuery } from "@/apis/type";
 import { useHttp } from "@/plugins/http";
 import type {
 	CashoutDetail,
@@ -449,12 +449,19 @@ export async function queryFundPage(params: FundQuery) {
 				verifyStateName: item.verifyStateName || mapFundVerifyState(item.verifyState),
 			})) || [];
 
-		if (rows.length) {
-			return {
-				...res.data,
-				rows,
-			};
-		}
+		const normalizedRows = rows.map((item) => ({
+			...item,
+			operatorName:
+				item.operatorName && !item.operatorName.includes("{item.operator}")
+					? item.operatorName
+					: `经办人#${item.operator}`,
+		}));
+		const page = createPageDTO({
+			...res.data,
+			rows: normalizedRows,
+		});
+
+		if (page.rows.length) return page;
 	} catch {
 		// 本地测试时回退到 mock 数据
 	}

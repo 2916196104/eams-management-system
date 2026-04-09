@@ -90,3 +90,4 @@ auto-imports.d.ts
 components.d.ts
 package-lock.json
 node_modules
+.pnpm-store
