@@ -40,6 +40,20 @@ export interface AppointmentCalendarVo {
 	verifyState: string;
 }
 
+export interface AppointmentDetailVo {
+	id: number;
+	studentId: number;
+	studentName: string;
+	studentMobile: string;
+	lessonId: number;
+	lessonTitle: string;
+	lessonTime: string;
+	addTime: string;
+	verifyState: string;
+	verifyRemark?: string;
+	remark?: string;
+}
+
 export interface AppointmentListParams {
 	pageIndex?: number;
 	pageSize?: number;
@@ -47,7 +61,6 @@ export interface AppointmentListParams {
 	courseNames?: string[];
 	startDate?: string;
 	endDate?: string;
-	verifyState?: string;
 }
 
 export interface CalendarParams {
@@ -55,22 +68,27 @@ export interface CalendarParams {
 	endDate?: string;
 }
 
+// 获取预约列表
 export const getAppointmentList = (params: AppointmentListParams) => {
-	return http.get<JsonVo<PageDtoAppointmentDto>>("/appoint", params);
+	return http.get<JsonVo<PageDtoAppointmentDto>>("/j5-appoint", params);
 };
 
+// 获取预约日历
 export const getAppointmentCalendar = (params: CalendarParams) => {
-	return http.get<JsonVo<AppointmentCalendarVo[]>>("/appoint/j5/calendar", { params });
+	return http.get<JsonVo<AppointmentCalendarVo[]>>("/j5-appoint/calendar", params);
 };
 
+// 获取预约详情
 export const getAppointmentDetail = (id: number) => {
-	return http.get<JsonVo<AppointmentCalendarVo>>(`/appoint/${id}`);
+	return http.get<JsonVo<AppointmentDetailVo>>(`/j5-appoint/${id}`);
 };
 
+// 确认预约
 export const approveAppointment = (ids: number[]) => {
-	return http.post<JsonVo<number[]>>("/appoint/confirm", ids);
+	return http.post<JsonVo<number[]>>("/j5-appoint/confirm", ids);
 };
 
+// 取消预约
 export const cancelAppointment = (ids: number[]) => {
-	return http.post<JsonVo<number[]>>("/appoint/cancel", ids);
+	return http.post<JsonVo<number[]>>("/j5-appoint/cancel", ids);
 };
