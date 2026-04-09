@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { storeToRefs } from "pinia";
 import ParentEmptyState from "@/components/parent/ParentEmptyState.vue";
 import ParentNavBar from "@/components/parent/ParentNavBar.vue";
+import { useUserStore } from "@/store/userStore";
 
 definePage({
 	name: "parentClass",
@@ -12,12 +14,12 @@ definePage({
 });
 
 interface ClassInfo {
-	id: number;
-	class_name: string;
+	id?: number;
+	class_name?: string;
 	teacher_id?: number;
 	teacher_name?: string;
-	course_id: number;
-	course_name: string;
+	course_id?: number;
+	course_name?: string;
 	start_date?: string;
 	end_date?: string;
 	student_count?: number;
@@ -48,6 +50,8 @@ interface ClassStudentItem {
 
 const router = useRouter();
 const route = useRoute() as any;
+const userStore = useUserStore();
+const { currentStudent } = storeToRefs(userStore);
 const loading = ref(false);
 const loadingMore = ref(false);
 const classInfo = ref<ClassInfo | null>(null);
@@ -73,13 +77,35 @@ const courseId = computed(() => {
 const isListMode = computed(() => Boolean(courseId.value) && !classId.value);
 const pageTitle = computed(() => (isListMode.value ? "班级列表" : "我的班级"));
 const hasMore = computed(() => pageIndex.value < pages.value);
+const studentId = computed(() => Number(currentStudent.value?.id || 0));
 
 function normalizeRows(data: any): Array<ClassListItem> {
-	return Array.isArray(data?.rows) ? data.rows : [];
+	const rows = Array.isArray(data?.rows) ? data.rows : [];
+	return rows.map((item: any, index: number) => ({
+		id: item?.id ?? item?.class_id ?? item?.classId ?? undefined,
+		name: item?.class_name ?? item?.className ?? `班级${index + 1}`,
+		course: item?.course_name ?? item?.courseName,
+		teacher: item?.teacher_name ?? item?.teacherName,
+		room: item?.classroom_name ?? item?.classroomName,
+		createTime: item?.start_date ?? item?.startDate,
+		updateTime: item?.end_date ?? item?.endDate,
+		number: item?.student_count ?? item?.studentCount,
+		description: item?.remark,
+	}));
 }
 
 function normalizeStudents(data: any): Array<ClassStudentItem> {
-	return Array.isArray(data?.student_list) ? data.student_list : [];
+	const rows = Array.isArray(data?.student_list) ? data.student_list : [];
+	return rows.map((item: any, index: number) => ({
+		id: item?.id ?? item?.student_id ?? item?.studentId ?? index + 1,
+		name: item?.name ?? item?.student_name ?? `学员${index + 1}`,
+		gender:
+			typeof item?.gender === "boolean"
+				? item.gender
+					? "男"
+					: "女"
+				: item?.gender,
+	}));
 }
 
 function studentGenderText(gender?: string) {
@@ -117,7 +143,7 @@ async function loadClassStudents(targetClassId?: number) {
 }
 
 async function loadClassList(nextPage = 1, append = false) {
-	if (!courseId.value) {
+	if (!studentId.value) {
 		classList.value = [];
 		return;
 	}
@@ -125,9 +151,9 @@ async function loadClassList(nextPage = 1, append = false) {
 	const targetLoading = append ? loadingMore : loading;
 	targetLoading.value = true;
 	try {
-		const res: any = await Apis.home.get_home_class_page_query_by_student_id({
+		const res: any = await (Apis as any).home.get_home_class_page_query_by_student_id({
 			params: {
-				course_id: courseId.value,
+				student_id: studentId.value,
 				pageIndex: nextPage,
 				pageSize,
 			},
@@ -159,7 +185,7 @@ async function loadPageData() {
 
 		classList.value = [];
 		await loadClassInfo();
-		await loadClassStudents(classInfo.value?.id);
+		await loadClassStudents(classId.value);
 	} catch {
 		classInfo.value = null;
 		classStudents.value = [];
@@ -262,8 +288,8 @@ onMounted(() => {
 						<text class="class-card__value">{{ classInfo.classroom_name || "未设置" }}</text>
 					</view>
 					<view class="class-card__item">
-						<text class="class-card__label">课程 ID</text>
-						<text class="class-card__value">{{ classInfo.course_id }}</text>
+						<text class="class-card__label">班级 ID</text>
+						<text class="class-card__value">{{ classId || "未设置" }}</text>
 					</view>
 				</view>
 

@@ -13,7 +13,12 @@ export interface PersonData {
 	/** 其他扩展字段 */
 	[key: string]: any;
 }
-
+export interface PersonColumn {
+	prop: string;
+	label: string;
+	minWidth?: string | number;
+	width?: string | number;
+}
 /**
  * 人员选择器组件属性模型
  */
@@ -36,4 +41,6 @@ export interface MyPersonSelectorProps {
 	data?: PersonData[];
 	/** 动态数据加载函数 */
 	dataLoader?: () => Promise<PersonData[]>;
+	// 新增列配置
+	columns?: PersonColumn[];
 }

@@ -12,19 +12,11 @@ export const getNoticeDetail = (id: number) => {
 };
 
 export const delNotice = (ids: INoticeDel) => {
-	return http.delete(`${currBaseUrl}/delete`, {
-		params: {
-			ids,
-		},
-	});
+	return http.delete(`${currBaseUrl}/delete`, ids.ids);
 };
 
 export const getNoticeList = (data: INoticeList) => {
-	return http.get(`${currBaseUrl}/get-by-id`, {
-		params: {
-			data,
-		},
-	});
+	return http.get(`${currBaseUrl}/get-by-id`, data);
 };
 
 export const editNotice = (data: INoticeSave) => {

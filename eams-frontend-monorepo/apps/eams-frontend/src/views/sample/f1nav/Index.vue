@@ -1,6 +1,6 @@
 <template>
 	<section class="f1nav-demo">
-		<EamsNav :menus="menus" @select="handleSelect" />
+		<EamsNav :menus="menus" :show-home="false" :router="false" @select="handleSelect" />
 		<div class="f1nav-demo__main">
 			<div class="f1nav-demo__card">
 				<div class="f1nav-demo__title">f1nav（mynav 组件）示例</div>
@@ -39,7 +39,8 @@ const menus = computed<EamsNavMenuItem[]>(() =>
 );
 
 function handleSelect(item?: EamsNavMenuItem) {
-	if (item?.path) router.push(item.path);
+	const targetPath = item?.path || item?.href;
+	if (targetPath) router.push(targetPath);
 }
 </script>
 

@@ -1,27 +1,25 @@
 const routes = [
 	{
-		path: "/notice",
-		name: "system-notice",
+		path: "/system",
+		redirect: { name: "SystemInternalNotice" },
+	},
+	{
+		path: "/system/internal-notice",
+		alias: "/notice",
+		name: "SystemInternalNotice",
 		meta: {
 			label: "内部公告",
 		},
 		component: () => import("@/views/system/system-notice.vue"),
 	},
 	{
-		path: "/system/parameter",
-		name: "system-parameter",
-		meta: {
-			label: "系统参数",
-		},
-		component: () => import("@/views/system/system-parameter.vue"),
-	},
-	{
-		path: "/system/permission",
-		name: "role-permission",
+		path: "/system/role-permission",
+		alias: "/system/permission",
+		name: "SystemRolePermission",
 		meta: {
 			label: "角色与权限",
 		},
-		component: () => import("@/views/system/role-permission.vue"),
+		component: () => import("@/views/system/system-permission.vue"),
 	},
 	{
 		path: "/system/data-dictionary",
@@ -54,6 +52,15 @@ const routes = [
 			label: "操作日志",
 		},
 		component: () => import("@/views/system/OperationLog.vue"),
+	},
+	{
+		path: "/system/system-parameter",
+		alias: ["/system/parameter", "/system/param"],
+		name: "SystemParam",
+		meta: {
+			label: "系统参数",
+		},
+		component: () => import("@/views/system/system-param.vue"),
 	},
 ];
 

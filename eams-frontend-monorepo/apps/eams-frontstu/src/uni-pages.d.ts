@@ -12,6 +12,12 @@ type _LocationUrl =
   "/subPages/login/forget" |
   "/subPages/login/register" |
   "/subPages/mine/about" |
+  "/subPages/mine/help-detail" |
+  "/subPages/mine/help" |
+  "/subPages/mine/order-list" |
+  "/subPages/mine/password" |
+  "/subPages/mine/point-record" |
+  "/subPages/mine/profile" |
   "/subPages/mine/them" |
   "/subPages/parent/attendance-record" |
   "/subPages/parent/class-page" |
@@ -24,27 +30,29 @@ type _LocationUrl =
   "/subPages/parent/points-record" |
   "/subPages/parent/score-list" |
   "/subPages/parent/signup-record" |
+  "/subPages/parent/student-edit" |
   "/subPages/parent/student-list" |
-  "/subPages/parent/trial-card";
+  "/subPages/parent/trial-card" |
+  "/subPages/select/course-detail";
 
 interface NavigateToOptions {
-	url: _LocationUrl;
+  url: _LocationUrl;
 }
 interface RedirectToOptions extends NavigateToOptions {}
 
 interface SwitchTabOptions {
-	url: "/pages/home/index" | "/pages/schedule/index" | "/pages/select/index" | "/pages/mine/index";
+  url: "/pages/home/index" | "/pages/schedule/index" | "/pages/select/index" | "/pages/mine/index"
 }
 
 type ReLaunchOptions = NavigateToOptions | SwitchTabOptions;
 
 declare interface Uni {
-	navigateTo(options: UniNamespace.NavigateToOptions & NavigateToOptions): void;
-	redirectTo(options: UniNamespace.RedirectToOptions & RedirectToOptions): void;
-	switchTab(options: UniNamespace.SwitchTabOptions & SwitchTabOptions): void;
-	reLaunch(options: UniNamespace.ReLaunchOptions & ReLaunchOptions): void;
+  navigateTo(options: UniNamespace.NavigateToOptions & NavigateToOptions): void;
+  redirectTo(options: UniNamespace.RedirectToOptions & RedirectToOptions): void;
+  switchTab(options: UniNamespace.SwitchTabOptions & SwitchTabOptions): void;
+  reLaunch(options: UniNamespace.ReLaunchOptions & ReLaunchOptions): void;
 }
 
 declare module "virtual:uni-pages" {
-	export type LocationUrl = _LocationUrl;
+  export type LocationUrl = _LocationUrl;
 }

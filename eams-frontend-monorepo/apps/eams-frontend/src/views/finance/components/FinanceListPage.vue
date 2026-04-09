@@ -73,22 +73,10 @@
 			@taboper-click="handleOperation"
 		>
 			<template #customercell="{ prop, row }">
-				<template
-					v-if="
-						[
-							'amount',
-							'singleClassFee',
-							'classFeeSubtotal',
-							'singleAssistantFee',
-							'assistantFeeSubtotal',
-							'feePerClass',
-							'feeSubtotal',
-						].includes(prop)
-					"
-				>
+				<template v-if="currencyProps.has(prop)">
 					{{ formatCurrency(row[prop]) }}
 				</template>
-				<template v-else-if="['verifyStateName', 'status', 'auditStatus'].includes(prop)">
+				<template v-else-if="statusProps.has(prop)">
 					<el-tag :type="getStatusType(row[prop])" effect="light">{{ row[prop] }}</el-tag>
 				</template>
 				<template v-else>
@@ -104,17 +92,27 @@ import { computed, onMounted, reactive, ref } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { CircleClose, Download, Grid, Printer, RefreshRight, Search } from "@element-plus/icons-vue";
 import MyTable from "@/components/mytable/MyTable.vue";
-import { createPageDTO, type MyTableAttr, type PageDTO } from "@/components/mytable/type";
+import { createPageDTO, type MyTableAttr, type MyTableColumn, type PageDTO } from "@/components/mytable/type";
 import type { FinanceListConfig } from "../shared";
 
 const props = defineProps<{
 	config: FinanceListConfig<Record<string, any>>;
 }>();
 
+const currencyProps = new Set([
+	"amount",
+	"singleClassFee",
+	"classFeeSubtotal",
+	"singleAssistantFee",
+	"assistantFeeSubtotal",
+	"feePerClass",
+	"feeSubtotal",
+]);
+const statusProps = new Set(["verifyStateName", "status", "auditStatus"]);
 const filters = reactive<Record<string, any>>({ ...props.config.initialFilters });
 const isExpanded = ref(false);
 const pageIndex = ref(1);
-const pageSize = ref(10);
+const pageSize = ref(3);
 const selectedRows = ref<Record<string, any>[]>([]);
 const pageData = ref(createPageDTO<Record<string, any>>());
 
@@ -172,7 +170,64 @@ function handleRefresh() {
 }
 
 function handlePrint() {
-	ElMessage.info(`请在联调接口后接入 ${props.config.title} 打印能力`);
+	const printableColumns = props.config.columns.filter((column) => column.prop !== "operate" && column.visible !== false);
+
+	if (!printableColumns.length) {
+		ElMessage.warning("当前没有可打印的列");
+		return;
+	}
+
+	const tableHeader = printableColumns.map((column) => `<th>${escapeHtml(column.label)}</th>`).join("");
+	const rowsHtml = (displayPageData.value.rows || [])
+		.map((row) => {
+			const cells = printableColumns.map((column) => `<td>${formatPrintCell(row, column)}</td>`).join("");
+			return `<tr>${cells}</tr>`;
+		})
+		.join("");
+	const html = `
+	<!doctype html>
+	<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>${escapeHtml(props.config.title)}列表</title>
+		<style>
+			body { font-family: Arial, "Microsoft YaHei", sans-serif; padding: 20px; color: #303133; }
+			h2 { margin: 0 0 12px; color: #303133; }
+			p { margin: 0 0 16px; color: #606266; font-size: 12px; }
+			table { border-collapse: collapse; width: 100%; }
+			th, td { border: 1px solid #dcdfe6; padding: 8px; text-align: left; font-size: 12px; vertical-align: top; }
+			th { background: #f5f7fa; color: #606266; font-weight: 600; }
+			tr:nth-child(even) { background: #fafafa; }
+			@media print {
+				body { padding: 0; }
+				h2 { font-size: 16px; }
+				table { font-size: 10px; }
+				th, td { padding: 4px; }
+			}
+		</style>
+	</head>
+	<body>
+		<h2>${escapeHtml(props.config.title)}列表</h2>
+		<p>打印时间：${escapeHtml(new Date().toLocaleString("zh-CN"))}</p>
+		<table>
+			<thead><tr>${tableHeader}</tr></thead>
+			<tbody>${rowsHtml || `<tr><td colspan="${printableColumns.length}">暂无数据</td></tr>`}</tbody>
+		</table>
+	</body>
+	</html>
+	`;
+
+	const win = window.open("", "_blank");
+	if (!win) {
+		ElMessage.warning("浏览器阻止了打印窗口，请允许弹窗后重试");
+		return;
+	}
+
+	win.document.open();
+	win.document.write(html);
+	win.document.close();
+	win.focus();
+	win.print();
 }
 
 function handleLayout() {
@@ -216,6 +271,7 @@ async function handleOperation(_: number, row: Record<string, any>, evtname: str
 		}
 		return;
 	}
+
 	const actionMap: Record<string, string> = {
 		detail: "查看详情",
 		approve: "通过",
@@ -226,7 +282,33 @@ async function handleOperation(_: number, row: Record<string, any>, evtname: str
 
 function formatCurrency(value: number | string) {
 	const amount = Number(value || 0);
-	return `¥ ${amount.toLocaleString("zh-CN")}`;
+	return `￥${amount.toLocaleString("zh-CN")}`;
+}
+
+function formatPrintCell(row: Record<string, any>, column: MyTableColumn) {
+	const value = row[column.prop];
+	if (currencyProps.has(column.prop)) {
+		return escapeHtml(formatCurrency(value));
+	}
+	if (statusProps.has(column.prop)) {
+		return escapeHtml(String(value || "-"));
+	}
+	return escapeHtml(formatPrintValue(value));
+}
+
+function formatPrintValue(value: unknown) {
+	if (value == null || value === "") return "-";
+	if (Array.isArray(value)) return value.length ? value.map((item) => String(item)).join("、") : "-";
+	return String(value);
+}
+
+function escapeHtml(value: string) {
+	return value
+		.replaceAll("&", "&amp;")
+		.replaceAll("<", "&lt;")
+		.replaceAll(">", "&gt;")
+		.replaceAll("\"", "&quot;")
+		.replaceAll("'", "&#39;");
 }
 
 function getStatusType(status: string) {

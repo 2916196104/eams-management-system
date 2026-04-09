@@ -4,11 +4,34 @@ export interface TabbarItem {
 	active: boolean;
 	title: string;
 	icon: string;
+	activeColor: string;
 }
 
 const tabbarItems = ref<TabbarItem[]>([
-	{ name: "home", value: null, active: true, title: "首页", icon: "home" },
-	{ name: "mine", value: null, active: false, title: "我的", icon: "user" },
+	{
+		name: "home",
+		value: null,
+		active: true,
+		title: "工作台",
+		icon: "i-carbon:home",
+		activeColor: "#4c7cff",
+	},
+	{
+		name: "schedule",
+		value: null,
+		active: false,
+		title: "课表",
+		icon: "i-carbon:calendar",
+		activeColor: "#20c9c3",
+	},
+	{
+		name: "class",
+		value: null,
+		active: false,
+		title: "班级",
+		icon: "i-carbon:group",
+		activeColor: "#ff7b5d",
+	},
 ]);
 
 export function useTabbar() {
@@ -33,11 +56,7 @@ export function useTabbar() {
 
 	const setTabbarItemActive = (name: string) => {
 		tabbarItems.value.forEach((item) => {
-			if (item.name === name) {
-				item.active = true;
-			} else {
-				item.active = false;
-			}
+			item.active = item.name === name;
 		});
 	};
 
