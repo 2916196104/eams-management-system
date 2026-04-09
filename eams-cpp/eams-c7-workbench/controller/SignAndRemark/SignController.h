@@ -27,7 +27,7 @@ public:	//定义接口
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("sign.query-sign-page.summary"), queryPage, SignQuery, SignPageJsonVO::Wrapper, API_TAG1);
 
 	// 3.2 定义获取点名列表（条件+分页）接口处理
-	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c7/workbench/sign", queryPage, QUERIES(QueryParams, queryParams),
+	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c7-workbench/sign", queryPage, QUERIES(QueryParams, queryParams),
 		API_HANDLER_QUERY_PARAM(query, SignQuery, queryParams)
 		API_HANDLER_RESP_VO(execQuerySignPage(query, authObject->getPayload()));
 	);

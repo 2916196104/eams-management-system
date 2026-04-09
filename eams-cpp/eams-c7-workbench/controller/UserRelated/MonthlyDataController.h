@@ -17,7 +17,7 @@ public:
         API_DEF_ADD_TITLE(ZH_WORDS_GETTER("monthly_data.B"));//2
         API_DEF_ADD_RSP_JSON(MonthlyDataListJsonVO::Wrapper);//4
     }
-    ENDPOINT(API_M_GET, "/c7/user-related/monthlydata", queryMonthlyDataList, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
+    ENDPOINT(API_M_GET, "/c7-workbench/monthlydata", queryMonthlyDataList, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
         API_HANDLER_QUERY_PARAM(query, MonthlyDataQuery, params);
         API_HANDLER_RESP_VO(executeQueryMonthlyDataList(query));
     }

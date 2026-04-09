@@ -51,7 +51,7 @@ public://定义接口
 	// 3.1 定义新增接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("translation.post.summary"), createStudent, StringJsonVO::Wrapper, API_TAG);
 	// 3.2 定义新增接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/add_student/info", createStudent, BODY_DTO(AddStudentDTO::Wrapper, dto), execAddStudent(dto, authObject->getPayload()));
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c7-workbench/add_student/info", createStudent, BODY_DTO(AddStudentDTO::Wrapper, dto), execAddStudent(dto, authObject->getPayload()));
 
 private://定义执行函数
     // 使用 AddStudentDTO::Wrapper 作为入参和 Object<T> 完全一致

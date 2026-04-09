@@ -146,7 +146,7 @@ public:
         //    API_HANDLER_RESP_VO(executeQuerySelectClass(query));
         //}
     API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("select_class.B"), querySelectClassPage, SelectClassQuery, SelectClassPageJsonVO::Wrapper, ZH_WORDS_GETTER("select_class.tag"));
-    API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c7/workbench/selectclass", querySelectClassPage, QUERIES(QueryParams, queryParams),
+    API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c7-workbench/selectclass", querySelectClassPage, QUERIES(QueryParams, queryParams),
         API_HANDLER_QUERY_PARAM(query, SelectClassQuery, queryParams); API_HANDLER_RESP_VO(executeQueryClassPage(query)););
 private:
     //StringJsonVO::Wrapper executeQuerySelectClass(const PageQuery::Wrapper& query);

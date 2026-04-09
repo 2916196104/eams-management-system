@@ -21,14 +21,14 @@ public:
 		API_DEF_ADD_QUERY_PARAMS(String, "courseId", ZH_WORDS_GETTER("course.field.courseId"), "", true);
 	);
 
-	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c7/workbench/courseDetail", queryCourseDetail,
+	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c7-workbench/courseDetail", queryCourseDetail,
 		QUERIES(QueryParams, queryParams),
 		execQueryCourseDetail(queryParams)
 	);
 
 	// 2. 分页查询课程列表
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("course.list.summary"), queryPage, CourseQuery, CoursePageJsonVO::Wrapper, API_TAG)
-		API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c7/workbench/courseList", queryPage, QUERIES(QueryParams, queryParams),
+		API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c7-workbench/courseList", queryPage, QUERIES(QueryParams, queryParams),
 			API_HANDLER_QUERY_PARAM(query, CourseQuery, queryParams);
 	API_HANDLER_RESP_VO(execQueryPage(query));
 		);

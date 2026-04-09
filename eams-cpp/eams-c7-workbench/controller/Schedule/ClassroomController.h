@@ -29,7 +29,7 @@ public:
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("classroom.query-page.summary"), queryPage, ClassroomQuery, ClassroomPageJsonVO::Wrapper, API_TAG);
 	// 3.2 定义获取教室列表(条件+分页）处理
 	//	HTTP请求格式，端点访问地址，端点函数名称，参数解析操作的宏，（可变：参数返回逻辑）
-	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/classroom", queryPage, QUERIES(QueryParams, queryParams),
+	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c7-workbench/classroom", queryPage, QUERIES(QueryParams, queryParams),
 		API_HANDLER_QUERY_PARAM(query, ClassroomQuery, queryParams); API_HANDLER_RESP_VO( execQueryPage(query) ); );
 
 private:

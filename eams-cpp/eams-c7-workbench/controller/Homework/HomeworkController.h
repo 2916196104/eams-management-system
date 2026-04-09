@@ -22,7 +22,7 @@ public:
     API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("homework.assign.summary"), assignHomework, StringJsonVO::Wrapper, API_TAG,
         info->addConsumes<oatpp::Object<AssignHomeworkDTO>>("application/json");
     )
-        API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/homework/assign", assignHomework,
+        API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c7-workbench/homework/assign", assignHomework,
             BODY_DTO(oatpp::Object<AssignHomeworkDTO>, dto),
             execAssignHomework(dto));
 
@@ -30,7 +30,7 @@ public:
     API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("homework.detail.summary"), getHomeworkDetail, HomeworkDetailJsonVO::Wrapper, API_TAG,
         API_DEF_ADD_QUERY_PARAMS(UInt64, "homeworkId", ZH_WORDS_GETTER("homework.field.id"), 10086, true);   // ¸ÄÎª UInt64
     )
-        API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/homework/detail", getHomeworkDetail,
+        API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c7-workbench/homework/detail", getHomeworkDetail,
             QUERY(UInt64, homeworkId, "homeworkId"),
             execGetHomeworkDetail(homeworkId));
 
@@ -38,7 +38,7 @@ public:
     API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("homework.review.summary"), reviewHomework, ReviewResultJsonVO::Wrapper, API_TAG,
         info->addConsumes<oatpp::Object<ReviewHomeworkDTO>>("application/json");
     )
-        API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/homework/review", reviewHomework,
+        API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c7-workbench/homework/review", reviewHomework,
             BODY_DTO(oatpp::Object<ReviewHomeworkDTO>, dto),
             execReviewHomework(dto));
 

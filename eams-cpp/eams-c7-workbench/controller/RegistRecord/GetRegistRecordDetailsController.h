@@ -35,7 +35,7 @@ class GetRegistRecordDetailsController : public oatpp::web::server::api::ApiCont
 	//定义控制器访问入口
 	API_ACCESS_DECLARE(GetRegistRecordDetailsController);
 public://定义接口
-	ENDPOINT(API_M_GET, "/RegistRecordDetails", querydetails, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_GET, "/c7-workbench/RegistRecordDetails", querydetails, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
 		API_HANDLER_QUERY_PARAM(query, RegistRecordQuery, params);
 		API_HANDLER_RESP_VO(execQueryById(query->id));
 	}

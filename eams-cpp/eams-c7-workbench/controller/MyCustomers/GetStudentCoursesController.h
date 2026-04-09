@@ -27,7 +27,7 @@ public:
 	// 接口路由
 	API_HANDLER_ENDPOINT_AUTH(
 		API_M_GET,
-		"/MyCustomers/get-cus-courses/{id}",
+		"/c7-workbench/MyCustomers/get-cus-courses/{id}",
 		getStudentCourses,
 		PATH(Int64, id),
 		executeGetStudentCourses(id, authObject->getPayload())

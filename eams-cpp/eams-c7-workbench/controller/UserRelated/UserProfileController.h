@@ -47,7 +47,7 @@ public:			 //定义接口
 		);
 
 	//定义获取用户资料接口实现
-	API_HANDLER_ENDPOINT_NOPARAM_AUTH(API_M_GET, "/C7/workbench/profile", queryUserProfile, execQuaryUserProfile(authObject->getPayload()))
+	API_HANDLER_ENDPOINT_NOPARAM_AUTH(API_M_GET, "/c7-workbench/profile", queryUserProfile, execQuaryUserProfile(authObject->getPayload()))
 private:		 //定义执行函数
 	//定义获取用户资料接口执行函数
 	UserProfileVO::Wrapper execQuaryUserProfile(const PayloadDTO& payload);

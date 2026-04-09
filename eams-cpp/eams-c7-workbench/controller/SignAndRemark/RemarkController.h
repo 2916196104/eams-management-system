@@ -26,7 +26,7 @@ public:	//定义接口
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("remark.query-remark-page.summary"), queryremarkPage, RemarkQuery, RemarkPageJsonVO::Wrapper, API_TAG2);
 
 	// 3.2 定义获取点评列表（条件+分页）接口处理
-	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c7/workbench/remark", queryremarkPage, QUERIES(QueryParams, queryParams),
+	API_HANDLER_ENDPOINT_OPTION_AUTH(API_M_GET, "/c7-workbench/remark", queryremarkPage, QUERIES(QueryParams, queryParams),
 		API_HANDLER_QUERY_PARAM(query, RemarkQuery, queryParams);
 	API_HANDLER_RESP_VO(execQueryRemarkPage(query, authObject->getPayload()));
 		);

@@ -15,7 +15,7 @@ class RegisterController : public web::server::api::ApiController
 public:
 	
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("register.save.summary"), saveReg, StringJsonVO::Wrapper, API_TAG);
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c7/workbench/register", saveReg,
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c7-workbench/register", saveReg,
 		BODY_DTO(RegisterAddDTO::Wrapper, dto),
 		execSave(dto, authObject->getPayload())
 	);

@@ -48,7 +48,7 @@ public:
 	// 定义获取班级列表（条件+分页）接口描述
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("class.query-classlist.summary"), QueryPage, ClassQuery, ClassPageJsonVO::Wrapper, API_TAG);
 	// 定义获取班级列表（条件+分页）接口处理
-	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c7/class", QueryPage, ClassQuery, execQueryPage(query));
+	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c7-class/class", QueryPage, ClassQuery, execQueryPage(query));
 
 private:
 	//定义获取班级详情接口执行函数

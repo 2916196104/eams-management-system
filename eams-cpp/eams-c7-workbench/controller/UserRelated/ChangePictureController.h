@@ -46,7 +46,7 @@ public:			 //定义接口
 	// 定义描述
 	API_DEF_ENDPOINT_INFO_FILE_AUTH(ZH_WORDS_GETTER("user.changepicture.summary"), uploadImage, FileOnlyDTO::Wrapper, ChangePictureVO::Wrapper, API_TAG2);
 	// 定义端点
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/C7/workbench/ChangePicture", uploadImage, REQUEST(std::shared_ptr<IncomingRequest>, request), execQueryChangePicture(authObject->getPayload(), request));
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c7-workbench/ChangePicture", uploadImage, REQUEST(std::shared_ptr<IncomingRequest>, request), execQueryChangePicture(authObject->getPayload(), request));
 
 
 

@@ -25,7 +25,7 @@ public:
 
     API_HANDLER_ENDPOINT_QUERY_AUTH(
         API_M_GET,
-        "/MyCustomers/List",
+        "/c7-workbench/MyCustomers/List",
         getMyCustomers,
         MyCustomersQuery,
         executeGetMyCustomersList(query, authObject->getPayload())
