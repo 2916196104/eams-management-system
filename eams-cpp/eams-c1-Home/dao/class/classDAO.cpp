@@ -27,7 +27,7 @@ std::string ClassDAO::queryConditionBuilder(const classQuery::Wrapper& query, Sq
 
 	// 只根据 student_id 过滤
 	sqlCondition << " WHERE student_id=?";
-	SQLPARAMS_PUSH(params, "i", uint32_t, query->student_id.getValue(0));
+	SQLPARAMS_PUSH(params, "ull", uint64_t, query->student_id.getValue(0));
     sqlCondition << " and deleted = 0) AND t1.deleted !=1";
 	return sqlCondition.str();
 }
@@ -93,7 +93,7 @@ std::list<StudentDO> StudentDAO::selectByClassId(const uint64_t& class_id)
         " AND t1.id in(select student_id from class_student where class_id = ? and deleted = 0)"
         " ORDER BY"
         " t1.id desc";
-    SQLPARAMS_PUSH(params, "i", uint64_t, class_id);
+    SQLPARAMS_PUSH(params, "ull", uint64_t, class_id);
 
     return sqlSession->executeQuery<StudentDO>(sql, StudentListMapper(), params);
 }

@@ -32,7 +32,7 @@ class classQuery : public PageQuery
 {
 	DTO_INIT(classQuery, PageQuery);
 	// 班级id
-	API_DTO_FIELD_REQUIRE(UInt32, student_id, ZH_WORDS_GETTER("class.student.id"), true);
+	API_DTO_FIELD_REQUIRE(UInt64, student_id, ZH_WORDS_GETTER("class.student.id"), true);
 };
 /*
 class classinfoQuery : public oatpp::DTO
