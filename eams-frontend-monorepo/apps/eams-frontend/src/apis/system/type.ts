@@ -85,7 +85,8 @@ export interface RolePermissionTreeData {
 }
 
 export interface RolepermStaffDTO {
-	id: number;
+	staffId: number;
+	roleId?: number;
 	name: string;
 	mobile?: string;
 }

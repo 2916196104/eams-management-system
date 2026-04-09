@@ -1,36 +1,42 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import {
-	getRolepermNameList,
-	saveRoleperm,
-	deleteRoleperm,
-	getRolepermStaffList,
 	addRolepermStaff,
-	removeRolepermStaff,
+	deleteRoleperm,
 	getPermissionList,
+	getRolepermNameList,
+	getRolepermOperators,
+	getRolepermStaffList,
 	getSelectedPermissionList,
+	removeRolepermStaff,
 	saveRolePermission,
+	saveRoleperm,
 } from "@/apis/system/permission";
 import type {
-	RolepermDTO,
-	RolepermStaffDTO,
 	QuanXianFenZuVo,
 	QuanXianMiaoShuDuiXiang,
+	RolepermDTO,
+	RolepermOperatorDTO,
+	RolepermStaffDTO,
 } from "@/apis/system/permission/type";
 
-/** 角色信息（页面展示用） */
 export interface RoleItem {
 	id: number;
 	code: string;
 	name: string;
 }
 
-/** 角色员工（页面展示用） */
 export interface StaffItem {
 	staffId: number;
 	roleId: number;
 	name: string;
 	mobile: string;
+}
+
+export interface OperatorItem {
+	id: number;
+	name: string;
+	positionName: string;
 }
 
 function unwrapPayload(input: unknown): unknown {
@@ -86,25 +92,27 @@ function normalizeStaffs(rows: RolepermStaffDTO[], roleId: number): StaffItem[] 
 	}));
 }
 
+function normalizeOperators(rows: RolepermOperatorDTO[]): OperatorItem[] {
+	return rows.map((item) => ({
+		id: item.id ?? 0,
+		name: item.name ?? "",
+		positionName: item.positionName ?? "",
+	}));
+}
+
 export const useSystemPermissionStore = defineStore("systemPermission", () => {
-	/** 角色列表 */
 	const roles = ref<RoleItem[]>([]);
-	/** 当前选中的角色 ID */
 	const currentRoleId = ref<number | null>(null);
-	/** 当前角色的员工列表 */
 	const staffs = ref<StaffItem[]>([]);
-	/** 可分配的权限分组 */
+	const operators = ref<OperatorItem[]>([]);
 	const permissionGroups = ref<QuanXianFenZuVo[]>([]);
-	/** 当前角色已选中的权限 ID 列表 */
 	const selectedPermissionIds = ref<number[]>([]);
-	/** 角色加载状态 */
+
 	const rolesLoading = ref(false);
-	/** 员工加载状态 */
 	const staffsLoading = ref(false);
-	/** 权限加载状态 */
+	const operatorsLoading = ref(false);
 	const permissionsLoading = ref(false);
 
-	/** 获取角色列表 */
 	async function fetchRoles() {
 		rolesLoading.value = true;
 		try {
@@ -128,7 +136,6 @@ export const useSystemPermissionStore = defineStore("systemPermission", () => {
 		}
 	}
 
-	/** 获取角色员工列表 */
 	async function fetchStaffs(roleId: number) {
 		staffsLoading.value = true;
 		try {
@@ -149,7 +156,26 @@ export const useSystemPermissionStore = defineStore("systemPermission", () => {
 		}
 	}
 
-	/** 获取权限列表 */
+	async function fetchOperators(name = "") {
+		operatorsLoading.value = true;
+		try {
+			const res = await getRolepermOperators({ name: name || undefined, pageIndex: 1, pageSize: 50 });
+			operators.value = normalizeOperators(extractRows<RolepermOperatorDTO>(unwrapPayload(res)));
+			return true;
+		} catch (error) {
+			const rows = extractRows<RolepermOperatorDTO>(unwrapPayload(error));
+			if (rows.length > 0 || hasServerPayload(error)) {
+				operators.value = normalizeOperators(rows);
+				return true;
+			}
+
+			operators.value = [];
+			return false;
+		} finally {
+			operatorsLoading.value = false;
+		}
+	}
+
 	async function fetchPermissions() {
 		permissionsLoading.value = true;
 		try {
@@ -165,44 +191,41 @@ export const useSystemPermissionStore = defineStore("systemPermission", () => {
 		}
 	}
 
-	/** 获取已选中的权限 */
 	async function fetchSelectedPermissions(roleId: number) {
 		try {
 			const res = await getSelectedPermissionList(roleId);
 			const groups = extractRows<QuanXianFenZuVo>(unwrapPayload(res));
 			const ids: number[] = [];
+
 			for (const group of groups) {
-				if (group.selectedPermissions) {
-					for (const perm of group.selectedPermissions) {
-						if (perm.id != null) ids.push(perm.id);
-					}
+				for (const perm of group.selectedPermissions ?? []) {
+					if (perm.id != null) ids.push(perm.id);
 				}
 			}
+
 			selectedPermissionIds.value = ids;
 			return true;
 		} catch (error) {
 			const groups = extractRows<QuanXianFenZuVo>(unwrapPayload(error));
 			const ids: number[] = [];
+
 			for (const group of groups) {
-				if (group.selectedPermissions) {
-					for (const perm of group.selectedPermissions) {
-						if (perm.id != null) ids.push(perm.id);
-					}
+				for (const perm of group.selectedPermissions ?? []) {
+					if (perm.id != null) ids.push(perm.id);
 				}
 			}
+
 			selectedPermissionIds.value = ids;
 			return groups.length > 0 || hasServerPayload(error);
 		}
 	}
 
-	/** 选中角色 */
 	async function selectRole(roleId: number) {
 		currentRoleId.value = roleId;
 		const [staffsOk, permsOk] = await Promise.all([fetchStaffs(roleId), fetchSelectedPermissions(roleId)]);
 		return staffsOk && permsOk;
 	}
 
-	/** 保存角色 */
 	async function saveRole(data: RoleItem) {
 		try {
 			await saveRoleperm({ id: data.id || undefined, code: data.code, name: data.name });
@@ -217,7 +240,6 @@ export const useSystemPermissionStore = defineStore("systemPermission", () => {
 		}
 	}
 
-	/** 删除角色 */
 	async function removeRole(id: number) {
 		try {
 			await deleteRoleperm(id);
@@ -232,7 +254,6 @@ export const useSystemPermissionStore = defineStore("systemPermission", () => {
 		}
 	}
 
-	/** 添加员工到角色 */
 	async function addStaff(data: RolepermStaffDTO) {
 		try {
 			await addRolepermStaff(data);
@@ -247,7 +268,6 @@ export const useSystemPermissionStore = defineStore("systemPermission", () => {
 		}
 	}
 
-	/** 从角色移除员工 */
 	async function removeStaff(staffId: number, roleId: number) {
 		try {
 			await removeRolepermStaff(staffId, roleId);
@@ -262,7 +282,6 @@ export const useSystemPermissionStore = defineStore("systemPermission", () => {
 		}
 	}
 
-	/** 保存角色权限分配 */
 	async function savePermissions(roleId: number, permissionIds: number[]) {
 		try {
 			const allPerms: QuanXianMiaoShuDuiXiang[] = [];
@@ -271,7 +290,8 @@ export const useSystemPermissionStore = defineStore("systemPermission", () => {
 					allPerms.push(...group.permissions);
 				}
 			}
-			const selectedPerms = allPerms.filter((p) => permissionIds.includes(p.id!));
+
+			const selectedPerms = allPerms.filter((item) => item.id != null && permissionIds.includes(item.id));
 			await saveRolePermission(roleId, selectedPerms);
 			await fetchSelectedPermissions(roleId);
 			return true;
@@ -288,13 +308,16 @@ export const useSystemPermissionStore = defineStore("systemPermission", () => {
 		roles,
 		currentRoleId,
 		staffs,
+		operators,
 		permissionGroups,
 		selectedPermissionIds,
 		rolesLoading,
 		staffsLoading,
+		operatorsLoading,
 		permissionsLoading,
 		fetchRoles,
 		fetchStaffs,
+		fetchOperators,
 		fetchPermissions,
 		fetchSelectedPermissions,
 		selectRole,

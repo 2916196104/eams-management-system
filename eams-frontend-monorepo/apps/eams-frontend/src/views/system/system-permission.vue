@@ -9,7 +9,7 @@
 
 				<div class="role-table" v-loading="permissionStore.rolesLoading">
 					<div class="table-header role-grid">
-						<div>角色名</div>
+						<div>角色名称</div>
 						<div>编码</div>
 						<div>操作</div>
 					</div>
@@ -105,14 +105,36 @@
 			</template>
 		</el-dialog>
 
-		<el-dialog v-model="staffDialogVisible" title="给角色配置人员" width="420px" destroy-on-close>
+		<el-dialog v-model="staffDialogVisible" title="给角色配置人员" width="460px" destroy-on-close>
 			<el-form ref="staffFormRef" :model="staffForm" :rules="staffFormRules" label-width="80px">
-				<el-form-item label="员工姓名" prop="name">
-					<el-input v-model="staffForm.name" placeholder="请输入员工姓名" />
+				<el-form-item label="员工" prop="staffId">
+					<el-select
+						v-model="staffForm.staffId"
+						filterable
+						remote
+						clearable
+						reserve-keyword
+						loading-text="搜索中"
+						no-match-text="没有匹配员工"
+						no-data-text="暂无可选员工"
+						placeholder="请输入姓名搜索员工"
+						style="width: 100%"
+						:loading="permissionStore.operatorsLoading"
+						:remote-method="handleSearchOperator"
+					>
+						<el-option
+							v-for="operator in availableOperators"
+							:key="operator.id"
+							:label="formatOperatorLabel(operator)"
+							:value="operator.id"
+						/>
+					</el-select>
 				</el-form-item>
-				<el-form-item label="手机号" prop="mobile">
-					<el-input v-model="staffForm.mobile" placeholder="请输入手机号" />
-				</el-form-item>
+				<div v-if="selectedOperator" class="operator-tip">
+					<span>已选员工：</span>
+					<span>{{ selectedOperator.name }}</span>
+					<span v-if="selectedOperator.positionName">/ {{ selectedOperator.positionName }}</span>
+				</div>
 			</el-form>
 			<template #footer>
 				<el-button @click="staffDialogVisible = false">取消</el-button>
@@ -128,7 +150,7 @@
 			class="permission-dialog"
 			destroy-on-close
 		>
-			<div class="permission-dialog-tip">刷新页面（按F5键）后生效</div>
+			<div class="permission-dialog-tip">刷新页面后生效</div>
 			<el-scrollbar max-height="68vh">
 				<div class="permission-groups">
 					<section v-for="group in permissionGroupsForDialog" :key="group.groupName" class="permission-group-card">
@@ -160,7 +182,7 @@
 import { computed, onMounted, reactive, ref, watch } from "vue";
 import { ElMessage, ElMessageBox, type FormInstance } from "element-plus";
 import { Delete, Plus } from "@element-plus/icons-vue";
-import { useSystemPermissionStore, type RoleItem } from "@/stores/systemPermission";
+import { useSystemPermissionStore, type OperatorItem, type RoleItem } from "@/stores/systemPermission";
 
 const permissionStore = useSystemPermissionStore();
 
@@ -188,17 +210,14 @@ const roleFormRules = {
 
 const staffDialogVisible = ref(false);
 const staffFormRef = ref<FormInstance>();
-const staffForm = reactive({
-	name: "",
-	mobile: "",
+const staffForm = reactive<{
+	staffId?: number;
+}>({
+	staffId: undefined,
 });
 
 const staffFormRules = {
-	name: [{ required: true, message: "请输入员工姓名", trigger: "blur" }],
-	mobile: [
-		{ required: true, message: "请输入手机号", trigger: "blur" },
-		{ pattern: /^1\d{10}$/, message: "请输入正确的手机号", trigger: "blur" },
-	],
+	staffId: [{ required: true, message: "请选择员工", trigger: "change" }],
 };
 
 const permissionGroupsForDialog = computed(() => {
@@ -209,6 +228,15 @@ const permissionGroupsForDialog = computed(() => {
 			.map((item) => item.id)
 			.filter((id): id is number => typeof id === "number"),
 	}));
+});
+
+const selectedOperator = computed(() => {
+	return permissionStore.operators.find((item) => item.id === staffForm.staffId) ?? null;
+});
+
+const availableOperators = computed(() => {
+	const assignedIds = new Set(permissionStore.staffs.map((item) => item.staffId));
+	return permissionStore.operators.filter((item) => item.id === staffForm.staffId || !assignedIds.has(item.id));
 });
 
 const isAllStaffSelected = computed(() => {
@@ -234,6 +262,10 @@ watch(
 	},
 	{ immediate: true },
 );
+
+function formatOperatorLabel(operator: OperatorItem) {
+	return operator.positionName ? `${operator.name} / ${operator.positionName}` : operator.name;
+}
 
 function handleAddRole() {
 	roleDialogTitle.value = "新增角色";
@@ -272,7 +304,7 @@ async function handleRoleSubmit() {
 }
 
 async function handleDeleteRole(roleId: number) {
-	await ElMessageBox.confirm("确定删除该角色？", "删除角色", { type: "warning" });
+	await ElMessageBox.confirm("确定删除该角色吗？", "删除角色", { type: "warning" });
 	const success = await permissionStore.removeRole(roleId);
 	if (!success) {
 		ElMessage.error("删除失败，请检查接口配置");
@@ -292,22 +324,30 @@ async function handleSelectRole(roleId: number) {
 	}
 }
 
-function handleAddStaff() {
+async function handleAddStaff() {
 	if (!permissionStore.currentRoleId) return;
-	staffForm.name = "";
-	staffForm.mobile = "";
+
+	staffForm.staffId = undefined;
 	staffDialogVisible.value = true;
+
+	const success = await permissionStore.fetchOperators();
+	if (!success) {
+		ElMessage.error("员工列表加载失败，请检查接口配置");
+	}
+}
+
+function handleSearchOperator(keyword: string) {
+	void permissionStore.fetchOperators(keyword.trim());
 }
 
 async function handleStaffSubmit() {
 	await staffFormRef.value?.validate();
-	if (!permissionStore.currentRoleId) return;
+	if (!permissionStore.currentRoleId || staffForm.staffId == null) return;
 
 	submitLoading.value = true;
 	const success = await permissionStore.addStaff({
 		roleId: permissionStore.currentRoleId,
-		name: staffForm.name,
-		mobile: staffForm.mobile,
+		staffId: staffForm.staffId,
 	});
 	submitLoading.value = false;
 
@@ -317,6 +357,7 @@ async function handleStaffSubmit() {
 	}
 
 	staffDialogVisible.value = false;
+	staffForm.staffId = undefined;
 	ElMessage.success("添加成功");
 }
 
@@ -570,6 +611,14 @@ onMounted(async () => {
 .checkbox-col {
 	display: flex;
 	justify-content: center;
+}
+
+.operator-tip {
+	margin-top: -4px;
+	padding: 0 4px 4px;
+	font-size: 13px;
+	line-height: 1.6;
+	color: #6b7280;
 }
 
 .permission-dialog-tip {

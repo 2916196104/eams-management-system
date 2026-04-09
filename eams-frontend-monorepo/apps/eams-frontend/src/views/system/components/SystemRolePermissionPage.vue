@@ -36,10 +36,10 @@
 				<div v-if="selectedRole.members.length" class="role-detail__members">
 					<el-tag
 						v-for="member in selectedRole.members"
-						:key="member.id"
+						:key="member.staffId"
 						class="role-detail__tag"
 						closable
-						@close="removeMember(member.id)"
+						@close="removeMember(member.staffId)"
 					>
 						{{ member.name }}
 					</el-tag>
