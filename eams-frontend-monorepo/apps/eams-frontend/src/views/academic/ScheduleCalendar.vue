@@ -145,7 +145,7 @@
 			</my-calendar>
 
 			<!-- 课程详情弹窗 -->
-			<CourseDetailDialog ref="courseDetailDialogRef" />
+			<CourseDetailDialog ref="courseDetailDialogRef" @deleted="handleCourseDeleted" />
 
 			<div class="calendar-meta">
 				<span class="calendar-range">当前查询范围：{{ currentRangeText }}</span>
@@ -161,8 +161,8 @@ import { ElMessage } from "element-plus";
 import { IconifyIconOffline } from "@/components/ReIcon";
 import MyCalendar from "@/components/mycalendar/MyCalendar.vue";
 import CourseDetailDialog from "@/components/coursedetail/CourseDetailDialog.vue";
-import { getLessonCalendar } from "@/apis/academic";
-import type { LessonCalendarQueryDTO } from "@/apis/academic/type";
+import { getLessonCalendar, getCourseDetail } from "@/apis/academic";
+import type { LessonCalendarQueryDTO, CourseDetailVO } from "@/apis/academic/type";
 import type { CalendarCourse, ScheduleCalendarPeriod, ScheduleCalendarViewMode } from "./schedule-calendar";
 import {
 	buildLessonCalendarQuery,
@@ -271,10 +271,30 @@ function onDateSelect(date: Date) {
 }
 
 // 点击课程，弹出详情
-function handleCourseClick(course: CalendarCourse) {
-	if (courseDetailDialogRef.value) {
-		courseDetailDialogRef.value.openDialog(course);
+async function handleCourseClick(course: CalendarCourse) {
+	if (!course.id) {
+		ElMessage.warning("课程 ID 不存在");
+		return;
 	}
+
+	try {
+		const res = await getCourseDetail(course.id);
+		if (res.data) {
+			const detailData: CourseDetailVO = res.data;
+			if (courseDetailDialogRef.value) {
+				courseDetailDialogRef.value.openDialog(detailData);
+			}
+		}
+	} catch (error) {
+		console.error("获取课程详情失败:", error);
+		ElMessage.error("获取课程详情失败");
+	}
+}
+
+// 删除课程后的处理
+function handleCourseDeleted(deletedId: number) {
+	allCourses.value = allCourses.value.filter((course) => course.id !== deletedId);
+	ElMessage.success("课程已删除");
 }
 
 async function loadData() {
@@ -290,7 +310,15 @@ async function loadData() {
 
 		// 使用真实 API
 		const res = await getLessonCalendar(currentQuery.value);
-		allCourses.value = normalizeLessonCalendarRows(res.data);
+
+		// 检查响应码是否为成功
+		if (res.code === 10000 || res.code === 0) {
+			allCourses.value = normalizeLessonCalendarRows(res.data);
+		} else {
+			console.error("加载课程日历失败:", res.message);
+			ElMessage.error(res.message || "加载课程日历失败");
+			allCourses.value = [];
+		}
 	} catch (error) {
 		console.error("加载课程日历失败:", error);
 		ElMessage.error("加载课程日历失败");
@@ -337,7 +365,6 @@ function handleRefresh() {
 // 生成模拟课程数据
 function generateMockCourses(query: LessonCalendarQueryDTO): CalendarCourse[] {
 	const courses: CalendarCourse[] = [];
-	const today = new Date();
 	const { startDate, endDate } = query;
 
 	if (!startDate || !endDate) return courses;
