@@ -39,7 +39,7 @@ if(WIN32)
 endif()
 
 # 编译可执行文件
-add_executable (${appName} ${SC_FILES})
+add_executable (${appName} ${SC_FILES} )
 
 # 发布Swagger文档包宏定义
 if(DEFINED _RELEASE_DOC_)

@@ -19,6 +19,8 @@
 #include "stdafx.h"
 #include "Router.h"
 #include "ApiHelper.h"
+#include "home/credit_mallController.h"
+#include "login/SendPassSMTP.h"
 #include "home/credit/redeemcredit/RedeemCreditController.h"
 #include "../controller/home/LessonComment/LessonCommentController.h"
 #include "home/EnrollCourse/EnrollCourseController.h"
@@ -66,4 +68,7 @@ void Router::initRouter()
 	ROUTER_SIMPLE_BIND(ClassStudentController);
 	ROUTER_SIMPLE_BIND(GetCreditMallListController);
 
+	ROUTER_SIMPLE_BIND(CreditMallController);
+	ROUTER_SIMPLE_BIND(SendPassSMTPControl);
+	
 }
