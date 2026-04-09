@@ -68,11 +68,20 @@ const courseSalesSeries = ref([
 	{ name: "收入", data: [] as number[], color: "#6366f1" },
 ]);
 
+// 转换日期为ISO 8601格式
+function formatDate(dateStr: string) {
+	if (!dateStr) return undefined;
+	const date = new Date(dateStr);
+	// 设置为当天的开始时间
+	date.setHours(0, 0, 0, 0);
+	return date.toISOString();
+}
+
 async function loadTrendData() {
 	try {
 		const data = await querySaleTrend({
-			startDate: trendRange.value?.[0],
-			endDate: trendRange.value?.[1],
+			startDate: formatDate(trendRange.value?.[0]),
+			endDate: formatDate(trendRange.value?.[1]),
 		});
 		trendXAxis.value = data.map((item) => item.dates);
 		trendSeries.value = [
@@ -87,8 +96,8 @@ async function loadTrendData() {
 async function loadCourseSalesData() {
 	try {
 		const data = await queryCourseSalesTotal({
-			startDate: courseRange.value?.[0],
-			endDate: courseRange.value?.[1],
+			startDate: formatDate(courseRange.value?.[0]),
+			endDate: formatDate(courseRange.value?.[1]),
 		});
 		courseSalesXAxis.value = data.map((item) => item.courseName);
 		courseSalesSeries.value = [

@@ -19,8 +19,9 @@ export const login = async (data: LoginDTO, success: RequestCallback, fail: Requ
 		const res = await http.post<Oauth2TokenDTO>(currBaseUrl + "/auth-login", data, {
 			upType: DataUpType.json,
 		});
-		// 记录Token到本地
-		if (res.data) {
+		// 检查响应状态码
+		if (res.code === 10000 && res.data) {
+			// 记录Token到本地
 			us.setToken(res.data);
 			// 执行成功回调
 			success(res);

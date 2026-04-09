@@ -597,6 +597,7 @@ export async function querySaleTrend(params: { startDate?: string; endDate?: str
 			return unwrapJsonData<SaleTrendPoint>(res.data);
 		} catch {
 		}
+
 	}
 	return filterTrendByRange(mockSaleTrendData, params.startDate, params.endDate);
 }
@@ -610,6 +611,7 @@ export async function queryCourseSalesTotal(params: { startDate?: string; endDat
 			return unwrapJsonData<CourseSalesTotalPoint>(res.data);
 		} catch {
 		}
+
 	}
 	return mockCourseSalesTotalData;
 }
