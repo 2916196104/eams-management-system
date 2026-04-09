@@ -20,6 +20,8 @@ export interface LoginDTO {
 	password: string;
 	/** 验证码 */
 	code?: string;
+	/** 终端类型，可选 manager / user，默认 manager */
+	terminalType?: string;
 }
 
 /**

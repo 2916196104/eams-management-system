@@ -119,12 +119,12 @@ async function submitForm() {
 
 	submitting.value = true;
 	try {
-		await (Apis as any).homework.post_homework_add({
+		await (Apis as any).homework.post_homework_assign({
 			data: {
-				teacher_id: userStore.teacherInfo.id,
-				class_id: publishForm.classId,
 				title: publishForm.title.trim(),
 				content: publishForm.content.trim() || undefined,
+				classId: publishForm.classId,
+				teacherId: userStore.teacherInfo.id,
 				attachment: publishForm.attachment.trim() || undefined,
 			},
 		});

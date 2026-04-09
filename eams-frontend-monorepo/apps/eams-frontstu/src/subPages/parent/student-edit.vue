@@ -143,13 +143,8 @@ async function loadStudentDetail() {
 }
 
 async function loadGrades() {
-	try {
-		const res: any = await (Apis as any).me.get_me_getOptionalGrade({
-			params: {
-				pageIndex: 1,
-				pageSize: 50,
-			},
-		});
+		try {
+			const res: any = await (Apis as any).me.get_me_getOptionalGrade();
 		const rows = Array.isArray(res?.data?.rows) ? res.data.rows : [];
 		gradeOptions.value = rows.map((item: any) => item?.name).filter(Boolean);
 		if (!form.grade && gradeOptions.value.length) {

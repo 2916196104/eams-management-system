@@ -15,11 +15,12 @@ definePage({
 
 interface ReviewRecordItem {
 	id?: number;
-	creator_name?: string;
-	content?: string;
-	score?: number;
-	add_time?: string;
+	lesson_id?: number;
 	lesson_title?: string;
+	evaluate_teacher?: number;
+	evaluation?: string;
+	score?: number;
+	evaluate_time?: string;
 }
 
 const userStore = useUserStore();
@@ -41,14 +42,12 @@ function normalizeRows(data: any): Array<ReviewRecordItem> {
 	const rows = Array.isArray(data?.rows) ? data.rows : [];
 	return rows.map((item: any) => ({
 		id: item?.id,
-		creator_name:
-			item?.evaluate_teacher_name ??
-			item?.evaluateTeacherName ??
-			(typeof item?.evaluate_teacher === "number" ? `教师 ${item.evaluate_teacher}` : item?.evaluate_teacher),
-		content: item?.evaluation ?? item?.content,
-		score: item?.score,
-		add_time: item?.evaluate_time ?? item?.add_time,
+		lesson_id: item?.lesson_id,
 		lesson_title: item?.lesson_title,
+		evaluate_teacher: item?.evaluate_teacher,
+		evaluation: item?.evaluation,
+		score: item?.score,
+		evaluate_time: item?.evaluate_time,
 	}));
 }
 
@@ -125,15 +124,15 @@ onMounted(() => {
 				<view v-for="item in reviews" :key="item.id" class="review-card">
 					<view class="review-card__header">
 						<view>
-							<view class="review-card__teacher">{{ item.creator_name || "未设置评价人" }}</view>
-							<view class="review-card__time">{{ item.add_time || "暂无时间" }}</view>
+							<view class="review-card__teacher">{{ item.lesson_title || "未设置课程" }}</view>
+							<view class="review-card__time">{{ item.evaluate_time || "暂无时间" }}</view>
 						</view>
 						<view class="review-score" :class="scoreClass(item.score)">
 							{{ scoreText(item.score) }}
 						</view>
 					</view>
 
-					<view class="review-card__content">{{ item.content || "暂无点评内容" }}</view>
+					<view class="review-card__content">{{ item.evaluation || "暂无点评内容" }}</view>
 				</view>
 
 				<view v-if="hasMore" class="load-more" @click="loadMore">

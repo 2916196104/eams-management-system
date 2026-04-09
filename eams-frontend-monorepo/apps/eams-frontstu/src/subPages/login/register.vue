@@ -1,4 +1,10 @@
 <script lang="ts" setup>
+import { ref, reactive } from "vue";
+import { useRouter } from "vue-router";
+import Apis from "@/api";
+import { useToast } from "wot-design-uni";
+import LoginHead from "@/components/LoginHead.vue";
+
 definePage({
 	name: "register",
 	type: "page",
@@ -7,6 +13,11 @@ definePage({
 		titleNView: false,
 	},
 });
+
+// 路由对象
+const router = useRouter();
+// 弹框提示组件
+const { success: showSuccess, error: showError } = useToast();
 
 // 表单数据
 const model = reactive<{
@@ -22,42 +33,46 @@ const model = reactive<{
 });
 // 表单引用对象
 const form = ref();
-// 弹框提示组件
-const { success: showSuccess } = useToast();
 
 // 获取验证码
 function getCode() {
-	showSuccess({
-		msg: "已发送验证码",
-	});
+	if (!model.phone) {
+		showError({ msg: "请输入手机号", duration: 3000 });
+		return;
+	}
+
+	// 模拟发送验证码
+	showSuccess({ msg: "已发送验证码", duration: 3000 });
 }
+
 // 提交表单
 function handleSubmit() {
 	form.value
 		.validate()
 		.then(({ valid }: { valid: any }) => {
 			if (valid) {
-				showSuccess({
-					msg: "校验通过",
-				});
+				// 模拟注册
+				showSuccess({ msg: "注册成功", duration: 3000 });
+				// 注册成功后跳转到登录页面
+				setTimeout(() => {
+					uni.navigateBack();
+				}, 1500);
 			}
 		})
 		.catch((error: any) => {
 			console.log(error, "error");
 		});
 }
+
 // 返回登录
 function goLogin() {
-	showSuccess({
-		msg: "已返回登录页面",
-	});
 	uni.navigateBack();
 }
 </script>
 
 <template>
 	<!-- 标题 -->
-	<login-head title="欢迎注册账号" />
+	<LoginHead title="欢迎注册账号" />
 	<!-- 注册相关表单 -->
 	<wd-form ref="form" :model="model">
 		<wd-cell-group border>

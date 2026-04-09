@@ -111,6 +111,7 @@ function doLogin(code: string) {
 		{
 			...formData,
 			code: code,
+			terminalType: "manager"
 		},
 		() => {
 			// 重置标签页数据
