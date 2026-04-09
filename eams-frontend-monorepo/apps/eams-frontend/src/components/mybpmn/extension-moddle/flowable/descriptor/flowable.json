@@ -1,0 +1,22 @@
+{
+	"name": "Flowable",
+	"uri": "http://flowable.org/bpmn",
+	"prefix": "flowable",
+	"xml": {
+		"tagAlias": "lowerCase"
+	},
+	"associations": [],
+	"types": [
+		{
+			"name": "BewitchedUserTask",
+			"extends": ["bpmn:UserTask"],
+			"properties": [
+				{
+					"name": "assignee",
+					"isAttr": true,
+					"type": "String"
+				}
+			]
+		}
+	]
+}

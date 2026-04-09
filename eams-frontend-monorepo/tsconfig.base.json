@@ -1,0 +1,23 @@
+{
+	"compilerOptions": {
+		"composite": true,
+		"incremental": true,
+		"declaration": true,
+		"declarationMap": true,
+		"emitDeclarationOnly": true,
+		"noEmit": false,
+		"noEmitOnError": true,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"resolveJsonModule": true,
+		"strict": true,
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"allowJs": true,
+		"lib": ["DOM", "DOM.Iterable", "ESNext"],
+		"types": ["vite/client", "node"],
+		"jsx": "preserve"
+	}
+}

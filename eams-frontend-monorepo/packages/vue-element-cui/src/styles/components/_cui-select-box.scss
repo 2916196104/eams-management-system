@@ -1,0 +1,51 @@
+// CuiSelectBox 组件样式
+@use "../variables.scss" as *;
+@use "../mixins.scss" as *;
+
+.cui-select-box {
+	--cui-select-box-popover-padding: #{$cui-spacing-md};
+
+	// ========== Elements ==========
+
+	&__input {
+		cursor: pointer;
+	}
+
+	&__popover {
+		padding: var(--cui-select-box-popover-padding);
+	}
+
+	&__content {
+		max-height: 400px;
+		overflow-y: auto;
+		@include scrollbar;
+	}
+
+	&__actions {
+		@include flex-end;
+		gap: $cui-spacing-sm;
+		padding-top: $cui-spacing-md;
+		border-top: $cui-border-width $cui-border-style $cui-border-color-lighter;
+		margin-top: $cui-spacing-md;
+	}
+
+	// ========== Modifiers ==========
+
+	&--disabled {
+		.cui-select-box__input {
+			@include disabled;
+		}
+	}
+
+	&--single {
+		.cui-select-box__popover {
+			min-width: 400px;
+		}
+	}
+
+	&--multiple {
+		.cui-select-box__popover {
+			min-width: 700px;
+		}
+	}
+}

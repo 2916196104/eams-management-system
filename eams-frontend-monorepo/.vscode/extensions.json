@@ -1,0 +1,73 @@
+/*
+ * VS Code 扩展推荐（JSONC）
+ * -----------------------------------------------------------------
+ * - 语义：带注释的 JSON；VS Code 对 `extensions.json` 使用 JSONC 解析器。
+ * - 允许：`//` 行注释、块注释；`recommendations` 元素为 Marketplace 的 publisher.extension 标识。
+ * - 禁止：尾逗号、单引号字符串等，以免被严格 JSON 校验的工具链误伤。
+ *
+ * 注释与分组风格参考：`init-vscode` 技能模板 `templates/extensions.json`。
+ */
+// prettier-ignore
+{
+	"recommendations": [
+		// ========== 语言支持 ==========
+
+		// vue3的 .vue SFCs 的 LSP 语言支持服务
+		"Vue.volar",
+
+		// ========== 代码格式化与检查 ==========
+
+		// 使用 prettier 实现格式化
+		"esbenp.prettier-vscode",
+		// 使用 eslint 实现代码检查
+		"dbaeumer.vscode-eslint",
+		// EditorConfig 文件支持（统一不同编辑器的代码风格）
+		"EditorConfig.EditorConfig",
+
+		// ========== Git 管理 ==========
+
+		// 使用 git-graph 插件 实现git提交分支图的查看
+		"mhutchie.git-graph",
+
+		// ========== 测试 ==========
+
+		// Vitest 测试用例的可视化运行与管理
+		"vitest.explorer",
+
+		// ========== 样式与 UI 开发 ==========
+
+		// UnoCSS 智能提示
+		"antfu.unocss",
+
+		// ========== 路径与导入增强 ==========
+
+		// 自动导入文件的智能跳转（支持路径别名）
+		"antfu.goto-alias",
+
+		// ========== 图标与图片 ==========
+
+		// 对 iconify 的图标做图标提示
+		"antfu.iconify",
+		// vscode 的图标主题
+		"PKief.material-icon-theme",
+		// 粘贴图片并自动上传到图床（PicGo）
+		"Spades.vs-picgo",
+
+		// ========== UI 交互增强 ==========
+
+		// TODO 高亮
+		"wayou.vscode-todo-highlight",
+		// TODO 树统计（Marketplace 标识为 Gruntfuggly.todo-tree；请勿再写小写 publisher 重复项）
+		"Gruntfuggly.todo-tree",
+
+		// ========== 本仓库 / uni-app ==========
+
+		// uni-app 开发辅助（语法、提示等）
+		"uni-helper.uni-helper-vscode",
+		// Alova 请求库 VS Code 扩展
+		"alova.alova-vscode-extension",
+		// Wot Design Uni 组件库智能提示
+		"wot-ui.wot-ui-intellisense"
+	],
+	"unwantedRecommendations": []
+}

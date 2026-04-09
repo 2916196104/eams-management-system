@@ -1,0 +1,58 @@
+// CuiDialog 组件样式
+@use "../variables.scss" as *;
+@use "../mixins.scss" as *;
+
+.cui-dialog {
+	--cui-dialog-padding: #{$cui-spacing-xl};
+	--cui-dialog-header-padding: #{$cui-spacing-lg} #{$cui-spacing-xl};
+	--cui-dialog-footer-padding: #{$cui-spacing-md} #{$cui-spacing-xl};
+	--cui-dialog-border-color: #{$cui-border-color-lighter};
+
+	// ========== Elements ==========
+
+	&__header {
+		padding: var(--cui-dialog-header-padding);
+		border-bottom: $cui-border-width $cui-border-style var(--cui-dialog-border-color);
+	}
+
+	&__title {
+		font-size: $cui-font-size-large;
+		font-weight: $cui-font-weight-primary;
+		color: $cui-color-text-primary;
+		line-height: 1.4;
+	}
+
+	&__body {
+		padding: var(--cui-dialog-padding);
+		color: $cui-color-text-regular;
+	}
+
+	&__footer {
+		@include flex-between;
+		padding: var(--cui-dialog-footer-padding);
+		border-top: $cui-border-width $cui-border-style var(--cui-dialog-border-color);
+	}
+
+	&__actions {
+		@include flex-end;
+		gap: $cui-spacing-sm;
+	}
+
+	// ========== Modifiers ==========
+
+	&--fullscreen {
+		.cui-dialog__body {
+			max-height: calc(100vh - 160px);
+			overflow-y: auto;
+			@include scrollbar;
+		}
+	}
+
+	&--center {
+		.cui-dialog__header,
+		.cui-dialog__footer {
+			text-align: center;
+			justify-content: center;
+		}
+	}
+}

@@ -1,0 +1,118 @@
+@use "sass:color";
+
+// SCSS Variables - 参考 Element Plus 设计系统
+
+// ========== 颜色系统 ==========
+
+// 主题色
+$cui-color-primary: #409eff !default;
+$cui-color-success: #67c23a !default;
+$cui-color-warning: #e6a23c !default;
+$cui-color-danger: #f56c6c !default;
+$cui-color-error: #f56c6c !default;
+$cui-color-info: #909399 !default;
+
+// 主题色变体
+$cui-color-primary-light-3: color.mix(#fff, $cui-color-primary, 30%) !default;
+$cui-color-primary-light-5: color.mix(#fff, $cui-color-primary, 50%) !default;
+$cui-color-primary-light-7: color.mix(#fff, $cui-color-primary, 70%) !default;
+$cui-color-primary-light-8: color.mix(#fff, $cui-color-primary, 80%) !default;
+$cui-color-primary-light-9: color.mix(#fff, $cui-color-primary, 90%) !default;
+$cui-color-primary-dark-2: color.mix(#000, $cui-color-primary, 20%) !default;
+
+// 中性色
+$cui-color-white: #ffffff !default;
+$cui-color-black: #000000 !default;
+$cui-color-text-primary: #303133 !default;
+$cui-color-text-regular: #606266 !default;
+$cui-color-text-secondary: #909399 !default;
+$cui-color-text-placeholder: #a8abb2 !default;
+$cui-color-text-disabled: #c0c4cc !default;
+
+// 边框色
+$cui-border-color: #dcdfe6 !default;
+$cui-border-color-light: #e4e7ed !default;
+$cui-border-color-lighter: #ebeef5 !default;
+$cui-border-color-extra-light: #f2f6fc !default;
+$cui-border-color-dark: #d4d7de !default;
+$cui-border-color-darker: #cdd0d6 !default;
+
+// 填充色
+$cui-fill-color: #f0f2f5 !default;
+$cui-fill-color-light: #f5f7fa !default;
+$cui-fill-color-lighter: #fafafa !default;
+$cui-fill-color-extra-light: #fafcff !default;
+$cui-fill-color-dark: #ebedf0 !default;
+$cui-fill-color-darker: #e6e8eb !default;
+$cui-fill-color-blank: #ffffff !default;
+
+// 背景色
+$cui-bg-color: #ffffff !default;
+$cui-bg-color-page: #f2f3f5 !default;
+$cui-bg-color-overlay: #ffffff !default;
+
+// ========== 间距系统 ==========
+$cui-spacing-base: 4px !default;
+$cui-spacing-xs: $cui-spacing-base !default; // 4px
+$cui-spacing-sm: $cui-spacing-base * 2 !default; // 8px
+$cui-spacing-md: $cui-spacing-base * 3 !default; // 12px
+$cui-spacing-lg: $cui-spacing-base * 4 !default; // 16px
+$cui-spacing-xl: $cui-spacing-base * 5 !default; // 20px
+$cui-spacing-xxl: $cui-spacing-base * 6 !default; // 24px
+
+// ========== 字体系统 ==========
+$cui-font-family:
+	-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+	"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+
+$cui-font-size-extra-large: 20px !default;
+$cui-font-size-large: 18px !default;
+$cui-font-size-medium: 16px !default;
+$cui-font-size-base: 14px !default;
+$cui-font-size-small: 13px !default;
+$cui-font-size-extra-small: 12px !default;
+
+$cui-font-weight-primary: 500 !default;
+$cui-font-weight-bold: 700 !default;
+
+$cui-line-height-base: 1.5 !default;
+
+// ========== 边框系统 ==========
+$cui-border-width: 1px !default;
+$cui-border-style: solid !default;
+$cui-border-base: $cui-border-width $cui-border-style $cui-border-color !default;
+
+// 圆角
+$cui-border-radius-base: 4px !default;
+$cui-border-radius-small: 2px !default;
+$cui-border-radius-large: 8px !default;
+$cui-border-radius-round: 20px !default;
+$cui-border-radius-circle: 100% !default;
+
+// ========== 阴影系统 ==========
+$cui-box-shadow-base:
+	0 2px 4px rgba(0, 0, 0, 0.12),
+	0 0 6px rgba(0, 0, 0, 0.04) !default;
+$cui-box-shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.1) !default;
+$cui-box-shadow-lighter: 0 0 12px rgba(0, 0, 0, 0.12) !default;
+$cui-box-shadow-dark:
+	0 2px 4px rgba(0, 0, 0, 0.12),
+	0 0 6px rgba(0, 0, 0, 0.12) !default;
+
+// ========== 过渡动画 ==========
+$cui-transition-duration: 0.3s !default;
+$cui-transition-duration-fast: 0.2s !default;
+$cui-transition-function-ease-in-out-bezier: cubic-bezier(0.645, 0.045, 0.355, 1) !default;
+$cui-transition-function-fast-bezier: cubic-bezier(0.23, 1, 0.32, 1) !default;
+$cui-transition-all: all $cui-transition-duration $cui-transition-function-ease-in-out-bezier !default;
+$cui-transition-fade: opacity $cui-transition-duration $cui-transition-function-fast-bezier !default;
+
+// ========== 组件尺寸 ==========
+$cui-component-size-large: 40px !default;
+$cui-component-size-default: 32px !default;
+$cui-component-size-small: 24px !default;
+
+// ========== Z-index 层级 ==========
+$cui-index-normal: 1 !default;
+$cui-index-top: 1000 !default;
+$cui-index-popper: 2000 !default;
