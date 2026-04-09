@@ -27,17 +27,13 @@ std::string Lesson_StudentDAO::queryConditionBuilder(
 	std::stringstream sqlCondition;
 	sqlCondition << " WHERE 1=1 ";
 
-	// 必须：学生id过滤
+	// 学生id过滤
 	if (query->student_id) {
 		sqlCondition << " AND t1.student_id=? ";
-		SQLPARAMS_PUSH(params, "i", uint64_t, query->student_id.getValue(0));
-	}
-	else {
-		// 如果 Wrapper 没有 student_id，就改为固定 23
-		sqlCondition << " AND t1.student_id=23 ";
+		SQLPARAMS_PUSH(params, "ull", uint64_t, query->student_id.getValue(0));
 	}
 
-	// 必须：只取签到结果>0
+	// 只取签到结果>0
 	sqlCondition << " AND t1.sign_state > 0 ";
 
 	return sqlCondition.str();
