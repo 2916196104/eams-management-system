@@ -4,7 +4,7 @@ import type { PageDTO } from "@/components/mytable/type";
 import type { NoticeListQuery, NoticeSaveDTO, NoticeVO } from "./type";
 
 const http = useHttp();
-const baseUrl = "/interaction/notice";
+const baseUrl = "/j7-interaction/j7-notice";
 
 // ==================== Mock 数据 ====================
 
