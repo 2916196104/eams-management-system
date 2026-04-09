@@ -274,6 +274,7 @@ attendance_records:
     add_time: 评价时间
     student_id: 学生ID
     anonymity: 是否匿名评价
+    org_id: 创建者所属组织ID
  
 #积分兑换模块
 exchange:

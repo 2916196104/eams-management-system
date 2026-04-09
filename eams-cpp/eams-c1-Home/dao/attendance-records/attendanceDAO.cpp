@@ -91,20 +91,21 @@ bool Teach_EvaluationDAO::insert(const Ptrteach_evaluationDO data)
 	SqlParams params;
 	std::string sql =
 		"INSERT INTO teach_evaluation ("
-		"  id, lesson_id, teacher_id, score1, score2, score3, score4, content, add_time, student_id, anonymity "
+		"  id, lesson_id, teacher_id, score1, score2, score3, score4, content, add_time, student_id, anonymity, org_id "
 		") VALUES ("
-		"  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? "
+		"  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? "
 		")";
-	SQLPARAMS_PUSH(params, "ull", uint64_t, data->getId());
-	SQLPARAMS_PUSH(params, "ull", uint64_t, data->getLessonId());
-	SQLPARAMS_PUSH(params, "ull", uint64_t, data->getTeacherId());
+	SQLPARAMS_PUSH(params, "ull", uint64_t, stoull(data->getId()));
+	SQLPARAMS_PUSH(params, "ull", uint64_t, stoull(data->getLessonId()));
+	SQLPARAMS_PUSH(params, "ull", uint64_t, stoull(data->getTeacherId()));
 	SQLPARAMS_PUSH(params, "i", uint32_t, data->getScore1());
 	SQLPARAMS_PUSH(params, "i", uint32_t, data->getScore2());
 	SQLPARAMS_PUSH(params, "i", uint32_t, data->getScore3());
 	SQLPARAMS_PUSH(params, "i", uint32_t, data->getScore4());
 	SQLPARAMS_PUSH(params, "s", std::string, data->getContent());
 	SQLPARAMS_PUSH(params, "s", std::string, data->getAddTime());
-	SQLPARAMS_PUSH(params, "ull", uint64_t, data->getStudentId());
-	SQLPARAMS_PUSH(params, "ull", uint64_t, data->getAnonymity());
+	SQLPARAMS_PUSH(params, "ull", uint64_t, stoull(data->getStudentId()));
+	SQLPARAMS_PUSH(params, "i", uint32_t, data->getAnonymity());
+	SQLPARAMS_PUSH(params, "ull", uint64_t, stoull(data->getOrgId()));
 	return sqlSession->executeUpdate(sql, params);
 }
