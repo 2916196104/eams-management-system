@@ -12,9 +12,7 @@
 						<div class="holiday-list__date">{{ item.label }}</div>
 						<div class="holiday-list__week">{{ item.weekday }}</div>
 					</div>
-					<el-button link type="danger" :loading="savingDate === item.iso" @click="removeHoliday(item)">
-						删除
-					</el-button>
+					<el-button link type="danger" :loading="savingDate === item.iso" @click="removeHoliday(item)">删除</el-button>
 				</div>
 			</div>
 			<div v-else class="holiday-list__empty">点击右侧日期后，这里会自动加入节假日日期。</div>
@@ -95,9 +93,7 @@ const holidayMap = computed(() => {
 	return map;
 });
 
-const months = computed(() =>
-	Array.from({ length: 12 }, (_, index) => createMonthData(selectedYear.value, index + 1)),
-);
+const months = computed(() => Array.from({ length: 12 }, (_, index) => createMonthData(selectedYear.value, index + 1)));
 
 const selectedDates = computed<HolidayListItem[]>(() =>
 	holidayList.value
@@ -155,8 +151,8 @@ async function toggleHoliday(iso: string) {
 
 	try {
 		const current = holidayMap.value.get(iso);
-		if (current?.id) {
-			await deleteHoliday(current.id);
+		if (current) {
+			await deleteHoliday(current.holidayTime);
 			ElMessage.success("节日已删除");
 		} else {
 			await addHoliday(iso);
@@ -177,7 +173,7 @@ async function removeHoliday(item: HolidayListItem) {
 	savingDate.value = item.iso;
 
 	try {
-		await deleteHoliday(item.id);
+		await deleteHoliday(item.iso);
 		ElMessage.success("节日已删除");
 		await loadHolidays();
 	} finally {

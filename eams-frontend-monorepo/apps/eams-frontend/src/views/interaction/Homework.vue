@@ -131,7 +131,14 @@ import { TableType } from "@/components/f1table/type";
 import type { TableConfig } from "@/components/f1table/type";
 import MyForm from "@/components/myform/MyForm.vue";
 import type { MyFormItemAttr, MyFormInputProps, MyFormInputNumberProps } from "@/components/myform/type";
-import { listHomework, getHomeworkInfo, listHomeworkRecords, saveHomework, deleteHomework, updateComment } from "@/apis/interaction/homework";
+import {
+	listHomework,
+	getHomeworkInfo,
+	listHomeworkRecords,
+	saveHomework,
+	deleteHomework,
+	updateComment,
+} from "@/apis/interaction/homework";
 import type {
 	HomeworkVO,
 	HomeworkRecordVO,
@@ -405,7 +412,7 @@ const commentRules = {
 function handleOpenComment(row: HomeworkRecordVO) {
 	currentRecordId.value = row.id;
 	commentForm.studentName = row.studentName;
-	commentForm.score = row.score;
+	commentForm.score = row.score ?? undefined;
 	commentForm.comment = row.comment || "";
 	commentDialogVisible.value = true;
 }

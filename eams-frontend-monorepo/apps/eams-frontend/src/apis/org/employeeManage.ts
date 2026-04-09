@@ -1,4 +1,4 @@
-import { useHttp } from "@/plugins/http";
+﻿import { useHttp } from "@/plugins/http";
 
 export interface OrgNode {
 	id: string;
@@ -132,7 +132,7 @@ function mapPayloadToSaveBody(payload: EmployeeCreatePayload | EmployeeUpdatePay
 
 export async function queryOrgTree(): Promise<OrgNode[]> {
 	const http = useHttp();
-	const res = await http.get<unknown>("/org/query-list");
+	const res = await http.get<unknown>("/org/institution/query-list");
 	const raw = res.data;
 	if (!Array.isArray(raw)) return [];
 
@@ -162,9 +162,9 @@ export async function queryOrgTree(): Promise<OrgNode[]> {
 		if (parent && r.parentId !== "0") {
 			parent.children = parent.children || [];
 			parent.children.push(current);
-		} else {
-			roots.push(current);
+			return;
 		}
+		roots.push(current);
 	});
 
 	const normalize = (nodes: OrgNode[]) => {
@@ -179,7 +179,7 @@ export async function queryOrgTree(): Promise<OrgNode[]> {
 
 export async function queryEmployeeList(params: EmployeeQuery): Promise<{ list: EmployeeItem[]; total: number }> {
 	const http = useHttp();
-	const res = await http.get<unknown>("/j1/staff/getpage", {
+	const res = await http.get<unknown>("/org/staff/getpage", {
 		orgId: params.orgId ? Number(params.orgId) : undefined,
 		account: params.keyword || undefined,
 		name: params.keyword || undefined,
@@ -202,7 +202,7 @@ export async function queryEmployeeList(params: EmployeeQuery): Promise<{ list: 
 
 export async function queryEmployeeDetail(params: { id?: string; account?: string; name?: string }): Promise<EmployeeItem | null> {
 	const http = useHttp();
-	const res = await http.get<unknown>("/j1/staff/get", {
+	const res = await http.get<unknown>("/org/staff/get", {
 		id: params.id ? Number(params.id) : undefined,
 		account: params.account || undefined,
 		name: params.name || undefined,
@@ -214,17 +214,17 @@ export async function queryEmployeeDetail(params: { id?: string; account?: strin
 
 export async function createEmployee(payload: EmployeeCreatePayload): Promise<void> {
 	const http = useHttp();
-	await http.post("/j1/staff/save", mapPayloadToSaveBody(payload));
+	await http.post("/org/staff/save", mapPayloadToSaveBody(payload));
 }
 
 export async function updateEmployee(payload: EmployeeUpdatePayload): Promise<void> {
 	const http = useHttp();
-	await http.post("/j1/staff/save", mapPayloadToSaveBody(payload));
+	await http.post("/org/staff/save", mapPayloadToSaveBody(payload));
 }
 
 export async function resetEmployeePassword(id: string, newPassword: string): Promise<void> {
 	const http = useHttp();
-	await http.post("/j1/staff/resetPassword", {
+	await http.put("/org/staff/reset-password", {
 		staffId: Number(id),
 		newPassword,
 	});
@@ -232,8 +232,9 @@ export async function resetEmployeePassword(id: string, newPassword: string): Pr
 
 export async function updateEmployeeAvatar(id: string, avatar: string): Promise<void> {
 	const http = useHttp();
-	await http.post("/j1/staff/updateAvatar", undefined, {
-		params: { staffId: Number(id), avatar },
+	await http.put("/org/staff/avatar/url", {
+		staffId: Number(id),
+		avatarUrl: avatar,
 	});
 }
 
@@ -242,28 +243,29 @@ export async function queryRoleOptions(): Promise<string[]> {
 }
 
 export async function setEmployeeRole(ids: string[], roleName: string): Promise<void> {
-	void roleName;
 	const http = useHttp();
-	await http.post("/j1/staff/set", ids.map((id) => Number(id)));
+	await http.post("/org/staff/set", {
+		staffIds: ids.map((id) => Number(id)),
+		roleId: Number(roleName) || undefined,
+	});
 }
 
 export async function deleteEmployees(ids: string[]): Promise<void> {
 	const http = useHttp();
-	await http.delete("/j1/staff/delete", ids.map((id) => Number(id)));
+	await http.delete("/org/staff/delete", ids.map((id) => Number(id)));
 }
 
 export async function transferEmployeeOrg(ids: string[], targetOrgId: string): Promise<void> {
 	const http = useHttp();
-	await http.post(
-		"/j1/staff/transferOrg",
-		ids.map((id) => Number(id)),
-		{ params: { orgId: Number(targetOrgId) } },
-	);
+	await http.post("/org/staff/transfer", {
+		staffIds: ids.map((id) => Number(id)),
+		targetOrgId: Number(targetOrgId),
+	});
 }
 
 export async function changeEmployeeStatus(ids: string[], status: "在职" | "离职", date?: string): Promise<void> {
 	const http = useHttp();
-	await http.post("/j1/staff/update", ids.map((id) => Number(id)), {
+	await http.post("/org/staff/update", ids.map((id) => Number(id)), {
 		params: {
 			status: status === "在职" ? 1 : 0,
 			date: date || new Date().toISOString().slice(0, 10),
@@ -273,7 +275,7 @@ export async function changeEmployeeStatus(ids: string[], status: "在职" | "�
 
 export async function exportEmployees(params: EmployeeQuery): Promise<void> {
 	const http = useHttp();
-	await http.getFile("/j1/staff/export", {
+	await http.getFile("/org/staff/export", {
 		account: params.keyword || undefined,
 		name: params.keyword || undefined,
 		pageIndex: params.page,
@@ -285,7 +287,7 @@ export async function exportEmployees(params: EmployeeQuery): Promise<void> {
 
 export async function queryClassRecord(params: { page: number; pageSize: number; staffId: string }) {
 	const http = useHttp();
-	return http.get("/j1/staff/getClassRecord", {
+	return http.get("/org/staff/class", {
 		pageIndex: params.page,
 		pageSize: params.pageSize,
 		staffId: Number(params.staffId),
@@ -294,7 +296,7 @@ export async function queryClassRecord(params: { page: number; pageSize: number;
 
 export async function queryTeachRecord(params: { page: number; pageSize: number; staffId: string; startDate?: string; endDate?: string }) {
 	const http = useHttp();
-	return http.get("/j1/staff/getTeachRecord", {
+	return http.get("/org/staff/lesson", {
 		pageIndex: params.page,
 		pageSize: params.pageSize,
 		staffId: Number(params.staffId),

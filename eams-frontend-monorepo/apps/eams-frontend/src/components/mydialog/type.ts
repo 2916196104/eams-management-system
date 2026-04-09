@@ -4,7 +4,7 @@
  */
 export interface MyDialogProps<T> {
 	/** 渲染需要用到的数据 */
-	data: T | {};
+	data: T;
 	/** 对话框的标题 */
 	title?: string;
 	/** 对话框的宽度，默认值为50% */

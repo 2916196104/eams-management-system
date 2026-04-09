@@ -65,7 +65,7 @@
 		:istabseq="false"
 		:istabpage="true"
 		@taboper-click="handleTableOperate"
-		@selection-change="(rows) => (selectedRows = rows)"
+		@selection-change="handleSelectionChange"
 	/>
 
 	<!-- 新增/编辑体验卡弹窗 -->
@@ -79,7 +79,7 @@
 				placeholder="请选择发行结束日期"
 				style="width: 100%"
 				@change="
-					(val) => {
+					(val: string | null) => {
 						// 手动同步值，确保表单能拿到最新值
 						formDialogProps.data.endDate = val;
 						// 立即触发校验，消除红框
@@ -157,6 +157,7 @@ import {
 // 👇 新增：打印和列配置组件引入
 import ColumnSetting from "../../operation/components/ColumnSetting.vue";
 import PrintTable from "../../operation/components/PrintTable.vue";
+import type { ColumnOption } from "../../operation/components/ColumnSetting.vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 
 // ==================== 原有变量 ====================
@@ -314,6 +315,15 @@ function onSelectCourse(row: Record<string, any>) {
 }
 
 // 表格配置
+function handleEndDateChange(val: string | null) {
+	formDialogProps.data.endDate = val ?? "";
+	nextTick(() => formDialog.value?.formRef?.validateField("endDate"));
+}
+
+function handleSelectionChange(rows: any[]) {
+	selectedRows.value = rows;
+}
+
 const tabdatacolumns = ref<MyTableColumn[]>([
 	{ label: "id", prop: "courseId", fixed: "left" },
 	{ label: "体验卡名称", prop: "name" },
@@ -427,8 +437,8 @@ const handleSubmit = async (valid: boolean) => {
 
 		// 更新表格
 		if (data.id) {
-			const index = tabdata.value.rows?.findIndex((r) => r.id === data.id);
-			if (index !== -1 && tabdata.value.rows && index) {
+			const index = tabdata.value.rows?.findIndex((r) => r.id === data.id) ?? -1;
+			if (index !== -1 && tabdata.value.rows) {
 				tabdata.value.rows[index] = {
 					...tabdata.value.rows[index],
 					name: data.name,
@@ -598,14 +608,14 @@ const handleRefresh = async () => {
 const handleSearch = () => {
 	// 如果没有任何查询条件 → 直接显示全部原始数据
 	if (!form.searchTitle && !form.materialLabel) {
-		tabdata.value.rows = [...originalTableData.value.rows];
+		tabdata.value.rows = [...(originalTableData.value.rows ?? [])];
 		tabdata.value.total = originalTableData.value.total;
 		ElMessage.success("查询成功");
 		return;
 	}
 
 	// 有查询条件 → 从原始数据过滤
-	let filtered = [...originalTableData.value.rows];
+	let filtered = [...(originalTableData.value.rows ?? [])];
 
 	// 按体验卡名称搜索
 	if (form.searchTitle) {
@@ -632,7 +642,7 @@ const handleReset = () => {
 	form.materialLabel = "";
 
 	// 恢复原始数据
-	tabdata.value.rows = [...originalTableData.value.rows];
+	tabdata.value.rows = [...(originalTableData.value.rows ?? [])];
 	tabdata.value.total = originalTableData.value.total;
 
 	ElMessage.info("已重置筛选条件");
@@ -646,7 +656,7 @@ const handlePrint = () => {
 
 // 5. 列配置功能
 const columnSettingVisible = ref(false);
-const allColumns = ref<MyTableColumn[]>([
+const allColumns = ref<ColumnOption[]>([
 	{ label: "ID", prop: "id", visible: true },
 	{ label: "体验卡名称", prop: "name", visible: true },
 	{ label: "所属课程", prop: "courseName", visible: true },

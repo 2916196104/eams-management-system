@@ -1,4 +1,4 @@
-import type { PageDTO, PageQuery } from "@/apis/type";
+import { createPageDTO, type PageDTO, type PageQuery } from "@/apis/type";
 import { useHttp } from "@/plugins/http";
 import type {
 	CashoutDetail,
@@ -379,7 +379,7 @@ const mockCourseSalesTotalData: Array<CourseSalesTotalPoint> = [
 export async function queryCourseRewardPage(params: CourseRewardQuery) {
 	const http = useHttp();
 	try {
-		const res = await http.get<CourseRewardPage>("/j6/ccf/queryPage", params);
+		const res = await http.get<CourseRewardPage>("/j6-finance/ccf/queryPage", params);
 		if (res.data?.rows?.length) {
 			return {
 				...res.data,
@@ -398,7 +398,7 @@ export async function queryCourseRewardPage(params: CourseRewardQuery) {
 export async function queryMonthlyClassFeePage(params: MonthlyClassFeeQuery) {
 	const http = useHttp();
 	try {
-		const res = await http.get<MonthlyClassFeePage>("/j6/mcf/queryPage", params);
+		const res = await http.get<MonthlyClassFeePage>("/j6-finance/mcf/queryPage", params);
 		if (res.data?.rows?.length) {
 			return {
 				...res.data,
@@ -419,7 +419,7 @@ export async function queryMonthlyClassFeePage(params: MonthlyClassFeeQuery) {
 export async function queryCashoutPage(params: CashoutQuery) {
 	const http = useHttp();
 	try {
-		const res = await http.get<CashoutPage>("/j6/finance/cashout/list", params);
+		const res = await http.get<CashoutPage>("/j6-finance/cashout/list", params);
 		if (res.data?.rows?.length) return res.data;
 	} catch {
 		// 本地测试时回退到 mock 数据
@@ -440,7 +440,7 @@ export async function queryCashoutPage(params: CashoutQuery) {
 export async function queryFundPage(params: FundQuery) {
 	const http = useHttp();
 	try {
-		const res = await http.get<FundPage>("/j6/finance/fund", params);
+		const res = await http.get<FundPage>("/j6-finance/fund/list", params);
 		const rows =
 			res.data?.rows?.map((item) => ({
 				...item,
@@ -449,12 +449,19 @@ export async function queryFundPage(params: FundQuery) {
 				verifyStateName: item.verifyStateName || mapFundVerifyState(item.verifyState),
 			})) || [];
 
-		if (rows.length) {
-			return {
-				...res.data,
-				rows,
-			};
-		}
+		const normalizedRows = rows.map((item) => ({
+			...item,
+			operatorName:
+				item.operatorName && !item.operatorName.includes("{item.operator}")
+					? item.operatorName
+					: `经办人#${item.operator}`,
+		}));
+		const page = createPageDTO({
+			...res.data,
+			rows: normalizedRows,
+		});
+
+		if (page.rows?.length) return page;
 	} catch {
 		// 本地测试时回退到 mock 数据
 	}
@@ -485,7 +492,7 @@ export async function getCashoutDetail(id: number) {
 export async function batchPassCashout(payload: CashoutVerifyPayload) {
 	const http = useHttp();
 	try {
-		return await http.post("/j6/finance/cashout/batchPass", payload);
+		return await http.post("/j6-finance/cashout/batchPass", payload);
 	} catch {
 		return Promise.resolve({ data: payload.ids } as any);
 	}
@@ -494,7 +501,7 @@ export async function batchPassCashout(payload: CashoutVerifyPayload) {
 export async function batchRejectCashout(payload: CashoutVerifyPayload) {
 	const http = useHttp();
 	try {
-		return await http.post("/j6/finance/cashout/batchReject", payload);
+		return await http.post("/j6-finance/cashout/batchReject", payload);
 	} catch {
 		return Promise.resolve({ data: payload.ids } as any);
 	}
@@ -512,7 +519,7 @@ export async function cancelCashout(id: number) {
 export async function confirmFunds(ids: number[]) {
 	const http = useHttp();
 	try {
-		return await http.put<number[]>("/j6/finance/fund/confirm", ids);
+		return await http.put<number[]>("/j6-finance/fund/confirm", ids);
 	} catch {
 		return Promise.resolve({ data: ids } as any);
 	}
@@ -521,7 +528,7 @@ export async function confirmFunds(ids: number[]) {
 export async function refuseFunds(ids: number[]) {
 	const http = useHttp();
 	try {
-		return await http.put<number[]>("/j6/finance/fund/refuse", ids);
+		return await http.put<number[]>("/j6-finance/fund/refuse", ids);
 	} catch {
 		return Promise.resolve({ data: ids } as any);
 	}
@@ -530,7 +537,7 @@ export async function refuseFunds(ids: number[]) {
 export async function downloadFunds() {
 	const http = useHttp();
 	try {
-		return await http.getFile("/j6/finance/fund/download");
+		return await http.getFile("/j6-finance/fund/download");
 	} catch {
 		return Promise.resolve(undefined);
 	}
@@ -539,7 +546,7 @@ export async function downloadFunds() {
 export async function querySaleTrend(params: { startDate?: string; endDate?: string }) {
 	const http = useHttp();
 	try {
-		const res = await http.get<SaleTrendPoint[]>("/common/statis/courseSaleByDay", params);
+		const res = await http.get<SaleTrendPoint[]>("/j3-statis/courseSaleByDay", params);
 		if (res.data?.length) return res.data;
 	} catch {
 		// 本地测试时回退到 mock 数据
@@ -550,7 +557,7 @@ export async function querySaleTrend(params: { startDate?: string; endDate?: str
 export async function queryCourseSalesTotal(params: { startDate?: string; endDate?: string }) {
 	const http = useHttp();
 	try {
-		const res = await http.get<CourseSalesTotalPoint[]>("/common/statis/courseSalesTotal", params);
+		const res = await http.get<CourseSalesTotalPoint[]>("/j3-statis/courseSalesTotal", params);
 		if (res.data?.length) return res.data;
 	} catch {
 		// 本地测试时回退到 mock 数据

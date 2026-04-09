@@ -80,6 +80,7 @@ interface TeacherScheduleApiItem {
 
 interface CurrentUserApiItem {
 	id?: number | string;
+	ID?: number | string;
 	teacherId?: number | string;
 	username?: string;
 	realName?: string;
@@ -93,7 +94,21 @@ interface CurrentUserApiItem {
 	schoolName?: string;
 	companyName?: string;
 	authorities?: string[];
+	permissions?: string[];
+	role?: string[];
 	roles?: string[];
+}
+
+interface TeacherMonthlyDataApiItem {
+	id?: number | string;
+	class_count?: number;
+	classCount?: number;
+	checkin_count?: number;
+	checkinCount?: number;
+	registration_amount?: number;
+	registrationAmount?: number;
+	new_students?: number;
+	newStudents?: number;
 }
 
 export interface TeacherCustomer {
@@ -194,16 +209,20 @@ const monthMetrics: TeacherMonthMetric[] = [
 
 function normalizeCurrentUserPayload(source: unknown, currentValue: TeacherInfo) {
 	const payload = ((source as any)?.data?.data ?? (source as any)?.data ?? source ?? {}) as CurrentUserApiItem;
-	const authorities = Array.isArray(payload.authorities)
-		? payload.authorities.filter(Boolean)
+	const authorities = Array.isArray(payload.role)
+		? payload.role.filter(Boolean)
 		: Array.isArray(payload.roles)
 			? payload.roles.filter(Boolean)
-			: currentValue.authorities;
+			: Array.isArray(payload.authorities)
+				? payload.authorities.filter(Boolean)
+				: Array.isArray(payload.permissions)
+					? payload.permissions.filter(Boolean)
+					: currentValue.authorities;
 
 	const username = payload.username || currentValue.username;
 	const name = payload.realName || payload.displayName || payload.name || username || currentValue.name;
 	const role = authorities[0] || currentValue.role || "教师";
-	const id = String(payload.teacherId ?? payload.id ?? currentValue.id ?? "");
+	const id = String(payload.teacherId ?? payload.ID ?? payload.id ?? currentValue.id ?? "");
 	const phone = payload.mobile || payload.phone || currentValue.phone;
 	const organization =
 		payload.organization ||
@@ -223,6 +242,39 @@ function normalizeCurrentUserPayload(source: unknown, currentValue: TeacherInfo)
 		organization,
 		authorities,
 	};
+}
+
+function normalizeMonthMetrics(source: unknown, currentValue: TeacherMonthMetric[]) {
+	const payload = (source as any)?.data?.data ?? (source as any)?.data ?? source ?? [];
+	const rawRows = Array.isArray(payload)
+		? payload
+		: Array.isArray(payload.rows)
+			? payload.rows
+			: Array.isArray(payload.list)
+				? payload.list
+				: [];
+
+	const total = rawRows.reduce(
+		(
+			result: { classCount: number; checkinCount: number; registrationAmount: number; newStudents: number },
+			item: TeacherMonthlyDataApiItem,
+		) => {
+			result.classCount += Number(item.class_count ?? item.classCount ?? 0);
+			result.checkinCount += Number(item.checkin_count ?? item.checkinCount ?? 0);
+			result.registrationAmount += Number(item.registration_amount ?? item.registrationAmount ?? 0);
+			result.newStudents += Number(item.new_students ?? item.newStudents ?? 0);
+			return result;
+		},
+		{ classCount: 0, checkinCount: 0, registrationAmount: 0, newStudents: 0 },
+	);
+
+	return currentValue.map((item) => {
+		if (item.id === 1) return { ...item, value: total.classCount };
+		if (item.id === 2) return { ...item, value: total.checkinCount };
+		if (item.id === 3) return { ...item, value: total.registrationAmount };
+		if (item.id === 4) return { ...item, label: "本月新增学员", value: total.newStudents };
+		return item;
+	});
 }
 
 function normalizeDateValue(value: unknown, fallbackDate: string) {
@@ -341,7 +393,7 @@ export const useUserStore = defineStore("user", {
 		return {
 			teacherInfo: { ...defaultTeacherInfo },
 			quickActions,
-			monthMetrics,
+			monthMetrics: monthMetrics.map((item) => ({ ...item })),
 			scheduleItems: [] as TeacherScheduleItem[],
 			customers: [] as TeacherCustomer[],
 		};
@@ -358,6 +410,9 @@ export const useUserStore = defineStore("user", {
 		setCustomers(rows: TeacherCustomer[]) {
 			this.customers = rows;
 		},
+		setMonthMetrics(metrics: TeacherMonthMetric[]) {
+			this.monthMetrics = metrics;
+		},
 		async loadCurrentUserInfo() {
 			try {
 				const response = await (Apis as any).workbench.get_workbench_query_current_user_info();
@@ -367,6 +422,16 @@ export const useUserStore = defineStore("user", {
 			}
 
 			return this.teacherInfo;
+		},
+		async loadMonthlyMetrics() {
+			try {
+				const response = await (Apis as any).workbench.get_workbench_monthly_data();
+				this.monthMetrics = normalizeMonthMetrics(response, this.monthMetrics);
+			} catch {
+				this.monthMetrics = monthMetrics.map((item) => ({ ...item }));
+			}
+
+			return this.monthMetrics;
 		},
 		async loadCustomers(pageIndex = 1, pageSize = 20, append = false) {
 			try {

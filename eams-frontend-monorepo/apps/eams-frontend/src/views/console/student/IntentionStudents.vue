@@ -62,12 +62,7 @@
 				<el-tooltip content="打印" placement="top">
 					<el-button link :icon="Printer" @click="handlePrint" />
 				</el-tooltip>
-				<el-popover
-					v-model:visible="columnPopoverVisible"
-					placement="bottom-end"
-					:width="640"
-					trigger="manual"
-				>
+				<el-popover v-model:visible="columnPopoverVisible" placement="bottom-end" :width="640" trigger="click">
 					<template #reference>
 						<span class="column-trigger-wrap">
 							<el-tooltip content="自定义列" placement="top">
@@ -121,10 +116,28 @@
 					</template>
 				</el-table-column>
 
-				<el-table-column v-if="visibleColumns.schoolName" prop="schoolName" label="分校" min-width="100" show-overflow-tooltip />
+				<el-table-column
+					v-if="visibleColumns.schoolName"
+					prop="schoolName"
+					label="分校"
+					min-width="100"
+					show-overflow-tooltip
+				/>
 				<el-table-column v-if="visibleColumns.familyRel" prop="familyRel" label="亲属关系" width="90" />
-				<el-table-column v-if="visibleColumns.mobile" prop="mobile" label="联系电话" min-width="130" show-overflow-tooltip />
-				<el-table-column v-if="visibleColumns.counselorName" prop="counselorName" label="顾问" min-width="110" show-overflow-tooltip />
+				<el-table-column
+					v-if="visibleColumns.mobile"
+					prop="mobile"
+					label="联系电话"
+					min-width="130"
+					show-overflow-tooltip
+				/>
+				<el-table-column
+					v-if="visibleColumns.counselorName"
+					prop="counselorName"
+					label="顾问"
+					min-width="110"
+					show-overflow-tooltip
+				/>
 				<el-table-column v-if="visibleColumns.gradeName" prop="gradeName" label="年级" min-width="90" />
 
 				<el-table-column v-if="visibleColumns.countLessonRemaining" label="课时数" width="120" align="center">
@@ -136,7 +149,13 @@
 				<el-table-column v-if="visibleColumns.credit" prop="credit" label="积分" width="80" align="center" />
 				<el-table-column v-if="visibleColumns.gender" prop="gender" label="性别" width="70" />
 				<el-table-column v-if="visibleColumns.age" prop="age" label="年龄" width="70" align="center" />
-				<el-table-column v-if="visibleColumns.remark" prop="remark" label="备注" min-width="150" show-overflow-tooltip />
+				<el-table-column
+					v-if="visibleColumns.remark"
+					prop="remark"
+					label="备注"
+					min-width="150"
+					show-overflow-tooltip
+				/>
 
 				<el-table-column label="操作" width="120" fixed="right">
 					<template #default="{ row }">
@@ -173,7 +192,17 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { Back, CircleClose, Delete, Download, Grid, Printer, RefreshRight, Search, UploadFilled } from "@element-plus/icons-vue";
+import {
+	Back,
+	CircleClose,
+	Delete,
+	Download,
+	Grid,
+	Printer,
+	RefreshRight,
+	Search,
+	UploadFilled,
+} from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 import FileImportDialog from "@/components/FileImportDialog/index.vue";
 
@@ -328,9 +357,7 @@ function handlePrint() {
 		<h2>意向学员列表</h2>
 		<table>
 			<thead><tr>${tableHeader}</tr></thead>
-			<tbody>${
-				rowsHtml || `<tr><td colspan="${activeHeaders.length}">暂无数据</td></tr>`
-			}</tbody>
+			<tbody>${rowsHtml || `<tr><td colspan="${activeHeaders.length}">暂无数据</td></tr>`}</tbody>
 		</table>
 	</body>
 	</html>
@@ -627,7 +654,20 @@ function handleExport() {
 	exporting.value = true;
 	try {
 		const rowsToExport = selection.value.length ? selection.value : tableRows.value;
-		const header = ["编号", "学员姓名", "分校", "亲属关系", "联系电话", "顾问", "年级", "课时数", "积分", "性别", "年龄", "备注"];
+		const header = [
+			"编号",
+			"学员姓名",
+			"分校",
+			"亲属关系",
+			"联系电话",
+			"顾问",
+			"年级",
+			"课时数",
+			"积分",
+			"性别",
+			"年龄",
+			"备注",
+		];
 		const csvLines = [
 			header.join(","),
 			...rowsToExport.map((r) =>
@@ -834,4 +874,3 @@ onMounted(() => {
 	}
 }
 </style>
-

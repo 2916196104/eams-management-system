@@ -113,13 +113,18 @@ import { getRedemptionApplicationList } from "@/apis/operation/pointsRedemption"
 import { ElMessage } from "element-plus";
 import { reviewRedemptionApplication } from "@/apis/operation/pointsRedemption";
 
+interface RedemptionAuditForm extends SampleFormData {
+	auditStatus: string;
+	auditRemark: string;
+}
+
 // 保存当前选中的行数据
-const selectedRow = ref<any>(null);
+const selectedRow = ref<Record<string, any> | null>(null);
 // 控制审核弹窗显示
 const formDialog = ref();
 
 // 监听表格复选框选择（MyTable 组件需支持 @selection-change 事件）
-const handleSelectionChange = (selection: any[]) => {
+const handleSelectionChange = (selection: Record<string, any>[]) => {
 	if (selection.length > 1) {
 		ElMessage.warning("只能选择一条数据进行审核");
 		return;
@@ -148,14 +153,13 @@ const auditClick = () => {
 };
 
 // 提交审核
-const onSubmit = async (data: boolean) => {
-	if (!data) return;
+const onSubmit = async (data: RedemptionAuditForm) => {
 	if (!selectedRow.value) {
 		ElMessage.warning("请选择一条待审核的数据");
 		return;
 	}
 
-	const { auditStatus, auditRemark } = formDialogProps.data;
+	const { auditStatus, auditRemark } = data;
 	if (!auditStatus) {
 		ElMessage.warning("请选择审核状态");
 		return;
@@ -179,10 +183,11 @@ const onSubmit = async (data: boolean) => {
 			ElMessage.success("审核成功");
 
 			// 4. 【关键】更新本地表格数据
-			const targetIndex = tabdata.value.rows?.findIndex((row) => row.id === selectedRow.value.id);
-			if (targetIndex !== -1 && targetIndex !== undefined) {
-				tabdata.value.rows[targetIndex] = {
-					...tabdata.value.rows?.[targetIndex],
+			const rows = tabdata.value.rows;
+			const targetIndex = rows?.findIndex((row) => row.id === selectedRow.value?.id) ?? -1;
+			if (rows && targetIndex !== -1) {
+				rows[targetIndex] = {
+					...rows[targetIndex],
 					auditStatus: auditStatus === "通过" ? "审核通过" : "已驳回", // 同步前端状态
 					auditor: "当前登录用户", // 可替换为实际用户名
 					auditRemark: auditRemark || "",
@@ -336,9 +341,12 @@ const editClick = (index: number, row: any) => {
 	});
 	formDialog.value?.openDialog(true);
 };
-const formDialogProps = reactive<MyFormDialogProps<SampleFormData>>({
+const formDialogProps = reactive<MyFormDialogProps<RedemptionAuditForm>>({
 	// 表单数据
-	data: reactive<SampleFormData>({}),
+	data: reactive<RedemptionAuditForm>({
+		auditStatus: "",
+		auditRemark: "",
+	}),
 	// 表单域数据
 	formitemdata: reactive<MyFormItemAttr[]>([
 		{

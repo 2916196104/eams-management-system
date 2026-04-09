@@ -74,9 +74,9 @@ function normalizeDetail(source: unknown): ClassStudentDetailInfo | null {
 
 	return {
 		id: payload.id ?? relationId.value,
-		classId: payload.classId ?? classId.value,
-		studentId: payload.studentId ?? studentId.value,
-		consumeCourseId: payload.consumeCourseId,
+		classId: payload.classId ?? payload.class_id ?? classId.value,
+		studentId: payload.studentId ?? payload.student_id ?? studentId.value,
+		consumeCourseId: payload.consumeCourseId ?? payload.consume_course_id,
 		userId: payload.userId,
 		name: payload.name || readQuery("name") || "--",
 		mobile: payload.mobile || "--",
@@ -84,9 +84,9 @@ function normalizeDetail(source: unknown): ClassStudentDetailInfo | null {
 		birthday: payload.birthday || "--",
 		age: payload.age ?? "--",
 		stage: payload.stage ?? "--",
-		headImg: payload.headImg || "",
+		headImg: payload.headImg || payload.head_img || "",
 		remark: payload.remark || "--",
-		classStudentRemark: payload.classStudentRemark || "--",
+		classStudentRemark: payload.classStudentRemark || payload.class_student_remark || "--",
 	};
 }
 
@@ -106,15 +106,15 @@ function normalizeCourseRows(source: unknown) {
 			studentId: item.studentId ?? item.student_id ?? studentId.value,
 			courseId: item.courseId ?? item.course_id ?? index,
 			courseName: item.courseName || "--",
-			subjectName: item.subjectName || "--",
+			subjectName: item.subjectName || item.subject || "--",
 			startDate: item.startDate || "--",
 			expireDate: item.expireDate || "--",
 			countLessonTotal: Number(item.countLessonTotal ?? 0),
 			countLessonComplete: Number(item.countLessonComplete ?? 0),
-			countLessonRefund: Number(item.countLessonRefund ?? 0),
+			countLessonRefund: Number(item.countLessonRefund ?? item.refundLessonCount ?? 0),
 			countLessonRemaining: Number(item.countLessonRemaining ?? 0),
-			progress: item.progress || "--",
-			defaultConsumeCourse: Number(item.defaultConsumeCourse ?? 0),
+			progress: item.progress || item.progressText || "--",
+			defaultConsumeCourse: Number(item.defaultConsumeCourse ?? item.default_consume_course ?? 0),
 		} satisfies StudentCourseItem;
 	});
 }
@@ -133,13 +133,13 @@ function stageText(stage: number | string) {
 }
 
 async function loadDetail() {
-	if (!relationId.value) return;
+	if (!studentId.value && !relationId.value) return;
 
 	loading.value = true;
 	try {
 		const response = await (Apis as any).class.get_class_query_class_student_detail({
 			params: {
-				id: Number(relationId.value),
+				studentId: Number(studentId.value || relationId.value),
 			},
 		});
 		detail.value = normalizeDetail(response);
@@ -162,7 +162,6 @@ async function loadCourses(nextPage = 1, append = false) {
 			params: {
 				pageIndex: nextPage,
 				pageSize,
-				classId: Number(classId.value),
 				studentId: Number(studentId.value),
 			},
 		});
@@ -197,82 +196,126 @@ onShow(() => {
 </script>
 
 <template>
-	<view class="teacher-student-detail-page">
-		<teacher-nav-bar title="学员详情" @refresh="refreshPage" />
+  <view class="teacher-student-detail-page">
+    <teacher-nav-bar title="学员详情" @refresh="refreshPage" />
 
-		<view class="teacher-student-detail-page__content">
-			<view v-if="detail" class="teacher-student-card">
-				<view class="teacher-student-card__header">
-					<view class="teacher-student-card__avatar">
-						<image v-if="detail.headImg" :src="detail.headImg" mode="aspectFill" class="teacher-student-card__image" />
-						<text v-else>{{ detail.name.slice(0, 1) }}</text>
-					</view>
-					<view class="teacher-student-card__main">
-						<view class="teacher-student-card__name">{{ detail.name }}</view>
-						<view class="teacher-student-card__meta">{{ genderText(detail.gender) }} / {{ detail.age }} 岁</view>
-						<view class="teacher-student-card__meta">{{ detail.mobile }}</view>
-					</view>
-				</view>
+    <view class="teacher-student-detail-page__content">
+      <view v-if="detail" class="teacher-student-card">
+        <view class="teacher-student-card__header">
+          <view class="teacher-student-card__avatar">
+            <image v-if="detail.headImg" :src="detail.headImg" mode="aspectFill" class="teacher-student-card__image" />
+            <text v-else>
+              {{ detail.name.slice(0, 1) }}
+            </text>
+          </view>
+          <view class="teacher-student-card__main">
+            <view class="teacher-student-card__name">
+              {{ detail.name }}
+            </view>
+            <view class="teacher-student-card__meta">
+              {{ genderText(detail.gender) }} / {{ detail.age }} 岁
+            </view>
+            <view class="teacher-student-card__meta">
+              {{ detail.mobile }}
+            </view>
+          </view>
+        </view>
 
-				<view class="teacher-student-card__grid">
-					<view class="teacher-student-card__field">
-						<text class="teacher-student-card__label">生日</text>
-						<text class="teacher-student-card__value">{{ detail.birthday }}</text>
-					</view>
-					<view class="teacher-student-card__field">
-						<text class="teacher-student-card__label">学员阶段</text>
-						<text class="teacher-student-card__value">{{ stageText(detail.stage) }}</text>
-					</view>
-					<view class="teacher-student-card__field">
-						<text class="teacher-student-card__label">默认消费课程ID</text>
-						<text class="teacher-student-card__value">{{ detail.consumeCourseId || "--" }}</text>
-					</view>
-					<view class="teacher-student-card__field">
-						<text class="teacher-student-card__label">家长用户ID</text>
-						<text class="teacher-student-card__value">{{ detail.userId || "--" }}</text>
-					</view>
-				</view>
+        <view class="teacher-student-card__grid">
+          <view class="teacher-student-card__field">
+            <text class="teacher-student-card__label">
+              生日
+            </text>
+            <text class="teacher-student-card__value">
+              {{ detail.birthday }}
+            </text>
+          </view>
+          <view class="teacher-student-card__field">
+            <text class="teacher-student-card__label">
+              学员阶段
+            </text>
+            <text class="teacher-student-card__value">
+              {{ stageText(detail.stage) }}
+            </text>
+          </view>
+          <view class="teacher-student-card__field">
+            <text class="teacher-student-card__label">
+              默认消费课程ID
+            </text>
+            <text class="teacher-student-card__value">
+              {{ detail.consumeCourseId || "--" }}
+            </text>
+          </view>
+          <view class="teacher-student-card__field">
+            <text class="teacher-student-card__label">
+              家长用户ID
+            </text>
+            <text class="teacher-student-card__value">
+              {{ detail.userId || "--" }}
+            </text>
+          </view>
+        </view>
 
-				<view class="teacher-student-card__remark">
-					<text class="teacher-student-card__label">学员备注</text>
-					<text class="teacher-student-card__remark-text">{{ detail.remark }}</text>
-				</view>
-				<view class="teacher-student-card__remark">
-					<text class="teacher-student-card__label">班级备注</text>
-					<text class="teacher-student-card__remark-text">{{ detail.classStudentRemark }}</text>
-				</view>
-			</view>
+        <view class="teacher-student-card__remark">
+          <text class="teacher-student-card__label">
+            学员备注
+          </text>
+          <text class="teacher-student-card__remark-text">
+            {{ detail.remark }}
+          </text>
+        </view>
+        <view class="teacher-student-card__remark">
+          <text class="teacher-student-card__label">
+            班级备注
+          </text>
+          <text class="teacher-student-card__remark-text">
+            {{ detail.classStudentRemark }}
+          </text>
+        </view>
+      </view>
 
-			<teacher-empty-state v-else :title="loading ? '加载中...' : '暂无学员详情'" compact />
+      <teacher-empty-state v-else :title="loading ? '加载中...' : '暂无学员详情'" compact />
 
-			<teacher-section-card title="课程记录" :extra="courses.length ? `${total} 条` : ''">
-				<view v-if="courses.length" class="teacher-student-course-list">
-					<view v-for="item in courses" :key="item.id" class="teacher-student-course">
-						<view class="teacher-student-course__header">
-							<view>
-								<view class="teacher-student-course__title">{{ item.courseName }}</view>
-								<view class="teacher-student-course__meta">{{ item.subjectName }}</view>
-							</view>
-							<view v-if="item.defaultConsumeCourse" class="teacher-student-course__badge">默认消费</view>
-						</view>
+      <teacher-section-card title="课程记录" :extra="courses.length ? `${total} 条` : ''">
+        <view v-if="courses.length" class="teacher-student-course-list">
+          <view v-for="item in courses" :key="item.id" class="teacher-student-course">
+            <view class="teacher-student-course__header">
+              <view>
+                <view class="teacher-student-course__title">
+                  {{ item.courseName }}
+                </view>
+                <view class="teacher-student-course__meta">
+                  {{ item.subjectName }}
+                </view>
+              </view>
+              <view v-if="item.defaultConsumeCourse" class="teacher-student-course__badge">
+                默认消费
+              </view>
+            </view>
 
-						<view class="teacher-student-course__meta">开始时间：{{ item.startDate }}</view>
-						<view class="teacher-student-course__meta">有效期：{{ item.expireDate }}</view>
-						<view class="teacher-student-course__meta">学习进度：{{ item.progress }}</view>
-						<view class="teacher-student-course__meta">
-							总课次 {{ item.countLessonTotal }} / 已上 {{ item.countLessonComplete }} / 退款 {{ item.countLessonRefund }} / 剩余 {{ item.countLessonRemaining }}
-						</view>
-					</view>
-				</view>
+            <view class="teacher-student-course__meta">
+              开始时间：{{ item.startDate }}
+            </view>
+            <view class="teacher-student-course__meta">
+              有效期：{{ item.expireDate }}
+            </view>
+            <view class="teacher-student-course__meta">
+              学习进度：{{ item.progress }}
+            </view>
+            <view class="teacher-student-course__meta">
+              总课次 {{ item.countLessonTotal }} / 已上 {{ item.countLessonComplete }} / 退款 {{ item.countLessonRefund }} / 剩余 {{ item.countLessonRemaining }}
+            </view>
+          </view>
+        </view>
 
-				<teacher-empty-state v-else :title="courseLoading ? '加载中...' : '暂无课程记录'" compact />
-			</teacher-section-card>
+        <teacher-empty-state v-else :title="courseLoading ? '加载中...' : '暂无课程记录'" compact />
+      </teacher-section-card>
 
-			<view v-if="hasMore" class="teacher-student-detail-page__more" @click="loadMore">
-				{{ courseLoadingMore ? "加载中..." : "加载更多" }}
-			</view>
-		</view>
-	</view>
+      <view v-if="hasMore" class="teacher-student-detail-page__more" @click="loadMore">
+        {{ courseLoadingMore ? "加载中..." : "加载更多" }}
+      </view>
+    </view>
+  </view>
 </template>
 
 <style scoped>

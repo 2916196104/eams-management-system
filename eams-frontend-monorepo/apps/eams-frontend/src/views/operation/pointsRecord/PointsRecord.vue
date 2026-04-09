@@ -89,7 +89,7 @@
 				v-if="item.prop !== 'student'"
 				:item="item"
 				:model="formDialogProps.data[item.prop]"
-				@update:model="(val) => (formDialogProps.data[item.prop] = val)"
+				@update:model="(val: unknown) => (formDialogProps.data[item.prop] = val)"
 			/>
 			<!-- 学生选择弹窗 -->
 			<SelectTablePopover
@@ -181,11 +181,13 @@ const handleColumnConfirm = (newColumns: ColumnOption[]) => {
 };
 // 模板ref绑定
 const printRef = ref<InstanceType<typeof PrintTable>>();
+const pageSize = ref(20);
 const form = reactive({
 	searchTitle: "",
 	materialId: "" as string,
 	materialLabel: "",
 	student: "",
+	phone: "",
 	employee: "",
 	changeType: "",
 	startDate: "",

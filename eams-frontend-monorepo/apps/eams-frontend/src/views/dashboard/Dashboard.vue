@@ -69,7 +69,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from "vue";
 import { useStatisticsStore, useScheduleStore, useNoticeStore, useEchartsStore } from "@/stores/console";
-import Statistics from "@/components/statistics/Statistics.vue";
+import Statistics from "@/components/statistics/statistics.vue";
 import MyCalendar from "@/components/mycalendar/MyCalendar.vue";
 import LineChart from "@/components/mychart/LineChart.vue";
 import BarChart from "@/components/mychart/BarChart.vue";
@@ -86,8 +86,8 @@ const barStore = useEchartsStore();
 const statisticsLoading = ref(true);
 onMounted(async () => {
 	await statisticsStore.fetchStatistics(); // 获取统计数据
-	await scheduleStore.fetchMySchedule(); // 默认加载我的课表
 	statisticsLoading.value = false;
+	// await scheduleStore.fetchMySchedule(); // 默认加载我的课表
 	await noticeStore.fetchNoticeList(); // 获取学校公告
 	await echartsStore.fetchMonthlyTrend(); // 获取本月报名走势
 	await barStore.fetchCourseTop5(); // 获取课程报名前5
@@ -112,7 +112,7 @@ const statisticsList = computed(() => [
 	},
 	{
 		targetText: "总课次",
-		targetNumber: statisticsStore.totalCourses,
+		targetNumber: statisticsStore.totalLessons,
 		iconName: "akar-icons:book",
 		iconColor: "#36a3f7",
 		hoverIconColor: "white",
@@ -120,7 +120,7 @@ const statisticsList = computed(() => [
 	},
 	{
 		targetText: "本月报名数",
-		targetNumber: statisticsStore.monthEnrollments,
+		targetNumber: statisticsStore.monthEnrollmentAmount,
 		iconName: "hugeicons:money-bag-02",
 		iconColor: "#f4516c",
 		hoverIconColor: "white",

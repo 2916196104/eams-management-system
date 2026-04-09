@@ -44,9 +44,9 @@ function normalizeClassOptions(source: unknown) {
 			const id = item.id ?? item.classId ?? item.class_id;
 			if (id === undefined || id === null || id === "") return null;
 
-			const name = item.className || item.myclass || item.name || `班级${index + 1}`;
-			const teacher = item.teacher || item.masterTeacher || "";
-			const course = item.course || item.courseName || "";
+			const name = item.className || item.classname || item.myclass || item.name || `班级${index + 1}`;
+			const teacher = item.teacher || item.teacherName || item.masterTeacher || item.homeroom_teacher || "";
+			const course = item.course || item.courseName || item.course_name || item.subject || "";
 
 			return {
 				id: String(id),
@@ -147,76 +147,90 @@ onShow(() => {
 </script>
 
 <template>
-	<view class="teacher-publish-page">
-		<teacher-nav-bar title="布置作业内容" @refresh="refreshPage" />
+  <view class="teacher-publish-page">
+    <teacher-nav-bar title="布置作业内容" @refresh="refreshPage" />
 
-		<view class="teacher-publish-card">
-			<view class="teacher-publish-row" @click="openClassSheet">
-				<text class="teacher-publish-label teacher-publish-label--required">选择班级</text>
-				<view class="teacher-publish-value-wrap">
-					<text class="teacher-publish-value" :class="{ 'teacher-publish-value--selected': publishForm.className }">
-						{{ publishForm.className || (classLoading ? "加载中..." : "请选择") }}
-					</text>
-					<view class="i-carbon:chevron-right text-16px text-#98a2b3" />
-				</view>
-			</view>
+    <view class="teacher-publish-card">
+      <view class="teacher-publish-row" @click="openClassSheet">
+        <text class="teacher-publish-label teacher-publish-label--required">
+          选择班级
+        </text>
+        <view class="teacher-publish-value-wrap">
+          <text class="teacher-publish-value" :class="{ 'teacher-publish-value--selected': publishForm.className }">
+            {{ publishForm.className || (classLoading ? "加载中..." : "请选择") }}
+          </text>
+          <view class="i-carbon:chevron-right text-16px text-#98a2b3" />
+        </view>
+      </view>
 
-			<view class="teacher-publish-row">
-				<text class="teacher-publish-label teacher-publish-label--required">作业标题</text>
-				<input
-					v-model="publishForm.title"
-					class="teacher-publish-input"
-					type="text"
-					:maxlength="60"
-					placeholder="请输入标题"
-				/>
-			</view>
+      <view class="teacher-publish-row">
+        <text class="teacher-publish-label teacher-publish-label--required">
+          作业标题
+        </text>
+        <input
+          v-model="publishForm.title"
+          class="teacher-publish-input"
+          type="text"
+          :maxlength="60"
+          placeholder="请输入标题"
+        >
+      </view>
 
-			<view class="teacher-publish-row teacher-publish-row--textarea">
-				<text class="teacher-publish-label">作业内容</text>
-				<textarea
-					v-model="publishForm.content"
-					class="teacher-publish-textarea"
-					placeholder="请输入作业内容"
-					:maxlength="500"
-				/>
-			</view>
+      <view class="teacher-publish-row teacher-publish-row--textarea">
+        <text class="teacher-publish-label">
+          作业内容
+        </text>
+        <textarea
+          v-model="publishForm.content"
+          class="teacher-publish-textarea"
+          placeholder="请输入作业内容"
+          :maxlength="500"
+        />
+      </view>
 
-			<view class="teacher-publish-row teacher-publish-row--textarea">
-				<text class="teacher-publish-label">附件说明/地址</text>
-				<textarea
-					v-model="publishForm.attachment"
-					class="teacher-publish-textarea teacher-publish-textarea--small"
-					placeholder="请输入附件说明或附件地址"
-					:maxlength="300"
-				/>
-			</view>
-		</view>
+      <view class="teacher-publish-row teacher-publish-row--textarea">
+        <text class="teacher-publish-label">
+          附件说明/地址
+        </text>
+        <textarea
+          v-model="publishForm.attachment"
+          class="teacher-publish-textarea teacher-publish-textarea--small"
+          placeholder="请输入附件说明或附件地址"
+          :maxlength="300"
+        />
+      </view>
+    </view>
 
-		<view class="teacher-publish-action">
-			<wd-button type="primary" block :loading="submitting" @click="submitForm">提交</wd-button>
-		</view>
+    <view class="teacher-publish-action">
+      <wd-button type="primary" block :loading="submitting" @click="submitForm">
+        提交
+      </wd-button>
+    </view>
 
-		<wd-action-sheet
-			v-model="showClassSheet"
-			title="选择班级"
-			:close-on-click-action="false"
-			:close-on-click-modal="true"
-		>
-			<view class="teacher-sheet">
-				<view v-for="item in classOptions" :key="item.id" class="teacher-sheet__item" @click="selectClass(item)">
-					<view class="teacher-sheet__content">
-						<view class="teacher-sheet__title">{{ item.name }}</view>
-						<view class="teacher-sheet__desc">{{ item.label }}</view>
-					</view>
-					<view v-if="publishForm.classId === item.id" class="i-carbon:checkmark text-18px text-#31c7a5" />
-				</view>
-				<view v-if="!classOptions.length" class="teacher-sheet__empty">
-					{{ classLoading ? "班级加载中..." : "暂无班级数据" }}
-				</view>
-			</view>
-		</wd-action-sheet>
-	</view>
+    <wd-action-sheet
+      v-model="showClassSheet"
+      title="选择班级"
+      :close-on-click-action="false"
+      :close-on-click-modal="true"
+    >
+      <view class="teacher-sheet">
+        <view v-for="item in classOptions" :key="item.id" class="teacher-sheet__item" @click="selectClass(item)">
+          <view class="teacher-sheet__content">
+            <view class="teacher-sheet__title">
+              {{ item.name }}
+            </view>
+            <view class="teacher-sheet__desc">
+              {{ item.label }}
+            </view>
+          </view>
+          <view v-if="publishForm.classId === item.id" class="i-carbon:checkmark text-18px text-#31c7a5" />
+        </view>
+        <view v-if="!classOptions.length" class="teacher-sheet__empty">
+          {{ classLoading ? "班级加载中..." : "暂无班级数据" }}
+        </view>
+      </view>
+    </wd-action-sheet>
+  </view>
 </template>
 
 <style scoped>

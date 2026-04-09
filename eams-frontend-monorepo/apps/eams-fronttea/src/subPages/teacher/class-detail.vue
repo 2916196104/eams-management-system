@@ -62,10 +62,10 @@ function normalizeRows(source: unknown) {
 			id: item.id ?? `${item.studentId ?? item.student_id ?? index}`,
 			classId: item.classId ?? item.class_id ?? classId.value,
 			studentId: item.studentId ?? item.student_id ?? index,
-			studentName: item.studentName ?? item.student_name ?? `学员${index + 1}`,
+			studentName: item.studentName ?? item.student_name ?? item.name ?? `学员${index + 1}`,
 			gender: Number(item.gender ?? 0),
 			headImg: item.headImg ?? item.head_img ?? "",
-			countLessonRemaining: Number(item.countLessonRemaining ?? item.remainingLessonCount ?? 0),
+			countLessonRemaining: Number(item.countLessonRemaining ?? item.remainingLessonCount ?? item.lesson_count ?? 0),
 		} satisfies ClassStudentItem;
 	});
 }
@@ -88,7 +88,7 @@ async function loadStudents(nextPage = 1, append = false) {
 				pageIndex: nextPage,
 				pageSize,
 				classId: Number(classId.value),
-				keyword: keyword.value || undefined,
+				studentName: keyword.value || undefined,
 			},
 		});
 
@@ -138,47 +138,65 @@ onShow(() => {
 </script>
 
 <template>
-	<view class="teacher-class-detail-page">
-		<teacher-nav-bar title="班级详情" @refresh="refreshPage" />
+  <view class="teacher-class-detail-page">
+    <teacher-nav-bar title="班级详情" @refresh="refreshPage" />
 
-		<view class="teacher-class-detail-page__content">
-			<view class="teacher-class-info">
-				<view class="teacher-class-info__title">{{ className }}</view>
-				<view class="teacher-class-info__meta">课程：{{ classCourse }}</view>
-				<view class="teacher-class-info__meta">班主任：{{ classTeacher }}</view>
-				<view class="teacher-class-info__meta">人数：{{ classNumber }}</view>
-			</view>
+    <view class="teacher-class-detail-page__content">
+      <view class="teacher-class-info">
+        <view class="teacher-class-info__title">
+          {{ className }}
+        </view>
+        <view class="teacher-class-info__meta">
+          课程：{{ classCourse }}
+        </view>
+        <view class="teacher-class-info__meta">
+          班主任：{{ classTeacher }}
+        </view>
+        <view class="teacher-class-info__meta">
+          人数：{{ classNumber }}
+        </view>
+      </view>
 
-			<view class="teacher-class-search">
-				<input v-model="keyword" class="teacher-class-search__input" placeholder="搜索学员姓名" confirm-type="search" @confirm="searchStudents" />
-				<view class="teacher-class-search__button" @click="searchStudents">搜索</view>
-			</view>
+      <view class="teacher-class-search">
+        <input v-model="keyword" class="teacher-class-search__input" placeholder="搜索学员姓名" confirm-type="search" @confirm="searchStudents">
+        <view class="teacher-class-search__button" @click="searchStudents">
+          搜索
+        </view>
+      </view>
 
-			<view v-if="students.length" class="teacher-class-detail-page__summary">共 {{ total }} 名学员</view>
+      <view v-if="students.length" class="teacher-class-detail-page__summary">
+        共 {{ total }} 名学员
+      </view>
 
-			<view v-if="students.length" class="teacher-class-student-list">
-				<view v-for="item in students" :key="item.id" class="teacher-class-student" @click="openStudentDetail(item)">
-					<view class="teacher-class-student__main">
-						<view class="teacher-class-student__avatar">
-							<image v-if="item.headImg" :src="item.headImg" mode="aspectFill" class="teacher-class-student__image" />
-							<text v-else>{{ item.studentName.slice(0, 1) }}</text>
-						</view>
-						<view class="teacher-class-student__info">
-							<view class="teacher-class-student__name">{{ item.studentName }}</view>
-							<view class="teacher-class-student__meta">{{ genderText(item.gender) }} / 剩余课次 {{ item.countLessonRemaining }}</view>
-						</view>
-					</view>
-					<view class="i-carbon:chevron-right text-16px text-#98a2b3" />
-				</view>
-			</view>
+      <view v-if="students.length" class="teacher-class-student-list">
+        <view v-for="item in students" :key="item.id" class="teacher-class-student" @click="openStudentDetail(item)">
+          <view class="teacher-class-student__main">
+            <view class="teacher-class-student__avatar">
+              <image v-if="item.headImg" :src="item.headImg" mode="aspectFill" class="teacher-class-student__image" />
+              <text v-else>
+                {{ item.studentName.slice(0, 1) }}
+              </text>
+            </view>
+            <view class="teacher-class-student__info">
+              <view class="teacher-class-student__name">
+                {{ item.studentName }}
+              </view>
+              <view class="teacher-class-student__meta">
+                {{ genderText(item.gender) }} / 剩余课次 {{ item.countLessonRemaining }}
+              </view>
+            </view>
+          </view>
+          <view class="i-carbon:chevron-right text-16px text-#98a2b3" />
+        </view>
+      </view>
 
-			<teacher-empty-state v-else :title="loading ? '加载中...' : '暂无班级学员'" compact />
+      <teacher-empty-state v-else :title="loading ? '加载中...' : '暂无班级学员'" compact />
 
-			<view v-if="hasMore" class="teacher-class-detail-page__more" @click="loadMore">
-				{{ loadingMore ? "加载中..." : "加载更多" }}
-			</view>
-		</view>
-	</view>
+      <view v-if="hasMore" class="teacher-class-detail-page__more" @click="loadMore">
+        {{ loadingMore ? "加载中..." : "加载更多" }}
+      </view>
+    </view>
+  </view>
 </template>
 
 <style scoped>

@@ -13,6 +13,15 @@ const routes = [
 		component: () => import("@/views/system/system-notice.vue"),
 	},
 	{
+		path: "/system/role-permission",
+		alias: "/system/permission",
+		name: "SystemRolePermission",
+		meta: {
+			label: "角色与权限",
+		},
+		component: () => import("@/views/system/system-permission.vue"),
+	},
+	{
 		path: "/system/data-dictionary",
 		name: "SystemDataDictionary",
 		meta: {
@@ -46,6 +55,7 @@ const routes = [
 	},
 	{
 		path: "/system/system-parameter",
+		alias: ["/system/parameter", "/system/param"],
 		name: "SystemParam",
 		meta: {
 			label: "系统参数",

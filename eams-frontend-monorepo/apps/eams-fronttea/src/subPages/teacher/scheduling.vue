@@ -147,14 +147,14 @@ function normalizeClassPayload(source: any) {
 		total: Number(payload.total ?? rows.length),
 		rows: rows.map((item: any) => ({
 			id: String(item.id ?? ""),
-			name: item.name ?? "未命名班级",
-			course: item.course ?? "",
-			teacher: item.teacher ?? "",
-			room: item.room ?? "",
+			name: item.name ?? item.className ?? item.classname ?? "未命名班级",
+			course: item.course ?? item.courseName ?? item.course_name ?? item.subject ?? "",
+			teacher: item.teacher ?? item.teacherName ?? item.homeroom_teacher ?? "",
+			room: item.room ?? item.classroom ?? item.classroomName ?? item.classroom_name ?? "",
 			grade: item.grade ?? "",
-			createTime: item.createTime ?? "",
+			createTime: item.createTime ?? item.CreateTime ?? "",
 			updateTime: item.updateTime ?? "",
-			number: Number(item.number ?? 0),
+			number: Number(item.number ?? item.studentCount ?? item.num_of_people ?? item.maxStudentCount ?? 0),
 			courseCount: Number(item.courseCount ?? 0),
 			description: item.description ?? "",
 			courseId: String(item.course_id ?? item.courseId ?? ""),
@@ -196,7 +196,7 @@ async function loadClasses(nextPage = 1, append = false) {
 	try {
 		const res: any = await (Apis as any).teacher.get_class_list({
 			params: {
-				name: classKeyword.value || undefined,
+				className: classKeyword.value || undefined,
 				pageIndex: nextPage,
 				pageSize,
 			},
@@ -281,7 +281,7 @@ function applyPickerValue(field: "startDate" | "endDate" | "classDate" | "startT
 	scheduleForm[field] = event?.detail?.value || "";
 }
 
-function resolveNumericId(value: string, label: string) {
+function _resolveNumericId(value: string, label: string) {
 	const parsed = Number(value);
 	if (!value || !Number.isFinite(parsed) || parsed <= 0) {
 		toast.show(`${label}缺失或格式不正确`);
@@ -419,241 +419,281 @@ async function submitForm() {
 </script>
 
 <template>
-	<view class="teacher-scheduling-page">
-		<teacher-nav-bar title="排课" :show-refresh="false" />
-		<view class="teacher-scheduling-card">
-			<view class="teacher-scheduling-mode">
-				<view
-					class="teacher-scheduling-mode__item"
-					:class="{ 'teacher-scheduling-mode__item--active': mode === 'repeat' }"
-					@click="mode = 'repeat'"
-				>
-					重复排课
-				</view>
-				<view
-					class="teacher-scheduling-mode__item"
-					:class="{ 'teacher-scheduling-mode__item--active': mode === 'free' }"
-					@click="mode = 'free'"
-				>
-					自由排课
-				</view>
-			</view>
+  <view class="teacher-scheduling-page">
+    <teacher-nav-bar title="排课" :show-refresh="false" />
+    <view class="teacher-scheduling-card">
+      <view class="teacher-scheduling-mode">
+        <view
+          class="teacher-scheduling-mode__item"
+          :class="{ 'teacher-scheduling-mode__item--active': mode === 'repeat' }"
+          @click="mode = 'repeat'"
+        >
+          重复排课
+        </view>
+        <view
+          class="teacher-scheduling-mode__item"
+          :class="{ 'teacher-scheduling-mode__item--active': mode === 'free' }"
+          @click="mode = 'free'"
+        >
+          自由排课
+        </view>
+      </view>
 
-			<view class="teacher-scheduling-row" @click="openClassPopup">
-				<text class="teacher-scheduling-required">选择班级</text>
-				<view class="teacher-scheduling-row__value">
-					<text>{{ scheduleForm.className || "请选择" }}</text>
-					<view class="i-carbon:chevron-right text-16px text-#98a2b3" />
-				</view>
-			</view>
-			<view class="teacher-scheduling-row" @click="openTeacherPopup('main')">
-				<text class="teacher-scheduling-required">上课老师</text>
-				<view class="teacher-scheduling-row__value">
-					<text>{{ teacherDisplayName("main") }}</text>
-					<view class="i-carbon:chevron-right text-16px text-#98a2b3" />
-				</view>
-			</view>
-			<view class="teacher-scheduling-row" @click="openTeacherPopup('assistant')">
-				<text>助教老师</text>
-				<view class="teacher-scheduling-row__value">
-					<text>{{ teacherDisplayName("assistant") }}</text>
-					<view class="i-carbon:chevron-right text-16px text-#98a2b3" />
-				</view>
-			</view>
+      <view class="teacher-scheduling-row" @click="openClassPopup">
+        <text class="teacher-scheduling-required">
+          选择班级
+        </text>
+        <view class="teacher-scheduling-row__value">
+          <text>{{ scheduleForm.className || "请选择" }}</text>
+          <view class="i-carbon:chevron-right text-16px text-#98a2b3" />
+        </view>
+      </view>
+      <view class="teacher-scheduling-row" @click="openTeacherPopup('main')">
+        <text class="teacher-scheduling-required">
+          上课老师
+        </text>
+        <view class="teacher-scheduling-row__value">
+          <text>{{ teacherDisplayName("main") }}</text>
+          <view class="i-carbon:chevron-right text-16px text-#98a2b3" />
+        </view>
+      </view>
+      <view class="teacher-scheduling-row" @click="openTeacherPopup('assistant')">
+        <text>助教老师</text>
+        <view class="teacher-scheduling-row__value">
+          <text>{{ teacherDisplayName("assistant") }}</text>
+          <view class="i-carbon:chevron-right text-16px text-#98a2b3" />
+        </view>
+      </view>
 
-			<view class="teacher-scheduling-row">
-				<text class="teacher-scheduling-required">课程ID</text>
-				<input v-model="scheduleForm.courseId" class="teacher-scheduling-row__input" type="number" placeholder="班级未带出时手动填写" />
-			</view>
-			<view class="teacher-scheduling-row">
-				<text class="teacher-scheduling-required">教室ID</text>
-				<input v-model="scheduleForm.classroomId" class="teacher-scheduling-row__input" type="number" placeholder="班级未带出时手动填写" />
-			</view>
-			<view class="teacher-scheduling-row">
-				<text>教室名称</text>
-				<text>{{ scheduleForm.classroomName || "待班级带出" }}</text>
-			</view>
+      <view class="teacher-scheduling-row">
+        <text class="teacher-scheduling-required">
+          课程ID
+        </text>
+        <input v-model="scheduleForm.courseId" class="teacher-scheduling-row__input" type="number" placeholder="班级未带出时手动填写">
+      </view>
+      <view class="teacher-scheduling-row">
+        <text class="teacher-scheduling-required">
+          教室ID
+        </text>
+        <input v-model="scheduleForm.classroomId" class="teacher-scheduling-row__input" type="number" placeholder="班级未带出时手动填写">
+      </view>
+      <view class="teacher-scheduling-row">
+        <text>教室名称</text>
+        <text>{{ scheduleForm.classroomName || "待班级带出" }}</text>
+      </view>
 
-			<template v-if="isRepeatMode">
-				<picker mode="date" :value="scheduleForm.startDate" @change="applyPickerValue('startDate', $event)">
-					<view class="teacher-scheduling-row">
-						<text class="teacher-scheduling-required">开始日期</text>
-						<view class="teacher-scheduling-row__value">
-							<text>{{ scheduleForm.startDate || "请选择" }}</text>
-							<view class="i-carbon:chevron-right text-16px text-#98a2b3" />
-						</view>
-					</view>
-				</picker>
-				<picker mode="date" :value="scheduleForm.endDate" @change="applyPickerValue('endDate', $event)">
-					<view class="teacher-scheduling-row">
-						<text class="teacher-scheduling-required">结束日期</text>
-						<view class="teacher-scheduling-row__value">
-							<text>{{ scheduleForm.endDate || "请选择" }}</text>
-							<view class="i-carbon:chevron-right text-16px text-#98a2b3" />
-						</view>
-					</view>
-				</picker>
-			</template>
-			<picker v-else mode="date" :value="scheduleForm.classDate" @change="applyPickerValue('classDate', $event)">
-				<view class="teacher-scheduling-row">
-					<text class="teacher-scheduling-required">上课日期</text>
-					<view class="teacher-scheduling-row__value">
-						<text>{{ scheduleForm.classDate || "请选择" }}</text>
-						<view class="i-carbon:chevron-right text-16px text-#98a2b3" />
-					</view>
-				</view>
-			</picker>
+      <template v-if="isRepeatMode">
+        <picker mode="date" :value="scheduleForm.startDate" @change="applyPickerValue('startDate', $event)">
+          <view class="teacher-scheduling-row">
+            <text class="teacher-scheduling-required">
+              开始日期
+            </text>
+            <view class="teacher-scheduling-row__value">
+              <text>{{ scheduleForm.startDate || "请选择" }}</text>
+              <view class="i-carbon:chevron-right text-16px text-#98a2b3" />
+            </view>
+          </view>
+        </picker>
+        <picker mode="date" :value="scheduleForm.endDate" @change="applyPickerValue('endDate', $event)">
+          <view class="teacher-scheduling-row">
+            <text class="teacher-scheduling-required">
+              结束日期
+            </text>
+            <view class="teacher-scheduling-row__value">
+              <text>{{ scheduleForm.endDate || "请选择" }}</text>
+              <view class="i-carbon:chevron-right text-16px text-#98a2b3" />
+            </view>
+          </view>
+        </picker>
+      </template>
+      <picker v-else mode="date" :value="scheduleForm.classDate" @change="applyPickerValue('classDate', $event)">
+        <view class="teacher-scheduling-row">
+          <text class="teacher-scheduling-required">
+            上课日期
+          </text>
+          <view class="teacher-scheduling-row__value">
+            <text>{{ scheduleForm.classDate || "请选择" }}</text>
+            <view class="i-carbon:chevron-right text-16px text-#98a2b3" />
+          </view>
+        </view>
+      </picker>
 
-			<view class="teacher-scheduling-box">
-				<template v-if="isRepeatMode">
-					<text class="teacher-scheduling-required">周几上课</text>
-					<view class="teacher-scheduling-weekdays">
-						<view
-							v-for="day in weekdayOptions"
-							:key="day.value"
-							class="teacher-scheduling-weekday"
-							:class="{ 'teacher-scheduling-weekday--active': selectedWeekdays.includes(day.value) }"
-							@click="toggleWeekday(day.value)"
-						>
-							{{ day.label }}
-						</view>
-					</view>
-				</template>
+      <view class="teacher-scheduling-box">
+        <template v-if="isRepeatMode">
+          <text class="teacher-scheduling-required">
+            周几上课
+          </text>
+          <view class="teacher-scheduling-weekdays">
+            <view
+              v-for="day in weekdayOptions"
+              :key="day.value"
+              class="teacher-scheduling-weekday"
+              :class="{ 'teacher-scheduling-weekday--active': selectedWeekdays.includes(day.value) }"
+              @click="toggleWeekday(day.value)"
+            >
+              {{ day.label }}
+            </view>
+          </view>
+        </template>
 
-				<picker mode="time" :value="scheduleForm.startTime" @change="applyPickerValue('startTime', $event)">
-					<view class="teacher-scheduling-box__row">
-						<text class="teacher-scheduling-required">上课时间</text>
-						<view class="teacher-scheduling-row__value">
-							<text>{{ scheduleForm.startTime || "请选择" }}</text>
-							<view class="i-carbon:chevron-right text-16px text-#98a2b3" />
-						</view>
-					</view>
-				</picker>
-				<picker mode="time" :value="scheduleForm.endTime" @change="applyPickerValue('endTime', $event)">
-					<view class="teacher-scheduling-box__row">
-						<text class="teacher-scheduling-required">下课时间</text>
-						<view class="teacher-scheduling-row__value">
-							<text>{{ scheduleForm.endTime || "请选择" }}</text>
-							<view class="i-carbon:chevron-right text-16px text-#98a2b3" />
-						</view>
-					</view>
-				</picker>
-				<view class="teacher-scheduling-box__row teacher-scheduling-box__row--input">
-					<text>限制人数</text>
-					<input v-model="scheduleForm.limitNum" class="teacher-scheduling-row__input" type="number" placeholder="默认 0" />
-				</view>
-			</view>
+        <picker mode="time" :value="scheduleForm.startTime" @change="applyPickerValue('startTime', $event)">
+          <view class="teacher-scheduling-box__row">
+            <text class="teacher-scheduling-required">
+              上课时间
+            </text>
+            <view class="teacher-scheduling-row__value">
+              <text>{{ scheduleForm.startTime || "请选择" }}</text>
+              <view class="i-carbon:chevron-right text-16px text-#98a2b3" />
+            </view>
+          </view>
+        </picker>
+        <picker mode="time" :value="scheduleForm.endTime" @change="applyPickerValue('endTime', $event)">
+          <view class="teacher-scheduling-box__row">
+            <text class="teacher-scheduling-required">
+              下课时间
+            </text>
+            <view class="teacher-scheduling-row__value">
+              <text>{{ scheduleForm.endTime || "请选择" }}</text>
+              <view class="i-carbon:chevron-right text-16px text-#98a2b3" />
+            </view>
+          </view>
+        </picker>
+        <view class="teacher-scheduling-box__row teacher-scheduling-box__row--input">
+          <text>限制人数</text>
+          <input v-model="scheduleForm.limitNum" class="teacher-scheduling-row__input" type="number" placeholder="默认 0">
+        </view>
+      </view>
 
-			<template v-if="isRepeatMode">
-				<view class="teacher-scheduling-switch">
-					<text>跳过节假日</text>
-					<view class="teacher-switch" :class="{ 'teacher-switch--active': skipHoliday }" @click="skipHoliday = !skipHoliday">
-						<view class="teacher-switch__thumb" />
-					</view>
-				</view>
-				<view class="teacher-scheduling-switch">
-					<text>开启预约</text>
-					<view class="teacher-switch" :class="{ 'teacher-switch--active': bookable }" @click="bookable = !bookable">
-						<view class="teacher-switch__thumb" />
-					</view>
-				</view>
-				<view class="teacher-scheduling-switch">
-					<text>冲突检测</text>
-					<view class="teacher-switch" :class="{ 'teacher-switch--active': conflict }" @click="conflict = !conflict">
-						<view class="teacher-switch__thumb" />
-					</view>
-				</view>
-			</template>
-		</view>
+      <template v-if="isRepeatMode">
+        <view class="teacher-scheduling-switch">
+          <text>跳过节假日</text>
+          <view class="teacher-switch" :class="{ 'teacher-switch--active': skipHoliday }" @click="skipHoliday = !skipHoliday">
+            <view class="teacher-switch__thumb" />
+          </view>
+        </view>
+        <view class="teacher-scheduling-switch">
+          <text>开启预约</text>
+          <view class="teacher-switch" :class="{ 'teacher-switch--active': bookable }" @click="bookable = !bookable">
+            <view class="teacher-switch__thumb" />
+          </view>
+        </view>
+        <view class="teacher-scheduling-switch">
+          <text>冲突检测</text>
+          <view class="teacher-switch" :class="{ 'teacher-switch--active': conflict }" @click="conflict = !conflict">
+            <view class="teacher-switch__thumb" />
+          </view>
+        </view>
+      </template>
+    </view>
 
-		<view class="teacher-scheduling-action">
-			<wd-button type="primary" block :loading="submitting" @click="submitForm">提交</wd-button>
-		</view>
+    <view class="teacher-scheduling-action">
+      <wd-button type="primary" block :loading="submitting" @click="submitForm">
+        提交
+      </wd-button>
+    </view>
 
-		<wd-popup v-model="classPopupVisible" position="bottom" custom-class="teacher-selector-popup">
-			<view class="teacher-selector-popup__body">
-				<view class="teacher-selector-popup__title">选择班级</view>
+    <wd-popup v-model="classPopupVisible" position="bottom" custom-class="teacher-selector-popup">
+      <view class="teacher-selector-popup__body">
+        <view class="teacher-selector-popup__title">
+          选择班级
+        </view>
 
-				<view class="teacher-selector-popup__search">
-					<input
-						v-model="classKeyword"
-						class="teacher-selector-popup__search-input"
-						type="text"
-						placeholder="搜索班级名称"
-						confirm-type="search"
-						@confirm="refreshClasses"
-					/>
-					<view class="teacher-selector-popup__search-button" @click="refreshClasses">搜索</view>
-				</view>
+        <view class="teacher-selector-popup__search">
+          <input
+            v-model="classKeyword"
+            class="teacher-selector-popup__search-input"
+            type="text"
+            placeholder="搜索班级名称"
+            confirm-type="search"
+            @confirm="refreshClasses"
+          >
+          <view class="teacher-selector-popup__search-button" @click="refreshClasses">
+            搜索
+          </view>
+        </view>
 
-				<view v-if="classOptions.length" class="teacher-selector-popup__summary">共 {{ classTotal }} 个班级</view>
+        <view v-if="classOptions.length" class="teacher-selector-popup__summary">
+          共 {{ classTotal }} 个班级
+        </view>
 
-				<view v-if="classOptions.length" class="teacher-selector-popup__list">
-					<view
-						v-for="item in classOptions"
-						:key="item.id"
-						class="teacher-selector-popup__item"
-						@click="selectClass(item)"
-					>
-						<view>
-							<view class="teacher-selector-popup__name">{{ item.name }}</view>
-							<view class="teacher-selector-popup__meta">
-								{{ [item.course, item.grade, item.teacher, item.room].filter(Boolean).join(" / ") || "暂无班级说明" }}
-							</view>
-						</view>
-						<view class="i-carbon:chevron-right text-16px text-#98a2b3" />
-					</view>
-				</view>
+        <view v-if="classOptions.length" class="teacher-selector-popup__list">
+          <view
+            v-for="item in classOptions"
+            :key="item.id"
+            class="teacher-selector-popup__item"
+            @click="selectClass(item)"
+          >
+            <view>
+              <view class="teacher-selector-popup__name">
+                {{ item.name }}
+              </view>
+              <view class="teacher-selector-popup__meta">
+                {{ [item.course, item.grade, item.teacher, item.room].filter(Boolean).join(" / ") || "暂无班级说明" }}
+              </view>
+            </view>
+            <view class="i-carbon:chevron-right text-16px text-#98a2b3" />
+          </view>
+        </view>
 
-				<teacher-empty-state v-else :title="classLoading ? '加载中...' : '暂无班级数据'" compact />
+        <teacher-empty-state v-else :title="classLoading ? '加载中...' : '暂无班级数据'" compact />
 
-				<view v-if="hasMoreClasses" class="teacher-selector-popup__more" @click="loadMoreClasses">
-					{{ classLoadingMore ? "加载中..." : "加载更多" }}
-				</view>
-			</view>
-		</wd-popup>
+        <view v-if="hasMoreClasses" class="teacher-selector-popup__more" @click="loadMoreClasses">
+          {{ classLoadingMore ? "加载中..." : "加载更多" }}
+        </view>
+      </view>
+    </wd-popup>
 
-		<wd-popup v-model="teacherPopupVisible" position="bottom" custom-class="teacher-selector-popup">
-			<view class="teacher-selector-popup__body">
-				<view class="teacher-selector-popup__title">选择{{ teacherFieldTitle }}</view>
+    <wd-popup v-model="teacherPopupVisible" position="bottom" custom-class="teacher-selector-popup">
+      <view class="teacher-selector-popup__body">
+        <view class="teacher-selector-popup__title">
+          选择{{ teacherFieldTitle }}
+        </view>
 
-				<view class="teacher-selector-popup__search">
-					<input
-						v-model="teacherKeyword"
-						class="teacher-selector-popup__search-input"
-						type="text"
-						placeholder="搜索教师姓名"
-						confirm-type="search"
-						@confirm="refreshTeachers"
-					/>
-					<view class="teacher-selector-popup__search-button" @click="refreshTeachers">搜索</view>
-				</view>
+        <view class="teacher-selector-popup__search">
+          <input
+            v-model="teacherKeyword"
+            class="teacher-selector-popup__search-input"
+            type="text"
+            placeholder="搜索教师姓名"
+            confirm-type="search"
+            @confirm="refreshTeachers"
+          >
+          <view class="teacher-selector-popup__search-button" @click="refreshTeachers">
+            搜索
+          </view>
+        </view>
 
-				<view v-if="teacherOptions.length" class="teacher-selector-popup__summary">共 {{ teacherTotal }} 位教师</view>
+        <view v-if="teacherOptions.length" class="teacher-selector-popup__summary">
+          共 {{ teacherTotal }} 位教师
+        </view>
 
-				<view v-if="teacherOptions.length" class="teacher-selector-popup__list">
-					<view
-						v-for="item in teacherOptions"
-						:key="item.id"
-						class="teacher-selector-popup__item"
-						@click="selectTeacher(item)"
-					>
-						<view>
-							<view class="teacher-selector-popup__name">{{ item.name }}</view>
-							<view v-if="item.position" class="teacher-selector-popup__meta">{{ item.position }}</view>
-						</view>
-						<view class="i-carbon:chevron-right text-16px text-#98a2b3" />
-					</view>
-				</view>
+        <view v-if="teacherOptions.length" class="teacher-selector-popup__list">
+          <view
+            v-for="item in teacherOptions"
+            :key="item.id"
+            class="teacher-selector-popup__item"
+            @click="selectTeacher(item)"
+          >
+            <view>
+              <view class="teacher-selector-popup__name">
+                {{ item.name }}
+              </view>
+              <view v-if="item.position" class="teacher-selector-popup__meta">
+                {{ item.position }}
+              </view>
+            </view>
+            <view class="i-carbon:chevron-right text-16px text-#98a2b3" />
+          </view>
+        </view>
 
-				<teacher-empty-state v-else :title="teacherLoading ? '加载中...' : '暂无教师数据'" compact />
+        <teacher-empty-state v-else :title="teacherLoading ? '加载中...' : '暂无教师数据'" compact />
 
-				<view v-if="hasMoreTeachers" class="teacher-selector-popup__more" @click="loadMoreTeachers">
-					{{ teacherLoadingMore ? "加载中..." : "加载更多" }}
-				</view>
-			</view>
-		</wd-popup>
-	</view>
+        <view v-if="hasMoreTeachers" class="teacher-selector-popup__more" @click="loadMoreTeachers">
+          {{ teacherLoadingMore ? "加载中..." : "加载更多" }}
+        </view>
+      </view>
+    </wd-popup>
+  </view>
 </template>
 
 <style scoped>

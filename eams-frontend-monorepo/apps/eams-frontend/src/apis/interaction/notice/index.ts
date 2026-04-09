@@ -12,14 +12,94 @@ const USE_MOCK = true;
 
 /** mock 公告列表 */
 let mockNoticeList: NoticeVO[] = [
-	{ id: "1", image: "", title: "新版系统上线公告", type: "公告", content: "新版系统将于3月25日正式上线，届时请各部门做好相关准备工作。", articleCode: "GG20260325001", publisher: "管理员", status: 1, addTime: "2026-03-25 09:00:00" },
-	{ id: "2", image: "", title: "期中考试安排通知", type: "通知", content: "期中考试将于4月10日至4月15日进行，请各位同学做好复习准备。", articleCode: "TZ20260322002", publisher: "教务处", status: 1, addTime: "2026-03-22 14:00:00" },
-	{ id: "3", image: "", title: "实验室维护通知", type: "紧急", content: "3月20日至3月22日将对3号实验室进行网络设备升级维护，期间暂停使用。", articleCode: "JJ20260320003", publisher: "信息中心", status: 1, addTime: "2026-03-20 10:30:00" },
-	{ id: "4", image: "", title: "端午节放假通知", type: "通知", content: "端午节放假安排：5月31日至6月2日放假三天，6月3日正常上课。", articleCode: "TZ20260318004", publisher: "校办", status: 1, addTime: "2026-03-18 16:00:00" },
-	{ id: "5", image: "", title: "旧版系统停用公告", type: "公告", content: "旧版教务系统将于3月31日正式停用，请尽快迁移数据至新版系统。", articleCode: "GG20260315005", publisher: "管理员", status: 0, addTime: "2026-03-15 11:00:00" },
-	{ id: "6", image: "", title: "校园网升级通知", type: "紧急", content: "3月12日晚22:00至次日6:00进行校园网核心设备升级，届时网络可能中断。", articleCode: "JJ20260312006", publisher: "信息中心", status: 1, addTime: "2026-03-12 08:00:00" },
-	{ id: "7", image: "", title: "教师培训报名通知", type: "通知", content: "本学期教师信息化教学能力培训现已开放报名，截止日期3月15日。", articleCode: "TZ20260310007", publisher: "人事处", status: 0, addTime: "2026-03-10 09:30:00" },
-	{ id: "8", image: "", title: "期末考试安排公告", type: "公告", content: "期末考试定于6月20日至6月30日进行，具体考试科目及时间另行通知。", articleCode: "GG20260308008", publisher: "教务处", status: 1, addTime: "2026-03-08 15:00:00" },
+	{
+		id: "1",
+		image: "",
+		title: "新版系统上线公告",
+		type: "公告",
+		content: "新版系统将于3月25日正式上线，届时请各部门做好相关准备工作。",
+		articleCode: "GG20260325001",
+		publisher: "管理员",
+		status: 1,
+		addTime: "2026-03-25 09:00:00",
+	},
+	{
+		id: "2",
+		image: "",
+		title: "期中考试安排通知",
+		type: "通知",
+		content: "期中考试将于4月10日至4月15日进行，请各位同学做好复习准备。",
+		articleCode: "TZ20260322002",
+		publisher: "教务处",
+		status: 1,
+		addTime: "2026-03-22 14:00:00",
+	},
+	{
+		id: "3",
+		image: "",
+		title: "实验室维护通知",
+		type: "紧急",
+		content: "3月20日至3月22日将对3号实验室进行网络设备升级维护，期间暂停使用。",
+		articleCode: "JJ20260320003",
+		publisher: "信息中心",
+		status: 1,
+		addTime: "2026-03-20 10:30:00",
+	},
+	{
+		id: "4",
+		image: "",
+		title: "端午节放假通知",
+		type: "通知",
+		content: "端午节放假安排：5月31日至6月2日放假三天，6月3日正常上课。",
+		articleCode: "TZ20260318004",
+		publisher: "校办",
+		status: 1,
+		addTime: "2026-03-18 16:00:00",
+	},
+	{
+		id: "5",
+		image: "",
+		title: "旧版系统停用公告",
+		type: "公告",
+		content: "旧版教务系统将于3月31日正式停用，请尽快迁移数据至新版系统。",
+		articleCode: "GG20260315005",
+		publisher: "管理员",
+		status: 0,
+		addTime: "2026-03-15 11:00:00",
+	},
+	{
+		id: "6",
+		image: "",
+		title: "校园网升级通知",
+		type: "紧急",
+		content: "3月12日晚22:00至次日6:00进行校园网核心设备升级，届时网络可能中断。",
+		articleCode: "JJ20260312006",
+		publisher: "信息中心",
+		status: 1,
+		addTime: "2026-03-12 08:00:00",
+	},
+	{
+		id: "7",
+		image: "",
+		title: "教师培训报名通知",
+		type: "通知",
+		content: "本学期教师信息化教学能力培训现已开放报名，截止日期3月15日。",
+		articleCode: "TZ20260310007",
+		publisher: "人事处",
+		status: 0,
+		addTime: "2026-03-10 09:30:00",
+	},
+	{
+		id: "8",
+		image: "",
+		title: "期末考试安排公告",
+		type: "公告",
+		content: "期末考试定于6月20日至6月30日进行，具体考试科目及时间另行通知。",
+		articleCode: "GG20260308008",
+		publisher: "教务处",
+		status: 1,
+		addTime: "2026-03-08 15:00:00",
+	},
 ];
 
 let mockIdCounter = 9;
@@ -61,7 +141,14 @@ function mockSaveNotice(data: NoticeSaveDTO): JsonVO<string> {
 	if (data.id) {
 		const idx = mockNoticeList.findIndex((n) => n.id === data.id);
 		if (idx !== -1) {
-			mockNoticeList[idx] = { ...mockNoticeList[idx], title: data.title, type: data.type, articleCode: data.articleCode, image: data.image, content: data.content };
+			mockNoticeList[idx] = {
+				...mockNoticeList[idx],
+				title: data.title,
+				type: data.type ?? mockNoticeList[idx].type,
+				articleCode: data.articleCode ?? mockNoticeList[idx].articleCode,
+				image: data.image ?? mockNoticeList[idx].image,
+				content: data.content ?? mockNoticeList[idx].content,
+			};
 			return ok(data.id);
 		}
 	}

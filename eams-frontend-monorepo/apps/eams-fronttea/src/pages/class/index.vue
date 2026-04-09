@@ -49,10 +49,10 @@ function normalizeRows(source: unknown): TeacherClassItem[] {
 		return {
 			id: classId,
 			classId,
-			name: item.className || item.myclass || item.name || `班级${index + 1}`,
-			teacher: item.teacher || item.teacherName || "--",
-			course: item.course || item.courseName || "--",
-			number: String(item.number ?? item.studentCount ?? "--"),
+			name: item.className || item.classname || item.myclass || item.name || `班级${index + 1}`,
+			teacher: item.teacher || item.teacherName || item.homeroom_teacher || "--",
+			course: item.course || item.courseName || item.course_name || item.subject || "--",
+			number: String(item.number ?? item.studentCount ?? item.num_of_people ?? item.maxStudentCount ?? "--"),
 		} satisfies TeacherClassItem;
 	});
 }
@@ -117,30 +117,40 @@ onShow(() => {
 </script>
 
 <template>
-	<view class="teacher-class">
-		<teacher-nav-bar title="我的班级" @refresh="refreshPage" />
-		<view class="teacher-class__content">
-			<view v-if="classList.length" class="teacher-class__summary">共 {{ total }} 个班级</view>
+  <view class="teacher-class">
+    <teacher-nav-bar title="我的班级" @refresh="refreshPage" />
+    <view class="teacher-class__content">
+      <view v-if="classList.length" class="teacher-class__summary">
+        共 {{ total }} 个班级
+      </view>
 
-			<view v-if="classList.length" class="teacher-class__list">
-				<view v-for="item in classList" :key="`${item.classId ?? item.name}`" class="teacher-class-card" @click="openClassDetail(item)">
-					<view class="teacher-class-card__header">
-						<text class="teacher-class-card__title">{{ item.name }}</text>
-						<view class="i-carbon:chevron-right text-16px text-#98a2b3" />
-					</view>
-					<view class="teacher-class-card__meta">课程：{{ item.course }}</view>
-					<view class="teacher-class-card__meta">班主任：{{ item.teacher }}</view>
-					<view class="teacher-class-card__meta">人数：{{ item.number }}</view>
-				</view>
-			</view>
+      <view v-if="classList.length" class="teacher-class__list">
+        <view v-for="item in classList" :key="`${item.classId ?? item.name}`" class="teacher-class-card" @click="openClassDetail(item)">
+          <view class="teacher-class-card__header">
+            <text class="teacher-class-card__title">
+              {{ item.name }}
+            </text>
+            <view class="i-carbon:chevron-right text-16px text-#98a2b3" />
+          </view>
+          <view class="teacher-class-card__meta">
+            课程：{{ item.course }}
+          </view>
+          <view class="teacher-class-card__meta">
+            班主任：{{ item.teacher }}
+          </view>
+          <view class="teacher-class-card__meta">
+            人数：{{ item.number }}
+          </view>
+        </view>
+      </view>
 
-			<teacher-empty-state v-else :title="loading ? '加载中...' : '暂无班级信息'" compact />
+      <teacher-empty-state v-else :title="loading ? '加载中...' : '暂无班级信息'" compact />
 
-			<view v-if="hasMore" class="teacher-class__more" @click="loadMore">
-				{{ loadingMore ? "加载中..." : "加载更多" }}
-			</view>
-		</view>
-	</view>
+      <view v-if="hasMore" class="teacher-class__more" @click="loadMore">
+        {{ loadingMore ? "加载中..." : "加载更多" }}
+      </view>
+    </view>
+  </view>
 </template>
 
 <style scoped>

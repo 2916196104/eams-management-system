@@ -56,12 +56,7 @@
 				<el-tooltip content="打印" placement="top">
 					<el-button link :icon="Printer" circle @click="handlePrint" />
 				</el-tooltip>
-				<el-popover
-					v-model:visible="columnPopoverVisible"
-					placement="bottom-end"
-					:width="640"
-					trigger="manual"
-				>
+				<el-popover v-model:visible="columnPopoverVisible" placement="bottom-end" :width="640" trigger="click">
 					<section class="column-popover">
 						<div class="column-title">自定义显示列：</div>
 						<div class="column-options">
@@ -104,7 +99,11 @@
 
 				<el-table-column v-if="visibleColumns.stage" label="阶段" min-width="140" show-overflow-tooltip>
 					<template #default="{ row }">
-						{{ row.statusDesc ?? row.stage ?? (row.followStatus === 0 ? "待跟进" : row.followStatus === 1 ? "已跟进" : "-") }}
+						{{
+							row.statusDesc ??
+							row.stage ??
+							(row.followStatus === 0 ? "待跟进" : row.followStatus === 1 ? "已跟进" : "-")
+						}}
 					</template>
 				</el-table-column>
 
@@ -133,7 +132,6 @@
 				</el-table-column>
 			</el-table>
 		</section>
-
 	</section>
 </template>
 
@@ -229,9 +227,7 @@ function getCustomerText(row: FollowRow) {
 
 function getStageText(row: FollowRow) {
 	const v =
-		row.statusDesc ??
-		row.stage ??
-		(row.followStatus === 0 ? "待跟进" : row.followStatus === 1 ? "已跟进" : "-");
+		row.statusDesc ?? row.stage ?? (row.followStatus === 0 ? "待跟进" : row.followStatus === 1 ? "已跟进" : "-");
 	return String(v ?? "-");
 }
 
@@ -383,10 +379,7 @@ async function requestApiRaw<T = unknown>(url: string, body: Record<string, any>
 
 	const payload = json.data as any;
 	const hasFollowList =
-		payload != null &&
-		typeof payload === "object" &&
-		!Array.isArray(payload) &&
-		Array.isArray(payload.followList);
+		payload != null && typeof payload === "object" && !Array.isArray(payload) && Array.isArray(payload.followList);
 
 	// Mock 常见：code 随机数、success=false 但仍返回列表。若发现 followList，则按“可渲染”放行。
 	const code = json.code;
@@ -428,12 +421,7 @@ function inRange(row: FollowRow) {
 	if (!start && !end) return true;
 
 	const candidate =
-		row.lastFollowTime ??
-		row.followTime ??
-		row.recordTime ??
-		row.planTime ??
-		row.nextFollowTime ??
-		row.nextFollow;
+		row.lastFollowTime ?? row.followTime ?? row.recordTime ?? row.planTime ?? row.nextFollowTime ?? row.nextFollow;
 	const t = toDateValue(candidate);
 	if (!t) return false;
 
