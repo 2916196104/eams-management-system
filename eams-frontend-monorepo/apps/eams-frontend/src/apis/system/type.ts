@@ -127,6 +127,7 @@ export interface DatadictVO {
 	dictId?: number;
 	info?: string;
 	name?: string;
+	sortNum?: number;
 	softNum?: number;
 }
 

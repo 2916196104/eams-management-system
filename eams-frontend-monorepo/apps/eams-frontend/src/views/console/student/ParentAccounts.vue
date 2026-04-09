@@ -25,7 +25,7 @@
 				<el-tooltip content="打印" placement="top">
 					<el-button link :icon="Printer" @click="handlePrint" />
 				</el-tooltip>
-				<el-popover v-model:visible="columnPopoverVisible" placement="bottom-end" :width="640" trigger="manual">
+				<el-popover v-model:visible="columnPopoverVisible" placement="bottom-end" :width="640" trigger="click">
 					<template #reference>
 						<span class="column-trigger-wrap">
 							<el-tooltip content="自定义列" placement="top">
@@ -70,7 +70,12 @@
 					</template>
 				</el-table-column>
 				<el-table-column v-if="visibleColumns.loginTimes" prop="loginTimes" label="登录次数" width="95" />
-				<el-table-column v-if="visibleColumns.latestLoginTime" prop="latestLoginTime" label="上次登录时间" min-width="165" />
+				<el-table-column
+					v-if="visibleColumns.latestLoginTime"
+					prop="latestLoginTime"
+					label="上次登录时间"
+					min-width="165"
+				/>
 				<el-table-column v-if="visibleColumns.latestLoginIp" prop="latestLoginIp" label="上次登录IP" min-width="130" />
 				<el-table-column v-if="visibleColumns.addTime" prop="addTime" label="注册时间" min-width="165" />
 				<el-table-column v-if="visibleColumns.state" label="状态" width="90">
@@ -144,12 +149,7 @@
 					placeholder="请选择"
 					style="width: 100%"
 				>
-					<el-option
-						v-for="item in wxCandidates"
-						:key="item"
-						:label="item"
-						:value="item"
-					/>
+					<el-option v-for="item in wxCandidates" :key="item" :label="item" :value="item" />
 				</el-select>
 			</el-form-item>
 		</el-form>
@@ -208,6 +208,16 @@ interface StudentSimple {
 	remark?: string;
 	[key: string]: unknown;
 }
+
+type StudentDisplayRow = Omit<StudentSimple, "stage" | "gender" | "age" | "birthday" | "addTime" | "remark"> & {
+	familyRelText: string;
+	stage: string;
+	gender: string;
+	age: number | string;
+	birthday: string;
+	addTime: string;
+	remark: string;
+};
 
 interface ParentAccountRow {
 	id?: number;
@@ -289,7 +299,7 @@ const bindForm = reactive({
 
 const studentsVisible = ref(false);
 const studentsLoading = ref(false);
-const studentsRows = ref<(StudentSimple & { familyRelText: string })[]>([]);
+const studentsRows = ref<StudentDisplayRow[]>([]);
 const studentsTotal = ref(0);
 const currentStudentRow = ref<ParentAccountRow | null>(null);
 const studentPageNum = ref(1);
@@ -503,7 +513,9 @@ function applyLocalSearch() {
 		rows = rows.filter((item) => {
 			const mobileText = String(item.mobile || "");
 			const nameText = String(item.name || "");
-			return isMobileKeyword ? mobileText.includes(keyword) : nameText.includes(keyword) || mobileText.includes(keyword);
+			return isMobileKeyword
+				? mobileText.includes(keyword)
+				: nameText.includes(keyword) || mobileText.includes(keyword);
 		});
 	}
 	if (wxKeyword) {
@@ -641,7 +653,7 @@ function calcAgeFromBirthday(birthday?: string): number | string {
 	return age >= 0 ? age : "-";
 }
 
-function normalizeStudentRows(rows: StudentSimple[]) {
+function normalizeStudentRows(rows: StudentSimple[]): StudentDisplayRow[] {
 	return rows.map((item) => ({
 		...item,
 		familyRelText: mapFamilyRel(item.familyRel),

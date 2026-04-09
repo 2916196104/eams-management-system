@@ -1,21 +1,25 @@
 import {
 	addRoleMember,
+	deleteDictionaryCategories,
 	deleteDictionaryItems,
 	deleteRole,
 	getPermissionTree,
 	listDictionaryCategories,
 	listDictionaryItems,
+	listDictionaryItemsPage,
 	listNotificationTemplates,
 	listRoleMembers,
 	listRoles,
 	listSystemSettingGroups,
 	removeRoleMember,
+	saveDictionaryCategory,
 	saveDictionaryItem,
 	saveRole,
 	updateNotificationTemplate,
 	updateRolePermissions,
 	updateSystemSetting,
 } from "@/apis/system";
+import type { PageDTO } from "@/apis/type";
 import type {
 	DictionaryCategory,
 	DictionaryItem,
@@ -84,10 +88,19 @@ export interface SystemDictionaryPageConfig {
 	editDialogTitle: string;
 	formFields: SystemFormField[];
 	loadCategories: () => Promise<DictionaryCategory[]>;
+	saveCategory: (data: Partial<DictionaryCategory> & Pick<DictionaryCategory, "label">) => Promise<boolean>;
+	deleteCategories: (ids: string[]) => Promise<boolean>;
+	loadItemsPage: (
+		categoryId: string,
+		params?: {
+			pageIndex?: number;
+			pageSize?: number;
+			info?: string;
+			name?: string;
+		},
+	) => Promise<PageDTO<DictionaryItem>>;
 	loadItems: (categoryId: string) => Promise<DictionaryItem[]>;
-	saveItem: (
-		data: Partial<DictionaryItem> & Pick<DictionaryItem, "categoryId" | "name">,
-	) => Promise<DictionaryItem>;
+	saveItem: (data: Partial<DictionaryItem> & Pick<DictionaryItem, "categoryId" | "name">) => Promise<DictionaryItem>;
 	deleteItems: (ids: string[]) => Promise<void>;
 }
 
@@ -151,6 +164,9 @@ export const dataDictionaryConfig: SystemDictionaryPageConfig = {
 		{ prop: "sortNum", label: "排序" },
 	],
 	loadCategories: listDictionaryCategories,
+	saveCategory: saveDictionaryCategory,
+	deleteCategories: deleteDictionaryCategories,
+	loadItemsPage: listDictionaryItemsPage,
 	loadItems: listDictionaryItems,
 	saveItem: saveDictionaryItem,
 	deleteItems: deleteDictionaryItems,

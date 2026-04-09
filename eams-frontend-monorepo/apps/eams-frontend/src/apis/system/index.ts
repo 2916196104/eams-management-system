@@ -1,5 +1,5 @@
-import type { PageDTO } from "../type";
-import { useHttp } from "@/plugins/http";
+import { createPageDTO, type PageDTO } from "../type";
+import { DataUpType, useHttp } from "@/plugins/http";
 import type {
 	DatadictVO,
 	DictTypeDTO,
@@ -27,6 +27,67 @@ function cloneValue<T>(value: T): T {
 
 function delay(ms = 80) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+const dictionaryItemPageSize = 200;
+
+const acceptedBusinessCodes = new Set([0, 200, 10000]);
+
+function isAcceptedBusinessCode(code: unknown): boolean {
+	return acceptedBusinessCodes.has(Number(code));
+}
+
+function extractAcceptedResponseData<T>(error: unknown): T | undefined {
+	const responseData = (error as { data?: { code?: unknown; data?: T } } | undefined)?.data;
+	if (!responseData || !isAcceptedBusinessCode(responseData.code)) return undefined;
+	return responseData.data;
+}
+
+function isAcceptedResponse(error: unknown): boolean {
+	const code = (error as { data?: { code?: unknown } } | undefined)?.data?.code;
+	return isAcceptedBusinessCode(code);
+}
+
+async function fetchDictionaryItemPage(
+	http: ReturnType<typeof useHttp>,
+	params: {
+		dictId: number;
+		pageIndex: number;
+		pageSize: number;
+		info?: string;
+		name?: string;
+	},
+): Promise<PageDTO<DatadictVO>> {
+	try {
+		const res = await http.get<PageDTO<DatadictVO>>("/j2-sys/datadict/typelist", {
+			dictId: params.dictId,
+			pageIndex: params.pageIndex,
+			pageSize: params.pageSize,
+		});
+		return createPageDTO(res.data);
+	} catch {
+		try {
+			const pageRes = await http.get<PageDTO<DatadictVO>>("/j2-sys/datadict/page", params);
+			return createPageDTO(pageRes.data);
+		} catch {
+			const fallbackRes = await http.get<PageDTO<DatadictVO>>("/j2-sys/datadict/list-by-dict-id", {
+				dictId: params.dictId,
+				pageIndex: params.pageIndex,
+				pageSize: params.pageSize,
+			});
+			return createPageDTO(fallbackRes.data);
+		}
+	}
+}
+
+function normalizeNoticeSetting(data: Partial<NoticeSettingDTO> | undefined, name: string): NoticeSettingDTO {
+	return {
+		...data,
+		name,
+		emailon: Boolean(data?.emailon),
+		messageon: Boolean(data?.messageon),
+		wechaton: Boolean(data?.wechaton),
+	};
 }
 
 let dictCategories: DictionaryCategory[] = [
@@ -298,7 +359,11 @@ export async function listSystemSettingGroups(): Promise<SystemSettingGroup[]> {
 	}
 }
 
-export async function updateSystemSetting(groupId: string, itemId: string, value: string | number | boolean): Promise<void> {
+export async function updateSystemSetting(
+	groupId: string,
+	itemId: string,
+	value: string | number | boolean,
+): Promise<void> {
 	const http = useHttp();
 	const cached = systemSettingOptionMap[itemId];
 	if (cached) {
@@ -472,11 +537,11 @@ export async function updateRolePermissions(roleId: string, permissions: Permiss
 export async function listDictionaryCategories(): Promise<DictionaryCategory[]> {
 	const http = useHttp();
 	try {
-		const res = await http.get<DictTypeDTO[]>("/sys/dict/type-name-list");
+		const res = await http.get<DictTypeDTO[]>("/j2-sys/datadict/type-name-list");
 		const categories = [...(res.data || [])].sort((a, b) => Number(a.sortNum || 0) - Number(b.sortNum || 0));
 		const categoriesWithCount = await Promise.all(
 			categories.map(async (item) => {
-				const detailRes = await http.get<PageDTO<DatadictVO>>("/sys/dict/list-by-dict-id", {
+				const detailPage = await fetchDictionaryItemPage(http, {
 					dictId: item.id,
 					pageIndex: 1,
 					pageSize: 1,
@@ -485,7 +550,7 @@ export async function listDictionaryCategories(): Promise<DictionaryCategory[]> 
 					id: String(item.id),
 					label: item.name || item.code || `字典类型${item.id}`,
 					code: item.code,
-					itemCount: detailRes.data?.total ?? detailRes.data?.rows?.length ?? 0,
+					itemCount: detailPage.total ?? detailPage.rows?.length ?? 0,
 					remark: item.remark,
 					sortNum: Number(item.sortNum || 0),
 				} satisfies DictionaryCategory;
@@ -498,19 +563,85 @@ export async function listDictionaryCategories(): Promise<DictionaryCategory[]> 
 	}
 }
 
-export async function listDictionaryItems(categoryId: string): Promise<DictionaryItem[]> {
+export async function listDictionaryItemsPage(
+	categoryId: string,
+	params?: {
+		pageIndex?: number;
+		pageSize?: number;
+		info?: string;
+		name?: string;
+	},
+): Promise<PageDTO<DictionaryItem>> {
 	const http = useHttp();
+	const dictId = Number(categoryId);
+	const pageIndex = params?.pageIndex ?? 1;
+	const pageSize = params?.pageSize ?? 30;
+
 	try {
-		const res = await http.get<PageDTO<DatadictVO>>("/sys/dict/list-by-dict-id", {
-			dictId: Number(categoryId),
-			pageIndex: 1,
-			pageSize: 1000,
+		const page = await fetchDictionaryItemPage(http, {
+			dictId,
+			pageIndex,
+			pageSize,
+			info: params?.info,
+			name: params?.name,
 		});
-		return (res.data?.rows || []).map(mapDictionaryItem).sort((a, b) => (a.sortNum ?? 0) - (b.sortNum ?? 0));
+		const rows = (page.rows || []).map(mapDictionaryItem).sort((a, b) => (a.sortNum ?? 0) - (b.sortNum ?? 0));
+		const total = Number(page.total ?? rows.length);
+		const normalizedPageSize = Number(page.pageSize ?? pageSize);
+		return {
+			pageIndex: Number(page.pageIndex ?? pageIndex),
+			pageSize: normalizedPageSize,
+			pages: Number(page.pages ?? Math.max(1, Math.ceil(total / normalizedPageSize))),
+			total,
+			rows,
+		};
 	} catch {
 		await delay();
-		return cloneValue(dictItems.filter((item) => item.categoryId === categoryId));
+		const filtered = dictItems
+			.filter((item) => item.categoryId === categoryId)
+			.filter((item) => {
+				const nameMatched = !params?.name || String(item.name || "").includes(params.name);
+				const infoMatched = !params?.info || String(item.info || "").includes(params.info);
+				return nameMatched && infoMatched;
+			})
+			.sort((a, b) => (a.sortNum ?? 0) - (b.sortNum ?? 0));
+		const start = (pageIndex - 1) * pageSize;
+		const rows = filtered.slice(start, start + pageSize);
+		return {
+			pageIndex,
+			pageSize,
+			pages: Math.max(1, Math.ceil(filtered.length / pageSize)),
+			total: filtered.length,
+			rows: cloneValue(rows),
+		};
 	}
+}
+
+export async function listDictionaryItems(categoryId: string): Promise<DictionaryItem[]> {
+	const firstPage = await listDictionaryItemsPage(categoryId, {
+		pageIndex: 1,
+		pageSize: dictionaryItemPageSize,
+	});
+	const rows = [...(firstPage.rows || [])];
+	const totalPages = Math.max(
+		Number(firstPage.pages || 0),
+		Math.ceil(Number(firstPage.total || rows.length) / dictionaryItemPageSize),
+		1,
+	);
+
+	if (totalPages > 1) {
+		const nextPages = await Promise.all(
+			Array.from({ length: totalPages - 1 }, (_, index) =>
+				listDictionaryItemsPage(categoryId, {
+					pageIndex: index + 2,
+					pageSize: dictionaryItemPageSize,
+				}),
+			),
+		);
+		rows.push(...nextPages.flatMap((page) => page.rows || []));
+	}
+
+	return rows.sort((a, b) => (a.sortNum ?? 0) - (b.sortNum ?? 0));
 }
 
 export async function saveDictionaryItem(
@@ -522,16 +653,16 @@ export async function saveDictionaryItem(
 		id: data.id ? Number(data.id) : undefined,
 		info: data.info || "",
 		name: data.name,
-		softNum: typeof data.sortNum === "number" ? data.sortNum : Number(data.sortNum || 0),
+		sortNum: typeof data.sortNum === "number" ? data.sortNum : Number(data.sortNum || 0),
 	};
 
 	try {
 		if (data.id) {
-			await http.put("/sys/dict/update-dict", payload);
-			const detail = await http.get<DatadictVO>(`/sys/dict/${data.id}`);
+			await http.put("/j2-sys/datadict/update-dict", payload);
+			const detail = await http.get<DatadictVO>(`/j2-sys/datadict/${data.id}`);
 			return mapDictionaryItem(detail.data || payload);
 		}
-		await http.post("/sys/dict/save-dict", payload);
+		await http.post("/j2-sys/datadict/save-dict", payload);
 		return mapDictionaryItem(payload);
 	} catch {
 		await delay();
@@ -566,7 +697,10 @@ export async function saveDictionaryItem(
 export async function deleteDictionaryItems(ids: string[]): Promise<void> {
 	const http = useHttp();
 	try {
-		await http.delete("/sys/dict/delete-dict", ids.map((item) => Number(item)));
+		await http.delete(
+			"/j2-sys/datadict/delete-dict",
+			ids.map((item) => Number(item)),
+		);
 	} catch {
 		await delay();
 		const removed = dictItems.filter((item) => ids.includes(item.id));
@@ -582,40 +716,88 @@ export async function saveDictionaryCategory(
 	data: Partial<DictionaryCategory> & Pick<DictionaryCategory, "label">,
 ): Promise<boolean> {
 	const http = useHttp();
-	const res = await http.post<boolean>("/sys/dict/save-dict-type", {
+	const normalizedId = Number(data.id);
+	const normalizedSortNum = Number(data.sortNum ?? 0);
+	const nextSortNum = Number.isNaN(normalizedSortNum) ? 0 : normalizedSortNum;
+	const payload = {
 		code: data.code,
-		id: data.id ? Number(data.id) : undefined,
+		id: Number.isNaN(normalizedId) ? undefined : normalizedId,
 		name: data.label,
 		remark: data.remark,
 		sortNum: data.sortNum != null ? String(data.sortNum) : undefined,
-	});
-	return Boolean(res.data);
+	};
+
+	try {
+		const res = await http.post<boolean>("/j2-sys/datadict/save-dict-type", payload);
+		return Boolean(res.data);
+	} catch {
+		await delay();
+		if (data.id) {
+			const index = dictCategories.findIndex((item) => item.id === data.id);
+			if (index !== -1) {
+				dictCategories[index] = {
+					...dictCategories[index],
+					label: data.label,
+					code: data.code,
+					remark: data.remark,
+					sortNum: nextSortNum,
+				};
+				dictCategories = [...dictCategories].sort((a, b) => (a.sortNum ?? 0) - (b.sortNum ?? 0));
+				return true;
+			}
+		}
+
+		dictCategories = [
+			...dictCategories,
+			{
+				id: `dict-${Date.now()}`,
+				label: data.label,
+				code: data.code,
+				itemCount: 0,
+				remark: data.remark,
+				sortNum: nextSortNum,
+			},
+		].sort((a, b) => (a.sortNum ?? 0) - (b.sortNum ?? 0));
+		return true;
+	}
 }
 
 export async function deleteDictionaryCategories(ids: string[]): Promise<boolean> {
 	const http = useHttp();
-	const res = await http.delete<boolean>("/sys/dict/remove-dict-type", {
-		ids: ids.map((item) => Number(item)),
-	});
-	return Boolean(res.data);
+	const numericIds = ids.map((item) => Number(item)).filter((item) => !Number.isNaN(item));
+
+	try {
+		const res = await http.delete<boolean>(
+			"/j2-sys/datadict/remove-dict-type",
+			{
+				ids: numericIds,
+			},
+			{ upType: DataUpType.form },
+		);
+		return Boolean(res.data);
+	} catch {
+		await delay();
+		const removedIds = new Set(ids);
+		dictCategories = dictCategories.filter((item) => !removedIds.has(item.id));
+		dictItems = dictItems.filter((item) => !removedIds.has(item.categoryId));
+		return true;
+	}
 }
 
 export async function listNotificationTemplates(name: string): Promise<NoticeSettingDTO> {
 	const http = useHttp();
 	try {
-		const res = await http.get<NoticeSettingDTO>("/noticesetting", {
-			name,
-			pageIndex: 1,
-			pageSize: 10,
-		});
-		return {
-			...res.data,
-			name,
-			emailon: Boolean(res.data?.emailon),
-			messageon: Boolean(res.data?.messageon),
-			wechaton: Boolean(res.data?.wechaton),
-		};
-	} catch {
+		const res = await http.get<NoticeSettingDTO>("/noticesetting/query-settinglist");
+		const nextSetting = normalizeNoticeSetting(res.data, name);
+		noticeSetting = cloneValue(nextSetting);
+		return nextSetting;
+	} catch (error) {
+		const responseData = extractAcceptedResponseData<NoticeSettingDTO>(error);
+		if (responseData) {
+			const nextSetting = normalizeNoticeSetting(responseData, name);
+			noticeSetting = cloneValue(nextSetting);
+			return nextSetting;
+		}
 		await delay();
 		return cloneValue({
 			...noticeSetting,
@@ -626,6 +808,10 @@ export async function listNotificationTemplates(name: string): Promise<NoticeSet
 
 export async function updateNotificationTemplate(data: NoticeSettingDTO): Promise<void> {
 	const http = useHttp();
+	const nextSetting = {
+		...data,
+		name: data.name || noticeSetting.name,
+	};
 	try {
 		await http.post("/noticesetting/savesetting", {
 			emailon: Boolean(data.emailon),
@@ -636,12 +822,14 @@ export async function updateNotificationTemplate(data: NoticeSettingDTO): Promis
 			tips: data.tips || "",
 			wechaton: Boolean(data.wechaton),
 		});
-	} catch {
+		noticeSetting = cloneValue(nextSetting);
+	} catch (error) {
+		if (isAcceptedResponse(error)) {
+			noticeSetting = cloneValue(nextSetting);
+			return;
+		}
 		await delay();
-		noticeSetting = {
-			...data,
-			name: data.name || noticeSetting.name,
-		};
+		noticeSetting = cloneValue(nextSetting);
 	}
 }
 
@@ -661,10 +849,10 @@ export async function listHolidays(params?: {
 			pageSize,
 		};
 		if (year != null) {
-			query["holidayList[0].year"] = year;
+			query.year = year;
 		}
 
-		const res = await http.get<PageDTO<HolidayDTO>>("/sys/holiday", query);
+		const res = await http.get<PageDTO<HolidayDTO>>("/j2-sys/holiday/list", query);
 		return {
 			pageIndex: res.data?.pageIndex ?? pageIndex,
 			pageSize: res.data?.pageSize ?? pageSize,
@@ -691,12 +879,7 @@ export async function listHolidays(params?: {
 export async function addHoliday(holidayTime: string): Promise<void> {
 	const http = useHttp();
 	try {
-		await http.post("/sys/holiday", undefined, {
-			params: {
-				holidayTime,
-			},
-			upType: 0,
-		});
+		await http.post(`/j2-sys/holiday/add/${holidayTime}`);
 	} catch {
 		await delay();
 		if (!holidayRecords.some((item) => item.holidayTime === holidayTime)) {
@@ -711,13 +894,13 @@ export async function addHoliday(holidayTime: string): Promise<void> {
 	}
 }
 
-export async function deleteHoliday(id: string): Promise<void> {
+export async function deleteHoliday(holidayTime: string): Promise<void> {
 	const http = useHttp();
 	try {
-		await http.delete(`/sys/holiday/${id}`);
+		await http.delete(`/j2-sys/holiday/delete/${holidayTime}`);
 	} catch {
 		await delay();
-		holidayRecords = holidayRecords.filter((item) => item.id !== id);
+		holidayRecords = holidayRecords.filter((item) => item.holidayTime !== holidayTime);
 	}
 }
 
@@ -733,7 +916,7 @@ export async function listOperationLogs(params?: {
 	const pageSize = params?.pageSize ?? 10;
 
 	try {
-		const res = await http.get<PageDTO<OptlogDTO>>("/sys/optlog", {
+		const res = await http.get<PageDTO<OptlogDTO>>("/j2-sys/optlog/list", {
 			info: params?.info,
 			operator: params?.operator,
 			pageIndex,
@@ -830,9 +1013,7 @@ function buildPermissionTreeData(
 		tree,
 		checkedKeys: Array.from(
 			new Set(
-				selectedPermissions
-					.filter((item): item is PermissionDTO => item?.id != null)
-					.map((item) => String(item.id)),
+				selectedPermissions.filter((item): item is PermissionDTO => item?.id != null).map((item) => String(item.id)),
 			),
 		),
 		permissionMap,
@@ -900,7 +1081,9 @@ function parseSettingValue(value: SettingOptionDTO["value"], valueType?: string)
 function normalizeSettingRequestValue(value: string | number | boolean, option: SettingOptionDTO) {
 	const valueType = String(option.valueType || "").toLowerCase();
 	if (isBooleanSettingType(valueType)) {
-		const original = String(option.value ?? "").trim().toLowerCase();
+		const original = String(option.value ?? "")
+			.trim()
+			.toLowerCase();
 		if (original === "1" || original === "0") return value ? "1" : "0";
 		return value ? "true" : "false";
 	}
@@ -926,6 +1109,6 @@ function mapDictionaryItem(item: Partial<DatadictVO>): DictionaryItem {
 		categoryId: String(item.dictId ?? ""),
 		name: item.name || "",
 		info: item.info || "",
-		sortNum: item.softNum ?? 0,
+		sortNum: item.sortNum ?? item.softNum ?? 0,
 	};
 }

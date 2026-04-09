@@ -1,3 +1,4 @@
+import { createPageDTO } from "@/apis/type";
 import { useHttp } from "@/plugins/http";
 import type {
 	CashoutDetail,
@@ -42,10 +43,10 @@ export async function queryFundPage(params: FundQuery) {
 			operatorName: item.operatorName || `经办人#${item.operator}`,
 			verifyStateName: item.verifyStateName || mapFundVerifyState(item.verifyState),
 		})) || [];
-	return {
+	return createPageDTO({
 		...res.data,
 		rows,
-	};
+	});
 }
 
 export async function getCashoutDetail(id: number) {

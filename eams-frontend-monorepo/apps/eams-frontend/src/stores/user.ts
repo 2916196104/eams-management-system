@@ -1,6 +1,6 @@
 import type { Menu, Oauth2TokenDTO, UserInfo } from "@/apis/login/type";
 import { mergeStudentMenuBranch } from "@/config/studentMenuMerge";
-import { DataUpType, useHttp } from "@/plugins/http";
+import { useHttp } from "@/plugins/http";
 import { defineStore } from "pinia";
 
 // 前端临时补充的菜单项，用于在正式管理端左侧展示这 5 个页面。
@@ -151,16 +151,10 @@ export const useUserStore = defineStore("user", {
 			// 先加载刷新凭证
 			this.loadRefreshToken();
 			// 发送刷新凭证请求
-			const data = await useHttp().post<Oauth2TokenDTO>(
-				"/login/refresh-token",
-				{
-					refreshToken: this.refreshToken,
-					token: this.token,
-				},
-				{
-					upType: DataUpType.form,
-				},
-			);
+			const data = await useHttp().post<Oauth2TokenDTO>("/login/refresh-token", {
+				refreshToken: this.refreshToken,
+				token: this.token,
+			});
 			//设置Token相关属性
 			this.setToken(data.data);
 		},
