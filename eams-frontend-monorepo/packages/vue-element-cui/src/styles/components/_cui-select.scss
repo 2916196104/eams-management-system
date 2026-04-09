@@ -1,0 +1,43 @@
+// CuiSelect 组件样式
+@use "../variables.scss" as *;
+@use "../mixins.scss" as *;
+
+.cui-select {
+	--cui-select-width: 100%;
+
+	width: var(--cui-select-width);
+
+	// ========== Elements ==========
+
+	&__loading {
+		@include flex-center;
+		padding: $cui-spacing-md;
+		color: $cui-color-text-secondary;
+		font-size: $cui-font-size-small;
+	}
+
+	&__empty {
+		@include flex-center;
+		padding: $cui-spacing-md;
+		color: $cui-color-text-placeholder;
+		font-size: $cui-font-size-small;
+	}
+
+	// ========== Modifiers ==========
+
+	&--disabled {
+		@include disabled;
+	}
+
+	&--small {
+		--cui-select-width: 120px;
+	}
+
+	&--medium {
+		--cui-select-width: 200px;
+	}
+
+	&--large {
+		--cui-select-width: 100%;
+	}
+}

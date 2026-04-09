@@ -1,0 +1,68 @@
+{
+	"name": "@eams-monorepo/vue-element-cui",
+	"description": "EAMS Vue Element Component UI Library",
+	"version": "1.0.0",
+	"type": "module",
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js",
+			"require": "./dist/index.cjs"
+		},
+		"./resolver": {
+			"types": "./dist/resolver.d.ts",
+			"import": "./dist/resolver.js",
+			"require": "./dist/resolver.cjs"
+		},
+		"./global": {
+			"types": "./dist/src/global.d.ts"
+		},
+		"./styles": "./dist/styles/index.css",
+		"./styles/*": "./dist/styles/*"
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"dev": "vite build --watch",
+		"build": "vite build && pnpm run build:styles",
+		"build:js": "vite build",
+		"build:styles": "sass src/styles/index.scss dist/styles/index.css --no-source-map",
+		"test": "vitest run",
+		"test:volar-consumer": "vue-tsc --noEmit -p tests/fixtures/volar-consumer/tsconfig.json",
+		"test:watch": "vitest",
+		"typecheck": "vue-tsc --noEmit"
+	},
+	"peerDependencies": {
+		"element-plus": "^2.8.0",
+		"vue": "^3.4.0"
+	},
+	"devDependencies": {
+		"@element-plus/icons-vue": "^2.3.2",
+		"@vitejs/plugin-vue": "^6.0.5",
+		"@vitest/coverage-v8": "^4.1.0",
+		"@vue/test-utils": "^2.4.6",
+		"element-plus": "^2.13.5",
+		"jsdom": "^25.0.1",
+		"sass": "^1.98.0",
+		"tsdown": "^0.3.1",
+		"typescript": "^5.9.3",
+		"unplugin-vue": "^7.1.1",
+		"vite": "^8.0.0",
+		"vite-plugin-dts": "^4.5.4",
+		"vitest": "^4.1.0",
+		"vue": "^3.5.30",
+		"vue-tsc": "^3.2.6"
+	},
+	"keywords": [
+		"vue",
+		"element-plus",
+		"component",
+		"ui",
+		"eams"
+	],
+	"license": "MIT"
+}

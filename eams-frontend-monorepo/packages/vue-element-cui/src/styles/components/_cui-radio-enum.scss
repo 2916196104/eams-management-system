@@ -1,0 +1,45 @@
+// CuiRadioEnum 组件样式
+@use "../variables.scss" as *;
+@use "../mixins.scss" as *;
+
+.cui-radio-enum {
+	--cui-radio-enum-gap: #{$cui-spacing-lg};
+
+	// ========== Elements ==========
+
+	&__group {
+		@include flex-start;
+		flex-wrap: wrap;
+		gap: var(--cui-radio-enum-gap);
+	}
+
+	&__item {
+		@include transition(color);
+	}
+
+	&__loading {
+		@include flex-center;
+		padding: $cui-spacing-sm;
+		color: $cui-color-text-secondary;
+		font-size: $cui-font-size-small;
+	}
+
+	// ========== Modifiers ==========
+
+	&--disabled {
+		@include disabled;
+	}
+
+	&--vertical {
+		.cui-radio-enum__group {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+	}
+
+	&--button {
+		.cui-radio-enum__group {
+			gap: 0;
+		}
+	}
+}

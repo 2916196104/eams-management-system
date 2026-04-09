@@ -1,0 +1,75 @@
+// CuiForm 组件样式
+@use "../variables.scss" as *;
+@use "../mixins.scss" as *;
+
+.cui-form {
+	--cui-form-label-color: #{$cui-color-text-regular};
+	--cui-form-label-font-size: #{$cui-font-size-base};
+	--cui-form-item-margin-bottom: #{$cui-spacing-lg};
+
+	// ========== Elements ==========
+
+	&__item {
+		margin-bottom: var(--cui-form-item-margin-bottom);
+	}
+
+	&__label {
+		color: var(--cui-form-label-color);
+		font-size: var(--cui-form-label-font-size);
+		font-weight: $cui-font-weight-primary;
+		line-height: $cui-component-size-default;
+		padding-right: $cui-spacing-md;
+	}
+
+	&__content {
+		flex: 1;
+		min-width: 0;
+	}
+
+	&__error {
+		color: $cui-color-danger;
+		font-size: $cui-font-size-extra-small;
+		padding-top: $cui-spacing-xs;
+		line-height: 1;
+	}
+
+	&__actions {
+		@include flex-end;
+		gap: $cui-spacing-sm;
+		padding-top: $cui-spacing-md;
+	}
+
+	// ========== Modifiers ==========
+
+	&--inline {
+		@include flex-start;
+		flex-wrap: wrap;
+		gap: $cui-spacing-lg;
+
+		.cui-form__item {
+			margin-bottom: 0;
+		}
+	}
+
+	&--disabled {
+		@include disabled;
+	}
+
+	&--label-top {
+		.cui-form__label {
+			display: block;
+			padding-bottom: $cui-spacing-xs;
+			line-height: $cui-line-height-base;
+		}
+	}
+
+	&--label-left {
+		.cui-form__label {
+			text-align: left;
+		}
+	}
+
+	&--compact {
+		--cui-form-item-margin-bottom: #{$cui-spacing-sm};
+	}
+}

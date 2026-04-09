@@ -1,0 +1,33 @@
+// CuiDialogForm 组件样式
+@use "../variables.scss" as *;
+@use "../mixins.scss" as *;
+
+.cui-dialog-form {
+	--cui-dialog-form-padding: #{$cui-spacing-lg} #{$cui-spacing-xxl};
+
+	// ========== Elements ==========
+
+	&__body {
+		padding: var(--cui-dialog-form-padding);
+	}
+
+	&__form {
+		width: 100%;
+	}
+
+	&__header-content {
+		margin-bottom: $cui-spacing-lg;
+	}
+
+	// ========== Modifiers ==========
+
+	&--loading {
+		.cui-dialog-form__form {
+			@include disabled;
+		}
+	}
+
+	&--compact {
+		--cui-dialog-form-padding: #{$cui-spacing-md} #{$cui-spacing-lg};
+	}
+}

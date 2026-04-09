@@ -1,0 +1,777 @@
+{
+	"openapi": "3.1.0",
+	"info": {
+		"title": "test openapi",
+		"description": "测试交互文档",
+		"version": "1.0.0"
+	},
+	"tags": [
+		{
+			"name": "login"
+		},
+		{
+			"name": "article"
+		}
+	],
+	"paths": {
+		"/login/current-user": {
+			"get": {
+				"summary": "获取当前用户",
+				"deprecated": false,
+				"description": "",
+				"tags": ["login"],
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": "失败",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"code": {
+											"type": "integer",
+											"title": "状态码"
+										},
+										"message": {
+											"type": "string",
+											"title": "提示信息"
+										},
+										"data": {
+											"type": "object",
+											"properties": {
+												"id": {
+													"type": "string",
+													"title": "唯一标识"
+												},
+												"username": {
+													"type": "string",
+													"title": "用户名"
+												},
+												"avatar": {
+													"type": "string",
+													"title": "头像地址"
+												},
+												"isEnabled": {
+													"type": "integer",
+													"title": "是否启用"
+												},
+												"roles": {
+													"type": "array",
+													"items": {
+														"type": "string"
+													},
+													"title": "角色列表"
+												}
+											},
+											"title": "数据",
+											"required": ["id", "isEnabled", "roles", "username", "avatar"]
+										}
+									},
+									"required": ["code", "message", "01KGCS5H8HS3SRWH3FZ6B5M3WZ"],
+									"APIPOST_ORDERS": ["code", "message"]
+								},
+								"examples": {
+									"1": {
+										"summary": "成功示例",
+										"value": {
+											"code": 10000,
+											"message": "操作成功",
+											"data": {
+												"id": 1,
+												"isEnabled": 1,
+												"roles": ["ADMIN"],
+												"username": "王小二",
+												"avatar": "https://avatars.githubusercontent.com/u/10706095"
+											}
+										}
+									},
+									"2": {
+										"summary": "失败示例",
+										"value": {
+											"code": 401,
+											"message": "未登录或登录失效"
+										}
+									}
+								}
+							}
+						},
+						"headers": {}
+					}
+				},
+				"security": [
+					{
+						"bearer": []
+					}
+				]
+			}
+		},
+		"/login/get-menus": {
+			"get": {
+				"summary": "获取当前用户的菜单",
+				"deprecated": false,
+				"description": "",
+				"tags": ["login"],
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": "失败",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"code": {
+											"type": "integer",
+											"title": "状态码"
+										},
+										"message": {
+											"type": "string",
+											"title": "提示信息"
+										},
+										"data": {
+											"type": "array",
+											"items": {
+												"properties": {
+													"id": {
+														"type": "string",
+														"title": "唯一编号"
+													},
+													"text": {
+														"type": "string",
+														"title": "菜单名称"
+													},
+													"icon": {
+														"type": "string",
+														"title": "菜单图标"
+													},
+													"pid": {
+														"type": "string",
+														"title": "父编号"
+													},
+													"children": {
+														"type": "array",
+														"items": {
+															"type": "object",
+															"properties": {}
+														},
+														"title": "子菜单"
+													}
+												},
+												"required": ["id", "text", "icon", "children"],
+												"$ref": "#/components/schemas/menu_item"
+											},
+											"title": "数据"
+										}
+									},
+									"required": ["code", "message"],
+									"APIPOST_ORDERS": ["code", "message"]
+								},
+								"examples": {
+									"1": {
+										"summary": "成功示例",
+										"value": {
+											"code": 10000,
+											"message": "操作成功",
+											"data": [
+												{
+													"id": 1,
+													"text": "系统管理",
+													"icon": "IconSetting",
+													"children": [
+														{
+															"id": 2,
+															"text": "系统管理1",
+															"href": "/un-1",
+															"icon": "IconSetting",
+															"pid": 1
+														},
+														{
+															"id": 3,
+															"text": "系统管理2",
+															"href": "/un-2",
+															"icon": "IconSetting",
+															"pid": 1
+														}
+													]
+												},
+												{
+													"id": 2,
+													"text": "用户管理",
+													"icon": "IconUser"
+												}
+											]
+										}
+									},
+									"2": {
+										"summary": "失败示例",
+										"value": {
+											"code": 401,
+											"message": "未登录或登录失效"
+										}
+									}
+								}
+							}
+						},
+						"headers": {}
+					}
+				},
+				"security": [
+					{
+						"bearer": []
+					}
+				]
+			}
+		},
+		"/login/auth-login": {
+			"post": {
+				"summary": "登录接口",
+				"deprecated": false,
+				"description": "",
+				"tags": ["login"],
+				"parameters": [],
+				"requestBody": {
+					"content": {
+						"application/x-www-form-urlencoded": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"username": {
+										"example": "admin",
+										"type": "string"
+									},
+									"password": {
+										"example": "123456",
+										"type": "string"
+									},
+									"code": {
+										"example": "12345",
+										"type": "string"
+									}
+								},
+								"required": ["username", "password"]
+							},
+							"examples": {}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "登录失败响应数据",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"code": {
+											"type": "number",
+											"title": "状态码"
+										},
+										"message": {
+											"type": "string",
+											"title": "提示信息"
+										},
+										"data": {
+											"type": "object",
+											"properties": {
+												"refreshToken": {
+													"type": "string",
+													"title": "刷新凭证"
+												},
+												"token": {
+													"type": "string",
+													"title": "凭证"
+												},
+												"tokenHead": {
+													"type": "string",
+													"title": "凭证头"
+												}
+											},
+											"required": ["refreshToken", "token", "tokenHead"],
+											"title": "数据"
+										}
+									},
+									"required": ["code", "message"],
+									"APIPOST_ORDERS": ["code", "message"]
+								},
+								"examples": {
+									"1": {
+										"summary": "成功示例",
+										"value": {
+											"code": 10000,
+											"message": "登录成功",
+											"data": {
+												"refreshToken": "e2d07074-05d9-4895-9b28-15976122c682",
+												"token": "2",
+												"tokenHead": "Bearer"
+											}
+										}
+									},
+									"2": {
+										"summary": "失败示例",
+										"value": {
+											"code": 9999,
+											"message": "操作失败"
+										}
+									}
+								}
+							}
+						},
+						"headers": {}
+					}
+				},
+				"security": []
+			}
+		},
+		"/article": {
+			"get": {
+				"summary": "获取文章列表",
+				"deprecated": false,
+				"description": "",
+				"tags": ["article"],
+				"parameters": [
+					{
+						"name": "pageIndex",
+						"in": "query",
+						"description": "页码",
+						"required": false,
+						"example": 1,
+						"schema": {
+							"type": "number"
+						}
+					},
+					{
+						"name": "pageSize",
+						"in": "query",
+						"description": "每页数据条数",
+						"required": false,
+						"example": 5,
+						"schema": {
+							"type": "number"
+						}
+					},
+					{
+						"name": "title",
+						"in": "query",
+						"description": "标题",
+						"required": false,
+						"example": "今日热门",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"code": {
+											"type": "integer",
+											"description": "状态码"
+										},
+										"message": {
+											"type": "string",
+											"description": "提示信息"
+										},
+										"data": {
+											"type": "object",
+											"properties": {
+												"pageIndex": {
+													"type": "integer",
+													"description": "页码"
+												},
+												"pageSize": {
+													"type": "integer",
+													"description": "每页数据条数"
+												},
+												"total": {
+													"type": "integer",
+													"description": "数据总数"
+												},
+												"pages": {
+													"type": "integer",
+													"description": "总页数"
+												},
+												"rows": {
+													"type": "array",
+													"items": {
+														"type": "object",
+														"properties": {
+															"id": {
+																"type": "string",
+																"description": "唯一标识"
+															},
+															"title": {
+																"type": "string",
+																"description": "标题"
+															},
+															"keywords": {
+																"type": "string",
+																"description": "关键词"
+															},
+															"summary": {
+																"type": "string",
+																"description": "摘要"
+															},
+															"content": {
+																"type": "string",
+																"description": "内容"
+															},
+															"date": {
+																"type": "string",
+																"description": "发布日期"
+															}
+														},
+														"required": ["id", "title", "keywords", "summary", "content", "date"]
+													},
+													"description": "当前页数据"
+												}
+											},
+											"required": ["pageIndex", "pageSize", "total", "pages", "rows"],
+											"description": "数据"
+										}
+									},
+									"required": ["code", "message", "data"]
+								},
+								"example": {
+									"code": 10000,
+									"message": "操作成功",
+									"data": {
+										"pageIndex": 1,
+										"pageSize": 5,
+										"total": 94,
+										"pages": 19,
+										"rows": [
+											{
+												"id": "7b77b746-89c4-4409-b424-610de1426570",
+												"title": "今日热门",
+												"keywords": "变取话品",
+												"summary": "建同际第江需记。",
+												"content": "界根较这南任已起省史中际适。究石族关空点划的这都组整适增。",
+												"date": "2013-01-09"
+											},
+											{
+												"id": "50762bdf-f646-4bfb-5aac-a9d405dbdf18",
+												"title": "今日热门",
+												"keywords": "精严商斯第",
+												"summary": "知维小时工。",
+												"content": "叫相院水色然红称节为要各回二极制象再。其米指展接立常活厂新金表片国。千说为两今后世高手养办区平。",
+												"date": "2001-03-29"
+											},
+											{
+												"id": "0214c65b-46e6-4e03-9941-19f689361aaf",
+												"title": "今日热门",
+												"keywords": "酸地活位",
+												"summary": "解正你美并新。",
+												"content": "名进同加定党才称写层力月走圆。作王况内按白意县为用相育品需把集火。",
+												"date": "2018-10-06"
+											},
+											{
+												"id": "f4168549-f663-4fdc-7f1e-70027b82eb90",
+												"title": "今日热门",
+												"keywords": "市叫么",
+												"summary": "接再难列特。",
+												"content": "级同造与书色压相按划看响始来部。单情斗率装海五合接别天深众接研。",
+												"date": "2007-02-01"
+											},
+											{
+												"id": "fb882a4d-c52a-4760-3444-319add902294",
+												"title": "今日热门",
+												"keywords": "须求给权",
+												"summary": "商应空用写型始。",
+												"content": "点基从人得式研公变干有北目办。较省上习利级料即对入类存型带。形领第特元很界物适形状常思电受越。",
+												"date": "2014-06-08"
+											}
+										]
+									}
+								}
+							}
+						},
+						"headers": {}
+					}
+				},
+				"security": []
+			},
+			"post": {
+				"summary": "新增文章",
+				"deprecated": false,
+				"description": "",
+				"tags": ["article"],
+				"parameters": [],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"title": {
+										"type": "string",
+										"description": "标题"
+									},
+									"keywords": {
+										"type": "string",
+										"description": "关键字"
+									},
+									"summary": {
+										"type": "string",
+										"description": "摘要"
+									},
+									"content": {
+										"type": "string",
+										"description": "内容"
+									}
+								},
+								"required": ["title", "keywords", "summary", "content"]
+							},
+							"example": {
+								"title": "白感该量题",
+								"keywords": "角那看究",
+								"summary": "温记没义车问也。",
+								"content": "感线极己养己将系几委京快示理时清次。派技变全二却根战叫运应格广。县美见会还即西来生全处十周。"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"code": {
+											"type": "integer"
+										},
+										"message": {
+											"type": "string"
+										},
+										"data": {
+											"type": "string"
+										}
+									},
+									"required": ["code", "message", "data"]
+								},
+								"example": {
+									"code": 10000,
+									"message": "操作成功",
+									"data": "59b6919b-fd8b-4d47-96d2-ff091a61d915"
+								}
+							}
+						},
+						"headers": {}
+					}
+				},
+				"security": []
+			},
+			"put": {
+				"summary": "修改文章",
+				"deprecated": false,
+				"description": "",
+				"tags": ["article"],
+				"parameters": [],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string",
+										"description": "唯一标识"
+									},
+									"title": {
+										"type": "string",
+										"description": "标题"
+									},
+									"keywords": {
+										"type": "string",
+										"description": "关键字"
+									},
+									"summary": {
+										"type": "string",
+										"description": "摘要"
+									},
+									"content": {
+										"type": "string",
+										"description": "内容"
+									}
+								},
+								"required": ["id", "title"]
+							},
+							"example": {
+								"id": "fe8d8ed2-25df-4683-939f-a3acf8f0a7e6",
+								"title": "甜长椅围绕着仅仅哎马虎哇苦转动好些",
+								"keywords": "irure in ipsum eu",
+								"summary": "minim",
+								"content": "cupidatat anim"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"code": {
+											"type": "integer",
+											"description": "状态码"
+										},
+										"message": {
+											"type": "string",
+											"description": "提示信息"
+										},
+										"data": {
+											"type": "string",
+											"description": "唯一标识"
+										}
+									},
+									"required": ["code", "message", "data"]
+								},
+								"example": {
+									"code": 10000,
+									"message": "操作成功",
+									"data": "59b6919b-fd8b-4d47-96d2-ff091a61d915"
+								}
+							}
+						},
+						"headers": {}
+					}
+				},
+				"security": []
+			}
+		},
+		"/article/{id}": {
+			"delete": {
+				"summary": "删除文章",
+				"deprecated": false,
+				"description": "",
+				"tags": ["article"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "唯一标识",
+						"required": true,
+						"example": "{{$string.uuid}}",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"code": {
+											"type": "integer",
+											"description": "状态码"
+										},
+										"message": {
+											"type": "string",
+											"description": "提示信息"
+										},
+										"data": {
+											"type": "string",
+											"description": "唯一标识"
+										}
+									},
+									"required": ["code", "message", "data"]
+								},
+								"example": {
+									"code": 10000,
+									"message": "操作成功",
+									"data": "59b6919b-fd8b-4d47-96d2-ff091a61d915"
+								}
+							}
+						},
+						"headers": {}
+					}
+				},
+				"security": []
+			}
+		}
+	},
+	"webhooks": {},
+	"components": {
+		"schemas": {
+			"menu_item": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string",
+						"title": "唯一编号"
+					},
+					"text": {
+						"type": "string",
+						"title": "菜单名称"
+					},
+					"icon": {
+						"type": "string",
+						"title": "菜单图标"
+					},
+					"pid": {
+						"type": "string",
+						"title": "父编号"
+					},
+					"children": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"id": {
+									"type": "string",
+									"title": "唯一编号"
+								},
+								"text": {
+									"type": "string",
+									"title": "菜单名称"
+								},
+								"icon": {
+									"type": "string",
+									"title": "菜单图标"
+								},
+								"pid": {
+									"type": "string",
+									"title": "父编号"
+								},
+								"children": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {}
+									},
+									"title": "子菜单"
+								}
+							},
+							"required": ["id", "text", "icon"]
+						},
+						"title": "子菜单"
+					}
+				},
+				"required": ["id", "text", "icon"]
+			}
+		},
+		"responses": {},
+		"securitySchemes": {
+			"bearer": {
+				"type": "http",
+				"scheme": "bearer"
+			}
+		}
+	},
+	"servers": [],
+	"security": []
+}

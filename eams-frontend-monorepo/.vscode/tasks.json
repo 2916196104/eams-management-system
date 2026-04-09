@@ -1,0 +1,29 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "uni:h5:tea",
+			"type": "npm",
+			"script": "dev --devtools",
+			"path": "apps/eams-fronttea",
+			"isBackground": true,
+			"problemMatcher": "$vite",
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			}
+		},
+		{
+			"label": "uni:h5:stu",
+			"type": "npm",
+			"script": "dev --devtools",
+			"path": "apps/eams-frontstu",
+			"isBackground": true,
+			"problemMatcher": "$vite",
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			}
+		}
+	]
+}

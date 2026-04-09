@@ -1,0 +1,45 @@
+// CuiAutocomplete 组件样式
+@use "../variables.scss" as *;
+@use "../mixins.scss" as *;
+
+.cui-autocomplete {
+	--cui-autocomplete-width: 100%;
+
+	width: var(--cui-autocomplete-width);
+
+	// ========== Elements ==========
+
+	&__suggestion {
+		padding: $cui-spacing-sm $cui-spacing-md;
+		cursor: pointer;
+		@include transition(background-color);
+
+		&:hover {
+			background-color: $cui-fill-color-light;
+		}
+
+		&--highlighted {
+			background-color: $cui-fill-color;
+		}
+	}
+
+	&__empty {
+		@include flex-center;
+		padding: $cui-spacing-md;
+		color: $cui-color-text-placeholder;
+		font-size: $cui-font-size-small;
+	}
+
+	&__loading {
+		@include flex-center;
+		padding: $cui-spacing-md;
+		color: $cui-color-text-secondary;
+		font-size: $cui-font-size-small;
+	}
+
+	// ========== Modifiers ==========
+
+	&--disabled {
+		@include disabled;
+	}
+}

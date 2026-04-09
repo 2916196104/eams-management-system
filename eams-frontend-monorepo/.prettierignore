@@ -1,0 +1,4 @@
+# MDC (Markdown Components) 文件使用严格的 ::component\n--- 紧贴语法。
+# prettier 会在 ::component 和 --- 之间插入空行，破坏 YAML frontmatter 解析，
+# 导致图标、链接等 props 无法渲染。因此完全忽略 nuxt content 目录。
+packages/vue-element-cui-nuxt/content/**/*.md
