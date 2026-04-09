@@ -4,7 +4,7 @@ import type { PageDTO } from "@/components/mytable/type";
 import type { LearningEvaluationQuery, TeachEvaluationVO } from "./type";
 
 const http = useHttp();
-const baseUrl = "/teaching-evaluation/student-teacher";
+const baseUrl = "/j7-interaction/j7-student-teacher";
 
 // ==================== Mock 数据 ====================
 

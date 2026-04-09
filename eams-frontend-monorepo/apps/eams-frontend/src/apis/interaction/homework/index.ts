@@ -12,7 +12,7 @@ import type {
 } from "./type";
 
 const http = useHttp();
-const baseUrl = "/j7/homework";
+const baseUrl = "/j7-interaction/j7-homework";
 
 // ==================== Mock 数据 ====================
 
@@ -236,7 +236,7 @@ export const saveHomework = (data: HomeworkSaveDTO) => {
 /** 点评作业 */
 export const updateComment = (data: HomeworkCommentDTO) => {
 	if (USE_MOCK) return Promise.resolve(mockUpdateComment(data));
-	return http.post<boolean>(`${baseUrl}/update-comment`, data);
+	return http.post<boolean>(`${baseUrl}/comment`, data);
 };
 
 /** 删除作业 */
