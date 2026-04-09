@@ -2,6 +2,7 @@
  * 表单组件基础属性定义，定义所有表单几乎都有的属性
  */
 export interface MyFormBaseProps {
+	[key: string]: any;
 	/** 组件大小 */
 	size?: "large" | "default" | "small";
 	/** 是否禁用 */

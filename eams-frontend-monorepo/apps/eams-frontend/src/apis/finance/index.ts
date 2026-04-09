@@ -461,7 +461,7 @@ export async function queryFundPage(params: FundQuery) {
 			rows: normalizedRows,
 		});
 
-		if (page.rows.length) return page;
+		if (page.rows?.length) return page;
 	} catch {
 		// 本地测试时回退到 mock 数据
 	}

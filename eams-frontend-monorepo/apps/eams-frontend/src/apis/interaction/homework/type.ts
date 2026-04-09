@@ -88,13 +88,13 @@ export interface HomeworkRecordVO {
 	/** 附件图片URL */
 	images?: string;
 	/** 评分 */
-	score?: number;
+	score?: number | null;
 	/** 点评内容 */
-	comment?: string;
+	comment?: string | null;
 	/** 点评老师姓名 */
-	commentTeacherName?: string;
+	commentTeacherName?: string | null;
 	/** 点评时间 */
-	commentTime?: string;
+	commentTime?: string | null;
 	/** 提交时间 */
 	addTime: string;
 }

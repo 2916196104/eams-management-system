@@ -40,11 +40,41 @@
 			<el-table v-loading="store.loading.scoreRank" :data="scoreTableData" border @sort-change="handleSortChange">
 				<el-table-column type="index" label="#" width="60" />
 				<el-table-column prop="teacherName" label="老师姓名" min-width="140" />
-				<el-table-column prop="reviewCount" label="评价次数" min-width="100" sortable="custom" :sort-orders="sortOrders" />
-				<el-table-column prop="compositeScore" label="综合评分" min-width="100" sortable="custom" :sort-orders="sortOrders" />
-				<el-table-column prop="classAtmosphere" label="课堂气氛" min-width="100" sortable="custom" :sort-orders="sortOrders" />
-				<el-table-column prop="teachingAttitude" label="授课态度" min-width="100" sortable="custom" :sort-orders="sortOrders" />
-				<el-table-column prop="teachingEffect" label="教学效果" min-width="100" sortable="custom" :sort-orders="sortOrders" />
+				<el-table-column
+					prop="reviewCount"
+					label="评价次数"
+					min-width="100"
+					sortable="custom"
+					:sort-orders="sortOrders"
+				/>
+				<el-table-column
+					prop="compositeScore"
+					label="综合评分"
+					min-width="100"
+					sortable="custom"
+					:sort-orders="sortOrders"
+				/>
+				<el-table-column
+					prop="classAtmosphere"
+					label="课堂气氛"
+					min-width="100"
+					sortable="custom"
+					:sort-orders="sortOrders"
+				/>
+				<el-table-column
+					prop="teachingAttitude"
+					label="授课态度"
+					min-width="100"
+					sortable="custom"
+					:sort-orders="sortOrders"
+				/>
+				<el-table-column
+					prop="teachingEffect"
+					label="教学效果"
+					min-width="100"
+					sortable="custom"
+					:sort-orders="sortOrders"
+				/>
 			</el-table>
 		</el-card>
 	</div>
@@ -59,8 +89,8 @@ import { useTeachingStatisticsStore } from "@/stores/data/teachingStatistics";
 import type { TeachScoreRow } from "@/apis/data/teachingStatistics";
 
 const store = useTeachingStatisticsStore();
-const sortOrders = ["ascending", "descending", null] as const;
 type SortOrder = "ascending" | "descending" | null;
+const sortOrders: SortOrder[] = ["ascending", "descending", null];
 type SortProp = "reviewCount" | "compositeScore" | "classAtmosphere" | "teachingAttitude" | "teachingEffect";
 const sortState = ref<{ prop: SortProp | null; order: SortOrder }>({ prop: null, order: null });
 
@@ -132,4 +162,3 @@ function handleSortChange(payload: { prop?: string; order?: SortOrder | null }) 
 	height: 320px;
 }
 </style>
-
