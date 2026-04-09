@@ -25,9 +25,9 @@ import type {
 	UpdateCourseDTO,
 	UpdateCourseResponseDTO,
 } from "./type";
+import type { PageDTO } from "@/components/mytable/type";
 
 const http = useHttp();
-const currBaseUrl = "/student";
 
 function buildCourseListQueryParams(params: CourseListQueryDTO) {
 	const queryParams: Record<string, number | string> = {};
@@ -39,13 +39,20 @@ function buildCourseListQueryParams(params: CourseListQueryDTO) {
 
 	assignIfDefined("pageIndex", params.pageIndex);
 	assignIfDefined("pageSize", params.pageSize);
+	assignIfDefined("classId", params.classId);
+	assignIfDefined("courseId", params.courseId);
+	assignIfDefined("startDate", params.startDate);
+	assignIfDefined("endDate", params.endDate);
+	assignIfDefined("teacherId", params.teacherId);
+	assignIfDefined("roomId", params.roomId);
+	assignIfDefined("state", params.state);
+	assignIfDefined("onTrial", params.onTrial);
+	// 兼容旧字段
 	assignIfDefined("cycle", params.cycle);
 	assignIfDefined("className", params.className);
 	assignIfDefined("courseName", params.courseName);
 	assignIfDefined("teacherName", params.teacherName);
 	assignIfDefined("studentName", params.studentName);
-	assignIfDefined("startDate", params.startDate);
-	assignIfDefined("endDate", params.endDate);
 
 	return queryParams;
 }
@@ -89,7 +96,7 @@ function buildRepeatScheduleQueryParams(params: RepeatScheduleRequestDTO) {
  * @param params 查询参数
  */
 export const getStudentLeavePage = async (params: StudentLeaveQueryDTO) => {
-	const res = await http.get<StudentLeaveItemDTO[]>(currBaseUrl + "/student-leave/list", params);
+	const res = await http.get<PageDTO<StudentLeaveItemDTO>>("/j5-student-leave/list", params);
 	return res;
 };
 
@@ -98,10 +105,7 @@ export const getStudentLeavePage = async (params: StudentLeaveQueryDTO) => {
  * @param ids 请假 ID 列表
  */
 export const cancelStudentLeave = async (ids: number[]) => {
-	const res = await http.put<{ code?: number; message?: string; data?: number }>(
-		currBaseUrl + "/student-leave/cancel",
-		ids,
-	);
+	const res = await http.put<{ code?: number; message?: string; data?: number }>("/j5-student-leave/cancel", ids);
 	return res;
 };
 
@@ -110,40 +114,32 @@ export const cancelStudentLeave = async (ids: number[]) => {
  * @param params 查询参数
  */
 export const getCourseListPage = async (params: CourseListQueryDTO) => {
-	const res = await http.get<{
-		pageIndex?: number;
-		pageSize?: number;
-		total?: number;
-		pages?: number;
-		rows?: CourseListVO[];
-	}>("/j5/courseschedule/list", buildCourseListQueryParams(params));
+	const res = await http.get<PageDTO<CourseListVO>>("/j5-course-schedule/list", buildCourseListQueryParams(params));
 	return res;
 };
 
 /**
  * 获取课次详情
- * Apifox 文档同时出现 path 和 query 两种写法，这里两者都带上以兼容后端实现。
+ * 请求方式为 GET，id 通过 path 参数传递。
  * @param id 课次 ID
  */
 export const getCourseDetail = async (id: number | string) => {
-	const res = await http.get<CourseDetailVO>(`/j5/courseschedule/detail/${id}`, { id });
+	const res = await http.get<CourseDetailVO>(`/j5-course-schedule/detail/${id}`);
 	return res;
 };
 
 function buildEvaluationListQueryParams(params: EvaluationQueryDTO) {
-	const queryParams: Record<string, string> = {};
+	const queryParams: Record<string, number | string | boolean> = {};
 
-	const assignIfDefined = (key: string, value: string | undefined) => {
-		if (!value) return;
+	const assignIfDefined = (key: string, value: number | string | boolean | undefined) => {
+		if (value === undefined || value === "" || value === null) return;
 		queryParams[key] = value;
 	};
 
-	assignIfDefined("startDate", params.startDate);
-	assignIfDefined("endDate", params.endDate);
-	assignIfDefined("teacherId", params.teacherId);
-	assignIfDefined("teacherName", params.teacherName);
-	assignIfDefined("id", params.id);
-	assignIfDefined("name", params.name);
+	assignIfDefined("pageIndex", params.pageIndex);
+	assignIfDefined("pageSize", params.pageSize);
+	assignIfDefined("lessonId", params.lessonId);
+	assignIfDefined("onlyEvaluate", params.onlyEvaluate);
 
 	return queryParams;
 }
@@ -154,13 +150,10 @@ function buildEvaluationListQueryParams(params: EvaluationQueryDTO) {
  * @param params 查询参数
  */
 export const getEvaluationList = async (params: EvaluationQueryDTO) => {
-	const res = await http.get<{
-		pageIndex?: number;
-		pageSize?: number;
-		total?: number;
-		pages?: number;
-		rows?: EvaluationVO[];
-	}>("/j5/courseschedule/evaluation/list", buildEvaluationListQueryParams(params));
+	const res = await http.get<PageDTO<EvaluationVO>>(
+		"/j5-course-schedule/evaluation/list",
+		buildEvaluationListQueryParams(params),
+	);
 	return res;
 };
 
@@ -169,7 +162,7 @@ export const getEvaluationList = async (params: EvaluationQueryDTO) => {
  * @param data 点评数据
  */
 export const saveEvaluation = async (data: EvaluationSaveDTO): Promise<EvaluationSaveResponseDTO> => {
-	return http.post<number>("/j5/courseschedule/evaluation", data);
+	return http.post<number>("/j5-course-schedule/evaluation", data);
 };
 
 /**
@@ -179,17 +172,43 @@ export const saveEvaluation = async (data: EvaluationSaveDTO): Promise<Evaluatio
  */
 export const deleteCourses = async (ids: number[]): Promise<DeleteCoursesResponseDTO> => {
 	const query = ids.map((id) => `ids=${encodeURIComponent(String(id))}`).join("&");
-	return http.delete<string>(`/j5/courseschedule/delete-courses?${query}`, undefined, {
+	return http.delete<string>(`/j5-course-schedule/delete-courses?${query}`, undefined, {
 		upType: DataUpType.form,
 	});
 };
+
+function buildLessonCalendarQueryParams(params: LessonCalendarQueryDTO) {
+	const queryParams: Record<string, number | string> = {};
+
+	const assignIfDefined = (key: string, value: number | string | undefined) => {
+		if (value === undefined || value === null || value === "") return;
+		queryParams[key] = String(value);
+	};
+
+	assignIfDefined("classId", params.classId);
+	assignIfDefined("courseId", params.courseId);
+	assignIfDefined("startDate", params.startDate);
+	assignIfDefined("endDate", params.endDate);
+	assignIfDefined("teacherId", params.teacherId);
+	assignIfDefined("roomId", params.roomId);
+	assignIfDefined("state", params.state);
+	assignIfDefined("onTrial", params.onTrial);
+	assignIfDefined("className", params.className);
+	assignIfDefined("courseName", params.courseName);
+	assignIfDefined("teacherName", params.teacherName);
+
+	return queryParams;
+}
 
 /**
  * 获取课表日历
  * @param params 查询参数
  */
 export const getLessonCalendar = async (params: LessonCalendarQueryDTO) => {
-	const res = await http.get<LessonCalendarVO[]>("/j5/courseschedule/calendar", params);
+	const res = await http.get<LessonCalendarVO[]>(
+		"/j5-course-schedule/calendar",
+		buildLessonCalendarQueryParams(params),
+	);
 	return res;
 };
 
@@ -201,7 +220,7 @@ export const getLessonCalendar = async (params: LessonCalendarQueryDTO) => {
  */
 export const repeatSchedule = async (params: RepeatScheduleRequestDTO): Promise<RepeatScheduleResponseDTO> => {
 	try {
-		return await http.post<string>("/j5/courseschedule/repeat-schedule", undefined, {
+		return await http.post<string>("/j5-course-schedule/repeat-schedule", undefined, {
 			params: buildRepeatScheduleQueryParams(params),
 			upType: DataUpType.form,
 		});
@@ -214,26 +233,29 @@ export const repeatSchedule = async (params: RepeatScheduleRequestDTO): Promise<
 };
 
 function buildSwitchScheduleQueryParams(params: SwitchScheduleRequestDTO) {
-	const queryParams: Record<string, string> = {};
+	const queryParams: Record<string, string | number> = {};
 
-	if (params.id) {
-		queryParams.id = params.id;
-	}
-	if (params.status) {
-		queryParams.status = params.status;
-	}
+	const assignIfDefined = (key: string, value: string | number | undefined) => {
+		if (value === undefined || value === "") return;
+		queryParams[key] = value;
+	};
+
+	assignIfDefined("id", params.id);
+	assignIfDefined("status", params.status);
+	assignIfDefined("editTime", params.editTime);
+	assignIfDefined("editor", params.editor);
 
 	return queryParams;
 }
 
 /**
  * 预约课程开关
- * Apifox 将参数定义为 query 参数，这里按 query 方式提交。
+ * 请求方式为 POST，参数通过 query 传递，使用 form 编码。
  * @param params 查询参数
  */
 export const switchSchedule = async (params: SwitchScheduleRequestDTO): Promise<SwitchScheduleResponseDTO> => {
 	try {
-		return await http.post<string>("/j5/courseschedule/switch-schedule", undefined, {
+		return await http.post<string>("/j5-course-schedule/switch-schedule", undefined, {
 			params: buildSwitchScheduleQueryParams(params),
 			upType: DataUpType.form,
 		});
@@ -289,9 +311,13 @@ function buildBatchUpdateCoursesQuery(params: BatchUpdateCoursesDTO) {
  * @param params 批量修改参数
  */
 export const batchUpdateCourses = async (params: BatchUpdateCoursesDTO): Promise<BatchUpdateCoursesResponseDTO> => {
-	return http.put<string>(`/j5/courseschedule/batch-update-courses?${buildBatchUpdateCoursesQuery(params)}`, undefined, {
-		upType: DataUpType.form,
-	});
+	return http.put<string>(
+		`/j5/courseschedule/batch-update-courses?${buildBatchUpdateCoursesQuery(params)}`,
+		undefined,
+		{
+			upType: DataUpType.form,
+		},
+	);
 };
 
 function buildUpdateCourseQuery(params: UpdateCourseDTO) {
@@ -372,7 +398,7 @@ function buildFreeScheduleQueryParams(params: FreeScheduleRequestDTO) {
  */
 export const freeSchedule = async (params: FreeScheduleRequestDTO): Promise<FreeScheduleResponseDTO> => {
 	try {
-		return await http.post<string>("/j5/courseschedule/free-schedule", undefined, {
+		return await http.post<string>("/j5-course-schedule/free-schedule", undefined, {
 			params: buildFreeScheduleQueryParams(params),
 			upType: DataUpType.form,
 		});

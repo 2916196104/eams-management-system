@@ -75,18 +75,29 @@
 		</div>
 		<template #footer>
 			<el-button @click="dialogVisible = false">关闭</el-button>
+			<el-button type="danger" @click="handleDelete">
+				<IconifyIconOffline icon="ep/delete" width="16" height="16" style="margin-right: 4px" />
+				删除
+			</el-button>
 		</template>
 	</el-dialog>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { getCourseDetail } from "@/apis/academic";
+import { ElMessage, ElMessageBox } from "element-plus";
+import { IconifyIconOffline } from "@/components/ReIcon";
+import { getCourseDetail, deleteCourses } from "@/apis/academic";
 import type { CourseDetailVO, CourseListVO } from "@/apis/academic/type";
 
 const dialogVisible = ref(false);
 const loading = ref(false);
 const detailData = ref<CourseDetailVO>();
+const deleteLoading = ref(false);
+
+const emit = defineEmits<{
+	deleted: [id: number];
+}>();
 
 const dialogTitle = computed(() => detailData.value?.title || "课次详情");
 
@@ -121,26 +132,71 @@ function buildFallbackDetail(row: CourseListVO): CourseDetailVO {
 	};
 }
 
-defineExpose({
-	async openDialog(row: CourseListVO) {
-		dialogVisible.value = true;
-		loading.value = true;
-		detailData.value = buildFallbackDetail(row);
+async function handleDelete() {
+	if (!detailData.value?.id) {
+		ElMessage.warning("课程 ID 不存在");
+		return;
+	}
 
-		if (!row.id) {
-			loading.value = false;
+	try {
+		await ElMessageBox.confirm(`确认删除课程"${detailData.value.title || detailData.value.courseName}"吗？此操作不可恢复。`, "删除确认", {
+			type: "warning",
+			confirmButtonText: "确定",
+			cancelButtonText: "取消",
+		});
+
+		deleteLoading.value = true;
+		const res = await deleteCourses([detailData.value.id]);
+		
+		if (res.code !== 0 && res.code !== 10000) {
+			ElMessage.error(res.message || "删除失败");
 			return;
 		}
 
-		try {
-			const res = await getCourseDetail(row.id);
-			if (res.data) {
-				detailData.value = { ...buildFallbackDetail(row), ...res.data };
-			}
-		} catch (error) {
-			console.error("获取课次详情失败:", error);
-		} finally {
+		ElMessage.success("删除成功");
+		emit("deleted", detailData.value.id);
+		dialogVisible.value = false;
+	} catch (error) {
+		if (error === "cancel") {
+			return;
+		}
+		console.error("删除课程失败:", error);
+		ElMessage.error("删除失败");
+	} finally {
+		deleteLoading.value = false;
+	}
+}
+
+defineExpose({
+	async openDialog(row: CourseListVO | CourseDetailVO) {
+		dialogVisible.value = true;
+		loading.value = true;
+
+		const isCourseDetailVO = (data: any): data is CourseDetailVO => {
+			return data && ('date' in data || 'startTime' in data || 'endTime' in data);
+		};
+
+		if (isCourseDetailVO(row)) {
+			detailData.value = row;
 			loading.value = false;
+		} else {
+			detailData.value = buildFallbackDetail(row);
+
+			if (!row.id) {
+				loading.value = false;
+				return;
+			}
+
+			try {
+				const res = await getCourseDetail(row.id);
+				if (res.data) {
+					detailData.value = { ...buildFallbackDetail(row), ...res.data };
+				}
+			} catch (error) {
+				console.error("获取课次详情失败:", error);
+			} finally {
+				loading.value = false;
+			}
 		}
 	},
 	closeDialog() {
