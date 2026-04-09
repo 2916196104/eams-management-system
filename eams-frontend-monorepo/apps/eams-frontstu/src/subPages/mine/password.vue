@@ -35,12 +35,18 @@ async function submit() {
 	}
 
 	try {
-			await (Apis as any).me.put_me_modify_password({
-				params: {
-					oldPassword: form.oldPassword,
-					newPassword: form.newPassword,
-				},
-			});
+		await (Apis as any).me.put_me_modify_password({
+			params: {
+				oldPassword: form.oldPassword,
+				newPassword: form.newPassword,
+				verifyPassword: form.confirmPassword,
+			},
+			data: {
+				name: userStore.userInfo.nickName,
+				phone: userStore.userInfo.phone,
+				regDate: userStore.userInfo.regDate || "",
+			},
+		});
 		uni.showToast({ title: "修改成功", icon: "success" });
 		setTimeout(() => {
 			uni.navigateBack();

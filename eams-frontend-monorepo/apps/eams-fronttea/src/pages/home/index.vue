@@ -1,12 +1,7 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import { storeToRefs } from "pinia";
 import TeacherEmptyState from "@/components/teacher/TeacherEmptyState.vue";
 import TeacherSectionCard from "@/components/teacher/TeacherSectionCard.vue";
-import { useUserStore } from "@/store/userStore";
 import { withTeacherBackQuery } from "@/utils/teacherNavigation";
-import Apis from "@/api";
 
 definePage({
 	name: "home",
@@ -14,9 +9,6 @@ definePage({
 	style: {
 		navigationBarTitleText: "工作台",
 		titleNView: false,
-	},
-	onShow() {
-		void loadHomeData();
 	},
 });
 
@@ -54,7 +46,7 @@ async function loadHomeData() {
 // 统一处理快捷入口跳转
 function navigate(action: (typeof quickActions.value)[number]) {
 	if (action.routeType === "tab") {
-		uni.switchTab({ url: `/pages/${action.route}/index` });
+		router.pushTab({ name: action.route });
 		return;
 	}
 
@@ -77,7 +69,9 @@ function openAttendanceDetail(lessonId?: number | string, date = today.value) {
 	} as any);
 }
 
-
+onShow(() => {
+	void loadHomeData();
+});
 </script>
 
 <template>

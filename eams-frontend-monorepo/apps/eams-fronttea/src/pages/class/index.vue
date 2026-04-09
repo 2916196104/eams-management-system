@@ -70,11 +70,11 @@ async function loadClassList(nextPage = 1, append = false) {
 		});
 
 		const payload = (response as any)?.data?.data ?? (response as any)?.data ?? response ?? {};
-    const rows = normalizeRows(payload);  // 改为传入 payload
-    pageIndex.value = Number(payload.pageIndex ?? payload.page_index ?? nextPage);
-    pages.value = Number(payload.pages ?? payload.total_page ?? (rows.length ? 1 : 0));
-    total.value = Number(payload.total ?? rows.length);
-    classList.value = append ? [...classList.value, ...rows] : rows;
+		const rows = normalizeRows(response);
+		pageIndex.value = Number(payload.pageIndex ?? payload.page_index ?? nextPage);
+		pages.value = Number(payload.pages ?? payload.total_page ?? (rows.length ? 1 : 0));
+		total.value = Number(payload.total ?? rows.length);
+		classList.value = append ? [...classList.value, ...rows] : rows;
 	} catch {
 		if (!append) classList.value = [];
 		uni.showToast({ title: "班级列表加载失败", icon: "none" });

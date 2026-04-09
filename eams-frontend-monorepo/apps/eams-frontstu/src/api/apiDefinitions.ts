@@ -85,7 +85,6 @@ export default {
     // me 模块（保留原有）
     "me.get_me_manual_getList": ["GET", "/me/manual/getList"],
     "me.get_me_manual_getDetail": ["GET", "/me/manual/getDetail"],
-    "me.get_me_get_parentinfo": ["GET", "/me/get-parentinfo"],
     "me.put_me_modify_name": ["PUT", "/me/modify-name"],
     "me.put_me_modify_password": ["PUT", "/me/modify-password"],
     "me.get_me_getOptionalGrade": ["GET", "/me/getOptionalGrade"],

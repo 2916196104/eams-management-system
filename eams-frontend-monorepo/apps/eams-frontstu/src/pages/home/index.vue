@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
-import { useRouter } from "vue-router";
+import { computed, ref } from "vue";
 import { storeToRefs } from "pinia";
 import ParentEmptyState from "@/components/parent/ParentEmptyState.vue";
 import ParentSectionCard from "@/components/parent/ParentSectionCard.vue";
 import { useUserStore } from "@/store/userStore";
-import Apis from "@/api";
 
 definePage({
 	name: "home",
@@ -13,9 +11,6 @@ definePage({
 	style: {
 		navigationBarTitleText: "首页",
 		titleNView: false,
-	},
-	onShow() {
-		loadHomeData();
 	},
 });
 
@@ -215,7 +210,7 @@ function navigateTo(name: string) {
 
 // 打开课表 tab
 function openScheduleTab() {
-	uni.switchTab({ url: "/pages/schedule/index" });
+	router.pushTab({ name: "schedule" });
 }
 
 // 打开我的课程列表
@@ -254,6 +249,10 @@ function loadHomeData() {
 watch(studentId, () => {
 	loadTodaySchedule();
 	loadMyCourses();
+});
+
+onShow(() => {
+	loadHomeData();
 });
 </script>
 

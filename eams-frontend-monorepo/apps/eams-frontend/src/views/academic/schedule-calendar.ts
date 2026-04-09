@@ -44,20 +44,56 @@ export function formatDate(date: Date) {
 	return `${year}-${month}-${day}`;
 }
 
+// 格式化日期为后端要求的 LocalDate 格式
+// 尝试多种格式：yyyy-MM-dd, yyyy/MM/dd, yyyyMMdd
+export function formatLocalDate(dateString: string): string {
+	if (!dateString) return "";
+	// 验证格式是否为 YYYY-MM-DD
+	const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+	if (dateRegex.test(dateString)) {
+		// 保持 YYYY-MM-DD 格式，这是 ISO 8601 标准格式
+		return dateString;
+	}
+	// 格式不正确，尝试解析并重新格式化
+	const date = new Date(dateString);
+	if (Number.isNaN(date.getTime())) return dateString;
+	return formatDate(date);
+}
+
 export function normalizeLessonCalendarRows(rows: LessonCalendarVO[] | undefined): CalendarCourse[] {
-	return (rows || []).map((item) => ({
-		id: item.id,
-		courseName: item.courseName || item.title || "-",
-		className: item.className || "-",
-		classroomName: item.classroomName || "-",
-		teacherName: item.teacherName || "-",
-		studentName: item.studentName || "",
-		courseStatus: item.courseStatus || "",
-		lessonDate: item.Date || "",
-		startTime: item.startTime || "",
-		endTime: item.endTime || "",
-		title: item.title || item.courseName || "-",
-	}));
+	return (rows || []).map((item) => {
+		// 处理日期字段，兼容 date 和 Date
+		const lessonDate = item.date || item.Date || "";
+
+		// 处理时间字段，兼容字符串和对象格式
+		let startTime = item.startTime || "";
+		if (typeof startTime === "object" && startTime !== null) {
+			const h = String(startTime.hour ?? 0).padStart(2, "0");
+			const m = String(startTime.minute ?? 0).padStart(2, "0");
+			startTime = `${h}:${m}`;
+		}
+
+		let endTime = item.endTime || "";
+		if (typeof endTime === "object" && endTime !== null) {
+			const h = String(endTime.hour ?? 0).padStart(2, "0");
+			const m = String(endTime.minute ?? 0).padStart(2, "0");
+			endTime = `${h}:${m}`;
+		}
+
+		return {
+			id: item.id,
+			courseName: item.courseName || item.title || "-",
+			className: item.className || "-",
+			classroomName: item.classroomName || "-",
+			teacherName: item.teacherName || "-",
+			studentName: item.studentNameList?.[0] || item.studentName || "",
+			courseStatus: item.courseStatus || "",
+			lessonDate,
+			startTime,
+			endTime,
+			title: item.title || item.courseName || "-",
+		};
+	});
 }
 
 export function getCourseStatusLabel(status?: string) {
@@ -136,23 +172,42 @@ export function buildLessonCalendarQuery(
 	year: number,
 	month: number,
 ) {
-	const options = getPeriodOptions(viewMode);
-	const period = options.includes(filters.period) ? filters.period : options[0];
-
 	const visibleRange = getVisibleCalendarRange(viewMode, selectedDate, year, month);
-	const customRangeReady = period === "自定义" && !!filters.startDate && !!filters.endDate;
+	const customRangeReady = filters.period === "自定义" && !!filters.startDate && !!filters.endDate;
+	
+	// 无论是自定义还是可见范围，都需要转换日期格式
+	const startDate = customRangeReady 
+		? formatLocalDate(filters.startDate) 
+		: formatLocalDate(visibleRange.startDate);
+	const endDate = customRangeReady 
+		? formatLocalDate(filters.endDate) 
+		: formatLocalDate(visibleRange.endDate);
 
-	return {
-		className: filters.className || undefined,
-		courseName: filters.courseName || undefined,
-		teacherName: filters.teacherName || undefined,
-		subjectName: filters.subjectName || undefined,
-		classroomName: filters.classroomName || undefined,
-		startDate: customRangeReady ? filters.startDate : visibleRange.startDate,
-		endDate: customRangeReady ? filters.endDate : visibleRange.endDate,
-		viewType: mapViewModeToViewType(viewMode),
-		period,
-	};
+	// 调试日志：检查日期格式
+	console.log("[buildLessonCalendarQuery] 原始日期:", {
+		startDate: filters.startDate,
+		endDate: filters.endDate,
+	});
+	console.log("[buildLessonCalendarQuery] 转换后日期:", {
+		startDate,
+		endDate,
+	});
+
+	// 构建查询参数，只传递 API 需要的字段
+	const params: Record<string, any> = {};
+	
+	// 只在日期有值时才添加
+	if (startDate) params.startDate = startDate;
+	if (endDate) params.endDate = endDate;
+
+	// 可选参数，有值时才添加
+	if (filters.className) params.className = filters.className;
+	if (filters.courseName) params.courseName = filters.courseName;
+	if (filters.teacherName) params.teacherName = filters.teacherName;
+	if (filters.subjectName) params.subjectName = filters.subjectName;
+	if (filters.classroomName) params.classroomName = filters.classroomName;
+
+	return params;
 }
 
 export function getCourseHourRange(course: CalendarCourse) {

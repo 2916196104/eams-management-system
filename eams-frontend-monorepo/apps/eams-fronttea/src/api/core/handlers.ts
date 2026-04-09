@@ -36,13 +36,14 @@ interface ApiResponse {
 export async function handleAlovaResponse(
 	response: UniApp.RequestSuccessCallbackResult | UniApp.UploadFileSuccessCallbackResult | UniApp.DownloadSuccessData,
 ) {
+	const globalToast = useGlobalToast();
 	// Extract status code and data from UniApp response
 	const { statusCode, data } = response as UniNamespace.RequestSuccessCallbackResult;
 
 	// 处理401/403错误（如果不是在handleAlovaResponse中处理的）
 	if (statusCode === 401 || statusCode === 403) {
 		// 如果是未授权错误，清除用户信息并跳转到登录页
-		uni.showToast({ title: "登录已过期，请重新登录！", icon: "none", duration: 500 });
+		globalToast.error({ msg: "登录已过期，请重新登录！", duration: 500 });
 		const timer = setTimeout(() => {
 			clearTimeout(timer);
 			router.replaceAll({ name: "login" });
@@ -53,7 +54,7 @@ export async function handleAlovaResponse(
 
 	// Handle HTTP error status codes
 	if (statusCode >= 400) {
-		uni.showToast({ title: `Request failed with status: ${statusCode}`, icon: "none" });
+		globalToast.error(`Request failed with status: ${statusCode}`);
 		throw new ApiError(`Request failed with status: ${statusCode}`, statusCode, data);
 	}
 
@@ -70,6 +71,7 @@ export async function handleAlovaResponse(
 
 // Handle request errors
 export function handleAlovaError(error: any, method: Method) {
+	const globalToast = useGlobalToast();
 	// Log error in development
 	if (import.meta.env.MODE === "development") {
 		console.error("[Alova Error]", error, method);
@@ -78,7 +80,7 @@ export function handleAlovaError(error: any, method: Method) {
 	// 处理401/403错误（如果不是在handleAlovaResponse中处理的）
 	if (error instanceof ApiError && (error.code === 401 || error.code === 403)) {
 		// 如果是未授权错误，清除用户信息并跳转到登录页
-		uni.showToast({ title: "登录已过期，请重新登录！", icon: "none", duration: 500 });
+		globalToast.error({ msg: "登录已过期，请重新登录！", duration: 500 });
 		const timer = setTimeout(() => {
 			clearTimeout(timer);
 			router.replaceAll({ name: "login" });
@@ -88,13 +90,13 @@ export function handleAlovaError(error: any, method: Method) {
 
 	// Handle different types of errors
 	if (error.name === "NetworkError") {
-		uni.showToast({ title: "网络错误，请检查您的网络连接", icon: "none" });
+		globalToast.error("网络错误，请检查您的网络连接");
 	} else if (error.name === "TimeoutError") {
-		uni.showToast({ title: "请求超时，请重试", icon: "none" });
+		globalToast.error("请求超时，请重试");
 	} else if (error instanceof ApiError) {
-		uni.showToast({ title: error.message || "请求失败", icon: "none" });
+		globalToast.error(error.message || "请求失败");
 	} else {
-		uni.showToast({ title: "发生意外错误", icon: "none" });
+		globalToast.error("发生意外错误");
 	}
 
 	throw error;

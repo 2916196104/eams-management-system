@@ -13,7 +13,7 @@ import type {
 } from "./type";
 
 const http = useHttp();
-const baseUrl = "/interaction/grade";
+const baseUrl = "/j7-interaction/j7-grade";
 
 // ==================== Mock 数据 ====================
 
@@ -160,7 +160,7 @@ export const getGradeList = (query: GradeListQuery) => {
 /** 获取成绩记录列表（条件+分页） */
 export const getGradeRecordList = (query: GradeRecordListQuery) => {
 	if (USE_MOCK) return Promise.resolve(mockGetGradeRecordList(query));
-	return http.get<PageDTO<GradeRecordVO>>(`${baseUrl}/get-grade-record-list`, query);
+	return http.get<PageDTO<GradeRecordVO>>(`${baseUrl}/list`, query);
 };
 
 /** 保存考核项（新增/修改） */

@@ -4,7 +4,7 @@ import type { PageDTO } from "@/components/mytable/type";
 import type { CourseCommentListQuery, CourseCommentVO } from "./type";
 
 const http = useHttp();
-const baseUrl = "/teaching-evaluation/teacher-student";
+const baseUrl = "/j7-interaction/j7-teacher-student";
 
 // ==================== Mock 数据 ====================
 

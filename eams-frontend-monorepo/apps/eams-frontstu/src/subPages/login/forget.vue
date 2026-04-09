@@ -1,8 +1,4 @@
 <script lang="ts" setup>
-import { ref } from "vue";
-import { useToast } from "wot-design-uni";
-import LoginHead from "@/components/LoginHead.vue";
-
 definePage({
 	name: "forget",
 	type: "page",
@@ -11,49 +7,28 @@ definePage({
 		titleNView: false,
 	},
 });
-
-// 弹框提示组件
-const { success: showSuccess, error: showError } = useToast();
-
 const phone = ref<string>("");
 const code = ref<string>("");
 const password = ref<string>("");
-
 // 返回登录
 function goLogin() {
 	uni.navigateBack();
 }
-
 // 获取验证码
 function getCode() {
-	if (!phone.value) {
-		showError({ msg: "请输入手机号", duration: 3000 });
-		return;
-	}
-
-	// 模拟发送验证码
-	showSuccess({ msg: "已发送验证码", duration: 3000 });
+	console.log("获取验证码");
 }
-
 // 提交密码修改
 function settingPassword() {
-	if (!phone.value || !code.value || !password.value) {
-		showError({ msg: "请填写完整信息", duration: 3000 });
-		return;
-	}
-
-	// 模拟密码修改
-	showSuccess({ msg: "密码修改成功", duration: 3000 });
-	// 密码修改成功后跳转到登录页面
-	setTimeout(() => {
-		uni.navigateBack();
-	}, 1500);
+	console.log("手机号：", phone.value);
+	console.log("验证码：", code.value);
+	console.log("密码：", password.value);
 }
 </script>
 
 <template>
 	<!-- 标题 -->
-	<LoginHead title="设置新密码" />
+	<login-head title="设置新密码" />
 	<!-- 修改密码相关表单 -->
 	<view class="input-box bg-white dark:bg-[var(--wot-dark-background2)]">
 		<wd-input v-model="phone" placeholder="请输入手机号" prefix-icon="phone" size="large" center>
