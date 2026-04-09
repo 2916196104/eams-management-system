@@ -289,7 +289,7 @@ export const useUserStore = defineStore("user", {
 		// 加载用户
 		async loadUser() {
 			const data = await useHttp().get<UserInfo>("/login/current-user");
-			if (data.data) this.user = data.data;
+			if (data.code === 10000 && data.data) this.user = data.data;
 			if (!this.user?.avatar) {
 				this.user = {
 					avatar: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
@@ -301,7 +301,7 @@ export const useUserStore = defineStore("user", {
 		async loadMenus() {
 			try {
 				const data = await useHttp().get<Array<Menu>>("/login/get-menus");
-				const raw = Array.isArray(data.data) ? data.data : [];
+				const raw = data.code === 10000 && Array.isArray(data.data) ? data.data : [];
 
 				// 关键约束：这里必须先执行 mergeMenus(raw)，再执行 mergeStudentMenuBranch(...)。
 				// mergeMenus(...) 负责恢复前端本地补充菜单，包括原来的 5 个页面和后续补充的菜单入口。
@@ -330,7 +330,9 @@ export const useUserStore = defineStore("user", {
 					upType: DataUpType.form,
 				},
 			);
-			this.setToken(data.data);
+			if (data.code === 10000 && data.data) {
+				this.setToken(data.data);
+			}
 		},
 		// 设置是否加载完成
 		setLoaded(loaded: boolean) {
