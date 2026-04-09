@@ -87,7 +87,7 @@ const statisticsLoading = ref(true);
 onMounted(async () => {
 	await statisticsStore.fetchStatistics(); // 获取统计数据
 	statisticsLoading.value = false;
-	// await scheduleStore.fetchMySchedule(); // 默认加载我的课表
+	await scheduleStore.fetchMySchedule(); // 默认加载我的课表
 	await noticeStore.fetchNoticeList(); // 获取学校公告
 	await echartsStore.fetchMonthlyTrend(); // 获取本月报名走势
 	await barStore.fetchCourseTop5(); // 获取课程报名前5
