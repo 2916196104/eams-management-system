@@ -25,7 +25,7 @@ public class ClassroomServiceImpl extends ServiceImpl<ClassroomMapper, Classroom
 
     @Override
     public IPage<ClassroomVO> getList(ClassroomQuery query) {
-        return this.baseMapper.getList(new Page<>(query.getPageIndex(), query.getPageSize()),query);
+        return this.baseMapper.getList(new Page<>(query.getPageIndex(), query.getPageSize()), query);
     }
 
     @Override
@@ -45,6 +45,9 @@ public class ClassroomServiceImpl extends ServiceImpl<ClassroomMapper, Classroom
         Classroom classroom = new Classroom();
         BeanUtils.copyProperties(classroomDTO, classroom);
 
+        if (classroom.getId() != null) {
+            classroom.setId(null);
+        }
         Long currentUserId = null;
         try {
             if (userHolder.getCurrentUser() != null) {
@@ -54,15 +57,12 @@ public class ClassroomServiceImpl extends ServiceImpl<ClassroomMapper, Classroom
         }
 
         LocalDateTime now = LocalDateTime.now();
-        if (classroom.getId() == null) {
-            classroom.setSchoolId(classroomDTO.getSchoolId());
-            classroom.setCreator(currentUserId);
-            classroom.setAddTime(now);
-            classroom.setDeleted(0);
-        } else {
-            classroom.setEditor(currentUserId);
-            classroom.setEditTime(now);
-        }
-        return this.saveOrUpdate(classroom);
+
+        classroom.setSchoolId(classroomDTO.getSchoolId());
+        classroom.setCreator(currentUserId);
+        classroom.setAddTime(now);
+        classroom.setDeleted(0);
+
+        return this.save(classroom);
     }
 }
