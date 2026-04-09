@@ -54,17 +54,16 @@ public:
 	Teach_EvaluationDO mapper(ResultSet* resultSet) const override
 	{
 		Teach_EvaluationDO data;
-		data.setLessonId(resultSet->getString("lesson_id"));
-		data.setTeacherId(resultSet->getString("teacher_id"));
+		data.setLessonId(resultSet->getInt("lesson_id"));
+		data.setTeacherId(resultSet->getInt("teacher_id"));
 		data.setScore1(resultSet->getInt("score1"));
 		data.setScore2(resultSet->getInt("score2"));
 		data.setScore3(resultSet->getInt("score3"));
 		data.setScore4(resultSet->getInt("score4"));
 		data.setContent(resultSet->getString("content"));
 		data.setAddTime(resultSet->getString("add_time"));
-		data.setStudentId(resultSet->getString("student_id"));
+		data.setStudentId(resultSet->getInt("student_id"));
 		data.setAnonymity(resultSet->getInt("anonymity"));
-		data.setOrgId(resultSet->getString("org_id"));
 		return data;
 	}
 };
@@ -79,17 +78,16 @@ public:
 	Ptrteach_evaluationDO mapper(ResultSet* resultSet) const override
 	{
 		auto data = std::make_shared<Teach_EvaluationDO>();
-		data->setLessonId(resultSet->getString("lesson_id"));
-		data->setTeacherId(resultSet->getString("teacher_id"));
+		data->setLessonId(resultSet->getInt("lesson_id"));
+		data->setTeacherId(resultSet->getInt("teacher_id"));
 		data->setScore1(resultSet->getInt("score1"));
 		data->setScore2(resultSet->getInt("score2"));
 		data->setScore3(resultSet->getInt("score3"));
 		data->setScore4(resultSet->getInt("score4"));
 		data->setContent(resultSet->getString("content"));
 		data->setAddTime(resultSet->getString("add_time"));
-		data->setStudentId(resultSet->getString("student_id"));
+		data->setStudentId(resultSet->getInt("student_id"));
 		data->setAnonymity(resultSet->getInt("anonymity"));
-		data->setOrgId(resultSet->getString("org_id"));
 		return data;
 	}
 };

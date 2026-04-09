@@ -65,9 +65,9 @@ class attendance_recordsEvaluateDTO : public oatpp::DTO
 {
 	DTO_INIT(attendance_recordsEvaluateDTO, DTO);
 	// 课次id
-	API_DTO_FIELD_REQUIRE(String, lesson_id, ZH_WORDS_GETTER("attendance_records.teach_evaluation.lesson_id"), true);
+	API_DTO_FIELD_REQUIRE(UInt64, lesson_id, ZH_WORDS_GETTER("attendance_records.teach_evaluation.lesson_id"), true);
 	// 老师id
-	API_DTO_FIELD_REQUIRE(String, teacher_id, ZH_WORDS_GETTER("attendance_records.teach_evaluation.teacher_id"), true);
+	API_DTO_FIELD_REQUIRE(UInt64, teacher_id, ZH_WORDS_GETTER("attendance_records.teach_evaluation.teacher_id"), true);
 	// 综合评分
 	API_DTO_FIELD_REQUIRE(UInt8, score1, ZH_WORDS_GETTER("attendance_records.teach_evaluation.score1"), true);
 	// 课堂气氛
@@ -81,11 +81,9 @@ class attendance_recordsEvaluateDTO : public oatpp::DTO
 	// 评价时间
 	//API_DTO_FIELD_REQUIRE(String, add_time, ZH_WORDS_GETTER("attendance_records.teach_evaluation.add_time"), true);
 	// 学生id
-	API_DTO_FIELD_REQUIRE(String, student_id, ZH_WORDS_GETTER("attendance_records.teach_evaluation.student_id"), true);
+	API_DTO_FIELD_REQUIRE(UInt64, student_id, ZH_WORDS_GETTER("attendance_records.teach_evaluation.student_id"), true);
 	// 是否匿名
 	API_DTO_FIELD_REQUIRE(UInt8, anonymity, ZH_WORDS_GETTER("attendance_records.teach_evaluation.anonymity"), true);
-	// 组织id
-	API_DTO_FIELD_REQUIRE(String, org_id, ZH_WORDS_GETTER("attendance_records.teach_evaluation.org_id"), true);
 	// 关联一个PayloadDTO负载数据对象
 	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
 public:

@@ -81,17 +81,16 @@ std::string Teach_EvaluationService::saveData(const attendance_recordsEvaluateDT
 		Score4,score4,
 		Content,content,
 		StudentId,student_id,
-		Anonymity, anonymity,
-		OrgId,org_id
+		Anonymity, anonymity
 	);
 	UuidFacade uf;
 	//雪花id生成器
 	SnowFlake sf(1, 1);
 	//雪花算法插入id
-	data->setId(std::to_string(sf.nextId()));
+	data->setId(sf.nextId());
 	// 设置创建时间
 	data->setAddTime(SimpleDateTimeFormat::format());
 	// 执行数据添加
 	Teach_EvaluationDAO dao;
-	return dao.insert(data) == 1 ?data->getId() : "";
+	return dao.insert(data) == 1 ?to_string(data->getId()) : "";
 }

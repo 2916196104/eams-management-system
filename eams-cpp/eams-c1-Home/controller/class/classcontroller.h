@@ -38,11 +38,12 @@ public: // 定义接口
 	//2.1 定义获取班级详情控制器
 	API_DEF_ENDPOINT_INFO_AUTH(
 		ZH_WORDS_GETTER("class.get_class_info"), queryClassInfo, classInfoJsonVO::Wrapper, API_TAG2,
-		API_DEF_ADD_QUERY_PARAMS(UInt64, "class_id", ZH_WORDS_GETTER("class.id"), 1, false);
+		API_DEF_ADD_QUERY_PARAMS(UInt32, "class_id", ZH_WORDS_GETTER("class.id"), 1, false);
 	);
 
 	//2.2 定义获取班级详情接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/app/sCenter/class/info", queryClassInfo, QUERY(UInt64, class_id), execQueryClassInfo(class_id));
+	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/app/sCenter/class/info", queryClassInfo, QUERY(UInt32, class_id), execQueryClassInfo(class_id));
+
 	//3.1 定义获取班级分页列表控制器（条件+分页）
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("class.get_class_page"), queryClassPage, classQuery, classPageJsonVO::Wrapper, API_TAG2);
 	
@@ -53,19 +54,19 @@ public: // 定义接口
 	//4.1 定义获取学生列表控制器
 	API_DEF_ENDPOINT_INFO_AUTH(
 		ZH_WORDS_GETTER("class.get_student_list"), queryStudentList, studentListJsonVO::Wrapper, API_TAG2,
-		API_DEF_ADD_QUERY_PARAMS(UInt64, "class_id", ZH_WORDS_GETTER("class.id"), 1, false);
+		API_DEF_ADD_QUERY_PARAMS(UInt32, "class_id", ZH_WORDS_GETTER("class.id"), 1, false);
 	);
 
 	//4.2 定义获取学生列表接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/app/sCenter/student/studentList", queryStudentList, QUERY(UInt64, class_id), execQueryStudentList(class_id));
+	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/app/sCenter/student/studentList", queryStudentList, QUERY(UInt32, class_id), execQueryStudentList(class_id));
 
 private: // 定义接口执行函数
 
-	classInfoJsonVO::Wrapper execQueryClassInfo(const UInt64 &class_id);
+	classInfoJsonVO::Wrapper execQueryClassInfo(const UInt32 &class_id);
 
 	classPageJsonVO::Wrapper execQueryClassPage(const classQuery::Wrapper &query);
 
-	studentListJsonVO::Wrapper execQueryStudentList(const UInt64& class_id);
+	studentListJsonVO::Wrapper execQueryStudentList(const UInt32& class_id);
 };
 
 #include OATPP_CODEGEN_END(ApiController)

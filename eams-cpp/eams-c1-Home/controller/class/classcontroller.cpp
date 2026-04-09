@@ -21,7 +21,7 @@
 #include "SimpleDateTimeFormat.h"
 #include "../../service/class/classService.h"
 
-classInfoJsonVO::Wrapper classController::execQueryClassInfo(const UInt64 &class_id) {
+classInfoJsonVO::Wrapper classController::execQueryClassInfo(const UInt32 &class_id) {
 	auto res = ClassService().getById(class_id);
 	if (res == nullptr) {
 		auto jvo = classInfoJsonVO::createShared();
@@ -41,7 +41,7 @@ classPageJsonVO::Wrapper classController::execQueryClassPage(const classQuery::W
 	return jvo;
 }
 
-studentListJsonVO::Wrapper classController::execQueryStudentList(const UInt64& class_id) {
+studentListJsonVO::Wrapper classController::execQueryStudentList(const UInt32& class_id) {
 	auto res = StudentService().listByClassId(class_id);
 	auto jvo = studentListJsonVO::createShared();
 	jvo->success(res);

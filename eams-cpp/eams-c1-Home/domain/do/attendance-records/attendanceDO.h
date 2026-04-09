@@ -113,11 +113,11 @@ class Teach_EvaluationDO : public BaseDO
 {
 public:
 	// 主键
-	MYSQL_SYNTHESIZE(std::string, id, Id);
+	MYSQL_SYNTHESIZE(std::uint64_t, id, Id);
 	// 课次id
-	MYSQL_SYNTHESIZE(std::string, lesson_id, LessonId);
+	MYSQL_SYNTHESIZE(uint64_t, lesson_id, LessonId);
 	// 老师id
-	MYSQL_SYNTHESIZE(std::string, teacher_id, TeacherId);
+	MYSQL_SYNTHESIZE(uint64_t, teacher_id, TeacherId);
 	// 综合评分
 	MYSQL_SYNTHESIZE(uint8_t, score1, Score1);
 	// 课堂气氛
@@ -131,26 +131,26 @@ public:
 	// 评价时间
 	MYSQL_SYNTHESIZE(std::string, add_time, AddTime);
 	// 学生id
-	MYSQL_SYNTHESIZE(std::string, student_id, StudentId);
+	MYSQL_SYNTHESIZE(uint64_t, student_id, StudentId);
 	// 是否匿名
 	MYSQL_SYNTHESIZE(uint8_t, anonymity, Anonymity);
 	// 被评价老师所属组织ID
-	MYSQL_SYNTHESIZE(std::string, org_id, OrgId);
+	MYSQL_SYNTHESIZE(uint64_t, org_id, OrgId);
 public:
 	Teach_EvaluationDO(): BaseDO("teach_evaluation")
 	{
-		MYSQL_ADD_FIELD_PK("id", "s", id);
-		MYSQL_ADD_FIELD("lesson_id", "s", lesson_id);
-		MYSQL_ADD_FIELD("teacher_id", "s", teacher_id);
+		MYSQL_ADD_FIELD_PK("id", "ull", id);
+		MYSQL_ADD_FIELD("lesson_id", "ull", lesson_id);
+		MYSQL_ADD_FIELD("teacher_id", "ull", teacher_id);
 		MYSQL_ADD_FIELD("score1", "i", score1);
 		MYSQL_ADD_FIELD("score2", "i", score2);
 		MYSQL_ADD_FIELD("score3", "i", score3);
 		MYSQL_ADD_FIELD("score4", "i", score4);
 		MYSQL_ADD_FIELD("content", "s", content);
 		MYSQL_ADD_FIELD("add_time", "s", add_time);
-		MYSQL_ADD_FIELD("student_id", "s", student_id);
+		MYSQL_ADD_FIELD("student_id", "ull", student_id);
 		MYSQL_ADD_FIELD("anonymity", "i", anonymity);
-		MYSQL_ADD_FIELD("org_id", "s", org_id);
+		MYSQL_ADD_FIELD("org_id", "ull", org_id);
 	}
 };
 

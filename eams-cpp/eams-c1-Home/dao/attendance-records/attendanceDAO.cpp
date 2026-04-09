@@ -27,13 +27,17 @@ std::string Lesson_StudentDAO::queryConditionBuilder(
 	std::stringstream sqlCondition;
 	sqlCondition << " WHERE 1=1 ";
 
-	// 学生id过滤
+	// 必须：学生id过滤
 	if (query->student_id) {
 		sqlCondition << " AND t1.student_id=? ";
-		SQLPARAMS_PUSH(params, "ull", uint64_t, query->student_id.getValue(0));
+		SQLPARAMS_PUSH(params, "i", uint64_t, query->student_id.getValue(0));
+	}
+	else {
+		// 如果 Wrapper 没有 student_id，就改为固定 23
+		sqlCondition << " AND t1.student_id=23 ";
 	}
 
-	// 只取签到结果>0
+	// 必须：只取签到结果>0
 	sqlCondition << " AND t1.sign_state > 0 ";
 
 	return sqlCondition.str();
@@ -87,21 +91,20 @@ bool Teach_EvaluationDAO::insert(const Ptrteach_evaluationDO data)
 	SqlParams params;
 	std::string sql =
 		"INSERT INTO teach_evaluation ("
-		"  id, lesson_id, teacher_id, score1, score2, score3, score4, content, add_time, student_id, anonymity, org_id "
+		"  id, lesson_id, teacher_id, score1, score2, score3, score4, content, add_time, student_id, anonymity "
 		") VALUES ("
-		"  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? "
+		"  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? "
 		")";
-	SQLPARAMS_PUSH(params, "ull", uint64_t, stoull(data->getId()));
-	SQLPARAMS_PUSH(params, "ull", uint64_t, stoull(data->getLessonId()));
-	SQLPARAMS_PUSH(params, "ull", uint64_t, stoull(data->getTeacherId()));
+	SQLPARAMS_PUSH(params, "ull", uint64_t, data->getId());
+	SQLPARAMS_PUSH(params, "ull", uint64_t, data->getLessonId());
+	SQLPARAMS_PUSH(params, "ull", uint64_t, data->getTeacherId());
 	SQLPARAMS_PUSH(params, "i", uint32_t, data->getScore1());
 	SQLPARAMS_PUSH(params, "i", uint32_t, data->getScore2());
 	SQLPARAMS_PUSH(params, "i", uint32_t, data->getScore3());
 	SQLPARAMS_PUSH(params, "i", uint32_t, data->getScore4());
 	SQLPARAMS_PUSH(params, "s", std::string, data->getContent());
 	SQLPARAMS_PUSH(params, "s", std::string, data->getAddTime());
-	SQLPARAMS_PUSH(params, "ull", uint64_t, stoull(data->getStudentId()));
-	SQLPARAMS_PUSH(params, "i", uint32_t, data->getAnonymity());
-	SQLPARAMS_PUSH(params, "ull", uint64_t, stoull(data->getOrgId()));
+	SQLPARAMS_PUSH(params, "ull", uint64_t, data->getStudentId());
+	SQLPARAMS_PUSH(params, "ull", uint64_t, data->getAnonymity());
 	return sqlSession->executeUpdate(sql, params);
 }

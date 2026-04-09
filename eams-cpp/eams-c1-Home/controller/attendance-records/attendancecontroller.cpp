@@ -20,7 +20,6 @@
 #include "attendancecontroller.h"
 #include "../../service/attendance-records/attendanceService.h"
 //实现接口执行函数
-//评价课次分页查询接口
 attendance_recordsPageJsonVO::Wrapper attendanceController::execQueryAttendanceRecordsPage(const attendance_recordsQuery::Wrapper& query) {
 	// 查询数据
 	auto result = Lesson_StudentService().listAll(query);
@@ -29,7 +28,7 @@ attendance_recordsPageJsonVO::Wrapper attendanceController::execQueryAttendanceR
 	jvo->success(result);
 	return jvo;
 }
-//评价课次接口
+
 StringJsonVO::Wrapper attendanceController::execEvaluateAttendanceRecords(const attendance_recordsEvaluateDTO::Wrapper& dto, const PayloadDTO& payload) {
 	auto jvo = StringJsonVO::createShared();
 	std::string errmsg = dto->validate();
