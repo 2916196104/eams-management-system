@@ -17,7 +17,7 @@ export const alovaInstance = createAlova({
 		}
 
 		// Add timestamp to prevent caching for GET requests
-		if (method.type === "GET" && CommonUtil.isObj(method.config.params)) {
+		if (method.type === "GET" && method.config.params && typeof method.config.params === "object") {
 			method.config.params._t = Date.now();
 		}
 

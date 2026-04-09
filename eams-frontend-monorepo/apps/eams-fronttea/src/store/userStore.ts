@@ -145,14 +145,14 @@ const defaultTeacherInfo: TeacherInfo = {
 
 const quickActions: TeacherQuickAction[] = [
 	{ id: 1, name: "课表", icon: "i-carbon:calendar", route: "schedule", routeType: "tab", iconBg: "#2481ff" },
-	{ id: 2, name: "报名", icon: "i-carbon:currency", route: "teacherSignup", routeType: "page", iconBg: "#2cc7c3" },
+	{ id: 2, name: "报名", icon: "i-carbon:currency", route: "teacher-signup", routeType: "page", iconBg: "#2cc7c3" },
 	{ id: 3, name: "班级", icon: "i-carbon:group", route: "class", routeType: "tab", iconBg: "#ff795d" },
-	{ id: 4, name: "课程", icon: "i-carbon:catalog", route: "teacherCourseList", routeType: "page", iconBg: "#2aaaf4" },
+	{ id: 4, name: "课程", icon: "i-carbon:catalog", route: "teacher-course-list", routeType: "page", iconBg: "#2aaaf4" },
 	{
 		id: 5,
 		name: "添加学员",
 		icon: "i-carbon:user-follow",
-		route: "teacherAddStudent",
+		route: "teacher-add-student",
 		routeType: "page",
 		iconBg: "#ffbf25",
 	},
@@ -160,7 +160,7 @@ const quickActions: TeacherQuickAction[] = [
 		id: 6,
 		name: "我的客户",
 		icon: "i-carbon:user-avatar-filled-alt",
-		route: "teacherCustomerList",
+		route: "teacher-customer-list",
 		routeType: "page",
 		iconBg: "#6f90ff",
 	},
@@ -168,7 +168,7 @@ const quickActions: TeacherQuickAction[] = [
 		id: 7,
 		name: "报名记录",
 		icon: "i-carbon:receipt",
-		route: "teacherSignupRecord",
+		route: "teacher-signup-record",
 		routeType: "page",
 		iconBg: "#ca65e3",
 	},
@@ -176,25 +176,25 @@ const quickActions: TeacherQuickAction[] = [
 		id: 8,
 		name: "点名记录",
 		icon: "i-carbon:list-checked",
-		route: "teacherAttendanceRecord",
+		route: "teacher-attendance-record",
 		routeType: "page",
 		iconBg: "#2cc7c3",
 	},
-	{ id: 9, name: "作业", icon: "i-carbon:book", route: "teacherHomeworkList", routeType: "page", iconBg: "#2cc7c3" },
+	{ id: 9, name: "作业", icon: "i-carbon:book", route: "teacher-homework-list", routeType: "page", iconBg: "#2cc7c3" },
 	{
 		id: 10,
 		name: "点评记录",
 		icon: "i-carbon:favorite-filled",
-		route: "teacherCommentRecord",
+		route: "teacher-comment-record",
 		routeType: "page",
 		iconBg: "#ff8a5c",
 	},
-	{ id: 11, name: "排课", icon: "i-carbon:star-filled", route: "teacherScheduling", routeType: "page", iconBg: "#31b4f4" },
+	{ id: 11, name: "排课", icon: "i-carbon:star-filled", route: "teacher-scheduling", routeType: "page", iconBg: "#31b4f4" },
 	{
 		id: 12,
 		name: "学生档案",
 		icon: "i-carbon:user-profile",
-		route: "teacherStudentArchive",
+		route: "teacher-student-archive",
 		routeType: "page",
 		iconBg: "#ff7b5d",
 	},
@@ -305,7 +305,14 @@ function extractScheduleRows(payload: any): unknown[] {
 		payload.course_list,
 		payload.scheduleList,
 		payload.schedule_list,
+		payload.lessons,
+		payload.lesson_list,
 	];
+
+	// 特殊处理：如果payload是CommonDatetimeDTO结构，直接返回lessons
+	if (payload.lessons && Array.isArray(payload.lessons)) {
+		return payload.lessons;
+	}
 
 	for (const candidate of directCandidates) {
 		if (Array.isArray(candidate)) return candidate;
@@ -416,7 +423,8 @@ export const useUserStore = defineStore("user", {
 		async loadCurrentUserInfo() {
 			try {
 				const response = await (Apis as any).workbench.get_workbench_query_current_user_info();
-				this.teacherInfo = normalizeCurrentUserPayload(response, this.teacherInfo);
+				const payload = (response as any)?.data?.data ?? (response as any)?.data ?? response ?? {};
+				this.teacherInfo = normalizeCurrentUserPayload(payload, this.teacherInfo);
 			} catch {
 				// 当前用户信息失败时保留本地兜底数据，避免工作台直接空白。
 			}
@@ -426,7 +434,8 @@ export const useUserStore = defineStore("user", {
 		async loadMonthlyMetrics() {
 			try {
 				const response = await (Apis as any).workbench.get_workbench_monthly_data();
-				this.monthMetrics = normalizeMonthMetrics(response, this.monthMetrics);
+				const payload = (response as any)?.data?.data ?? (response as any)?.data ?? response ?? {};
+				this.monthMetrics = normalizeMonthMetrics(payload, this.monthMetrics);
 			} catch {
 				this.monthMetrics = monthMetrics.map((item) => ({ ...item }));
 			}
@@ -442,7 +451,8 @@ export const useUserStore = defineStore("user", {
 					},
 				});
 
-				const payload = normalizeCustomerPagePayload(response);
+				const data = (response as any)?.data?.data ?? (response as any)?.data ?? response ?? {};
+				const payload = normalizeCustomerPagePayload(data);
 				if (append) {
 					const merged = new Map<string, TeacherCustomer>();
 					for (const item of this.customers) merged.set(item.id, item);
@@ -469,7 +479,8 @@ export const useUserStore = defineStore("user", {
 					params: { date },
 				});
 
-				const items = normalizeSchedulePayload(response, date);
+				const payload = (response as any)?.data?.data ?? (response as any)?.data ?? response ?? {};
+				const items = normalizeSchedulePayload(payload, date);
 				this.setScheduleItems(date, items);
 				return items;
 			} catch {

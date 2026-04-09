@@ -871,145 +871,126 @@ declare global {
 				Config
 			>;
 			get_home_class_info_query_by_class_id<
-				Config extends Alova2MethodConfig<{
-					code: number;
-					message: string;
-					data?: {
-						id: number;
-						class_name: string;
-						teacher_id?: number;
-						teacher_name?: string;
-						course_id: number;
-						course_name: string;
-						start_date?: string;
-						end_date?: string;
-						student_count?: number;
-						classroom_id?: number;
-						classroom_name?: string;
-						remark?: string;
-					};
-				}> & {
-					params?: {
-						class_id?: number;
-					};
-				},
-			>(
-				config?: Config,
-			): Alova2Method<
-				{
-					code: number;
-					message: string;
-					data?: {
-						id: number;
-						class_name: string;
-						teacher_id?: number;
-						teacher_name?: string;
-						course_id: number;
-						course_name: string;
-						start_date?: string;
-						end_date?: string;
-						student_count?: number;
-						classroom_id?: number;
-						classroom_name?: string;
-						remark?: string;
-					};
-				},
-				"home.get_home_class_info_query_by_class_id",
-				Config
-			>;
+			Config extends Alova2MethodConfig<{
+				code: number;
+				message: string;
+				data?: {
+					class_name: string;
+					teacher_name?: string;
+					course_name: string;
+					start_date?: string;
+					end_date?: string;
+					student_count?: number;
+					classroom_name?: string;
+					remark?: string;
+					over_lesson_count?: number;
+				};
+			}> & {
+				params?: {
+					class_id?: number;
+				};
+			},
+		>(
+			config?: Config,
+		): Alova2Method<
+			{
+				code: number;
+				message: string;
+				data?: {
+					class_name: string;
+					teacher_name?: string;
+					course_name: string;
+					start_date?: string;
+					end_date?: string;
+					student_count?: number;
+					classroom_name?: string;
+					remark?: string;
+					over_lesson_count?: number;
+				};
+			},
+			"home.get_home_class_info_query_by_class_id",
+			Config
+		>;
 			get_home_class_page_query_by_student_id<
-				Config extends Alova2MethodConfig<{
-					code: number;
-					message: string;
-					data?: {
-						pageIndex: number;
-						pageSize: number;
-						total: number;
-						pages: number;
-						rows?: Array<{
-							id?: number;
-							name?: string;
-							course?: string;
-							teacher?: string;
-							room?: string;
-							grade?: string;
-							createTime?: string;
-							updateTime?: string;
-							number?: number;
-							courseCount?: number;
-							description?: string;
-						}>;
-					};
-				}> & {
-					params: {
-						course_id: number;
-						pageIndex: number;
-						pageSize: number;
-						teacher_id?: number;
-					};
-				},
-			>(
-				config: Config,
-			): Alova2Method<
-				{
-					code: number;
-					message: string;
-					data?: {
-						pageIndex: number;
-						pageSize: number;
-						total: number;
-						pages: number;
-						rows?: Array<{
-							id?: number;
-							name?: string;
-							course?: string;
-							teacher?: string;
-							room?: string;
-							grade?: string;
-							createTime?: string;
-							updateTime?: string;
-							number?: number;
-							courseCount?: number;
-							description?: string;
-						}>;
-					};
-				},
-				"home.get_home_class_page_query_by_student_id",
-				Config
-			>;
+			Config extends Alova2MethodConfig<{
+				code: number;
+				message: string;
+				data?: {
+					pageIndex: number;
+					pageSize: number;
+					total: number;
+					pages: number;
+					rows?: Array<{
+						class_name?: string;
+						teacher_name?: string;
+						course_name?: string;
+						start_date?: string;
+						end_date?: string;
+						student_count?: number;
+					}>;
+				};
+			}> & {
+				params: {
+					student_id: number;
+					pageIndex: number;
+					pageSize: number;
+				};
+			},
+		>(
+			config: Config,
+		): Alova2Method<
+			{
+				code: number;
+				message: string;
+				data?: {
+					pageIndex: number;
+					pageSize: number;
+					total: number;
+					pages: number;
+					rows?: Array<{
+						class_name?: string;
+						teacher_name?: string;
+						course_name?: string;
+						start_date?: string;
+						end_date?: string;
+						student_count?: number;
+					}>;
+				};
+			},
+			"home.get_home_class_page_query_by_student_id",
+			Config
+		>;
 			get_home_class_student_list_query_by_class_id<
-				Config extends Alova2MethodConfig<{
-					code: number;
-					message: string;
-					data?: {
-						student_list?: Array<{
-							id?: number;
-							name?: string;
-							gender?: string;
-						}>;
-					};
-				}> & {
-					params?: {
-						class_id?: number;
-					};
-				},
-			>(
-				config?: Config,
-			): Alova2Method<
-				{
-					code: number;
-					message: string;
-					data?: {
-						student_list?: Array<{
-							id?: number;
-							name?: string;
-							gender?: string;
-						}>;
-					};
-				},
-				"home.get_home_class_student_list_query_by_class_id",
-				Config
-			>;
+			Config extends Alova2MethodConfig<{
+				code: number;
+				message: string;
+				data?: {
+					student_list?: Array<{
+						name?: string;
+						gender?: boolean;
+					}>;
+				};
+			}> & {
+				params?: {
+					class_id?: number;
+				};
+			},
+		>(
+			config?: Config,
+		): Alova2Method<
+			{
+				code: number;
+				message: string;
+				data?: {
+					student_list?: Array<{
+						name?: string;
+						gender?: boolean;
+					}>;
+				};
+			},
+			"home.get_home_class_student_list_query_by_class_id",
+			Config
+		>;
 			get_c1_home_card_list<
 				Config extends Alova2MethodConfig<{
 					code: number;
@@ -1476,52 +1457,56 @@ declare global {
 				Config
 			>;
 			get_c1_review_records_query_reviews<
-				Config extends Alova2MethodConfig<{
-					code: number;
-					message: string;
-					data?: {
-						pageIndex: number;
-						pageSize: number;
-						total: number;
-						pages: number;
-						rows?: Array<{
-							id?: number;
-							creator_name?: string;
-							content?: string;
-							score?: number;
-							add_time?: string;
-						}>;
-					};
-				}> & {
-					params: {
-						student_id: number;
-						pageIndex: number;
-						pageSize: number;
-					};
-				},
-			>(
-				config: Config,
-			): Alova2Method<
-				{
-					code: number;
-					message: string;
-					data?: {
-						pageIndex: number;
-						pageSize: number;
-						total: number;
-						pages: number;
-						rows?: Array<{
-							id?: number;
-							creator_name?: string;
-							content?: string;
-							score?: number;
-							add_time?: string;
-						}>;
-					};
-				},
-				"home.get_c1_review_records_query_reviews",
-				Config
-			>;
+			Config extends Alova2MethodConfig<{
+				code: number;
+				message: string;
+				data?: {
+					pageIndex: number;
+					pageSize: number;
+					total: number;
+					pages: number;
+					rows?: Array<{
+						id?: number;
+						lesson_id?: number;
+						lesson_title?: string;
+						evaluate_teacher?: number;
+						evaluation?: string;
+						score?: number;
+						evaluate_time?: string;
+					}>;
+				};
+			}> & {
+				params: {
+					student_id: number;
+					pageIndex: number;
+					pageSize: number;
+				};
+			},
+		>(
+			config: Config,
+		): Alova2Method<
+			{
+				code: number;
+				message: string;
+				data?: {
+					pageIndex: number;
+					pageSize: number;
+					total: number;
+					pages: number;
+					rows?: Array<{
+						id?: number;
+						lesson_id?: number;
+						lesson_title?: string;
+						evaluate_teacher?: number;
+						evaluation?: string;
+						score?: number;
+						evaluate_time?: string;
+					}>;
+				};
+			},
+			"home.get_c1_review_records_query_reviews",
+			Config
+		>;
 			get_c1_home_score_query_score_list<
 				Config extends Alova2MethodConfig<{
 					code: number;

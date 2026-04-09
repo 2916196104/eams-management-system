@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
 import ParentEmptyState from "@/components/parent/ParentEmptyState.vue";
 import ParentNavBar from "@/components/parent/ParentNavBar.vue";
 import { useUserStore } from "@/store/userStore";
+import Apis from "@/api";
 
 definePage({
 	name: "parentClass",
@@ -14,38 +16,30 @@ definePage({
 });
 
 interface ClassInfo {
-	id?: number;
 	class_name?: string;
-	teacher_id?: number;
 	teacher_name?: string;
-	course_id?: number;
 	course_name?: string;
 	start_date?: string;
 	end_date?: string;
 	student_count?: number;
-	classroom_id?: number;
 	classroom_name?: string;
 	remark?: string;
+	over_lesson_count?: number;
 }
 
 interface ClassListItem {
 	id?: number;
-	name?: string;
-	course?: string;
-	teacher?: string;
-	room?: string;
-	grade?: string;
-	createTime?: string;
-	updateTime?: string;
-	number?: number;
-	courseCount?: number;
-	description?: string;
+	class_name?: string;
+	teacher_name?: string;
+	course_name?: string;
+	start_date?: string;
+	end_date?: string;
+	student_count?: number;
 }
 
 interface ClassStudentItem {
-	id?: number;
 	name?: string;
-	gender?: string;
+	gender?: boolean;
 }
 
 const router = useRouter();
@@ -81,38 +75,28 @@ const studentId = computed(() => Number(currentStudent.value?.id || 0));
 
 function normalizeRows(data: any): Array<ClassListItem> {
 	const rows = Array.isArray(data?.rows) ? data.rows : [];
-	return rows.map((item: any, index: number) => ({
-		id: item?.id ?? item?.class_id ?? item?.classId ?? undefined,
-		name: item?.class_name ?? item?.className ?? `班级${index + 1}`,
-		course: item?.course_name ?? item?.courseName,
-		teacher: item?.teacher_name ?? item?.teacherName,
-		room: item?.classroom_name ?? item?.classroomName,
-		createTime: item?.start_date ?? item?.startDate,
-		updateTime: item?.end_date ?? item?.endDate,
-		number: item?.student_count ?? item?.studentCount,
-		description: item?.remark,
+	return rows.map((item: any) => ({
+		id: item?.id,
+		class_name: item?.class_name,
+		teacher_name: item?.teacher_name,
+		course_name: item?.course_name,
+		start_date: item?.start_date,
+		end_date: item?.end_date,
+		student_count: item?.student_count,
 	}));
 }
 
 function normalizeStudents(data: any): Array<ClassStudentItem> {
 	const rows = Array.isArray(data?.student_list) ? data.student_list : [];
-	return rows.map((item: any, index: number) => ({
-		id: item?.id ?? item?.student_id ?? item?.studentId ?? index + 1,
-		name: item?.name ?? item?.student_name ?? `学员${index + 1}`,
-		gender:
-			typeof item?.gender === "boolean"
-				? item.gender
-					? "男"
-					: "女"
-				: item?.gender,
+	return rows.map((item: any) => ({
+		name: item?.name,
+		gender: item?.gender,
 	}));
 }
 
-function studentGenderText(gender?: string) {
-	if (!gender) return "未设置";
-	if (gender === "男") return "♂";
-	if (gender === "女") return "♀";
-	return gender;
+function studentGenderText(gender?: boolean) {
+	if (typeof gender !== "boolean") return "未设置";
+	return gender ? "♂" : "♀";
 }
 
 async function loadClassInfo() {
@@ -226,31 +210,30 @@ onMounted(() => {
 		<view class="page-content">
 			<view v-if="isListMode && classList.length" class="class-list-wrap">
 				<view class="class-list-summary">共 {{ total }} 个班级</view>
-				<view v-for="item in classList" :key="item.id" class="class-list-card" @click="openClassDetail(item)">
+				<view v-for="(item, index) in classList" :key="index" class="class-list-card">
 					<view class="class-list-card__header">
 						<view>
-							<view class="class-list-card__title">{{ item.name || "未命名班级" }}</view>
-							<view class="class-list-card__sub">{{ item.course || "未设置课程" }}</view>
+							<view class="class-list-card__title">{{ item.class_name || "未命名班级" }}</view>
+							<view class="class-list-card__sub">{{ item.course_name || "未设置课程" }}</view>
 						</view>
-						<view class="i-carbon:chevron-right text-16px text-#c3cad5" />
 					</view>
 
 					<view class="class-list-card__grid">
 						<view class="class-list-card__item">
 							<text>班主任</text>
-							<text>{{ item.teacher || "未设置" }}</text>
+							<text>{{ item.teacher_name || "未设置" }}</text>
 						</view>
 						<view class="class-list-card__item">
-							<text>教室</text>
-							<text>{{ item.room || "未设置" }}</text>
+							<text>学生人数</text>
+							<text>{{ item.student_count ?? 0 }} 人</text>
 						</view>
 						<view class="class-list-card__item">
-							<text>计划开课</text>
-							<text>{{ item.createTime || "未设置" }}</text>
+							<text>上课日期</text>
+							<text>{{ item.start_date || "未设置" }}</text>
 						</view>
 						<view class="class-list-card__item">
-							<text>计划结业</text>
-							<text>{{ item.updateTime || "未设置" }}</text>
+							<text>结业日期</text>
+							<text>{{ item.end_date || "未设置" }}</text>
 						</view>
 					</view>
 				</view>
@@ -288,8 +271,8 @@ onMounted(() => {
 						<text class="class-card__value">{{ classInfo.classroom_name || "未设置" }}</text>
 					</view>
 					<view class="class-card__item">
-						<text class="class-card__label">班级 ID</text>
-						<text class="class-card__value">{{ classId || "未设置" }}</text>
+						<text class="class-card__label">完结课时</text>
+						<text class="class-card__value">{{ classInfo.over_lesson_count ?? 0 }} 节</text>
 					</view>
 				</view>
 
@@ -301,7 +284,7 @@ onMounted(() => {
 				<view class="class-card__students">
 					<view class="class-card__students-title">班级学员</view>
 					<view v-if="classStudents.length" class="class-card__students-list">
-						<view v-for="student in classStudents" :key="student.id" class="class-card__student-item">
+						<view v-for="(student, index) in classStudents" :key="index" class="class-card__student-item">
 							<view class="class-card__student-avatar">{{ student.name?.slice(0, 1) || "学" }}</view>
 							<view class="class-card__student-info">
 								<view class="class-card__student-name">{{ student.name || "未命名学员" }}</view>

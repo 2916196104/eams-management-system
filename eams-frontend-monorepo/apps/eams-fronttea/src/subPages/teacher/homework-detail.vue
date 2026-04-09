@@ -117,8 +117,7 @@ async function loadDetail() {
 		await userStore.loadCurrentUserInfo();
 		const response = await (Apis as any).homework.get_homework_detail({
 			params: {
-				homework_id: homeworkId.value,
-				teacher_id: userStore.teacherInfo.id,
+				homeworkId: homeworkId.value,
 			},
 		});
 		detail.value = normalizeDetail(response);
@@ -172,18 +171,15 @@ async function submitComment() {
 	submitting.value = true;
 	try {
 		const content = commentForm.content.trim();
-		await (Apis as any).homework.post_homework_comment({
-			data: {
-				teacher_id: userStore.teacherInfo.id,
-				submit_id: currentSubmitRecord.value.recordId,
-				score,
-				content: content || undefined,
-				review: {
+		await (Apis as any).homework.post_homework_review({
+				data: {
 					score,
 					content: content || undefined,
+					homeworkId: homeworkId.value,
+					studentId: currentSubmitRecord.value.studentId,
+					teacherId: userStore.teacherInfo.id,
 				},
-			},
-		});
+			});
 
 		uni.showToast({ title: "点评成功", icon: "none" });
 		closeCommentPopup();

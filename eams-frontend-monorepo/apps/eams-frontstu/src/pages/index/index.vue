@@ -1,4 +1,10 @@
 <script lang="ts" setup>
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import Apis from "@/api";
+import LoginHead from "@/components/LoginHead.vue";
+import { useToast } from "wot-design-uni";
+
 definePage({
 	name: "login",
 	type: "page",
@@ -11,7 +17,7 @@ definePage({
 // 路由对象
 const router = useRouter();
 // 提示信息组件
-const toast = useGlobalToast();
+const { error: showError } = useToast();
 
 // 用户名
 const username = ref<string>("");
@@ -28,27 +34,36 @@ function navigateTo(name: string) {
 
 // 执行登录
 async function login() {
+	if (!username.value || !password.value) {
+		showError({ msg: "请输入用户名和密码", duration: 3000 });
+		return;
+	}
+
 	Apis.login
 		.post_login_auth_login({
-			data: { username: username.value, password: password.value },
+			data: { 
+				username: username.value, 
+				password: password.value,
+				terminalType: "user"
+			},
 		})
 		.then((res) => {
-			if (res.code === 10000) router.pushTab({ name: "home" });
-			else toast.error({ msg: "登录失败，请检查用户名或密码", duration: 3000 });
+			if (res.code === 10000) router.push({ name: "home" });
+			else showError({ msg: "登录失败，请检查用户名或密码", duration: 3000 });
 		})
 		.catch(() => {
-			toast.error({ msg: "登录请求失败，请稍后重试", duration: 3000 });
+			showError({ msg: "登录请求失败，请稍后重试", duration: 3000 });
 		});
 }
 
 function debugEnterHome() {
-	router.pushTab({ name: "home" });
+	router.push({ name: "home" });
 }
 </script>
 
 <template>
 	<!-- 标题 -->
-	<login-head title="欢迎登录-零壹xxx用户端" :show-back="false" />
+	<LoginHead title="欢迎登录-零壹xxx用户端" :show-back="false" />
 
 	<!-- 用户名和密码输入框 -->
 	<view class="input-box bg-white dark:bg-[var(--wot-dark-background2)]">
