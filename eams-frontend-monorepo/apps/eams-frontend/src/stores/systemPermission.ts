@@ -67,8 +67,8 @@ function extractRows<T>(data: unknown): T[] {
 	}
 
 	if (data && typeof data === "object") {
-		const source = data as { rows?: T[]; list?: T[] };
-		const rows = source.rows ?? source.list;
+		const source = data as { rows?: T[]; list?: T[]; groupList?: T[] };
+		const rows = source.rows ?? source.list ?? source.groupList;
 		return Array.isArray(rows) ? rows : [];
 	}
 

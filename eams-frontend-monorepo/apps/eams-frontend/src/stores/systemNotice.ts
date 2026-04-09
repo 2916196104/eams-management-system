@@ -9,8 +9,11 @@ export interface NoticeItem {
 	content: string;
 	type?: string;
 	publisher?: string;
+	creator?: number;
+	editor?: number;
 	isTop?: number;
 	isEnable?: number;
+	viewNum?: number;
 	createTime: string;
 	updateTime?: string;
 }
@@ -37,37 +40,18 @@ function hasServerPayload(input: unknown) {
 	);
 }
 
-function extractNoticeRows(data: unknown): NoticeItem[] {
-	if (Array.isArray(data)) {
-		return data as NoticeItem[];
-	}
-
-	if (data && typeof data === "object") {
-		const source = data as { records?: NoticeItem[]; list?: NoticeItem[]; rows?: NoticeItem[] };
-		const rows = source.records ?? source.list ?? source.rows;
-		return Array.isArray(rows) ? rows : [];
-	}
-
-	return [];
-}
-
-function extractNoticeTotal(data: unknown, rows: NoticeItem[]) {
-	if (data && typeof data === "object" && "total" in (data as Record<string, unknown>)) {
-		const total = (data as { total?: number }).total;
-		if (typeof total === "number") {
-			return total;
-		}
-	}
-
-	return rows.length;
-}
-
 function normalizeNotice(detail: unknown): NoticeItem | null {
 	if (!detail || typeof detail !== "object") {
 		return null;
 	}
 
-	const source = detail as Partial<NoticeItem>;
+	const source = detail as Partial<NoticeItem> & {
+		addTime?: string;
+		editTime?: string;
+		creator?: number | string;
+		editor?: number | string;
+		viewNum?: number | string;
+	};
 	if (source.id == null) {
 		return null;
 	}
@@ -78,11 +62,42 @@ function normalizeNotice(detail: unknown): NoticeItem | null {
 		content: source.content ?? "",
 		type: source.type,
 		publisher: source.publisher,
+		creator: source.creator == null ? undefined : Number(source.creator),
+		editor: source.editor == null ? undefined : Number(source.editor),
 		isTop: source.isTop,
 		isEnable: source.isEnable,
-		createTime: source.createTime ?? "",
-		updateTime: source.updateTime,
+		viewNum: source.viewNum == null ? undefined : Number(source.viewNum),
+		createTime: source.createTime ?? source.addTime ?? "",
+		updateTime: source.updateTime ?? source.editTime,
 	};
+}
+
+function extractNoticeRows(data: unknown): NoticeItem[] {
+	const normalizeRows = (rows: unknown[]) =>
+		rows.map((item) => normalizeNotice(item)).filter((item): item is NoticeItem => Boolean(item));
+
+	if (Array.isArray(data)) {
+		return normalizeRows(data);
+	}
+
+	if (data && typeof data === "object") {
+		const source = data as { records?: unknown[]; list?: unknown[]; rows?: unknown[] };
+		const rows = source.records ?? source.list ?? source.rows;
+		return Array.isArray(rows) ? normalizeRows(rows) : [];
+	}
+
+	return [];
+}
+
+function extractNoticeTotal(data: unknown, rows: NoticeItem[]) {
+	if (data && typeof data === "object" && "total" in (data as Record<string, unknown>)) {
+		const total = Number((data as { total?: unknown }).total);
+		if (Number.isFinite(total)) {
+			return total;
+		}
+	}
+
+	return rows.length;
 }
 
 export const useSystemNoticeStore = defineStore("systemNotice", () => {

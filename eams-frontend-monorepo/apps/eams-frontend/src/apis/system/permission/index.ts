@@ -5,6 +5,19 @@ const http = useHttp();
 const currBaseUrl = "/j2-sys/roleperm";
 const legacyBaseUrl = "/sys/roleperm";
 
+function appendQuery(path: string, params?: Record<string, unknown>) {
+	if (!params) return path;
+
+	const search = new URLSearchParams();
+	for (const [key, value] of Object.entries(params)) {
+		if (value === undefined || value === null || value === "") continue;
+		search.append(key, String(value));
+	}
+
+	const query = search.toString();
+	return query ? `${path}?${query}` : path;
+}
+
 async function getWithFallback<T = unknown>(path: string, params?: unknown) {
 	try {
 		return await http.get<T>(`${currBaseUrl}${path}`, params);
@@ -47,14 +60,16 @@ export const getRolepermNameList = (params?: { id?: number; pageIndex?: number; 
  * 保存角色（新增/编辑）
  */
 export const saveRoleperm = (data: RolepermDTO) => {
-	return postWithFallback("/save", data);
+	return http.post(`${currBaseUrl}/save/role`, data).catch(() => http.post(`${legacyBaseUrl}/save`, data));
 };
 
 /**
  * 删除角色
  */
 export const deleteRoleperm = (id: number) => {
-	return deleteWithFallback(`/delete/role/${id}`);
+	return http
+		.delete(appendQuery(`${currBaseUrl}/remove/role`, { roleId: id }))
+		.catch(() => http.delete(`${legacyBaseUrl}/delete/role/${id}`));
 };
 
 /**
@@ -75,14 +90,26 @@ export const getRolepermOperators = (params?: { name?: string; pageIndex?: numbe
  * 给角色添加员工
  */
 export const addRolepermStaff = (data: RolepermStaffDTO) => {
-	return postWithFallback("/save/staff", data);
+	return http
+		.post(
+			appendQuery(`${currBaseUrl}/save/staff`, {
+				roleId: data.roleId,
+				staffId: data.staffId,
+				name: data.name,
+				mobile: data.mobile,
+			}),
+			data,
+		)
+		.catch(() => http.post(`${legacyBaseUrl}/save/staff`, data));
 };
 
 /**
  * 从角色移除员工
  */
 export const removeRolepermStaff = (staffId: number, roleId: number) => {
-	return deleteWithFallback(`/delete/staff/${staffId}`, { roleId });
+	return http
+		.delete(appendQuery(`${currBaseUrl}/${staffId}`, { roleId }))
+		.catch(() => http.delete(`${legacyBaseUrl}/delete/staff/${staffId}`, { roleId }));
 };
 
 /**

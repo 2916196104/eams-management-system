@@ -29,6 +29,19 @@ function delay(ms = 80) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+function appendQuery(path: string, params?: Record<string, unknown>) {
+	if (!params) return path;
+
+	const search = new URLSearchParams();
+	for (const [key, value] of Object.entries(params)) {
+		if (value === undefined || value === null || value === "") continue;
+		search.append(key, String(value));
+	}
+
+	const query = search.toString();
+	return query ? `${path}?${query}` : path;
+}
+
 const dictionaryItemPageSize = 200;
 
 const acceptedBusinessCodes = new Set([0, 200, 10000]);
@@ -329,11 +342,21 @@ const operationLogRecords: OptlogDTO[] = [
 export async function listSystemSettingGroups(): Promise<SystemSettingGroup[]> {
 	const http = useHttp();
 	try {
-		const res = await http.get<SettingDTO[]>("/sys/sysparam");
+		let res;
+		try {
+			res = await http.get<SettingDTO[]>("/j2-sys/sysparam/list");
+		} catch {
+			res = await http.get<SettingDTO[]>("/sys/sysparam");
+		}
 		const groups = [...(res.data || [])].sort((a, b) => (a.sortNum ?? 0) - (b.sortNum ?? 0));
 		const detailList = await Promise.all(
 			groups.map(async (group) => {
-				const detailRes = await http.get<SettingOptionDTO[]>(`/sys/sysparam/${group.id}`);
+				let detailRes;
+				try {
+					detailRes = await http.get<SettingOptionDTO[]>(`/j2-sys/sysparam/${group.id}`);
+				} catch {
+					detailRes = await http.get<SettingOptionDTO[]>(`/sys/sysparam/${group.id}`);
+				}
 				return {
 					group,
 					items: [...(detailRes.data || [])].sort((a, b) => (a.sortNum ?? 0) - (b.sortNum ?? 0)),
@@ -367,7 +390,7 @@ export async function updateSystemSetting(
 	const http = useHttp();
 	const cached = systemSettingOptionMap[itemId];
 	if (cached) {
-		await http.put("/sys/sysparam", {
+		const payload = {
 			code: cached.code,
 			id: cached.id,
 			info: cached.info,
@@ -376,10 +399,15 @@ export async function updateSystemSetting(
 			sortNum: cached.sortNum ?? 0,
 			value: normalizeSettingRequestValue(value, cached),
 			valueType: cached.valueType,
-		});
+		};
+		try {
+			await http.put("/j2-sys/sysparam/update", payload);
+		} catch {
+			await http.put("/sys/sysparam", payload);
+		}
 		systemSettingOptionMap[itemId] = {
 			...cached,
-			value: normalizeSettingRequestValue(value, cached),
+			value: payload.value,
 		};
 		return;
 	}
@@ -415,7 +443,12 @@ export async function saveRole(data: Partial<RoleRecord> & Pick<RoleRecord, "nam
 	if (data.id) payload.id = Number(data.id);
 
 	try {
-		const res = await http.post<RolepermDTO>("/sys/roleperm/save", payload);
+		let res;
+		try {
+			res = await http.post<RolepermDTO>("/j2-sys/roleperm/save/role", payload);
+		} catch {
+			res = await http.post<RolepermDTO>("/sys/roleperm/save", payload);
+		}
 		return mapRoleRecord(res.data || payload);
 	} catch {
 		await delay();
@@ -450,7 +483,11 @@ export async function saveRole(data: Partial<RoleRecord> & Pick<RoleRecord, "nam
 export async function deleteRole(roleId: string): Promise<void> {
 	const http = useHttp();
 	try {
-		await http.delete(`/sys/roleperm/delete/role/${roleId}`);
+		try {
+			await http.delete(appendQuery("/j2-sys/roleperm/remove/role", { roleId: Number(roleId) }));
+		} catch {
+			await http.delete(`/sys/roleperm/delete/role/${roleId}`);
+		}
 	} catch {
 		await delay();
 		roles = roles.filter((item) => item.id !== roleId);
@@ -504,10 +541,16 @@ export async function addRoleMember(roleId: string, staffId: string): Promise<vo
 	const http = useHttp();
 	try {
 		try {
-			await http.post("/j2-sys/roleperm/save/staff", {
-				roleId: Number(roleId),
-				staffId: Number(staffId),
-			});
+			await http.post(
+				appendQuery("/j2-sys/roleperm/save/staff", {
+					roleId: Number(roleId),
+					staffId: Number(staffId),
+				}),
+				{
+					roleId: Number(roleId),
+					staffId: Number(staffId),
+				},
+			);
 		} catch {
 			try {
 				await http.post("/sys/roleperm/save/staff", {
@@ -534,9 +577,7 @@ export async function removeRoleMember(roleId: string, staffId: string): Promise
 	const http = useHttp();
 	try {
 		try {
-			await http.delete(`/j2-sys/roleperm/delete/staff/${staffId}`, {
-				roleId: Number(roleId),
-			});
+			await http.delete(appendQuery(`/j2-sys/roleperm/${staffId}`, { roleId: Number(roleId) }));
 		} catch {
 			try {
 				await http.delete(`/sys/roleperm/delete/staff/${staffId}`, {
@@ -561,9 +602,23 @@ export async function getPermissionTree(roleId: string): Promise<RolePermissionT
 	const http = useHttp();
 	try {
 		const [allRes, selectedRes] = await Promise.all([
-			http.get<PermissionGroupVO | PermissionGroupVO[]>("/sys/roleperm/query/list/permission"),
+			(async () => {
+				try {
+					return await http.get<PermissionGroupVO | PermissionGroupVO[]>("/j2-sys/roleperm/query/list/permission");
+				} catch {
+					return http.get<PermissionGroupVO | PermissionGroupVO[]>("/sys/roleperm/query/list/permission");
+				}
+			})(),
 			roleId
-				? http.get<PermissionGroupVO | PermissionGroupVO[]>(`/sys/roleperm/query/list/select/${roleId}`)
+				? (async () => {
+						try {
+							return await http.get<PermissionGroupVO | PermissionGroupVO[]>(
+								`/j2-sys/roleperm/query/list/select/${roleId}`,
+							);
+						} catch {
+							return http.get<PermissionGroupVO | PermissionGroupVO[]>(`/sys/roleperm/query/list/select/${roleId}`);
+						}
+					})()
 				: Promise.resolve({ data: [] as PermissionGroupVO[] }),
 		]);
 
@@ -1082,7 +1137,9 @@ function buildPermissionTreeData(
 
 function normalizePermissionGroups(data?: PermissionGroupVO | PermissionGroupVO[]): PermissionGroupVO[] {
 	if (!data) return [];
-	return Array.isArray(data) ? data : [data];
+	if (Array.isArray(data)) return data;
+	const groupList = (data as { groupList?: PermissionGroupVO[] }).groupList;
+	return Array.isArray(groupList) ? groupList : [data];
 }
 
 function createFallbackPermissionMap(tree: PermissionNode[]): Record<string, PermissionDTO> {
