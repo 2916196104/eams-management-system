@@ -543,24 +543,46 @@ export async function downloadFunds() {
 	}
 }
 
+function toQueryDateTime(v?: string, endOfDay?: boolean): string | undefined {
+	if (!v) return undefined;
+	if (v.includes("T")) return v;
+	if (v.includes(" ")) return v.replace(" ", "T");
+	return endOfDay ? `${v}T23:59:59` : `${v}T00:00:00`;
+}
+
+function unwrapJsonData<T>(payload: unknown): Array<T> {
+	if (Array.isArray(payload)) return payload as Array<T>;
+	if (!payload || typeof payload !== "object") return [];
+	const data = (payload as { data?: unknown }).data;
+	return Array.isArray(data) ? (data as Array<T>) : [];
+}
+
 export async function querySaleTrend(params: { startDate?: string; endDate?: string }) {
 	const http = useHttp();
+	const query = {
+		startDate: toQueryDateTime(params.startDate, false),
+		endDate: toQueryDateTime(params.endDate, true),
+	};
 	try {
-		const res = await http.get<SaleTrendPoint[]>("/j3-statis/courseSaleByDay", params);
-		if (res.data?.length) return res.data;
+		const res = await http.get<unknown>("/j3-statis/courseSaleByDay", query);
+		const rows = unwrapJsonData<SaleTrendPoint>(res.data);
+		if (rows.length) return rows;
 	} catch {
-		// 本地测试时回退到 mock 数据
 	}
 	return filterTrendByRange(mockSaleTrendData, params.startDate, params.endDate);
 }
 
 export async function queryCourseSalesTotal(params: { startDate?: string; endDate?: string }) {
 	const http = useHttp();
+	const query = {
+		startDate: toQueryDateTime(params.startDate, false),
+		endDate: toQueryDateTime(params.endDate, true),
+	};
 	try {
-		const res = await http.get<CourseSalesTotalPoint[]>("/j3-statis/courseSalesTotal", params);
-		if (res.data?.length) return res.data;
+		const res = await http.get<unknown>("/j3-statis/courseSalesTotal", query);
+		const rows = unwrapJsonData<CourseSalesTotalPoint>(res.data);
+		if (rows.length) return rows;
 	} catch {
-		// 本地测试时回退到 mock 数据
 	}
 	return mockCourseSalesTotalData;
 }
