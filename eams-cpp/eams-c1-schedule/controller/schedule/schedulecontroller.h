@@ -52,7 +52,7 @@ public:
     // 3.2 定义新增预约接口处理
     API_HANDLER_ENDPOINT_AUTH(
         API_M_POST,
-        "/c1-schedule/sCenter/lesson/appoint",
+        "/c1schedule/sCenter/lesson/appoint",
         addAppointment,
         BODY_DTO(ScheduleAppointmentDTO::Wrapper, dto),
         execAddAppointment(dto, authObject->getPayload()) // 传递 DTO 和 Payload (通常包含当前用户/家长信息)
@@ -70,7 +70,7 @@ public:
     // 3.2 定义新增请假接口处理
     API_HANDLER_ENDPOINT_AUTH(
         API_M_POST,
-        "/c1-schedule/sCenter/lesson/leave",
+        "/c1schedule/sCenter/lesson/leave",
         addLeave,
         BODY_DTO(ScheduleLeaveDTO::Wrapper, dto),
         execAddLeave(dto, authObject->getPayload())
@@ -78,7 +78,7 @@ public:
 
     // 获取课表列表 (GET)
     API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("lesson.list.summary"), listLesson, LessonQuery, LessonPageJsonVO::Wrapper, API_TAG);
-    API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c1-schedule/sCenter/lesson/list", listLesson, LessonQuery, execListLesson(query, authObject->getPayload()));
+    API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c1schedule/sCenter/lesson/list", listLesson, LessonQuery, execListLesson(query, authObject->getPayload()));
 
     // 学生签到 (POST) - 改用 PATH 参数定义
     API_DEF_ENDPOINT_INFO_AUTH(
@@ -91,7 +91,7 @@ public:
 
     API_HANDLER_ENDPOINT_AUTH(
         API_M_POST,
-        "/c1-schedule/sCenter/lesson/sign/{lessonId}",
+        "/c1schedule/sCenter/lesson/sign/{lessonId}",
         signLesson,
         PATH(Int64, lessonId), // 从 URL 路径中提取 lessonId
         execSignLesson(lessonId, authObject->getPayload())
