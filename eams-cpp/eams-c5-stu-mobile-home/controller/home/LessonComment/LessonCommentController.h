@@ -32,7 +32,7 @@ public:
 		API_DEF_ADD_QUERY_PARAMS(Int64, "student_id", ZH_WORDS_GETTER("LessonComment.field.student_id"), 1, true);
 	}
 
-	ENDPOINT(API_M_GET, "/c5-home/lessoncomment", LessonComment, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME)
+	ENDPOINT(API_M_GET, "/c5home/lessoncomment", LessonComment, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME)
 	{
 		API_HANDLER_QUERY_PARAM(query, LessonCommentQuery, params);
 		API_HANDLER_RESP_VO(executeQueryLessonComment(query));

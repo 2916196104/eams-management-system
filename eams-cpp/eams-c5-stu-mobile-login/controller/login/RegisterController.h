@@ -20,7 +20,7 @@ public:
 	// 3.1 定义新增接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("login.register.summary"), Register, StringJsonVO::Wrapper, ZH_WORDS_GETTER("login.summary"));
 	// 3.2 定义新增接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c5-login/register", Register, BODY_DTO(RegisterAddDTO::Wrapper, dto), executeRegister(dto, authObject->getPayload()));
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c5login/register", Register, BODY_DTO(RegisterAddDTO::Wrapper, dto), executeRegister(dto, authObject->getPayload()));
 
 private:
 	StringJsonVO::Wrapper executeRegister(const RegisterAddDTO::Wrapper& dto, const PayloadDTO& payload);

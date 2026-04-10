@@ -18,7 +18,7 @@ public:
 	// 3.1 定义新增接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("schedule.appointment.info"), appointment, StringJsonVO::Wrapper, ZH_WORDS_GETTER("schedule.summary"));
 	// 3.2 定义新增接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c5-schedule/appointment", appointment, BODY_DTO(AppointmentAddDTO::Wrapper, dto), executeAppointment(dto, authObject->getPayload()));
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c5schedule/appointment", appointment, BODY_DTO(AppointmentAddDTO::Wrapper, dto), executeAppointment(dto, authObject->getPayload()));
 
 
 private:

@@ -19,7 +19,7 @@ public:
 	// 定义查询所有积分商品信息接口描述
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("get-credit-mall-list.summary"), queryAllCreditMallList, CreditMallListQuery, CreditMallListJsonVO::Wrapper, API_TAG);
 	// 定义查询所有积分商品信息接口端点
-	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c5-home/credit/get_credit_mall_list", queryAllCreditMallList, CreditMallListQuery, executeQueryAll(query));
+	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c5home/credit/get_credit_mall_list", queryAllCreditMallList, CreditMallListQuery, executeQueryAll(query));
 private:
 	CreditMallListPageJsonVO::Wrapper executeQueryAll(const CreditMallListQuery::Wrapper& creditmallQuery);
 

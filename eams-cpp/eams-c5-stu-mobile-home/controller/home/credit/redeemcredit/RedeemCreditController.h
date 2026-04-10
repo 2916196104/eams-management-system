@@ -20,7 +20,7 @@ public:
 
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("redeemcredit.summary"), redeemcredit, StringJsonVO::Wrapper, API_TAG);
 
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c5-home/credit/redeemcredit", redeemcredit, BODY_DTO(RedeemCreditDTO::Wrapper, dto), execRedeemCredit(dto, authObject->getPayload()));
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c5home/credit/redeemcredit", redeemcredit, BODY_DTO(RedeemCreditDTO::Wrapper, dto), execRedeemCredit(dto, authObject->getPayload()));
 
 
 private:
