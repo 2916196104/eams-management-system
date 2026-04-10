@@ -27,12 +27,12 @@ public:
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("position.datapermission.endpoint.modifyoradd"), savePositionDataPermission, Uint64JsonVO::Wrapper, API_TAG);
 
 	// 定义新增职位数据权限接口端点
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/org/position/dataPermissionSave", savePositionDataPermission, BODY_DTO(PositionDataDTO::Wrapper, dto), executesavePositionDataPermission(dto));
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c2-org/position/dataPermissionSave", savePositionDataPermission, BODY_DTO(PositionDataDTO::Wrapper, dto), executesavePositionDataPermission(dto));
 
 	// -02: 删除职位数据权限的接口(支持批量删除)
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("position.datapermission.endpoint.delete"), deletePositionDataPermission, ListJsonVO<UInt64>::Wrapper, API_TAG);
 
-	API_HANDLER_ENDPOINT_AUTH(API_M_DEL, "/org/position/dataPermissionDelete", deletePositionDataPermission, BODY_DTO(List<UInt64>, ids), execdeleteDataPermission(ids));
+	API_HANDLER_ENDPOINT_AUTH(API_M_DEL, "/c2-org/position/dataPermissionDelete", deletePositionDataPermission, BODY_DTO(List<UInt64>, ids), execdeleteDataPermission(ids));
 
 
 private: // 定义接口执行函数

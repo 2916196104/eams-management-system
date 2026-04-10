@@ -52,7 +52,7 @@ public:
 	
 	// 接口定义(路由注册)
 	// 需要的查询参数有多个，所以参数四用QUERIES(变量类型, 变量名)
-	ENDPOINT(API_M_GET, "/org/staff/getEmpList", getEmpList, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_GET, "/c2-org/staff/getEmpList", getEmpList, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
 		// 解析报文参数:params-->PageQuery类型的query变量
 		API_HANDLER_QUERY_PARAM(query, StaffPageQuery, params); // PageQuery类是专为分页查询的数据对象,详情看其定义
 
@@ -68,7 +68,7 @@ public:
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("staff.saveEmp.controller.summary"), saveEmp, StringJsonVO::Wrapper, API_TAG);
 
 	// 3.2 定义新增接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/org/staff/saveEmp", saveEmp, BODY_DTO(StaffSaveDTO::Wrapper, dto), executeSaveEmp(dto));
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c2-org/staff/saveEmp", saveEmp, BODY_DTO(StaffSaveDTO::Wrapper, dto), executeSaveEmp(dto));
 	
 
 	// 定义修改头像接口
@@ -82,7 +82,7 @@ public:
 		API_DEF_ADD_FILE_FORM(AvatarUploadDTO::Wrapper);
 		API_DEF_ADD_TAG(API_TAG);
 	}
-	ENDPOINT(API_M_POST, "/org/staff/modifyAvatar", modifyAvatar, BODY_DTO(AvatarUploadDTO::Wrapper,dto), API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_POST, "/c2-org/staff/modifyAvatar", modifyAvatar, BODY_DTO(AvatarUploadDTO::Wrapper,dto), API_HANDLER_AUTH_PARAME) {
 		// 直接调用处理函数
 		API_HANDLER_RESP_VO(executeModifyAvatar(dto));
 		//return createResponse(Status::CODE_200, ZH_WORDS_GETTER("modifyAvatar.resp"));
@@ -91,13 +91,13 @@ public:
 	//定义修改密码接口描述
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("staff.change-psword.summary"), changePassword, StringJsonVO::Wrapper,ZH_WORDS_GETTER("staff.tag"));
 	//定义修改密码接口
-	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/org/staff/changePassword", changePassword, BODY_DTO(StaffChangePasswordDTO::Wrapper, dto), executeStaffPassWordChange(dto));
+	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c2-org/staff/changePassword", changePassword, BODY_DTO(StaffChangePasswordDTO::Wrapper, dto), executeStaffPassWordChange(dto));
 
 	//定义员工列表导出接口描述
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("staff.export-list.summary"), exportList, StaffExportQueryDto, StringJsonVO::Wrapper, ZH_WORDS_GETTER("staff.tag"));
 
 	//定义员工列表导出接口
-	ENDPOINT(API_M_GET, "/org/staff/list", exportList, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_GET, "/c2-org/staff/list", exportList, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
 		API_HANDLER_QUERY_PARAM(exportQuery, StaffExportQueryDto, queryParams);
 		API_HANDLER_RESP_VO(executeStaffListExport(exportQuery));
 	}
@@ -113,7 +113,7 @@ public:
 	  API_DEF_QUERY_PARAM_BUILD(DutyRecordQueryDTO);
 	  API_DEF_ADD_TAG(API_TAG);
 	}
-    ENDPOINT(API_M_GET, "/org/employee/getDutyRecord", getDutyRecord, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
+    ENDPOINT(API_M_GET, "/c2-org/employee/getDutyRecord", getDutyRecord, QUERIES(QueryParams, params), API_HANDLER_AUTH_PARAME) {
         //解析查询参数
         API_HANDLER_QUERY_PARAM(query, DutyRecordQueryDTO, params);
         //相应结果
@@ -149,7 +149,7 @@ public:
 
     API_HANDLER_ENDPOINT_AUTH(
         API_M_DEL,
-        "/org/staff/remove",
+        "/c2-org/staff/remove",
         removeStaffByIds,
         BODY_DTO(StaffBatchDeleteQuery::Wrapper, deleteQuery),  // 使用完整类型
         execRemoveStaffByIds(deleteQuery)
@@ -158,17 +158,17 @@ public:
 	// 定义设置角色接口描述(支持批量)
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("staff.setRole"), setRole, ListJsonVO<String>::Wrapper, API_TAG);
 	// 定义设置角色接口处理(支持批量)
-	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "/org/staff/setRole", setRole, BODY_DTO(List<String>, ids), execSetRole(ids, authObject->getPayload()));
+	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "/c2-org/staff/setRole", setRole, BODY_DTO(List<String>, ids), execSetRole(ids, authObject->getPayload()));
 
 	// 定义在职状态接口描述(支持批量)
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("staff.setOnJob"), setOnJob, ListJsonVO<String>::Wrapper, API_TAG);
 	// 定义在职状态接口处理(支持批量)
-	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "/org/staff/setOnJob", setOnJob, BODY_DTO(List<String>, ids), execSetJob(ids, authObject->getPayload()));
+	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "/c2-org/staff/setOnJob", setOnJob, BODY_DTO(List<String>, ids), execSetJob(ids, authObject->getPayload()));
 
 	// 定义转出机构接口描述(支持批量)
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("staff.setInstitution"), setInstitution, ListJsonVO<String>::Wrapper, API_TAG);
 	// 定义转出机构接口处理(支持批量)
-	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "/org/staff/setInstitution", setInstitution, BODY_DTO(List<String>, ids), execSetInstitution(ids, authObject->getPayload()));
+	API_HANDLER_ENDPOINT_AUTH(API_M_PUT, "/c2-org/staff/setInstitution", setInstitution, BODY_DTO(List<String>, ids), execSetInstitution(ids, authObject->getPayload()));
 
 private:
     StaffDetailJsonVO::Wrapper execGetStaffDetail(const String& id);

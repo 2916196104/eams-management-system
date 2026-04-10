@@ -17,7 +17,7 @@
 
 // #include "domain/query/StudentQuery/StudentQuery.h"
 #include "domain/query/student/StudentQuery.h"
-#include "domain/query/student/IdQuery.h"
+//#include "domain/query/student/IdQuery.h"
 #include "domain/vo/student/StudentVO.h"
 
 // 生成API控制器代码宏

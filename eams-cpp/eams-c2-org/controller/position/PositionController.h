@@ -51,7 +51,7 @@ public:
     vo->data = data;
     example.addExample("example", vo);
   }
-  ENDPOINT("GET", "/org/position/all", fetchPositionAll,
+  ENDPOINT("GET", "/c2-org/position/all", fetchPositionAll,
            AUTHORIZATION(std::shared_ptr<CustomerAuthorizeObject>, auth));
 
   ENDPOINT_INFO(fetchPositionList) {
@@ -78,7 +78,7 @@ public:
     vo->page = 1;
     example.addExample("example", vo);
   }
-  ENDPOINT("GET", "/org/position/list", fetchPositionList,
+  ENDPOINT("GET", "/c2-org/position/list", fetchPositionList,
            AUTHORIZATION(std::shared_ptr<CustomerAuthorizeObject>, auth),
            QUERY(Int32, pageNum, "pageNum", 1),
            QUERY(Int32, pageSize, "pageSize", 10),
@@ -100,7 +100,7 @@ public:
     vo->data = 10;
     example.addExample("example", vo);
   }
-  ENDPOINT("POST", "/org/position/save", savePosition,
+  ENDPOINT("POST", "/c2-org/position/save", savePosition,
            AUTHORIZATION(std::shared_ptr<CustomerAuthorizeObject>, auth),
            BODY_DTO(PositionSaveRequestDTO::Wrapper, dto));
 
@@ -109,13 +109,13 @@ public:
   ENDPOINT_INFO(getPositionDataPermissionList) {
     info->addTag(API_TAG);
   }
-  ENDPOINT("POST", "/positions/data/permissions/list", getPositionDataPermissionList, BODY_DTO(oatpp::Object<PositionDataPermissionQueryDTO>, request));
+  ENDPOINT("POST", "/c2-org/positions/data/permissions/list", getPositionDataPermissionList, BODY_DTO(oatpp::Object<PositionDataPermissionQueryDTO>, request));
 
     // 为第二个接口添加标签
   ENDPOINT_INFO(deletePositions) {
     info->addTag(API_TAG);
   }
-  ENDPOINT("POST", "/positions/delete", deletePositions, BODY_DTO(oatpp::Object<DeletePositionRequestDTO>, request));
+  ENDPOINT("POST", "/c2-org/positions/delete", deletePositions, BODY_DTO(oatpp::Object<DeletePositionRequestDTO>, request));
 private: // 定义接口执行函数
 };
 

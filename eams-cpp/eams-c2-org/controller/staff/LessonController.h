@@ -22,7 +22,7 @@ class LessonController : public oatpp::web::server::api::ApiController // 1 ç»§æ
 public:
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("staff.get-lesson-record.summary"), getLessonRecord, LessonQuery,StringJsonVO::Wrapper, ZH_WORDS_GETTER("staff.tag"));
 
-	ENDPOINT(API_M_GET, "/org/staff/lesson/list", getLessonRecord, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
+	ENDPOINT(API_M_GET, "/c2-org/staff/lesson/list", getLessonRecord, QUERIES(QueryParams, queryParams), API_HANDLER_AUTH_PARAME) {
 		API_HANDLER_QUERY_PARAM(lessonQuery, LessonQuery, queryParams);
 		API_HANDLER_RESP_VO(executeGetLessonRecord(lessonQuery));
 	}
