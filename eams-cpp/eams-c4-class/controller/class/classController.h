@@ -20,7 +20,7 @@ public:
 		ZH_WORDS_GETTER("class1.summary"), classDetail, ClassDetailJsonVO::Wrapper, API_TAG,
 		API_DEF_ADD_QUERY_PARAMS(String, "id", ZH_WORDS_GETTER("class1.detail.ID"), "string-number", true););
 	// 3.2 定义ID查询接口处理
-	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "c4-class/class_detail",classDetail ,QUERY(String,id), execClassDetail(id));
+	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "c4class/class_detail",classDetail ,QUERY(String,id), execClassDetail(id));
 
 private:
 	ClassDetailJsonVO::Wrapper execClassDetail(const String& id);

@@ -18,12 +18,12 @@ class ClassStudentController : public oatpp::web::server::api::ApiController
 	API_ACCESS_DECLARE(ClassStudentController);
 public:
 	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("class.queryClassStudentList.summary"), queryClassStudentList, ClassStudentQuery, ClassStudentListPageJsonVO::Wrapper, API_TAG);
-	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c4-class/queryClassStudentList", queryClassStudentList, ClassStudentQuery, execQueryClassStudentList(query));
+	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c4class/queryClassStudentList", queryClassStudentList, ClassStudentQuery, execQueryClassStudentList(query));
 
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("class.queryClassStudentDetail.summary"), queryClassStudentDetail, ClassStudentDetailJsonVO::Wrapper, API_TAG,
 		API_DEF_ADD_QUERY_PARAMS(UInt64, "id", ZH_WORDS_GETTER("class.field.classStudentId"), 8601, true);
 	);
-	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c4-class/queryClassStudentDetail", queryClassStudentDetail, QUERY(UInt64, id), execQueryClassStudentDetail(id));
+	API_HANDLER_ENDPOINT_AUTH(API_M_GET, "/c4class/queryClassStudentDetail", queryClassStudentDetail, QUERY(UInt64, id), execQueryClassStudentDetail(id));
 
 	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("class.queryClassStudentCourseList.summary"), queryClassStudentCourseList, ClassStudentCoursePageJsonVO::Wrapper, API_TAG,
 		API_DEF_ADD_PAGE_PARAMS();
@@ -31,7 +31,7 @@ public:
 		API_DEF_ADD_QUERY_PARAMS(UInt64, "studentId", ZH_WORDS_GETTER("class.field.studentId"), 8401, true);
 		API_DEF_ADD_QUERY_PARAMS(String, "keyword", ZH_WORDS_GETTER("class.field.keyword"), "", false);
 	);
-	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c4-class/queryClassStudentCourseList", queryClassStudentCourseList, ClassStudentCourseQuery, execQueryClassStudentCourseList(query));
+	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c4class/queryClassStudentCourseList", queryClassStudentCourseList, ClassStudentCourseQuery, execQueryClassStudentCourseList(query));
 
 private:
 	ClassStudentListPageJsonVO::Wrapper execQueryClassStudentList(const ClassStudentQuery::Wrapper& query);
