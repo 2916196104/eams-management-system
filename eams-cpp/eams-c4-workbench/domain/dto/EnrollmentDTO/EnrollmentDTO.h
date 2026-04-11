@@ -6,6 +6,47 @@
 /*
 * 保存报名数据传输对象
 */
+class EnrollDTO : public oatpp::DTO
+{
+	DTO_INIT(EnrollDTO, DTO);
+	DTO_FIELD(Int32, studentId);
+	DTO_FIELD_INFO(studentId) {
+		info->description = ZH_WORDS_GETTER("enrollment.field.studentId");
+	}
+	DTO_FIELD(Int32, courseId);
+	DTO_FIELD_INFO(courseId) {
+		info->description = ZH_WORDS_GETTER("enrollment.field.courseId");
+	}
+	DTO_FIELD(String, paidCourseAmount);
+	DTO_FIELD_INFO(paidCourseAmount) {
+		info->description = ZH_WORDS_GETTER("enrollment.field.paidCourseAmount");
+	}
+	DTO_FIELD(String, courseAmount);
+	DTO_FIELD_INFO(courseAmount) {
+		info->description = ZH_WORDS_GETTER("enrollment.field.courseAmount");
+	}
+	DTO_FIELD(Int32, OrgId);
+	DTO_FIELD_INFO(OrgId) {
+		info->description = ZH_WORDS_GETTER("enrollment.field.OrgId");
+	}
+	DTO_FIELD(Int32, Operator);
+	DTO_FIELD_INFO(Operator) {
+		info->description = ZH_WORDS_GETTER("enrollment.field.Operator");
+	}
+	CC_SYNTHESIZE(const PayloadDTO*, _payload, Payload);
+public:
+	std::string validate() {
+		std::string errorMsg;
+		if (studentId <= 0) {
+			errorMsg += ZH_WORDS_GETTER("enrollment.validate.studentId") + ";";
+		}
+		if (courseId <= 0) {
+			errorMsg += ZH_WORDS_GETTER("enrollment.validate.courseId") + ";";
+		}
+		return errorMsg;
+	}
+	
+};
  class EnrollmentSaveDTO : public oatpp::DTO {
 
 	 DTO_INIT(EnrollmentSaveDTO, DTO);

@@ -6,42 +6,42 @@
 
 namespace {
 
-std::string toStd(const oatpp::String& s) {
-	return s ? std::string(s->c_str()) : std::string();
-}
+	std::string toStd(const oatpp::String& s) {
+		return s ? std::string(s->c_str()) : std::string();
+	}
 
-std::string teacherIdFromListQuery(const HomeworkListQueryDTO::Wrapper& query) {
-	if (!query) {
-		return {};
+	std::string teacherIdFromListQuery(const HomeworkListQueryDTO::Wrapper& query) {
+		if (!query) {
+			return {};
+		}
+		const std::string t = toStd(query->teacher_id);
+		if (!t.empty()) {
+			return t;
+		}
+		return toStd(query->admin_id);
 	}
-	const std::string t = toStd(query->teacher_id);
-	if (!t.empty()) {
-		return t;
-	}
-	return toStd(query->admin_id);
-}
 
-int32_t queryPageIndex(const HomeworkListQueryDTO::Wrapper& query) {
-	if (query && query->pageIndex && *query->pageIndex > 0) {
-		const auto v = *query->pageIndex;
-		return v > static_cast<v_uint64>(INT32_MAX) ? 1 : static_cast<int32_t>(v);
+	int32_t queryPageIndex(const HomeworkListQueryDTO::Wrapper& query) {
+		if (query && query->pageIndex && *query->pageIndex > 0) {
+			const auto v = *query->pageIndex;
+			return v > static_cast<v_uint64>(INT32_MAX) ? 1 : static_cast<int32_t>(v);
+		}
+		if (query && query->page && *query->page > 0) {
+			return *query->page;
+		}
+		return 1;
 	}
-	if (query && query->page && *query->page > 0) {
-		return *query->page;
-	}
-	return 1;
-}
 
-int32_t queryPageSize(const HomeworkListQueryDTO::Wrapper& query) {
-	if (query && query->pageSize && *query->pageSize > 0) {
-		const auto v = *query->pageSize;
-		return v > static_cast<v_uint64>(INT32_MAX) ? 10 : static_cast<int32_t>(v);
+	int32_t queryPageSize(const HomeworkListQueryDTO::Wrapper& query) {
+		if (query && query->pageSize && *query->pageSize > 0) {
+			const auto v = *query->pageSize;
+			return v > static_cast<v_uint64>(INT32_MAX) ? 10 : static_cast<int32_t>(v);
+		}
+		if (query && query->size && *query->size > 0) {
+			return *query->size;
+		}
+		return 10;
 	}
-	if (query && query->size && *query->size > 0) {
-		return *query->size;
-	}
-	return 10;
-}
 
 } // namespace
 

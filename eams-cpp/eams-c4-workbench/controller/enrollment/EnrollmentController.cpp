@@ -2,7 +2,7 @@
 #include"../../service/EnrollmentService/EnrollmentService.h"
 #include"stdafx.h"
 
-StringJsonVO::Wrapper EnrollmentController::execSaveEnrolled(const EnrollmentDTO::Wrapper& dto, const PayloadDTO& payload)
+StringJsonVO::Wrapper EnrollmentController::execSaveEnrolled(const EnrollDTO::Wrapper& dto, const PayloadDTO& payload)
 {
 	//定义返回数据对象
 	auto Jvo = StringJsonVO::createShared();

@@ -57,6 +57,7 @@
 
 class1:
  summary: 获取班级详情
+ detail.ID: 唯一标识ID
 
 Class:
   get:

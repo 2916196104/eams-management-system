@@ -127,12 +127,11 @@ class EnrolledRecordMapper : public Mapper<EnrolledRecordDO>
 	EnrolledRecordDO mapper(ResultSet* resultSet)const override
 	{
 		EnrolledRecordDO data;
-		data.setId(resultSet->getInt(1));
-		data.setStudentName(resultSet->getString(2));
-		data.setCourseName(resultSet->getString(3));
-		data.setStartDate(resultSet->getString(4));
-		data.setExpireDate(resultSet->getString(5));
-		data.setAmount(resultSet->getString(6));
+		data.setStudentName(resultSet->getString(1));
+		data.setCourseName(resultSet->getString(2));
+		data.setStartDate(resultSet->getString(3));
+		data.setExpireDate(resultSet->getString(4));
+		data.setAmount(resultSet->getString(5));
 		return data;
 	}
 };

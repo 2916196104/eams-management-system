@@ -3,7 +3,7 @@
 #ifndef _STUDENT_FILE_CONTROLLER_
 #define _STUDENT_FILE_CONTROLLER_
 
-#include "domain/vo/lxianyu-vo/ClassVO.h"
+#include "domain/vo/lxianyu-vo/ClassVo.h"
 #include "domain/vo/BaseJsonVO.h"
 #include "domain/query/lxianyu-query/ClassQuery.h"
 #include "domain/dto/lxianyu-dto/ClassDTO.h"

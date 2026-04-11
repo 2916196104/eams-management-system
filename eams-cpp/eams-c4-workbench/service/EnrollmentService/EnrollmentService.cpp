@@ -4,35 +4,35 @@
 #include"../../../lib-common/include/id/UuidFacade.h"
 #include"SimpleDateTimeFormat.h"
 #include"../../domain/do/StudentCourseDO.h"
-std::string EnrollmentService::saveEnrollment(const EnrollmentSaveDTO::Wrapper& dto)
+std::string EnrollmentService::saveEnrollment(const EnrollDTO::Wrapper& dto)
 {
 	// 组装DO数据
 	StudentCourseDO data;
 	//校验课程和学生是否存在
-	auto course =EnrollmentDAO().selectCourseById(std::to_string(dto->courseId));
+	auto course = EnrollmentDAO().selectCourseById(std::to_string(dto->courseId));
 	if (!course)
 	{
 		throw std::runtime_error(ZH_WORDS_GETTER("enrollment.error.courseNotFound"));
 	}
 	auto student = EnrollmentDAO().selectStudentById(std::to_string(dto->studentId));
-	if(!student)
+	if (!student)
 	{
 		throw std::runtime_error(ZH_WORDS_GETTER("enrollment.error.studentNotFound"));
 	}
 	//重复报名校验
-	if (EnrollmentDAO().countByStudentAndCourse(dto->studentId, dto->courseId) == 0)
+	/*if (EnrollmentDAO().countByStudentAndCourse(dto->studentId, dto->courseId) == 0)
 	{
 		throw std::runtime_error(ZH_WORDS_GETTER("enrollment.error.RepeatedEnrolled"));
-	}
+	}*/
 	//生成唯一ID
 	UuidFacade uf;
 	auto id = uf.genUuid();
 	int idInt = std::stoi(id);//string转int类型
-	if(idInt<=0)
+	if (idInt <= 0)
 	{
 		throw std::runtime_error(ZH_WORDS_GETTER("enrollment.error.idGenerationFailed"));
 	}
-	data.setId(idInt);
+	data.setId(10);
 	data.setStudentId(dto->studentId);
 	data.setCourseId(dto->courseId);
 	int subjectIdInt = std::stoi(course->getSubject_id());
@@ -41,9 +41,9 @@ std::string EnrollmentService::saveEnrollment(const EnrollmentSaveDTO::Wrapper& 
 	//时间相关
 	data.setAddTime(SimpleDateTimeFormat::format());
 	data.setStartDate(SimpleDateTimeFormat::format());
-	if(course->getExpire_months()>0)
+	if (course->getExpire_months() > 0)
 	{
-		data.setExpireDate(addMonths(SimpleDateTimeFormat::format(),course->getExpire_months()));
+		data.setExpireDate(addMonths(SimpleDateTimeFormat::format(), course->getExpire_months()));
 	}
 	else
 	{
@@ -52,34 +52,63 @@ std::string EnrollmentService::saveEnrollment(const EnrollmentSaveDTO::Wrapper& 
 	//金额相关
 	double courseAmount = std::stod(course->getPrice());
 	data.setCourseAmount(courseAmount);
-	data.setDiscountAmount(std::stod(course->getDiscount()));
-	data.setAmount(std::stod(dto->courseAmount));
-	data.setPaidAmount(std::stod(dto->paidCourseAmount));
-	data.setPayOff((std::stod(dto->paidCourseAmount)>=std::stod(dto->courseAmount)) ? 1 : 0);
-	data.setUnitPrice(std::stod(course->getUnit_price()));
-	data.setCountLessonTotal(course->getLesson_count());
-	data.setCountLessonComplete(0);
-	data.setCountLessonRefund(0);
-	//状态相关
-	data.setDeleted(0);
-	data.setVerifyState(1);      // 待审核
-	data.setWarningTimes(0); // 不足时已提醒次数
-	data.setPriority(1);         // 默认优先级
-	data.setFromTrial(0);
-	//创建人以及组织相关
-	auto CreatorId=dto->getPayload()->getId();
-	int creatorIdInt = std::stoi(CreatorId);
-	data.setCreator(creatorIdInt);
-	data.setOrgId(dto->OrgId); // 组织ID
-	data.setOperatorId(dto->Operator);  // 经手人ID
+	if (course->getDiscount() == "")
+	{
+		data.setDiscountAmount(0);
+	}
+	else {
+		double discountAmount = std::stod(course->getDiscount());
+		data.setDiscountAmount(discountAmount);
+	}
+	if (course->getDiscount() == "")
+	{
+		data.setAmount(courseAmount);
+		double paidAmount = std::stod(dto->paidCourseAmount);
+		data.setPaidAmount(paidAmount);
 
-	data.setEditor(NULL);           // 或 NULL
-	data.setEditTime("");
-	//调用DAO保存数据
-	EnrollmentDAO dao;
-	//将longlong数据类型进行转换
-	idInt = data.getId();
-	return dao.insert(data)==1? std::to_string(idInt) : "";
+		bool PayOff = paidAmount >= courseAmount;
+		data.setPayOff(PayOff);
+	}
+	else {
+		double amountAfterDiscount = courseAmount - std::stod(course->getDiscount());
+		data.setAmount(amountAfterDiscount);
+		double paidAmount = std::stod(dto->paidCourseAmount);
+		data.setPaidAmount(paidAmount);
+
+		bool PayOff = paidAmount >= amountAfterDiscount;
+		data.setPayOff(PayOff);
+	}
+		data.setUnitPrice(std::stod(course->getUnit_price()));
+		data.setCountLessonTotal(course->getLesson_count());
+		data.setCountLessonComplete(0);
+		data.setCountLessonRefund(0);
+		//状态相关
+		data.setDeleted(0);
+		data.setVerifyState(1);      // 待审核
+		data.setWarningTimes(0); // 不足时已提醒次数
+		data.setPriority(1);         // 默认优先级
+		data.setFromTrial(0);
+		//创建人以及组织相关
+		auto CreatorId = dto->getPayload()->getId();
+		int creatorIdInt = std::stoi(CreatorId);
+		data.setCreator(creatorIdInt);
+		data.setOrgId(dto->OrgId); // 组织ID
+		data.setOperatorId(dto->Operator);  // 经手人ID
+
+		data.setEditor(0);           // 或 NULL
+		data.setEditTime("2025-01-01");
+		//调用DAO保存数据
+		EnrollmentDAO dao;
+		//将longlong数据类型进行转换
+		idInt = data.getId();
+		if (dao.insert(data) > 0)
+		{
+			return std::to_string(idInt);
+		}
+		else {
+			return "insert fail";
+		}
+	
 }
 
 // 判断闰年

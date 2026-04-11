@@ -23,17 +23,17 @@ public:
 	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c4-workbench/homework/list", getHomeworkList, HomeworkListQueryDTO,
 		executeGetHomeworkList(authObject, query))
 
-	API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("homework.detail.summary"), getHomeworkDetail, HomeworkDetailQueryDTO,
-		HomeworkDetailJsonVO::Wrapper, API_TAG);
+		API_DEF_ENDPOINT_INFO_QUERY_AUTH(ZH_WORDS_GETTER("homework.detail.summary"), getHomeworkDetail, HomeworkDetailQueryDTO,
+			HomeworkDetailJsonVO::Wrapper, API_TAG);
 	API_HANDLER_ENDPOINT_QUERY_AUTH(API_M_GET, "/c4-workbench/homework/detail", getHomeworkDetail, HomeworkDetailQueryDTO,
 		executeGetHomeworkDetail(authObject, query))
 
-	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("homework.add.summary"), addHomework, HomeworkAddJsonVO::Wrapper, API_TAG);
+		API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("homework.add.summary"), addHomework, HomeworkAddJsonVO::Wrapper, API_TAG);
 	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c4-workbench/homework/add", addHomework,
 		BODY_DTO(HomeworkAddBodyDTO::Wrapper, body),
 		executeAddHomework(authObject, body))
 
-	API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("homework.comment.summary"), commentHomework, HomeworkCommentJsonVO::Wrapper, API_TAG);
+		API_DEF_ENDPOINT_INFO_AUTH(ZH_WORDS_GETTER("homework.comment.summary"), commentHomework, HomeworkCommentJsonVO::Wrapper, API_TAG);
 	API_HANDLER_ENDPOINT_AUTH(API_M_POST, "/c4-workbench/homework/comment", commentHomework,
 		BODY_DTO(HomeworkCommentBodyDTO::Wrapper, body),
 		executeCommentHomework(authObject, body))

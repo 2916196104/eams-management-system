@@ -18,7 +18,7 @@ EnrolledRecordPageDTO::Wrapper EnrolledRecordService::getEnrolledRecordList(cons
 	}
 	pages->total= totalCount;
 	pages->calcPages();
-	list<EnrolledRecordDO>result = dao.selectEnrolledRecordListByQuery(query);
+	list<EnrolledRecordDO> result = dao.selectEnrolledRecordListByQuery(query);
 
 	for(EnrolledRecordDO& item: result)
 	{

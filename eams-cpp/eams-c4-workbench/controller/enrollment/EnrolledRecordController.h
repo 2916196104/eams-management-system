@@ -31,6 +31,8 @@ public:
 		API_DEF_ADD_RSP_JSON_WRAPPER(EnrolledRecordListJsonVO);//根据情况在设置
 		//定义分页查询参数
 		API_DEF_ADD_PAGE_PARAMS();
+		//姓名
+		//API_DEF_ADD_QUERY_PARAMS(String,"name",ZH_WORDS_GETTER(" "),"zhang san",false);
 	}
 	// 3.2 定义获取报名记录接口处理
 	ENDPOINT(API_M_GET, "/c4-workbench/enrollment/record", EnrolledRecord,QUERIES(QueryParams,queryEnrolled),API_HANDLER_AUTH_PARAME) {

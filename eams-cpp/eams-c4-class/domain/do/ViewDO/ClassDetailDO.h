@@ -34,7 +34,7 @@ public:
 		MYSQL_ADD_FIELD_PK("id", "s", id);
 		MYSQL_ADD_FIELD("class_name", "s", className);
 		MYSQL_ADD_FIELD("staff_name", "s", staffName);
-		MYSQL_ADD_FIELD("room_name", "s", roomName);
+		MYSQL_ADD_FIELD_NULLABLE("room_name", "s", roomName,true);
 		MYSQL_ADD_FIELD("course_name", "s", courseName);
 		MYSQL_ADD_FIELD("start_date", "s", startDate);
 		MYSQL_ADD_FIELD("end_date", "s", endDate);

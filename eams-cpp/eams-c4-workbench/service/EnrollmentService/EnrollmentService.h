@@ -8,7 +8,7 @@ class EnrollmentService
 {
 	public:
 	//定义保存报名信息接口
-		std::string saveEnrollment(const EnrollmentSaveDTO::Wrapper& dto);
+		std::string saveEnrollment(const EnrollDTO::Wrapper& dto);
 		std::string addMonths(const std::string& dateStr, int months);
 };
 

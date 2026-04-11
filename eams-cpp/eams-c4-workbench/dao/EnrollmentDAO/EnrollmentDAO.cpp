@@ -10,7 +10,7 @@
  */
 PtrCourseDO EnrollmentDAO::selectCourseById(std::string id)
 {
-	string sql = "SELECT id,subject_id,name,price,discount,lessson_count,lesson_type ,expire_months,unit_price FROM course WHERE id = ? AND state=1";
+	string sql = "SELECT id,subject_id,name,price,discount,lesson_count,lesson_type ,expire_months,unit_price FROM course WHERE id = ? AND state= 1";
 	return sqlSession->executeQueryOne<PtrCourseDO>(sql,PtrCourseMapper(),"s",id);
 }
 
@@ -22,7 +22,7 @@ PtrStudentDO EnrollmentDAO::selectStudentById(std::string id)
 }
 bool EnrollmentDAO::countByStudentAndCourse(int studentId, int courseId)
 {
-	string sql = "SELECT count(1) FROM student_course WHERE student_id = ? AND course_id = ? AND deleted=0";
+	string sql = "SELECT count(*) FROM student_course WHERE student_id = ? AND course_id = ? AND deleted=0";
 	return sqlSession->executeQueryNumerical(sql, "ii", studentId, courseId) > 0;
 }
 /**
@@ -33,7 +33,7 @@ bool EnrollmentDAO::countByStudentAndCourse(int studentId, int courseId)
 std::string EnrollmentDAO::queryConditonBuilder(const EnrolledQuery::Wrapper& query, SqlParams& params)
 {
 	stringstream sqlCondition;
-	sqlCondition << "WHERE 1=1";
+	sqlCondition << " WHERE 1=1 ";
 	if (query->CourseName)
 	{
 		sqlCondition << " AND student_name = ?";
@@ -41,22 +41,22 @@ std::string EnrollmentDAO::queryConditonBuilder(const EnrolledQuery::Wrapper& qu
 	}
 	if (query->StudentName)
 	{
-		sqlCondition<< " AND course_name =?";
+		sqlCondition<< " AND course_name = ?";
 		SQLPARAMS_PUSH(params, "s", std::string, query->StudentName.getValue(""));
 	}
 	if (query->StartDate)
 	{
-		sqlCondition<<" AND start_date >= ?";
+		sqlCondition<<" AND start_date = ?";
 		SQLPARAMS_PUSH(params, "s", std::string, query->StartDate.getValue(""));
 	}
 	if (query->ExpireDate)
 	{
-		sqlCondition<<" AND expire_date <= ?";
+		sqlCondition<<" AND expire_date = ?";
 		SQLPARAMS_PUSH(params, "s", std::string, query->ExpireDate.getValue(""));
 	}
 	if (query->Amount)
 	{
-		sqlCondition<< " AND price = ?";
+		sqlCondition<< " AND amount = ?";
 		SQLPARAMS_PUSH(params, "d", double, query->Amount.getValue(0));
 	}
 	return sqlCondition.str();
@@ -66,7 +66,7 @@ std::string EnrollmentDAO::queryConditonBuilder(const EnrolledQuery::Wrapper& qu
 uint64_t EnrollmentDAO::countByQuery(const EnrolledQuery::Wrapper& query)
 {
 	SqlParams sqlParams;
-	string sql = "SELECT count(1) FROM EnrolledRecord";
+	string sql = "SELECT count(*) FROM enrolled_record ";
 	sql += queryConditonBuilder(query, sqlParams);
 	return sqlSession->executeQueryNumerical(sql, sqlParams);
 }
@@ -76,9 +76,9 @@ uint64_t EnrollmentDAO::countByQuery(const EnrolledQuery::Wrapper& query)
 std::list<EnrolledRecordDO> EnrollmentDAO::selectEnrolledRecordListByQuery(const EnrolledQuery::Wrapper& query)
 {
 	SqlParams params;
-	string sql = "SELECT student_name,course_name,start_time,expire_time,price FROM EnrolledRecord";
+	string sql = "SELECT student_name,course_name,start_date,expire_date,amount FROM enrolled_record ";
 	sql += queryConditonBuilder(query, params);
-	sql += " ORDER BY IFNULL(start_time) DESC ,id DESC";
+	sql += " ORDER BY id DESC";
 	sql += " LIMIT "+ std::to_string(((query->pageIndex - 1) * query->pageSize)) + "," + std::to_string(query->pageSize);
 	
 	return sqlSession->executeQuery<EnrolledRecordDO>(sql, EnrolledRecordMapper(), params);
@@ -86,6 +86,6 @@ std::list<EnrolledRecordDO> EnrollmentDAO::selectEnrolledRecordListByQuery(const
 
 PtrEnrolledRecordDetailDO EnrollmentDAO::selectDetailById(int id)
 {
-	string sql = "SELECT student_name,course_name,subject_name,start_time,expire_time,course_amount,discount_amount,paid_amount,owed_amount,submit_time,remark,total_lessons,completed_lessons,remaining_lessons,refundInfo FROM EnrolledRecord WHERE id = ?";
+	string sql = "SELECT student_name,course_name,subject_name,start_date,expire_date,course_amount,discount_amount,paid_amount,owe_amount,submit_time,remark,total_lessons,completed_lessons,remaining_lessons,refund_info FROM enrolled_record_detail WHERE id = ?";
 	return sqlSession->executeQueryOne<PtrEnrolledRecordDetailDO>(sql, PtrEnrolledRecordDetailMapper(), "i", id);
 }

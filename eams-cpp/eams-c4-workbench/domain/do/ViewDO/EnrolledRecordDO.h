@@ -68,6 +68,7 @@ class EnrolledRecordDetailDO : public BaseDO
 	MYSQL_SYNTHESIZE(int, remainingLessons, RemainingLessons);
 	//退款信息
 	MYSQL_SYNTHESIZE(string, refundInfo, RefundInfo);
+
 public:
 	EnrolledRecordDetailDO() : BaseDO("enrolled_record_detail")
 	{
@@ -94,7 +95,7 @@ public:
 		//提交记录时间
 		MYSQL_ADD_FIELD("submit_time", "s", submitTime);
 		//备注说明
-		MYSQL_ADD_FIELD("remark", "s", remark);
+		MYSQL_ADD_FIELD_NULLABLE("remark", "s", remark,true);
 		//课程总次数
 		MYSQL_ADD_FIELD("total_lessons", "i", totalLessons);
 		//已上课次
@@ -102,7 +103,7 @@ public:
 		//剩余课次
 		MYSQL_ADD_FIELD("remaining_lessons", "i", remainingLessons);
 		//退款信息
-		MYSQL_ADD_FIELD("refund_info", "s", refundInfo);
+		MYSQL_ADD_FIELD_NULLABLE("refund_info", "s", refundInfo,true);
 	}
 };
 typedef std::shared_ptr<EnrolledRecordDO> PtrEnrolledRecordDO;
