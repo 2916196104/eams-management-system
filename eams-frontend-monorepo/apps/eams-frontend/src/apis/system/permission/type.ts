@@ -30,6 +30,16 @@ export interface RolepermStaffDTO {
 	mobile?: string;
 }
 
+/** 当前可选员工 */
+export interface RolepermOperatorDTO {
+	/** 员工 ID */
+	id?: number;
+	/** 员工姓名 */
+	name?: string;
+	/** 职位名称 */
+	positionName?: string;
+}
+
 /** 权限描述对象 */
 export interface QuanXianMiaoShuDuiXiang {
 	/** 权限 ID */
@@ -46,7 +56,7 @@ export interface QuanXianMiaoShuDuiXiang {
 	path?: string;
 	/** 接口请求 URL */
 	url?: string;
-	/** 是否启用 1-启用 0-禁用 */
+	/** 是否启用 */
 	enabled?: 0 | 1;
 }
 

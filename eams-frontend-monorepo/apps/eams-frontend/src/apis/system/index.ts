@@ -211,8 +211,8 @@ let roles: RoleRecord[] = [
 		description: "拥有系统全部操作权限",
 		memberCount: 2,
 		members: [
-			{ id: 1, name: "陈校长" },
-			{ id: 2, name: "运营负责人" },
+			{ staffId: 1, name: "陈校长" },
+			{ staffId: 2, name: "运营负责人" },
 		],
 		permissionIds: [
 			"system.notice",
@@ -231,8 +231,8 @@ let roles: RoleRecord[] = [
 		description: "负责课程、排课与通知配置",
 		memberCount: 2,
 		members: [
-			{ id: 3, name: "王老师" },
-			{ id: 4, name: "赵老师" },
+			{ staffId: 3, name: "王老师" },
+			{ staffId: 4, name: "赵老师" },
 		],
 		permissionIds: ["system.notice", "system.setting", "system.notification", "student.read"],
 	},
@@ -243,8 +243,8 @@ let roles: RoleRecord[] = [
 		description: "负责咨询与基础资料维护",
 		memberCount: 2,
 		members: [
-			{ id: 5, name: "周顾问" },
-			{ id: 6, name: "许顾问" },
+			{ staffId: 5, name: "周顾问" },
+			{ staffId: 6, name: "许顾问" },
 		],
 		permissionIds: ["system.notice", "student.read"],
 	},
@@ -393,7 +393,12 @@ export async function updateSystemSetting(
 export async function listRoles(): Promise<RoleRecord[]> {
 	const http = useHttp();
 	try {
-		const res = await http.get<RolepermDTO[] | PageDTO<RolepermDTO>>("/sys/roleperm/nameList");
+		let res;
+		try {
+			res = await http.get<RolepermDTO[] | PageDTO<RolepermDTO>>("/j2-sys/roleperm/nameList");
+		} catch {
+			res = await http.get<RolepermDTO[] | PageDTO<RolepermDTO>>("/sys/roleperm/nameList");
+		}
 		return normalizeRoleRecords(res.data);
 	} catch {
 		await delay();
@@ -452,16 +457,40 @@ export async function deleteRole(roleId: string): Promise<void> {
 	}
 }
 
+async function fetchRoleMemberPage(
+	http: ReturnType<typeof useHttp>,
+	params: {
+		roleId: number;
+		pageIndex: number;
+		pageSize: number;
+		name?: string;
+	},
+): Promise<PageDTO<RolepermStaffDTO>> {
+	try {
+		const res = await http.get<PageDTO<RolepermStaffDTO>>("/j2-sys/roleperm/list/staff", params);
+		return createPageDTO(res.data);
+	} catch {
+		try {
+			const res = await http.get<PageDTO<RolepermStaffDTO>>("/sys/roleperm/list/staff", params);
+			return createPageDTO(res.data);
+		} catch {
+			const res = await http.get<PageDTO<RolepermStaffDTO>>("/sys/roleperm", params);
+			return createPageDTO(res.data);
+		}
+	}
+}
+
 export async function listRoleMembers(roleId: string, keyword = ""): Promise<RolepermStaffDTO[]> {
 	const http = useHttp();
+	const query = {
+		roleId: Number(roleId),
+		pageIndex: 1,
+		pageSize: 100,
+		name: keyword || undefined,
+	};
 	try {
-		const res = await http.get<PageDTO<RolepermStaffDTO>>("/sys/roleperm", {
-			roleId: Number(roleId),
-			pageIndex: 1,
-			pageSize: 100,
-			name: keyword || undefined,
-		});
-		return normalizeRoleMembers(res.data?.rows || []);
+		const page = await fetchRoleMemberPage(http, query);
+		return normalizeRoleMembers(page.rows || []);
 	} catch {
 		await delay();
 		const role = roles.find((item) => item.id === roleId);
@@ -474,15 +503,29 @@ export async function listRoleMembers(roleId: string, keyword = ""): Promise<Rol
 export async function addRoleMember(roleId: string, staffId: string): Promise<void> {
 	const http = useHttp();
 	try {
-		await http.post(`/sys/roleperm?roleId=${Number(roleId)}`, {
-			staffId: Number(staffId),
-		});
+		try {
+			await http.post("/j2-sys/roleperm/save/staff", {
+				roleId: Number(roleId),
+				staffId: Number(staffId),
+			});
+		} catch {
+			try {
+				await http.post("/sys/roleperm/save/staff", {
+					roleId: Number(roleId),
+					staffId: Number(staffId),
+				});
+			} catch {
+				await http.post(`/sys/roleperm?roleId=${Number(roleId)}`, {
+					staffId: Number(staffId),
+				});
+			}
+		}
 	} catch {
 		await delay();
 		const role = roles.find((item) => item.id === roleId);
 		if (!role) return;
-		if (role.members.some((item) => String(item.id) === staffId)) return;
-		role.members = [...role.members, { id: Number(staffId), name: `员工${staffId}` }];
+		if (role.members.some((item) => String(item.staffId) === staffId)) return;
+		role.members = [...role.members, { staffId: Number(staffId), name: `员工${staffId}` }];
 		role.memberCount = role.members.length;
 	}
 }
@@ -490,14 +533,26 @@ export async function addRoleMember(roleId: string, staffId: string): Promise<vo
 export async function removeRoleMember(roleId: string, staffId: string): Promise<void> {
 	const http = useHttp();
 	try {
-		await http.delete(`/sys/roleperm/${staffId}`, {
-			roleId: Number(roleId),
-		});
+		try {
+			await http.delete(`/j2-sys/roleperm/delete/staff/${staffId}`, {
+				roleId: Number(roleId),
+			});
+		} catch {
+			try {
+				await http.delete(`/sys/roleperm/delete/staff/${staffId}`, {
+					roleId: Number(roleId),
+				});
+			} catch {
+				await http.delete(`/sys/roleperm/${staffId}`, {
+					roleId: Number(roleId),
+				});
+			}
+		}
 	} catch {
 		await delay();
 		const role = roles.find((item) => item.id === roleId);
 		if (!role) return;
-		role.members = role.members.filter((item) => String(item.id) !== staffId);
+		role.members = role.members.filter((item) => String(item.staffId) !== staffId);
 		role.memberCount = role.members.length;
 	}
 }
@@ -526,7 +581,11 @@ export async function getPermissionTree(roleId: string): Promise<RolePermissionT
 export async function updateRolePermissions(roleId: string, permissions: PermissionDTO[]): Promise<void> {
 	const http = useHttp();
 	try {
-		await http.post(`/sys/roleperm/modify/${roleId}`, permissions);
+		try {
+			await http.post(`/j2-sys/roleperm/modify/${roleId}`, permissions);
+		} catch {
+			await http.post(`/sys/roleperm/modify/${roleId}`, permissions);
+		}
 	} catch {
 		await delay();
 		const role = roles.find((item) => item.id === roleId);
@@ -957,8 +1016,9 @@ function normalizeRoleRecords(data?: RolepermDTO[] | PageDTO<RolepermDTO>): Role
 
 function normalizeRoleMembers(data: RolepermStaffDTO[]): RolepermStaffDTO[] {
 	return data.map((item) => ({
-		id: Number(item.id),
-		name: item.name || `员工${item.id}`,
+		staffId: Number(item.staffId ?? (item as RolepermStaffDTO & { id?: number }).id ?? 0),
+		roleId: item.roleId != null ? Number(item.roleId) : undefined,
+		name: item.name || `员工${Number(item.staffId ?? (item as RolepermStaffDTO & { id?: number }).id ?? 0) || ""}`,
 		mobile: item.mobile,
 	}));
 }
