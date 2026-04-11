@@ -13,9 +13,9 @@ import java.util.List;
 
 public interface ILoginService {
 
-    LoginPageConfigVO getLoginPageConfig();
+    LoginPageConfigVO getLoginPageConfig(String terminalType);
 
-    JsonVO<Oauth2TokenDTO> authLogin(LoginDTO  loginDTO);
+    JsonVO<Oauth2TokenDTO> authLogin(LoginDTO loginDTO);
 
     JsonVO<Oauth2TokenDTO> refreshToken(RefreshTokenDTO refreshTokenDTO);
 

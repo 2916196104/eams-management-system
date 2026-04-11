@@ -5,8 +5,11 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.anji.captcha.model.common.ResponseModel;
 import com.zeroone.cloud.oauth2.entity.Oauth2Token;
+import com.zeroone.star.login.config.LoginCaptchaProperties;
+import com.zeroone.star.login.entity.AppUserDO;
 import com.zeroone.star.login.entity.StaffDO;
 import com.zeroone.star.login.exception.LoginException;
+import com.zeroone.star.login.mapper.AppUserMapper;
 import com.zeroone.star.login.mapper.RoleMapper;
 import com.zeroone.star.login.mapper.StaffMapper;
 import com.zeroone.star.login.service.ILoginService;
@@ -14,8 +17,8 @@ import com.zeroone.star.login.service.IMenuService;
 import com.zeroone.star.login.service.OauthService;
 import com.zeroone.star.project.components.jwt.JwtComponent;
 import com.zeroone.star.project.components.jwt.exception.JwtExpiredException;
-import com.zeroone.star.project.components.user.UserHolder;
 import com.zeroone.star.project.components.user.UserDTO;
+import com.zeroone.star.project.components.user.UserHolder;
 import com.zeroone.star.project.constant.RedisConstant;
 import com.zeroone.star.project.dto.login.LoginDTO;
 import com.zeroone.star.project.dto.login.Oauth2TokenDTO;
@@ -26,18 +29,14 @@ import com.zeroone.star.project.vo.ResultStatus;
 import com.zeroone.star.project.vo.login.LoginPageConfigVO;
 import com.zeroone.star.project.vo.login.LoginVO;
 import com.zeroone.star.project.vo.login.MenuTreeVO;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.annotation.Resource;
-import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +45,9 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class LoginServiceImpl implements ILoginService {
+
+    private static final String TERMINAL_MANAGER = "manager";
+    private static final String TERMINAL_USER = "user";
 
     private static final String OAUTH_GRANT_TYPE = "grant_type";
     private static final String OAUTH_CLIENT_ID = "client_id";
@@ -62,159 +64,142 @@ public class LoginServiceImpl implements ILoginService {
     RedisTemplate<String, Object> redisTemplate;
     @Resource
     private IMenuService menuService;
-
     @Resource
     private StaffMapper staffMapper;
-
+    @Resource
+    private AppUserMapper appUserMapper;
     @Resource
     private RoleMapper roleMapper;
-
     @Resource
     private PasswordEncoder passwordEncoder;
-
     @Resource
     private CaptchaBusinessService captchaBusinessService;
+    @Resource
+    private LoginCaptchaProperties loginCaptchaProperties;
 
     @Value("${zo.cloud.starter.oauth2.mgr-id}")
-    String clientId;
+    String managerClientId;
     @Value("${zo.cloud.starter.oauth2.mgr-password}")
-    String clientPassword;
-    @Value("${login.captcha.enabled:false}")
-    Boolean captchaEnabled;
+    String managerClientPassword;
+    @Value("${zo.cloud.starter.oauth2.user-id}")
+    String userClientId;
+    @Value("${zo.cloud.starter.oauth2.user-password}")
+    String userClientPassword;
 
     @Autowired
     private JwtComponent jwtComponent;
 
-
     @Override
-    public LoginPageConfigVO getLoginPageConfig() {
+    public LoginPageConfigVO getLoginPageConfig(String terminalType) {
         LoginPageConfigVO config = new LoginPageConfigVO();
         config.setLoginMode("account-password");
-        config.setCaptchaEnabled(Boolean.TRUE);
+        config.setCaptchaEnabled(isCaptchaEnabled(terminalType));
         config.setCaptchaType("aj-captcha");
         config.setCaptchaPathPrefix("/captcha");
         return config;
     }
 
     @Override
-    public JsonVO<Oauth2TokenDTO> authLogin(@Validated @RequestBody @ApiParam(value = "登录请求参数", required = true) LoginDTO loginDTO) {
-        // 验证码二次校验
-        if (captchaEnabled) {
-            //校验LoginDTO
+    public JsonVO<Oauth2TokenDTO> authLogin(LoginDTO loginDTO) {
+        String terminalType = normalizeTerminalType(loginDTO == null ? null : loginDTO.getTerminalType());
+        if (isCaptchaEnabled(terminalType)) {
             if (StrUtil.isBlank(loginDTO.getCode())) {
-                JsonVO.create(null, ResultStatus.FAIL.getCode(), "验证码不能为空");
+                return JsonVO.create(null, ResultStatus.FAIL.getCode(), "\u9a8c\u8bc1\u7801\u4e0d\u80fd\u4e3a\u7a7a");
             }
-            //校验验证码
             ResponseModel responseModel = captchaBusinessService.verification(loginDTO.getCode());
             if (!responseModel.isSuccess()) {
-                return JsonVO.create(null, Integer.parseInt(responseModel.getRepCode()), responseModel.getRepMsg());
+                return JsonVO.create(
+                        null,
+                        Convert.toInt(responseModel.getRepCode(), ResultStatus.FAIL.getCode()),
+                        responseModel.getRepMsg()
+                );
             }
         }
-        // 账号密码认证
+
         Map<String, String> params = new HashMap<>(5);
-        params.put("grant_type", "password");
-        params.put("client_id", clientId);
-        params.put("client_secret", clientPassword);
-        params.put("username", loginDTO.getUsername());
-        params.put("password", loginDTO.getPassword()) ;
+        params.put(OAUTH_GRANT_TYPE, "password");
+        params.put(OAUTH_CLIENT_ID, resolveClientId(terminalType));
+        params.put(OAUTH_CLIENT_SECRET, resolveClientPassword(terminalType));
+        params.put(OAUTH_USERNAME, loginDTO.getUsername());
+        params.put(OAUTH_PASSWORD, loginDTO.getPassword());
         Oauth2Token oauth2Token = oAuthService.postAccessToken(params);
 
-        // 认证失败
         if (oauth2Token.getErrorMsg() != null) {
             return JsonVO.create(null, ResultStatus.FAIL.getCode(), oauth2Token.getErrorMsg());
         }
 
-        // TODO:未实现认证成功后如何实现注销凭证（如记录凭证到内存数据库）
         Oauth2TokenDTO tokenDTO = BeanUtil.toBean(oauth2Token, Oauth2TokenDTO.class);
-        //缓存token到白名单
-        redisTemplate.opsForValue().set(
-                RedisConstant.LOGOUT_TOKEN_PREFIX + tokenDTO.getToken(),
-                RedisConstant.TOKEN_STATUS_ACTIVE,
-                oauth2Token.getExpiresIn(),
-                TimeUnit.SECONDS
-        );
-
-        // 响应认证成功数据
+        cacheActiveToken(tokenDTO.getToken(), oauth2Token.getExpiresIn());
         return JsonVO.success(tokenDTO);
     }
 
-
     @Override
     public JsonVO<Oauth2TokenDTO> refreshToken(RefreshTokenDTO refreshTokenDTO) {
-        // 注销凭证验证
         try {
             jwtComponent.defaultRsaVerify(refreshTokenDTO.getToken());
-        }catch (Exception e){
-            if (!(e instanceof JwtExpiredException))
-                return JsonVO.create(null, ResultStatus.FAIL.getCode(),e.getMessage());
+        } catch (Exception e) {
+            if (!(e instanceof JwtExpiredException)) {
+                return JsonVO.create(null, ResultStatus.FAIL.getCode(), e.getMessage());
+            }
         }
 
-        // 刷新凭证
+        String terminalType = normalizeTerminalType(refreshTokenDTO.getTerminalType());
         Map<String, String> params = new HashMap<>(4);
-        params.put("grant_type", "refresh_token");
-        params.put("client_id", clientId);
-        params.put("client_secret", clientPassword);
-        params.put("refresh_token", refreshTokenDTO.getRefreshToken());
+        params.put(OAUTH_GRANT_TYPE, "refresh_token");
+        params.put(OAUTH_CLIENT_ID, resolveClientId(terminalType));
+        params.put(OAUTH_CLIENT_SECRET, resolveClientPassword(terminalType));
+        params.put(OAUTH_REFRESH_TOKEN, refreshTokenDTO.getRefreshToken());
         Oauth2Token oauth2Token = oAuthService.postAccessToken(params);
-        // 刷新失败
         if (oauth2Token.getErrorMsg() != null) {
             return JsonVO.create(null, ResultStatus.FAIL.getCode(), oauth2Token.getErrorMsg());
         }
 
         Oauth2TokenDTO tokenDTO = BeanUtil.toBean(oauth2Token, Oauth2TokenDTO.class);
-        redisTemplate.opsForValue().getOperations()
-                .delete(RedisConstant.LOGOUT_TOKEN_PREFIX+refreshTokenDTO.getToken());
-        redisTemplate.opsForValue().set(
-                RedisConstant.LOGOUT_TOKEN_PREFIX+oauth2Token.getToken()
-                ,RedisConstant.TOKEN_STATUS_ACTIVE,
-                oauth2Token.getExpiresIn(), TimeUnit.SECONDS);
-
-        // 响应刷新成功数据
+        deleteActiveToken(refreshTokenDTO.getToken());
+        cacheActiveToken(oauth2Token.getToken(), oauth2Token.getExpiresIn());
         return JsonVO.success(tokenDTO);
     }
 
     @Override
     public LoginVO getCurrentUser() {
-        Long userId = resolveCurrentUserId();
+        UserDTO currentUser = resolveCurrentUser();
+        Long userId = Convert.toLong(currentUser.getId());
         if (userId == null) {
             throw new LoginException("Current user was not found");
         }
-
-        StaffDO staff = staffMapper.selectCurrentUserById(userId);
-        if (staff == null) {
-            throw new LoginException("Current user does not exist or is disabled");
+        if (isUserTerminal(currentUser.getTerminalType())) {
+            return buildAppUserLoginVO(userId);
         }
-
-        LoginVO loginVO = new LoginVO();
-        loginVO.setId(String.valueOf(staff.getId()));
-        loginVO.setUsername(staff.getMobile());
-        loginVO.setName(staff.getName());
-        loginVO.setAvatar(StringUtils.hasText(staff.getHeadImg()) ? staff.getHeadImg() : "");
-        loginVO.setMobile(staff.getMobile());
-        loginVO.setIsEnabled(resolveEnabled(staff));
-        loginVO.setRoles(defaultIfNull(roleMapper.selectRoleCodesByUserId(userId)));
-        loginVO.setPermissions(defaultIfNull(roleMapper.selectPermissionCodesByUserId(userId)));
-        return loginVO;
+        return buildStaffLoginVO(userId);
     }
 
     @Override
     public String resetPassword(SelfResetPasswordDTO resetPasswordDTO) {
-        Long userId = resolveCurrentUserId();
+        UserDTO currentUser = resolveCurrentUser();
+        Long userId = Convert.toLong(currentUser.getId());
         if (userId == null) {
             throw new LoginException("Current user was not found");
         }
 
-        StaffDO staff = staffMapper.selectCurrentUserById(userId);
-        if (staff == null) {
-            throw new LoginException("Current user does not exist or is disabled");
+        String encodedPassword = passwordEncoder.encode(resetPasswordDTO.getNewPassword());
+        int updatedRows;
+        if (isUserTerminal(currentUser.getTerminalType())) {
+            AppUserDO appUser = appUserMapper.selectCurrentUserById(userId);
+            if (appUser == null) {
+                throw new LoginException("Current user does not exist or is disabled");
+            }
+            updatedRows = appUserMapper.updatePasswordByUserId(userId, encodedPassword);
+        } else {
+            StaffDO staff = staffMapper.selectCurrentUserById(userId);
+            if (staff == null) {
+                throw new LoginException("Current user does not exist or is disabled");
+            }
+            updatedRows = staffMapper.updatePasswordByUserId(userId, encodedPassword);
         }
 
-        String encodedPassword = passwordEncoder.encode(resetPasswordDTO.getNewPassword());
-        int updatedRows = staffMapper.updatePasswordByUserId(userId, encodedPassword);
         if (updatedRows != 1) {
             throw new LoginException("Password reset failed");
         }
-
         return "\u5bc6\u7801\u4fee\u6539\u6210\u529f\uff0c\u8bf7\u91cd\u65b0\u767b\u5f55";
     }
 
@@ -236,39 +221,82 @@ public class LoginServiceImpl implements ILoginService {
         return menuService.listMenuByRoleName(roleCodes);
     }
 
-    private void validateCaptcha(String code) {
-        ResponseModel response = captchaBusinessService.verification(code);
-        if (response == null) {
-            throw new LoginException("Captcha validation failed");
+    private LoginVO buildStaffLoginVO(Long userId) {
+        StaffDO staff = staffMapper.selectCurrentUserById(userId);
+        if (staff == null) {
+            throw new LoginException("Current user does not exist or is disabled");
         }
 
-        Object successValue = invokeGetter(response, "isSuccess");
-        if (successValue == null) {
-            successValue = invokeGetter(response, "getSuccess");
-        }
-        if (successValue instanceof Boolean && (Boolean) successValue) {
-            return;
-        }
-
-        Object repCode = invokeGetter(response, "getRepCode");
-        if ("0000".equals(String.valueOf(repCode))) {
-            return;
-        }
-
-        Object message = invokeGetter(response, "getRepMsg");
-        if (message == null) {
-            message = invokeGetter(response, "getMessage");
-        }
-        throw new LoginException(message == null ? "Captcha validation failed" : String.valueOf(message));
+        LoginVO loginVO = new LoginVO();
+        loginVO.setId(String.valueOf(staff.getId()));
+        loginVO.setUsername(staff.getMobile());
+        loginVO.setName(staff.getName());
+        loginVO.setAvatar(StringUtils.hasText(staff.getHeadImg()) ? staff.getHeadImg() : "");
+        loginVO.setMobile(staff.getMobile());
+        loginVO.setIsEnabled(resolveEnabled(staff));
+        loginVO.setRoles(defaultIfNull(roleMapper.selectRoleCodesByUserId(userId)));
+        loginVO.setPermissions(defaultIfNull(roleMapper.selectPermissionCodesByUserId(userId)));
+        return loginVO;
     }
 
-    private Object invokeGetter(Object target, String methodName) {
-        try {
-            Method method = target.getClass().getMethod(methodName);
-            return method.invoke(target);
-        } catch (Exception ignored) {
-            return null;
+    private LoginVO buildAppUserLoginVO(Long userId) {
+        AppUserDO appUser = appUserMapper.selectCurrentUserById(userId);
+        if (appUser == null) {
+            throw new LoginException("Current user does not exist or is disabled");
         }
+
+        LoginVO loginVO = new LoginVO();
+        loginVO.setId(String.valueOf(appUser.getId()));
+        loginVO.setUsername(appUser.getMobile());
+        loginVO.setName(appUser.getName());
+        loginVO.setAvatar("");
+        loginVO.setMobile(appUser.getMobile());
+        loginVO.setIsEnabled(resolveEnabled(appUser));
+        loginVO.setRoles(defaultIfNull(roleMapper.selectRoleCodesByUserId(userId)));
+        loginVO.setPermissions(defaultIfNull(roleMapper.selectPermissionCodesByUserId(userId)));
+        return loginVO;
+    }
+
+    private void cacheActiveToken(String token, long expiresIn) {
+        if (!StringUtils.hasText(token) || redisTemplate == null) {
+            return;
+        }
+        redisTemplate.opsForValue().set(
+                RedisConstant.LOGOUT_TOKEN_PREFIX + token,
+                RedisConstant.TOKEN_STATUS_ACTIVE,
+                expiresIn,
+                TimeUnit.SECONDS
+        );
+    }
+
+    private void deleteActiveToken(String token) {
+        if (!StringUtils.hasText(token) || redisTemplate == null) {
+            return;
+        }
+        redisTemplate.delete(RedisConstant.LOGOUT_TOKEN_PREFIX + token);
+    }
+
+    private boolean isCaptchaEnabled(String terminalType) {
+        return !isUserTerminal(terminalType) && Boolean.TRUE.equals(loginCaptchaProperties.getEnabled());
+    }
+
+    private boolean isUserTerminal(String terminalType) {
+        return TERMINAL_USER.equals(normalizeTerminalType(terminalType));
+    }
+
+    private String normalizeTerminalType(String terminalType) {
+        if (TERMINAL_USER.equalsIgnoreCase(terminalType)) {
+            return TERMINAL_USER;
+        }
+        return TERMINAL_MANAGER;
+    }
+
+    private String resolveClientId(String terminalType) {
+        return isUserTerminal(terminalType) ? userClientId : managerClientId;
+    }
+
+    private String resolveClientPassword(String terminalType) {
+        return isUserTerminal(terminalType) ? userClientPassword : managerClientPassword;
     }
 
     private Byte resolveEnabled(StaffDO staff) {
@@ -281,14 +309,34 @@ public class LoginServiceImpl implements ILoginService {
         return 1;
     }
 
+    private Byte resolveEnabled(AppUserDO appUser) {
+        if (appUser.getState() != null) {
+            return appUser.getState();
+        }
+        return 1;
+    }
+
     private List<String> defaultIfNull(List<String> values) {
         return values == null ? Collections.emptyList() : values;
     }
 
     private Long resolveCurrentUserId() {
+        UserDTO currentUser = resolveCurrentUser();
+        return currentUser == null ? null : Convert.toLong(currentUser.getId());
+    }
+
+    private UserDTO resolveCurrentUser() {
         try {
             UserDTO currentUser = userHolder.getCurrentUser();
-            return currentUser == null ? null : Convert.toLong(currentUser.getId());
+            if (currentUser == null) {
+                throw new LoginException("Current user was not found");
+            }
+            if (!StringUtils.hasText(currentUser.getTerminalType())) {
+                currentUser.setTerminalType(TERMINAL_MANAGER);
+            }
+            return currentUser;
+        } catch (LoginException exception) {
+            throw exception;
         } catch (Exception e) {
             throw new LoginException("Current user was not found");
         }

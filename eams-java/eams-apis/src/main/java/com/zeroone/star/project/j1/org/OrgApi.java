@@ -17,7 +17,7 @@ import java.util.List;
  * 机构管理接口
  */
 @Api(tags = "机构管理")
-@RequestMapping("/org")
+@RequestMapping("/org/institution")
 public interface OrgApi {
 
     @ApiOperation(value = "获取机构树", notes = "根据parentOrgId查询机构树，parentOrgId为0或null时查询一级节点")

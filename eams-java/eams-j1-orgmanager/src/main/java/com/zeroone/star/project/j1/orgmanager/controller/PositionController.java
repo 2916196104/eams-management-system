@@ -1,26 +1,18 @@
 package com.zeroone.star.project.j1.orgmanager.controller;
-
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.zeroone.star.project.DO.PositionDataPermissionDO;
 import com.zeroone.star.project.components.user.UserDTO;
 import com.zeroone.star.project.components.user.UserHolder;
 import com.zeroone.star.project.dto.PageDTO;
-import com.zeroone.star.project.dto.j1.org.OrgSaveDTO;
 import com.zeroone.star.project.dto.j1.org.PositionDataPermissionDTO;
 import com.zeroone.star.project.dto.j1.orgmanager.PositionDTO;
 import com.zeroone.star.project.j1.orgmanager.PositionApis;
 import com.zeroone.star.project.j1.orgmanager.mapstruct.DataPermissionConvert;
 import com.zeroone.star.project.j1.orgmanager.service.DataPermissionService;
-import com.zeroone.star.project.j1.orgmanager.service.IOrgService;
 import com.zeroone.star.project.j1.orgmanager.service.IPositionService;
-import com.zeroone.star.project.query.j1.org.OrgQuery;
 import com.zeroone.star.project.query.j1.org.PositionDataPermissionQuery;
 import com.zeroone.star.project.query.j1.orgmanager.PositionQueryCondition;
 import com.zeroone.star.project.vo.JsonVO;
-import com.zeroone.star.project.vo.ResultStatus;
-import com.zeroone.star.project.vo.j1.org.OrgDetailVO;
-import com.zeroone.star.project.vo.j1.org.OrgListVO;
-import com.zeroone.star.project.vo.j1.org.OrgTreeVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -36,12 +28,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @Validated
-@RequestMapping("/common/position")
+@RequestMapping("/org/position")
 @Api(tags = "职位管理")
 @Slf4j
 
@@ -102,6 +93,9 @@ public class PositionController implements PositionApis {
     @Resource
     private DataPermissionConvert dataPermissionConvert;
 
+    @Resource
+    private UserHolder userHolder;
+
     @Override
     @GetMapping("/queryPermission")
     @ApiOperation("获取职位数据权限列表（条件+分页）")
@@ -112,10 +106,24 @@ public class PositionController implements PositionApis {
     @Override
     @PostMapping("/savePermission")
     @ApiOperation("保存职位数据权限（新增/修改）")
-    public JsonVO<Long> addPositionDataPermission(@RequestBody PositionDataPermissionDTO positionDataPermissionDTO) {
+    public JsonVO<Long> addPositionDataPermission(@RequestBody PositionDataPermissionDTO positionDataPermissionDTO) throws Exception {
         Long id = positionDataPermissionDTO.getId();
         PositionDataPermissionDO permissionDO = dataPermissionConvert.dtoToDo(positionDataPermissionDTO);
         if (id == null) {
+            // 【安全获取当前用户】
+            UserDTO userDTO = userHolder.getCurrentUser();
+            if (userDTO == null) {
+                throw new RuntimeException("获取登录用户信息失败，请重新登录");
+            }
+
+            // 【安全获取 orgId】
+            Long orgId = userDTO.getOrgId();
+            if (orgId == null) {
+                throw new RuntimeException("当前用户部门ID为空，无法保存");
+            }
+
+            // 赋值给 positionId
+            permissionDO.setPositionId(orgId);
             if (dataPermissionService.save(permissionDO)) {
                 return JsonVO.success(permissionDO.getId());
             }

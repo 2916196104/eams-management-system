@@ -34,7 +34,7 @@ public interface PositionApis {
 
     JsonVO<PageDTO<PositionDataPermissionDTO>> queryPage(PositionDataPermissionQuery condition);
 
-    JsonVO<Long> addPositionDataPermission(PositionDataPermissionDTO positionDataPermissionDTO);
+    JsonVO<Long> addPositionDataPermission(PositionDataPermissionDTO positionDataPermissionDTO) throws Exception;
 
     JsonVO<List<Long>> removePositionDataPermission(List<Long> ids);
 

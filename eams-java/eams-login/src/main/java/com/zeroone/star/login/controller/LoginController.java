@@ -18,17 +18,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * Login API controller.
- */
 @RestController
 @RequestMapping("/login")
-@Api(tags = "登录接口")
+@Api(tags = "\u767b\u5f55\u63a5\u53e3")
 @Validated
 public class LoginController implements LoginApis {
 
@@ -36,30 +34,31 @@ public class LoginController implements LoginApis {
     private ILoginService loginService;
 
     @GetMapping("/page-config")
-    @ApiOperation(value = "获取登录页配置")
+    @ApiOperation(value = "\u83b7\u53d6\u767b\u5f55\u9875\u914d\u7f6e")
     @Override
-    public JsonVO<LoginPageConfigVO> getLoginPageConfig() {
-        return JsonVO.success(loginService.getLoginPageConfig());
+    public JsonVO<LoginPageConfigVO> getLoginPageConfig(
+            @RequestParam(value = "terminalType", required = false) String terminalType) {
+        return JsonVO.success(loginService.getLoginPageConfig(terminalType));
     }
 
     @PostMapping("/auth-login")
-    @ApiOperation(value = "认证登录")
+    @ApiOperation(value = "\u8ba4\u8bc1\u767b\u5f55")
     @Override
     public JsonVO<Oauth2TokenDTO> authLogin(
-            @Validated @RequestBody @ApiParam(value = "登录请求参数", required = true) LoginDTO loginDTO) {
+            @Validated @RequestBody @ApiParam(value = "\u767b\u5f55\u8bf7\u6c42\u53c2\u6570", required = true) LoginDTO loginDTO) {
         return loginService.authLogin(loginDTO);
     }
 
-    @PostMapping("/refresh-token" )
-    @ApiOperation(value = "刷新令牌")
+    @PostMapping("/refresh-token")
+    @ApiOperation(value = "\u5237\u65b0\u4ee4\u724c")
     @Override
     public JsonVO<Oauth2TokenDTO> refreshToken(
-            @Validated @RequestBody @ApiParam(value = "刷新令牌请求参数", required = true) RefreshTokenDTO refreshTokenDTO) {
+            @Validated @RequestBody @ApiParam(value = "\u5237\u65b0\u4ee4\u724c\u8bf7\u6c42\u53c2\u6570", required = true) RefreshTokenDTO refreshTokenDTO) {
         return loginService.refreshToken(refreshTokenDTO);
     }
 
     @GetMapping("/current-user")
-    @ApiOperation(value = "获取当前用户")
+    @ApiOperation(value = "\u83b7\u53d6\u5f53\u524d\u7528\u6237")
     @Override
     public JsonVO<LoginVO> getCurrUser() {
         return JsonVO.success(loginService.getCurrentUser());
@@ -74,14 +73,14 @@ public class LoginController implements LoginApis {
     }
 
     @GetMapping("/logout")
-    @ApiOperation(value = "退出登录")
+    @ApiOperation(value = "\u9000\u51fa\u767b\u5f55")
     @Override
     public JsonVO<String> logout() {
         return JsonVO.success(loginService.logout());
     }
 
     @GetMapping("/get-menus")
-    @ApiOperation(value = "获取菜单")
+    @ApiOperation(value = "\u83b7\u53d6\u83dc\u5355")
     @Override
     public JsonVO<List<MenuTreeVO>> getMenus() {
         return JsonVO.success(loginService.getMenus());
