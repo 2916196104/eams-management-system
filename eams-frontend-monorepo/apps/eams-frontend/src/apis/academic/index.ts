@@ -33,8 +33,13 @@ function buildCourseListQueryParams(params: CourseListQueryDTO) {
 	const queryParams: Record<string, number | string> = {};
 
 	const assignIfDefined = (key: string, value: number | string | undefined) => {
-		if (value === undefined || value === "") return;
-		queryParams[key] = value;
+		if (value === undefined || value === null || value === "") return;
+		// 数字类型直接赋值，字符串类型需要转换
+		if (typeof value === "number") {
+			queryParams[key] = value;
+		} else {
+			queryParams[key] = String(value);
+		}
 	};
 
 	assignIfDefined("pageIndex", params.pageIndex);
@@ -61,7 +66,7 @@ function buildRepeatScheduleQueryParams(params: RepeatScheduleRequestDTO) {
 	const queryParams: Record<string, number | string> = {};
 
 	const assignIfDefined = (key: string, value: number | string | undefined) => {
-		if (value === undefined || value === "") return;
+		if (value === undefined || value === null || value === "") return;
 		queryParams[key] = value;
 	};
 
@@ -79,6 +84,11 @@ function buildRepeatScheduleQueryParams(params: RepeatScheduleRequestDTO) {
 	assignIfDefined("times", params.times);
 	assignIfDefined("excludeHoliday", params.excludeHoliday);
 	assignIfDefined("status", params.status);
+	// 可选参数
+	assignIfDefined("creator", params.creator);
+	assignIfDefined("addTime", params.addTime);
+	assignIfDefined("editTime", params.editTime);
+	assignIfDefined("editor", params.editor);
 
 	params.lessonScheduleSettingDtos.forEach((item, index) => {
 		assignIfDefined(`lessonScheduleSettingDtos[${index}].scheduleId`, item.scheduleId);
@@ -132,8 +142,15 @@ function buildEvaluationListQueryParams(params: EvaluationQueryDTO) {
 	const queryParams: Record<string, number | string | boolean> = {};
 
 	const assignIfDefined = (key: string, value: number | string | boolean | undefined) => {
-		if (value === undefined || value === "" || value === null) return;
-		queryParams[key] = value;
+		if (value === undefined || value === null || value === "") return;
+		// 根据类型处理值
+		if (typeof value === "boolean") {
+			queryParams[key] = value;
+		} else if (typeof value === "number") {
+			queryParams[key] = value;
+		} else {
+			queryParams[key] = String(value);
+		}
 	};
 
 	assignIfDefined("pageIndex", params.pageIndex);
@@ -182,7 +199,12 @@ function buildLessonCalendarQueryParams(params: LessonCalendarQueryDTO) {
 
 	const assignIfDefined = (key: string, value: number | string | undefined) => {
 		if (value === undefined || value === null || value === "") return;
-		queryParams[key] = String(value);
+		// 数字类型直接赋值，字符串类型需要转换
+		if (typeof value === "number") {
+			queryParams[key] = value;
+		} else {
+			queryParams[key] = String(value);
+		}
 	};
 
 	assignIfDefined("classId", params.classId);
@@ -236,7 +258,7 @@ function buildSwitchScheduleQueryParams(params: SwitchScheduleRequestDTO) {
 	const queryParams: Record<string, string | number> = {};
 
 	const assignIfDefined = (key: string, value: string | number | undefined) => {
-		if (value === undefined || value === "") return;
+		if (value === undefined || value === null || value === "") return;
 		queryParams[key] = value;
 	};
 
@@ -269,55 +291,26 @@ export const switchSchedule = async (params: SwitchScheduleRequestDTO): Promise<
 
 /**
  * 停/复课
- * Apifox 定义为 query 数组参数，这里直接拼到 URL 上，避免序列化格式差异。
- * @param courseIds 课次 ID 列表
+ * 请求方式为 PUT + JSON body。
+ * @param lessonIds 课次 ID 列表
  * @param isResume true=复课 false=停课
  */
-export const resumeCourses = async (courseIds: number[], isResume: boolean): Promise<ResumeCoursesResponseDTO> => {
-	const idsQuery = courseIds.map((id) => `courseIds=${encodeURIComponent(String(id))}`).join("&");
-	const query = `${idsQuery}&isResume=${encodeURIComponent(String(isResume))}`;
-	return http.put<number>(`/j5/courseschedule/resume?${query}`, undefined, {
-		upType: DataUpType.form,
+export const resumeCourses = async (lessonIds: number[], isResume: boolean): Promise<ResumeCoursesResponseDTO> => {
+	const res = await http.put<ResumeCoursesResponseDTO>("/j5-course-schedule/pause-resume", {
+		lessonIds,
+		isResume,
 	});
+	return res as unknown as ResumeCoursesResponseDTO;
 };
-
-function buildBatchUpdateCoursesQuery(params: BatchUpdateCoursesDTO) {
-	const queryParts: string[] = [];
-
-	params.lessonIds.forEach((id) => {
-		queryParts.push(`lessonIds=${encodeURIComponent(String(id))}`);
-	});
-
-	const appendIfDefined = (key: string, value: string | number | undefined) => {
-		if (value === undefined || value === "") return;
-		queryParts.push(`${key}=${encodeURIComponent(String(value))}`);
-	};
-
-	appendIfDefined("dayOffset", params.dayOffset);
-	appendIfDefined("teacherId", params.teacherId);
-	appendIfDefined("teacherName", params.teacherName);
-	appendIfDefined("assistantId", params.assistantId);
-	appendIfDefined("assistantName", params.assistantName);
-	appendIfDefined("classroomId", params.classroomId);
-	appendIfDefined("classroomName", params.classroomName);
-	appendIfDefined("startTime", params.startTime);
-	appendIfDefined("endTime", params.endTime);
-
-	return queryParts.join("&");
-}
 
 /**
  * 批量修改课次
+ * 请求方式为 PUT + JSON body。
  * @param params 批量修改参数
  */
 export const batchUpdateCourses = async (params: BatchUpdateCoursesDTO): Promise<BatchUpdateCoursesResponseDTO> => {
-	return http.put<string>(
-		`/j5/courseschedule/batch-update-courses?${buildBatchUpdateCoursesQuery(params)}`,
-		undefined,
-		{
-			upType: DataUpType.form,
-		},
-	);
+	const res = await http.put<BatchUpdateCoursesResponseDTO>("/j5-course-schedule/batch-update-courses", params);
+	return res as unknown as BatchUpdateCoursesResponseDTO;
 };
 
 function buildUpdateCourseQuery(params: UpdateCourseDTO) {
@@ -361,7 +354,7 @@ function buildFreeScheduleQueryParams(params: FreeScheduleRequestDTO) {
 	const queryParams: Record<string, number | string | boolean> = {};
 
 	const assignIfDefined = (key: string, value: number | string | boolean | undefined) => {
-		if (value === undefined || value === "") return;
+		if (value === undefined || value === null || value === "") return;
 		queryParams[key] = value;
 	};
 
@@ -378,6 +371,11 @@ function buildFreeScheduleQueryParams(params: FreeScheduleRequestDTO) {
 	assignIfDefined("times", params.times);
 	assignIfDefined("excludeHoliday", params.excludeHoliday);
 	assignIfDefined("status", params.status);
+	// 可选参数
+	assignIfDefined("creator", params.creator);
+	assignIfDefined("addTime", params.addTime);
+	assignIfDefined("editTime", params.editTime);
+	assignIfDefined("editor", params.editor);
 
 	params.lessonScheduleSettingDtos.forEach((item, index) => {
 		assignIfDefined(`lessonScheduleSettingDtos[${index}].scheduleId`, item.scheduleId);

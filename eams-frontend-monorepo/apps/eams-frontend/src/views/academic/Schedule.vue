@@ -1748,27 +1748,31 @@ function updateMockCourseReservation(ids: number[], enabled: boolean) {
 }
 
 function updateMockCoursesByBatch(payload: BatchUpdateCoursesDTO) {
-	const idSet = new Set(payload.lessonIds);
+	const idSet = new Set(payload.updateIds);
 
 	DEV_MOCK_SCHEDULE_ROWS.forEach((row) => {
 		if (typeof row.id !== "number" || !idSet.has(row.id)) return;
 
 		let lessonTimeText = row.lessonTimeText;
-		lessonTimeText = applyTimeOverride(lessonTimeText, payload.startTime, payload.endTime);
-		lessonTimeText = applyDayOffset(lessonTimeText, payload.dayOffset);
+		// 将时间对象转换为字符串格式 "HH:mm:ss"
+		const startTimeStr = payload.startTime
+			? `${String(payload.startTime.hour).padStart(2, "0")}:${String(payload.startTime.minute).padStart(2, "0")}:${String(payload.startTime.second).padStart(2, "0")}`
+			: undefined;
+		const endTimeStr = payload.endTime
+			? `${String(payload.endTime.hour).padStart(2, "0")}:${String(payload.endTime.minute).padStart(2, "0")}:${String(payload.endTime.second).padStart(2, "0")}`
+			: undefined;
+		lessonTimeText = applyTimeOverride(lessonTimeText, startTimeStr, endTimeStr);
+		lessonTimeText = applyDayOffset(lessonTimeText, payload.changeDays);
 		row.lessonTimeText = lessonTimeText;
 
-		if (payload.teacherId && payload.teacherName) {
-			row.teacherIds = String(payload.teacherId);
-			row.teacherNames = payload.teacherName;
+		if (payload.teacherIds && payload.teacherIds.length > 0) {
+			row.teacherIds = payload.teacherIds.join(",");
 		}
-		if (payload.assistantId && payload.assistantName) {
-			row.assistantIds = String(payload.assistantId);
-			row.assistantNames = payload.assistantName;
+		if (payload.assistantIds && payload.assistantIds.length > 0) {
+			row.assistantIds = payload.assistantIds.join(",");
 		}
-		if (payload.classroomId && payload.classroomName) {
-			row.classroomId = payload.classroomId;
-			row.classroomName = payload.classroomName;
+		if (payload.roomId) {
+			row.classroomId = payload.roomId;
 		}
 	});
 }
@@ -2070,10 +2074,6 @@ function buildBatchModifyPayload(): BatchUpdateCoursesDTO | undefined {
 	const lessonIds = getSelectedCourseIds();
 	if (!lessonIds.length) return undefined;
 
-	const teacherName = getOptionLabel(batchTeacherOptions.value, batchModifyForm.teacherId);
-	const assistantName = getOptionLabel(batchAssistantOptions.value, batchModifyForm.assistantId);
-	const classroomName = getOptionLabel(batchRoomOptions.value, batchModifyForm.classroomId);
-
 	const hasChange =
 		batchModifyForm.dayOffset !== undefined ||
 		!!batchModifyForm.startTime ||
@@ -2087,29 +2087,40 @@ function buildBatchModifyPayload(): BatchUpdateCoursesDTO | undefined {
 	}
 
 	const payload: BatchUpdateCoursesDTO = {
-		lessonIds,
+		updateIds: lessonIds,
 	};
 
 	if (batchModifyForm.dayOffset !== undefined) {
-		payload.dayOffset = batchModifyForm.dayOffset;
+		payload.changeDays = batchModifyForm.dayOffset;
 	}
 	if (batchModifyForm.startTime) {
-		payload.startTime = batchModifyForm.startTime;
+		// 将字符串 "HH:mm:ss" 转换为时间对象
+		const timeParts = batchModifyForm.startTime.split(":");
+		payload.startTime = {
+			hour: Number(timeParts[0]),
+			minute: Number(timeParts[1]),
+			second: timeParts[2] ? Number(timeParts[2]) : 0,
+			nano: 0,
+		};
 	}
 	if (batchModifyForm.endTime) {
-		payload.endTime = batchModifyForm.endTime;
+		// 将字符串 "HH:mm:ss" 转换为时间对象
+		const timeParts = batchModifyForm.endTime.split(":");
+		payload.endTime = {
+			hour: Number(timeParts[0]),
+			minute: Number(timeParts[1]),
+			second: timeParts[2] ? Number(timeParts[2]) : 0,
+			nano: 0,
+		};
 	}
 	if (typeof batchModifyForm.teacherId === "number") {
-		payload.teacherId = batchModifyForm.teacherId;
-		payload.teacherName = teacherName;
+		payload.teacherIds = [batchModifyForm.teacherId];
 	}
 	if (typeof batchModifyForm.assistantId === "number") {
-		payload.assistantId = batchModifyForm.assistantId;
-		payload.assistantName = assistantName;
+		payload.assistantIds = [batchModifyForm.assistantId];
 	}
 	if (typeof batchModifyForm.classroomId === "number") {
-		payload.classroomId = batchModifyForm.classroomId;
-		payload.classroomName = classroomName;
+		payload.roomId = batchModifyForm.classroomId;
 	}
 
 	return payload;
