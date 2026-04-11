@@ -102,11 +102,40 @@ function buildRepeatScheduleQueryParams(params: RepeatScheduleRequestDTO) {
 }
 
 /**
+ * 构建学员请假列表查询参数
+ */
+function buildStudentLeaveQueryParams(params: StudentLeaveQueryDTO) {
+	const queryParams: Record<string, number | string> = {};
+
+	const assignIfDefined = (key: string, value: number | string | undefined) => {
+		if (value === undefined || value === null || value === "") return;
+		// 数字类型直接赋值，字符串类型需要转换
+		if (typeof value === "number") {
+			queryParams[key] = value;
+		} else {
+			queryParams[key] = String(value);
+		}
+	};
+
+	assignIfDefined("pageIndex", params.pageIndex);
+	assignIfDefined("pageSize", params.pageSize);
+	assignIfDefined("nameOrPhone", params.nameOrPhone);
+	assignIfDefined("teacherId", params.teacherId);
+	assignIfDefined("startDate", params.startDate);
+	assignIfDefined("endDate", params.endDate);
+
+	return queryParams;
+}
+
+/**
  * 获取学员请假列表
  * @param params 查询参数
  */
 export const getStudentLeavePage = async (params: StudentLeaveQueryDTO) => {
-	const res = await http.get<PageDTO<StudentLeaveItemDTO>>("/j5-student-leave/list", params);
+	const res = await http.get<PageDTO<StudentLeaveItemDTO>>(
+		"/j5-student-leave/list",
+		buildStudentLeaveQueryParams(params),
+	);
 	return res;
 };
 
