@@ -3,7 +3,6 @@ import type { RouteRecordRaw } from "vue-router";
 
 export default [
 	{
-
 		path: "course/list", //  改成了 course/list
 
 		name: "CourseManagement",
@@ -14,7 +13,6 @@ export default [
 		},
 	},
 	{
-
 		path: "subject/list", // 改成了 subject/list（注意不是 /course/xxx
 		name: "SubjectManagement",
 		component: () => import("@/views/course/subject-management/index.vue"),

@@ -163,7 +163,7 @@
 							<span>{{ group.groupName }}</span>
 						</div>
 						<el-checkbox-group v-model="editingPermissionIds" class="permission-check-grid">
-							<el-checkbox v-for="permission in group.permissions" :key="permission.id" :label="permission.id">
+							<el-checkbox v-for="permission in group.permissions" :key="permission.id" :value="permission.id">
 								{{ permission.name }}
 							</el-checkbox>
 						</el-checkbox-group>
@@ -452,29 +452,24 @@ async function ensureCurrentRole(preferredRoleId?: number | null) {
 	if (!fallbackRole) {
 		permissionStore.currentRoleId = null;
 		permissionStore.staffs = [];
+		permissionStore.permissionGroups = [];
 		permissionStore.selectedPermissionIds = [];
-		return;
+		return true;
 	}
 
-	await permissionStore.selectRole(fallbackRole.id);
+	return permissionStore.selectRole(fallbackRole.id);
 }
 
 onMounted(async () => {
-	const [rolesOk, permissionsOk] = await Promise.all([
-		permissionStore.fetchRoles(),
-		permissionStore.fetchPermissions(),
-	]);
+	const rolesOk = await permissionStore.fetchRoles();
+	const roleDataOk = permissionStore.roles.length === 0 || (await ensureCurrentRole());
 
 	if (!rolesOk) {
 		ElMessage.error("角色列表加载失败，请检查接口配置");
 	}
 
-	if (!permissionsOk) {
+	if (!roleDataOk) {
 		ElMessage.error("权限列表加载失败，请检查接口配置");
-	}
-
-	if (permissionStore.roles.length > 0) {
-		await ensureCurrentRole();
 	}
 });
 </script>

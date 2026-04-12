@@ -361,11 +361,6 @@ export const ADMIN_NAVIGATION: AdminNavSection[] = [
 				matchPaths: ["/un-5"],
 			},
 			{
-				id: "system-wechat-menu",
-				text: "公众号菜单",
-				path: "/system/wechat-menu",
-			},
-			{
 				id: "system-holiday-manage",
 				text: "节假日管理",
 				path: "/system/holiday-manage",

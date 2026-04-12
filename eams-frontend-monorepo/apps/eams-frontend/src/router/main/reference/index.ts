@@ -54,15 +54,6 @@ const routes = [
 		},
 		component: () => import("@/views/system/system-permission.vue"),
 	},
-	{
-		path: "/system/wechat-menu",
-		name: "SystemWechatMenu",
-		meta: {
-			label: "公众号菜单",
-			description: "公众号菜单配置和发布能力后续可继续补齐。",
-		},
-		component: placeholderView,
-	},
 ];
 
 export default routes;

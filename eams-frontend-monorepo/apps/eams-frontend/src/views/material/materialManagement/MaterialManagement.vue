@@ -1,7 +1,7 @@
 <template>
 	<section class="material-page">
 		<FilterToolbar
-			:collapsible-item-count="5"
+			:collapsible-item-count="2"
 			:collapse-threshold="4"
 			@search="handleSearch"
 			@reset="handleReset"
@@ -14,22 +14,20 @@
 					<div class="filter-grid">
 						<div v-show="showAll || 0 < limit" class="filter-cell">
 							<span class="filter-label">物料名称</span>
-							<div class="search-input-group">
-								<el-input v-model="form.materialLabel" placeholder="请输入" clearable />
-							</div>
+							<el-input v-model="form.materialLabel" placeholder="请输入物料名称" clearable />
 						</div>
 
-						<div v-show="showAll || 3 < limit" class="filter-cell">
+						<div v-show="showAll || 1 < limit" class="filter-cell">
 							<span class="filter-label">状态</span>
 							<el-select v-model="form.status" placeholder="请选择" clearable style="width: 100%">
-								<el-option label="启用" value="启用" />
-								<el-option label="禁用" value="禁用" />
+								<el-option label="启用" :value="1" />
+								<el-option label="禁用" :value="0" />
 							</el-select>
 						</div>
 					</div>
 
 					<div class="batch-row">
-						<el-button type="primary" @click="formDialog?.openDialog()">+ 新增</el-button>
+						<el-button type="primary" @click="handleCreate">+ 新增</el-button>
 						<el-button @click="handleBatchDelete">删除</el-button>
 						<el-button type="success" @click="handleBatchEnable">启用</el-button>
 						<el-button type="warning" @click="handleBatchDisable">禁用</el-button>
@@ -40,13 +38,14 @@
 
 		<section class="table-card">
 			<el-table
+				ref="tableRef"
 				v-loading="tableLoading"
 				:data="tableRows"
 				stripe
 				row-key="id"
 				@selection-change="handleSelectionChange"
 			>
-				<el-table-column type="selection" width="48" :selectable="isRowSelectable" />
+				<el-table-column type="selection" width="48" />
 
 				<el-table-column
 					v-for="(col, idx) in visibleColumns"
@@ -57,15 +56,18 @@
 					:min-width="col.minWidth || undefined"
 					show-overflow-tooltip
 				>
-					<template #default="{ row }" v-if="col.prop === 'status'">
-						<el-tag :type="row.status === '启用' ? 'success' : 'info'" effect="light">{{ row.status }}</el-tag>
-					</template>
-					<template #default="{ row }" v-if="col.prop === 'avatar'">
-						<el-avatar :size="36" shape="square">图</el-avatar>
+					<template #default="{ row }">
+						<el-tag v-if="col.prop === 'statusText'" :type="row.state ? 'success' : 'info'" effect="light">
+							{{ row.statusText }}
+						</el-tag>
+						<el-avatar v-else-if="col.prop === 'cover'" :size="36" shape="square" :src="row.cover || undefined">
+							图
+						</el-avatar>
+						<span v-else>{{ row[col.prop] || "-" }}</span>
 					</template>
 				</el-table-column>
 
-				<el-table-column label="操作" width="200" fixed="right">
+				<el-table-column label="操作" width="220" fixed="right">
 					<template #default="{ row }">
 						<el-button link type="primary" @click="handleEdit(row)">编辑</el-button>
 						<el-button link type="primary" @click="handleInbound(row)">入库</el-button>
@@ -73,6 +75,19 @@
 					</template>
 				</el-table-column>
 			</el-table>
+
+			<div class="table-pagination">
+				<el-pagination
+					v-model:current-page="pagination.pageIndex"
+					v-model:page-size="pagination.pageSize"
+					background
+					layout="total, sizes, prev, pager, next, jumper"
+					:page-sizes="[10, 20, 50, 100]"
+					:total="pagination.total"
+					@size-change="handlePageSizeChange"
+					@current-change="handlePageChange"
+				/>
+			</div>
 		</section>
 
 		<PrintTable ref="printRef" print-title="物料管理列表" :column-list="allColumns" :table-data="tableRows" />
@@ -84,283 +99,436 @@
 			@confirm="handleColumnConfirm"
 			@reset="handleColumnReset"
 		/>
+
+		<MyFormDialog ref="saveFormDialog" :="saveFormDialogProps" @confirm="onSaveSubmit" />
+		<MyFormDialog ref="inboundFormDialog" :="inboundFormDialogProps" @confirm="onInboundSubmit" />
+		<MyFormDialog ref="outboundFormDialog" :="outboundFormDialogProps" @confirm="onOutboundSubmit" />
 	</section>
-
-	<MyFormDialog ref="formDialog" :="formDialogProps" @confirm="onSubmit">
-		<template #itemdefault="{ item }">
-			<el-upload
-				v-if="item.prop === 'avatar'"
-				class="avatar-uploader"
-				action="https://jsonplaceholder.typicode.com/posts/"
-				:show-file-list="false"
-			>
-				<el-button class="avatar-uploader-icon" type="primary" icon="IconUpload">上传</el-button>
-			</el-upload>
-		</template>
-	</MyFormDialog>
-
-	<MyFormDialog ref="inboundFormDialog" :="inboundFormDialogProps" @confirm="onInboundSubmit"></MyFormDialog>
-	<MyFormDialog ref="outboundFormDialog" :="outboundFormDialogProps" @confirm="onOutboundSubmit"></MyFormDialog>
-
-	<MyFormDialog ref="editFormDialog" :="editFormDialogProps" @confirm="onEditSubmit">
-		<template #itemdefault="{ item }">
-			<el-upload
-				v-if="item.prop === 'avatar'"
-				class="avatar-uploader"
-				action="https://jsonplaceholder.typicode.com/posts/"
-				:show-file-list="false"
-			>
-				<el-button class="avatar-uploader-icon" type="primary" icon="IconUpload">上传</el-button>
-			</el-upload>
-		</template>
-	</MyFormDialog>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, computed } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { Search } from "@element-plus/icons-vue";
 import FilterToolbar from "@/views/material/components/FilterToolbar.vue";
 import MyFormDialog from "@/components/mydialog/MyFormDialog.vue";
 import type { MyFormItemAttr } from "@/components/myform/type";
-import type { SampleFormData } from "@/apis/sample/type";
 import type { MyFormDialogProps } from "@/components/mydialog/type";
 import type { MyFormInputProps } from "@/components/myform/props/input.ts";
 import type { MyFormSelectProps } from "@/components/myform/props/select.ts";
-import type { MyFormBaseProps } from "@/components/myform/props/formbase.ts";
-import { MaterialInboundAndOutbound } from "@/apis/material/materialManagement";
+import {
+	deleteMaterials,
+	getMaterialDetail,
+	getMaterialPage,
+	materialInStorage,
+	materialOutStorage,
+	saveMaterial,
+	updateMaterialState,
+} from "@/apis/material/materialManagement";
+import type {
+	MaterialDetail,
+	MaterialItem,
+	MaterialSaveDTO,
+	MaterialStateValue,
+} from "@/apis/material/materialManagement/type";
 
 import ColumnSetting from "../../operation/components/ColumnSetting.vue";
 import PrintTable from "../../operation/components/PrintTable.vue";
 
-const formDialog = ref();
-const editFormDialog = ref();
+interface MaterialTableRow extends MaterialItem {
+	id: number;
+	index: number;
+	name: string;
+	info: string;
+	cover: string;
+	state: boolean;
+	statusText: string;
+	categoryText: string;
+	schoolText: string;
+}
+
+interface MaterialFormData {
+	categoryId?: number;
+	cover: string;
+	id?: number;
+	info: string;
+	name: string;
+	schoolId?: number;
+	state: boolean;
+}
+
+interface StockFormData {
+	amount?: number;
+}
+
+interface ColumnItem {
+	label: string;
+	prop: string;
+	width?: number;
+	minWidth?: number;
+	visible: boolean;
+}
+
+type SaveDialogMode = "create" | "edit";
+
+const COLUMN_STORAGE_KEY = "materialManageColumnsV2";
+
+const createDefaultColumns = (): ColumnItem[] => [
+	{ label: "序号", prop: "index", width: 60, visible: true },
+	{ label: "封面", prop: "cover", width: 80, visible: true },
+	{ label: "物料名称", prop: "name", minWidth: 140, visible: true },
+	{ label: "分类ID", prop: "categoryText", minWidth: 100, visible: true },
+	{ label: "学校ID", prop: "schoolText", minWidth: 100, visible: true },
+	{ label: "物料说明", prop: "info", minWidth: 180, visible: true },
+	{ label: "状态", prop: "statusText", width: 90, visible: true },
+];
+
+const createEmptyMaterialForm = (): MaterialFormData => ({
+	categoryId: undefined,
+	cover: "",
+	id: undefined,
+	info: "",
+	name: "",
+	schoolId: undefined,
+	state: true,
+});
+
+const tableRef = ref();
+const printRef = ref();
+const saveFormDialog = ref();
 const inboundFormDialog = ref();
 const outboundFormDialog = ref();
 
 const form = reactive({
-	materialId: "" as string,
 	materialLabel: "",
-	operType: "",
-	school: "",
-	operator: "",
-	operTimeRange: [] as string[],
-	status: "",
+	status: "" as "" | MaterialStateValue,
 });
 
-const currentEditRow = ref(null);
-const currentMaterialId = ref("");
-const selectedRows = ref<any[]>([]);
+const pagination = reactive({
+	pageIndex: 1,
+	pageSize: 10,
+	total: 0,
+});
 
-// ==============================================
-// ✅ 正确结构：原始数据永远保存，表格只显示筛选后的结果
-// ==============================================
-const originalTableRows = ref([
-	{
-		id: "1",
-		name: "水",
-		category: "耗材",
-		school: "总校",
-		stock: 200,
-		updatedAt: "2026-03-01 10:00:00",
-		status: "启用",
-	},
-	{
-		id: "2",
-		name: "鼠标",
-		category: "办公",
-		school: "总校",
-		stock: 45,
-		updatedAt: "2026-03-02 11:30:00",
-		status: "启用",
-	},
-]);
-
-const tableRows = ref([...originalTableRows.value]);
 const tableLoading = ref(false);
+const tableRows = ref<MaterialTableRow[]>([]);
+const selectedRows = ref<MaterialTableRow[]>([]);
+const currentMaterialId = ref<number | null>(null);
+const saveDialogMode = ref<SaveDialogMode>("create");
 
-// ==============================================
-// 列配置
-// ==============================================
 const columnSettingVisible = ref(false);
-const allColumns = ref([
-	{ label: "序号", prop: "index", width: 48, visible: true },
-	{ label: "图片", prop: "avatar", width: 72, visible: true },
-	{ label: "物料名称", prop: "name", minWidth: 120, visible: true },
-	{ label: "分类", prop: "category", width: 100, visible: true },
-	{ label: "所属学校", prop: "school", minWidth: 110, visible: true },
-	{ label: "库存", prop: "stock", width: 80, visible: true },
-	{ label: "最后编辑时间", prop: "updatedAt", minWidth: 165, visible: true },
-	{ label: "状态", prop: "status", width: 88, visible: true },
-]);
+const allColumns = ref<ColumnItem[]>(createDefaultColumns());
+const visibleColumns = computed(() => allColumns.value.filter((column) => column.visible));
 
-const visibleColumns = computed(() => {
-	return allColumns.value.filter((c) => c.visible);
-});
+function formatValue(value?: string | number | null) {
+	if (value === undefined || value === null || value === "") return "-";
+	return String(value);
+}
+
+function formatStateText(state?: boolean) {
+	return state ? "启用" : "禁用";
+}
+
+function normalizeMaterialRows(rows: MaterialItem[]) {
+	return rows.map((item, index) => {
+		const enabled = item.state === true;
+
+		return {
+			...item,
+			id: Number(item.id ?? 0),
+			index: (pagination.pageIndex - 1) * pagination.pageSize + index + 1,
+			name: formatValue(item.name),
+			info: formatValue(item.info),
+			cover: item.cover ?? "",
+			state: enabled,
+			statusText: formatStateText(enabled),
+			categoryText: formatValue(item.categoryId),
+			schoolText: formatValue(item.schoolId),
+		};
+	});
+}
+
+function toMaterialFormData(item?: MaterialDetail): MaterialFormData {
+	return {
+		categoryId: item?.categoryId,
+		cover: item?.cover ?? "",
+		id: item?.id,
+		info: item?.info ?? "",
+		name: item?.name ?? "",
+		schoolId: item?.schoolId,
+		state: item?.state ?? true,
+	};
+}
+
+function buildSavePayload(formData: MaterialFormData): MaterialSaveDTO | null {
+	const name = formData.name.trim();
+	const categoryId = Number(formData.categoryId);
+	const schoolId = Number(formData.schoolId);
+
+	if (!name) {
+		ElMessage.warning("请输入物料名称");
+		return null;
+	}
+	if (!Number.isFinite(categoryId) || categoryId <= 0) {
+		ElMessage.warning("请输入正确的分类ID");
+		return null;
+	}
+	if (!Number.isFinite(schoolId) || schoolId <= 0) {
+		ElMessage.warning("请输入正确的学校ID");
+		return null;
+	}
+
+	return {
+		categoryId,
+		cover: formData.cover.trim() || undefined,
+		id: formData.id,
+		info: formData.info.trim() || undefined,
+		name,
+		schoolId,
+		state: Boolean(formData.state),
+	};
+}
+
+async function confirmAction(message: string) {
+	try {
+		await ElMessageBox.confirm(message, "提示", { type: "warning" });
+		return true;
+	} catch {
+		return false;
+	}
+}
+
+function clearTableSelection() {
+	selectedRows.value = [];
+	tableRef.value?.clearSelection?.();
+}
+
+async function loadMaterials(showSuccessMessage = false) {
+	tableLoading.value = true;
+
+	try {
+		const res = await getMaterialPage({
+			pageIndex: pagination.pageIndex,
+			pageSize: pagination.pageSize,
+		});
+
+		let rows = normalizeMaterialRows(res.data?.rows ?? []);
+
+		// The backend docs for /material/list currently only give stable page params.
+		// The page keeps name/state as client-side filters until backend筛选字段明确.
+		const keyword = form.materialLabel.trim();
+		if (keyword) {
+			rows = rows.filter((row) => row.name.includes(keyword));
+		}
+		if (form.status !== "") {
+			rows = rows.filter((row) => row.state === (form.status === 1));
+		}
+
+		tableRows.value = rows;
+		pagination.total = res.data?.total ?? 0;
+		clearTableSelection();
+
+		if (showSuccessMessage) {
+			ElMessage.success("查询成功");
+		}
+	} catch (error) {
+		console.error(error);
+		ElMessage.error("查询失败");
+	} finally {
+		tableLoading.value = false;
+	}
+}
+
+function handleSelectionChange(rows: MaterialTableRow[]) {
+	selectedRows.value = rows;
+}
+
+function getSelectedIds() {
+	return selectedRows.value.map((row) => Number(row.id)).filter((id) => Number.isFinite(id) && id > 0);
+}
 
 const handleColumnSetting = () => {
 	columnSettingVisible.value = true;
 };
 
-const handleColumnChange = (newColumns: any) => {
+const handleColumnChange = (newColumns: ColumnItem[]) => {
 	allColumns.value = newColumns;
 };
 
-const handleColumnConfirm = (newColumns: any) => {
+const handleColumnConfirm = (newColumns: ColumnItem[]) => {
 	allColumns.value = newColumns;
-	localStorage.setItem("materialManageColumns", JSON.stringify(newColumns));
+	localStorage.setItem(COLUMN_STORAGE_KEY, JSON.stringify(newColumns));
 };
 
 const handleColumnReset = () => {
-	allColumns.value.forEach((c) => (c.visible = true));
+	allColumns.value = createDefaultColumns();
+	localStorage.removeItem(COLUMN_STORAGE_KEY);
 };
 
-// ==============================================
-// 打印
-// ==============================================
-const printRef = ref();
 const handlePrint = () => {
 	printRef.value?.handlePrint();
 };
 
-// ==============================================
-// 复选框
-// ==============================================
-const handleSelectionChange = (val: any[]) => {
-	selectedRows.value = val;
+const materialFormData = reactive<MaterialFormData>(createEmptyMaterialForm());
+
+const saveFormDialogProps = reactive<MyFormDialogProps<MaterialFormData>>({
+	data: materialFormData,
+	formitemdata: reactive<MyFormItemAttr[]>([
+		{
+			type: "input",
+			prop: "name",
+			label: "物料名称",
+			rules: [{ required: true, message: "请输入物料名称", trigger: "blur" }],
+			fprops: { placeholder: "请输入物料名称", width: "100%" } as MyFormInputProps,
+		},
+		{
+			type: "number",
+			prop: "categoryId",
+			label: "分类ID",
+			rules: [{ required: true, message: "请输入分类ID", trigger: "blur" }],
+			fprops: { placeholder: "请输入分类ID", width: "100%" } as MyFormInputProps,
+		},
+		{
+			type: "number",
+			prop: "schoolId",
+			label: "学校ID",
+			rules: [{ required: true, message: "请输入学校ID", trigger: "blur" }],
+			fprops: { placeholder: "请输入学校ID", width: "100%" } as MyFormInputProps,
+		},
+		{
+			type: "select",
+			prop: "state",
+			label: "状态",
+			fprops: {
+				placeholder: "请选择状态",
+				width: "100%",
+				options: [
+					{ label: "启用", value: true },
+					{ label: "禁用", value: false },
+				],
+			} as MyFormSelectProps,
+		},
+		{
+			type: "input",
+			prop: "cover",
+			label: "封面图",
+			fprops: { placeholder: "请输入封面图URL", width: "100%" } as MyFormInputProps,
+		},
+		{
+			type: "input",
+			prop: "info",
+			label: "物料说明",
+			fprops: { type: "textarea", rows: 4, placeholder: "请输入物料说明", width: "100%" } as MyFormInputProps,
+		},
+	]),
+	formattr: { disabled: false, "label-width": "90px" },
+	title: "新增物料",
+	width: "35vw",
+	reset: false,
+	submitText: "提交",
+	cancelText: "取消",
+});
+
+function openCreateDialog() {
+	saveDialogMode.value = "create";
+	saveFormDialogProps.title = "新增物料";
+	Object.assign(materialFormData, createEmptyMaterialForm());
+	saveFormDialog.value?.openDialog(true);
+}
+
+const handleCreate = () => {
+	openCreateDialog();
 };
 
-const isRowSelectable = (row: any) => {
-	return row.status !== "禁用";
+const handleSearch = async () => {
+	pagination.pageIndex = 1;
+	await loadMaterials(true);
 };
 
-// ==============================================
-// 批量删除 / 禁用 / 启用
-// ==============================================
+const handleReset = async () => {
+	form.materialLabel = "";
+	form.status = "";
+	pagination.pageIndex = 1;
+	await loadMaterials();
+	ElMessage.info("已重置筛选条件");
+};
+
+const handleRefresh = async () => {
+	await loadMaterials();
+};
+
+const handlePageSizeChange = async (pageSize: number) => {
+	pagination.pageSize = pageSize;
+	pagination.pageIndex = 1;
+	await loadMaterials();
+};
+
+const handlePageChange = async (pageIndex: number) => {
+	pagination.pageIndex = pageIndex;
+	await loadMaterials();
+};
+
 const handleBatchDelete = async () => {
-	if (selectedRows.value.length === 0) {
-		ElMessage.warning("请选择要删除的数据");
+	const ids = getSelectedIds();
+	if (!ids.length) {
+		ElMessage.warning("请选择要删除的物料");
 		return;
 	}
-	await ElMessageBox.confirm("确认删除选中的数据？", "提示", { type: "warning" });
-	const ids = selectedRows.value.map((item) => item.id);
 
-	// 删除同时更新原始数据
-	originalTableRows.value = originalTableRows.value.filter((item) => !ids.includes(item.id));
-	tableRows.value = [...originalTableRows.value];
+	if (!(await confirmAction("确认删除选中的物料吗？"))) {
+		return;
+	}
 
-	ElMessage.success("删除成功");
+	try {
+		await deleteMaterials(ids);
+		ElMessage.success("删除成功");
+		await loadMaterials();
+	} catch (error) {
+		console.error(error);
+		ElMessage.error("删除失败");
+	}
+};
+
+async function handleBatchToggle(state: MaterialStateValue) {
+	const ids = getSelectedIds();
+	if (!ids.length) {
+		ElMessage.warning(state === 1 ? "请选择要启用的物料" : "请选择要禁用的物料");
+		return;
+	}
+
+	if (!(await confirmAction(state === 1 ? "确认启用选中的物料吗？" : "确认禁用选中的物料吗？"))) {
+		return;
+	}
+
+	try {
+		await updateMaterialState(ids, state);
+		ElMessage.success(state === 1 ? "启用成功" : "禁用成功");
+		await loadMaterials();
+	} catch (error) {
+		console.error(error);
+		ElMessage.error(state === 1 ? "启用失败" : "禁用失败");
+	}
+}
+
+const handleBatchEnable = async () => {
+	await handleBatchToggle(1);
 };
 
 const handleBatchDisable = async () => {
-	if (selectedRows.value.length === 0) {
-		ElMessage.warning("请选择要禁用的数据");
-		return;
-	}
-	await ElMessageBox.confirm("确认禁用选中的数据？", "提示", { type: "warning" });
-	selectedRows.value.forEach((item) => {
-		item.status = "禁用";
-	});
-	ElMessage.success("禁用成功");
+	await handleBatchToggle(0);
 };
 
-const handleBatchEnable = async () => {
-	if (selectedRows.value.length === 0) {
-		ElMessage.warning("请选择要启用的数据");
-		return;
-	}
-	await ElMessageBox.confirm("确认启用选中的数据？", "提示", { type: "warning" });
-	selectedRows.value.forEach((item) => {
-		item.status = "启用";
-	});
-	ElMessage.success("启用成功");
-};
+const inboundFormData = reactive<StockFormData>({
+	amount: undefined,
+});
 
-
-const handleSearch = () => {
-	tableLoading.value = true;
-	setTimeout(() => {
-		// 从完整原始数据过滤
-		let filtered = [...originalTableRows.value];
-
-		if (form.materialLabel) {
-			filtered = filtered.filter((row) => row.name.includes(form.materialLabel));
-		}
-		if (form.status) {
-			filtered = filtered.filter((row) => row.status === form.status);
-		}
-
-		tableRows.value = filtered;
-		tableLoading.value = false;
-		ElMessage.success("已按条件查询");
-	}, 300);
-};
-
-// ==============================================
-// ✅ 正确重置：恢复全部原始数据
-// ==============================================
-const handleReset = () => {
-	form.materialId = "";
-	form.materialLabel = "";
-	form.operType = "";
-	form.school = "";
-	form.operator = "";
-	form.operTimeRange = [];
-	form.status = "";
-
-	// 恢复全部数据
-	tableRows.value = [...originalTableRows.value];
-	ElMessage.info("已重置条件");
-};
-
-const handleRefresh = () => {
-	handleSearch();
-};
-
-// ==============================================
-// 原有功能完全不动
-// ==============================================
-const handleEdit = (row: any) => {
-	currentEditRow.value = row;
-	editFormDialogProps.value.data = {
-		name: row.name,
-		school: row.school,
-		category: row.category,
-		changeReason: row.updatedAt ? "原说明" : "",
-	};
-	editFormDialog.value?.openDialog();
-};
-
-const handleInbound = (row: any) => {
-	currentMaterialId.value = row.id;
-	inboundFormDialog.value?.openDialog();
-};
-
-const handleOutbound = (row: any) => {
-	currentMaterialId.value = row.id;
-	outboundFormDialog.value?.openDialog();
-};
-
-const inboundFormDialogProps = ref<MyFormDialogProps<SampleFormData>>({
-	data: reactive<SampleFormData>({}),
+const inboundFormDialogProps = reactive<MyFormDialogProps<StockFormData>>({
+	data: inboundFormData,
 	formitemdata: reactive<MyFormItemAttr[]>([
 		{
 			type: "number",
 			prop: "amount",
 			label: "入库数量",
 			fprops: { placeholder: "请输入入库数量", width: "100%" } as MyFormInputProps,
-		},
-		{
-			type: "input",
-			prop: "changeReason",
-			label: "入库说明",
-			fprops: {
-				type: "textarea",
-				rows: 4,
-				placeholder: "请输入物料说明",
-				clearable: true,
-				width: "100%",
-			} as MyFormInputProps,
 		},
 	]),
 	formattr: { disabled: false, "label-width": "80px" },
@@ -371,26 +539,18 @@ const inboundFormDialogProps = ref<MyFormDialogProps<SampleFormData>>({
 	cancelText: "取消",
 });
 
-const outboundFormDialogProps = ref<MyFormDialogProps<SampleFormData>>({
-	data: reactive<SampleFormData>({}),
+const outboundFormData = reactive<StockFormData>({
+	amount: undefined,
+});
+
+const outboundFormDialogProps = reactive<MyFormDialogProps<StockFormData>>({
+	data: outboundFormData,
 	formitemdata: reactive<MyFormItemAttr[]>([
 		{
 			type: "number",
 			prop: "amount",
 			label: "出库数量",
 			fprops: { placeholder: "请输入出库数量", width: "100%" } as MyFormInputProps,
-		},
-		{
-			type: "input",
-			prop: "changeReason",
-			label: "出库说明",
-			fprops: {
-				type: "textarea",
-				rows: 4,
-				placeholder: "请输入物料说明",
-				clearable: true,
-				width: "100%",
-			} as MyFormInputProps,
 		},
 	]),
 	formattr: { disabled: false, "label-width": "80px" },
@@ -401,191 +561,124 @@ const outboundFormDialogProps = ref<MyFormDialogProps<SampleFormData>>({
 	cancelText: "取消",
 });
 
-const editFormDialogProps = ref<MyFormDialogProps<SampleFormData>>({
-	data: reactive<SampleFormData>({}),
-	formitemdata: reactive<MyFormItemAttr[]>([
-		{
-			type: "input",
-			prop: "name",
-			label: "物料名称",
-			required: true,
-			fprops: { placeholder: "请输入物料名称", width: "100%" } as MyFormInputProps,
-		},
-		{
-			type: "input",
-			prop: "school",
-			label: "所属学校",
-			required: true,
-			fprops: { placeholder: "请输入所属学校", width: "100%" } as MyFormInputProps,
-		},
-		{
-			type: "select",
-			prop: "category",
-			label: "所属分类",
-			required: true,
-			fprops: {
-				placeholder: "请选择所属分类",
-				width: "100%",
-				options: [
-					{ label: "教材", value: "textbook" },
-					{ label: "教具", value: "teachingAids" },
-					{ label: "实验器材", value: "labEquipment" },
-				],
-			} as MyFormSelectProps,
-		},
-		{
-			type: "file",
-			prop: "avatar",
-			label: "物料图片",
-			fprops: { placeholder: "点击上传文件", clearable: true } as MyFormBaseProps,
-		},
-		{
-			type: "input",
-			prop: "changeReason",
-			label: "物料说明",
-			fprops: { type: "textarea", placeholder: "请输入物料说明", rows: 4, width: "100%" } as any,
-		},
-	]),
-	title: "修改物料",
-	width: "35vw",
-	reset: false,
-	submitText: "提交",
-	cancelText: "取消",
-});
-
-const onInboundSubmit = async (formData: any) => {
-	if (!currentMaterialId.value) {
-		ElMessage.warning("未选择物料");
-		return;
-	}
-	if (!formData.amount || formData.amount <= 0) {
-		ElMessage.warning("请输入正确的入库数量");
-		return;
-	}
-	if (!formData.changeReason?.trim()) {
-		ElMessage.warning("请输入入库说明");
+const handleEdit = async (row: MaterialTableRow) => {
+	if (!row.id) {
+		ElMessage.warning("当前物料缺少 ID");
 		return;
 	}
 
 	try {
-		await MaterialInboundAndOutbound({
-			materialId: Number(currentMaterialId.value),
-			amount: formData.amount,
-			changeType: 1,
-			reason: formData.changeReason.trim(),
-		});
+		const res = await getMaterialDetail(row.id);
+		saveDialogMode.value = "edit";
+		saveFormDialogProps.title = "编辑物料";
+		Object.assign(materialFormData, toMaterialFormData(res.data));
+		saveFormDialog.value?.openDialog(true);
+	} catch (error) {
+		console.error(error);
+		ElMessage.error("获取物料详情失败");
+	}
+};
+
+const handleInbound = (row: MaterialTableRow) => {
+	if (!row.id) {
+		ElMessage.warning("当前物料缺少 ID");
+		return;
+	}
+
+	currentMaterialId.value = row.id;
+	inboundFormData.amount = undefined;
+	inboundFormDialog.value?.openDialog(true);
+};
+
+const handleOutbound = (row: MaterialTableRow) => {
+	if (!row.id) {
+		ElMessage.warning("当前物料缺少 ID");
+		return;
+	}
+
+	currentMaterialId.value = row.id;
+	outboundFormData.amount = undefined;
+	outboundFormDialog.value?.openDialog(true);
+};
+
+const onSaveSubmit = async (formData: MaterialFormData) => {
+	const payload = buildSavePayload(formData);
+	if (!payload) {
+		return;
+	}
+
+	try {
+		await saveMaterial(payload);
+		ElMessage.success(saveDialogMode.value === "create" ? "新增成功" : "保存成功");
+		saveFormDialog.value?.closeDialog?.();
+		await loadMaterials();
+	} catch (error) {
+		console.error(error);
+		ElMessage.error(saveDialogMode.value === "create" ? "新增失败" : "保存失败");
+	}
+};
+
+const onInboundSubmit = async (formData: StockFormData) => {
+	if (!currentMaterialId.value) {
+		ElMessage.warning("未选择物料");
+		return;
+	}
+
+	const amount = Number(formData.amount);
+	if (!Number.isFinite(amount) || amount <= 0) {
+		ElMessage.warning("请输入正确的入库数量");
+		return;
+	}
+
+	try {
+		await materialInStorage([currentMaterialId.value], amount);
 		ElMessage.success("入库成功");
 		inboundFormDialog.value?.closeDialog?.();
-	} catch (err) {
-		console.error(err);
+		await loadMaterials();
+	} catch (error) {
+		console.error(error);
 		ElMessage.error("入库失败");
 	}
 };
 
-const onOutboundSubmit = async (formData: any) => {
+const onOutboundSubmit = async (formData: StockFormData) => {
 	if (!currentMaterialId.value) {
 		ElMessage.warning("未选择物料");
 		return;
 	}
-	if (!formData.amount || formData.amount <= 0) {
+
+	const amount = Number(formData.amount);
+	if (!Number.isFinite(amount) || amount <= 0) {
 		ElMessage.warning("请输入正确的出库数量");
-		return;
-	}
-	if (!formData.changeReason?.trim()) {
-		ElMessage.warning("请输入出库说明");
 		return;
 	}
 
 	try {
-		await MaterialInboundAndOutbound({
-			materialId: Number(currentMaterialId.value),
-			amount: formData.amount,
-			changeType: 2,
-			reason: formData.changeReason.trim(),
-		});
+		await materialOutStorage([currentMaterialId.value], amount);
 		ElMessage.success("出库成功");
 		outboundFormDialog.value?.closeDialog?.();
-	} catch (err) {
-		console.error(err);
+		await loadMaterials();
+	} catch (error) {
+		console.error(error);
 		ElMessage.error("出库失败");
 	}
 };
 
-const formDialogProps = reactive<MyFormDialogProps<SampleFormData>>({
-	data: reactive<SampleFormData>({}),
-	formitemdata: reactive<MyFormItemAttr[]>([
-		{
-			type: "input",
-			prop: "name",
-			label: "物料名称",
-			rules: [{ required: true, message: "请输入物料名称" }],
-			fprops: { placeholder: "请输入物料名称", clearable: true } as MyFormInputProps,
-		},
-		{
-			type: "input",
-			prop: "school",
-			label: "所属学校",
-			rules: [{ required: true, message: "请输入所属学校" }],
-			fprops: { placeholder: "请输入所属学校", clearable: true } as MyFormInputProps,
-		},
-		{
-			type: "select",
-			prop: "category",
-			label: "所属分类",
-			fprops: {
-				placeholder: "请选择所属分类",
-				options: [
-					{ label: "教材", value: "教材" },
-					{ label: "设备", value: "设备" },
-				],
-			} as MyFormSelectProps,
-		},
-		{
-			type: "file",
-			prop: "avatar",
-			label: "物料图片",
-			fprops: { placeholder: "点击上传文件", clearable: true } as MyFormBaseProps,
-		},
-		{
-			type: "input",
-			prop: "changeReason",
-			label: "物料说明",
-			fprops: {
-				type: "textarea",
-				rows: 4,
-				placeholder: "请输入物料说明",
-				clearable: true,
-				width: "100%",
-			} as MyFormInputProps,
-		},
-	]),
-	formattr: { disabled: false, "label-width": "80px" },
-	title: "新增物料",
-	width: "35vw",
-	reset: false,
-	submitText: "提交",
-	cancelText: "取消",
+onMounted(async () => {
+	const cache = localStorage.getItem(COLUMN_STORAGE_KEY);
+	if (cache) {
+		try {
+			const parsed = JSON.parse(cache);
+			if (Array.isArray(parsed)) {
+				allColumns.value = parsed;
+			}
+		} catch (error) {
+			console.warn("Failed to restore material column settings:", error);
+		}
+	}
+
+	await loadMaterials();
 });
-
-const onSubmit = () => {
-	ElMessage.success("提交成功");
-};
-
-const onEditSubmit = async (formData: any) => {
-	if (!currentEditRow.value) return;
-	Object.assign(currentEditRow.value, {
-		name: formData.name,
-		school: formData.school,
-		category: formData.category,
-		changeReason: formData.changeReason,
-		updatedAt: new Date().toLocaleString(),
-	});
-	ElMessage.success("修改成功");
-	editFormDialog.value?.closeDialog();
-};
-
-const cache = localStorage.getItem("materialManageColumns");
-if (cache) allColumns.value = JSON.parse(cache);
 </script>
 
 <style scoped>
@@ -606,12 +699,6 @@ if (cache) allColumns.value = JSON.parse(cache);
 	min-width: 240px;
 }
 
-.search-input-group {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-}
-
 .batch-row {
 	display: flex;
 	flex-wrap: wrap;
@@ -625,5 +712,11 @@ if (cache) allColumns.value = JSON.parse(cache);
 	background: #fff;
 	border-radius: 6px;
 	padding: 16px;
+}
+
+.table-pagination {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 16px;
 }
 </style>

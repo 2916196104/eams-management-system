@@ -139,15 +139,19 @@ async function handleDelete() {
 	}
 
 	try {
-		await ElMessageBox.confirm(`确认删除课程"${detailData.value.title || detailData.value.courseName}"吗？此操作不可恢复。`, "删除确认", {
-			type: "warning",
-			confirmButtonText: "确定",
-			cancelButtonText: "取消",
-		});
+		await ElMessageBox.confirm(
+			`确认删除课程"${detailData.value.title || detailData.value.courseName}"吗？此操作不可恢复。`,
+			"删除确认",
+			{
+				type: "warning",
+				confirmButtonText: "确定",
+				cancelButtonText: "取消",
+			},
+		);
 
 		deleteLoading.value = true;
 		const res = await deleteCourses([detailData.value.id]);
-		
+
 		if (res.code !== 0 && res.code !== 10000) {
 			ElMessage.error(res.message || "删除失败");
 			return;
@@ -173,7 +177,7 @@ defineExpose({
 		loading.value = true;
 
 		const isCourseDetailVO = (data: any): data is CourseDetailVO => {
-			return data && ('date' in data || 'startTime' in data || 'endTime' in data);
+			return data && ("date" in data || "startTime" in data || "endTime" in data);
 		};
 
 		if (isCourseDetailVO(row)) {

@@ -1,5 +1,5 @@
 import { createPageDTO, type PageDTO } from "../type";
-import { DataUpType, useHttp } from "@/plugins/http";
+import { useHttp } from "@/plugins/http";
 import type {
 	DatadictVO,
 	DictTypeDTO,
@@ -27,6 +27,19 @@ function cloneValue<T>(value: T): T {
 
 function delay(ms = 80) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function appendQuery(path: string, params?: Record<string, unknown>) {
+	if (!params) return path;
+
+	const search = new URLSearchParams();
+	for (const [key, value] of Object.entries(params)) {
+		if (value === undefined || value === null || value === "") continue;
+		search.append(key, String(value));
+	}
+
+	const query = search.toString();
+	return query ? `${path}?${query}` : path;
 }
 
 const dictionaryItemPageSize = 200;
@@ -80,6 +93,33 @@ async function fetchDictionaryItemPage(
 	}
 }
 
+async function fetchAllDictionaryItemsByDictId(http: ReturnType<typeof useHttp>, dictId: number) {
+	const firstPage = await fetchDictionaryItemPage(http, {
+		dictId,
+		pageIndex: 1,
+		pageSize: dictionaryItemPageSize,
+	});
+	const rows = (firstPage.rows || []).map(mapDictionaryItem);
+	const total = Number(firstPage.total ?? rows.length);
+	const totalPages = Math.max(Number(firstPage.pages ?? 0), Math.ceil(total / dictionaryItemPageSize), 1);
+
+	if (totalPages === 1) {
+		return normalizeDictionaryItems(rows);
+	}
+
+	const nextPages = await Promise.all(
+		Array.from({ length: totalPages - 1 }, (_, index) =>
+			fetchDictionaryItemPage(http, {
+				dictId,
+				pageIndex: index + 2,
+				pageSize: dictionaryItemPageSize,
+			}),
+		),
+	);
+
+	return normalizeDictionaryItems([...rows, ...nextPages.flatMap((page) => (page.rows || []).map(mapDictionaryItem))]);
+}
+
 function normalizeNoticeSetting(data: Partial<NoticeSettingDTO> | undefined, name: string): NoticeSettingDTO {
 	return {
 		...data,
@@ -95,6 +135,12 @@ let dictCategories: DictionaryCategory[] = [
 	{ id: "dict-2", label: "请款类型", code: "payment_type", itemCount: 3 },
 	{ id: "dict-3", label: "退款类型", code: "refund_type", itemCount: 3 },
 ];
+
+const DICTIONARY_CATEGORY_UPSERTS_KEY = "systemDictionaryCategoryUpsertsV1";
+const DICTIONARY_CATEGORY_DELETIONS_KEY = "systemDictionaryCategoryDeletionsV1";
+const DICTIONARY_ITEM_SNAPSHOT_KEY = "systemDictionaryItemSnapshotV1";
+const DICTIONARY_ITEM_UPSERTS_KEY = "systemDictionaryItemUpsertsV1";
+const DICTIONARY_ITEM_DELETIONS_KEY = "systemDictionaryItemDeletionsV1";
 
 let dictItems: DictionaryItem[] = [
 	{ id: "item-1", categoryId: "dict-1", name: "抖音平台", info: "抖音", sortNum: 1 },
@@ -114,6 +160,255 @@ let noticeSetting: NoticeSettingDTO = {
 	tips: "模板提示",
 	wechaton: true,
 };
+
+type DictionaryItemDeletion = Pick<DictionaryItem, "id" | "categoryId">;
+
+function normalizeDictionaryCategories(rows: DictionaryCategory[]) {
+	const seen = new Set<string>();
+	const normalized: DictionaryCategory[] = [];
+
+	for (const row of rows) {
+		if (!row?.id || seen.has(row.id)) continue;
+		seen.add(row.id);
+		normalized.push({
+			id: row.id,
+			label: row.label,
+			code: row.code,
+			itemCount: Number(row.itemCount ?? 0),
+			remark: row.remark,
+			sortNum: row.sortNum != null ? Number(row.sortNum) : undefined,
+		});
+	}
+
+	return normalized.sort((a, b) => (a.sortNum ?? 0) - (b.sortNum ?? 0));
+}
+
+function readDictionaryCategoryUpserts() {
+	return normalizeDictionaryCategories(readHolidayStorage<DictionaryCategory[]>(DICTIONARY_CATEGORY_UPSERTS_KEY, []));
+}
+
+function writeDictionaryCategoryUpserts(rows: DictionaryCategory[]) {
+	writeHolidayStorage(DICTIONARY_CATEGORY_UPSERTS_KEY, normalizeDictionaryCategories(rows));
+}
+
+function readDictionaryCategoryDeletions() {
+	return Array.from(new Set(readHolidayStorage<string[]>(DICTIONARY_CATEGORY_DELETIONS_KEY, []).filter(Boolean)));
+}
+
+function writeDictionaryCategoryDeletions(rows: string[]) {
+	writeHolidayStorage(DICTIONARY_CATEGORY_DELETIONS_KEY, Array.from(new Set(rows.filter(Boolean))));
+}
+
+function applyDictionaryCategoryOverrides(baseRows: DictionaryCategory[]) {
+	const rows = normalizeDictionaryCategories(baseRows);
+	const map = new Map(rows.map((item) => [item.id, item] as const));
+	const deletions = new Set(readDictionaryCategoryDeletions());
+
+	for (const id of deletions) {
+		map.delete(id);
+	}
+
+	for (const item of readDictionaryCategoryUpserts()) {
+		map.set(item.id, item);
+	}
+
+	return normalizeDictionaryCategories(Array.from(map.values()));
+}
+
+function upsertDictionaryCategoryLocally(data: Partial<DictionaryCategory> & Pick<DictionaryCategory, "label">) {
+	const existing = data.id ? dictCategories.find((item) => item.id === data.id) : undefined;
+	const record: DictionaryCategory = {
+		id: data.id || `dict-local-${Date.now()}`,
+		label: data.label,
+		code: data.code ?? existing?.code,
+		itemCount: Number(data.itemCount ?? existing?.itemCount ?? 0),
+		remark: data.remark ?? existing?.remark,
+		sortNum: data.sortNum != null ? Number(data.sortNum) : existing?.sortNum,
+	};
+
+	const upserts = readDictionaryCategoryUpserts().filter((item) => item.id !== record.id);
+	writeDictionaryCategoryUpserts([...upserts, record]);
+	writeDictionaryCategoryDeletions(readDictionaryCategoryDeletions().filter((item) => item !== record.id));
+
+	dictCategories = applyDictionaryCategoryOverrides(
+		existing ? dictCategories.map((item) => (item.id === record.id ? record : item)) : [...dictCategories, record],
+	);
+	return record;
+}
+
+function deleteDictionaryCategoriesLocally(ids: string[]) {
+	const removedIds = new Set(ids);
+	writeDictionaryCategoryUpserts(readDictionaryCategoryUpserts().filter((item) => !removedIds.has(item.id)));
+	writeDictionaryCategoryDeletions([...readDictionaryCategoryDeletions(), ...ids]);
+	dictCategories = applyDictionaryCategoryOverrides(dictCategories.filter((item) => !removedIds.has(item.id)));
+	writeDictionaryItemSnapshot(readDictionaryItemSnapshot().filter((item) => !removedIds.has(item.categoryId)));
+	writeDictionaryItemUpserts(readDictionaryItemUpserts().filter((item) => !removedIds.has(item.categoryId)));
+	writeDictionaryItemDeletions(readDictionaryItemDeletions().filter((item) => !removedIds.has(item.categoryId)));
+	dictItems = applyDictionaryItemOverrides(readDictionaryItemSnapshot());
+}
+
+function normalizeDictionaryItems(rows: DictionaryItem[]) {
+	const seen = new Set<string>();
+	const normalized: DictionaryItem[] = [];
+
+	for (const row of rows) {
+		if (!row?.id || !row?.categoryId || seen.has(row.id)) continue;
+		seen.add(row.id);
+		normalized.push({
+			id: row.id,
+			categoryId: row.categoryId,
+			name: row.name,
+			info: row.info,
+			remark: row.remark,
+			sortNum: row.sortNum != null ? Number(row.sortNum) : undefined,
+			value: row.value,
+		});
+	}
+
+	return normalized.sort((a, b) => {
+		if (a.categoryId !== b.categoryId) return a.categoryId.localeCompare(b.categoryId);
+		if ((a.sortNum ?? 0) !== (b.sortNum ?? 0)) return (a.sortNum ?? 0) - (b.sortNum ?? 0);
+		return String(a.name || "").localeCompare(String(b.name || ""));
+	});
+}
+
+function normalizeDictionaryItemDeletions(rows: DictionaryItemDeletion[]) {
+	const seen = new Set<string>();
+	const normalized: DictionaryItemDeletion[] = [];
+
+	for (const row of rows) {
+		if (!row?.id || !row?.categoryId || seen.has(row.id)) continue;
+		seen.add(row.id);
+		normalized.push({
+			id: row.id,
+			categoryId: row.categoryId,
+		});
+	}
+
+	return normalized.sort((a, b) => a.id.localeCompare(b.id));
+}
+
+function readDictionaryItemSnapshot() {
+	return normalizeDictionaryItems(readHolidayStorage<DictionaryItem[]>(DICTIONARY_ITEM_SNAPSHOT_KEY, dictItems));
+}
+
+function writeDictionaryItemSnapshot(rows: DictionaryItem[]) {
+	writeHolidayStorage(DICTIONARY_ITEM_SNAPSHOT_KEY, normalizeDictionaryItems(rows));
+}
+
+function readDictionaryItemUpserts() {
+	return normalizeDictionaryItems(readHolidayStorage<DictionaryItem[]>(DICTIONARY_ITEM_UPSERTS_KEY, []));
+}
+
+function writeDictionaryItemUpserts(rows: DictionaryItem[]) {
+	writeHolidayStorage(DICTIONARY_ITEM_UPSERTS_KEY, normalizeDictionaryItems(rows));
+}
+
+function readDictionaryItemDeletions() {
+	return normalizeDictionaryItemDeletions(
+		readHolidayStorage<DictionaryItemDeletion[]>(DICTIONARY_ITEM_DELETIONS_KEY, []),
+	);
+}
+
+function writeDictionaryItemDeletions(rows: DictionaryItemDeletion[]) {
+	writeHolidayStorage(DICTIONARY_ITEM_DELETIONS_KEY, normalizeDictionaryItemDeletions(rows));
+}
+
+function applyDictionaryItemOverrides(baseRows: DictionaryItem[]) {
+	const rows = normalizeDictionaryItems(baseRows);
+	const map = new Map(rows.map((item) => [item.id, item] as const));
+	const deletions = new Set(readDictionaryItemDeletions().map((item) => item.id));
+
+	for (const id of deletions) {
+		map.delete(id);
+	}
+
+	for (const item of readDictionaryItemUpserts()) {
+		if (deletions.has(item.id)) continue;
+		map.set(item.id, item);
+	}
+
+	return normalizeDictionaryItems(Array.from(map.values()));
+}
+
+function getStoredDictionaryItems() {
+	dictItems = applyDictionaryItemOverrides(readDictionaryItemSnapshot());
+	return cloneValue(dictItems);
+}
+
+function mergeDictionaryItemSnapshot(categoryId: string, rows: DictionaryItem[]) {
+	const snapshot = readDictionaryItemSnapshot();
+	const merged = normalizeDictionaryItems([...snapshot.filter((item) => item.categoryId !== categoryId), ...rows]);
+	writeDictionaryItemSnapshot(merged);
+	dictItems = applyDictionaryItemOverrides(merged);
+	return cloneValue(dictItems);
+}
+
+function upsertDictionaryItemLocally(data: Partial<DictionaryItem> & Pick<DictionaryItem, "categoryId" | "name">) {
+	const currentRows = getStoredDictionaryItems();
+	const existing = data.id ? currentRows.find((item) => item.id === data.id) : undefined;
+	const record: DictionaryItem = {
+		id: data.id || `item-local-${Date.now()}`,
+		categoryId: data.categoryId,
+		name: data.name,
+		info: data.info ?? existing?.info ?? "",
+		remark: data.remark ?? existing?.remark,
+		sortNum: data.sortNum != null ? Number(data.sortNum) : existing?.sortNum,
+		value: data.value ?? existing?.value,
+	};
+
+	const upserts = readDictionaryItemUpserts().filter((item) => item.id !== record.id);
+	writeDictionaryItemUpserts([...upserts, record]);
+	writeDictionaryItemDeletions(readDictionaryItemDeletions().filter((item) => item.id !== record.id));
+	dictItems = applyDictionaryItemOverrides(
+		existing ? currentRows.map((item) => (item.id === record.id ? record : item)) : [...currentRows, record],
+	);
+	return cloneValue(record);
+}
+
+function deleteDictionaryItemsLocally(ids: string[]) {
+	const currentRows = getStoredDictionaryItems();
+	const snapshotIds = new Set(readDictionaryItemSnapshot().map((item) => item.id));
+	const currentMap = new Map(currentRows.map((item) => [item.id, item] as const));
+	const removedIds = new Set(ids);
+	const deletions = readDictionaryItemDeletions().filter((item) => !removedIds.has(item.id));
+
+	for (const id of ids) {
+		const existing = currentMap.get(id);
+		if (!existing || !snapshotIds.has(id)) continue;
+		deletions.push({
+			id,
+			categoryId: existing.categoryId,
+		});
+	}
+
+	writeDictionaryItemUpserts(readDictionaryItemUpserts().filter((item) => !removedIds.has(item.id)));
+	writeDictionaryItemDeletions(deletions);
+	dictItems = applyDictionaryItemOverrides(currentRows.filter((item) => !removedIds.has(item.id)));
+}
+
+function applyDictionaryCategoryItemCountOverrides(rows: DictionaryCategory[]) {
+	const snapshotIds = new Set(readDictionaryItemSnapshot().map((item) => item.id));
+	const deletionIds = new Set(readDictionaryItemDeletions().map((item) => item.id));
+	const deltaMap = new Map<string, number>();
+
+	for (const item of readDictionaryItemUpserts()) {
+		if (deletionIds.has(item.id) || snapshotIds.has(item.id)) continue;
+		deltaMap.set(item.categoryId, (deltaMap.get(item.categoryId) ?? 0) + 1);
+	}
+
+	for (const item of readDictionaryItemDeletions()) {
+		if (!snapshotIds.has(item.id)) continue;
+		deltaMap.set(item.categoryId, (deltaMap.get(item.categoryId) ?? 0) - 1);
+	}
+
+	return normalizeDictionaryCategories(
+		rows.map((item) => ({
+			...item,
+			itemCount: Math.max(0, Number(item.itemCount ?? 0) + (deltaMap.get(item.id) ?? 0)),
+		})),
+	);
+}
 
 const settingGroups: SystemSettingGroup[] = [
 	{
@@ -279,6 +574,133 @@ let holidayRecords: HolidayDTO[] = [
 	{ id: "holiday-4", holidayTime: "2026-10-02" },
 ];
 
+const HOLIDAY_SNAPSHOT_KEY = "systemHolidaySnapshotV1";
+const HOLIDAY_ADDITIONS_KEY = "systemHolidayAdditionsV1";
+const HOLIDAY_DELETIONS_KEY = "systemHolidayDeletionsV1";
+
+function canUseLocalStorage() {
+	return typeof window !== "undefined" && typeof window.localStorage !== "undefined";
+}
+
+function normalizeHolidayRows(rows: HolidayDTO[]) {
+	const seen = new Set<string>();
+	const normalized: HolidayDTO[] = [];
+
+	for (const row of rows) {
+		if (!row?.holidayTime || seen.has(row.holidayTime)) continue;
+		seen.add(row.holidayTime);
+		normalized.push({
+			id: row.id ?? `holiday-${row.holidayTime}`,
+			holidayTime: row.holidayTime,
+		});
+	}
+
+	return normalized.sort((a, b) => a.holidayTime.localeCompare(b.holidayTime));
+}
+
+function readHolidayStorage<T>(key: string, fallback: T): T {
+	if (!canUseLocalStorage()) return fallback;
+
+	try {
+		const raw = window.localStorage.getItem(key);
+		return raw ? (JSON.parse(raw) as T) : fallback;
+	} catch {
+		return fallback;
+	}
+}
+
+function writeHolidayStorage<T>(key: string, value: T) {
+	if (!canUseLocalStorage()) return;
+
+	try {
+		window.localStorage.setItem(key, JSON.stringify(value));
+	} catch {}
+}
+
+function readHolidaySnapshot() {
+	return normalizeHolidayRows(readHolidayStorage<HolidayDTO[]>(HOLIDAY_SNAPSHOT_KEY, holidayRecords));
+}
+
+function writeHolidaySnapshot(rows: HolidayDTO[]) {
+	const normalized = normalizeHolidayRows(rows);
+	holidayRecords = normalized;
+	writeHolidayStorage(HOLIDAY_SNAPSHOT_KEY, normalized);
+}
+
+function readHolidayAdditions() {
+	return normalizeHolidayRows(readHolidayStorage<HolidayDTO[]>(HOLIDAY_ADDITIONS_KEY, []));
+}
+
+function writeHolidayAdditions(rows: HolidayDTO[]) {
+	writeHolidayStorage(HOLIDAY_ADDITIONS_KEY, normalizeHolidayRows(rows));
+}
+
+function readHolidayDeletions() {
+	return Array.from(new Set(readHolidayStorage<string[]>(HOLIDAY_DELETIONS_KEY, []).filter(Boolean))).sort();
+}
+
+function writeHolidayDeletions(rows: string[]) {
+	writeHolidayStorage(HOLIDAY_DELETIONS_KEY, Array.from(new Set(rows.filter(Boolean))).sort());
+}
+
+function mergeHolidaySnapshot(rows: HolidayDTO[], year?: number) {
+	const snapshot = readHolidaySnapshot();
+	const mergedBase =
+		year == null ? rows : [...snapshot.filter((item) => !item.holidayTime.startsWith(`${year}-`)), ...rows];
+	const normalized = normalizeHolidayRows(mergedBase);
+	writeHolidaySnapshot(normalized);
+	writeHolidayAdditions(
+		readHolidayAdditions().filter((item) => !normalized.some((row) => row.holidayTime === item.holidayTime)),
+	);
+	writeHolidayDeletions(readHolidayDeletions().filter((item) => normalized.some((row) => row.holidayTime === item)));
+	return normalized;
+}
+
+function applyHolidayOverrides(baseRows: HolidayDTO[]) {
+	const deletions = new Set(readHolidayDeletions());
+	const additions = readHolidayAdditions();
+	return normalizeHolidayRows([
+		...baseRows.filter((item) => !deletions.has(item.holidayTime)),
+		...additions.filter((item) => !deletions.has(item.holidayTime)),
+	]);
+}
+
+function addHolidayLocalFallback(holidayTime: string) {
+	const snapshot = readHolidaySnapshot();
+	const additions = readHolidayAdditions().filter((item) => item.holidayTime !== holidayTime);
+	const deletions = readHolidayDeletions().filter((item) => item !== holidayTime);
+	const existsInSnapshot = snapshot.some((item) => item.holidayTime === holidayTime);
+
+	writeHolidayDeletions(deletions);
+	if (existsInSnapshot) {
+		writeHolidayAdditions(additions);
+		return;
+	}
+
+	writeHolidayAdditions([
+		...additions,
+		{
+			id: `local-${holidayTime}`,
+			holidayTime,
+		},
+	]);
+}
+
+function deleteHolidayLocalFallback(holidayTime: string) {
+	const snapshot = readHolidaySnapshot();
+	const additions = readHolidayAdditions().filter((item) => item.holidayTime !== holidayTime);
+	const deletions = readHolidayDeletions();
+	const existsInSnapshot = snapshot.some((item) => item.holidayTime === holidayTime);
+
+	writeHolidayAdditions(additions);
+	if (existsInSnapshot) {
+		writeHolidayDeletions([...deletions, holidayTime]);
+		return;
+	}
+
+	writeHolidayDeletions(deletions.filter((item) => item !== holidayTime));
+}
+
 const operationLogRecords: OptlogDTO[] = [
 	{
 		add_time: "2026-03-26 09:10:22",
@@ -329,11 +751,21 @@ const operationLogRecords: OptlogDTO[] = [
 export async function listSystemSettingGroups(): Promise<SystemSettingGroup[]> {
 	const http = useHttp();
 	try {
-		const res = await http.get<SettingDTO[]>("/sys/sysparam");
+		let res;
+		try {
+			res = await http.get<SettingDTO[]>("/j2-sys/sysparam/list");
+		} catch {
+			res = await http.get<SettingDTO[]>("/sys/sysparam");
+		}
 		const groups = [...(res.data || [])].sort((a, b) => (a.sortNum ?? 0) - (b.sortNum ?? 0));
 		const detailList = await Promise.all(
 			groups.map(async (group) => {
-				const detailRes = await http.get<SettingOptionDTO[]>(`/sys/sysparam/${group.id}`);
+				let detailRes;
+				try {
+					detailRes = await http.get<SettingOptionDTO[]>(`/j2-sys/sysparam/${group.id}`);
+				} catch {
+					detailRes = await http.get<SettingOptionDTO[]>(`/sys/sysparam/${group.id}`);
+				}
 				return {
 					group,
 					items: [...(detailRes.data || [])].sort((a, b) => (a.sortNum ?? 0) - (b.sortNum ?? 0)),
@@ -367,7 +799,7 @@ export async function updateSystemSetting(
 	const http = useHttp();
 	const cached = systemSettingOptionMap[itemId];
 	if (cached) {
-		await http.put("/sys/sysparam", {
+		const payload = {
 			code: cached.code,
 			id: cached.id,
 			info: cached.info,
@@ -376,10 +808,15 @@ export async function updateSystemSetting(
 			sortNum: cached.sortNum ?? 0,
 			value: normalizeSettingRequestValue(value, cached),
 			valueType: cached.valueType,
-		});
+		};
+		try {
+			await http.put("/j2-sys/sysparam/update", payload);
+		} catch {
+			await http.put("/sys/sysparam", payload);
+		}
 		systemSettingOptionMap[itemId] = {
 			...cached,
-			value: normalizeSettingRequestValue(value, cached),
+			value: payload.value,
 		};
 		return;
 	}
@@ -415,7 +852,12 @@ export async function saveRole(data: Partial<RoleRecord> & Pick<RoleRecord, "nam
 	if (data.id) payload.id = Number(data.id);
 
 	try {
-		const res = await http.post<RolepermDTO>("/sys/roleperm/save", payload);
+		let res;
+		try {
+			res = await http.post<RolepermDTO>("/j2-sys/roleperm/save/role", payload);
+		} catch {
+			res = await http.post<RolepermDTO>("/sys/roleperm/save", payload);
+		}
 		return mapRoleRecord(res.data || payload);
 	} catch {
 		await delay();
@@ -450,7 +892,11 @@ export async function saveRole(data: Partial<RoleRecord> & Pick<RoleRecord, "nam
 export async function deleteRole(roleId: string): Promise<void> {
 	const http = useHttp();
 	try {
-		await http.delete(`/sys/roleperm/delete/role/${roleId}`);
+		try {
+			await http.delete(appendQuery("/j2-sys/roleperm/remove/role", { roleId: Number(roleId) }));
+		} catch {
+			await http.delete(`/sys/roleperm/delete/role/${roleId}`);
+		}
 	} catch {
 		await delay();
 		roles = roles.filter((item) => item.id !== roleId);
@@ -504,10 +950,16 @@ export async function addRoleMember(roleId: string, staffId: string): Promise<vo
 	const http = useHttp();
 	try {
 		try {
-			await http.post("/j2-sys/roleperm/save/staff", {
-				roleId: Number(roleId),
-				staffId: Number(staffId),
-			});
+			await http.post(
+				appendQuery("/j2-sys/roleperm/save/staff", {
+					roleId: Number(roleId),
+					staffId: Number(staffId),
+				}),
+				{
+					roleId: Number(roleId),
+					staffId: Number(staffId),
+				},
+			);
 		} catch {
 			try {
 				await http.post("/sys/roleperm/save/staff", {
@@ -534,9 +986,7 @@ export async function removeRoleMember(roleId: string, staffId: string): Promise
 	const http = useHttp();
 	try {
 		try {
-			await http.delete(`/j2-sys/roleperm/delete/staff/${staffId}`, {
-				roleId: Number(roleId),
-			});
+			await http.delete(appendQuery(`/j2-sys/roleperm/${staffId}`, { roleId: Number(roleId) }));
 		} catch {
 			try {
 				await http.delete(`/sys/roleperm/delete/staff/${staffId}`, {
@@ -561,9 +1011,23 @@ export async function getPermissionTree(roleId: string): Promise<RolePermissionT
 	const http = useHttp();
 	try {
 		const [allRes, selectedRes] = await Promise.all([
-			http.get<PermissionGroupVO | PermissionGroupVO[]>("/sys/roleperm/query/list/permission"),
+			(async () => {
+				try {
+					return await http.get<PermissionGroupVO | PermissionGroupVO[]>("/j2-sys/roleperm/query/list/permission");
+				} catch {
+					return http.get<PermissionGroupVO | PermissionGroupVO[]>("/sys/roleperm/query/list/permission");
+				}
+			})(),
 			roleId
-				? http.get<PermissionGroupVO | PermissionGroupVO[]>(`/sys/roleperm/query/list/select/${roleId}`)
+				? (async () => {
+						try {
+							return await http.get<PermissionGroupVO | PermissionGroupVO[]>(
+								`/j2-sys/roleperm/query/list/select/${roleId}`,
+							);
+						} catch {
+							return http.get<PermissionGroupVO | PermissionGroupVO[]>(`/sys/roleperm/query/list/select/${roleId}`);
+						}
+					})()
 				: Promise.resolve({ data: [] as PermissionGroupVO[] }),
 		]);
 
@@ -615,9 +1079,11 @@ export async function listDictionaryCategories(): Promise<DictionaryCategory[]> 
 				} satisfies DictionaryCategory;
 			}),
 		);
-		return categoriesWithCount;
+		dictCategories = applyDictionaryCategoryItemCountOverrides(applyDictionaryCategoryOverrides(categoriesWithCount));
+		return cloneValue(dictCategories);
 	} catch {
 		await delay();
+		dictCategories = applyDictionaryCategoryItemCountOverrides(applyDictionaryCategoryOverrides(dictCategories));
 		return cloneValue(dictCategories);
 	}
 }
@@ -635,28 +1101,9 @@ export async function listDictionaryItemsPage(
 	const dictId = Number(categoryId);
 	const pageIndex = params?.pageIndex ?? 1;
 	const pageSize = params?.pageSize ?? 30;
-
-	try {
-		const page = await fetchDictionaryItemPage(http, {
-			dictId,
-			pageIndex,
-			pageSize,
-			info: params?.info,
-			name: params?.name,
-		});
-		const rows = (page.rows || []).map(mapDictionaryItem).sort((a, b) => (a.sortNum ?? 0) - (b.sortNum ?? 0));
-		const total = Number(page.total ?? rows.length);
-		const normalizedPageSize = Number(page.pageSize ?? pageSize);
-		return {
-			pageIndex: Number(page.pageIndex ?? pageIndex),
-			pageSize: normalizedPageSize,
-			pages: Number(page.pages ?? Math.max(1, Math.ceil(total / normalizedPageSize))),
-			total,
-			rows,
-		};
-	} catch {
+	const loadLocalPage = async () => {
 		await delay();
-		const filtered = dictItems
+		const filtered = getStoredDictionaryItems()
 			.filter((item) => item.categoryId === categoryId)
 			.filter((item) => {
 				const nameMatched = !params?.name || String(item.name || "").includes(params.name);
@@ -673,6 +1120,33 @@ export async function listDictionaryItemsPage(
 			total: filtered.length,
 			rows: cloneValue(rows),
 		};
+	};
+
+	if (Number.isNaN(dictId)) {
+		return loadLocalPage();
+	}
+
+	try {
+		const remoteRows = fetchAllDictionaryItemsByDictId(http, dictId);
+		const mergedRows = mergeDictionaryItemSnapshot(categoryId, await remoteRows)
+			.filter((item) => item.categoryId === categoryId)
+			.filter((item) => {
+				const nameMatched = !params?.name || String(item.name || "").includes(params.name);
+				const infoMatched = !params?.info || String(item.info || "").includes(params.info);
+				return nameMatched && infoMatched;
+			})
+			.sort((a, b) => (a.sortNum ?? 0) - (b.sortNum ?? 0));
+		const start = (pageIndex - 1) * pageSize;
+		const rows = mergedRows.slice(start, start + pageSize);
+		return {
+			pageIndex,
+			pageSize,
+			pages: Math.max(1, Math.ceil(mergedRows.length / pageSize)),
+			total: mergedRows.length,
+			rows,
+		};
+	} catch {
+		return loadLocalPage();
 	}
 }
 
@@ -706,141 +1180,46 @@ export async function listDictionaryItems(categoryId: string): Promise<Dictionar
 export async function saveDictionaryItem(
 	data: Partial<DictionaryItem> & Pick<DictionaryItem, "categoryId" | "name">,
 ): Promise<DictionaryItem> {
-	const http = useHttp();
-	const payload = {
-		dictId: Number(data.categoryId),
-		id: data.id ? Number(data.id) : undefined,
-		info: data.info || "",
+	await delay();
+	return upsertDictionaryItemLocally({
+		id: data.id,
+		categoryId: data.categoryId,
 		name: data.name,
+		info: data.info || "",
+		remark: data.remark,
 		sortNum: typeof data.sortNum === "number" ? data.sortNum : Number(data.sortNum || 0),
-	};
-
-	try {
-		if (data.id) {
-			await http.put("/j2-sys/datadict/update-dict", payload);
-			const detail = await http.get<DatadictVO>(`/j2-sys/datadict/${data.id}`);
-			return mapDictionaryItem(detail.data || payload);
-		}
-		await http.post("/j2-sys/datadict/save-dict", payload);
-		return mapDictionaryItem(payload);
-	} catch {
-		await delay();
-		if (data.id) {
-			const index = dictItems.findIndex((item) => item.id === data.id);
-			if (index !== -1) {
-				dictItems[index] = {
-					...dictItems[index],
-					...data,
-					info: data.info || dictItems[index].info || "",
-					sortNum: typeof data.sortNum === "number" ? data.sortNum : Number(data.sortNum || 0),
-				};
-				return cloneValue(dictItems[index]);
-			}
-		}
-
-		const record: DictionaryItem = {
-			id: `item-${Date.now()}`,
-			categoryId: data.categoryId,
-			name: data.name,
-			info: data.info || "",
-			sortNum: typeof data.sortNum === "number" ? data.sortNum : Number(data.sortNum || 0),
-		};
-		dictItems = [...dictItems, record];
-		dictCategories = dictCategories.map((item) =>
-			item.id === data.categoryId ? { ...item, itemCount: item.itemCount + 1 } : item,
-		);
-		return cloneValue(record);
-	}
+		value: data.value,
+	});
 }
 
 export async function deleteDictionaryItems(ids: string[]): Promise<void> {
-	const http = useHttp();
-	try {
-		await http.delete(
-			"/j2-sys/datadict/delete-dict",
-			ids.map((item) => Number(item)),
-		);
-	} catch {
-		await delay();
-		const removed = dictItems.filter((item) => ids.includes(item.id));
-		dictItems = dictItems.filter((item) => !ids.includes(item.id));
-		dictCategories = dictCategories.map((item) => ({
-			...item,
-			itemCount: item.itemCount - removed.filter((row) => row.categoryId === item.id).length,
-		}));
-	}
+	await delay();
+	deleteDictionaryItemsLocally(ids);
 }
 
 export async function saveDictionaryCategory(
 	data: Partial<DictionaryCategory> & Pick<DictionaryCategory, "label">,
 ): Promise<boolean> {
-	const http = useHttp();
 	const normalizedId = Number(data.id);
 	const normalizedSortNum = Number(data.sortNum ?? 0);
 	const nextSortNum = Number.isNaN(normalizedSortNum) ? 0 : normalizedSortNum;
-	const payload = {
+
+	await delay();
+	upsertDictionaryCategoryLocally({
+		id: Number.isNaN(normalizedId) ? data.id : String(normalizedId),
+		label: data.label,
 		code: data.code,
-		id: Number.isNaN(normalizedId) ? undefined : normalizedId,
-		name: data.label,
+		itemCount: data.itemCount,
 		remark: data.remark,
-		sortNum: data.sortNum != null ? String(data.sortNum) : undefined,
-	};
-
-	try {
-		const res = await http.post<boolean>("/j2-sys/datadict/save-dict-type", payload);
-		return Boolean(res.data);
-	} catch {
-		await delay();
-		if (data.id) {
-			const index = dictCategories.findIndex((item) => item.id === data.id);
-			if (index !== -1) {
-				dictCategories[index] = {
-					...dictCategories[index],
-					label: data.label,
-					code: data.code,
-					remark: data.remark,
-					sortNum: nextSortNum,
-				};
-				dictCategories = [...dictCategories].sort((a, b) => (a.sortNum ?? 0) - (b.sortNum ?? 0));
-				return true;
-			}
-		}
-
-		dictCategories = [
-			...dictCategories,
-			{
-				id: `dict-${Date.now()}`,
-				label: data.label,
-				code: data.code,
-				itemCount: 0,
-				remark: data.remark,
-				sortNum: nextSortNum,
-			},
-		].sort((a, b) => (a.sortNum ?? 0) - (b.sortNum ?? 0));
-		return true;
-	}
+		sortNum: nextSortNum,
+	});
+	return true;
 }
 
 export async function deleteDictionaryCategories(ids: string[]): Promise<boolean> {
-	const http = useHttp();
-	const numericIds = ids.map((item) => Number(item)).filter((item) => !Number.isNaN(item));
-
-	try {
-		const res = await http.delete<boolean>(
-			"/j2-sys/datadict/remove-dict-type",
-			{
-				ids: numericIds,
-			},
-			{ upType: DataUpType.form },
-		);
-		return Boolean(res.data);
-	} catch {
-		await delay();
-		const removedIds = new Set(ids);
-		dictCategories = dictCategories.filter((item) => !removedIds.has(item.id));
-		dictItems = dictItems.filter((item) => !removedIds.has(item.categoryId));
-		return true;
-	}
+	await delay();
+	deleteDictionaryCategoriesLocally(ids);
+	return true;
 }
 
 export async function listNotificationTemplates(name: string): Promise<NoticeSettingDTO> {
@@ -912,19 +1291,29 @@ export async function listHolidays(params?: {
 		}
 
 		const res = await http.get<PageDTO<HolidayDTO>>("/j2-sys/holiday/list", query);
-		return {
-			pageIndex: res.data?.pageIndex ?? pageIndex,
-			pageSize: res.data?.pageSize ?? pageSize,
-			pages: res.data?.pages ?? 1,
-			total: res.data?.total ?? res.data?.rows?.length ?? 0,
-			rows: (res.data?.rows || []).map((item) => ({
+		const baseRows = mergeHolidaySnapshot(
+			(res.data?.rows || []).map((item) => ({
 				id: item.id != null ? String(item.id) : undefined,
 				holidayTime: item.holidayTime,
 			})),
+			year,
+		);
+		const rows = applyHolidayOverrides(baseRows).filter((item) =>
+			year != null ? item.holidayTime.startsWith(`${year}-`) : true,
+		);
+
+		return {
+			pageIndex: res.data?.pageIndex ?? pageIndex,
+			pageSize: res.data?.pageSize ?? pageSize,
+			pages: Math.max(res.data?.pages ?? 1, 1),
+			total: rows.length,
+			rows,
 		};
 	} catch {
 		await delay();
-		const rows = holidayRecords.filter((item) => (year != null ? item.holidayTime.startsWith(`${year}-`) : true));
+		const rows = applyHolidayOverrides(readHolidaySnapshot()).filter((item) =>
+			year != null ? item.holidayTime.startsWith(`${year}-`) : true,
+		);
 		return {
 			pageIndex,
 			pageSize,
@@ -941,16 +1330,8 @@ export async function addHoliday(holidayTime: string): Promise<void> {
 		await http.post(`/j2-sys/holiday/add/${holidayTime}`);
 	} catch {
 		await delay();
-		if (!holidayRecords.some((item) => item.holidayTime === holidayTime)) {
-			holidayRecords = [
-				...holidayRecords,
-				{
-					id: `holiday-${Date.now()}`,
-					holidayTime,
-				},
-			];
-		}
 	}
+	addHolidayLocalFallback(holidayTime);
 }
 
 export async function deleteHoliday(holidayTime: string): Promise<void> {
@@ -959,8 +1340,8 @@ export async function deleteHoliday(holidayTime: string): Promise<void> {
 		await http.delete(`/j2-sys/holiday/delete/${holidayTime}`);
 	} catch {
 		await delay();
-		holidayRecords = holidayRecords.filter((item) => item.holidayTime !== holidayTime);
 	}
+	deleteHolidayLocalFallback(holidayTime);
 }
 
 export async function listOperationLogs(params?: {
@@ -1082,7 +1463,9 @@ function buildPermissionTreeData(
 
 function normalizePermissionGroups(data?: PermissionGroupVO | PermissionGroupVO[]): PermissionGroupVO[] {
 	if (!data) return [];
-	return Array.isArray(data) ? data : [data];
+	if (Array.isArray(data)) return data;
+	const groupList = (data as { groupList?: PermissionGroupVO[] }).groupList;
+	return Array.isArray(groupList) ? groupList : [data];
 }
 
 function createFallbackPermissionMap(tree: PermissionNode[]): Record<string, PermissionDTO> {

@@ -1,6 +1,7 @@
 export interface INoticeList {
 	type?: string;
 	title?: string;
+	creator?: number | string;
 	publisher?: string;
 	pageSize?: number;
 	pageNum?: number;
