@@ -112,6 +112,10 @@ function openGoodsDetail(id?: number) {
 	});
 }
 
+function goBack() {
+	uni.switchTab({ url: "/pages/home/index" });
+}
+
 onMounted(() => {
 	loadGoods();
 });
@@ -122,6 +126,9 @@ onMounted(() => {
 		<view class="points-page__safe" />
 		<!-- 顶部搜索与记录入口 -->
 		<view class="points-page__toolbar">
+			<view class="points-page__back" @click="goBack">
+				<view class="i-carbon:arrow-left text-18px text-#374151" />
+			</view>
 			<view class="points-page__search">
 				<view class="i-carbon:search text-16px text-#9aa3b2" />
 				<input v-model="keyword" class="points-page__input" placeholder="搜索礼品" />
@@ -200,6 +207,16 @@ onMounted(() => {
 	align-items: center;
 	gap: 10px;
 	background: #fff;
+}
+
+.points-page__back {
+	width: 36px;
+	height: 36px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	background: #f1f3f7;
 }
 
 .points-page__search {

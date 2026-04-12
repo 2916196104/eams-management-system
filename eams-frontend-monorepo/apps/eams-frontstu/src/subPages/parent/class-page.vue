@@ -116,15 +116,15 @@ function studentGenderText(gender?: string) {
 }
 
 async function loadClassInfo() {
-	const res: any = await Apis.home.get_home_class_info_query_by_class_id(
-		classId.value
-			? {
-					params: {
-						class_id: classId.value,
-					},
-				}
-			: undefined,
-	);
+	if (!classId.value) {
+		classInfo.value = null;
+		return;
+	}
+	const res: any = await Apis.home.get_home_class_info_query_by_class_id({
+		params: {
+			class_id: classId.value,
+		},
+	});
 	classInfo.value = res?.data || null;
 }
 

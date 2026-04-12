@@ -65,12 +65,6 @@
 };
 */
 export default {
-    // 新增的登录/注册相关
-    "common.post_common_open_sendSms": ["POST", "/app/common/open/sendSms"],
-    "common.post_common_open_forgetPwd": ["POST", "/app/common/open/forgetPwd"],
-    "common.post_common_open_regist_sendSms": ["POST", "/app/common/open/regist/sendSms"],
-    "common.post_common_open_register": ["POST", "/app/common/open/register"],
-
     // 原有的 login（保留）
     "login.get_login_current_user": ["GET", "/login/current-user"],
     "login.get_login_get_menus": ["GET", "/login/get-menus"],
@@ -113,7 +107,7 @@ export default {
     "home.get_c1_exchange_query_acceptGoods": ["GET", "/app/sCenter/credit/exchangeRecord"],
     "home.get_c1_exchange_query_rule": ["GET", "/app/sCenter/credit/getRule"],
     "home.post_c1_exchange_submit": ["POST", "/app/sCenter/credit/exchange"],
-    "home.get_c1_registration_records_query_records": ["GET", "/app/sCenter/order/registrationRecord"],
+    "home.get_c1_registration_records_query_records": ["GET", "/app/sCenter/shop/courseInfo"],
     "home.get_c1_review_records_query_reviews": ["GET", "/app/sCenter/lesson/evaluateLog"],
     "home.get_c1_home_score_query_score_list": ["GET", "/app/sCenter/student/gradeRecord"],
     "home.get_c1_homework": ["GET", "/app/sCenter/homework/list"],

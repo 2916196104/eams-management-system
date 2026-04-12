@@ -8,7 +8,6 @@ type _LocationUrl =
   "/pages/home/index" |
   "/pages/mine/index" |
   "/pages/schedule/index" |
-  "/pages/select/index" |
   "/subPages/login/forget" |
   "/subPages/login/register" |
   "/subPages/mine/about" |
@@ -32,8 +31,7 @@ type _LocationUrl =
   "/subPages/parent/signup-record" |
   "/subPages/parent/student-edit" |
   "/subPages/parent/student-list" |
-  "/subPages/parent/trial-card" |
-  "/subPages/select/course-detail";
+  "/subPages/parent/trial-card";
 
 interface NavigateToOptions {
   url: _LocationUrl;
@@ -41,7 +39,7 @@ interface NavigateToOptions {
 interface RedirectToOptions extends NavigateToOptions {}
 
 interface SwitchTabOptions {
-  url: "/pages/home/index" | "/pages/schedule/index" | "/pages/select/index" | "/pages/mine/index"
+  url: "/pages/home/index" | "/pages/schedule/index" | "/pages/mine/index"
 }
 
 type ReLaunchOptions = NavigateToOptions | SwitchTabOptions;
