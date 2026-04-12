@@ -45,19 +45,22 @@ export function formatDate(date: Date) {
 }
 
 // 格式化日期为后端要求的 LocalDate 格式
-// 尝试多种格式：yyyy-MM-dd, yyyy/MM/dd, yyyyMMdd
+// 后端可能期望 yyyyMMdd 格式（无分隔符）
 export function formatLocalDate(dateString: string): string {
 	if (!dateString) return "";
 	// 验证格式是否为 YYYY-MM-DD
 	const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
 	if (dateRegex.test(dateString)) {
-		// 保持 YYYY-MM-DD 格式，这是 ISO 8601 标准格式
-		return dateString;
+		// 将 YYYY-MM-DD 转换为 YYYYMMDD 格式（无分隔符）
+		return dateString.replace(/-/g, "");
 	}
 	// 格式不正确，尝试解析并重新格式化
 	const date = new Date(dateString);
 	if (Number.isNaN(date.getTime())) return dateString;
-	return formatDate(date);
+	const year = date.getFullYear();
+	const month = String(date.getMonth() + 1).padStart(2, "0");
+	const day = String(date.getDate()).padStart(2, "0");
+	return `${year}${month}${day}`;
 }
 
 export function normalizeLessonCalendarRows(rows: LessonCalendarVO[] | undefined): CalendarCourse[] {
@@ -174,14 +177,10 @@ export function buildLessonCalendarQuery(
 ) {
 	const visibleRange = getVisibleCalendarRange(viewMode, selectedDate, year, month);
 	const customRangeReady = filters.period === "自定义" && !!filters.startDate && !!filters.endDate;
-	
+
 	// 无论是自定义还是可见范围，都需要转换日期格式
-	const startDate = customRangeReady 
-		? formatLocalDate(filters.startDate) 
-		: formatLocalDate(visibleRange.startDate);
-	const endDate = customRangeReady 
-		? formatLocalDate(filters.endDate) 
-		: formatLocalDate(visibleRange.endDate);
+	const startDate = customRangeReady ? formatLocalDate(filters.startDate) : formatLocalDate(visibleRange.startDate);
+	const endDate = customRangeReady ? formatLocalDate(filters.endDate) : formatLocalDate(visibleRange.endDate);
 
 	// 调试日志：检查日期格式
 	console.log("[buildLessonCalendarQuery] 原始日期:", {
@@ -193,14 +192,14 @@ export function buildLessonCalendarQuery(
 		endDate,
 	});
 
-	// 构建查询参数，只传递 API 需要的字段
+	// 构建查询参数，只传递 API 需要的字段（根据接口文档）
 	const params: Record<string, any> = {};
-	
+
 	// 只在日期有值时才添加
 	if (startDate) params.startDate = startDate;
 	if (endDate) params.endDate = endDate;
 
-	// 可选参数，有值时才添加
+	// 可选参数，有值时才添加（只传递接口定义的参数）
 	if (filters.className) params.className = filters.className;
 	if (filters.courseName) params.courseName = filters.courseName;
 	if (filters.teacherName) params.teacherName = filters.teacherName;

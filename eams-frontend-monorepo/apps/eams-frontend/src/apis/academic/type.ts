@@ -422,29 +422,43 @@ export interface ResumeCoursesResponseDTO {
 }
 
 /**
+ * 停/复课请求参数
+ */
+export interface CoursePauseResumeDTO {
+	/** 课次 ID 列表（必需） */
+	lessonIds: number[];
+	/** 是否复课（必需）true=复课 false=停课 */
+	isResume: boolean;
+}
+
+/**
  * 批量修改课次请求参数
  */
 export interface BatchUpdateCoursesDTO {
-	/** 需要修改的课表ID集合 */
-	lessonIds: number[];
-	/** 调整天数（-7到7） */
-	dayOffset?: number;
-	/** 新上课老师ID */
-	teacherId?: number;
-	/** 新上课老师名称 */
-	teacherName?: string;
-	/** 新助教ID */
-	assistantId?: number;
-	/** 新助教名称 */
-	assistantName?: string;
-	/** 新教室ID */
-	classroomId?: number;
-	/** 新教室名称 */
-	classroomName?: string;
-	/** 新开始时间 */
-	startTime?: string;
-	/** 新结束时间 */
-	endTime?: string;
+	/** 课程 ID 列表（必需） */
+	updateIds: number[];
+	/** 增减天数（可选） */
+	changeDays?: number;
+	/** 主讲老师 id 集合（可选） */
+	teacherIds?: number[];
+	/** 助教老师 id 集合（可选） */
+	assistantIds?: number[];
+	/** 教室 ID（可选） */
+	roomId?: number;
+	/** 开始时间对象（可选） */
+	startTime?: {
+		hour: number;
+		minute: number;
+		second: number;
+		nano: number;
+	};
+	/** 结束时间对象（可选） */
+	endTime?: {
+		hour: number;
+		minute: number;
+		second: number;
+		nano: number;
+	};
 }
 
 /**
@@ -549,6 +563,14 @@ export interface RepeatScheduleRequestDTO {
 	excludeHoliday?: string;
 	/** 课程状态 */
 	status?: string;
+	/** 创建人 ID（可选） */
+	creator?: number;
+	/** 创建时间（可选） */
+	addTime?: string;
+	/** 更新时间（可选） */
+	editTime?: string;
+	/** 更新人 ID（可选） */
+	editor?: number;
 	/** 周期配置 */
 	lessonScheduleSettingDtos: RepeatScheduleSettingDTO[];
 }
@@ -615,6 +637,14 @@ export interface FreeScheduleRequestDTO {
 	excludeHoliday?: string;
 	/** 课程状态 */
 	status?: string;
+	/** 创建人 ID（可选） */
+	creator?: number;
+	/** 创建时间（可选） */
+	addTime?: string;
+	/** 更新时间（可选） */
+	editTime?: string;
+	/** 更新人 ID（可选） */
+	editor?: number;
 	/** 周期配置 */
 	lessonScheduleSettingDtos: RepeatScheduleSettingDTO[];
 }
