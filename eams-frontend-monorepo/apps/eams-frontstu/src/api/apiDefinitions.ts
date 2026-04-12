@@ -75,12 +75,14 @@ export default {
     "login.get_login_current_user": ["GET", "/login/current-user"],
     "login.get_login_get_menus": ["GET", "/login/get-menus"],
     "login.post_login_auth_login": ["POST", "/login/auth-login"],
+    "login.get_login_logout": ["GET", "/login/logout"],
+    "login.post_login_reset_password": ["POST", "/login/reset-password"],
 
     // schedule 模块（部分路径已更新）
-    "schedule.post_schedule_appointment": ["POST", "/app/sCenter/lesson/appoint"],
-    "schedule.get_schedule_query": ["GET", "/app/sCenter/lesson/list"],
-    "schedule.post_schedule_leave": ["POST", "/app/sCenter/lesson/leave"],
-    "schedule.post_schedule_sign_in": ["POST", "/app/sCenter/lesson/sign/{lessonId}"],
+    "schedule.post_schedule_appointment": ["POST", "/clschedule/sCenter/lesson/appoint"],
+    "schedule.get_schedule_query": ["GET", "/clschedule/sCenter/lesson/list"],
+    "schedule.post_schedule_leave": ["POST", "/clschedule/sCenter/lesson/leave"],
+    "schedule.post_schedule_sign_in": ["POST", "/clschedule/sCenter/lesson/sign/{lessonId}"],
 
     // me 模块（保留原有）
     "me.get_me_manual_getList": ["GET", "/me/manual/getList"],
@@ -106,26 +108,68 @@ export default {
     "home.get_home_class_info_query_by_class_id": ["GET", "/app/sCenter/class/info"],
     "home.get_home_class_page_query_by_student_id": ["GET", "/app/sCenter/class/list"],
     "home.get_home_class_student_list_query_by_class_id": ["GET", "/app/sCenter/student/studentList"],
-    "home.get_c1_home_card_list": ["GET", "/app/sCenter/course/trialList"],
-    "home.get_app_sCenter_course_myTrialList": ["GET", "/app/sCenter/course/myTrialList"],
-    "home.get_c1_home_card_rule": ["GET", "/app/sCenter/course/getRule"],
-    "home.put_c1_card_put": ["PUT", "/app/sCenter/course/catchTrial/{trialId}"],
     "home.get_c1_exchange_query_allGoods": ["GET", "/app/sCenter/credit/list"],
     "home.get_c1_exchange_goods_detail_id": ["GET", "/app/sCenter/credit/info"],
     "home.get_c1_exchange_query_acceptGoods": ["GET", "/app/sCenter/credit/exchangeRecord"],
     "home.get_c1_exchange_query_rule": ["GET", "/app/sCenter/credit/getRule"],
     "home.post_c1_exchange_submit": ["POST", "/app/sCenter/credit/exchange"],
-    "home.get_c1_registration_records_query_records": ["GET", "/app/sCenter/shop/courseInfo"],
+    "home.get_c1_registration_records_query_records": ["GET", "/app/sCenter/order/registrationRecord"],
     "home.get_c1_review_records_query_reviews": ["GET", "/app/sCenter/lesson/evaluateLog"],
     "home.get_c1_home_score_query_score_list": ["GET", "/app/sCenter/student/gradeRecord"],
     "home.get_c1_homework": ["GET", "/app/sCenter/homework/list"],
     "home.get_c1_homework_detail": ["GET", "/app/sCenter/homework/info"],
     "home.post_c1_homework_submit": ["POST", "/app/sCenter/homework/saveRecord"],
-    "home.delete_c1_homework_delete": ["DELETE", "/app/sCenter/homework/deleteRecord/{id}"],
+    "home.delete_c1_homework_delete": ["DELETE", "/app/sCenter/homework/deleteRecord"],
+
+    // 公告提醒模块
+    "home.get_app_sCenter_advertisement": ["GET", "/app/sCenter/advertisement"],
+    "home.get_app_sCenter_advertisementList": ["GET", "/app/sCenter/advertisementList"],
+
+    // 小红点提醒模块
+    "home.get_app_sCenter_student_redpoint": ["GET", "/app/sCenter/student/redpoint"],
+
+    // 机构管理模块
+    "institution.get_c2_org_institution_getInstitutionTree": ["GET", "/c2-org/institution/getInstitutionTree"],
+
+    // 试听卡模块
+    "home.get_c1_home_card_list": ["GET", "/app/sCenter/course/trialList"],
+    "home.get_app_sCenter_course_myTrialList": ["GET", "/app/sCenter/course/myTrialList"],
+    "home.get_c1_home_card_rule": ["GET", "/app/sCenter/course/getRule"],
+    "home.put_c1_card_put": ["PUT", "/app/sCenter/course/catchTrial/{trialId}"],
 
     // article 模块（保留原有）
     "article.get_article": ["GET", "/article"],
     "article.post_article": ["POST", "/article"],
     "article.put_article": ["PUT", "/article"],
     "article.delete_article_id": ["DELETE", "/article/{id}"],
+
+    // 机构管理接口
+    "institution.get_c2_org_institution_getInstitutionFree": ["GET", "/c2-org/institution/getInstitutionFree"],
+    "institution.post_c2_org_institution_saveInstitution": ["POST", "/c2-org/institution/saveInstitution"],
+    "institution.get_c2_org_institution_list": ["GET", "/c2-org/institution/list"],
+    "institution.get_c2_org_institution_detail": ["GET", "/c2-org/institution/detail"],
+    "institution.post_c2_org_institution_delete": ["POST", "/c2-org/institution/delete"],
+
+    // 职位管理接口
+    "position.get_c2_org_position_all": ["GET", "/c2-org/position/all"],
+    "position.get_c2_org_position_list": ["GET", "/c2-org/position/list"],
+    "position.post_c2_org_position_save": ["POST", "/c2-org/position/save"],
+    "position.post_c2_org_positions_delete": ["POST", "/c2-org/positions/delete"],
+    "position.post_c2_org_positions_data_permissions_list": ["POST", "/c2-org/positions/data/permissions/list"],
+    "position.post_c2_org_position_dataPermissionSave": ["POST", "/c2-org/position/dataPermissionSave"],
+    "position.delete_c2_org_position_dataPermissionDelete": ["DELETE", "/c2-org/position/dataPermissionDelete"],
+
+    // 员工管理接口
+    "staff.get_c2_org_staff_lesson_list": ["GET", "/c2-org/staff/lesson/list"],
+    "staff.get_c2_org_staff_getImplist": ["GET", "/c2-org/staff/getImplist"],
+    "staff.post_c2_org_staff_saveStaff": ["POST", "/c2-org/staff/saveStaff"],
+    "staff.post_c2_org_staff_modifyAvatar": ["POST", "/c2-org/staff/modifyAvatar"],
+    "staff.post_c2_org_staff_changePassword": ["POST", "/c2-org/staff/changePassword"],
+    "staff.get_c2_org_staff_list": ["GET", "/c2-org/staff/list"],
+    "staff.get_c2_org_employee_getProxyRecord": ["GET", "/c2-org/employee/getProxyRecord"],
+    "staff.get_c2_org_staff_detail": ["GET", "/c2-org/staff/detail"],
+    "staff.delete_c2_org_staff_remove": ["DELETE", "/c2-org/staff/remove"],
+    "staff.put_c2_org_staff_setRole": ["PUT", "/c2-org/staff/setRole"],
+    "staff.put_c2_org_staff_setJob": ["PUT", "/c2-org/staff/setJob"],
+    "staff.put_c2_org_staff_setInstitution": ["PUT", "/c2-org/staff/setInstitution"],
 };

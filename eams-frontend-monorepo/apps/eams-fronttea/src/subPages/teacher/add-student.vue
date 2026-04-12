@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import TeacherEmptyState from "@/components/teacher/TeacherEmptyState.vue";
 import TeacherNavBar from "@/components/teacher/TeacherNavBar.vue";
+import { Apis } from "@/api";
+import { useGlobalToast } from "@/composables/useGlobalToast";
+import { useRouter, useRoute } from "vue-router";
 
 definePage({
 	name: "teacherAddStudent",
@@ -42,10 +45,35 @@ const studentForm = reactive({
 	birthday: "",
 	idCard: "",
 	remark: "",
+	userName: "",
+	kinship: 1,
+	stage: 0,
+	admitTime: "",
+	grade: 1,
+	schoolId: 0,
 });
 
 const genderOptions = ["未知", "男", "女"];
 const typeOptions = ["意向学员", "在学学员"];
+const kinshipOptions = [
+	{ label: "父亲", value: 1 },
+	{ label: "母亲", value: 0 }
+];
+
+const gradeOptions = [
+	{ label: "一年级", value: 1 },
+	{ label: "二年级", value: 2 },
+	{ label: "三年级", value: 3 },
+	{ label: "四年级", value: 4 },
+	{ label: "五年级", value: 5 },
+	{ label: "六年级", value: 6 },
+	{ label: "初一", value: 7 },
+	{ label: "初二", value: 8 },
+	{ label: "初三", value: 9 },
+	{ label: "高一", value: 10 },
+	{ label: "高二", value: 11 },
+	{ label: "高三", value: 12 }
+];
 
 const isSelectMode = computed(() => readQuery("mode") === "select" || !!readQuery("lesson_id"));
 const pageTitle = computed(() => (isSelectMode.value ? "添加学员" : "添加意向学员"));
@@ -100,13 +128,13 @@ function isCourseLoading(id: string) {
 }
 
 function studentTypeValue(type: string) {
-	return type === "在学学员" ? 2 : 1;
+	return type === "在学学员" ? 2147483641 : 2147483640;
 }
 
 function studentGenderValue(gender: string) {
 	if (gender === "男") return 1;
-	if (gender === "女") return 2;
-	return 0;
+	if (gender === "女") return 0;
+	return 3;
 }
 
 async function loadStudentCourses(id: string) {
@@ -230,26 +258,35 @@ async function submitForm() {
 		return;
 	}
 
+	
+
 	submitting.value = true;
 	try {
-		await (Apis as any).student.post_add_intended_student({
+		const response = await (Apis as any).workbench.post_workbench_add_student_info({
 			data: {
-				studentName: studentForm.name.trim(),
-				phoneNumber: studentForm.phone.trim(),
-				studentType: studentTypeValue(studentForm.type),
-				sex: studentGenderValue(studentForm.gender),
-				birthday: studentForm.birthday.trim() || undefined,
-				cardId: studentForm.idCard.trim() || undefined,
-				text: studentForm.remark.trim() || undefined,
-			},
+					name: studentForm.name.trim(),
+					phonenumber: studentForm.phone.trim(),
+					stage: Number(studentForm.stage) || 0,
+					gender: studentGenderValue(studentForm.gender),
+					birthday: studentForm.birthday.trim() || undefined,
+					idcard: studentForm.idCard.trim() || undefined,
+					remark: studentForm.remark.trim() || undefined,
+					username: studentForm.userName.trim() || undefined,
+					kinship: Number(studentForm.kinship) || 2147483640,
+					admitTime: studentForm.admitTime.trim() || new Date().toISOString(),
+					grade: Number(studentForm.grade) || studentTypeValue(studentForm.type),
+					schoolId: Number(studentForm.schoolId) || 0,
+				},
 		});
 
+		console.log("添加学员响应:", response);
 		uni.showToast({ title: "添加学员成功", icon: "none" });
 		const timer = setTimeout(() => {
 			clearTimeout(timer);
 			router.back();
 		}, 500);
-	} catch {
+	} catch (error) {
+		console.error("添加学员失败:", error);
 		uni.showToast({ title: "添加学员失败", icon: "none" });
 	} finally {
 		submitting.value = false;
@@ -364,12 +401,50 @@ onShow(() => {
 				</view>
 				<view class="teacher-add-row">
 					<text class="teacher-add-label">出生年月</text>
-					<input v-model="studentForm.birthday" class="teacher-add-input" type="text" placeholder="请选择" />
+					<input v-model="studentForm.birthday" class="teacher-add-input" type="text" placeholder="YY-MM-DD" />
 				</view>
 				<view class="teacher-add-row">
 					<text class="teacher-add-label">身份证号</text>
 					<input v-model="studentForm.idCard" class="teacher-add-input" type="text" placeholder="请输入内容" />
 				</view>
+				<view class="teacher-add-row">
+					<text class="teacher-add-label">家长姓名</text>
+					<input v-model="studentForm.userName" class="teacher-add-input" type="text" placeholder="请输入内容" />
+				</view>
+				<view class="teacher-add-row teacher-add-row--block">
+					<text class="teacher-add-label">亲属关系</text>
+					<view class="teacher-add-options">
+						<view
+							v-for="option in kinshipOptions"
+							:key="option.value"
+							class="teacher-add-radio"
+							:class="{ 'teacher-add-radio--active': studentForm.kinship === option.value }"
+							@click="studentForm.kinship = option.value"
+						>
+							{{ option.label }}
+						</view>
+					</view>
+				</view>
+
+				<view class="teacher-add-row">
+					<text class="teacher-add-label">入学时间</text>
+					<input v-model="studentForm.admitTime" class="teacher-add-input" type="text" placeholder="YY-MM-DD" />
+				</view>
+				<view class="teacher-add-row teacher-add-row--block">
+					<text class="teacher-add-label">年级</text>
+					<view class="teacher-add-options">
+						<view
+							v-for="option in gradeOptions"
+							:key="option.value"
+							class="teacher-add-radio"
+							:class="{ 'teacher-add-radio--active': studentForm.grade === option.value }"
+							@click="studentForm.grade = option.value"
+						>
+							{{ option.label }}
+						</view>
+					</view>
+				</view>
+
 				<view class="teacher-add-row teacher-add-row--block">
 					<text class="teacher-add-label">备注信息</text>
 					<textarea v-model="studentForm.remark" class="teacher-add-textarea" placeholder="请输入内容" />

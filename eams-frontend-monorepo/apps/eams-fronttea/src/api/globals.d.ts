@@ -479,6 +479,143 @@ declare global {
         'login.post_login_auth_login',
         Config
       >;
+      /**
+       * ---
+       *
+       * [GET] 退出登录
+       *
+       * **path:** /login/logout
+       *
+       * ---
+       *
+       * **Response**
+       * ```ts
+       * type Response = {
+       *   // [title] 状态码
+       *   code: number
+       *   // [title] 提示信息
+       *   message: string
+       *   // [title] 数据
+       *   data: string
+       * }
+       * ```
+       */
+      get_login_logout<
+        Config extends Alova2MethodConfig<{
+          /**
+           * 状态码
+           * ---
+           */
+          code: number;
+          /**
+           * 提示信息
+           * ---
+           */
+          message: string;
+          /**
+           * 数据
+           * ---
+           */
+          data: string;
+        }>
+      >(
+        config?: Config
+      ): Alova2Method<
+        {
+          /**
+           * 状态码
+           * ---
+           */
+          code: number;
+          /**
+           * 提示信息
+           * ---
+           */
+          message: string;
+          /**
+           * 数据
+           * ---
+           */
+          data: string;
+        },
+        'login.get_login_logout',
+        Config
+      >;
+      /**
+       * ---
+       *
+       * [POST] 重置密码
+       *
+       * **path:** /login/reset-password
+       *
+       * ---
+       *
+       * **RequestBody**
+       * ```ts
+       * type RequestBody = {
+       *   newPassword: string
+       * }
+       * ```
+       *
+       * ---
+       *
+       * **Response**
+       * ```ts
+       * type Response = {
+       *   // [title] 状态码
+       *   code: number
+       *   // [title] 提示信息
+       *   message: string
+       *   // [title] 数据
+       *   data: string
+       * }
+       * ```
+       */
+      post_login_reset_password<
+        Config extends Alova2MethodConfig<{
+          /**
+           * 状态码
+           * ---
+           */
+          code: number;
+          /**
+           * 提示信息
+           * ---
+           */
+          message: string;
+          /**
+           * 数据
+           * ---
+           */
+          data: string;
+        }> & {
+          data: {
+            newPassword: string;
+          };
+        }
+      >(
+        config: Config
+      ): Alova2Method<
+        {
+          /**
+           * 状态码
+           * ---
+           */
+          code: number;
+          /**
+           * 提示信息
+           * ---
+           */
+          message: string;
+          /**
+           * 数据
+           * ---
+           */
+          data: string;
+        },
+        'login.post_login_reset_password',
+        Config
+      >;
     };
     article: {
       /**
@@ -925,7 +1062,2029 @@ declare global {
         Config
       >;
     };
-  }
+		course: {
+			get_course_get_common_datetime<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						lesson_count: number;
+						lessons: Array<{
+							lesson_id: number;
+							course_name: string;
+							class_name: string;
+							classroom: string;
+							teacher_id: number;
+							start_time: string;
+							end_time: string;
+							is_signed: boolean;
+							is_leave: boolean;
+							is_reserved: boolean;
+						}>;
+					};
+				}> & {
+					params: {
+						date: string;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						lesson_count: number;
+						lessons: Array<{
+							lesson_id: number;
+							course_name: string;
+							class_name: string;
+							classroom: string;
+							teacher_id: number;
+							start_time: string;
+							end_time: string;
+							is_signed: boolean;
+							is_leave: boolean;
+							is_reserved: boolean;
+						}>;
+					};
+				},
+				"course.get_course_get_common_datetime",
+				Config
+			>;
+			get_course_record_comment_cs_comment_list<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						rows: Array<{
+							id: number;
+							courseScheduleId: number;
+							studentId: number;
+							studentName: string;
+							comment: string;
+							score: number;
+							createTime: string;
+						}>;
+					};
+				}> & {
+					params: {
+						pageIndex: number;
+						pageSize: number;
+						lesson_id?: number;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						rows: Array<{
+							id: number;
+							courseScheduleId: number;
+							studentId: number;
+							studentName: string;
+							comment: string;
+							score: number;
+							createTime: string;
+						}>;
+					};
+				},
+				"course.get_course_record_comment_cs_comment_list",
+				Config
+			>;
+			put_course_record_comment_comment_stu<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: any;
+				}> & {
+					data: {
+						id: string;
+						score: number;
+						evaluation: string;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: any;
+				},
+				"course.put_course_record_comment_comment_stu",
+				Config
+			>;
+			get_course_record_name_get_detail_cs<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						lesson_id: number;
+						lesson_date: string;
+						start_time: string;
+						end_time: string;
+						period_count: number;
+						course_title: string;
+						teacher_name: string;
+						total_count: number;
+						leave_count: number;
+						absent_count: number;
+						talking_count: number;
+						can_comment_after_class: boolean;
+						can_add_student: boolean;
+					};
+				}> & {
+					params: {
+						lesson_id: number;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						lesson_id: number;
+						lesson_date: string;
+						start_time: string;
+						end_time: string;
+						period_count: number;
+						course_title: string;
+						teacher_name: string;
+						total_count: number;
+						leave_count: number;
+						absent_count: number;
+						talking_count: number;
+						can_comment_after_class: boolean;
+						can_add_student: boolean;
+					};
+				},
+				"course.get_course_record_name_get_detail_cs",
+				Config
+			>;
+			get_course_record_name_get_cs_stu_list<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						lesson_id: number;
+						page_index: number;
+						page_size: number;
+						total: number;
+						total_page: number;
+						student_id: number;
+						unsign_count: number;
+						is_change_course: boolean;
+						is_leave: boolean;
+						is_absent: boolean;
+						is_signed: boolean;
+					};
+				}> & {
+					params: {
+						page_index?: number;
+						page_size?: number;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						lesson_id: number;
+						page_index: number;
+						page_size: number;
+						total: number;
+						total_page: number;
+						student_id: number;
+						unsign_count: number;
+						is_change_course: boolean;
+						is_leave: boolean;
+						is_absent: boolean;
+						is_signed: boolean;
+					};
+				},
+				"course.get_course_record_name_get_cs_stu_list",
+				Config
+			>;
+			put_course_record_name_set_status<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						id: string;
+						resp_code: number;
+						resp_message: string;
+					};
+				}> & {
+					data: {
+						id: string;
+						count: number;
+						type: number;
+						state: number;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						id: string;
+						resp_code: number;
+						resp_message: string;
+					};
+				},
+				"course.put_course_record_name_set_status",
+				Config
+			>;
+			get_course_record_name_stu_list<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							id: number;
+							username: string;
+							phone: string;
+							gender: number;
+							rest_hour: number;
+						}>;
+					};
+				}> & {
+					params: {
+						pageIndex: number;
+						pageSize: number;
+						keyword?: string;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							id: number;
+							username: string;
+							phone: string;
+							gender: number;
+							rest_hour: number;
+						}>;
+					};
+				},
+				"course.get_course_record_name_stu_list",
+				Config
+			>;
+			post_course_record_name_stu_add_to_cs<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: string;
+				}> & {
+					data: {
+						course_id: string;
+						studentIds: string[];
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: string;
+				},
+				"course.post_course_record_name_stu_add_to_cs",
+				Config
+			>;
+			get_course_record_name_stu_course_list<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						code: number;
+						message: string;
+						data?: Array<{
+							course_id: string;
+							rest_hour: number;
+							title: string;
+							teacher_id: string;
+							sn: string;
+						}>;
+					};
+				}> & {
+					params: {
+						id: string;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						code: number;
+						message: string;
+						data?: Array<{
+							course_id: string;
+							rest_hour: number;
+							title: string;
+							teacher_id: string;
+							sn: string;
+						}>;
+					};
+				},
+				"course.get_course_record_name_stu_course_list",
+				Config
+			>;
+		};
+		class: {
+			/**
+			 * 获取班级详情
+			 */
+			get_class_byname<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						classId: string;
+						className: string;
+						homeRoomTeacher: string;
+						courseName: string;
+						maxOfPeople: number;
+						status: number;
+						startDate: string;
+						endDate: string;
+						classroom: string;
+						enrollmentProgress: string;
+						courseProgress: string;
+						remarks: string;
+					};
+				}> & {
+					params: {
+						classId: number;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						classId: string;
+						className: string;
+						homeRoomTeacher: string;
+						courseName: string;
+						maxOfPeople: number;
+						status: number;
+						startDate: string;
+						endDate: string;
+						classroom: string;
+						enrollmentProgress: string;
+						courseProgress: string;
+						remarks: string;
+					};
+				},
+				"class.get_class_byname",
+				Config
+			>;
+			/**
+			 * 获取班级列表
+			 */
+			get_class<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							classId: string;
+							className: string;
+							homeRoomTeacher: string;
+							courseName: string;
+							maxOfPeople: number;
+							status: number;
+							startDate: string;
+							endDate: string;
+							classroom: string;
+							enrollmentProgress: string;
+							courseProgress: string;
+							remarks: string;
+						}>;
+					};
+				}> & {
+					params: {
+						pageIndex?: number;
+						pageSize?: number;
+						status?: number;
+						enrollmentProgress?: string;
+						courseProgress?: string;
+						dateTerm?: string;
+						courseName?: string;
+						classId?: string;
+						startTime?: string;
+						homeRoomTeacher?: string;
+						endDate?: string;
+						courseId?: string;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							classId: string;
+							className: string;
+							homeRoomTeacher: string;
+							courseName: string;
+							maxOfPeople: number;
+							status: number;
+							startDate: string;
+							endDate: string;
+							classroom: string;
+							enrollmentProgress: string;
+							courseProgress: string;
+							remarks: string;
+						}>;
+					};
+				},
+				"class.get_class",
+				Config
+			>;
+			/**
+			 * 获取班级学员课程列表
+			 */
+			get_class_GetClassStudentCourseList<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							id: number;
+							courseName: string;
+							courseCode: string;
+							courseLessonsTotal: number;
+							courseLessonsUsed: number;
+							courseLessonsRemaining: number;
+							enrollmentDate: string;
+							startDate: string;
+							endDate: string;
+							progressRate: string;
+							learningRate: string;
+							enrollmentStatus: string;
+							remark: string;
+						}>;
+					};
+				}> & {
+					params: {
+						pageSize: number;
+						pageIndex: number;
+						studentId: number;
+						courseName?: string;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							id: number;
+							courseName: string;
+							courseCode: string;
+							courseLessonsTotal: number;
+							courseLessonsUsed: number;
+							courseLessonsRemaining: number;
+							enrollmentDate: string;
+							startDate: string;
+							endDate: string;
+							progressRate: string;
+							learningRate: string;
+							enrollmentStatus: string;
+							remark: string;
+						}>;
+					};
+				},
+				"class.get_class_GetClassStudentCourseList",
+				Config
+			>;
+			/**
+			 * 获取班级学员详情
+			 */
+			get_class_GetClassStudentDetails<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						id: number;
+						name: string;
+						mobile: string;
+						gender: string;
+						age: number;
+						birthday: string;
+						stage: string;
+						remark: string;
+					};
+				}> & {
+					params: {
+						studentId: string;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						id: number;
+						name: string;
+						mobile: string;
+						gender: string;
+						age: number;
+						birthday: string;
+						stage: string;
+						remark: string;
+					};
+				},
+				"class.get_class_GetClassStudentDetails",
+				Config
+			>;
+			/**
+			 * 获取班级学员列表
+			 */
+			get_class_GetClassStudentList<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							id: number;
+							name: string;
+							gender: string;
+							remainingLessonCount: number;
+						}>;
+					};
+				}> & {
+					params: {
+						pageIndex: number;
+						pageSize: number;
+						classId: number;
+						stage?: number;
+						mobile?: string;
+						studentName?: string;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							id: number;
+							name: string;
+							gender: string;
+							remainingLessonCount: number;
+						}>;
+					};
+				},
+				"class.get_class_GetClassStudentList",
+				Config
+			>;
+		};
+		workbench: {
+			/**
+			 * 获取当前用户信息
+			 */
+			get_workbench_Information<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						permissions: string[];
+						role: string[];
+						ID: number;
+						name: string;
+						mobile: string;
+					};
+				}>,
+			>(
+				config?: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						permissions: string[];
+						role: string[];
+						ID: number;
+						name: string;
+						mobile: string;
+					};
+				},
+				"workbench.get_workbench_Information",
+				Config
+			>;
+			/**
+			 * 获取当前用户资料
+			 */
+			get_workbench_profile<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						name: string;
+						mobile: string;
+						birthday: string;
+						gender: string;
+						heading: string;
+					};
+				}>,
+			>(
+				config?: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						name: string;
+						mobile: string;
+						birthday: string;
+						gender: string;
+						heading: string;
+					};
+				},
+				"workbench.get_workbench_profile",
+				Config
+			>;
+			/**
+			 * 修改头像
+			 */
+			post_workbench_ChangePicture<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						headUrl: string;
+					};
+				}> & {
+					data: FormData;
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						headUrl: string;
+					};
+				},
+				"workbench.post_workbench_ChangePicture",
+				Config
+			>;
+			/**
+			 * 课程详情
+			 */
+			get_workbench_courseDetail<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						courseId: number;
+						courseName: string;
+						subjectName: string;
+						lessonTime: string;
+						startDate: string;
+						endDate: string;
+						courseHour: number;
+						coursePrice: number;
+						discountPrice: number;
+						actualPayment: number;
+						enrollMethod: string;
+						tag: string;
+						reportType: string;
+						studentName: string;
+					};
+				}> & {
+					params: {
+						courseId: number;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						courseId: number;
+						courseName: string;
+						subjectName: string;
+						lessonTime: string;
+						startDate: string;
+						endDate: string;
+						courseHour: number;
+						coursePrice: number;
+						discountPrice: number;
+						actualPayment: number;
+						enrollMethod: string;
+						tag: string;
+						reportType: string;
+						studentName: string;
+					};
+				},
+				"workbench.get_workbench_courseDetail",
+				Config
+			>;
+			/**
+			 * 课程列表
+			 */
+			get_workbench_courseList<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<any>;
+					};
+				}> & {
+					params: {
+						pageIndex: number;
+						pageSize: number;
+						name?: string;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<any>;
+					};
+				},
+				"workbench.get_workbench_courseList",
+				Config
+			>;
+			/**
+			 * 我的客户列表
+			 */
+			get_workbench_MyCustomers_List<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							customerId: number;
+							name: string;
+							phoneNumber: string;
+						}>;
+					};
+				}> & {
+					params: {
+						pageSize: number;
+						pageIndex: number;
+						counselor_id?: number;
+						telephone?: string;
+						name?: string;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							customerId: number;
+							name: string;
+							phoneNumber: string;
+						}>;
+					};
+				},
+				"workbench.get_workbench_MyCustomers_List",
+				Config
+			>;
+			/**
+			 * 我的客户课程
+			 */
+			get_workbench_MyCustomers_get_course<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							courseName: string;
+							totalLessons: number;
+							finishedLessons: number;
+							remainingLessons: number;
+							progress: number;
+							previewTime: string;
+							expireTime: string;
+						}>;
+					};
+				}> & {
+					params: {
+						id: number;
+						pageIndex: number;
+						pageSize: number;
+						student_id?: number;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							courseName: string;
+							totalLessons: number;
+							finishedLessons: number;
+							remainingLessons: number;
+							progress: number;
+							previewTime: string;
+							expireTime: string;
+						}>;
+					};
+				},
+				"workbench.get_workbench_MyCustomers_get_course",
+				Config
+			>;
+			/**
+			 * 获取学员详情
+			 */
+			get_workbench_MyCustomers_get_cus_details<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						myCustomerName: string;
+						phoneNumber: string;
+						sex: string;
+						age: number;
+						birth: string;
+						type: string;
+						notes: string;
+					};
+				}> & {
+					params: {
+						id: number;
+						student_id?: number;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						myCustomerName: string;
+						phoneNumber: string;
+						sex: string;
+						age: number;
+						birth: string;
+						type: string;
+						notes: string;
+					};
+				},
+				"workbench.get_workbench_MyCustomers_get_cus_details",
+				Config
+			>;
+			/**
+			 * 布置作业
+			 */
+			post_workbench_homework_assign<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: string;
+				}> & {
+					data: {
+						classId: number;
+						title: string;
+						content: string;
+						image: string;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: string;
+				},
+				"workbench.post_workbench_homework_assign",
+				Config
+			>;
+			/**
+			 * 获取作业详情
+			 */
+			get_workbench_homework_detail<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						homeworkId: number;
+						title: string;
+						content: string;
+						classId: number;
+						className: string;
+						recorderName: string;
+						address: string;
+						phoneNo: string;
+						homeworkRecords: Array<{
+							homeworkId: number;
+							studentId: number;
+							studentName: string;
+							content: string;
+							submitTime: string;
+							score: number;
+							comment: string;
+							commentTime: string;
+							recorderName: string;
+							address: string;
+							phoneNo: string;
+							totalStudents: number;
+							submittedCount: number;
+						}>;
+					};
+				}> & {
+					params: {
+						homeworkId: number;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						homeworkId: number;
+						title: string;
+						content: string;
+						classId: number;
+						className: string;
+						recorderName: string;
+						address: string;
+						phoneNo: string;
+						homeworkRecords: Array<{
+							homeworkId: number;
+							studentId: number;
+							studentName: string;
+							content: string;
+							submitTime: string;
+							score: number;
+							comment: string;
+							commentTime: string;
+							recorderName: string;
+							address: string;
+							phoneNo: string;
+							totalStudents: number;
+							submittedCount: number;
+						}>;
+					};
+				},
+				"workbench.get_workbench_homework_detail",
+				Config
+			>;
+			/**
+			 * 批改作业
+			 */
+			post_workbench_homework_review<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						success: boolean;
+						message: string;
+						recordId: number;
+					};
+				}> & {
+					data: {
+						recordId: number;
+						score: number;
+						comment: string;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						success: boolean;
+						message: string;
+						recordId: number;
+					};
+				},
+				"workbench.post_workbench_homework_review",
+				Config
+			>;
+			/**
+			 * 获取班级列表
+			 */
+			get_workbench_selectclass<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							id: number;
+							name: string;
+						}>;
+					};
+				}> & {
+					params: {
+						pageIndex: number;
+						pageSize: number;
+						name?: string;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							id: number;
+							name: string;
+						}>;
+					};
+				},
+				"workbench.get_workbench_selectclass",
+				Config
+			>;
+			/**
+			 * 获取教师列表
+			 */
+			get_workbench_selectteacher<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							id: number;
+							name: string;
+						}>;
+					};
+				}> & {
+					params: {
+						pageIndex: number;
+						pageSize: number;
+						name?: string;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							id: number;
+							name: string;
+						}>;
+					};
+				},
+				"workbench.get_workbench_selectteacher",
+				Config
+			>;
+			/**
+			 * 获取本月数据
+			 */
+			get_workbench_monthlydata<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: Array<{
+						rollcall_count: number;
+						lesson_count: number;
+						student_count: number;
+						course_count: number;
+					}>;
+				}>,
+			>(
+				config?: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: Array<{
+						rollcall_count: number;
+						lesson_count: number;
+						student_count: number;
+						course_count: number;
+					}>;
+				},
+				"workbench.get_workbench_monthlydata",
+				Config
+			>;
+			/**
+			 * 新增重复排课
+			 */
+			post_workbench_RepeatCoursesArrange<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: string;
+				}> & {
+					data: {
+						class_id: number;
+						course_id: number;
+						teacher_id: string;
+						assistant_id: string;
+						classroom_id: number;
+						start_date: string;
+						end_date: string;
+						class_period: string[];
+						limit_person_num: number;
+						skip_holiday: boolean;
+						open_appointment: boolean;
+						check_conflict: boolean;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: string;
+				},
+				"workbench.post_workbench_RepeatCoursesArrange",
+				Config
+			>;
+			/**
+			 * 新增自由排课
+			 */
+			post_workbench_FreeCoursesArrange<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: string;
+				}> & {
+					data: {
+						class_id: number;
+						course_id: number;
+						teacher_id: string;
+						assistant_id: string;
+						classroom_id: number;
+						dates: string[];
+						start_time: string;
+						end_time: string;
+						class_time: string;
+						open_appointment: boolean;
+						check_conflict: boolean;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: string;
+				},
+				"workbench.post_workbench_FreeCoursesArrange",
+				Config
+			>;
+			/**
+			 * 学生档案列表
+			 */
+			get_workbench_stu_list<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							id: number;
+							name: string;
+							mobile: string;
+							classTime: string;
+							grade: string;
+						}>;
+					};
+				}> & {
+					params: {
+						pageIndex: number;
+						pageSize: number;
+						name?: string;
+						mobile?: string;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							id: number;
+							name: string;
+							mobile: string;
+							classTime: string;
+							grade: string;
+						}>;
+					};
+				},
+				"workbench.get_workbench_stu_list",
+				Config
+			>;
+			/**
+			 * 获取学员课表
+			 */
+			get_workbench_stu_classRecord<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							id: number;
+							className: string;
+							status: number;
+							startTime: string;
+							endTime: string;
+							courseName: string;
+							studentName: string;
+							studentType: string;
+						}>;
+					};
+				}> & {
+					params: {
+						pageIndex: number;
+						pageSize: number;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							id: number;
+							className: string;
+							status: number;
+							startTime: string;
+							endTime: string;
+							courseName: string;
+							studentName: string;
+							studentType: string;
+						}>;
+					};
+				},
+				"workbench.get_workbench_stu_classRecord",
+				Config
+			>;
+			/**
+			 * 获取学员档案详情
+			 */
+			get_workbench_StuProfileDetails<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							id: number;
+							name: string;
+							mobile: string;
+							classTime: string;
+							grade: string;
+							sex: string;
+							birth: string;
+							address: string;
+							email: string;
+							parentName: string;
+							parentMobile: string;
+							emergencyContact: string;
+							emergencyMobile: string;
+							remark: string;
+						}>;
+					};
+				}> & {
+					params: {
+						pageIndex: number;
+						pageSize: number;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							id: number;
+							name: string;
+							mobile: string;
+							classTime: string;
+							grade: string;
+							sex: string;
+							birth: string;
+							address: string;
+							email: string;
+							parentName: string;
+							parentMobile: string;
+							emergencyContact: string;
+							emergencyMobile: string;
+							remark: string;
+						}>;
+					};
+				},
+				"workbench.get_workbench_StuProfileDetails",
+				Config
+			>;
+			/**
+			 * 获取学生课程进度
+			 */
+			get_workbench_StuCourseProgress<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							id: number;
+							className: string;
+							courseName: string;
+							startTime: string;
+							endTime: string;
+							progress: number;
+							status: string;
+						}>;
+					};
+				}> & {
+					params: {
+						pageIndex: number;
+						pageSize: number;
+						name?: string;
+						id: number;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							id: number;
+							className: string;
+							courseName: string;
+							startTime: string;
+							endTime: string;
+							progress: number;
+							status: string;
+						}>;
+					};
+				},
+				"workbench.get_workbench_StuCourseProgress",
+				Config
+			>;
+			/**
+			 * 学生课程记录
+			 */
+			get_workbench_StuCourseRecord<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: any;
+				}> & {
+					params: {
+						id: number;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: any;
+				},
+				"workbench.get_workbench_StuCourseRecord",
+				Config
+			>;
+			/**
+			 * 学生学习记录
+			 */
+			get_workbench_StuStudyRecord<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: any;
+				}> & {
+					params: {
+						id: number;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: any;
+				},
+				"workbench.get_workbench_StuStudyRecord",
+				Config
+			>;
+			/**
+			 * 课程记录
+			 */
+			get_workbench_CourseRecord<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							class_name: string;
+							status: string;
+							comment_content_num: string;
+							course_hour: number;
+						}>;
+					};
+				}> & {
+					params: {
+						pageIndex: number;
+						pageSize: number;
+						name?: string;
+						id: number;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							class_name: string;
+							status: string;
+							comment_content_num: string;
+							course_hour: number;
+						}>;
+					};
+				},
+				"workbench.get_workbench_CourseRecord",
+				Config
+			>;
+			/**
+			 * 学生签到
+			 */
+			get_workbench_StudentSignIn<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							class_name: string;
+							status: string;
+							attendance_time: string;
+							pay: number;
+						}>;
+					};
+				}> & {
+					params: {
+						pageIndex: number;
+						pageSize: number;
+						name?: string;
+						id: number;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							class_name: string;
+							status: string;
+							attendance_time: string;
+							pay: number;
+						}>;
+					};
+				},
+				"workbench.get_workbench_StudentSignIn",
+				Config
+			>;
+			/**
+			 * 报名记录查询
+			 */
+			get_workbench_RegisterRecord<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: any;
+				}> & {
+					params: {
+						pageIndex: number;
+						pageSize: number;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: any;
+				},
+				"workbench.get_workbench_RegisterRecord",
+				Config
+			>;
+			/**
+			 * 报名记录分页查询
+			 */
+			get_workbench_RegisterRecord_page<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							id: number;
+							courseName: string;
+							studentName: string;
+							phone: string;
+							status: string;
+							price: number;
+							createTime: string;
+							className: string;
+							courseHours: number;
+							startDate: string;
+							endDate: string;
+							counselorName: string;
+							paymentStatus: string;
+							paymentTime: string;
+							orderNo: string;
+							remark: string;
+						}>;
+					};
+				}> & {
+					params: {
+						studentName?: string;
+						className?: string;
+						courseName?: string;
+						startDate?: string;
+						endDate?: string;
+						status?: string;
+						counselorId?: number;
+						pageIndex: number;
+						pageSize: number;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							id: number;
+							courseName: string;
+							studentName: string;
+							phone: string;
+							status: string;
+							price: number;
+							createTime: string;
+							className: string;
+							courseHours: number;
+							startDate: string;
+							endDate: string;
+							counselorName: string;
+							paymentStatus: string;
+							paymentTime: string;
+							orderNo: string;
+							remark: string;
+						}>;
+					};
+				},
+				"workbench.get_workbench_RegisterRecord_page",
+				Config
+			>;
+			/**
+			 * 报名
+			 */
+			post_workbench_register<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: string;
+				}> & {
+					data: {
+						registerType: number;
+						studentName: string;
+						courseName: string;
+						subjectName: string;
+						subjectId: number;
+						startDate: string;
+						endDate: string;
+						courseHours: number;
+						coursePrice: number;
+						discountPrice: number;
+						actualPayment: number;
+						tags: string;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: string;
+				},
+				"workbench.post_workbench_register",
+				Config
+			>;
+			/**
+			 * 学生作业列表
+			 */
+			get_workbench_StudentHomeworkList<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							title: string;
+							number: string;
+							className: string;
+							courseName: string;
+						}>;
+					};
+				}> & {
+					params: {
+						pageIndex: number;
+						pageSize: number;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							title: string;
+							number: string;
+							className: string;
+							courseName: string;
+						}>;
+					};
+				},
+				"workbench.get_workbench_StudentHomeworkList",
+				Config
+			>;
+			/**
+			 * 点名记录
+			 */
+			get_workbench_sign<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							studentName: string;
+							class: string;
+							date: string;
+						}>;
+					};
+				}> & {
+					params: {
+						pageIndex: number;
+						pageSize: number;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							studentName: string;
+							class: string;
+							date: string;
+						}>;
+					};
+				},
+				"workbench.get_workbench_sign",
+				Config
+			>;
+			/**
+			 * 点评记录
+			 */
+			get_workbench_remark<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							studentName: string;
+							score: string;
+							tutorName: string;
+							remarkTime: string;
+						}>;
+					};
+				}> & {
+					params: {
+						pageIndex: number;
+						pageSize: number;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							studentName: string;
+							score: string;
+							tutorName: string;
+							remarkTime: string;
+						}>;
+					};
+				},
+				"workbench.get_workbench_remark",
+				Config
+			>;
+			/**
+			 * 教室管理
+			 */
+			get_workbench_classroom<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							name: string;
+							address: string;
+						}>;
+					};
+				}> & {
+					params: {
+						pageIndex: number;
+						pageSize: number;
+						name?: string;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: {
+						pageIndex: number;
+						pageSize: number;
+						total: number;
+						pages: number;
+						rows: Array<{
+							name: string;
+							address: string;
+						}>;
+					};
+				},
+				"workbench.get_workbench_classroom",
+				Config
+			>;
+			/**
+			 * 添加意向学员
+			 */
+			post_workbench_add_student_info<
+				Config extends Alova2MethodConfig<{
+					code: number;
+					message: string;
+					data?: string;
+				}> & {
+					data: {
+						name: string;
+						phoneNumber: string;
+						stage: number;
+						birthday: string;
+						address: string;
+						idCard: string;
+						kinship: string;
+						kinName: string;
+						kinPhone: string;
+						classTime: string;
+						schoolId: number;
+					};
+				},
+			>(
+				config: Config,
+			): Alova2Method<
+				{
+					code: number;
+					message: string;
+					data?: string;
+				},
+				"workbench.post_workbench_add_student_info",
+				Config
+			>;
+		};
+	}
 
-  var Apis: Apis;
+	var Apis: Apis;
 }

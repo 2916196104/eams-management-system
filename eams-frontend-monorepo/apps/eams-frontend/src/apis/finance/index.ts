@@ -543,75 +543,24 @@ export async function downloadFunds() {
 	}
 }
 
-function toDateOnly(v?: string): string | undefined {
-	if (!v) return undefined;
-	if (v.includes("T")) return v.split("T")[0];
-	if (v.includes(" ")) return v.split(" ")[0];
-	return v;
-}
-
-function toDateTimeWithSpace(v?: string, endOfDay?: boolean): string | undefined {
-	if (!v) return undefined;
-	if (v.includes(" ")) return v;
-	if (v.includes("T")) return v.replace("T", " ");
-	return endOfDay ? `${v} 23:59:59` : `${v} 00:00:00`;
-}
-
-function toDateTimeWithT(v?: string, endOfDay?: boolean): string | undefined {
-	if (!v) return undefined;
-	if (v.includes("T")) return v;
-	if (v.includes(" ")) return v.replace(" ", "T");
-	return endOfDay ? `${v}T23:59:59` : `${v}T00:00:00`;
-}
-
-function buildDateQueryVariants(params: { startDate?: string; endDate?: string }): Array<{ startDate?: string; endDate?: string }> {
-	return [
-		{
-			startDate: toDateOnly(params.startDate),
-			endDate: toDateOnly(params.endDate),
-		},
-		{
-			startDate: toDateTimeWithSpace(params.startDate, false),
-			endDate: toDateTimeWithSpace(params.endDate, true),
-		},
-		{
-			startDate: toDateTimeWithT(params.startDate, false),
-			endDate: toDateTimeWithT(params.endDate, true),
-		},
-	];
-}
-
-function unwrapJsonData<T>(payload: unknown): Array<T> {
-	if (Array.isArray(payload)) return payload as Array<T>;
-	if (!payload || typeof payload !== "object") return [];
-	const data = (payload as { data?: unknown }).data;
-	return Array.isArray(data) ? (data as Array<T>) : [];
-}
-
 export async function querySaleTrend(params: { startDate?: string; endDate?: string }) {
 	const http = useHttp();
-	const queries = buildDateQueryVariants(params);
-	for (const query of queries) {
-		try {
-			const res = await http.get<unknown>("/j3-statis/courseSaleByDay", query);
-			return unwrapJsonData<SaleTrendPoint>(res.data);
-		} catch {
-		}
-
+	try {
+		const res = await http.get<SaleTrendPoint[]>("/j3-statis/courseSaleByDay", params);
+		if (res.data?.length) return res.data;
+	} catch {
+		// 本地测试时回退到 mock 数据
 	}
 	return filterTrendByRange(mockSaleTrendData, params.startDate, params.endDate);
 }
 
 export async function queryCourseSalesTotal(params: { startDate?: string; endDate?: string }) {
 	const http = useHttp();
-	const queries = buildDateQueryVariants(params);
-	for (const query of queries) {
-		try {
-			const res = await http.get<unknown>("/j3-statis/courseSalesTotal", query);
-			return unwrapJsonData<CourseSalesTotalPoint>(res.data);
-		} catch {
-		}
-
+	try {
+		const res = await http.get<CourseSalesTotalPoint[]>("/j3-statis/courseSalesTotal", params);
+		if (res.data?.length) return res.data;
+	} catch {
+		// 本地测试时回退到 mock 数据
 	}
 	return mockCourseSalesTotalData;
 }

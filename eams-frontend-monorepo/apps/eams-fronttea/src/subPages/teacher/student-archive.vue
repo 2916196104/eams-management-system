@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import TeacherNavBar from "@/components/teacher/TeacherNavBar.vue";
 import TeacherSectionCard from "@/components/teacher/TeacherSectionCard.vue";
+import { Apis } from "@/api";
 
 definePage({
 	name: "teacherStudentArchive",
@@ -12,7 +13,7 @@ definePage({
 
 type StudentStage = "all" | "intentional" | "active" | "graduated";
 
-interface StaticStudentArchiveItem {
+interface StudentArchiveItem {
 	id: string;
 	name: string;
 	phone: string;
@@ -26,6 +27,8 @@ interface StaticStudentArchiveItem {
 const toast = useGlobalToast();
 const keyword = ref("");
 const activeStage = ref<StudentStage>("all");
+const loading = ref(false);
+const studentList = ref<StudentArchiveItem[]>([]);
 
 const stageOptions = [
 	{ label: "全部", value: "all" },
@@ -34,53 +37,10 @@ const stageOptions = [
 	{ label: "结课", value: "graduated" },
 ] as const;
 
-const studentList: StaticStudentArchiveItem[] = [
-	{
-		id: "stu-1",
-		name: "李沐阳",
-		phone: "13800001111",
-		className: "启蒙一班",
-		stage: "active",
-		remaining: 18,
-		parentName: "李女士",
-		note: "课堂参与度稳定，适合后续转入正式提高班。",
-	},
-	{
-		id: "stu-2",
-		name: "周可欣",
-		phone: "13800002222",
-		className: "暑期集训班",
-		stage: "intentional",
-		remaining: 0,
-		parentName: "周先生",
-		note: "已完成试听，正在等待暑期开班排课。",
-	},
-	{
-		id: "stu-3",
-		name: "陈昊然",
-		phone: "13800003333",
-		className: "周末提升班",
-		stage: "active",
-		remaining: 6,
-		parentName: "陈女士",
-		note: "近期出勤正常，建议补充阶段测评记录。",
-	},
-	{
-		id: "stu-4",
-		name: "王雨桐",
-		phone: "13800004444",
-		className: "围棋体验课",
-		stage: "graduated",
-		remaining: 0,
-		parentName: "王先生",
-		note: "体验课已完成，后续可转长期班或回访续费。",
-	},
-];
-
 const filteredStudents = computed(() => {
 	const keywordValue = keyword.value.trim();
 
-	return studentList.filter((item) => {
+	return studentList.value.filter((item) => {
 		const matchStage = activeStage.value === "all" || item.stage === activeStage.value;
 		const matchKeyword =
 			!keywordValue ||
@@ -92,7 +52,7 @@ const filteredStudents = computed(() => {
 	});
 });
 
-function stageText(stage: StaticStudentArchiveItem["stage"]) {
+function stageText(stage: StudentArchiveItem["stage"]) {
 	switch (stage) {
 		case "intentional":
 			return "意向学员";
@@ -103,7 +63,7 @@ function stageText(stage: StaticStudentArchiveItem["stage"]) {
 	}
 }
 
-function stageClass(stage: StaticStudentArchiveItem["stage"]) {
+function stageClass(stage: StudentArchiveItem["stage"]) {
 	switch (stage) {
 		case "intentional":
 			return "teacher-archive-card__badge--intentional";
@@ -114,9 +74,28 @@ function stageClass(stage: StaticStudentArchiveItem["stage"]) {
 	}
 }
 
-function refreshPage() {
-	toast.show("学生档案接口暂未稳定，当前展示静态页面");
+async function loadStudentArchive() {
+	loading.value = true;
+	try {
+		const response = await (Apis as any).workbench.get_workbench_StuProfileDetails();
+		// 假设API返回的数据结构与我们的接口匹配
+		// 这里可能需要根据实际API返回格式进行调整
+		studentList.value = response || [];
+	} catch (error) {
+		console.error("加载学生档案失败:", error);
+		toast.show("学生档案加载失败");
+		studentList.value = [];
+	} finally {
+		loading.value = false;
+	}
 }
+
+function refreshPage() {
+	loadStudentArchive();
+}
+
+// 页面加载时获取学生档案数据
+loadStudentArchive();
 </script>
 
 <template>
@@ -124,11 +103,6 @@ function refreshPage() {
 		<teacher-nav-bar title="学生档案" @refresh="refreshPage" />
 
 		<view class="teacher-archive-page__content">
-			<view class="teacher-archive-tip">
-				<view class="i-carbon:information text-18px text-#d97706" />
-				<text>学生档案当前先展示静态资料卡，后续再切换为真实查询与详情接口。</text>
-			</view>
-
 			<view class="teacher-archive-search">
 				<view class="i-carbon:search text-18px text-#98a2b3" />
 				<input
@@ -139,7 +113,7 @@ function refreshPage() {
 				/>
 			</view>
 
-			<teacher-section-card title="档案概览" :extra="`静态学员 ${studentList.length} 名`">
+			<teacher-section-card title="档案概览" :extra="`学员 ${studentList.length} 名`">
 				<view class="teacher-archive-summary">
 					<view class="teacher-archive-summary__item">
 						<text class="teacher-archive-summary__value">{{ studentList.filter((item) => item.stage === "active").length }}</text>
@@ -170,7 +144,14 @@ function refreshPage() {
 				</view>
 
 				<view class="teacher-archive-list">
-					<view v-for="item in filteredStudents" :key="item.id" class="teacher-archive-card">
+					<view v-if="loading" class="teacher-archive-loading">
+						<text>加载中...</text>
+					</view>
+					<view v-else-if="filteredStudents.length === 0" class="teacher-archive-empty">
+						<view class="i-carbon:document-search text-36px text-#d1d5db" />
+						<text>暂无学员数据</text>
+					</view>
+					<view v-else v-for="item in filteredStudents" :key="item.id" class="teacher-archive-card">
 						<view class="teacher-archive-card__header">
 							<view>
 								<view class="teacher-archive-card__title">{{ item.name }}</view>
@@ -350,6 +331,23 @@ function refreshPage() {
 	padding: 10px 12px;
 	font-size: 12px;
 	line-height: 1.7;
+	color: #667085;
+}
+
+.teacher-archive-loading,
+.teacher-archive-empty {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+	padding: 40px 20px;
+	text-align: center;
+}
+
+.teacher-archive-loading text,
+.teacher-archive-empty text {
+	font-size: 14px;
 	color: #667085;
 }
 </style>

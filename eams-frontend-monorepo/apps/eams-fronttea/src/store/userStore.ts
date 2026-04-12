@@ -294,6 +294,11 @@ function extractScheduleRows(payload: any): unknown[] {
 	if (Array.isArray(payload)) return payload;
 	if (!payload || typeof payload !== "object") return [];
 
+	// 优先从 payload.data.lessons 中提取课程列表（符合 API 文档结构）
+	if (payload.data && Array.isArray(payload.data.lessons)) {
+		return payload.data.lessons;
+	}
+
 	const directCandidates = [
 		payload.data,
 		payload.rows,
@@ -415,7 +420,7 @@ export const useUserStore = defineStore("user", {
 		},
 		async loadCurrentUserInfo() {
 			try {
-				const response = await (Apis as any).workbench.get_workbench_query_current_user_info();
+				const response = await (Apis as any).login.get_login_current_user();
 				this.teacherInfo = normalizeCurrentUserPayload(response, this.teacherInfo);
 			} catch {
 				// 当前用户信息失败时保留本地兜底数据，避免工作台直接空白。
@@ -435,7 +440,7 @@ export const useUserStore = defineStore("user", {
 		},
 		async loadCustomers(pageIndex = 1, pageSize = 20, append = false) {
 			try {
-				const response = await (Apis as any).customer.get_customer({
+				const response = await (Apis as any).workbench.get_workbench_MyCustomers_List({
 					params: {
 						pageIndex,
 						pageSize,
