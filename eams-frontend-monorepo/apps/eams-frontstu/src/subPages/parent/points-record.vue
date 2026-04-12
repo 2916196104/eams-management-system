@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import ParentEmptyState from "@/components/parent/ParentEmptyState.vue";
 import ParentNavBar from "@/components/parent/ParentNavBar.vue";
@@ -93,7 +93,7 @@ async function loadRecords(nextPage = 1, append = false) {
 	targetLoading.value = true;
 
 	try {
-		const res: any = await Apis.home.get_c1_exchange_query_acceptGoods({
+		const res: any = await (Apis as any).home.get_c1_exchange_query_acceptGoods({
 			params: {
 				studentId: studentId.value,
 				pageIndex: nextPage,

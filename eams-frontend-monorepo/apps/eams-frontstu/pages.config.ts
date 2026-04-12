@@ -32,29 +32,26 @@ export default defineUniPages({
 		animationDuration: 300,
 	},
 	tabBar: {
-		custom: true,
-		// #ifdef MP-ALIPAY
-		customize: true,
-		overlay: true,
-		// #endif
-		height: "0",
-		color: "@tabColor",
-		selectedColor: "@tabSelectedColor",
-		backgroundColor: "@tabBgColor",
-		borderStyle: "@tabBorderStyle",
-		list: [
-			{
-				pagePath: "pages/home/index",
-			},
-			{
-				pagePath: "pages/schedule/index",
-			},
-			{
-				pagePath: "pages/select/index",
-			},
-			{
-				pagePath: "pages/mine/index",
-			},
-		],
-	},
+			custom: true,
+			// #ifdef MP-ALIPAY
+			customize: true,
+			overlay: true,
+			// #endif
+			height: "0",
+			color: "@tabColor",
+			selectedColor: "@tabSelectedColor",
+			backgroundColor: "@tabBgColor",
+			borderStyle: "@tabBorderStyle",
+			list: [
+				{
+					pagePath: "pages/home/index",
+				},
+				{
+					pagePath: "pages/schedule/index",
+				},
+				{
+					pagePath: "pages/mine/index",
+				},
+			],
+		},
 });

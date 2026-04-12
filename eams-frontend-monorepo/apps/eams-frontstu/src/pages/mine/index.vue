@@ -34,7 +34,9 @@ const menuList: Array<MineMenuItem> = [
 	{ key: "points", title: "积分兑换记录", icon: "i-carbon:gift", iconColor: "#b35cff", routeName: "pointsRecord" },
 	{ key: "signup", title: "报名记录", icon: "i-carbon:favorite-filled", iconColor: "#ff6b5f", routeName: "signupRecord" },
 	{ key: "attendance", title: "上课记录", icon: "i-carbon:checkmark-filled", iconColor: "#2aa7ff", routeName: "attendanceRecord" },
-	{ key: "manual", title: "使用说明", icon: "i-carbon:help-filled", iconColor: "#c76df2", routeName: "mineHelp" },
+	{ key: "institution", title: "机构管理", icon: "i-carbon:building", iconColor: "#3b82f6", routeName: "institutionList" },
+	{ key: "position", title: "职位管理", icon: "i-carbon:briefcase", iconColor: "#10b981", routeName: "positionList" },
+	{ key: "staff", title: "员工管理", icon: "i-carbon:users", iconColor: "#f59e0b", routeName: "staffList" },
 ];
 
 function navigateTo(name: string) {
@@ -48,7 +50,7 @@ function navigateStat(type: "lessons" | "points" | "trialCard") {
 			navigateTo("signupRecord");
 			break;
 		case "points":
-			navigateTo("minePointRecord");
+			navigateTo("pointsMall");
 			break;
 		case "trialCard":
 			navigateTo("trialCard");
