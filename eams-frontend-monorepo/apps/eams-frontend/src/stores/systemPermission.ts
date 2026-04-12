@@ -3,7 +3,6 @@ import { ref } from "vue";
 import {
 	addRolepermStaff,
 	deleteRoleperm,
-	getPermissionList,
 	getRolepermNameList,
 	getRolepermOperators,
 	getRolepermStaffList,
@@ -100,6 +99,22 @@ function normalizeOperators(rows: RolepermOperatorDTO[]): OperatorItem[] {
 	}));
 }
 
+function extractPermissionState(input: unknown) {
+	const groups = extractRows<QuanXianFenZuVo>(unwrapPayload(input));
+	const ids: number[] = [];
+
+	for (const group of groups) {
+		for (const perm of group.selectedPermissions ?? []) {
+			if (perm.id != null) ids.push(perm.id);
+		}
+	}
+
+	return {
+		groups,
+		ids: Array.from(new Set(ids)),
+	};
+}
+
 export const useSystemPermissionStore = defineStore("systemPermission", () => {
 	const roles = ref<RoleItem[]>([]);
 	const currentRoleId = ref<number | null>(null);
@@ -129,6 +144,7 @@ export const useSystemPermissionStore = defineStore("systemPermission", () => {
 			roles.value = [];
 			currentRoleId.value = null;
 			staffs.value = [];
+			permissionGroups.value = [];
 			selectedPermissionIds.value = [];
 			return false;
 		} finally {
@@ -176,47 +192,20 @@ export const useSystemPermissionStore = defineStore("systemPermission", () => {
 		}
 	}
 
-	async function fetchPermissions() {
+	async function fetchSelectedPermissions(roleId: number) {
 		permissionsLoading.value = true;
 		try {
-			const res = await getPermissionList();
-			permissionGroups.value = extractRows<QuanXianFenZuVo>(unwrapPayload(res));
+			const state = extractPermissionState(await getSelectedPermissionList(roleId));
+			permissionGroups.value = state.groups;
+			selectedPermissionIds.value = state.ids;
 			return true;
 		} catch (error) {
-			const rows = extractRows<QuanXianFenZuVo>(unwrapPayload(error));
-			permissionGroups.value = rows;
-			return rows.length > 0 || hasServerPayload(error);
+			const state = extractPermissionState(error);
+			permissionGroups.value = state.groups;
+			selectedPermissionIds.value = state.ids;
+			return state.groups.length > 0 || hasServerPayload(error);
 		} finally {
 			permissionsLoading.value = false;
-		}
-	}
-
-	async function fetchSelectedPermissions(roleId: number) {
-		try {
-			const res = await getSelectedPermissionList(roleId);
-			const groups = extractRows<QuanXianFenZuVo>(unwrapPayload(res));
-			const ids: number[] = [];
-
-			for (const group of groups) {
-				for (const perm of group.selectedPermissions ?? []) {
-					if (perm.id != null) ids.push(perm.id);
-				}
-			}
-
-			selectedPermissionIds.value = ids;
-			return true;
-		} catch (error) {
-			const groups = extractRows<QuanXianFenZuVo>(unwrapPayload(error));
-			const ids: number[] = [];
-
-			for (const group of groups) {
-				for (const perm of group.selectedPermissions ?? []) {
-					if (perm.id != null) ids.push(perm.id);
-				}
-			}
-
-			selectedPermissionIds.value = ids;
-			return groups.length > 0 || hasServerPayload(error);
 		}
 	}
 
@@ -318,7 +307,6 @@ export const useSystemPermissionStore = defineStore("systemPermission", () => {
 		fetchRoles,
 		fetchStaffs,
 		fetchOperators,
-		fetchPermissions,
 		fetchSelectedPermissions,
 		selectRole,
 		saveRole,

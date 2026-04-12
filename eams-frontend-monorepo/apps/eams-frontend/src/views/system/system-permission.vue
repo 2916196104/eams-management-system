@@ -452,29 +452,24 @@ async function ensureCurrentRole(preferredRoleId?: number | null) {
 	if (!fallbackRole) {
 		permissionStore.currentRoleId = null;
 		permissionStore.staffs = [];
+		permissionStore.permissionGroups = [];
 		permissionStore.selectedPermissionIds = [];
-		return;
+		return true;
 	}
 
-	await permissionStore.selectRole(fallbackRole.id);
+	return permissionStore.selectRole(fallbackRole.id);
 }
 
 onMounted(async () => {
-	const [rolesOk, permissionsOk] = await Promise.all([
-		permissionStore.fetchRoles(),
-		permissionStore.fetchPermissions(),
-	]);
+	const rolesOk = await permissionStore.fetchRoles();
+	const roleDataOk = permissionStore.roles.length === 0 || (await ensureCurrentRole());
 
 	if (!rolesOk) {
 		ElMessage.error("角色列表加载失败，请检查接口配置");
 	}
 
-	if (!permissionsOk) {
+	if (!roleDataOk) {
 		ElMessage.error("权限列表加载失败，请检查接口配置");
-	}
-
-	if (permissionStore.roles.length > 0) {
-		await ensureCurrentRole();
 	}
 });
 </script>

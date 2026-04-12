@@ -113,13 +113,6 @@ export const removeRolepermStaff = (staffId: number, roleId: number) => {
 };
 
 /**
- * 获取可分配的权限列表
- */
-export const getPermissionList = () => {
-	return getWithFallback("/query/list/permission");
-};
-
-/**
  * 获取已分配的权限列表
  */
 export const getSelectedPermissionList = (roleId: number) => {
