@@ -27,8 +27,11 @@ interface CoursePageRow {
 }
 
 interface CoursePageData {
-	records?: CoursePageRow[];
+	rows?: CoursePageRow[]; // 注意：API返回的是 rows，不是 records
 	total?: number;
+	pageIndex?: number;
+	pageSize?: number;
+	pages?: number;
 }
 
 const SUCCESS_CODE = 10000;
@@ -43,7 +46,13 @@ function toLegacyResponse<T>(response: JsonVO<T>): LegacyResponse<T> {
 }
 
 export async function getCourseList(params?: Record<string, any>) {
-	const response = await http.get<CoursePageData>("/app/common/course/list", params);
+	const newParams = { ...params };
+	if (newParams.pageNum) {
+		newParams.pageIndex = newParams.pageNum;
+		delete newParams.pageNum;
+	}
+
+	const response = await http.get<CoursePageData>("/j9-course/list", newParams);
 	return toLegacyResponse(response);
 }
 
