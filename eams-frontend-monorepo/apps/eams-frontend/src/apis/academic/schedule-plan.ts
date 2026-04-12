@@ -67,34 +67,43 @@ export interface ConflictCheckDto {
 	scheduleIds: number[];
 }
 
-// 获取排课计划列表
+// 获取计划列表
 export const getSchedulePlanList = (params: SchedulePlanListParams) => {
-	return http.get<JsonVo<PageDtoSchedulePlanVo>>("/j5/courseplan/plan/list", params);
+	return http.get<JsonVo<PageDtoSchedulePlanVo>>("/j5-course-plan/plan/list", params);
 };
 
 // 获取计划详情
 export const getSchedulePlanDetail = (id: number) => {
-	return http.get<JsonVo<SchedulePlanItem>>(`/j5/courseplan/${id}`);
+	return http.get<JsonVo<SchedulePlanItem>>(`/j5-course-plan/${id}`);
 };
 
-// 保存排课计划
+// 保存计划
 export const saveSchedulePlan = (data: SaveSchedulePlanParams) => {
-	return http.post<JsonVo<number>>("/j5/courseplan/plan", data);
+	return http.post<JsonVo<number>>("/j5-course-plan/plan", data);
 };
 
-// 删除排课计划
+// 删除计划
 export const deleteSchedulePlan = (ids: number[]) => {
-	return http.delete<JsonVo<number[]>>("/j5/courseplan/plan", { data: ids });
+	return http.delete<JsonVo<number[]>>("/j5-course-plan/plan", { data: ids });
 };
 
 // 批量生成课表
 export const batchGenerateLesson = (data: BatchGenerateLessonDto) => {
-	return http.post<JsonVo<any>>("/j5/courseplan/batch-generate", data);
+	return http.post<JsonVo<any>>("/j5-course-plan/batch-generate", data);
 };
 
 // 冲突检查
 export const checkConflict = (data: ConflictCheckDto) => {
-	return http.post<JsonVo<any>>("/j5/courseplan/conflict-check", data);
+	return http.post<JsonVo<any>>("/j5-course-plan/conflict-check", data);
+};
+
+// 删除已生成课表
+export const deleteGeneratedLessons = (data: {
+	scheduleIds: number[];
+	forceDelete?: boolean;
+	deleteReason?: string;
+}) => {
+	return http.delete<JsonVo<any>>("/j5-course-plan/delete-lessons", { data });
 };
 
 // 获取教师/助教下拉列表
@@ -105,5 +114,5 @@ export const getTeacherList = (params: {
 	courseId?: number;
 	teacherName?: string;
 }) => {
-	return http.get<JsonVo<PageDtoSchedulePlanVo>>("/j5/courseplan/teachers", { params });
+	return http.get<JsonVo<PageDtoSchedulePlanVo>>("/j5-course-plan/teachers", params);
 };
