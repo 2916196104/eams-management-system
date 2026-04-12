@@ -1,62 +1,60 @@
 // d:\01项目\zero-one-eams2603\eams-frontend-monorepo\apps\eams-frontend\src\apis\material\materialManagement\type.ts
 
-/**
- * 物料变动记录列表项
- */
-export interface MaterialListItem {
-	/**
-	 * 申请员工ID
-	 */
-	applyStaffId?: number;
-
-	/**
-	 * 开始日期，格式：yyyy-MM-dd
-	 */
-	beginDate?: string;
-
-	/**
-	 * 变动类型 1入库 2出库 3积分商城出库
-	 */
+export interface MaterialRecordQuery {
 	changeType?: number;
-
-	/**
-	 * 结束日期，格式：yyyy-MM-dd
-	 */
-	endDate?: string;
-
-	/**
-	 * 查询页码
-	 */
-	pageIndex?: number;
-
-	/**
-	 * 查询条数
-	 */
-	pageSize?: number;
-
-	/**
-	 * 涉及学生ID
-	 */
+	materialId?: number;
+	pageIndex: number;
+	pageSize: number;
+	staffId?: number;
 	studentId?: number;
 }
-export interface InboundAndOutbound {
-	/**
-	 * 变动数量
-	 */
-	amount: number;
 
-	/**
-	 * 变动类型 1入库 2出库 3积分商城出库
-	 */
-	changeType: number;
+export interface MaterialRecordItem {
+	addTime?: string;
+	amount?: number;
+	changeTargetId?: number;
+	changeType?: number;
+	id?: number;
+	materialId?: number;
+	reason?: string;
+	remark?: string;
+	staffId?: number;
+	studentId?: number;
+	// Some environments may return denormalized display fields in addition to the documented ids.
+	materialName?: string;
+	staffName?: string;
+	studentName?: string;
+}
 
-	/**
-	 * 物料id
-	 */
-	materialId: number;
+export interface MaterialPageQuery {
+	changeType?: number;
+	materialId?: number;
+	pageIndex: number;
+	pageSize: number;
+	staffId?: number;
+	studentId?: number;
+}
 
-	/**
-	 * 变动原因说明
-	 */
-	reason: string;
+export interface MaterialItem {
+	categoryId?: number;
+	cover?: string;
+	id?: number;
+	info?: string;
+	name?: string;
+	schoolId?: number;
+	state?: boolean;
+}
+
+export type MaterialDetail = MaterialItem;
+
+export type MaterialStateValue = 0 | 1;
+
+export interface MaterialSaveDTO {
+	categoryId: number;
+	cover?: string;
+	id?: number;
+	info?: string;
+	name: string;
+	schoolId: number;
+	state?: boolean;
 }

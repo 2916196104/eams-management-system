@@ -63,7 +63,7 @@
 						<el-select v-model="form.changeType" placeholder="请选择" clearable style="width: 100%">
 							<el-option label="入库" :value="1" />
 							<el-option label="出库" :value="2" />
-							<el-option label="积分商城兑换礼" :value="3" />
+							<el-option label="调整" :value="3" />
 						</el-select>
 					</div>
 
@@ -110,7 +110,7 @@
 						</span>
 					</template>
 					<template #default="{ row }" v-if="col.prop === 'changeType'">
-						{{ row.changeType === 1 ? "入库" : row.changeType === 2 ? "出库" : "积分商城出库" }}
+						{{ row.changeType === 1 ? "入库" : row.changeType === 2 ? "出库" : "调整" }}
 					</template>
 				</el-table-column>
 			</el-table>
@@ -137,6 +137,7 @@ import FilterToolbar from "@/views/material/components/FilterToolbar.vue";
 import SelectTablePopover from "@/views/material/components/SelectTablePopover.vue";
 import type { SearchField, TableColumn } from "@/views/material/components/type";
 import { getMaterialList } from "@/apis/material/materialManagement/index.ts";
+import type { MaterialRecordItem } from "@/apis/material/materialManagement/type";
 
 // 引入你项目里的打印 + 列配置
 import ColumnSetting from "../../operation/components/ColumnSetting.vue";
@@ -244,6 +245,7 @@ const allColumns = ref([
 	{ label: "涉及学生", prop: "studentName", minWidth: 100, visible: true },
 	{ label: "变动类型", prop: "changeType", width: 100, visible: true },
 	{ label: "原因", prop: "reason", minWidth: 140, visible: true },
+	{ label: "备注", prop: "remark", minWidth: 140, visible: true },
 	{ label: "变动时间", prop: "changeTime", minWidth: 165, visible: true },
 ]);
 
@@ -281,6 +283,26 @@ const handlePrint = () => {
 const tableLoading = ref(false);
 const tableRows = ref<any[]>([]);
 
+function formatDisplayValue(prefix: string, value?: number | string | null) {
+	if (value === undefined || value === null || value === "") return "-";
+	return `${prefix}${value}`;
+}
+
+function normalizeRecordRows(rows: MaterialRecordItem[]) {
+	return rows.map((item, index) => ({
+		...item,
+		index: index + 1,
+		materialName: item.materialName ?? formatDisplayValue("物料#", item.materialId),
+		changeQty: item.amount ?? 0,
+		employeeName: item.staffName ?? formatDisplayValue("员工#", item.staffId),
+		studentName:
+			item.studentName ??
+			(item.studentId === undefined || item.studentId === null ? "-" : formatDisplayValue("学生#", item.studentId)),
+		changeTime: item.addTime ?? "",
+		remark: item.remark ?? "-",
+	}));
+}
+
 async function handleSearch() {
 	tableLoading.value = true;
 	try {
@@ -289,13 +311,18 @@ async function handleSearch() {
 			pageSize: 10,
 			...(form.materialId && { materialId: +form.materialId }),
 			...(form.studentId && { studentId: +form.studentId }),
-			...(form.employeeId && { applyStaffId: +form.employeeId }),
+			...(form.employeeId && { staffId: +form.employeeId }),
 			...(form.changeType && { changeType: form.changeType }),
-			...(form.beginDate && { beginDate: form.beginDate }),
-			...(form.endDate && { endDate: form.endDate }),
 		};
 		const res = await getMaterialList(params);
-		tableRows.value = res.data?.rows || [];
+		let rows = normalizeRecordRows(res.data?.rows || []);
+		if (form.beginDate) {
+			rows = rows.filter((row) => String(row.changeTime || "").slice(0, 10) >= form.beginDate);
+		}
+		if (form.endDate) {
+			rows = rows.filter((row) => String(row.changeTime || "").slice(0, 10) <= form.endDate);
+		}
+		tableRows.value = rows;
 	} catch (err) {
 		ElMessage.error("查询失败");
 	} finally {
