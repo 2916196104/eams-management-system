@@ -543,6 +543,13 @@ export async function downloadFunds() {
 	}
 }
 
+export async function querySaleTrend(params: { startDate?: string; endDate?: string }) {
+	const http = useHttp();
+	try {
+		const res = await http.get<SaleTrendPoint[]>("/j3-statis/courseSaleByDay", params);
+		if (res.data?.length) return res.data;
+	} catch {
+		// 本地测试时回退到 mock 数据
 function toDateOnly(v?: string): string | undefined {
 	if (!v) return undefined;
 	if (v.includes("T")) return v.split("T")[0];
@@ -605,6 +612,11 @@ export async function querySaleTrend(params: { startDate?: string; endDate?: str
 
 export async function queryCourseSalesTotal(params: { startDate?: string; endDate?: string }) {
 	const http = useHttp();
+	try {
+		const res = await http.get<CourseSalesTotalPoint[]>("/j3-statis/courseSalesTotal", params);
+		if (res.data?.length) return res.data;
+	} catch {
+		// 本地测试时回退到 mock 数据
 	const queries = buildDateQueryVariants(params);
 	for (const query of queries) {
 		try {

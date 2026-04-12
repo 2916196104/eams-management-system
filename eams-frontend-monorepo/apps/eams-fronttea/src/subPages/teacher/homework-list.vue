@@ -2,6 +2,12 @@
 import TeacherEmptyState from "@/components/teacher/TeacherEmptyState.vue";
 import TeacherNavBar from "@/components/teacher/TeacherNavBar.vue";
 import { withTeacherBackQuery } from "@/utils/teacherNavigation";
+import { ref, computed } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { useUserStore } from "@/store/userStore";
+import { storeToRefs } from "pinia";
+import { onShow } from "@dcloudio/uni-app";
+import { Apis } from "@/api";
 
 definePage({
 	name: "teacherHomeworkList",
@@ -10,11 +16,6 @@ definePage({
 		titleNView: false,
 	},
 });
-
-interface HomeworkClassOption {
-	id?: number | string;
-	name: string;
-}
 
 interface HomeworkRecordItem {
 	id: string;
@@ -29,36 +30,15 @@ const currentRoute = useRoute();
 const userStore = useUserStore();
 const { teacherInfo } = storeToRefs(userStore);
 
-const classLoading = ref(false);
 const loading = ref(false);
 const loadingMore = ref(false);
 const pageIndex = ref(1);
 const pages = ref(0);
 const total = ref(0);
 const pageSize = 10;
-const selectedClassId = ref("");
-const classOptions = ref<HomeworkClassOption[]>([]);
 const homeworkList = ref<HomeworkRecordItem[]>([]);
 
 const hasMore = computed(() => pageIndex.value < pages.value);
-
-function normalizeClassOptions(source: unknown) {
-	const payload = (source as any)?.data?.data ?? (source as any)?.data ?? source ?? {};
-	const rawRows = Array.isArray(payload.rows)
-		? payload.rows
-		: Array.isArray(payload.list)
-			? payload.list
-			: Array.isArray(payload)
-				? payload
-				: [];
-
-	return rawRows.map((item: any, index: number) => {
-		return {
-			id: item.id ?? item.classId ?? item.class_id,
-			name: item.className || item.classname || item.myclass || item.name || `班级${index + 1}`,
-		} satisfies HomeworkClassOption;
-	});
-}
 
 function normalizeHomeworkRows(source: unknown) {
 	const payload = (source as any)?.data?.data ?? (source as any)?.data ?? source ?? {};
@@ -85,35 +65,7 @@ async function ensureTeacherInfo() {
 	await userStore.loadCurrentUserInfo();
 }
 
-async function loadClassOptions() {
-	classLoading.value = true;
-	try {
-		const response = await (Apis as any).class.get_class_query_myclass({
-			params: {
-				pageIndex: 1,
-				pageSize: 50,
-			},
-		});
-
-		classOptions.value = normalizeClassOptions(response);
-		if (!selectedClassId.value) {
-			const firstValid = classOptions.value.find((item) => item.id !== undefined && item.id !== null && item.id !== "");
-			selectedClassId.value = firstValid ? String(firstValid.id) : "";
-		}
-	} catch {
-		classOptions.value = [];
-		uni.showToast({ title: "班级列表加载失败", icon: "none" });
-	} finally {
-		classLoading.value = false;
-	}
-}
-
 async function loadHomework(nextPage = 1, append = false) {
-	if (!selectedClassId.value) {
-		homeworkList.value = [];
-		return;
-	}
-
 	if (!teacherInfo.value.id) {
 		await ensureTeacherInfo();
 	}
@@ -125,7 +77,6 @@ async function loadHomework(nextPage = 1, append = false) {
 		const response = await (Apis as any).homework.get_homework_list({
 			params: {
 				teacher_id: userStore.teacherInfo.id,
-				class_id: selectedClassId.value,
 				pageIndex: nextPage,
 				pageSize,
 			},
@@ -145,19 +96,9 @@ async function loadHomework(nextPage = 1, append = false) {
 	}
 }
 
-function selectClass(id?: string | number) {
-	if (id === undefined || id === null || id === "") {
-		uni.showToast({ title: "当前班级缺少 ID，无法查询作业", icon: "none" });
-		return;
-	}
-
-	selectedClassId.value = String(id);
-	void loadHomework(1, false);
-}
-
 function goPublishPage() {
 	router.push({
-		name: "teacherHomeworkPublish",
+		path: "/subPages/teacher/homework-publish",
 		query: withTeacherBackQuery(currentRoute),
 	} as any);
 }
@@ -173,10 +114,8 @@ function openDetail(item: HomeworkRecordItem) {
 }
 
 async function refreshPage() {
-	await Promise.all([ensureTeacherInfo(), loadClassOptions()]);
-	if (selectedClassId.value) {
-		await loadHomework(1, false);
-	}
+	await ensureTeacherInfo();
+	await loadHomework(1, false);
 	uni.showToast({ title: "已刷新", icon: "none" });
 }
 
@@ -195,22 +134,6 @@ onShow(() => {
     <teacher-nav-bar title="作业列表" @refresh="refreshPage" />
 
     <view class="teacher-homework-page__content">
-      <view class="teacher-homework-page__classes">
-        <view
-          v-for="item in classOptions"
-          :key="`${item.id ?? item.name}`"
-          class="teacher-homework-page__class-chip"
-          :class="{ 'teacher-homework-page__class-chip--active': selectedClassId === String(item.id) }"
-          @click="selectClass(item.id)"
-        >
-          {{ item.name }}
-        </view>
-      </view>
-
-      <view v-if="classOptions.length && !selectedClassId" class="teacher-homework-page__tip">
-        班级接口暂未返回可用 ID，当前无法查询作业数据。
-      </view>
-
       <view v-if="homeworkList.length" class="teacher-homework-page__summary">
         共 {{ total }} 条作业
       </view>
@@ -237,7 +160,7 @@ onShow(() => {
 
       <teacher-empty-state
         v-else
-        :title="classLoading || loading ? '加载中...' : classOptions.length ? '暂无作业记录' : '暂无班级信息'"
+        :title="loading ? '加载中...' : '暂无作业记录'"
         compact
       />
 
@@ -263,36 +186,6 @@ onShow(() => {
 
 .teacher-homework-page__content {
 	padding: 12px;
-}
-
-.teacher-homework-page__classes {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 8px;
-}
-
-.teacher-homework-page__class-chip {
-	border-radius: 999px;
-	background: #fff;
-	padding: 8px 12px;
-	font-size: 13px;
-	color: #667085;
-	box-shadow: 0 6px 18px rgba(64, 86, 122, 0.04);
-}
-
-.teacher-homework-page__class-chip--active {
-	background: #31c7a5;
-	color: #fff;
-}
-
-.teacher-homework-page__tip {
-	margin-top: 12px;
-	border-radius: 14px;
-	background: #fff7ed;
-	padding: 12px 14px;
-	font-size: 13px;
-	line-height: 1.7;
-	color: #f97316;
 }
 
 .teacher-homework-page__summary {

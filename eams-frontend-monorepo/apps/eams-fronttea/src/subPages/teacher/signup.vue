@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import TeacherNavBar from "@/components/teacher/TeacherNavBar.vue";
+import { Apis } from "@/api";
+import { useUserStore } from "@/store/userStore";
 
 definePage({
 	name: "teacherSignup",
@@ -13,6 +15,18 @@ interface SignupCourseOption {
 	id: string;
 	name: string;
 	label: string;
+	courseId?: string;
+	className?: string;
+	date?: string;
+	startTime?: string;
+	endTime?: string;
+	lessonCount?: number;
+	coursePrice?: number;
+	discountPrice?: number;
+	actualPayment?: number;
+	expireDate?: string;
+	subjectName?: string;
+	subjectId?: number;
 }
 
 const userStore = useUserStore();
@@ -20,25 +34,45 @@ const { customers, scheduleItems } = storeToRefs(userStore);
 
 const showStudentSheet = ref(false);
 const showCourseSheet = ref(false);
+const showSubjectSheet = ref(false);
 const submitting = ref(false);
 const courseLoading = ref(false);
 const selectedStudentId = ref("");
 const selectedCourseId = ref("");
 
-const selectedStudent = computed(() => customers.value.find((item) => String(item.id) === selectedStudentId.value) || null);
-const courseOptions = computed<SignupCourseOption[]>(() => {
-	const map = new Map<string, SignupCourseOption>();
-	for (const item of scheduleItems.value) {
-		const id = String(item.courseId || item.id || item.courseName);
-		if (!id || map.has(id)) continue;
-		map.set(id, {
-			id,
-			name: item.courseName,
-			label: item.className ? `${item.courseName} / ${item.className}` : item.courseName,
-		});
-	}
-	return Array.from(map.values());
+// 科目选项列表
+const subjectOptions = [
+	{ id: 1, name: "语文" },
+	{ id: 2, name: "数学" },
+	{ id: 3, name: "英语" },
+	{ id: 4, name: "物理" },
+	{ id: 5, name: "化学" },
+	{ id: 6, name: "生物" },
+	{ id: 7, name: "历史" },
+	{ id: 8, name: "地理" },
+	{ id: 9, name: "政治" },
+	{ id: 10, name: "音乐" },
+	{ id: 11, name: "美术" },
+	{ id: 12, name: "体育" },
+];
+
+const registerForm = reactive({
+	reportType: 0,
+	stuName: "",
+	courseName: "",
+	subjectName: "",
+	subjectId: 0,
+	startDate: "",
+	expireDate: "",
+	courseHour: 0,
+	coursePrice: 0,
+	discountPrice: 0,
+	actualPayment: 0,
+	tip: ""
 });
+
+const selectedStudent = computed(() => customers.value.find((item) => String(item.id) === selectedStudentId.value) || null);
+const courseOptions = ref<SignupCourseOption[]>([]);
 const selectedCourse = computed(() => courseOptions.value.find((item) => item.id === selectedCourseId.value) || null);
 
 function formatDate(date: Date) {
@@ -52,7 +86,30 @@ async function ensureCourseOptions() {
 	if (courseOptions.value.length) return;
 	courseLoading.value = true;
 	try {
-		await userStore.loadScheduleByDate(formatDate(new Date()));
+		// 从课程列表接口获取课程数据
+		const response = await (Apis as any).workbench.get_workbench_courseList({
+			params: { pageIndex: 1, pageSize: 100 }
+		});
+		
+		if (response?.data?.courses) {
+			courseOptions.value = response.data.courses.map((course: any) => ({
+				id: String(course.id),
+				name: course.courseName,
+				label: course.className ? `${course.courseName} / ${course.className}` : course.courseName,
+				courseId: String(course.id),
+				className: course.className,
+				date: course.startDate,
+				startTime: course.startTime,
+				endTime: course.endTime,
+				lessonCount: course.courseHour,
+				coursePrice: course.coursePrice,
+				discountPrice: course.discountPrice,
+				actualPayment: course.actualPayment,
+				expireDate: course.expireDate,
+				subjectName: course.subjectName,
+				subjectId: course.subjectId,
+			}));
+		}
 	} finally {
 		courseLoading.value = false;
 	}
@@ -81,6 +138,37 @@ function selectStudent(id: string) {
 function selectCourse(id: string) {
 	selectedCourseId.value = id;
 	showCourseSheet.value = false;
+	
+	// 自动填充表单字段
+	const course = courseOptions.value.find((item) => item.id === id);
+	if (course) {
+		registerForm.courseName = course.name;
+		registerForm.startDate = course.date || "";
+		registerForm.courseHour = course.lessonCount || 0;
+		registerForm.coursePrice = course.coursePrice || 0;
+		registerForm.discountPrice = course.discountPrice || 0;
+		registerForm.actualPayment = course.actualPayment || 0;
+		registerForm.expireDate = course.expireDate || "";
+		registerForm.subjectName = course.subjectName || "";
+		registerForm.subjectId = course.subjectId || 0;
+	}
+}
+
+function openSubjectSheet() {
+	showSubjectSheet.value = true;
+}
+
+function selectSubject(id: number) {
+	const subject = subjectOptions.find((item) => item.id === id);
+	if (subject) {
+		registerForm.subjectId = subject.id;
+		registerForm.subjectName = subject.name;
+	}
+	showSubjectSheet.value = false;
+}
+
+function onExpireDateChange(e: any) {
+	registerForm.expireDate = e.detail.value;
 }
 
 async function refreshPage() {
@@ -101,14 +189,12 @@ async function submitForm() {
 
 	submitting.value = true;
 	try {
-		await (Apis as any).workbench.post_workbench_enrollment_save({
-			data: {
-				name: selectedStudent.value.name,
-				studentId: selectedStudent.value.id,
-				studentName: selectedStudent.value.name,
-				courseId: selectedCourse.value.id,
-				courseName: selectedCourse.value.name,
-			},
+		// 更新表单数据
+		registerForm.stuName = selectedStudent.value.name;
+		registerForm.courseName = selectedCourse.value.name;
+
+		await (Apis as any).workbench.post_workbench_register({
+			data: registerForm
 		});
 
 		uni.showToast({ title: "报名成功", icon: "none" });
@@ -150,6 +236,35 @@ onShow(() => {
 						{{ selectedCourse ? selectedCourse.label : courseLoading ? "加载中..." : "请选择" }}
 					</text>
 					<view class="i-carbon:chevron-right text-16px text-#98a2b3" />
+				</view>
+			</view>
+
+			<view class="teacher-form-row" @click="openSubjectSheet">
+				<text class="teacher-form-label">所属科目</text>
+				<view class="teacher-form-value-wrap">
+					<text class="teacher-form-value" :class="{ 'teacher-form-value--selected': registerForm.subjectName }">
+						{{ registerForm.subjectName || "请选择" }}
+					</text>
+					<view class="i-carbon:chevron-right text-16px text-#98a2b3" />
+				</view>
+			</view>
+
+			<view class="teacher-form-row">
+				<text class="teacher-form-label">结束日期</text>
+				<view class="teacher-form-value-wrap">
+					<picker mode="date" :value="registerForm.expireDate" @change="onExpireDateChange">
+						<view class="teacher-form-value" :class="{ 'teacher-form-value--selected': registerForm.expireDate }">
+							{{ registerForm.expireDate || "请选择结束日期" }}
+						</view>
+					</picker>
+					<view class="i-carbon:chevron-right text-16px text-#98a2b3" />
+				</view>
+			</view>
+
+			<view class="teacher-form-row">
+				<text class="teacher-form-label">备注</text>
+				<view class="teacher-form-value-wrap">
+					<input v-model="registerForm.tip" class="teacher-form-input" type="text" placeholder="请输入备注" />
 				</view>
 			</view>
 		</view>
@@ -200,6 +315,25 @@ onShow(() => {
 				<view v-if="!courseOptions.length" class="teacher-sheet__empty">暂无课程数据</view>
 			</view>
 		</wd-action-sheet>
+
+		<wd-action-sheet
+			v-model="showSubjectSheet"
+			title="选择科目"
+			:close-on-click-action="false"
+			:close-on-click-modal="true"
+		>
+			<view class="teacher-sheet">
+				<view
+					v-for="subject in subjectOptions"
+					:key="subject.id"
+					class="teacher-sheet__item"
+					@click="selectSubject(subject.id)"
+				>
+					<view class="teacher-sheet__title">{{ subject.name }}</view>
+					<view v-if="registerForm.subjectId === subject.id" class="i-carbon:checkmark text-18px text-#31c7a5" />
+				</view>
+			</view>
+		</wd-action-sheet>
 	</view>
 </template>
 
@@ -246,6 +380,15 @@ onShow(() => {
 
 .teacher-form-value--selected {
 	color: #344054;
+}
+
+.teacher-form-input {
+	flex: 1;
+	min-width: 0;
+	font-size: 15px;
+	color: #344054;
+	text-align: right;
+	padding: 0;
 }
 
 .teacher-form-action {

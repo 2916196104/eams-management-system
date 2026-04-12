@@ -2,6 +2,7 @@
 import TeacherEmptyState from "@/components/teacher/TeacherEmptyState.vue";
 import TeacherNavBar from "@/components/teacher/TeacherNavBar.vue";
 import TeacherSectionCard from "@/components/teacher/TeacherSectionCard.vue";
+import { Apis } from "@/api";
 
 definePage({
 	name: "teacherCustomerDetail",
@@ -46,18 +47,18 @@ function readQuery(key: string) {
 const customerId = computed(() => readQuery("id"));
 
 function normalizeDetail(source: unknown): CustomerDetailInfo | null {
-	const payload = (source as any)?.data?.data ?? (source as any)?.data ?? source;
+	const payload = (source as any)?.data ?? source;
 	if (!payload || Array.isArray(payload)) return null;
 
 	return {
 		id: String(payload.id ?? customerId.value),
-		name: payload.name || "--",
-		phone: payload.phone || "--",
+		name: payload.myCustomerName || "--",
+		phone: payload.phoneNumber || "--",
 		sex: payload.sex || "--",
 		age: payload.age !== undefined ? String(payload.age) : "--",
-		birthday: payload.birth || payload.birthday || "--",
-		customerType: payload.customerType || payload.customertype || "--",
-		note: payload.note || "--",
+		birthday: payload.birth || "--",
+		customerType: payload.type || "--",
+		note: payload.notes || "--",
 	};
 }
 
@@ -87,7 +88,7 @@ async function loadDetail() {
 
 	loading.value = true;
 	try {
-		const response = await (Apis as any).customer.get_customer_detail({
+		const response = await (Apis as any).workbench.get_workbench_MyCustomers_get_cus_details({
 			params: { id: customerId.value },
 		});
 		detail.value = normalizeDetail(response);

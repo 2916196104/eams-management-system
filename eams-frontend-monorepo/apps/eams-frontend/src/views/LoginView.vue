@@ -1,10 +1,6 @@
 <!-- 登录页面 -->
 <template>
 	<div class="login-container">
-		<!-- 雪花效果 -->
-		<div class="snowflakes">
-			<div v-for="i in 50" :key="i" class="snowflake" :style="getSnowflakeStyle()"></div>
-		</div>
 		<div class="login-wrapper">
 			<div class="left-section">
 				<div class="logo-area">
@@ -12,7 +8,7 @@
 					<h1 class="system-title">零一教务系统</h1>
 				</div>
 				<div class="illustration-area">
-					<img src="/login-illustration.png" alt="左侧插图" class="illustration-img" />
+					<img src="#" alt="左侧插图" class="illustration-img" />
 				</div>
 			</div>
 			<div class="right-section">
@@ -111,6 +107,7 @@ function doLogin(code: string) {
 		{
 			...formData,
 			code: code,
+			terminalType: "manager",
 		},
 		() => {
 			// 重置标签页数据
@@ -174,82 +171,16 @@ function useVerify(type: string) {
 function handleSuccess(res: { captchaVerification: string }) {
 	doLogin(res.captchaVerification);
 }
-
-/**
- * 生成雪花的随机样式
- */
-function getSnowflakeStyle() {
-	const left = Math.random() * 100;
-	const animationDuration = 8 + Math.random() * 7;
-	const animationDelay = Math.random() * 5;
-	const opacity = 0.3 + Math.random() * 0.5;
-	const size = 2 + Math.random() * 4;
-
-	return {
-		left: `${left}%`,
-		animationDuration: `${animationDuration}s`,
-		animationDelay: `${animationDelay}s`,
-		opacity: opacity,
-		width: `${size}px`,
-		height: `${size}px`,
-	};
-}
 </script>
 
 <style scoped>
 .login-container {
 	width: 100%;
 	height: 100vh;
-	background: #0d7dd8;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	position: relative;
-	overflow: hidden;
-}
-
-/* 雪花容器 */
-.snowflakes {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
-	pointer-events: none;
-	z-index: 1;
-}
-
-/* 单个雪花 */
-.snowflake {
-	position: absolute;
-	top: -10px;
-	background: white;
-	border-radius: 50%;
-	animation: snowfall linear infinite;
-}
-
-/* 雪花飘落动画 */
-@keyframes snowfall {
-	0% {
-		transform: translateY(-10px) translateX(0);
-		opacity: 0;
-	}
-	15% {
-		opacity: 0.8;
-	}
-	85% {
-		opacity: 0.8;
-	}
-	100% {
-		transform: translateY(100vh) translateX(30px);
-		opacity: 0;
-	}
-}
-
-/* 优化雪花渲染性能 */
-.snowflake {
-	will-change: transform, opacity;
 }
 
 .login-wrapper {
@@ -262,8 +193,6 @@ function getSnowflakeStyle() {
 	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 	display: flex;
 	overflow: hidden;
-	position: relative;
-	z-index: 10;
 }
 
 .left-section {
@@ -310,9 +239,8 @@ function getSnowflakeStyle() {
 
 .illustration-img {
 	max-width: 100%;
-	max-height: 80%;
+	max-height: 100%;
 	object-fit: contain;
-	border-radius: 16px;
 }
 
 .right-section {

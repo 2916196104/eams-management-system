@@ -2,6 +2,12 @@
 import TeacherEmptyState from "@/components/teacher/TeacherEmptyState.vue";
 import TeacherNavBar from "@/components/teacher/TeacherNavBar.vue";
 import { withTeacherBackQuery } from "@/utils/teacherNavigation";
+import { Apis } from "@/api";
+import { useUserStore } from "@/store/userStore";
+import { computed, ref } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { storeToRefs } from "pinia";
+import { onShow } from "@dcloudio/uni-app";
 
 definePage({
 	name: "teacherAttendanceRecord",
@@ -216,7 +222,7 @@ function normalizeStudentListPayload(source: any) {
 }
 
 function normalizeRollCallPayload(source: any) {
-	const payload = source?.data?.data ?? source?.data ?? source ?? {};
+	const payload = source?.data ?? source ?? {};
 	const rawRows = Array.isArray(payload.rows)
 		? payload.rows
 		: Array.isArray(payload.list)
@@ -234,8 +240,8 @@ function normalizeRollCallPayload(source: any) {
 		rows: rawRows.map((item: any, index: number) => ({
 			id: String(item.id ?? `${item.studentName ?? item.student_name ?? "student"}-${index}`),
 			studentName: item.studentName ?? item.student_name ?? "--",
-			checkinDate: item.checkinDate ?? item.checkin_date ?? "--",
-			checkinResult: typeof item.checkinResult !== "undefined" ? Number(item.checkinResult) : Number(item.checkin_result),
+			checkinDate: item.date ?? item.checkinDate ?? item.checkin_date ?? "--",
+			checkinResult: item.state === "已签到" ? 1 : item.state === "补签" ? 2 : item.state === "旷课" ? 3 : item.state === "请假" ? 4 : undefined,
 		} satisfies RollCallRecordItem)),
 	};
 }
@@ -326,7 +332,9 @@ function rollCallResultClass(result?: number) {
 
 async function loadDateLessons() {
 	if (dateLessons.value.length) return;
-	await Promise.all([userStore.loadScheduleByDate(activeDate.value), ensureTeacherInfo()]);
+	// 移除ensureTeacherInfo调用，避免因为用户信息加载失败导致课程加载失败
+	// await Promise.all([userStore.loadScheduleByDate(activeDate.value), ensureTeacherInfo()]);
+	await userStore.loadScheduleByDate(activeDate.value);
 }
 
 async function ensureTeacherInfo() {
@@ -394,21 +402,15 @@ async function loadLessonDetail(lessonId?: number) {
 }
 
 async function loadRollCallRecords(nextPage = 1, append = false) {
-	if (!selectedCourseId.value) {
-		resetRollCallList();
-		return;
-	}
-
-	await ensureTeacherInfo();
+	// 移除ensureTeacherInfo调用，避免因为用户信息加载失败导致点名记录加载失败
+	// await ensureTeacherInfo();
 
 	const targetLoading = append ? rollCallLoadingMore : rollCallLoading;
 	targetLoading.value = true;
 
 	try {
-		const res: any = await (Apis as any).rollcall.get_rollcall_record({
+		const res: any = await (Apis as any).workbench.get_workbench_sign({
 			params: {
-				teacherId: teacherInfo.value.id,
-				courseId: selectedCourseId.value,
 				pageIndex: nextPage,
 				pageSize: studentPageSize,
 			},
@@ -419,7 +421,8 @@ async function loadRollCallRecords(nextPage = 1, append = false) {
 		rollCallPages.value = payload.pages;
 		rollCallTotal.value = payload.total;
 		rollCallList.value = append ? [...rollCallList.value, ...payload.rows] : payload.rows;
-	} catch {
+	} catch (error) {
+		console.error("点名记录加载失败:", error);
 		if (!append) resetRollCallList();
 		uni.showToast({ title: "点名记录加载失败", icon: "none" });
 	} finally {
@@ -434,7 +437,9 @@ function selectCourse(courseId: string) {
 
 async function initPage() {
 	activeDate.value = readQueryString("date") || today;
-	await Promise.all([loadDateLessons(), ensureTeacherInfo()]);
+	// 移除ensureTeacherInfo调用，避免因为用户信息加载失败导致页面初始化失败
+	// await Promise.all([loadDateLessons(), ensureTeacherInfo()]);
+	await loadDateLessons();
 
 	if (isLessonMode.value) {
 		await loadLessonDetail(routeLessonId.value);
@@ -444,9 +449,6 @@ async function initPage() {
 	selectedLessonId.value = undefined;
 	attendanceDetail.value = null;
 	resetStudentList();
-	if (!selectedCourseId.value) {
-		selectedCourseId.value = rollCallCourseOptions.value[0]?.id || "";
-	}
 	await loadRollCallRecords(1, false);
 }
 
@@ -541,18 +543,6 @@ onShow(() => {
 
 		<view class="teacher-attendance-page__content">
 			<template v-if="!isLessonMode">
-				<view v-if="rollCallCourseOptions.length" class="teacher-attendance-page__lesson-strip">
-					<view
-						v-for="course in rollCallCourseOptions"
-						:key="course.id"
-						class="teacher-attendance-page__lesson-chip"
-						:class="{ 'teacher-attendance-page__lesson-chip--active': selectedCourseId === course.id }"
-						@click="selectCourse(course.id)"
-					>
-						{{ course.name }}
-					</view>
-				</view>
-
 				<view v-if="rollCallList.length" class="teacher-rollcall">
 					<view class="teacher-rollcall__summary">共 {{ rollCallTotal }} 条点名记录</view>
 
@@ -575,8 +565,8 @@ onShow(() => {
 
 				<teacher-empty-state
 					v-else
-					:title="rollCallLoading ? '加载中...' : rollCallCourseOptions.length ? '暂无点名记录' : '暂无可查询课程'"
-					:description="rollCallCourseOptions.length ? '可切换上方课程查看对应点名记录' : '请先确保当天课表中存在可查询课程'"
+					:title="rollCallLoading ? '加载中...' : '暂无点名记录'"
+					:description="'暂无点名记录'"
 					compact
 				/>
 			</template>

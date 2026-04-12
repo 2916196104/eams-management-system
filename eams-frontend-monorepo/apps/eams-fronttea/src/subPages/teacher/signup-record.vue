@@ -2,6 +2,7 @@
 import TeacherEmptyState from "@/components/teacher/TeacherEmptyState.vue";
 import TeacherNavBar from "@/components/teacher/TeacherNavBar.vue";
 import { withTeacherBackQuery } from "@/utils/teacherNavigation";
+import { Apis } from "@/api";
 
 definePage({
 	name: "teacherSignupRecord",
@@ -87,7 +88,7 @@ async function loadRecords(nextPage = 1, append = false) {
 	targetLoading.value = true;
 
 	try {
-		const res: any = await (Apis as any).workbench.get_workbench_enrollment_record({
+		const res: any = await (Apis as any).workbench.get_workbench_RegisterRecordList({
 			params: {
 				pageIndex: nextPage,
 				pageSize,

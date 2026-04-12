@@ -30,17 +30,28 @@ function navigateTo(name: string) {
 async function login() {
 	Apis.login
 		.post_login_auth_login({
-			data: { username: username.value, password: password.value },
+			data: { username: username.value, password: password.value, terminalType: "user" },
 		})
 		.then((res) => {
-			console.log(1234, res, res.code === 10000);
-			if (res.code === 10000) router.pushTab({ name: "home" });
-			else showError({ msg: "登录失败，请检查用户名或密码", duration: 3000 });
+			if (res.code === 10000 && res.data) {
+				// 存储token信息
+				const { token, tokenHead, refreshToken } = res.data;
+				uni.setStorageSync('token', token);
+				uni.setStorageSync('tokenHead', tokenHead);
+				uni.setStorageSync('refreshToken', refreshToken);
+				
+				router.pushTab({ name: "home" });
+			} else {
+				toast.error({ msg: "登录失败，请检查用户名或密码", duration: 3000 });
+			}
 		})
-		.catch((e) => {
-			console.log(e);
-			showError({ msg: "登录请求失败，请稍后重试", duration: 3000 });
+		.catch(() => {
+			toast.error({ msg: "登录请求失败，请稍后重试", duration: 3000 });
 		});
+}
+
+function debugEnterHome() {
+	router.pushTab({ name: "home" });
 }
 </script>
 
@@ -73,6 +84,9 @@ async function login() {
 	<view class="btn-box">
 		<wd-button type="primary" :round="false" size="large" block @click="login">登录</wd-button>
 		<wd-button type="success" :round="false" size="large" plain block @click="navigateTo('register')">注册</wd-button>
+		<wd-button v-if="isDevMode" type="warning" :round="false" size="large" plain block @click="debugEnterHome">
+			开发调试进入首页
+		</wd-button>
 	</view>
 
 	<!-- 版权信息 -->
