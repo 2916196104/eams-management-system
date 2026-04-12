@@ -15,8 +15,11 @@ interface SubjectRow {
 }
 
 interface SubjectPageData {
-	records?: SubjectRow[];
+	rows?: SubjectRow[]; // 改成 rows
 	total?: number;
+	pageIndex?: number;
+	pageSize?: number;
+	pages?: number;
 }
 
 const SUCCESS_CODE = 10000;
@@ -31,7 +34,13 @@ function toLegacyResponse<T>(response: JsonVO<T>): LegacyResponse<T> {
 }
 
 export async function getSubjectList(params?: Record<string, any>) {
-	const response = await http.get<SubjectPageData>("/app/common/subject/list", params);
+	const newParams = { ...params };
+	if (newParams.pageNum) {
+		newParams.pageIndex = newParams.pageNum;
+		delete newParams.pageNum;
+	}
+
+	const response = await http.get<SubjectPageData>("/j9-subject/list", newParams);
 	return toLegacyResponse(response);
 }
 

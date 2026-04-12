@@ -115,7 +115,7 @@ const fetchSubjects = async () => {
 	try {
 		const res = await getSubjectList({ pageNum: 1, pageSize: 1000 });
 		if (res.errCode === 0) {
-			subjectOptions.value = res.data?.records || [];
+			subjectOptions.value = res.data?.rows || [];
 		}
 	} catch (error) {
 		console.error("获取科目列表失败", error);
@@ -141,7 +141,7 @@ const fetchData = async () => {
 		const res = await getCourseList(params);
 
 		if (res.errCode === 0) {
-			tableData.value = res.data?.records || [];
+			tableData.value = res.data?.rows || [];
 			total.value = res.data?.total || 0;
 		} else {
 			ElMessage.error(res.msg || "获取数据失败");

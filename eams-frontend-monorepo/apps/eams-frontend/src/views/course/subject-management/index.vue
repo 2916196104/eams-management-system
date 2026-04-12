@@ -16,7 +16,7 @@
 
 		<!-- 表格 -->
 		<el-table :data="tableData" v-loading="loading" border stripe>
-			<el-table-column prop="name" label="科目" min-width="150" />
+			<el-table-column prop="subjectName" label="科目" min-width="150" />
 			<el-table-column prop="sortNum" label="排序权重" width="120" align="center" />
 			<el-table-column prop="info" label="简介" min-width="300" />
 			<el-table-column label="操作" width="100" align="center">
@@ -96,7 +96,7 @@ const fetchData = async () => {
 
 		// 根据接口文档，返回格式为 { errCode: 0, data: { records: [], total: 0 } }
 		if (res.errCode === 0) {
-			tableData.value = res.data?.records || [];
+			tableData.value = res.data?.rows || [];
 			total.value = res.data?.total || 0;
 		} else {
 			ElMessage.error(res.msg || "获取数据失败");
