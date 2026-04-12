@@ -17,7 +17,7 @@ public class CourseStudentDTO {
     private Long id;
 
     @ApiModelProperty(value = "课程ID",example = "17017")
-    @NotNull(message = "班级id不能为空")
+    @NotNull(message = "课程id不能为空")
     private Long lessonId;
 
     @ApiModelProperty(value = "学生ID(支持多选)",example = "[1,2,3]")

@@ -1,7 +1,7 @@
 package com.zeroone.star.j5.courseschedule.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zeroone.star.project.DO.j5.classmanager.StudentDO;
+import com.zeroone.star.project.DO.j5.courseschedule.StaffDO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -9,5 +9,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @description
  */
 @Mapper
-public interface StudentMapper extends BaseMapper<StudentDO> {
+public interface StaffMapper extends BaseMapper<StaffDO> {
 }
