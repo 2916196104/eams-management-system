@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import TeacherNavBar from "@/components/teacher/TeacherNavBar.vue";
 import TeacherSectionCard from "@/components/teacher/TeacherSectionCard.vue";
+import TeacherEmptyState from "@/components/teacher/TeacherEmptyState.vue";
+import { Apis } from "@/api";
+import { useUserStore } from "@/store/userStore";
 
 definePage({
 	name: "teacherCourseList",
@@ -12,7 +15,7 @@ definePage({
 
 type CourseStatus = "all" | "ongoing" | "upcoming" | "finished";
 
-interface StaticCourseItem {
+interface CourseItem {
 	id: string;
 	name: string;
 	subject: string;
@@ -27,57 +30,9 @@ interface StaticCourseItem {
 
 const toast = useGlobalToast();
 const activeStatus = ref<CourseStatus>("all");
-
-const courseList: StaticCourseItem[] = [
-	{
-		id: "course-1",
-		name: "零壹硬笔基础班",
-		subject: "硬笔书法",
-		teacher: "陈老师",
-		className: "启蒙一班",
-		schedule: "每周二、周四 19:00-20:30",
-		remaining: 12,
-		total: 24,
-		status: "ongoing",
-		description: "当前为正式在读班，适合工作台直接查看课程节奏与剩余课次。",
-	},
-	{
-		id: "course-2",
-		name: "零壹素描提升班",
-		subject: "美术",
-		teacher: "林老师",
-		className: "周末提升班",
-		schedule: "每周六 09:30-11:30",
-		remaining: 8,
-		total: 16,
-		status: "ongoing",
-		description: "周末课次较集中，后续接真实接口后可补课消耗与出勤统计。",
-	},
-	{
-		id: "course-3",
-		name: "零壹英语拼读营",
-		subject: "英语",
-		teacher: "王老师",
-		className: "暑期集训班",
-		schedule: "2026-07-08 开班",
-		remaining: 20,
-		total: 20,
-		status: "upcoming",
-		description: "该课程当前只做静态预览，等接口稳定后再接报名与课次明细。",
-	},
-	{
-		id: "course-4",
-		name: "零壹围棋体验课",
-		subject: "围棋",
-		teacher: "赵老师",
-		className: "体验课",
-		schedule: "已于 2026-03-15 结课",
-		remaining: 0,
-		total: 4,
-		status: "finished",
-		description: "已结课课程暂以静态归档形式展示，后续可补历史记录查询。",
-	},
-];
+const loading = ref(false);
+const courseList = ref<CourseItem[]>([]);
+const userStore = useUserStore();
 
 const statusOptions = [
 	{ label: "全部", value: "all" },
@@ -86,17 +41,58 @@ const statusOptions = [
 	{ label: "已结课", value: "finished" },
 ] as const;
 
+function normalizeCourseData(source: any): CourseItem[] {
+	const payload = source?.data?.data ?? source?.data ?? source ?? [];
+	const rows = Array.isArray(payload) ? payload : Array.isArray(payload.list) ? payload.list : [];
+
+	return rows.map((item: any, index: number) => {
+		const status = item.status || item.courseStatus || "ongoing";
+		return {
+			id: String(item.id ?? item.courseId ?? `course-${index}`),
+			name: item.name || item.courseName || `课程${index + 1}`,
+			subject: item.subject || item.subjectName || item.courseType || "未知科目",
+			teacher: item.teacher || item.teacherName || "未知老师",
+			className: item.className || item.class_name || "未知班级",
+			schedule: item.schedule || item.classTime || item.courseTime || "暂无安排",
+			remaining: Number(item.remaining ?? item.remainingLessons ?? item.leftCount ?? 0),
+			total: Number(item.total ?? item.totalLessons ?? item.totalCount ?? 0),
+			status: (status === "1" || status === "ongoing" || status === "进行中") ? "ongoing" :
+				(status === "2" || status === "upcoming" || status === "待开课") ? "upcoming" :
+				"finished",
+			description: item.description || item.remark || "暂无描述",
+		} satisfies CourseItem;
+	});
+}
+
+async function loadCourses() {
+	loading.value = true;
+	try {
+		if (!userStore.teacherInfo.id) {
+			await userStore.loadCurrentUserInfo();
+		}
+		
+		const response = await (Apis as any).workbench.get_workbench_courseList();
+		courseList.value = normalizeCourseData(response);
+	} catch (error) {
+		console.error("加载课程列表失败:", error);
+		toast.show("课程列表加载失败");
+		courseList.value = [];
+	} finally {
+		loading.value = false;
+	}
+}
+
 const filteredCourses = computed(() => {
-	if (activeStatus.value === "all") return courseList;
-	return courseList.filter((item) => item.status === activeStatus.value);
+	if (activeStatus.value === "all") return courseList.value;
+	return courseList.value.filter((item) => item.status === activeStatus.value);
 });
 
 const summaryText = computed(() => {
-	if (activeStatus.value === "all") return `静态课程 ${courseList.length} 门`;
+	if (activeStatus.value === "all") return `课程 ${courseList.value.length} 门`;
 	return `筛选结果 ${filteredCourses.value.length} 门`;
 });
 
-function statusText(status: StaticCourseItem["status"]) {
+function statusText(status: CourseItem["status"]) {
 	switch (status) {
 		case "ongoing":
 			return "进行中";
@@ -107,7 +103,7 @@ function statusText(status: StaticCourseItem["status"]) {
 	}
 }
 
-function statusClass(status: StaticCourseItem["status"]) {
+function statusClass(status: CourseItem["status"]) {
 	switch (status) {
 		case "ongoing":
 			return "teacher-course-card__badge--ongoing";
@@ -119,8 +115,12 @@ function statusClass(status: StaticCourseItem["status"]) {
 }
 
 function refreshPage() {
-	toast.show("课程接口暂未稳定，当前展示静态页面");
+	void loadCourses();
 }
+
+onShow(() => {
+	void loadCourses();
+});
 </script>
 
 <template>
@@ -128,12 +128,7 @@ function refreshPage() {
 		<TeacherNavBar title="课程列表" :show-back="true" @refresh="refreshPage" />
 
 		<view class="teacher-course-page__content">
-			<view class="teacher-course-page__tip">
-				<view class="i-carbon:information text-18px text-#2563eb" />
-				<text>当前课程接口暂未确认，页面先用静态数据承接工作台入口。</text>
-			</view>
-
-			<TeacherSectionCard title="课程概览" :extra="summaryText">
+			<TeacherSectionCard v-if="!loading && courseList.length" title="课程概览" :extra="summaryText">
 				<view class="teacher-course-summary">
 					<view class="teacher-course-summary__item">
 						<text class="teacher-course-summary__value">{{ courseList.length }}</text>
@@ -150,7 +145,7 @@ function refreshPage() {
 				</view>
 			</TeacherSectionCard>
 
-			<TeacherSectionCard title="课程列表">
+			<TeacherSectionCard v-if="!loading && courseList.length" title="课程列表">
 				<view class="teacher-course-filter">
 					<view
 						v-for="option in statusOptions"
@@ -182,6 +177,8 @@ function refreshPage() {
 					</view>
 				</view>
 			</TeacherSectionCard>
+
+			<TeacherEmptyState v-else :title="loading ? '加载中...' : '暂无课程数据'" compact />
 		</view>
 	</view>
 </template>

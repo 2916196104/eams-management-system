@@ -2,6 +2,7 @@
 import TeacherEmptyState from "@/components/teacher/TeacherEmptyState.vue";
 import TeacherNavBar from "@/components/teacher/TeacherNavBar.vue";
 import { withTeacherBackQuery } from "@/utils/teacherNavigation";
+import { Apis } from "@/api";
 
 definePage({
 	name: "class",
@@ -62,7 +63,7 @@ async function loadClassList(nextPage = 1, append = false) {
 	targetLoading.value = true;
 
 	try {
-		const response = await (Apis as any).class.get_class_query_myclass({
+		const response = await (Apis as any).class.get_class({
 			params: {
 				pageIndex: nextPage,
 				pageSize,
@@ -75,7 +76,8 @@ async function loadClassList(nextPage = 1, append = false) {
 		pages.value = Number(payload.pages ?? payload.total_page ?? (rows.length ? 1 : 0));
 		total.value = Number(payload.total ?? rows.length);
 		classList.value = append ? [...classList.value, ...rows] : rows;
-	} catch {
+	} catch (error) {
+		console.error("加载班级列表失败:", error);
 		if (!append) classList.value = [];
 		uni.showToast({ title: "班级列表加载失败", icon: "none" });
 	} finally {

@@ -16,9 +16,13 @@ export const alovaInstance = createAlova({
 			method.config.headers["Content-Type"] = "application/json";
 		}
 
-		// Add timestamp to prevent caching for GET requests
-		if (method.type === "GET" && CommonUtil.isObj(method.config.params)) {
-			method.config.params._t = Date.now();
+
+
+		// Add token to request headers
+		const token = uni.getStorageSync('token');
+		const tokenHead = uni.getStorageSync('tokenHead');
+		if (token && tokenHead) {
+			method.config.headers["Authorization"] = `${tokenHead} ${token}`;
 		}
 
 		// Log request in development

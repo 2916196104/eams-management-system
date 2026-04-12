@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import TeacherEmptyState from "@/components/teacher/TeacherEmptyState.vue";
 import TeacherNavBar from "@/components/teacher/TeacherNavBar.vue";
+import { Apis } from "@/api";
 
 definePage({
 	name: "teacherCommentRecord",
@@ -142,9 +143,8 @@ async function loadComments(nextPage = 1, append = false) {
 	targetLoading.value = true;
 
 	try {
-		const res: any = await (Apis as any).comment.get_comment_record({
+		const res: any = await (Apis as any).workbench.get_workbench_remark({
 			params: {
-				teacherId: teacherInfo.value.id,
 				pageIndex: nextPage,
 				pageSize,
 			},

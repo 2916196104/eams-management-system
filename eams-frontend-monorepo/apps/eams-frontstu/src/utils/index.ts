@@ -7,3 +7,4 @@ export function getCurrentPath() {
 	const currentPage = pages[pages.length - 1];
 	return currentPage.route || "";
 }
+

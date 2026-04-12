@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import TeacherNavBar from "@/components/teacher/TeacherNavBar.vue";
+import { ref, reactive } from "vue";
+import { useUserStore } from "@/store/userStore";
+import { onShow } from "@dcloudio/uni-app";
+import { Apis } from "@/api";
 
 definePage({
 	name: "teacherHomeworkPublish",
@@ -65,7 +69,7 @@ async function ensureTeacherInfo() {
 async function loadClassOptions() {
 	classLoading.value = true;
 	try {
-		const response = await (Apis as any).class.get_class_query_myclass({
+		const response = await (Apis as any).class.get_class({
 			params: {
 				pageIndex: 1,
 				pageSize: 50,
@@ -119,13 +123,12 @@ async function submitForm() {
 
 	submitting.value = true;
 	try {
-		await (Apis as any).homework.post_homework_add({
+		const response = await (Apis as any).workbench.post_workbench_homework_assign({
 			data: {
-				teacher_id: userStore.teacherInfo.id,
-				class_id: publishForm.classId,
+				classId: publishForm.classId,
 				title: publishForm.title.trim(),
 				content: publishForm.content.trim() || undefined,
-				attachment: publishForm.attachment.trim() || undefined,
+				images: publishForm.attachment.trim() || undefined,
 			},
 		});
 
