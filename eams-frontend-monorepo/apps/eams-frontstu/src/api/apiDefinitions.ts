@@ -79,10 +79,10 @@ export default {
     "login.post_login_reset_password": ["POST", "/login/reset-password"],
 
     // schedule 模块（部分路径已更新）
-    "schedule.post_schedule_appointment": ["POST", "/clschedule/sCenter/lesson/appoint"],
-    "schedule.get_schedule_query": ["GET", "/clschedule/sCenter/lesson/list"],
-    "schedule.post_schedule_leave": ["POST", "/clschedule/sCenter/lesson/leave"],
-    "schedule.post_schedule_sign_in": ["POST", "/clschedule/sCenter/lesson/sign/{lessonId}"],
+    "schedule.post_schedule_appointment": ["POST", "/c1schedule/sCenter/lesson/appoint"],
+    "schedule.get_schedule_query": ["GET", "/c1schedule/sCenter/lesson/list"],
+    "schedule.post_schedule_leave": ["POST", "/c1schedule/sCenter/lesson/leave"],
+    "schedule.post_schedule_sign_in": ["POST", "/c1schedule/sCenter/lesson/sign/{lessonId}"],
 
     // me 模块（保留原有）
     "me.get_me_manual_getList": ["GET", "/me/manual/getList"],

@@ -127,7 +127,7 @@ function normalizeCourseRows(data: any): Array<RegistrationRecordItem> {
 // 获取顶部公告
 function loadTopNotice() {
 	noticeLoading.value = true;
-	Apis.sCenter
+	(Apis as any).sCenter
 		.get_app_sCenter_advertisement()
 		.then((res: any) => {
 			topNotice.value = normalizeNotice(res?.data);
@@ -142,8 +142,16 @@ function loadTopNotice() {
 
 // 获取首页红点提醒
 function loadRedPoints() {
-	Apis.sCenter
-		.get_app_sCenter_student_redpoint()
+	if (!studentId.value) {
+		userStore.setHomeRedPoints({});
+		return;
+	}
+	(Apis as any).sCenter
+		.get_app_sCenter_student_redpoint({
+			params: {
+				student_id: studentId.value,
+			},
+		})
 		.then((res: any) => {
 			userStore.setHomeRedPoints(res?.data || {});
 		})
@@ -249,6 +257,7 @@ function loadHomeData() {
 watch(studentId, () => {
 	loadTodaySchedule();
 	loadMyCourses();
+	loadRedPoints();
 });
 
 onShow(() => {
