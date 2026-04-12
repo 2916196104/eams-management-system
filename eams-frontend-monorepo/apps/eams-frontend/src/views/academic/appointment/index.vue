@@ -423,7 +423,7 @@ const getStateType = (state: string): "warning" | "success" | "info" | "primary"
 	return map[state] || "info";
 };
 const getStateText = (state: string) => ({ "0": "待审核", "1": "已确认", "2": "已取消" })[state] || "未知";
-const res.data?.code === 10000te: string) => ({ "0": "pending", "1": "confirmed", "2": "cancelled" })[state] || "";
+const getStateClass = (state: string) => ({ "0": "pending", "1": "confirmed", "2": "cancelled" })[state] || "";
 
 // 列表视图方法
 const loadListData = async () => {
