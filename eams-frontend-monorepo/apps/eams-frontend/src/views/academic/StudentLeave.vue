@@ -323,13 +323,7 @@ async function loadData() {
 			endDate: filters.endDate,
 		});
 		if (res.data) {
-			// 将数组包装成 PageDTO 格式
-			pageData.value = createPageDTO<StudentLeaveItemDTO>({
-				pageIndex: pageIndex.value,
-				pageSize: pageSize.value,
-				total: res.data.length,
-				rows: res.data,
-			});
+			pageData.value = res.data;
 		}
 	} catch (error) {
 		console.error("加载数据失败:", error);

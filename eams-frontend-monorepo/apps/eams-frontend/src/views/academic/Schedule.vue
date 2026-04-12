@@ -665,13 +665,20 @@ const isDev = import.meta.env.DEV;
 const filters = reactive({
 	pageIndex: 1,
 	pageSize: 30,
+	classId: undefined as number | undefined,
+	courseId: undefined as number | undefined,
+	startDate: "",
+	endDate: "",
+	teacherId: undefined as number | undefined,
+	roomId: undefined as number | undefined,
+	state: undefined as number | undefined,
+	onTrial: undefined as number | undefined,
+	// 兼容旧字段
 	cycle: undefined as number | undefined,
 	className: "",
 	courseName: "",
 	teacherName: "",
 	studentName: "",
-	startDate: "",
-	endDate: "",
 });
 
 const DEV_MOCK_SCHEDULE_ROWS: CourseListVO[] = [
@@ -1386,16 +1393,29 @@ async function loadEvaluations(rows: CourseListVO[]) {
 	}
 
 	try {
-		const res = await getEvaluationList({
-			startDate: filters.startDate || undefined,
-			endDate: filters.endDate || undefined,
-			teacherName: filters.teacherName || undefined,
-			name: filters.studentName || undefined,
-		});
-		const evaluationRows = res.data?.rows || [];
+		const lessonIds = rows.map((row) => row.id).filter((id): id is number => id !== undefined);
+		if (!lessonIds.length) {
+			applyMockEvaluationFallback(rows);
+			return;
+		}
 
-		if (evaluationRows.length) {
-			buildEvaluationMap(evaluationRows);
+		const allEvaluations: EvaluationVO[] = [];
+		for (const lessonId of lessonIds) {
+			try {
+				const res = await getEvaluationList({
+					lessonId,
+					pageIndex: 1,
+					pageSize: 100,
+				});
+				const evaluationRows = res.data?.rows || [];
+				allEvaluations.push(...evaluationRows);
+			} catch (error) {
+				console.error(`获取课次 ${lessonId} 的点评失败:`, error);
+			}
+		}
+
+		if (allEvaluations.length) {
+			buildEvaluationMap(allEvaluations);
 			return;
 		}
 
@@ -1728,27 +1748,31 @@ function updateMockCourseReservation(ids: number[], enabled: boolean) {
 }
 
 function updateMockCoursesByBatch(payload: BatchUpdateCoursesDTO) {
-	const idSet = new Set(payload.lessonIds);
+	const idSet = new Set(payload.updateIds);
 
 	DEV_MOCK_SCHEDULE_ROWS.forEach((row) => {
 		if (typeof row.id !== "number" || !idSet.has(row.id)) return;
 
 		let lessonTimeText = row.lessonTimeText;
-		lessonTimeText = applyTimeOverride(lessonTimeText, payload.startTime, payload.endTime);
-		lessonTimeText = applyDayOffset(lessonTimeText, payload.dayOffset);
+		// 将时间对象转换为字符串格式 "HH:mm:ss"
+		const startTimeStr = payload.startTime
+			? `${String(payload.startTime.hour).padStart(2, "0")}:${String(payload.startTime.minute).padStart(2, "0")}:${String(payload.startTime.second).padStart(2, "0")}`
+			: undefined;
+		const endTimeStr = payload.endTime
+			? `${String(payload.endTime.hour).padStart(2, "0")}:${String(payload.endTime.minute).padStart(2, "0")}:${String(payload.endTime.second).padStart(2, "0")}`
+			: undefined;
+		lessonTimeText = applyTimeOverride(lessonTimeText, startTimeStr, endTimeStr);
+		lessonTimeText = applyDayOffset(lessonTimeText, payload.changeDays);
 		row.lessonTimeText = lessonTimeText;
 
-		if (payload.teacherId && payload.teacherName) {
-			row.teacherIds = String(payload.teacherId);
-			row.teacherNames = payload.teacherName;
+		if (payload.teacherIds && payload.teacherIds.length > 0) {
+			row.teacherIds = payload.teacherIds.join(",");
 		}
-		if (payload.assistantId && payload.assistantName) {
-			row.assistantIds = String(payload.assistantId);
-			row.assistantNames = payload.assistantName;
+		if (payload.assistantIds && payload.assistantIds.length > 0) {
+			row.assistantIds = payload.assistantIds.join(",");
 		}
-		if (payload.classroomId && payload.classroomName) {
-			row.classroomId = payload.classroomId;
-			row.classroomName = payload.classroomName;
+		if (payload.roomId) {
+			row.classroomId = payload.roomId;
 		}
 	});
 }
@@ -1803,13 +1827,19 @@ function handleReset() {
 	Object.assign(filters, {
 		pageIndex: 1,
 		pageSize: 30,
+		classId: undefined,
+		courseId: undefined,
+		startDate: "",
+		endDate: "",
+		teacherId: undefined,
+		roomId: undefined,
+		state: undefined,
+		onTrial: undefined,
 		cycle: undefined,
 		className: "",
 		courseName: "",
 		teacherName: "",
 		studentName: "",
-		startDate: "",
-		endDate: "",
 	});
 	pageIndex.value = 1;
 	loadData();
@@ -2044,10 +2074,6 @@ function buildBatchModifyPayload(): BatchUpdateCoursesDTO | undefined {
 	const lessonIds = getSelectedCourseIds();
 	if (!lessonIds.length) return undefined;
 
-	const teacherName = getOptionLabel(batchTeacherOptions.value, batchModifyForm.teacherId);
-	const assistantName = getOptionLabel(batchAssistantOptions.value, batchModifyForm.assistantId);
-	const classroomName = getOptionLabel(batchRoomOptions.value, batchModifyForm.classroomId);
-
 	const hasChange =
 		batchModifyForm.dayOffset !== undefined ||
 		!!batchModifyForm.startTime ||
@@ -2061,29 +2087,40 @@ function buildBatchModifyPayload(): BatchUpdateCoursesDTO | undefined {
 	}
 
 	const payload: BatchUpdateCoursesDTO = {
-		lessonIds,
+		updateIds: lessonIds,
 	};
 
 	if (batchModifyForm.dayOffset !== undefined) {
-		payload.dayOffset = batchModifyForm.dayOffset;
+		payload.changeDays = batchModifyForm.dayOffset;
 	}
 	if (batchModifyForm.startTime) {
-		payload.startTime = batchModifyForm.startTime;
+		// 将字符串 "HH:mm:ss" 转换为时间对象
+		const timeParts = batchModifyForm.startTime.split(":");
+		payload.startTime = {
+			hour: Number(timeParts[0]),
+			minute: Number(timeParts[1]),
+			second: timeParts[2] ? Number(timeParts[2]) : 0,
+			nano: 0,
+		};
 	}
 	if (batchModifyForm.endTime) {
-		payload.endTime = batchModifyForm.endTime;
+		// 将字符串 "HH:mm:ss" 转换为时间对象
+		const timeParts = batchModifyForm.endTime.split(":");
+		payload.endTime = {
+			hour: Number(timeParts[0]),
+			minute: Number(timeParts[1]),
+			second: timeParts[2] ? Number(timeParts[2]) : 0,
+			nano: 0,
+		};
 	}
 	if (typeof batchModifyForm.teacherId === "number") {
-		payload.teacherId = batchModifyForm.teacherId;
-		payload.teacherName = teacherName;
+		payload.teacherIds = [batchModifyForm.teacherId];
 	}
 	if (typeof batchModifyForm.assistantId === "number") {
-		payload.assistantId = batchModifyForm.assistantId;
-		payload.assistantName = assistantName;
+		payload.assistantIds = [batchModifyForm.assistantId];
 	}
 	if (typeof batchModifyForm.classroomId === "number") {
-		payload.classroomId = batchModifyForm.classroomId;
-		payload.classroomName = classroomName;
+		payload.roomId = batchModifyForm.classroomId;
 	}
 
 	return payload;
@@ -2391,13 +2428,20 @@ async function loadData() {
 		const res = await getCourseListPage({
 			pageIndex: pageIndex.value,
 			pageSize: pageSize.value,
+			classId: filters.classId,
+			courseId: filters.courseId,
+			startDate: filters.startDate,
+			endDate: filters.endDate,
+			teacherId: filters.teacherId,
+			roomId: filters.roomId,
+			state: filters.state,
+			onTrial: filters.onTrial,
+			// 兼容旧字段
 			cycle: filters.cycle,
 			className: filters.className,
 			courseName: filters.courseName,
 			teacherName: filters.teacherName,
 			studentName: filters.studentName,
-			startDate: filters.startDate,
-			endDate: filters.endDate,
 		});
 
 		if (res.data?.rows?.length) {
