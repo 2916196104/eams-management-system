@@ -149,7 +149,7 @@ export const ADMIN_NAVIGATION: AdminNavSection[] = [
 			{
 				id: "course-manage",
 				text: "课程管理",
-				path: "/course/manage",
+				path: "/home/course/list",
 			},
 			{
 				id: "course-subject",
