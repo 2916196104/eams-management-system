@@ -41,11 +41,11 @@ public://定义接口
 
 	ENDPOINT_INFO(querydetails) {
 		info->summary = ZH_WORDS_GETTER("translation.RegistRecordList");
-		API_DEF_ADD_QUERY_PARAMS(String, "studentName", ZH_WORDS_GETTER("translation.studentName"), "", true);
+		/*API_DEF_ADD_QUERY_PARAMS(String, "studentName", ZH_WORDS_GETTER("translation.studentName"), "", true);
 		API_DEF_ADD_QUERY_PARAMS(String, "courseName", ZH_WORDS_GETTER("translation.courseName"), "", false);
 		API_DEF_ADD_QUERY_PARAMS(Float64, "paidAmount", ZH_WORDS_GETTER("translation.paidAmount"), 0.0, false);
 		API_DEF_ADD_QUERY_PARAMS(String, "startDate", ZH_WORDS_GETTER("translation.startDate"), "2026-01-01", false);
-		API_DEF_ADD_QUERY_PARAMS(String, "expireDate", ZH_WORDS_GETTER("translation.expireDate"), "2026-01-01", false);
+		API_DEF_ADD_QUERY_PARAMS(String, "expireDate", ZH_WORDS_GETTER("translation.expireDate"), "2026-01-01", false);*/
 		//支持授权
 		API_DEF_ADD_AUTH();
 		//定义响应参数格式
