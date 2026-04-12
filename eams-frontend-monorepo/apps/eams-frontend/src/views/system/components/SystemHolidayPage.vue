@@ -159,16 +159,15 @@ async function toggleHoliday(iso: string) {
 			ElMessage.success("节日已添加");
 		}
 		await loadHolidays();
+	} catch (error) {
+		const message = error instanceof Error ? error.message : "节假日操作失败";
+		ElMessage.error(message);
 	} finally {
 		savingDate.value = "";
 	}
 }
 
 async function removeHoliday(item: HolidayListItem) {
-	if (!item.id) {
-		ElMessage.warning("当前节日缺少 id，无法删除");
-		return;
-	}
 	if (savingDate.value) return;
 	savingDate.value = item.iso;
 
@@ -176,6 +175,9 @@ async function removeHoliday(item: HolidayListItem) {
 		await deleteHoliday(item.iso);
 		ElMessage.success("节日已删除");
 		await loadHolidays();
+	} catch (error) {
+		const message = error instanceof Error ? error.message : "节假日删除失败";
+		ElMessage.error(message);
 	} finally {
 		savingDate.value = "";
 	}

@@ -163,7 +163,7 @@
 							<span>{{ group.groupName }}</span>
 						</div>
 						<el-checkbox-group v-model="editingPermissionIds" class="permission-check-grid">
-							<el-checkbox v-for="permission in group.permissions" :key="permission.id" :label="permission.id">
+							<el-checkbox v-for="permission in group.permissions" :key="permission.id" :value="permission.id">
 								{{ permission.name }}
 							</el-checkbox>
 						</el-checkbox-group>
