@@ -23,10 +23,16 @@ function navigateTo(name: string) {
 async function login() {
 	try {
 		const res = await Apis.login.post_login_auth_login({
-			data: { username: username.value, password: password.value },
+			data: { username: username.value, password: password.value, terminalType: "manager" },
 		});
 
-		if (res.code === 10000) {
+		if (res.code === 10000 && res.data) {
+			// 存储token信息
+			const { token, tokenHead, refreshToken } = res.data;
+			uni.setStorageSync('token', token);
+			uni.setStorageSync('tokenHead', tokenHead);
+			uni.setStorageSync('refreshToken', refreshToken);
+			
 			router.pushTab({ name: "home" });
 			return;
 		}

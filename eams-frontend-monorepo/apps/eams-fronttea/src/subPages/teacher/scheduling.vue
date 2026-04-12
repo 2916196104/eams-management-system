@@ -168,7 +168,7 @@ async function loadTeachers(nextPage = 1, append = false) {
 	targetLoading.value = true;
 
 	try {
-		const res: any = await (Apis as any).teacher.get_teacher_list({
+		const res: any = await (Apis as any).workbench.get_workbench_selectteacher({
 			params: {
 				name: teacherKeyword.value || undefined,
 				pageIndex: nextPage,
@@ -194,7 +194,7 @@ async function loadClasses(nextPage = 1, append = false) {
 	targetLoading.value = true;
 
 	try {
-		const res: any = await (Apis as any).teacher.get_class_list({
+		const res: any = await (Apis as any).workbench.get_workbench_selectclass({
 			params: {
 				className: classKeyword.value || undefined,
 				pageIndex: nextPage,
@@ -325,7 +325,7 @@ async function submitRepeatSchedule() {
 	const assistantId = scheduleForm.assistantTeacherId?.trim?.() ? scheduleForm.assistantTeacherId.trim() : undefined;
 	const limitNum = Number(scheduleForm.limitNum || 0);
 
-	await (Apis as any).scheduling.post_scheduling_repeat_create({
+	await (Apis as any).workbench.post_workbench_RepeatCoursesArrange({
 		data: {
 			classId,
 			courseId,
@@ -368,7 +368,7 @@ async function submitFreeSchedule() {
 	const assistantId = scheduleForm.assistantTeacherId?.trim?.() ? scheduleForm.assistantTeacherId.trim() : undefined;
 	const limitNum = Number(scheduleForm.limitNum || 0);
 
-	await (Apis as any).scheduling.post_scheduling_free_create({
+	await (Apis as any).workbench.post_workbench_FreeCoursesArrange({
 		data: {
 			classId,
 			courseId,
@@ -584,6 +584,8 @@ async function submitForm() {
           </view>
         </view>
       </template>
+
+      <view class="teacher-scheduling-placeholder"></view>
     </view>
 
     <view class="teacher-scheduling-action">
@@ -921,5 +923,9 @@ async function submitForm() {
 	font-size: 14px;
 	font-weight: 600;
 	color: #31c7a5;
+}
+
+.teacher-scheduling-placeholder {
+	height: 80px;
 }
 </style>
