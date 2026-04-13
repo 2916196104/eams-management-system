@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zeroone.star.j5.courseschedule.entity.*;
 import com.zeroone.star.j5.courseschedule.mapper.*;
 import com.zeroone.star.j5.courseschedule.service.ILessonService;
+import com.zeroone.star.project.DO.j5.courseschedule.StaffDO;
 import com.zeroone.star.project.dto.PageDTO;
 import com.zeroone.star.project.dto.j5.courseschedule.LessonQueryDTO;
 import com.zeroone.star.project.dto.j5.courseschedule.LessonSaveDTO;
@@ -58,7 +59,7 @@ public class LessonServiceImpl extends ServiceImpl<LessonMapper, Lesson> impleme
 
         Map<Long, String> teacherMap = staffMapper.selectList(null).stream()
                 .filter(s -> s.getId() != null && s.getName() != null)
-                .collect(Collectors.toMap(Staff::getId, Staff::getName, (a, b) -> a));
+                .collect(Collectors.toMap(StaffDO::getId, StaffDO::getName, (a, b) -> a));
 
         Map<Long, String> roomMap = classroomMapper.selectList(null).stream()
                 .filter(c -> c.getId() != null && c.getName() != null)
@@ -111,7 +112,7 @@ public class LessonServiceImpl extends ServiceImpl<LessonMapper, Lesson> impleme
 
             EduClass c = educlassMapper.selectById(lesson.getClassId());
             Course co = courseMapper.selectById(lesson.getCourseId());
-            Staff s = staffMapper.selectById(lesson.getTeacherId());
+            StaffDO s = staffMapper.selectById(lesson.getTeacherId());
 
             vo.setClassName(c == null ? "" : c.getName());
             vo.setCourseName(co == null ? "" : co.getName());
@@ -131,7 +132,7 @@ public class LessonServiceImpl extends ServiceImpl<LessonMapper, Lesson> impleme
 
         EduClass clazz = educlassMapper.selectById(l.getClassId());
         Course course = courseMapper.selectById(l.getCourseId());
-        Staff staff = staffMapper.selectById(l.getTeacherId());
+        StaffDO staff = staffMapper.selectById(l.getTeacherId());
         Classroom classroom = classroomMapper.selectById(l.getRoomId());
 
         LessonDetailVO vo = new LessonDetailVO();

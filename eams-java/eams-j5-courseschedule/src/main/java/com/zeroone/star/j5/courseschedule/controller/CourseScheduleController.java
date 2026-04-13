@@ -182,7 +182,7 @@ public class CourseScheduleController implements CourseScheduleApis {
     @ApiOperation("保存点评")
     public JsonVO<Long> saveEvaluation(@Valid @RequestBody EvaluationDTO evaluationDTO) {
         Long count = evaluationService.saveEvaluation(evaluationDTO);
-        return JsonVO.success(count);
+        return JsonVO.success(null);
     }
 
 

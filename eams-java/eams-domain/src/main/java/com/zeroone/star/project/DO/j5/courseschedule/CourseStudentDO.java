@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  * @author silvan
  * @description 课程-学生
  */
-@TableName("course_student")
+@TableName("lesson_student")
 @Data
 public class CourseStudentDO {
 
@@ -23,38 +23,58 @@ public class CourseStudentDO {
     private Long lessonId;
 
     /*
-    * 学生id
+    * 班级id
     * */
+    private Integer classId;
+
+    /*
+     * 学生id
+     * */
     @TableField("student_id")
     private Long studentId;
 
     /*
-     * 学生种类
-     * 0 - 普通学生
-     * 1 - 随课生
-     */
-    @TableField("student_type")
-    private int studentType;
-
-    @TableField("create_time")
-    private LocalDateTime createTime;
-
-    @TableField("update_time")
-    private LocalDateTime updateTime;
-
-    /*
-    * 评价时间
+    * 实扣课次
     * */
-    @TableField("evaluation_time")
-    private LocalDateTime evaluationTime;
+    @TableField("dec_lesson_count")
+    private Integer decLessonCount;
+
 
     /*
-    逻辑删除
-    1:未删除
-    2:已删除
-     */
-    @TableLogic
-    private int deleted=0;
+    * 应扣课次
+    * */
+    @TableField("lesson_count")
+    private Integer lessonCount;
+
+    /*
+    * 点名的老师
+    * */
+    @TableField("teacher_id")
+    private Long teacherId;
+
+    /*
+    * 签到时间
+    * */
+    @TableField("sign_time")
+    private LocalDateTime signTime;
+
+    /*
+    * 签到方式
+    * */
+    @TableField("sign_type")
+    private Byte signType;
+
+    /*
+    * 签到结果
+    * */
+    @TableField("sign_state")
+    private Byte signState;
+
+    /*
+     * 老师评分(1-5)
+     * */
+    @TableField("score")
+    private Integer score;
 
     /*
      * 对学生的评价
@@ -63,16 +83,47 @@ public class CourseStudentDO {
     private String evaluation;
 
     /*
-     * 是否完成评价
-     * 0-未评价
-     * 1-已评价
-     */
-    @TableField("is_evaluation")
-    private int isEvaluated=0;
+    * 评价时间
+    * */
+    @TableField("evaluate_time")
+    private LocalDateTime evaluationTime;
 
     /*
-     * 教学得分(1-5)
-     * */
-    @TableField("score")
-    private int score;
+    * 评价老师
+    * */
+    @TableField("evaluate_teacher")
+    private Long evaluateTeacher;
+
+
+    /*
+    * 实际消费课程
+    * */
+    @TableField("consume_course_id")
+    private Long consumeCourseId;
+
+    /*
+    * 消费课程与学生关联表id
+    * */
+    @TableField("consume_student_course_id")
+    private Long consumeStudentCourseId;
+
+    /*
+    * 学生的顾问
+    * */
+    @TableField("counselor")
+    private Long counselor;
+
+    /*
+    * 加入时间
+    * */
+    @TableField("add_time")
+    private LocalDateTime addTime;
+
+    /*
+    * 上课老师所属组织id
+    * */
+    @TableField("org_id")
+    private Long orgId;
+
+
 }
