@@ -1,6 +1,11 @@
 <!-- 登录页面 -->
 <template>
 	<div class="login-container">
+		<!-- 雪花效果 -->
+		<div class="snowflakes">
+			<div v-for="i in 50" :key="i" class="snowflake" :style="getSnowflakeStyle()"></div>
+		</div>
+
 		<div class="login-wrapper">
 			<div class="left-section">
 				<div class="logo-area">
@@ -171,19 +176,81 @@ function useVerify(type: string) {
 function handleSuccess(res: { captchaVerification: string }) {
 	doLogin(res.captchaVerification);
 }
+
+/**
+ * 生成雪花的随机样式
+ */
+function getSnowflakeStyle() {
+	const left = Math.random() * 100; // 随机水平位置 0-100%
+	const delay = Math.random() * 10; // 随机延迟 0-10 秒
+	const duration = 8 + Math.random() * 7; // 随机下落时间 8-15 秒
+	const size = 2 + Math.random() * 4; // 随机大小 2-6px
+	const opacity = 0.3 + Math.random() * 0.5; // 随机透明度 0.3-0.8
+
+	return {
+		left: `${left}%`,
+		animationDelay: `${delay}s`,
+		animationDuration: `${duration}s`,
+		width: `${size}px`,
+		height: `${size}px`,
+		opacity: opacity,
+	};
+}
 </script>
 
 <style scoped>
+/* 雪花容器 */
+.snowflakes {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	pointer-events: none;
+	z-index: 1;
+}
+
+/* 单个雪花 */
+.snowflake {
+	position: absolute;
+	top: -10px;
+	background: rgba(255, 255, 255, 0.8);
+	border-radius: 50%;
+	animation: fall linear infinite;
+	pointer-events: none;
+}
+
+/* 雪花下落动画 */
+@keyframes fall {
+	0% {
+		transform: translateY(-10px) translateX(0);
+		opacity: 0;
+	}
+	10% {
+		opacity: 1;
+	}
+	90% {
+		opacity: 1;
+	}
+	100% {
+		transform: translateY(100vh) translateX(20px);
+		opacity: 0;
+	}
+}
+
 .login-container {
 	width: 100%;
 	height: 100vh;
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	background: #0f80d9;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 
 .login-wrapper {
+	position: relative;
+	z-index: 2;
 	width: 72%;
 	max-width: 960px;
 	height: 64vh;
@@ -239,8 +306,9 @@ function handleSuccess(res: { captchaVerification: string }) {
 
 .illustration-img {
 	max-width: 100%;
-	max-height: 100%;
+	max-height: 85%;
 	object-fit: contain;
+	border-radius: 16px;
 }
 
 .right-section {
@@ -303,7 +371,7 @@ function handleSuccess(res: { captchaVerification: string }) {
 .qrcode-box {
 	width: 180px;
 	height: 180px;
-	background: #667eea;
+	background: #0e81da;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -313,7 +381,7 @@ function handleSuccess(res: { captchaVerification: string }) {
 
 .qrcode-img {
 	width: 160px;
-	height: 160px;
+	height: 120px;
 	object-fit: contain;
 }
 
