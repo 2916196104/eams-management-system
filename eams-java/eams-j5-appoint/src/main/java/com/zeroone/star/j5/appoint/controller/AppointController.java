@@ -25,7 +25,7 @@ import java.util.List;
  * @since 2026/3/23
  */
 @RestController
-@RequestMapping("j5/appoint")
+@RequestMapping("/j5-appoint")
 @Api(tags = "预约管理")
 public class AppointController implements AppointmentApis {
 

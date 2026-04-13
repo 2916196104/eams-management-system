@@ -3,6 +3,7 @@ package com.zeroone.star.j5.courseplan;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
@@ -15,15 +16,16 @@ import org.springframework.context.annotation.ComponentScan;
  * @version 1.0.0
  */
 @SpringBootApplication
+@EnableDiscoveryClient
 @MapperScan("com.zeroone.star.j5.courseplan.mapper")
 @ComponentScan(basePackages = {
     "com.zeroone.star.j5.courseplan",
     "com.zeroone.star.project"
 })
-public class CoursePlanApplication {
+public class CourseplanApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CoursePlanApplication.class, args);
+        SpringApplication.run(CourseplanApplication.class, args);
     }
 
 }

@@ -29,7 +29,8 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("j5/class-manager")
+//@RequestMapping("j5/class-manager")
+@RequestMapping("/j5-class-manager")
 @Api(tags = "班级管理")
 public class ClassManagerController implements ClassStudentApis {
     @Resource

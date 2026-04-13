@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @Api(tags = "班级管理")
-@RequestMapping("/j5/option")
+@RequestMapping("/j5-class-option")
 public class ClassController {
 
     @Autowired

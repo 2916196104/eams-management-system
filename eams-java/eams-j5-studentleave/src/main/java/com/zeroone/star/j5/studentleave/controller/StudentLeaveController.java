@@ -9,6 +9,7 @@ import com.zeroone.star.project.vo.JsonVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,8 @@ import java.util.List;
  * @date : 2026/3/16 20:00
  */
 @RestController
-@RequestMapping("/j5/student-leave")
+@RequestMapping("/j5-student-leave")
+@EnableDiscoveryClient
 @Api(tags = "学生请假管理")
 public class StudentLeaveController implements StudentLeaveApis {
 

@@ -1,9 +1,9 @@
 server:
-  port: ${sp.classmanager}
+  port: ${sp.j5-classmanager}
 
 spring:
   application:
-    name: ${sn.classmanager}
+    name: ${sn.j5-classmanager}
 seata:
   tx-service-group: tx-business
   enabled: false

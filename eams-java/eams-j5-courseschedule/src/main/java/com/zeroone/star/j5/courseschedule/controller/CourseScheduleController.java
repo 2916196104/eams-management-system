@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,8 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("j5/courseschedule")
+@RequestMapping("/j5-course-schedule")
+@EnableDiscoveryClient
 @RequiredArgsConstructor
 @Api(tags="课程表")
 public class CourseScheduleController implements CourseScheduleApis {

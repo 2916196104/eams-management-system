@@ -101,15 +101,15 @@
                     <!-- 数据库连接信息配置 -->
                     <dbConfig>
                         <!-- 数据库主机地址 -->
-                        <host>172.23.204.112</host>
+                        <host>111.228.43.9</host>
                         <!-- 数据库端口 -->
-                        <port>3306</port>
+                        <port>3307</port>
                         <!-- 数据库名称 -->
-                        <dbname>hzm_ems</dbname>
+                        <dbname>zo_eams</dbname>
                         <!-- 数据库用户名 -->
                         <username>root</username>
                         <!-- 数据库密码 -->
-                        <password>123456</password>
+                        <password>V9sgZWAO6JZ6BRPuvcRM</password>
                     </dbConfig>
                     <!-- 生成代码输出根目录 -->
                     <outDir>${project.basedir}/src/main/java</outDir>
@@ -120,9 +120,9 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <configuration>
                     <!-- Docker 远程管理地址-->
-                    <dockerHost>https://192.168.220.128:2375</dockerHost>
+                    <dockerHost>https://120.55.195.171:2376</dockerHost>
                     <!-- CA 证书位置 -->
-                    <certPath>/home/docker-ca</certPath>
+                    <certPath>D:\javacode\01star-project\ca_ECS</certPath>
                     <!-- 镜像设置 -->
                     <images>
                         <image>
@@ -140,7 +140,7 @@
                                 <namingStrategy>alias</namingStrategy>
                                 <!-- 端口映射 -->
                                 <ports>
-                                    <port>9999:9999</port>
+                                    <port>20051:20051</port>
                                 </ports>
                                 <!-- 数据卷 -->
                                 <volumes>
@@ -155,7 +155,7 @@
                                     <JAVA_OPTS>-Xms256m -Xmx256m</JAVA_OPTS>
                                     <!-- 启动替换参数 -->
                                     <SPRING_ARGS>
-                                        --spring.profiles.active=test --spring.cloud.nacos.discovery.ip=192.168.220.128
+                                        --spring.profiles.active=test --spring.cloud.nacos.discovery.ip=120.55.195.171
                                     </SPRING_ARGS>
                                 </env>
                             </run>

@@ -39,7 +39,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("/j5/courseplan")
+@RequestMapping("/j5-course-plan")
 @Api(tags = "排课计划管理", description = "排课计划的批量生成课表、冲突检查、删除课表等操作接口")
 @ApiSupport(author = "j5-courseschedule", order = 1)
 @Validated

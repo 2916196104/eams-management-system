@@ -1,24 +1,6 @@
 server:
-  port: ${sp.project}
+  port: ${sp.j5-courseschedule}
 spring:
   application:
-    name: ${sn.project}
-knife4j:
-  enableAggregation: true
-  nacos:
-    enable: true
-    serviceUrl: http://${nacos.addr}/${nacos.contextPath}/
-    # 注意：这里的路径配置需要配置到nacos配置中心system.yaml中
-    routes:
-      - name: 示例服务
-        serviceName: ${sn.sample}
-        namespaceId: ${nacos.namespace}
-        location: /v2/api-docs?group=sample
-      - name: 声明式CPP
-        serviceName: ${sn.cpp}
-        namespaceId: ${nacos.namespace}
-        location: /v2/api-docs?group=cpp
-      - name: 登录服务
-        serviceName: ${sn.login}
-        namespaceId: ${nacos.namespace}
-        location: /v2/api-docs?group=login
+    name: ${sn.j5-courseschedule}
+
