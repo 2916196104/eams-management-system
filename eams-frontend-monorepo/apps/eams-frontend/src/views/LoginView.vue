@@ -8,7 +8,7 @@
 					<h1 class="system-title">零一教务系统</h1>
 				</div>
 				<div class="illustration-area">
-					<img src="#" alt="左侧插图" class="illustration-img" />
+					<img src="/login-illustration.png" alt="左侧插图" class="illustration-img" />
 				</div>
 			</div>
 			<div class="right-section">
