@@ -5,7 +5,7 @@
 			<div class="left-section">
 				<div class="logo-area">
 					<img src="/logo.jpg" alt="教务系统Logo" class="logo-img" />
-					<h1 class="system-title">零一教务系统</h1>
+					<h1 class="system-title">零壹教务系统</h1>
 				</div>
 				<div class="illustration-area">
 					<img src="/login-illustration.png" alt="左侧插图" class="illustration-img" />
