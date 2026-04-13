@@ -34,6 +34,15 @@
 			}
 		},
 		{
+			"path": "pages/manual/index",
+			"type": "page",
+			"name": "manual",
+			"style": {
+				"navigationBarTitleText": "使用说明",
+				"titleNView": false
+			}
+		},
+		{
 			"path": "pages/mine/index",
 			"type": "page",
 			"name": "mine",
@@ -44,12 +53,30 @@
 			}
 		},
 		{
+			"path": "pages/parentInfo/index",
+			"type": "page",
+			"name": "parentInfo",
+			"style": {
+				"navigationBarTitleText": "家长信息",
+				"titleNView": false
+			}
+		},
+		{
 			"path": "pages/schedule/index",
 			"type": "page",
 			"name": "schedule",
 			"layout": "tabbar",
 			"style": {
 				"navigationBarTitleText": "课表",
+				"titleNView": false
+			}
+		},
+		{
+			"path": "pages/studentRelated/index",
+			"type": "page",
+			"name": "studentRelated",
+			"style": {
+				"navigationBarTitleText": "学员相关",
 				"titleNView": false
 			}
 		}

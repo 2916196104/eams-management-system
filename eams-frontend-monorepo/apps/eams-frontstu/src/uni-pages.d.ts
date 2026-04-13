@@ -6,8 +6,11 @@
 type _LocationUrl =
   "/pages/index/index" |
   "/pages/home/index" |
+  "/pages/manual/index" |
   "/pages/mine/index" |
+  "/pages/parentInfo/index" |
   "/pages/schedule/index" |
+  "/pages/studentRelated/index" |
   "/subPages/login/forget" |
   "/subPages/login/register" |
   "/subPages/mine/about" |

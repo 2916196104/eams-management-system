@@ -32,12 +32,24 @@ const menuList: Array<MineMenuItem> = [
 	{ key: "order", title: "选课订单", icon: "i-carbon:shopping-cart", iconColor: "#c87cff", routeName: "mineOrderList" },
 	{ key: "signup", title: "报名记录", icon: "i-carbon:favorite-filled", iconColor: "#ff6b5f", routeName: "signupRecord" },
 	{ key: "attendance", title: "上课记录", icon: "i-carbon:checkmark-filled", iconColor: "#2aa7ff", routeName: "attendanceRecord" },
-	{ key: "institution", title: "机构管理", icon: "i-carbon:building", iconColor: "#3b82f6", routeName: "institutionList" },
-	{ key: "position", title: "职位管理", icon: "i-carbon:briefcase", iconColor: "#10b981", routeName: "positionList" },
-	{ key: "staff", title: "员工管理", icon: "i-carbon:users", iconColor: "#f59e0b", routeName: "staffList" },
+	{ key: "parentInfo", title: "家长信息", icon: "i-carbon:user-profile", iconColor: "#6366f1", routeName: "parentInfo" },
+	{ key: "studentRelated", title: "学员相关", icon: "i-carbon:user-multiple", iconColor: "#8b5cf6", routeName: "studentRelated" },
+	{ key: "manual", title: "使用说明", icon: "i-carbon:document", iconColor: "#ec4899", routeName: "manual" },
 ];
 
+const pagePathMap = {
+	parentInfo: "/pages/parentInfo/index",
+	studentRelated: "/pages/studentRelated/index",
+	manual: "/pages/manual/index",
+} as const;
+
 function navigateTo(name: string) {
+	const path = pagePathMap[name as keyof typeof pagePathMap];
+	if (path) {
+		router.push({ path });
+		return;
+	}
+
 	router.push({ name });
 }
 
