@@ -81,6 +81,7 @@ export default {
     // me 模块（保留原有）
     "me.get_me_manual_getList": ["GET", "/me/manual/getList"],
     "me.get_me_manual_getDetail": ["GET", "/me/manual/getDetail"],
+    "me.get_me_get_parentinfo": ["GET", "/me/get-parentinfo"],
     "me.put_me_modify_name": ["PUT", "/me/modify-name"],
     "me.put_me_modify_password": ["PUT", "/me/modify-password"],
     "me.get_me_getOptionalGrade": ["GET", "/me/getOptionalGrade"],
@@ -137,33 +138,5 @@ export default {
     "article.put_article": ["PUT", "/article"],
     "article.delete_article_id": ["DELETE", "/article/{id}"],
 
-    // 机构管理接口
-    "institution.get_c2_org_institution_getInstitutionFree": ["GET", "/c2-org/institution/getInstitutionFree"],
-    "institution.post_c2_org_institution_saveInstitution": ["POST", "/c2-org/institution/saveInstitution"],
-    "institution.get_c2_org_institution_list": ["GET", "/c2-org/institution/list"],
-    "institution.get_c2_org_institution_detail": ["GET", "/c2-org/institution/detail"],
-    "institution.post_c2_org_institution_delete": ["POST", "/c2-org/institution/delete"],
 
-    // 职位管理接口
-    "position.get_c2_org_position_all": ["GET", "/c2-org/position/all"],
-    "position.get_c2_org_position_list": ["GET", "/c2-org/position/list"],
-    "position.post_c2_org_position_save": ["POST", "/c2-org/position/save"],
-    "position.post_c2_org_positions_delete": ["POST", "/c2-org/positions/delete"],
-    "position.post_c2_org_positions_data_permissions_list": ["POST", "/c2-org/positions/data/permissions/list"],
-    "position.post_c2_org_position_dataPermissionSave": ["POST", "/c2-org/position/dataPermissionSave"],
-    "position.delete_c2_org_position_dataPermissionDelete": ["DELETE", "/c2-org/position/dataPermissionDelete"],
-
-    // 员工管理接口
-    "staff.get_c2_org_staff_lesson_list": ["GET", "/c2-org/staff/lesson/list"],
-    "staff.get_c2_org_staff_getImplist": ["GET", "/c2-org/staff/getImplist"],
-    "staff.post_c2_org_staff_saveStaff": ["POST", "/c2-org/staff/saveStaff"],
-    "staff.post_c2_org_staff_modifyAvatar": ["POST", "/c2-org/staff/modifyAvatar"],
-    "staff.post_c2_org_staff_changePassword": ["POST", "/c2-org/staff/changePassword"],
-    "staff.get_c2_org_staff_list": ["GET", "/c2-org/staff/list"],
-    "staff.get_c2_org_employee_getProxyRecord": ["GET", "/c2-org/employee/getProxyRecord"],
-    "staff.get_c2_org_staff_detail": ["GET", "/c2-org/staff/detail"],
-    "staff.delete_c2_org_staff_remove": ["DELETE", "/c2-org/staff/remove"],
-    "staff.put_c2_org_staff_setRole": ["PUT", "/c2-org/staff/setRole"],
-    "staff.put_c2_org_staff_setJob": ["PUT", "/c2-org/staff/setJob"],
-    "staff.put_c2_org_staff_setInstitution": ["PUT", "/c2-org/staff/setInstitution"],
 };
