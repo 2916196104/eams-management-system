@@ -26,12 +26,10 @@ const { currentStudent } = storeToRefs(userStore);
 
 const userInfo = computed(() => userStore.userInfo);
 const remainingLessons = ref(0);
-const myPoints = ref(0);
 const trialCardCount = ref(0);
 
 const menuList: Array<MineMenuItem> = [
 	{ key: "order", title: "选课订单", icon: "i-carbon:shopping-cart", iconColor: "#c87cff", routeName: "mineOrderList" },
-	{ key: "points", title: "积分兑换记录", icon: "i-carbon:gift", iconColor: "#b35cff", routeName: "pointsRecord" },
 	{ key: "signup", title: "报名记录", icon: "i-carbon:favorite-filled", iconColor: "#ff6b5f", routeName: "signupRecord" },
 	{ key: "attendance", title: "上课记录", icon: "i-carbon:checkmark-filled", iconColor: "#2aa7ff", routeName: "attendanceRecord" },
 	{ key: "institution", title: "机构管理", icon: "i-carbon:building", iconColor: "#3b82f6", routeName: "institutionList" },
@@ -44,13 +42,10 @@ function navigateTo(name: string) {
 }
 
 // 顶部统计卡片跳转
-function navigateStat(type: "lessons" | "points" | "trialCard") {
+function navigateStat(type: "lessons" | "trialCard") {
 	switch (type) {
 		case "lessons":
 			navigateTo("signupRecord");
-			break;
-		case "points":
-			navigateTo("pointsMall");
 			break;
 		case "trialCard":
 			navigateTo("trialCard");
@@ -60,23 +55,7 @@ function navigateStat(type: "lessons" | "points" | "trialCard") {
 	}
 }
 
-// 加载积分汇总
-async function loadPoints(studentId: number) {
-	try {
-		const res: any = await (Apis as any).me.get_me_getMyPoint({
-			params: {
-				student_id: studentId,
-				pageIndex: 1,
-				pageSize: 20,
-			},
-		});
-		const rows = Array.isArray(res?.data?.rows) ? res.data.rows : [];
-		myPoints.value = Number(rows[0]?.current_credit || 0);
-	}
-	catch {
-		myPoints.value = 0;
-	}
-}
+
 
 // 加载剩余课时汇总
 async function loadRemainingLessons(studentId: number) {
@@ -120,12 +99,13 @@ async function loadSummary() {
 	const studentId = Number(currentStudent.value?.id || 0);
 	if (!studentId) {
 		remainingLessons.value = 0;
-		myPoints.value = 0;
 		trialCardCount.value = 0;
 		return;
 	}
 
-	await Promise.all([loadPoints(studentId), loadRemainingLessons(studentId), loadTrialCardCount()]);
+	// 单独调用每个加载函数，捕获错误以避免触发全局错误提示
+	await loadRemainingLessons(studentId).catch(() => {});
+	await loadTrialCardCount().catch(() => {});
 }
 
 onShow(() => {
@@ -163,10 +143,6 @@ onShow(() => {
 					<view class="mine-stats__item" @click="navigateStat('lessons')">
 						<view class="mine-stats__value">{{ remainingLessons }}</view>
 						<view class="mine-stats__label">剩余课时</view>
-					</view>
-					<view class="mine-stats__item" @click="navigateStat('points')">
-						<view class="mine-stats__value">{{ myPoints }}</view>
-						<view class="mine-stats__label">我的积分</view>
 					</view>
 					<view class="mine-stats__item" @click="navigateStat('trialCard')">
 						<view class="mine-stats__value">{{ trialCardCount }}</view>
@@ -260,7 +236,7 @@ onShow(() => {
 
 .mine-stats {
 	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
+	grid-template-columns: repeat(2, minmax(0, 1fr));
 	background: #fff;
 }
 
