@@ -55,7 +55,7 @@ function debugEnterHome() {
 </script>
 
 <template>
-	<login-head title="欢迎登录-零壹教师端" :show-back="false" />
+	<login-head title="欢迎-登录零壹教务教师端" :show-back="false" />
 
 	<view class="input-box bg-white dark:bg-[var(--wot-dark-background2)]">
 		<wd-input v-model="username" placeholder="输入用户名" size="large" center>

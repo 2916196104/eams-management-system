@@ -57,7 +57,7 @@ function debugEnterHome() {
 
 <template>
 	<!-- 标题 -->
-	<login-head title="欢迎登录-零壹xxx用户端" :show-back="false" />
+	<login-head title="欢迎-登录零壹教务家长端" :show-back="false" />
 
 	<!-- 用户名和密码输入框 -->
 	<view class="input-box bg-white dark:bg-[var(--wot-dark-background2)]">
