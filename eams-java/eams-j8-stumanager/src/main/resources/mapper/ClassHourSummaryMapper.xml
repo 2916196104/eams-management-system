@@ -6,13 +6,8 @@
         SELECT
         s.name,
         sc.subjectId,
-        te.content,
-        sc.countLessonTotal,
-        c.courseName
         FROM Student s
         LEFT JOIN StudentCourse sc ON s.id = sc.studentId
-        LEFT JOIN TeachEvaluation te ON s.id = te.studentId
-        LEFT JOIN Course c ON sc.subjectId = c.subjectId
 
         <where>
             <if test="query.studentName != null and query.studentName != ''">
@@ -20,12 +15,6 @@
             </if>
             <if test="query.courseName != null">
                 AND sc.subjectId = #{query.courseName}
-            </if>
-            <if test="query.attendanceRecord != null and query.attendanceRecord != ''">
-                AND te.content = #{query.attendanceRecord}
-            </if>
-            <if test="query.totalLessonHours != null">
-                AND sc.countLessonTotal = #{query.totalLessonHours}
             </if>
         </where>
     </select>
