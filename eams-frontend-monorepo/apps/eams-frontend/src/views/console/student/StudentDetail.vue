@@ -2,7 +2,7 @@
 	<section class="student-detail-page">
 		<section class="left-panel">
 			<div class="avatar-wrap">
-				<el-avatar :size="88" :src="String(detailData.avatar || '')">
+				<el-avatar :size="88" :src="String(detailData.avatar || detailData.headImg || '')">
 					{{ String(detailData.name || route.query.name || "学员").slice(0, 1) }}
 				</el-avatar>
 				<div class="name">{{ detailData.name || route.query.name || "-" }}</div>
@@ -16,7 +16,7 @@
 				<el-descriptions-item label="年级">{{ detailData.gradeName || "-" }}</el-descriptions-item>
 				<el-descriptions-item label="分校">{{ detailData.schoolName || "-" }}</el-descriptions-item>
 				<el-descriptions-item label="顾问">{{ detailData.counselorName || "-" }}</el-descriptions-item>
-				<el-descriptions-item label="家长">{{ detailData.parentName || "-" }}</el-descriptions-item>
+				<el-descriptions-item label="家长">{{ detailData.parentName || detailData.userName || "-" }}</el-descriptions-item>
 				<el-descriptions-item label="备注">{{ detailData.remark || "-" }}</el-descriptions-item>
 			</el-descriptions>
 		</section>
@@ -30,7 +30,7 @@
 						<el-table-column prop="subjectName" label="科目" min-width="110" />
 						<el-table-column prop="amount" label="报名金额" min-width="90" />
 						<el-table-column prop="countLessonTotal" label="课时数" min-width="80" />
-						<el-table-column prop="stateName" label="状态" min-width="90" />
+						<el-table-column prop="verifyState" label="状态" min-width="90" />
 					</el-table>
 					<div class="pager-wrap">
 						<el-pagination
@@ -63,130 +63,68 @@
 import { onMounted, reactive, ref } from "vue";
 import { useRoute } from "vue-router";
 import { ElMessage } from "element-plus";
-
-interface StudentDetailData extends Record<string, unknown> {
-	id?: number | string;
-	name?: string;
-	mobile?: string;
-	avatar?: string;
-	gender?: string;
-	age?: number;
-	gradeName?: string;
-	schoolName?: string;
-	counselorName?: string;
-	parentName?: string;
-	remark?: string;
-}
-
-interface CourseTimesData {
-	studentId?: string;
-	studentName?: string;
-	courseTimes?: number;
-	remainingTimes?: number;
-}
-
-interface EnrollRecord {
-	id?: number | string;
-	addTime?: string;
-	courseName?: string;
-	subjectName?: string;
-	amount?: number;
-	countLessonTotal?: number;
-	stateName?: string;
-}
+import {
+	getStudentCourseTimesSummary,
+	getStudentDetailById,
+	getStudentEnrollPage,
+} from "@/apis/student";
+import type {
+	SignupRecordItemDTO,
+	StudentCourseTimesSummaryDTO,
+	StudentDetailDTO,
+} from "@/apis/student/type";
 
 const route = useRoute();
 const activeTab = ref("enroll");
-const detailData = reactive<StudentDetailData>({});
-const courseData = reactive<CourseTimesData>({});
+const detailData = reactive<StudentDetailDTO>({});
+const courseData = reactive<StudentCourseTimesSummaryDTO>({});
 
 const enrollLoading = ref(false);
-const enrollRows = ref<EnrollRecord[]>([]);
+const enrollRows = ref<SignupRecordItemDTO[]>([]);
 const enrollPageIndex = ref(1);
 const enrollPageSize = ref(10);
 const enrollTotal = ref(0);
 
-async function requestApiRaw<T = unknown>(
-	url: string,
-	options: { method: "GET" | "POST"; params?: Record<string, string | number | undefined>; body?: Record<string, unknown> },
-): Promise<T> {
-	const token = localStorage.getItem("token");
-	const headers: Record<string, string> = { Accept: "application/json" };
-	if (token) headers.Authorization = `Bearer ${token}`;
-
-	let requestUrl = `/api${url}`;
-	let body: string | undefined;
-	if (options.method === "GET") {
-		const search = new URLSearchParams();
-		Object.entries(options.params || {}).forEach(([key, value]) => {
-			if (value !== undefined && value !== null && value !== "") search.append(key, String(value));
-		});
-		const qs = search.toString();
-		if (qs) requestUrl += `?${qs}`;
-	} else {
-		headers["Content-Type"] = "application/json;charset=UTF-8";
-		body = JSON.stringify(options.body || {});
-	}
-
-	const resp = await fetch(requestUrl, { method: options.method, headers, body });
-	if (!resp.ok) throw new Error(`请求失败（HTTP ${resp.status}）`);
-	const json = (await resp.json()) as { code?: number; data?: T; message?: string; msg?: string };
-	if (!json || typeof json !== "object" || !("data" in json)) throw new Error("接口返回格式错误");
-	return (json.data as T) ?? (null as T);
-}
-
-function normalizePage(data: unknown): { rows: EnrollRecord[]; total: number } {
-	if (!data || typeof data !== "object") return { rows: [], total: 0 };
-	const obj = data as Record<string, unknown>;
-	const rows = (obj.rows || obj.list || obj.records || obj.content || []) as EnrollRecord[];
-	const total = Number(obj.total || obj.totalCount || obj.totalElements || rows.length) || 0;
-	return { rows, total };
+function resolveStudentId() {
+	const rawId = Number(route.query.id);
+	return Number.isFinite(rawId) && rawId > 0 ? rawId : 0;
 }
 
 async function loadDetail() {
-	const studentId = route.query.id ? Number(route.query.id) : undefined;
+	const studentId = resolveStudentId();
 	if (!studentId) return;
 	try {
-		const data = await requestApiRaw<StudentDetailData>("/stu/common/stuInformation/get-studentDetail", {
-			method: "GET",
-			params: { id: studentId },
-		});
+		const data = await getStudentDetailById(studentId);
 		Object.assign(detailData, data || {});
-	} catch (e: any) {
-		ElMessage.warning(e?.message || "加载学员详情失败");
+	} catch (error: any) {
+		ElMessage.warning(error?.message || "加载学员详情失败");
 	}
 }
 
 async function loadCourseTimes() {
-	const studentId = route.query.id ? String(route.query.id) : "";
+	const studentId = resolveStudentId();
 	if (!studentId) return;
 	try {
-		const data = await requestApiRaw<CourseTimesData>("/j4/student/student/query-course-times", {
-			method: "GET",
-			params: { studentId },
-		});
+		const data = await getStudentCourseTimesSummary(String(studentId));
 		Object.assign(courseData, data || {});
 	} catch {
-		/* 课时摘要非必需，不阻断页面 */
+		// Non-blocking panel.
 	}
 }
 
 async function loadEnrollRecords() {
 	enrollLoading.value = true;
 	try {
-		const data = await requestApiRaw<unknown>("/j4/student/enroll/list", {
-			method: "GET",
-			params: {
-				pageIndex: enrollPageIndex.value,
-				pageSize: enrollPageSize.value,
-				studentName: String(route.query.name || detailData.name || ""),
-			},
+		const page = await getStudentEnrollPage({
+			pageIndex: enrollPageIndex.value,
+			pageSize: enrollPageSize.value,
+			studentName: String(route.query.name || detailData.name || ""),
 		});
-		const { rows, total } = normalizePage(data);
+		const rows = page.rows || [];
 		enrollRows.value = rows;
-		enrollTotal.value = total;
-	} catch (e: any) {
-		ElMessage.warning(e?.message || "加载报名记录失败");
+		enrollTotal.value = Number(page.total || rows.length);
+	} catch (error: any) {
+		ElMessage.warning(error?.message || "加载报名记录失败");
 		enrollRows.value = [];
 		enrollTotal.value = 0;
 	} finally {

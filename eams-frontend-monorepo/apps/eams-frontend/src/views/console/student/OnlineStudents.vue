@@ -207,24 +207,21 @@ import { onMounted, reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
 import { CircleClose, Download, Grid, Plus, Printer, RefreshRight, Search, Upload } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
+import {
+	addStudentEnroll,
+	exportOnlineStudentsFile,
+	getStudentConsolePage,
+	getStudentCoursePage,
+	getStudentCourseTimesSummary,
+} from "@/apis/student";
+import type {
+	StudentConsoleRowDTO,
+	StudentCourseRowDTO,
+	StudentCourseTimesSummaryDTO,
+} from "@/apis/student/type";
 
 /** 列表行（对齐 openapi StudentListVO） */
-interface StudentListRow {
-	id?: number;
-	name?: string;
-	schoolName?: string;
-	parentName?: string;
-	familyRel?: string;
-	mobile?: string;
-	counselorName?: string;
-	gradeName?: string;
-	countLessonRemaining?: number;
-	credit?: number;
-	gender?: string;
-	age?: number;
-	remark?: string;
-	stage?: string;
-}
+type StudentListRow = StudentConsoleRowDTO;
 
 /** 后端/Mock 分页结构差异较大，解析时尽量兼容 */
 interface PagePayload {
@@ -241,21 +238,16 @@ interface PagePayload {
 	data?: unknown;
 }
 
-interface CourseTimesData {
-	studentId?: string;
-	studentName?: string;
-	courseTimes?: number;
-	remainingTimes?: number;
-}
+type CourseTimesData = StudentCourseTimesSummaryDTO;
 
-interface CourseRow {
+type CourseRow = StudentCourseRowDTO & {
 	id: string | number;
 	courseName: string;
 	courseTimes: number;
 	unitPrice: number;
 	totalPrice: number;
 	unitName: string;
-}
+};
 
 const loading = ref(false);
 const exporting = ref(false);
@@ -553,10 +545,7 @@ async function loadList() {
 		if (query.branchSchool.trim()) params.branchSchool = query.branchSchool.trim();
 		if (query.teacherName.trim()) params.teacherName = query.teacherName.trim();
 
-		const data = await requestApiRaw<unknown>("/stu/common/stuInformation/query-studentlist", {
-			method: "GET",
-			params,
-		});
+		const data = await getStudentConsolePage(params);
 		const { rows, total: t } = normalizePage(data);
 		// 只让最后一次请求落地，避免并发请求导致“页面和Network选中项不一致”
 		if (requestSeq !== latestRequestSeq.value) return;
@@ -599,22 +588,21 @@ function handlePageSizeChange() {
 	loadList();
 }
 
+function downloadBlobFile(filename: string, blob: Blob) {
+	const url = URL.createObjectURL(blob);
+	const a = document.createElement("a");
+	a.href = url;
+	a.download = filename;
+	a.click();
+	URL.revokeObjectURL(url);
+}
+
 /** 导出在学学员（二进制流） */
 async function handleExport() {
 	exporting.value = true;
 	try {
-		const token = localStorage.getItem("token");
-		const headers: Record<string, string> = { Accept: "*/*" };
-		if (token) headers.Authorization = `Bearer ${token}`;
-		const resp = await fetch("/api/j4/student/exportOnlineStudents", { method: "GET", headers });
-		if (!resp.ok) throw new Error(`导出失败（HTTP ${resp.status}）`);
-		const blob = await resp.blob();
-		const url = URL.createObjectURL(blob);
-		const a = document.createElement("a");
-		a.href = url;
-		a.download = `在学学员导出_${Date.now()}.xlsx`;
-		a.click();
-		URL.revokeObjectURL(url);
+		const blob = await exportOnlineStudentsFile();
+		downloadBlobFile(`在学学员导出_${Date.now()}.xlsx`, blob);
 		ElMessage.success("已开始下载");
 	} catch (e: any) {
 		ElMessage.error(e?.message || "导出失败");
@@ -640,10 +628,7 @@ async function openDetail(row: StudentListRow) {
 
 async function fetchCourseTimes(row: StudentListRow): Promise<CourseTimesData | null> {
 	if (row.id == null) return null;
-	return requestApiRaw<CourseTimesData>("/j4/student/student/query-course-times", {
-		method: "GET",
-		params: { studentId: String(row.id) },
-	});
+	return getStudentCourseTimesSummary(String(row.id));
 }
 
 async function openCourseTimes(row: StudentListRow) {
@@ -691,13 +676,10 @@ function chooseCourse(row: CourseRow) {
 async function loadCourseList() {
 	courseLoading.value = true;
 	try {
-		const data = await requestApiRaw<unknown>("/j4/course/list", {
-			method: "GET",
-			params: {
-				pageIndex: coursePageIndex.value,
-				pageSize: coursePageSize.value,
-				name: courseKeyword.value.trim() || undefined,
-			},
+		const data = await getStudentCoursePage({
+			pageIndex: coursePageIndex.value,
+			pageSize: coursePageSize.value,
+			name: courseKeyword.value.trim() || undefined,
 		});
 		const { rows, total } = normalizePage(data);
 		courseRows.value = rows.map((item, idx) => normalizeCourseRow(item as Record<string, unknown>, idx));
@@ -738,18 +720,13 @@ async function submitEnroll() {
 	}
 	submittingEnroll.value = true;
 	try {
-		await requestApiRaw<unknown>("/stu/common/stuInformation/enroll-Course", {
-			method: "POST",
-			body: {
-				studentId: enrollStudent.value.id,
-				studentName: enrollStudent.value.name,
-				courseId: selectedCourse.value.id,
-				courseName: selectedCourse.value.courseName,
-				countLessonTotal: selectedCourse.value.courseTimes,
-				amount: courseTotalAmount.value,
-				discountAmount: discountAmount.value,
-				receiveAmount: receiveAmount.value,
-			},
+		await addStudentEnroll({
+			studentId: enrollStudent.value.id,
+			courseId: selectedCourse.value.id,
+			countLessonTotal: selectedCourse.value.courseTimes,
+			amount: courseTotalAmount.value,
+			paidAmount: receiveAmount.value,
+			remark: `优惠金额：${discountAmount.value}`,
 		});
 		ElMessage.success("报名提交成功");
 		enrollVisible.value = false;
