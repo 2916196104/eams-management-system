@@ -43,7 +43,7 @@ public class LessonServiceImpl extends ServiceImpl<LessonMapper, Lesson> impleme
         wrapper.le(query.getEndDate() != null, Lesson::getDate, query.getEndDate());
         wrapper.eq(query.getClassId() != null, Lesson::getClassId, query.getClassId());
         wrapper.eq(query.getCourseId() != null, Lesson::getCourseId, query.getCourseId());
-        wrapper.eq(query.getTeacherId() != null, Lesson::getTeacherId, query.getRoomId());
+        wrapper.eq(query.getTeacherId() != null, Lesson::getTeacherId, query.getTeacherId());
         wrapper.eq(query.getRoomId() != null, Lesson::getRoomId, query.getRoomId());
 
         List<Lesson> list = list(wrapper);
