@@ -322,12 +322,19 @@ async function loadData() {
 			startDate: filters.startDate,
 			endDate: filters.endDate,
 		});
-		if (res.data) {
-			pageData.value = res.data;
+
+		// 检查响应码是否为成功
+		if (res.code === 10000 || res.code === 0) {
+			pageData.value = res.data || createPageDTO();
+		} else {
+			console.error("加载请假列表失败:", res.message);
+			ElMessage.error(res.message || "加载数据失败");
+			pageData.value = createPageDTO();
 		}
 	} catch (error) {
 		console.error("加载数据失败:", error);
 		ElMessage.error("加载数据失败");
+		pageData.value = createPageDTO();
 	}
 }
 

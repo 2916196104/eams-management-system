@@ -3,14 +3,33 @@ import type { LessonCalendarVO } from "@/apis/academic/type";
 export type ScheduleCalendarViewMode = "month" | "week" | "day";
 export type ScheduleCalendarPeriod = "本月" | "本周" | "自定义";
 
+// 下拉选项数据类型
+export interface SelectOption {
+	value: number;
+	label: string;
+}
+
+// 课程日历筛选器字段
+// 根据后端接口文档：/j5-course-schedule/calendar
+// 支持的参数：classId, courseId, endDate, onTrial, pageIndex, pageSize, roomId, startDate, state, teacherId
 export type ScheduleCalendarFilters = {
-	className: string;
-	courseName: string;
-	teacherName: string;
-	subjectName: string;
-	classroomName: string;
-	startDate: string;
-	endDate: string;
+	// ID 字段（后端接口期望的类型）
+	classId?: number; // 班级 ID ✅ 新增
+	courseId?: number; // 课程 ID ✅ 新增
+	teacherId?: number; // 教师 ID ✅ 新增
+	roomId?: number; // 教室 ID ✅ 新增
+	
+	// 名称字段（用于显示，不直接传递给后端）
+	className?: string; // 班级名称
+	courseName?: string; // 课程名称
+	teacherName?: string; // 老师名称
+	classroomName?: string; // 教室名称
+	
+	// 日期范围
+	startDate: string; // 开始日期
+	endDate: string; // 结束日期
+	
+	// 周期选择
 	period: ScheduleCalendarPeriod;
 };
 
@@ -44,23 +63,20 @@ export function formatDate(date: Date) {
 	return `${year}-${month}-${day}`;
 }
 
-// 格式化日期为后端要求的 LocalDate 格式
-// 后端可能期望 yyyyMMdd 格式（无分隔符）
+// 格式化日期为后端要求的 LocalDate 格式 (yyyy-MM-dd)
+// 根据接口文档：/j5-course-schedule/calendar 期望 string(date) 格式
 export function formatLocalDate(dateString: string): string {
 	if (!dateString) return "";
 	// 验证格式是否为 YYYY-MM-DD
 	const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
 	if (dateRegex.test(dateString)) {
-		// 将 YYYY-MM-DD 转换为 YYYYMMDD 格式（无分隔符）
-		return dateString.replace(/-/g, "");
+		// 格式正确，直接返回
+		return dateString;
 	}
 	// 格式不正确，尝试解析并重新格式化
 	const date = new Date(dateString);
 	if (Number.isNaN(date.getTime())) return dateString;
-	const year = date.getFullYear();
-	const month = String(date.getMonth() + 1).padStart(2, "0");
-	const day = String(date.getDate()).padStart(2, "0");
-	return `${year}${month}${day}`;
+	return formatDate(date);
 }
 
 export function normalizeLessonCalendarRows(rows: LessonCalendarVO[] | undefined): CalendarCourse[] {
@@ -168,6 +184,19 @@ export function getPeriodOptions(viewMode: ScheduleCalendarViewMode): ScheduleCa
 	return ["自定义"];
 }
 
+/**
+ * 构建课程日历查询参数
+ * 接口地址：/j5-course-schedule/calendar
+ * 请求方式：GET
+ * 数据类型：application/x-www-form-urlencoded
+ *
+ * @param filters - 筛选条件
+ * @param viewMode - 视图模式（month/week/day）
+ * @param selectedDate - 选中的日期
+ * @param year - 当前年份
+ * @param month - 当前月份
+ * @returns 符合后端接口要求的查询参数对象
+ */
 export function buildLessonCalendarQuery(
 	filters: ScheduleCalendarFilters,
 	viewMode: ScheduleCalendarViewMode,
@@ -178,33 +207,37 @@ export function buildLessonCalendarQuery(
 	const visibleRange = getVisibleCalendarRange(viewMode, selectedDate, year, month);
 	const customRangeReady = filters.period === "自定义" && !!filters.startDate && !!filters.endDate;
 
-	// 无论是自定义还是可见范围，都需要转换日期格式
+	// 无论是自定义还是可见范围，都需要转换日期格式为 yyyy-MM-dd
 	const startDate = customRangeReady ? formatLocalDate(filters.startDate) : formatLocalDate(visibleRange.startDate);
 	const endDate = customRangeReady ? formatLocalDate(filters.endDate) : formatLocalDate(visibleRange.endDate);
 
-	// 调试日志：检查日期格式
-	console.log("[buildLessonCalendarQuery] 原始日期:", {
-		startDate: filters.startDate,
-		endDate: filters.endDate,
-	});
-	console.log("[buildLessonCalendarQuery] 转换后日期:", {
-		startDate,
-		endDate,
-	});
-
-	// 构建查询参数，只传递 API 需要的字段（根据接口文档）
+	// 构建查询参数，严格按照后端接口文档定义
+	// 接口支持的参数：
+	// - classId: 班级 ID (integer)
+	// - courseId: 课程 ID (integer)
+	// - endDate: 结束日期 (string, yyyy-MM-dd)
+	// - onTrial: 是否试听 (integer, 0/1)
+	// - pageIndex: 查询页码 (integer)
+	// - pageSize: 查询条数 (integer)
+	// - roomId: 教室 ID (integer)
+	// - startDate: 开始日期 (string, yyyy-MM-dd)
+	// - state: 课次状态 (integer)
+	// - teacherId: 教师 ID (integer)
 	const params: Record<string, any> = {};
 
-	// 只在日期有值时才添加
+	// 分页参数（必需）
+	params.pageIndex = 1;
+	params.pageSize = 1000; // 获取全部数据，前端进行分页展示
+
+	// 日期范围参数（核心筛选条件）
 	if (startDate) params.startDate = startDate;
 	if (endDate) params.endDate = endDate;
 
-	// 可选参数，有值时才添加（只传递接口定义的参数）
-	if (filters.className) params.className = filters.className;
-	if (filters.courseName) params.courseName = filters.courseName;
-	if (filters.teacherName) params.teacherName = filters.teacherName;
-	if (filters.subjectName) params.subjectName = filters.subjectName;
-	if (filters.classroomName) params.classroomName = filters.classroomName;
+	// ID 筛选参数（后端接口要求的格式）
+	if (filters.classId) params.classId = filters.classId;
+	if (filters.courseId) params.courseId = filters.courseId;
+	if (filters.teacherId) params.teacherId = filters.teacherId;
+	if (filters.roomId) params.roomId = filters.roomId;
 
 	return params;
 }
@@ -230,3 +263,11 @@ export function isCourseInHour(course: CalendarCourse, hour: number) {
 	if (hour === endHour) return endMinute > 0;
 	return true;
 }
+
+// 导出 API 调用函数（从单独的文件）
+export {
+	getClassSelectOptions,
+	getCourseSelectOptions,
+	getTeacherSelectOptions,
+	getClassroomSelectOptions,
+} from "./schedule-calendar-api";
