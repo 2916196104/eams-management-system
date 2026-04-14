@@ -3,15 +3,17 @@ import type { LessonCalendarVO } from "@/apis/academic/type";
 export type ScheduleCalendarViewMode = "month" | "week" | "day";
 export type ScheduleCalendarPeriod = "本月" | "本周" | "自定义";
 
+// 课程日历筛选器字段
+// 注意：当前只有名称字段，但后端接口期望 ID 字段
+// 后续需要添加 ID 选择器，并添加对应的 ID 字段
 export type ScheduleCalendarFilters = {
-	className: string;
-	courseName: string;
-	teacherName: string;
-	subjectName: string;
-	classroomName: string;
-	startDate: string;
-	endDate: string;
-	period: ScheduleCalendarPeriod;
+	className: string; // 班级名称（后端期望 classId）
+	courseName: string; // 课程名称（后端期望 courseId）
+	teacherName: string; // 老师名称（后端期望 teacherId）
+	classroomName: string; // 教室名称（后端期望 roomId）
+	startDate: string; // 开始日期 ✅ 直接传递
+	endDate: string; // 结束日期 ✅ 直接传递
+	period: ScheduleCalendarPeriod; // 周期选择
 };
 
 export type CalendarCourse = {
@@ -44,23 +46,20 @@ export function formatDate(date: Date) {
 	return `${year}-${month}-${day}`;
 }
 
-// 格式化日期为后端要求的 LocalDate 格式
-// 后端可能期望 yyyyMMdd 格式（无分隔符）
+// 格式化日期为后端要求的 LocalDate 格式 (yyyy-MM-dd)
+// 根据接口文档：/j5-course-schedule/calendar 期望 string(date) 格式
 export function formatLocalDate(dateString: string): string {
 	if (!dateString) return "";
 	// 验证格式是否为 YYYY-MM-DD
 	const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
 	if (dateRegex.test(dateString)) {
-		// 将 YYYY-MM-DD 转换为 YYYYMMDD 格式（无分隔符）
-		return dateString.replace(/-/g, "");
+		// 格式正确，直接返回
+		return dateString;
 	}
 	// 格式不正确，尝试解析并重新格式化
 	const date = new Date(dateString);
 	if (Number.isNaN(date.getTime())) return dateString;
-	const year = date.getFullYear();
-	const month = String(date.getMonth() + 1).padStart(2, "0");
-	const day = String(date.getDate()).padStart(2, "0");
-	return `${year}${month}${day}`;
+	return formatDate(date);
 }
 
 export function normalizeLessonCalendarRows(rows: LessonCalendarVO[] | undefined): CalendarCourse[] {
@@ -168,6 +167,19 @@ export function getPeriodOptions(viewMode: ScheduleCalendarViewMode): ScheduleCa
 	return ["自定义"];
 }
 
+/**
+ * 构建课程日历查询参数
+ * 接口地址：/j5-course-schedule/calendar
+ * 请求方式：GET
+ * 数据类型：application/x-www-form-urlencoded
+ *
+ * @param filters - 筛选条件
+ * @param viewMode - 视图模式（month/week/day）
+ * @param selectedDate - 选中的日期
+ * @param year - 当前年份
+ * @param month - 当前月份
+ * @returns 符合后端接口要求的查询参数对象
+ */
 export function buildLessonCalendarQuery(
 	filters: ScheduleCalendarFilters,
 	viewMode: ScheduleCalendarViewMode,
@@ -178,33 +190,42 @@ export function buildLessonCalendarQuery(
 	const visibleRange = getVisibleCalendarRange(viewMode, selectedDate, year, month);
 	const customRangeReady = filters.period === "自定义" && !!filters.startDate && !!filters.endDate;
 
-	// 无论是自定义还是可见范围，都需要转换日期格式
+	// 无论是自定义还是可见范围，都需要转换日期格式为 yyyy-MM-dd
 	const startDate = customRangeReady ? formatLocalDate(filters.startDate) : formatLocalDate(visibleRange.startDate);
 	const endDate = customRangeReady ? formatLocalDate(filters.endDate) : formatLocalDate(visibleRange.endDate);
 
-	// 调试日志：检查日期格式
-	console.log("[buildLessonCalendarQuery] 原始日期:", {
-		startDate: filters.startDate,
-		endDate: filters.endDate,
-	});
-	console.log("[buildLessonCalendarQuery] 转换后日期:", {
-		startDate,
-		endDate,
-	});
-
-	// 构建查询参数，只传递 API 需要的字段（根据接口文档）
+	// 构建查询参数，严格按照后端接口文档定义
+	// 接口支持的参数：
+	// - classId: 班级 ID (integer)
+	// - courseId: 课程 ID (integer)
+	// - endDate: 结束日期 (string, yyyy-MM-dd)
+	// - onTrial: 是否试听 (integer, 0/1)
+	// - pageIndex: 查询页码 (integer)
+	// - pageSize: 查询条数 (integer)
+	// - roomId: 教室 ID (integer)
+	// - startDate: 开始日期 (string, yyyy-MM-dd)
+	// - state: 课次状态 (integer)
+	// - teacherId: 教师 ID (integer)
 	const params: Record<string, any> = {};
 
-	// 只在日期有值时才添加
+	// 分页参数（必需）
+	params.pageIndex = 1;
+	params.pageSize = 1000; // 获取全部数据，前端进行分页展示
+
+	// 日期范围参数（核心筛选条件）
 	if (startDate) params.startDate = startDate;
 	if (endDate) params.endDate = endDate;
 
-	// 可选参数，有值时才添加（只传递接口定义的参数）
-	if (filters.className) params.className = filters.className;
-	if (filters.courseName) params.courseName = filters.courseName;
-	if (filters.teacherName) params.teacherName = filters.teacherName;
-	if (filters.subjectName) params.subjectName = filters.subjectName;
-	if (filters.classroomName) params.classroomName = filters.classroomName;
+	// 注意：以下筛选字段当前前端只有名称输入框，但后端接口期望的是 ID
+	// - filters.className → 后端期望 classId (integer)
+	// - filters.courseName → 后端期望 courseId (integer)
+	// - filters.teacherName → 后端期望 teacherId (integer)
+	// - filters.classroomName → 后端期望 roomId (integer)
+	// 由于类型不匹配（string vs integer），暂时不传递这些字段
+	// 如需支持这些筛选，需要：
+	// 1. 添加对应的 ID 选择器组件（调用后端列表 API 获取选项）
+	// 2. 在 filters 中添加 classId, courseId, teacherId, roomId 字段
+	// 3. 在此处传递 ID 而不是名称
 
 	return params;
 }

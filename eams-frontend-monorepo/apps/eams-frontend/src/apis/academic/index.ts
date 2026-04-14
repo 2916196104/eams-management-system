@@ -224,18 +224,19 @@ export const deleteCourses = async (ids: number[]): Promise<DeleteCoursesRespons
 };
 
 function buildLessonCalendarQueryParams(params: LessonCalendarQueryDTO) {
-	const queryParams: Record<string, number | string> = {};
+	const queryParams: Record<string, string> = {};
 
 	const assignIfDefined = (key: string, value: number | string | undefined) => {
 		if (value === undefined || value === null || value === "") return;
-		// 数字类型直接赋值，字符串类型需要转换
-		if (typeof value === "number") {
-			queryParams[key] = value;
-		} else {
-			queryParams[key] = String(value);
-		}
+		// 所有参数都转换为字符串（URL query 参数都是字符串格式）
+		queryParams[key] = String(value);
 	};
 
+	// 分页参数（接口文档定义）
+	assignIfDefined("pageIndex", params.pageIndex ?? 1);
+	assignIfDefined("pageSize", params.pageSize ?? 1000);
+	
+	// 核心筛选参数（接口文档定义）
 	assignIfDefined("classId", params.classId);
 	assignIfDefined("courseId", params.courseId);
 	assignIfDefined("startDate", params.startDate);
@@ -244,6 +245,8 @@ function buildLessonCalendarQueryParams(params: LessonCalendarQueryDTO) {
 	assignIfDefined("roomId", params.roomId);
 	assignIfDefined("state", params.state);
 	assignIfDefined("onTrial", params.onTrial);
+	
+	// 兼容旧字段
 	assignIfDefined("className", params.className);
 	assignIfDefined("courseName", params.courseName);
 	assignIfDefined("teacherName", params.teacherName);
@@ -253,13 +256,16 @@ function buildLessonCalendarQueryParams(params: LessonCalendarQueryDTO) {
 
 /**
  * 获取课表日历
+ * 接口地址：/j5-course-schedule/calendar
+ * 请求方式：GET
+ * 数据类型：application/x-www-form-urlencoded
  * @param params 查询参数
  */
 export const getLessonCalendar = async (params: LessonCalendarQueryDTO) => {
-	const res = await http.get<LessonCalendarVO[]>(
-		"/j5-course-schedule/calendar",
-		buildLessonCalendarQueryParams(params),
-	);
+	const queryParams = buildLessonCalendarQueryParams(params);
+	const res = await http.get<LessonCalendarVO[]>("/j5-course-schedule/calendar", undefined, {
+		params: queryParams,
+	});
 	return res;
 };
 

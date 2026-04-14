@@ -9,6 +9,9 @@
 							<el-option v-for="option in periodOptions" :key="option" :label="option" :value="option" />
 						</el-select>
 					</div>
+					<!-- 注意：以下筛选字段当前仅供显示，实际查询时不传递给后端
+					     原因：后端接口期望 ID 参数（classId, courseId, teacherId, roomId）
+					     但前端当前只有名称输入框，需要后续添加 ID 选择器组件 -->
 					<div class="filter-item">
 						<label class="filter-label">班级:</label>
 						<el-input v-model="filters.className" placeholder="请输入班级名称" clearable class="filter-input" />
@@ -20,10 +23,6 @@
 					<div class="filter-item">
 						<label class="filter-label">老师:</label>
 						<el-input v-model="filters.teacherName" placeholder="请输入老师姓名" clearable class="filter-input" />
-					</div>
-					<div class="filter-item">
-						<label class="filter-label">科目:</label>
-						<el-input v-model="filters.subjectName" placeholder="请输入科目名称" clearable class="filter-input" />
 					</div>
 					<div class="filter-item">
 						<label class="filter-label">教室:</label>
@@ -181,7 +180,6 @@ type FilterState = {
 	className: string;
 	courseName: string;
 	teacherName: string;
-	subjectName: string;
 	classroomName: string;
 	startDate: string;
 	endDate: string;
@@ -192,7 +190,6 @@ const defaultFilters = (): FilterState => ({
 	className: "",
 	courseName: "",
 	teacherName: "",
-	subjectName: "",
 	classroomName: "",
 	startDate: "",
 	endDate: "",

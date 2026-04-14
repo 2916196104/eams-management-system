@@ -1392,6 +1392,12 @@ async function loadEvaluations(rows: CourseListVO[]) {
 		return;
 	}
 
+	// 暂时禁用点评列表接口调用，避免数据库表缺失导致的错误
+	// TODO: 待后端修复 course_student 表后恢复接口调用
+	applyMockEvaluationFallback(rows);
+	return;
+
+	// 以下为原接口调用代码（已禁用）
 	try {
 		const lessonIds = rows.map((row) => row.id).filter((id): id is number => id !== undefined);
 		if (!lessonIds.length) {
