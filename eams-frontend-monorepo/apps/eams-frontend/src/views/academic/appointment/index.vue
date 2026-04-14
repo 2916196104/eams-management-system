@@ -404,7 +404,6 @@ const currentDateText = computed(() => {
 
 const dayDateText = computed(() => dayjs(selectedDate.value).format("YYYY年MM月DD日 dddd"));
 const selectedDateText = computed(() => dayjs(selectedDate.value).format("YYYY年MM月DD日"));
-res.data?.code === 10000;
 const weekDays = computed(() => {
 	const start = dayjs(calendarDate.value).startOf("week");
 	return Array.from({ length: 7 }, (_, i) => ({
@@ -427,27 +426,29 @@ const getStateClass = (state: string) => ({ "0": "pending", "1": "confirmed", "2
 
 // 列表视图方法
 const loadListData = async () => {
-	loading.value = true;
-	try {
-		const params: AppointmentListParams = {
-			pageIndex: pagination.pageIndex,
-			pageSize: pagination.pageSize,
-			studentNames: searchForm.studentName ? [searchForm.studentName] : undefined,
-			courseNames: searchForm.courseName ? [searchForm.courseName] : undefined,
-			startDate: searchForm.dateRange[0],
-			endDate: searchForm.dateRange[1],
-			verifyState: searchForm.verifyState || undefined,
-		};
-		const res = await getAppointmentList(params);
-		if (res.data?.code === 10000) {
-			tableData.value = res.data?.data?.records || [];
-			pagination.total = res.data?.data?.total || 0;
-		} else ElMessage.error(res.data?.message || "请求失败");
-	} catch {
-		ElMessage.error("加载数据失败");
-	} finally {
-		loading.value = false;
-	}
+  loading.value = true;
+  try {
+    const params: AppointmentListParams = {
+      pageIndex: pagination.pageIndex,
+      pageSize: pagination.pageSize,
+      studentNames: searchForm.studentName ? [searchForm.studentName] : undefined,
+      courseNames: searchForm.courseName ? [searchForm.courseName] : undefined,
+      startDate: searchForm.dateRange[0],
+      endDate: searchForm.dateRange[1],
+      verifyState: searchForm.verifyState || undefined,
+    };
+    const res = await getAppointmentList(params);
+    if (res.code === 10000) {
+      tableData.value = res.data?.rows || [];
+      pagination.total = res.data?.total || 0;
+    } else {
+      ElMessage.error(res.message || "请求失败");
+    }
+  } catch (error) {
+    ElMessage.error("加载数据失败");
+  } finally {
+    loading.value = false;
+  }
 };
 
 const handleSearch = () => {
@@ -547,14 +548,16 @@ const confirmReschedule = async () => {
 
 // 日历视图方法
 const loadCalendarData = async () => {
-	const startDate = dayjs(calendarDate.value).startOf("month").format("YYYY-MM-DD");
-	const endDate = dayjs(calendarDate.value).endOf("month").format("YYYY-MM-DD");
-	try {
-		const res = await getAppointmentCalendar({ startDate, endDate });
-		if (res.data?.code === 10000) calendarData.value = res.data.data || [];
-	} catch {
-		console.error("加载日历数据失败");
-	}
+  const startDate = dayjs(calendarDate.value).startOf("month").format("YYYY-MM-DD");
+  const endDate = dayjs(calendarDate.value).endOf("month").format("YYYY-MM-DD");
+  try {
+    const res = await getAppointmentCalendar({ startDate, endDate });
+    if (res.code === 10000) {
+      calendarData.value = res.data || [];
+    }
+  } catch {
+    console.error("加载日历数据失败");
+  }
 };
 
 const getAppointmentsByDate = (date: string) => calendarData.value.filter((item) => item.lessonTime?.startsWith(date));

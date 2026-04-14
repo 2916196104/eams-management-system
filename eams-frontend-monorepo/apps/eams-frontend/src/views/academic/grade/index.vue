@@ -260,26 +260,26 @@ const getUpgradedName = (name: string): string => {
  * 加载年级列表
  */
 const loadData = async () => {
-	loading.value = true;
-	try {
-		const params: GradeListParams = {
-			name: searchForm.name || undefined,
-			year: searchForm.year ? parseInt(searchForm.year) : undefined,
-			pageIndex: pagination.pageIndex,
-			pageSize: pagination.pageSize,
-		};
-		const res = await getGradeList(params);
-		if (res.data?.code === 10000) {
-			tableData.value = res.data?.data?.records || [];
-			pagination.total = res.data?.data?.total || 0;
-		} else {
-			ElMessage.error(res.data?.message || "请求失败");
-		}
-	} catch {
-		ElMessage.error("加载数据失败");
-	} finally {
-		loading.value = false;
-	}
+  loading.value = true;
+  try {
+    const params = {
+      name: searchForm.name || undefined,
+      year: searchForm.year ? parseInt(searchForm.year) : undefined,
+      pageIndex: pagination.pageIndex,
+      pageSize: pagination.pageSize,
+    };
+    const res = await getGradeList(params);
+    if (res.code === 10000) {
+      tableData.value = res.data?.rows || [];
+      pagination.total = res.data?.total || 0;
+    } else {
+      ElMessage.error(res.message || "请求失败");
+    }
+  } catch (error) {
+    ElMessage.error("加载数据失败");
+  } finally {
+    loading.value = false;
+  }
 };
 
 /**
@@ -456,6 +456,7 @@ const handleSubmit = async () => {
 
 // 初始化
 onMounted(() => {
+	console.log('年级管理页面 onMounted 执行了');
 	loadColumnConfig();
 	loadData();
 });

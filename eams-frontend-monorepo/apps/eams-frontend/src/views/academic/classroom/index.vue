@@ -219,25 +219,25 @@ const formRules = {
  * 加载教室列表
  */
 const loadData = async () => {
-	loading.value = true;
-	try {
-		const params: ClassroomListParams = {
-			name: searchForm.name || undefined,
-			pageIndex: pagination.pageIndex,
-			pageSize: pagination.pageSize,
-		};
-		const res = await getClassroomList(params);
-		if (res.data?.code === 10000) {
-			tableData.value = res.data?.data?.records || [];
-			pagination.total = res.data?.data?.total || 0;
-		} else {
-			ElMessage.error(res.data?.message || "请求失败");
-		}
-	} catch {
-		ElMessage.error("加载数据失败");
-	} finally {
-		loading.value = false;
-	}
+  loading.value = true;
+  try {
+    const params: ClassroomListParams = {
+      name: searchForm.name || undefined,
+      pageIndex: pagination.pageIndex,
+      pageSize: pagination.pageSize,
+    };
+    const res = await getClassroomList(params);
+    if (res.code === 10000) {
+      tableData.value = res.data?.rows || [];
+      pagination.total = res.data?.total || 0;
+    } else {
+      ElMessage.error(res.message || "请求失败");
+    }
+  } catch (error) {
+    ElMessage.error("加载数据失败");
+  } finally {
+    loading.value = false;
+  }
 };
 
 /**

@@ -238,29 +238,28 @@ const teacherOptions = ref<Array<{ id: number; name: string }>>([]);
 
 //加载班级列表
 const loadData = async () => {
-	loading.value = true;
-	try {
-		const params: ClassListParams = {
-			pageIndex: pagination.pageIndex,
-			pageSize: pagination.pageSize,
-			className: searchForm.className || undefined,
-			courseName: searchForm.courseName || undefined,
-			teacherName: searchForm.teacherName || undefined,
-		};
-		const res = await getClassList(params);
-		if (res.data?.code === 10000) {
-			tableData.value = res.data?.data?.records || [];
-			pagination.total = res.data?.data?.total || 0;
-		} else {
-			ElMessage.error(res.data?.message || "请求失败");
-		}
-	} catch {
-		ElMessage.error("加载数据失败");
-	} finally {
-		loading.value = false;
-	}
+  loading.value = true;
+  try {
+    const params: ClassListParams = {
+      pageIndex: pagination.pageIndex,
+      pageSize: pagination.pageSize,
+      className: searchForm.className || undefined,
+      courseName: searchForm.courseName || undefined,
+      teacherName: searchForm.teacherName || undefined,
+    };
+    const res = await getClassList(params);
+    if (res.code === 10000) {
+      tableData.value = res.data?.rows || [];
+      pagination.total = res.data?.total || 0;
+    } else {
+      ElMessage.error(res.message || "请求失败");
+    }
+  } catch (error) {
+    ElMessage.error("加载数据失败");
+  } finally {
+    loading.value = false;
+  }
 };
-
 /**
  * 搜索
  */

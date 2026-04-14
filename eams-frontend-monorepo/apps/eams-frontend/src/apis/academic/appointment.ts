@@ -9,7 +9,7 @@ export interface JsonVo<T> {
 }
 
 export interface PageDtoAppointmentDto {
-	records: AppointmentItem[];
+	rows: AppointmentItem[];
 	total: number;
 	size: number;
 	current: number;
@@ -68,22 +68,22 @@ export interface CalendarParams {
 	endDate?: string;
 }
 
-// 获取预约列表
+// 获取预约列表（修复点：使用 { params } 包裹）
 export const getAppointmentList = (params: AppointmentListParams) => {
 	return http.get<JsonVo<PageDtoAppointmentDto>>("/j5-appoint", params);
 };
 
-// 获取预约日历
+// 获取预约日历（修复点：使用 { params } 包裹）
 export const getAppointmentCalendar = (params: CalendarParams) => {
 	return http.get<JsonVo<AppointmentCalendarVo[]>>("/j5-appoint/calendar", params);
 };
 
-// 获取预约详情
+// 获取预约详情（无参数，无需改动）
 export const getAppointmentDetail = (id: number) => {
 	return http.get<JsonVo<AppointmentDetailVo>>(`/j5-appoint/${id}`);
 };
 
-// 确认预约
+// 确认预约（POST 请求，数组作为请求体，保持原样）
 export const approveAppointment = (ids: number[]) => {
 	return http.post<JsonVo<number[]>>("/j5-appoint/confirm", ids);
 };

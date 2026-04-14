@@ -374,25 +374,25 @@ const roomOptions = ref<Array<{ id: number; name: string }>>([]);
  * 加载列表数据
  */
 const loadData = async () => {
-	loading.value = true;
-	try {
-		const params: SchedulePlanListParams = {
-			pageIndex: pagination.pageIndex,
-			pageSize: pagination.pageSize,
-			courseName: searchForm.courseName || undefined,
-		};
-		const res = await getSchedulePlanList(params);
-		if (res.data?.code === 10000) {
-			tableData.value = res.data?.data?.records || [];
-			pagination.total = res.data?.data?.total || 0;
-		} else {
-			ElMessage.error(res.data?.message || "请求失败");
-		}
-	} catch (error) {
-		ElMessage.error("加载数据失败");
-	} finally {
-		loading.value = false;
-	}
+  loading.value = true;
+  try {
+    const params: SchedulePlanListParams = {
+      pageIndex: pagination.pageIndex,
+      pageSize: pagination.pageSize,
+      courseName: searchForm.courseName || undefined,
+    };
+    const res = await getSchedulePlanList(params);
+    if (res.code === 10000) {
+      tableData.value = res.data?.rows || [];
+      pagination.total = res.data?.total || 0;
+    } else {
+      ElMessage.error(res.message || "请求失败");
+    }
+  } catch (error) {
+    ElMessage.error("加载数据失败");
+  } finally {
+    loading.value = false;
+  }
 };
 
 /**
@@ -559,22 +559,34 @@ const handleCheckConflict = async () => {
  * 提交表单
  */
 const handleSubmit = async () => {
-	await formRef.value?.validate();
-	submitLoading.value = true;
-	try {
-		const res = await saveSchedulePlan(formData);
-		if (res.data?.code === 10000) {
-			ElMessage.success("保存成功");
-			dialogVisible.value = false;
-			loadData();
-		} else {
-			ElMessage.error(res.data?.message || "保存失败");
-		}
-	} catch (error) {
-		ElMessage.error("保存失败");
-	} finally {
-		submitLoading.value = false;
-	}
+  await formRef.value?.validate();
+  submitLoading.value = true;
+  try {
+    // 直接使用原始数组，不要 join 成字符串
+    const submitData = {
+      ...formData,
+      // 确保 teacherIds 和 assistantIds 是数组（即使是空数组也传 []）
+      teacherIds: Array.isArray(formData.teacherIds) ? formData.teacherIds : [],
+      assistantIds: Array.isArray(formData.assistantIds) ? formData.assistantIds : [],
+      // 如果 setting 中的 weeks 需要调整为字符串，可以在这里转换
+      setting: formData.setting.map(s => ({
+        ...s,
+        weeks: s.weeks, // 保持数组，如果后端要求字符串则改为 s.weeks.join(',')
+      })),
+    };
+    const res = await saveSchedulePlan(submitData);
+    if (res.code === 10000) {
+      ElMessage.success("保存成功");
+      dialogVisible.value = false;
+      loadData();
+    } else {
+      ElMessage.error(res.message || "保存失败");
+    }
+  } catch (error) {
+    ElMessage.error("保存失败");
+  } finally {
+    submitLoading.value = false;
+  }
 };
 
 /**
