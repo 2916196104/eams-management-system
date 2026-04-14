@@ -8,7 +8,7 @@
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
 
-	  https://www.apache.org/licenses/LICENSE-2.0
+      https://www.apache.org/licenses/LICENSE-2.0
 
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,16 +38,13 @@ PtrRefundViewDO RefundDAO::selectById(const string& id)
                         rf.verify_staff,
                         -- 关联学员表：获取学员姓名 
                         s.name AS student_name
-                        -- 注释掉错误的逗号和字段
-                        -- , 
                     FROM refund rf 
                     -- 关联：学员表 
                     LEFT JOIN student s ON rf.student_id = s.id 
                     WHERE rf.student_id = ? 
-                    ORDER BY rf.apply_time DESC)"; // 使用占位符
+                    ORDER BY rf.apply_time DESC)";
 
     SqlParams params;
     SQLPARAMS_PUSH(params, "s", std::string, id); // 绑定参数
-    // 修改了调用，使用参数列表，而不是直接的格式化字符串
     return sqlSession->executeQueryOne<PtrRefundViewDO>(sql, RefundViewMapper(), params);
 }

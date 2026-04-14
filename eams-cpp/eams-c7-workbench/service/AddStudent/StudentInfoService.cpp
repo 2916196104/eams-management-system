@@ -1,4 +1,21 @@
-/* Copyright Zero One Star. All rights reserved. */
+/*
+ Copyright Zero One Star. All rights reserved.
+
+ @Author: awei
+ @Date: 2025/07/15 16:58:02
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+*/
 #include "stdafx.h"
 #include "StudentInfoService.h"
 #include "domain/dto/AddStudent/AddStudentDTO.h"
@@ -6,21 +23,18 @@
 #include "id/SnowFlake.h"
 #include "SimpleDateTimeFormat.h"
 #include "domain/do/AddStudent/UserDO.h"
+// 放到最后导入防止编译冲突
 #include "NacosClient.h"
 
-std::string StudentInfoService::saveStudentInfo(const AddStudentDTO::Wrapper& dto) {
-    // 获取SQL会话，用于事务管理
-    auto sqlSession = getSqlSession();
+std::string StudentInfoService::saveStudentInfo(const AddStudentDTO::Wrapper& dto)
+{
     std::string result = "";
 
     try {
-        // 开始事务
-        sqlSession->beginTransaction();
-
         // 增加对 phonenumber 的安全转换
         std::string phone = dto->phonenumber.getValue("");
         if (phone.empty()) {
-            throw std::runtime_error("手机号不能为空");
+            return "";
         }
 
         uint64_t userID = studentDao->getUserIdByPhone(phone);
@@ -68,7 +82,8 @@ std::string StudentInfoService::saveStudentInfo(const AddStudentDTO::Wrapper& dt
                     // 插入失败，可能用户已存在，重新查询
                     userID = studentDao->getUserIdByPhone(phone);
                     if (userID == 0) {
-                        throw std::runtime_error("用户插入失败且未找到已存在用户");
+                        std::cerr << "ERROR: 用户插入失败且未找到已存在用户" << std::endl;
+                        return "";
                     }
                 }
             }
@@ -77,7 +92,8 @@ std::string StudentInfoService::saveStudentInfo(const AddStudentDTO::Wrapper& dt
                 std::cerr << "WARN: 插入用户时发生异常: " << e.what() << std::endl;
                 userID = studentDao->getUserIdByPhone(phone);
                 if (userID == 0) {
-                    throw;
+                    std::cerr << "ERROR: 插入用户失败: " << e.what() << std::endl;
+                    return "";
                 }
             }
         }
@@ -117,35 +133,18 @@ std::string StudentInfoService::saveStudentInfo(const AddStudentDTO::Wrapper& dt
         // 执行学生数据插入
         uint64_t finalId = studentDao->insert(*student.get());
         if (finalId == 0) {
-            throw std::runtime_error("学生信息插入失败");
+            std::cerr << "ERROR: 学生信息插入失败" << std::endl;
+            return "";
         }
 
-        // 提交事务
-        sqlSession->commitTransaction();
         result = std::to_string(finalId);
 
     }
     catch (const std::exception& e) {
-        // 回滚事务
-        try {
-            sqlSession->rollbackTransaction();
-        }
-        catch (...) {
-            // 忽略回滚异常
-        }
-
         std::cerr << "ERROR: 保存学生信息失败: " << e.what() << std::endl;
         result = "";
     }
     catch (...) {
-        // 回滚事务
-        try {
-            sqlSession->rollbackTransaction();
-        }
-        catch (...) {
-            // 忽略回滚异常
-        }
-
         std::cerr << "ERROR: 保存学生信息时发生未知异常" << std::endl;
         result = "";
     }
