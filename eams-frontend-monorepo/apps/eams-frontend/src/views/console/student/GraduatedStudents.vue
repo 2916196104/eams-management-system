@@ -182,7 +182,8 @@
 			v-model="graduatedImportVisible"
 			:title="importTitle"
 			mode="backend"
-			action="/api/stu/graduated-stu/import"
+			:action="STUDENT_IMPORT_ACTIONS.graduation"
+			:headers="uploadHeaders"
 			template-file-name="结业学员导入模板.xlsx"
 			@import-success="handleImportSuccess"
 		/>
@@ -190,7 +191,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import {
 	Back,
@@ -205,23 +206,16 @@ import {
 } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 import FileImportDialog from "@/components/FileImportDialog/index.vue";
+import {
+	STUDENT_IMPORT_ACTIONS,
+	exportGraduatedStudentsFile,
+	getStudentConsolePage,
+	modifyStudentStage,
+} from "@/apis/student";
+import type { StudentConsoleRowDTO } from "@/apis/student/type";
 
 /** 列表行（对齐 openapi 的 StudentListVO，尽量容错字段名） */
-interface StudentListRow {
-	id?: number;
-	name?: string;
-	schoolName?: string;
-	familyRel?: string;
-	mobile?: string;
-	counselorName?: string;
-	gradeName?: string;
-	countLessonRemaining?: number;
-	credit?: number;
-	gender?: string;
-	age?: number;
-	remark?: string;
-	stage?: string;
-}
+type StudentListRow = StudentConsoleRowDTO;
 
 interface PagePayload {
 	total?: number;
@@ -273,6 +267,14 @@ const query = reactive({
 });
 
 const router = useRouter();
+const uploadHeaders = computed(() => {
+	const token = localStorage.getItem("token");
+	const headers: Record<string, string> = {};
+	if (token) {
+		headers.Authorization = `Bearer ${token}`;
+	}
+	return headers;
+});
 
 function onSelectionChange(rows: StudentListRow[]) {
 	selection.value = rows;
@@ -392,14 +394,7 @@ async function handleSwitchToStudying() {
 		});
 
 		// stage：1=在学，2=结业
-		await Promise.all(
-			ids.map((studentId) =>
-				requestApiRaw("/stu/common/stuInformation/set-studentStage", {
-					method: "POST",
-					body: { stage: 1, studentId },
-				}),
-			),
-		);
+		await Promise.all(ids.map((studentId) => modifyStudentStage({ id: studentId, stage: 1 })));
 
 		ElMessage.success("转为在学成功");
 		selection.value = [];
@@ -424,14 +419,7 @@ async function handleDeleteSelected() {
 		await ElMessageBox.confirm(`确认删除所选学员？（共 ${ids.length} 人）`, "删除确认", { type: "warning" });
 
 		// stage：4=退学（当前以“删除”语义实现：从列表移除）
-		await Promise.all(
-			ids.map((studentId) =>
-				requestApiRaw("/stu/common/stuInformation/set-studentStage", {
-					method: "POST",
-					body: { stage: 4, studentId },
-				}),
-			),
-		);
+		await Promise.all(ids.map((studentId) => modifyStudentStage({ id: studentId, stage: 4 })));
 
 		ElMessage.success("删除成功");
 		selection.value = [];
@@ -615,11 +603,7 @@ async function loadList() {
 		if (query.branchSchool.trim()) params.branchSchool = query.branchSchool.trim();
 		if (query.teacherName.trim()) params.teacherName = query.teacherName.trim();
 
-		const data = await requestApiRaw<unknown>("/stu/common/stuInformation/query-studentlist", {
-			method: "GET",
-			params,
-		});
-
+		const data = await getStudentConsolePage(params);
 		const { rows, total: t } = normalizePage(data);
 		if (requestSeq !== latestRequestSeq.value) return;
 		tableRows.value = rows;
@@ -650,9 +634,24 @@ function downloadTextFile(filename: string, content: string, mime = "text/csv;ch
 	URL.revokeObjectURL(url);
 }
 
-function handleExport() {
+function downloadBlobFile(filename: string, blob: Blob) {
+	const url = URL.createObjectURL(blob);
+	const a = document.createElement("a");
+	a.href = url;
+	a.download = filename;
+	a.click();
+	URL.revokeObjectURL(url);
+}
+
+async function handleExport() {
 	exporting.value = true;
 	try {
+		const blob = await exportGraduatedStudentsFile({
+			name: query.keyword.trim() || undefined,
+		});
+		downloadBlobFile(`结业学员导出_${Date.now()}.xlsx`, blob);
+		ElMessage.success("已开始下载");
+		return;
 		const rowsToExport = selection.value.length ? selection.value : tableRows.value;
 		const header = [
 			"编号",
