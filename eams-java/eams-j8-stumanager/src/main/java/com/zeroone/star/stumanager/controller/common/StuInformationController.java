@@ -55,6 +55,7 @@ public class StuInformationController implements StuInformationApis {
     @Resource
     MsStuMapper msStuMapper;
 
+    @Resource
     private IStudentCourseService studentCourseService;
 
     @Resource

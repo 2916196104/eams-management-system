@@ -26,6 +26,12 @@
             <artifactId>poi-ooxml</artifactId>
             <version>5.2.3</version>
         </dependency>
+        <!-- Apache Commons IO 解决POI类缺失问题 -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.11.0</version>
+        </dependency>
         <!-- apis -->
         <dependency>
             <groupId>com.zeroone.star</groupId>

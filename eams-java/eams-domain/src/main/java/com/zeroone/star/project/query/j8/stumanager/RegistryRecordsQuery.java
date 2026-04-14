@@ -1,5 +1,6 @@
 package com.zeroone.star.project.query.j8.stumanager;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zeroone.star.project.query.PageQuery;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -23,6 +24,7 @@ public class RegistryRecordsQuery extends PageQuery {
      */
     @ApiModelProperty(value = "添加时间", example = "2023-01-01 10:20")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
     private LocalDateTime addTime;
 
     /**

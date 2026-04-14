@@ -148,6 +148,10 @@ public class RegistryRecordsServiceImpl implements IRegistryRecordsService {
     public String modifyPayOverdue(PayOverdueDTO dto, Long id) {
         StudentCourse studentCourse = studentCourseMapper.selectById(id);
 
+        if(studentCourse == null){
+            return "该学生对应欠费不存在";
+        }
+
         BigDecimal newAmount = studentCourse.getAmount().subtract(dto.getPayAmount());
 
         studentCourse.setPaidAmount(studentCourse.getPaidAmount().add(dto.getPayAmount()));
@@ -170,6 +174,10 @@ public class RegistryRecordsServiceImpl implements IRegistryRecordsService {
     @Override
     public String modifyRefund(RefundDTO dto, Long id) {
         StudentCourse studentCourse = studentCourseMapper.selectById(id);
+
+        if(studentCourse == null){
+            return "该学生对应退费信息不存在";
+        }
 
         Refund refund = new Refund();
         refund.setStudentCourseId(id);

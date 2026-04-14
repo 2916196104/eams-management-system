@@ -10,11 +10,11 @@
         LEFT JOIN StudentCourse sc ON s.id = sc.studentId
 
         <where>
-            <if test="query.studentName != null and query.studentName != ''">
-                AND s.name = #{query.studentName}
+            <if test="query.name != null and query.name != ''">
+                AND s.name = #{query.name}
             </if>
-            <if test="query.courseName != null">
-                AND sc.subjectId = #{query.courseName}
+            <if test="query.courseId != null">
+                AND sc.course_id = #{query.courseId}
             </if>
         </where>
     </select>
