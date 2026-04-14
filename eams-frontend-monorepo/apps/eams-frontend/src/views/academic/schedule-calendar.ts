@@ -3,17 +3,34 @@ import type { LessonCalendarVO } from "@/apis/academic/type";
 export type ScheduleCalendarViewMode = "month" | "week" | "day";
 export type ScheduleCalendarPeriod = "本月" | "本周" | "自定义";
 
+// 下拉选项数据类型
+export interface SelectOption {
+	value: number;
+	label: string;
+}
+
 // 课程日历筛选器字段
-// 注意：当前只有名称字段，但后端接口期望 ID 字段
-// 后续需要添加 ID 选择器，并添加对应的 ID 字段
+// 根据后端接口文档：/j5-course-schedule/calendar
+// 支持的参数：classId, courseId, endDate, onTrial, pageIndex, pageSize, roomId, startDate, state, teacherId
 export type ScheduleCalendarFilters = {
-	className: string; // 班级名称（后端期望 classId）
-	courseName: string; // 课程名称（后端期望 courseId）
-	teacherName: string; // 老师名称（后端期望 teacherId）
-	classroomName: string; // 教室名称（后端期望 roomId）
-	startDate: string; // 开始日期 ✅ 直接传递
-	endDate: string; // 结束日期 ✅ 直接传递
-	period: ScheduleCalendarPeriod; // 周期选择
+	// ID 字段（后端接口期望的类型）
+	classId?: number; // 班级 ID ✅ 新增
+	courseId?: number; // 课程 ID ✅ 新增
+	teacherId?: number; // 教师 ID ✅ 新增
+	roomId?: number; // 教室 ID ✅ 新增
+	
+	// 名称字段（用于显示，不直接传递给后端）
+	className?: string; // 班级名称
+	courseName?: string; // 课程名称
+	teacherName?: string; // 老师名称
+	classroomName?: string; // 教室名称
+	
+	// 日期范围
+	startDate: string; // 开始日期
+	endDate: string; // 结束日期
+	
+	// 周期选择
+	period: ScheduleCalendarPeriod;
 };
 
 export type CalendarCourse = {
@@ -216,16 +233,11 @@ export function buildLessonCalendarQuery(
 	if (startDate) params.startDate = startDate;
 	if (endDate) params.endDate = endDate;
 
-	// 注意：以下筛选字段当前前端只有名称输入框，但后端接口期望的是 ID
-	// - filters.className → 后端期望 classId (integer)
-	// - filters.courseName → 后端期望 courseId (integer)
-	// - filters.teacherName → 后端期望 teacherId (integer)
-	// - filters.classroomName → 后端期望 roomId (integer)
-	// 由于类型不匹配（string vs integer），暂时不传递这些字段
-	// 如需支持这些筛选，需要：
-	// 1. 添加对应的 ID 选择器组件（调用后端列表 API 获取选项）
-	// 2. 在 filters 中添加 classId, courseId, teacherId, roomId 字段
-	// 3. 在此处传递 ID 而不是名称
+	// ID 筛选参数（后端接口要求的格式）
+	if (filters.classId) params.classId = filters.classId;
+	if (filters.courseId) params.courseId = filters.courseId;
+	if (filters.teacherId) params.teacherId = filters.teacherId;
+	if (filters.roomId) params.roomId = filters.roomId;
 
 	return params;
 }
@@ -251,3 +263,11 @@ export function isCourseInHour(course: CalendarCourse, hour: number) {
 	if (hour === endHour) return endMinute > 0;
 	return true;
 }
+
+// 导出 API 调用函数（从单独的文件）
+export {
+	getClassSelectOptions,
+	getCourseSelectOptions,
+	getTeacherSelectOptions,
+	getClassroomSelectOptions,
+} from "./schedule-calendar-api";

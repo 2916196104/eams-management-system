@@ -9,24 +9,85 @@
 							<el-option v-for="option in periodOptions" :key="option" :label="option" :value="option" />
 						</el-select>
 					</div>
-					<!-- 注意：以下筛选字段当前仅供显示，实际查询时不传递给后端
-					     原因：后端接口期望 ID 参数（classId, courseId, teacherId, roomId）
-					     但前端当前只有名称输入框，需要后续添加 ID 选择器组件 -->
 					<div class="filter-item">
 						<label class="filter-label">班级:</label>
-						<el-input v-model="filters.className" placeholder="请输入班级名称" clearable class="filter-input" />
+						<el-select
+							v-model="filters.classId"
+							placeholder="请选择班级"
+							clearable
+							filterable
+							class="filter-input"
+							:filter-method="loadClassOptions"
+							@clear="handleClassClear"
+							@change="handleClassChange"
+						>
+							<el-option
+								v-for="option in classOptions"
+								:key="option.value"
+								:label="option.label"
+								:value="option.value"
+							/>
+						</el-select>
 					</div>
 					<div class="filter-item">
 						<label class="filter-label">课程:</label>
-						<el-input v-model="filters.courseName" placeholder="请输入课程名称" clearable class="filter-input" />
+						<el-select
+							v-model="filters.courseId"
+							placeholder="请选择课程"
+							clearable
+							filterable
+							class="filter-input"
+							:filter-method="loadCourseOptions"
+							@clear="handleCourseClear"
+							@change="handleCourseChange"
+						>
+							<el-option
+								v-for="option in courseOptions"
+								:key="option.value"
+								:label="option.label"
+								:value="option.value"
+							/>
+						</el-select>
 					</div>
 					<div class="filter-item">
 						<label class="filter-label">老师:</label>
-						<el-input v-model="filters.teacherName" placeholder="请输入老师姓名" clearable class="filter-input" />
+						<el-select
+							v-model="filters.teacherId"
+							placeholder="请选择老师"
+							clearable
+							filterable
+							class="filter-input"
+							:filter-method="loadTeacherOptions"
+							@clear="handleTeacherClear"
+							@change="handleTeacherChange"
+						>
+							<el-option
+								v-for="option in teacherOptions"
+								:key="option.value"
+								:label="option.label"
+								:value="option.value"
+							/>
+						</el-select>
 					</div>
 					<div class="filter-item">
 						<label class="filter-label">教室:</label>
-						<el-input v-model="filters.classroomName" placeholder="请输入教室名称" clearable class="filter-input" />
+						<el-select
+							v-model="filters.roomId"
+							placeholder="请选择教室"
+							clearable
+							filterable
+							class="filter-input"
+							:filter-method="loadClassroomOptions"
+							@clear="handleClassroomClear"
+							@change="handleClassroomChange"
+						>
+							<el-option
+								v-for="option in classroomOptions"
+								:key="option.value"
+								:label="option.label"
+								:value="option.value"
+							/>
+						</el-select>
 					</div>
 					<div class="filter-item">
 						<label class="filter-label">开始日期:</label>
@@ -162,7 +223,12 @@ import MyCalendar from "@/components/mycalendar/MyCalendar.vue";
 import CourseDetailDialog from "@/components/coursedetail/CourseDetailDialog.vue";
 import { getLessonCalendar, getCourseDetail } from "@/apis/academic";
 import type { LessonCalendarQueryDTO, CourseDetailVO } from "@/apis/academic/type";
-import type { CalendarCourse, ScheduleCalendarPeriod, ScheduleCalendarViewMode } from "./schedule-calendar";
+import type {
+	CalendarCourse,
+	ScheduleCalendarPeriod,
+	ScheduleCalendarViewMode,
+	SelectOption,
+} from "./schedule-calendar";
 import {
 	buildLessonCalendarQuery,
 	formatDate,
@@ -171,22 +237,36 @@ import {
 	isCourseInHour,
 	normalizeLessonCalendarRows,
 } from "./schedule-calendar";
+import {
+	getClassSelectOptions,
+	getCourseSelectOptions,
+	getTeacherSelectOptions,
+	getClassroomSelectOptions,
+} from "./schedule-calendar-api";
 
 // 是否使用模拟数据（开发环境测试用）
 // 切换到真实 API 时，将此值改为 false
 const USE_MOCK_DATA = false;
 
 type FilterState = {
-	className: string;
-	courseName: string;
-	teacherName: string;
-	classroomName: string;
+	classId?: number;
+	courseId?: number;
+	teacherId?: number;
+	roomId?: number;
+	className?: string;
+	courseName?: string;
+	teacherName?: string;
+	classroomName?: string;
 	startDate: string;
 	endDate: string;
 	period: ScheduleCalendarPeriod;
 };
 
 const defaultFilters = (): FilterState => ({
+	classId: undefined,
+	courseId: undefined,
+	teacherId: undefined,
+	roomId: undefined,
 	className: "",
 	courseName: "",
 	teacherName: "",
@@ -209,6 +289,20 @@ const calendarMonth = ref(today.getMonth());
 const allCourses = ref<CalendarCourse[]>([]);
 const loading = ref(false);
 const courseDetailDialogRef = ref<InstanceType<typeof CourseDetailDialog>>();
+
+// 下拉选项列表
+const classOptions = ref<SelectOption[]>([]);
+const courseOptions = ref<SelectOption[]>([]);
+const teacherOptions = ref<SelectOption[]>([]);
+const classroomOptions = ref<SelectOption[]>([]);
+
+// 下拉列表加载状态
+const optionsLoading = ref({
+	class: false,
+	course: false,
+	teacher: false,
+	classroom: false,
+});
 
 const periodOptions = computed(() => getPeriodOptions(calendarViewMode.value));
 
@@ -359,6 +453,93 @@ function handleRefresh() {
 	loadData();
 }
 
+// 加载下拉选项列表
+async function loadClassOptions(searchText?: string) {
+	optionsLoading.value.class = true;
+	try {
+		classOptions.value = await getClassSelectOptions(searchText);
+	} catch (error) {
+		console.error("加载班级选项失败:", error);
+	} finally {
+		optionsLoading.value.class = false;
+	}
+}
+
+async function loadCourseOptions(searchText?: string) {
+	optionsLoading.value.course = true;
+	try {
+		courseOptions.value = await getCourseSelectOptions(searchText);
+	} catch (error) {
+		console.error("加载课程选项失败:", error);
+	} finally {
+		optionsLoading.value.course = false;
+	}
+}
+
+async function loadTeacherOptions(searchText?: string) {
+	optionsLoading.value.teacher = true;
+	try {
+		teacherOptions.value = await getTeacherSelectOptions(searchText);
+	} catch (error) {
+		console.error("加载教师选项失败:", error);
+	} finally {
+		optionsLoading.value.teacher = false;
+	}
+}
+
+async function loadClassroomOptions(searchText?: string) {
+	optionsLoading.value.classroom = true;
+	try {
+		classroomOptions.value = await getClassroomSelectOptions(searchText);
+	} catch (error) {
+		console.error("加载教室选项失败:", error);
+	} finally {
+		optionsLoading.value.classroom = false;
+	}
+}
+
+// 选择器值变化时，同步更新名称字段（用于显示）
+function handleClassChange(value: number) {
+	const option = classOptions.value.find((opt) => opt.value === value);
+	filters.className = option?.label || "";
+}
+
+function handleCourseChange(value: number) {
+	const option = courseOptions.value.find((opt) => opt.value === value);
+	filters.courseName = option?.label || "";
+}
+
+function handleTeacherChange(value: number) {
+	const option = teacherOptions.value.find((opt) => opt.value === value);
+	filters.teacherName = option?.label || "";
+}
+
+function handleClassroomChange(value: number) {
+	const option = classroomOptions.value.find((opt) => opt.value === value);
+	filters.classroomName = option?.label || "";
+}
+
+// 清空选择时，清空对应的 ID 和名称
+function handleClassClear() {
+	filters.classId = undefined;
+	filters.className = "";
+}
+
+function handleCourseClear() {
+	filters.courseId = undefined;
+	filters.courseName = "";
+}
+
+function handleTeacherClear() {
+	filters.teacherId = undefined;
+	filters.teacherName = "";
+}
+
+function handleClassroomClear() {
+	filters.roomId = undefined;
+	filters.classroomName = "";
+}
+
 // 生成模拟课程数据
 function generateMockCourses(query: LessonCalendarQueryDTO): CalendarCourse[] {
 	const courses: CalendarCourse[] = [];
@@ -449,6 +630,11 @@ function generateMockCourses(query: LessonCalendarQueryDTO): CalendarCourse[] {
 
 onMounted(() => {
 	loadData();
+	// 加载下拉选项列表
+	loadClassOptions();
+	loadCourseOptions();
+	loadTeacherOptions();
+	loadClassroomOptions();
 });
 </script>
 
