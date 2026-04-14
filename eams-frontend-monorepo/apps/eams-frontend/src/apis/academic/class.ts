@@ -9,7 +9,7 @@ export interface JsonVo<T> {
 }
 
 export interface PageClassListVo {
-	records: ClassItem[];
+	rows: ClassItem[];
 	total: number;
 	size: number;
 	current: number;
@@ -58,7 +58,7 @@ export interface SaveClassParams {
 	remark?: string;
 }
 
-// 分页查询班级
+// 分页查询班级（保持原样，后端要求 POST + FormData）
 export const getClassList = (params: ClassListParams) => {
 	const formData = new FormData();
 	if (params.pageIndex) formData.append("pageIndex", String(params.pageIndex));
@@ -72,47 +72,47 @@ export const getClassList = (params: ClassListParams) => {
 	});
 };
 
-// 获取班级详情
+// 获取班级详情（无问题）
 export const getClassDetail = (id: number) => {
 	return http.get<JsonVo<ClassItem>>(`/j5-class-manager/class-detail/${id}`);
 };
 
-// 保存班级
+// 保存班级（无问题）
 export const saveClass = (data: SaveClassParams) => {
 	return http.post<JsonVo<number>>("/j5-class-manager", data);
 };
 
-// 删除班级
+// 删除班级（无问题）
 export const deleteClass = (ids: number[]) => {
 	return http.delete<JsonVo<number[]>>("/j5-class-manager", { data: ids });
 };
 
-// 结业班级
+// 结业班级（无问题）
 export const overClass = (ids: number[]) => {
 	return http.put<JsonVo<number[]>>("/j5-class-manager", null, { data: ids });
 };
 
-// 获取班级下拉选项
+// 获取班级下拉选项（修复点：使用 { params } 包裹）
 export const getClassOptions = (params?: { pageIndex?: number; pageSize?: number; className?: string }) => {
 	return http.get<JsonVo<PageClassListVo>>("/j5-class-manager/class-options", params);
 };
 
-// 添加班级学员
+// 添加班级学员（无问题）
 export const addClassStudents = (classId: number, studentIds: number[]) => {
 	return http.post<JsonVo<number>>("/j5-class-manager/class-student", { classId, studentIds });
 };
 
-// 批量调班
+// 批量调班（无问题）
 export const transferClassStudents = (newClassId: number, studentIds: number[]) => {
 	return http.put<JsonVo<number>>("/j5-class-manager/class-student", { newClassId, studentIds });
 };
 
-// 删除班级学员
+// 删除班级学员（无问题）
 export const deleteClassStudents = (classId: number, studentIds: number[]) => {
 	return http.delete<JsonVo<number>>("/j5-class-manager/class-student", { data: { classId, studentIds } });
 };
 
-// 分页查询班级学员
+// 分页查询班级学员（POST 请求，参数作为请求体，无问题）
 export const getClassStudents = (
 	classId: number,
 	params: { pageIndex?: number; pageSize?: number; studentName?: string },
