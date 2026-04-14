@@ -41,7 +41,27 @@ std::string StudentInfoService::saveStudentInfo(const AddStudentDTO::Wrapper& dt
 
 		userID = sf.nextId();
 		user->setId(userID);
-		user->setCreator(std::stoull(dto->getPayload()->getId()));
+		std::string payloadIdStr = dto->getPayload()->getId();
+		uint64_t creatorId = 0; // 设置一个默认值
+		if (!payloadIdStr.empty()) {
+			try {
+				// 使用 std::stoull 并捕获可能异常
+				creatorId = std::stoull(payloadIdStr);
+			}
+			catch (const std::invalid_argument& e) {
+				// 字符串不是有效数字，记录日志并采用默认值
+				std::cerr << "WARN: Invalid creator ID format (invalid argument): " << payloadIdStr << std::endl;
+			}
+			catch (const std::out_of_range& e) {
+				// 数字超出 uint64_t 范围
+				std::cerr << "WARN: Creator ID out of range: " << payloadIdStr << std::endl;
+			}
+		}
+		else {
+			// LOG_WARN("Payload ID is empty.");
+			std::cerr << "WARN: Payload ID is empty." << std::endl;
+		}
+		user->setCreator(creatorId); // 使用安全转换后的值
 		// 设置创建时间
 		user->setAddTime(SimpleDateTimeFormat::format());
 		int temp = userDao->insert(*user.get());

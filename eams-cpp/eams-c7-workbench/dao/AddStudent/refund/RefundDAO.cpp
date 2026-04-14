@@ -22,31 +22,32 @@
 
 PtrRefundViewDO RefundDAO::selectById(const string& id)
 {
-	string sql = R"(SELECT 
-		rf.id,
-		rf.student_id,
-		rf.student_course_id,
-		rf.operator,
-		rf.refund_amount,
-		rf.refund_lesson_count,
-		rf.apply_time,
-		rf.remark,
-		rf.done_time,
-		rf.type_num,
-		rf.verify_state,
-		rf.verify_time,
-		rf.verify_staff,
-		-- 关联学员表：获取学员姓名
-		s.name AS student_name,
-		
+    string sql = R"(SELECT 
+                        rf.id, 
+                        rf.student_id, 
+                        rf.student_course_id, 
+                        rf.operator, 
+                        rf.refund_amount, 
+                        rf.refund_lesson_count, 
+                        rf.apply_time, 
+                        rf.remark, 
+                        rf.done_time, 
+                        rf.type_num, 
+                        rf.verify_state, 
+                        rf.verify_time, 
+                        rf.verify_staff,
+                        -- 关联学员表：获取学员姓名 
+                        s.name AS student_name
+                        -- 注释掉错误的逗号和字段
+                        -- , 
+                    FROM refund rf 
+                    -- 关联：学员表 
+                    LEFT JOIN student s ON rf.student_id = s.id 
+                    WHERE rf.student_id = ? 
+                    ORDER BY rf.apply_time DESC)"; // 使用占位符
 
-	FROM refund rf
-
-	-- 关联：学员表
-	LEFT JOIN student s ON log.student_id = s.id
-
-
-	WHERE rf.student_id = ?
-	ORDER BY rf.apply_time DESC)";
-	return sqlSession->executeQueryOne<PtrRefundViewDO>(sql, RefundViewMapper(), "%s", id);
+    SqlParams params;
+    SQLPARAMS_PUSH(params, "s", std::string, id); // 绑定参数
+    // 修改了调用，使用参数列表，而不是直接的格式化字符串
+    return sqlSession->executeQueryOne<PtrRefundViewDO>(sql, RefundViewMapper(), params);
 }

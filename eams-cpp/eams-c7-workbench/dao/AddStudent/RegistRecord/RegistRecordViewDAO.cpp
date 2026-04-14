@@ -88,23 +88,21 @@ std::list<RegistRecordViewDO> RegistRecordViewDAO::selectWithPage(const RegistRe
 // 通过ID查询数据
 PtrRegistRecordViewDO RegistRecordViewDAO::selectById(std::string id) {
 	string sql = R"(SELECT 
-		sc.*,
-		s.name AS student_name,
-		sb.name AS subject_name,
-		c.name AS course_name,
-		slcl.remaining_count,
-		r.*
-		FROM 
-		student_course sc 
-		LEFT JOIN student s ON sc.student_id = s.id
-		LEFT JOIN course c ON sc.course_id = c.id
-		LEFT JOIN subject sb ON sc.subject_id = sb.id
-		LEFT JOIN refund r ON sc.id = r.student_course_id
-		LEFT JOIN student_lesson_count_log slcl ON sc.student_id=slcl.student_id
-		WHERE sc.id = ')" + id + R"(')";
+        sc.*,
+        s.name AS student_name,
+        sb.name AS subject_name,
+        c.name AS course_name,
+        slcl.remaining_count,
+        r.*
+        FROM student_course sc 
+        LEFT JOIN student s ON sc.student_id = s.id
+        LEFT JOIN course c ON sc.course_id = c.id
+        LEFT JOIN subject sb ON sc.subject_id = sb.id
+        LEFT JOIN refund r ON sc.id = r.student_course_id
+        LEFT JOIN student_lesson_count_log slcl ON sc.student_id=slcl.student_id
+        WHERE sc.id = ?)"; 
 	SqlParams params;
-	// 这里的 "s" 代表 string 类型，id 是 20 位的字符串，完全没问题
-	auto result = sqlSession->executeQueryOne<PtrRegistRecordViewDO>(sql, RegistRecordViewMapper(),params);
-
+	SQLPARAMS_PUSH(params, "s", std::string, id); // 安全地绑定参数
+	auto result = sqlSession->executeQueryOne<PtrRegistRecordViewDO>(sql, RegistRecordViewMapper(), params);
 	return result;
 }

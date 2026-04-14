@@ -22,40 +22,34 @@
 
 PtrStudentLessonCountLogViewDO StudentLessonCountLogDAO::selectById(const string& id)
 {
-	string sql = R"(SELECT
-		log.id,
-		log.student_id,
-		log.course_id,
-		log.lesson_id,
-		log.change_count,
-		log.remaining_count,
-		log.staff_id,
-		log.add_time
-		log.remark AS log_remark,
+    string sql = R"(SELECT 
+                        log.id, 
+                        log.student_id, 
+                        log.course_id, 
+                        log.lesson_id, 
+                        log.change_count, 
+                        log.remaining_count, 
+                        log.staff_id, 
+                        log.add_time,
+                        log.remark AS log_remark,
+                        -- 关联学员表：获取学员姓名 
+                        s.name AS student_name, 
+                        -- 关联课程表：获取课程名称 
+                        c.name AS course_name, 
+                        -- 关联科目表：获取科目 
+                        staff.name AS staff_name
+                    FROM student_lesson_count_log log 
+                    -- 关联：学员表 
+                    LEFT JOIN student s ON log.student_id = s.id 
+                    -- 关联：课程表 
+                    LEFT JOIN course c ON log.course_id = c.id 
+                    -- 关联：教师员工表 
+                    LEFT JOIN staff sf ON log.staff_id = sf.id 
+                    WHERE log.student_id = ? 
+                    ORDER BY log.add_time DESC)";
 
-		-- 关联学员表：获取学员姓名
-		s.name AS student_name,
-
-		-- 关联课程表：获取课程名称
-		c.name AS course_name,
-		
-		-- 关联科目表：获取科目
-		staff.name AS staff_name,
-
-	FROM student_lesson_count_log log
-
-	-- 关联：学员表
-	LEFT JOIN student s ON log.student_id = s.id
-
-	-- 关联：课程表
-	LEFT JOIN course c ON log.course_id = c.id
-
-	-- 关联：教师员工表
-	LEFT JOIN staff sf ON log.staff_id = sf.id
-
-	WHERE log.student_id = ?
-	AND log.course_id = ?
-
-	ORDER BY log.add_time DESC)";
-	return sqlSession->executeQueryOne<PtrStudentLessonCountLogViewDO>(sql, StudentLessonCountLogViewMapper(), "%s", id);
+    SqlParams params;
+    SQLPARAMS_PUSH(params, "s", std::string, id); // 绑定参数
+    // 修改了调用，使用参数列表
+    return sqlSession->executeQueryOne<PtrStudentLessonCountLogViewDO>(sql, StudentLessonCountLogViewMapper(), params);
 }
