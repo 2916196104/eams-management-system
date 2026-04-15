@@ -40,6 +40,10 @@
         <!--<module>eams-j1-console</module>-->
         <module>eams-j1-orgmanager</module>
         <module>eams-j2-sys</module>
+        <module>eams-j3-class</module>
+        <module>eams-j3-supplies</module>
+        <module>eams-j3-system</module>
+        <module>eams-j3-data</module>
     </modules>
     <properties>
         <!-- 项目版本号 -->

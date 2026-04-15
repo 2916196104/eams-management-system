@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.eamsj3class.mapper.CourseLinkMapper">
+
+        <select id="getCourseLinks" resultType="com.zeroone.star.eamsj3class.entity.CourseLink">
+            select *
+            from course_link
+            JOIN course on course_link.course_id = course.id and course.deleted = 0
+            where 1 = 1
+            <if test="courseIds != null and courseIds.size() > 0">
+                AND course_link.course_id IN
+                <foreach item="item" collection="courseIds" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </select>
+</mapper>

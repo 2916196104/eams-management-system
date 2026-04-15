@@ -1,0 +1,7 @@
+server:
+  port: ${sp.j3-supplies}
+spring:
+  application:
+    name: ${sn.j3-supplies}
+  profiles:
+    active: test

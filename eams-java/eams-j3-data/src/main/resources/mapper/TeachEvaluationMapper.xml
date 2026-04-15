@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.eamsj3data.mapper.TeachEvaluationMapper">
+
+    <resultMap id="TeachEvaluationDTOMap" type="com.zeroone.star.project.dto.j3.data.TeachEvaluationDTO">
+        <result column="teacherId" property="teacherId"/>
+        <result column="evaluationCount" property="evaluationCount"/>
+        <result column="classroomAtmosphere" property="classroomAtmosphere"/>
+        <result column="teachingAttitude" property="teachingAttitude"/>
+        <result column="teachingEffect" property="teachingEffect"/>
+        <result column="comprehensiveScore" property="comprehensiveScore"/>
+    </resultMap>
+
+    <select id="selectTeachEvaluationStats" resultMap="TeachEvaluationDTOMap">
+        SELECT
+        teacher_id AS teacherId,
+        COUNT(*) AS evaluationCount,
+        AVG(COALESCE(score1, 0)) AS classroomAtmosphere,
+        AVG(COALESCE(score2, 0)) AS teachingAttitude,
+        AVG(COALESCE(score3, 0)) AS teachingEffect,
+        (AVG(COALESCE(score1, 0)) + AVG(COALESCE(score2, 0)) +
+        AVG(COALESCE(score3, 0)) + AVG(COALESCE(score4, 0))) / 4.0 AS comprehensiveScore
+        FROM teach_evaluation
+        <where>
+            <if test="startDate != null">
+                AND add_time &gt;= #{startDate}
+            </if>
+            <if test="endDate != null">
+                AND add_time &lt; #{endDate}
+            </if>
+        </where>
+        GROUP BY teacher_id
+        ORDER BY evaluationCount DESC
+    </select>
+
+    <select id="selectTeachEvaluationStatsCount" resultType="java.lang.Long">
+        SELECT COUNT(DISTINCT teacher_id)
+        FROM teach_evaluation
+        <where>
+            <if test="startDate != null">
+                AND add_time &gt;= #{startDate}
+            </if>
+            <if test="endDate != null">
+                AND add_time &lt; #{endDate}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectTeachEvaluationStatsWithPaging" resultMap="TeachEvaluationDTOMap">
+        SELECT
+        teacher_id AS teacherId,
+        COUNT(*) AS evaluationCount,
+        AVG(COALESCE(score1, 0)) AS classroomAtmosphere,
+        AVG(COALESCE(score2, 0)) AS teachingAttitude,
+        AVG(COALESCE(score3, 0)) AS teachingEffect,
+        (AVG(COALESCE(score1, 0)) + AVG(COALESCE(score2, 0)) +
+        AVG(COALESCE(score3, 0)) + AVG(COALESCE(score4, 0))) / 4.0 AS comprehensiveScore
+        FROM teach_evaluation
+        <where>
+            <if test="startDate != null">
+                AND add_time &gt;= #{startDate}
+            </if>
+            <if test="endDate != null">
+                AND add_time &lt; #{endDate}
+            </if>
+        </where>
+        GROUP BY teacher_id
+        ORDER BY
+
+        <choose>
+            <when test='sortBy == "teacherId"'>teacher_id</when>
+            <when test='sortBy == "comprehensiveScore"'>comprehensiveScore</when>
+            <when test='sortBy == "classroomAtmosphere"'>classroomAtmosphere</when>
+            <when test='sortBy == "teachingAttitude"'>teachingAttitude</when>
+            <when test='sortBy == "teachingEffect"'>teachingEffect</when>
+            <otherwise>evaluationCount</otherwise>
+        </choose>
+        <choose>
+            <when test='sortOrder == "asc"'>ASC</when>
+            <otherwise>DESC</otherwise>
+        </choose>
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+</mapper>

@@ -1,0 +1,6 @@
+server:
+  port: ${sp.j3-class}
+spring:
+  application:
+    name: ${sn.j3-class}
+
