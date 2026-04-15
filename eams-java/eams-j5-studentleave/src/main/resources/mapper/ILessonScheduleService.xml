@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.j5.studentleave.mapper.StudentLeaveMapper">
+
+    <select id="selectPageStudentLeave" resultType="com.zeroone.star.project.vo.j5.studentleave.StudentLeaveListVO">
+
+        select sl.id, s.name as student_name, u.mobile, l.title as course,
+               l.date, l.start_time, l.end_time, st.name as teacher_names, sl.reason, sl.add_time, sl.state as state_code,
+               case sl.state
+                   when 1 then '请假中'
+                   when 2 then '已撤销'
+               end as state
+            from student_leave sl
+            join student s on sl.student_id = s.id
+            join user u on s.user_id = u.id
+            join lesson l on sl.lesson_id = l.id
+            join staff st on l.teacher_id = st.id
+        <where>
+            <if test="query.nameOrPhone != null and query.nameOrPhone != ''">
+                AND (
+                    s.name LIKE CONCAT('%', #{query.nameOrPhone}, '%')
+                    OR
+                    u.mobile LIKE CONCAT('%', #{query.nameOrPhone}, '%')
+                )
+            </if>
+            <if test="query.teacherId != null">
+                and l.teacher_id = #{query.teacherId}
+            </if>
+            <if test="query.startDate != null">
+                and sl.add_time >= #{query.startDate}
+            </if>
+            <if test="query.endDate != null">
+                and sl.add_time &lt;= #{query.endDate}
+            </if>
+        </where>
+        order by sl.add_time desc
+
+    </select>
+
+
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.j5.classmanager.mapper.ClassMapper">
+
+    <select id="selectClassPage" resultType="com.zeroone.star.project.vo.j5.classmanager.ClassListVO">
+        SELECT
+        c.id,
+        c.name,
+        c.course_id,
+        c.classroom_id,
+        c.teacher_id,
+        c.grade_id,
+        c.remark,
+        c.be_over,
+        c.over_time,
+        c.start_date,
+        c.end_date,
+        c.planned_student_count,
+        c.planned_lesson_count,
+        c.school_id,
+        c.org_id,
+        c.add_time,
+        c.edit_time,
+        co.name AS course_name,
+        s.name AS teacher_name,
+        cr.name AS classroom_name,
+        cg.name AS grade_name
+        FROM `class` c
+        LEFT JOIN course co ON c.course_id = co.id AND co.deleted = 0
+        LEFT JOIN staff s ON c.teacher_id = s.id AND s.deleted = 0
+        LEFT JOIN classroom cr ON c.classroom_id = cr.id AND cr.deleted = 0
+        LEFT JOIN class_grade cg ON c.grade_id = cg.id AND cg.deleted = 0
+        <where>
+            c.deleted = 0
+            <if test="query.className != null and query.className != ''">
+                AND c.name LIKE CONCAT('%', #{query.className}, '%')
+            </if>
+            <if test="query.courseName != null and query.courseName != ''">
+                AND co.name LIKE CONCAT('%', #{query.courseName}, '%')
+            </if>
+            <if test="query.teacherName != null and query.teacherName != ''">
+                AND s.name LIKE CONCAT('%', #{query.teacherName}, '%')
+            </if>
+            <if test="query.classroomName != null and query.classroomName != ''">
+                AND cr.name LIKE CONCAT('%', #{query.classroomName}, '%')
+            </if>
+            <if test="query.gradeName != null and query.gradeName != ''">
+                AND cg.name LIKE CONCAT('%', #{query.gradeName}, '%')
+            </if>
+        </where>
+        ORDER BY c.add_time DESC
+
+    </select>
+</mapper>

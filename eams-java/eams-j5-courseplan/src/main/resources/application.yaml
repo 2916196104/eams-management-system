@@ -1,0 +1,14 @@
+server:
+  port: ${sp.j5-courseplan}
+spring:
+  application:
+    name: ${sn.j5-courseplan}
+  # 关闭邮件健康检查
+management:
+  health:
+    mail:
+      enabled: false
+  # PDF 配置
+pdf:
+  conf: classpath:pdf/fop.xconf
+  template: classpath:pdf/template

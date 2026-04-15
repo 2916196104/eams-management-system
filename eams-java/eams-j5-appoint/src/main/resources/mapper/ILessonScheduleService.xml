@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.j5.appoint.mapper.AppointmentMapper">
+
+    <select id="selectAppointmentInfoTimeInterval"
+            resultType="com.zeroone.star.project.vo.j5.appoint.AppointmentDetailVO">
+        select a.id, s.name as student_name, u.mobile, l.title as lesson_title,
+        l.date, l.start_time, a.add_time as appoint_time, st.name as verify_staff, a.remark,
+        case a.verify_state
+        when 1 then '未审核'
+        when 2 then '审核通过'
+        when 3 then '已驳回'
+        end as verify_state
+        from appointment a
+        left join student s on s.id = a.student_id
+        left join user u on s.user_id = u.id
+        left join lesson l on a.lesson_id = l.id
+        left join staff st on a.verify_staff = st.id
+        <where>
+            <if test="startDate != null">
+                and l.date >= #{startDate}
+            </if>
+            <if test="endDate != null">
+                and l.date &lt;= #{endDate}
+            </if>
+        </where>
+        order by l.date asc
+    </select>
+
+    <select id="selectAppointmentPage" resultType="com.zeroone.star.project.vo.j5.appoint.AppointmentListVO">
+        SELECT
+        a.id,
+        a.verify_state AS verifyState,
+        a.course_id AS courseId,
+        a.add_time AS addTime,
+        s.name AS studentName,
+        u.mobile AS mobile,
+        c.name AS courseName,
+
+        CONCAT(l.date, ' ', l.start_time) AS lessonTime,
+        st.name AS verifyStaffName
+        FROM appointment a
+        LEFT JOIN student s ON a.student_id = s.id
+        LEFT JOIN `user` u ON s.user_id = u.id
+        LEFT JOIN course c ON a.course_id = c.id
+        LEFT JOIN lesson l ON a.lesson_id = l.id
+        LEFT JOIN staff st ON a.verify_staff = st.id
+
+        <where>
+            <if test="query.studentIds != null and query.studentIds.size() > 0">
+                AND a.student_id IN
+                <foreach collection="query.studentIds" item="stuId" open="(" separator="," close=")">
+                    #{stuId}
+                </foreach>
+            </if>
+
+            <if test="query.courseIds != null and query.courseIds.size() > 0">
+                AND a.course_id IN
+                <foreach collection="query.courseIds" item="crsId" open="(" separator="," close=")">
+                    #{crsId}
+                </foreach>
+            </if>
+
+            <if test="query.startDate != null">
+                AND a.add_time &gt;= #{query.startDate}
+            </if>
+
+            <if test="query.endDate != null">
+                AND a.add_time &lt;= #{query.endDate}
+            </if>
+        </where>
+
+        ORDER BY a.add_time DESC
+    </select>
+    <select id="selectAppointmentDetailById"
+            resultType="com.zeroone.star.project.vo.j5.appoint.AppointmentDetailVO">
+        SELECT
+            l.title AS title,
+            c.name AS courseName,
+            cls.name AS className,
+            room.name AS classroomName,
+            t.name AS teacherName,
+            l.dec_count AS deductionBase,
+            l.bookable AS isBookable,
+
+            c.lesson_type AS rawCourseType,
+            l.state AS rawState,
+            l.date AS rawDate,
+            l.start_time AS rawStartTime,
+            l.end_time AS rawEndTime,
+
+            (
+                SELECT GROUP_CONCAT(s.name)
+                FROM lesson_teacher lt
+                         LEFT JOIN staff s ON lt.teacher_id = s.id
+                WHERE lt.lesson_id = l.id AND lt.type_num = 2
+            ) AS assistantName,
+
+
+            (
+                SELECT COUNT(id)
+                FROM lesson_student
+                WHERE lesson_id = l.id
+            ) AS expectedAttendance,
+
+            (
+                SELECT COUNT(id)
+                FROM lesson_student
+                WHERE lesson_id = l.id AND sign_state = 1
+            ) AS actualAttendance
+
+        FROM appointment a
+                 LEFT JOIN lesson l ON a.lesson_id = l.id
+                 LEFT JOIN course c ON a.course_id = c.id
+                 LEFT JOIN `class` cls ON l.class_id = cls.id
+                 LEFT JOIN classroom room ON l.room_id = room.id
+                 LEFT JOIN staff t ON l.teacher_id = t.id
+
+        WHERE a.id = #{id}
+    </select>
+
+</mapper>

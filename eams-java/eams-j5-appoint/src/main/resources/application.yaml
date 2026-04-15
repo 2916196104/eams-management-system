@@ -1,0 +1,6 @@
+server:
+  port: ${sp.j5-appoint}
+spring:
+  application:
+    name: ${sn.j5-appoint}
+

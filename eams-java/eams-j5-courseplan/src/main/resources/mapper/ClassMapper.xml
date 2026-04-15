@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.j5.courseplan.mapper.ClassMapper">
+    <select id="listByClassName" resultType="com.zeroone.star.project.vo.j5.courseplan.ClassOptionVO">
+        select
+        c.id,
+        c.course_id as courseId,
+        c.name as className,
+        co.name as courseName
+        from class c
+        left join course co on c.course_id = co.id
+        <where>
+            <if test="query.className != null and query.className != ''">
+                and c.name like concat('%',#{query.className},'%')
+            </if>
+        </where>
+        order by c.start_date desc, c.id
+    </select>
+</mapper>

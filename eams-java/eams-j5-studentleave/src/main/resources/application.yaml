@@ -1,0 +1,11 @@
+server:
+  port: ${sp.j5-student-leave}
+spring:
+  application:
+    name: ${sn.j5-student-leave}
+knife4j:
+  enableAggregation: true
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true  # 开启下划线转驼峰
+

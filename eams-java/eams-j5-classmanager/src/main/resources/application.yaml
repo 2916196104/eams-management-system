@@ -1,0 +1,31 @@
+server:
+  port: ${sp.j5-classmanager}
+
+spring:
+  application:
+    name: ${sn.j5-classmanager}
+seata:
+  tx-service-group: tx-business
+  enabled: false
+  service:
+    #seata服务地址
+#    grouplist:
+#      default: ${seata.default}
+    #虚拟组和分组映射，key的名字与tx-service-group一致
+    vgroup-mapping:
+      tx-business: default
+    #开启全局事务
+    disable-global-transaction: false
+
+# FastDFS配置
+fastdfs:
+  charset: UTF-8
+  connect-timeout: 5
+  network-timeout: 30
+  http-secret-key: FastDFS1234567890
+  http-anti-steal-token: false
+  connection-pool-max-idle: 20
+  connection-pool-max-total: 20
+  connection-pool-min-idle: 2
+  nginx-servers: 172.24.169.242:8888
+  tracker-servers: 172.24.169.242:22122

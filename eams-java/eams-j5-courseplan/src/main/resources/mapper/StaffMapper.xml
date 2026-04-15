@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.j5.courseplan.mapper.StaffMapper">
+    <select id="getListByTeacherName" resultType="com.zeroone.star.project.vo.j5.courseplan.TeacherOptionVO">
+        SELECT
+        s.id AS id,
+        s.name AS name,
+        sp.name AS positionName,
+        lt.type_num as typeNum
+        FROM course c
+        -- 直接关联课程配置表，这里的 lesson_id 实际存储的是 course_id
+        JOIN lesson_teacher lt ON c.id = lt.lesson_id
+        -- 关联老师表
+        JOIN staff s ON lt.teacher_id = s.id and s.deleted = 0
+        -- 关联组织信息表
+        JOIN staff_orginfo soi ON s.id = soi.staff_id AND soi.deleted = 0
+        -- 关联职位表
+        JOIN staff_position sp ON soi.position_id = sp.id
+        <where>
+            c.deleted = 0
+            <if test="query.courseId != null">
+                and c.id = #{query.courseId}
+            </if>
+            <if test="query.teacherName != null and query.teacherName != ''">
+                AND s.name LIKE CONCAT('%', #{query.teacherName}, '%')
+            </if>
+            <if test="query.type != null">
+                and lt.type_num = #{query.type}
+            </if>
+        </where>
+        order by s.name asc,s.id
+    </select>
+</mapper>

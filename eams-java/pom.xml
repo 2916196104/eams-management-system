@@ -46,6 +46,11 @@
         <module>eams-j3-data</module>
         <module>eams-j4-student</module>
         <module>eams-j4-academic</module>
+        <module>eams-j5-classmanager</module>
+        <module>eams-j5-courseplan</module>
+        <module>eams-j5-courseschedule</module>
+        <module>eams-j5-studentleave</module>
+        <module>eams-j5-appoint</module>
     </modules>
     <properties>
         <!-- 项目版本号 -->
