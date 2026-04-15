@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.student.mapper.ContactRecordMapper">
+
+
+    <select id="selectFollowUpPage" resultType="com.zeroone.star.project.vo.j4.student.FollowUpVO">
+        SELECT
+        r.id,
+        r.student_id AS studentId,
+        s.name AS studentName,
+        r.info,
+        r.contact_time AS contactTime,
+        r.contact_next_time AS contactNextTime,
+        r.contact_type AS contactType,
+        r.contact_phone AS contactPhone,
+        r.stage,
+        r.creator,
+        r.add_time AS addTime
+        FROM contact_record r
+        LEFT JOIN student s ON r.student_id = s.id AND s.deleted = 0
+        <where>
+            r.deleted = 0
+            <if test="condition.keyword != null and condition.keyword != ''">
+                AND (s.name LIKE CONCAT('%', #{condition.keyword}, '%')
+                OR r.contact_phone LIKE CONCAT('%', #{condition.keyword}, '%'))
+            </if>
+            <if test="condition.stage != null">
+                AND r.stage = #{condition.stage}
+            </if>
+            <if test="condition.creator != null and condition.creator != ''">
+                AND r.creator = #{condition.creator}
+            </if>
+            <if test="condition.startTime != null">
+                AND r.contact_time &gt;= #{condition.startTime}
+            </if>
+            <if test="condition.endTime != null">
+                AND r.contact_time &lt;= #{condition.endTime}
+            </if>
+            <if test="condition.studentId != null">
+                AND r.student_id = #{condition.studentId}
+            </if>
+        </where>
+        ORDER BY r.contact_time DESC
+    </select>
+
+</mapper>
