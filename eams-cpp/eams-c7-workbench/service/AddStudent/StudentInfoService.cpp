@@ -34,6 +34,7 @@ std::string StudentInfoService::saveStudentInfo(const AddStudentDTO::Wrapper& dt
         // 增加对 phonenumber 的安全转换
         std::string phone = dto->phonenumber.getValue("");
         if (phone.empty()) {
+            std::cerr << "ERROR: 手机号为空" << std::endl;
             return "";
         }
 
@@ -45,6 +46,10 @@ std::string StudentInfoService::saveStudentInfo(const AddStudentDTO::Wrapper& dt
             auto user = std::make_shared<UserDO>();
             if (dto->username) {
                 user->setName(dto->username.getValue(""));
+            }
+            else {
+                // 如果用户名不存在，使用手机号作为用户名
+                user->setName("用户_" + phone.substr(phone.length() - 4));
             }
 
             user->setMobile(phone);
@@ -75,27 +80,24 @@ std::string StudentInfoService::saveStudentInfo(const AddStudentDTO::Wrapper& dt
             user->setCreator(creatorId);
             user->setAddTime(SimpleDateTimeFormat::format());
 
-            // 尝试插入用户，如果失败（如手机号已存在），则重新查询
-            try {
-                int temp = userDao->insert(*user.get());
-                if (temp < 0) {
-                    // 插入失败，可能用户已存在，重新查询
-                    userID = studentDao->getUserIdByPhone(phone);
-                    if (userID == 0) {
-                        std::cerr << "ERROR: 用户插入失败且未找到已存在用户" << std::endl;
-                        return "";
-                    }
-                }
-            }
-            catch (const std::exception& e) {
-                // 捕获插入异常，尝试重新查询
-                std::cerr << "WARN: 插入用户时发生异常: " << e.what() << std::endl;
+            // 尝试插入用户
+            int insertResult = userDao->insert(*user.get());
+            if (insertResult < 0) {
+                // 插入失败，可能是手机号已存在，重新查询
+                std::cerr << "WARN: 用户插入失败，尝试重新查询..." << std::endl;
                 userID = studentDao->getUserIdByPhone(phone);
                 if (userID == 0) {
-                    std::cerr << "ERROR: 插入用户失败: " << e.what() << std::endl;
+                    std::cerr << "ERROR: 用户插入失败且未找到已存在用户" << std::endl;
                     return "";
                 }
+                std::cout << "INFO: 用户已存在，userID: " << userID << std::endl;
             }
+            else {
+                std::cout << "INFO: 用户插入成功，userID: " << userID << std::endl;
+            }
+        }
+        else {
+            std::cout << "INFO: 用户已存在，userID: " << userID << std::endl;
         }
 
         // 组装学生数据
@@ -112,6 +114,18 @@ std::string StudentInfoService::saveStudentInfo(const AddStudentDTO::Wrapper& dt
         if (dto->schoolId) student->setSchoolId(dto->schoolId.getValue({ 0 }));
         if (dto->grade) student->setGrade(dto->grade.getValue({ 0 }));
 
+        // 设置必填字段默认值
+        if (student->getName().empty()) {
+            std::cerr << "ERROR: 学生姓名为空" << std::endl;
+            return "";
+        }
+
+        if (student->getSchoolId() == 0) {
+            // 如果学校ID为0，设置为默认值1（根据实际情况调整）
+            student->setSchoolId(1);
+            std::cerr << "WARN: 学校ID为空，使用默认值1" << std::endl;
+        }
+
         student->setUserId(userID);
         student->setId(sf.nextId());
 
@@ -124,20 +138,36 @@ std::string StudentInfoService::saveStudentInfo(const AddStudentDTO::Wrapper& dt
                 student->setCreator(creatorId);
             }
             catch (...) {
-                student->setCreator(0);
+                // 如果转换失败，使用用户ID或默认值
+                student->setCreator(userID);
+                std::cerr << "WARN: Creator ID转换失败，使用userID: " << userID << std::endl;
             }
+        }
+        else {
+            // 如果没有creator，使用userID
+            student->setCreator(userID);
         }
 
         student->setAddTime(SimpleDateTimeFormat::format());
 
+        // 检查必填字段
+        if (student->getCreator() == 0) {
+            student->setCreator(1); // 使用默认管理员ID
+        }
+
+        if (student->getAddTime().empty()) {
+            student->setAddTime(SimpleDateTimeFormat::format());
+        }
+
         // 执行学生数据插入
-        uint64_t finalId = studentDao->insert(*student.get());
+        uint64_t finalId = studentDao->insertStudent(*student.get());
         if (finalId == 0) {
             std::cerr << "ERROR: 学生信息插入失败" << std::endl;
             return "";
         }
 
         result = std::to_string(finalId);
+        std::cout << "INFO: 学生信息插入成功，studentID: " << result << std::endl;
 
     }
     catch (const std::exception& e) {

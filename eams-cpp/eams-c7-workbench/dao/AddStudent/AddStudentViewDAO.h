@@ -30,7 +30,7 @@ class AddStudentViewDAO : public BaseDAO
 public:
 	// ¸ù¾Ýphone²éÑ¯user_id
 	uint64_t getUserIdByPhone(string phone);
-
+	uint64_t insertStudent(const StudentDO& studentDO);
 };
 
 #endif // !#define _ADDSTUDENTVIEWDAO_H_

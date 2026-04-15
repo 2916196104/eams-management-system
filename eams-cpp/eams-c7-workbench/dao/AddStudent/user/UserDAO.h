@@ -20,14 +20,14 @@
 #ifndef _USERDAO_H_
 #define _USERDAO_H_
 #include "BaseDAO.h"
-
+#include "domain/do/AddStudent/UserDO.h"
 /**
  * 文件数据操作类
  */
 class UserDAO : public BaseDAO
 {
 public:
-	
+	int insert(const UserDO& userDO);
 };
 
 #endif // !#define _USERDAO_H_
