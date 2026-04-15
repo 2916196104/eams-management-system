@@ -7,35 +7,36 @@ import java.util.List;
 
 /**
  * <p>
- * æè¿°ï¼šç”¨æˆ·æ•°æ®
- * FIXME æ­¤ç±»éœ€è¦æ ¹æ®å®é™…ä¸šåŠ¡éœ€æ±‚æ¥æ·»åŠ å­—æ®µ
+ * ÃèÊö£ºÓÃ»§Êı¾İ
+ * FIXME ´ËÀàĞèÒª¸ù¾İÊµ¼ÊÒµÎñĞèÇóÀ´Ìí¼Ó×Ö¶Î
  * </p>
- * <p>ç‰ˆæƒï¼š&copy;01æ˜Ÿçƒ</p>
- * <p>åœ°å€ï¼š01æ˜Ÿçƒæ€»éƒ¨</p>
- * @author é˜¿ä¼Ÿå­¦é•¿
+ * <p>°æÈ¨£º&copy;01ĞÇÇò</p>
+ * <p>µØÖ·£º01ĞÇÇò×Ü²¿</p>
+ * @author °¢Î°Ñ§³¤
  * @version 1.0.0
  */
 @Data
 @Builder
 public class UserDTO {
     /**
-     * ç”¨æˆ·ç¼–å·
+     * ÓÃ»§±àºÅ
      */
     private String id;
     /**
-     * ç”¨æˆ·åç§°
+     * ÓÃ»§Ãû³Æ
      */
     private String username;
     /**
-     * æ˜¯å¦å¯ç”¨
+     * ÊÇ·ñÆôÓÃ
      */
     private Byte isEnabled;
     /**
-     * ç”¨æˆ·æ‹¥æœ‰è§’è‰²åˆ—è¡¨
+     * ÓÃ»§ÓµÓĞ½ÇÉ«ÁĞ±í
      */
     private List<String> roles;
     /**
-     * ç”¨æˆ·æ‰€å±ç»„ç»‡ID
+     * ÓÃ»§ËùÊô×éÖ¯ID
      */
     private Long orgId;
+    private String terminalType;
 }

@@ -1,6 +1,5 @@
 package com.zeroone.star.oauth2.service.impl.oauth2;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zeroone.cloud.oauth2.entity.SecurityUser;
 import com.zeroone.cloud.starter.oauth2.service.LoadUserDetailService;
 import com.zeroone.star.oauth2.entity.Role;
@@ -11,44 +10,52 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * <p>
- * 描述：加载用户信息服务实现
- * </p>
- * <p>版权：&copy;01星球</p>
- * <p>地址：01星球总部</p>
- * @author 阿伟学长
- * @version 1.0.0
- */
 @Service
 public class LoadUserDetailServiceImpl implements LoadUserDetailService {
+
+    private static final String TERMINAL_MANAGER = "manager";
+    private static final String TERMINAL_USER = "user";
+
     @Resource
-    IUserService userService;
+    private IUserService userService;
+
     @Resource
-    IRoleService roleService;
+    private IRoleService roleService;
 
     @Override
     public SecurityUser loadUserDetailForMgr(String username) throws UsernameNotFoundException {
-        // TODO：通过用户名查询用户,需要根据你的数据库设计来修改代码
-        // 1 通过用户名查找用户对象
-        User user = new User();
-        user.setUsername(username);
-        user = userService.getOne(new QueryWrapper<>(user));
+        User user = userService.getManagerByMobile(username);
         if (user == null) {
-            throw new UsernameNotFoundException("用户名或密码错误");
+            throw new UsernameNotFoundException("\u7528\u6237\u540d\u6216\u5bc6\u7801\u9519\u8bef");
         }
-        // TODO：通过用户编号查询角色,需要根据你的数据库设计来修改代码
-        // 2 通过用户ID获取角色列表
-        List<Role> roles = roleService.listRoleByUserId(user.getId());
-        // 3 构建权限角色对象
-        return SecurityUser.create(user, user.getUsername(), user.getPassword(), roles.stream().map(Role::getKeyword).collect(Collectors.toList()));
+        user.setTerminalType(TERMINAL_MANAGER);
+        return buildSecurityUser(user);
     }
 
     @Override
     public SecurityUser loadUserDetailForUser(String username) throws UsernameNotFoundException {
-        throw new UsernameNotFoundException("用户端查找用户尚未实现");
+        User user = userService.getUserByMobile(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("\u7528\u6237\u540d\u6216\u5bc6\u7801\u9519\u8bef");
+        }
+        user.setTerminalType(TERMINAL_USER);
+        return buildSecurityUser(user);
+    }
+
+    private SecurityUser buildSecurityUser(User user) {
+        List<Role> roles = roleService.listRoleByUserId(user.getId());
+        if (roles == null) {
+            roles = Collections.emptyList();
+        }
+        return SecurityUser.create(
+                user,
+                user.getUsername(),
+                user.getPassword(),
+                roles.stream().map(Role::getKeyword).collect(Collectors.toList())
+        );
     }
 }

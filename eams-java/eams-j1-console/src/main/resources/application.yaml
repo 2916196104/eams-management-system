@@ -1,0 +1,45 @@
+#server:
+#  port: 9080
+#
+#spring:
+#  application:
+#    name: eams-j1-console
+#  cloud:
+#    nacos:
+#      discovery:
+#        enabled: false  # 临时禁用Nacos服务注册
+##        server-addr: 10.167.151.159:8848
+##        namespace: ${NACOS_NAMESPACE:}
+#      config:
+#        enabled: false  # 临时禁用Nacos配置中心
+##        server-addr: 10.167.151.159:8848
+##        namespace: ${NACOS_NAMESPACE:}
+##        file-extension: yaml
+##        shared-configs:
+##          - data-id: eams-common.yaml
+##            refresh: true
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DB:test}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+#    username: ${MYSQL_USER:root}
+#    password: ${MYSQL_PASSWORD:1234}
+#
+#mybatis-plus:
+#  mapper-locations: classpath:/mapper/**/*.xml
+#  type-aliases-package: com.zeroone.star.j1.console.entity
+#  configuration:
+#    map-underscore-to-camel-case: true
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#
+## knife4j配置
+#knife4j:
+#  enable: true
+#  setting:
+#    language: zh-CN
+
+
+server:
+  port: ${sp.console}
+spring:
+  application:
+    name: ${sn.console}

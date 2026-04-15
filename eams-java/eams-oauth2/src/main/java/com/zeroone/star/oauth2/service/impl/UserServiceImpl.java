@@ -6,13 +6,21 @@ import com.zeroone.star.oauth2.mapper.UserMapper;
 import com.zeroone.star.oauth2.service.IUserService;
 import org.springframework.stereotype.Service;
 
-/**
- * <p>
- * 用户表 服务实现类
- * </p>
- * @author 阿伟
- */
+import javax.annotation.Resource;
+
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
+    @Resource
+    private UserMapper userMapper;
+
+    @Override
+    public User getManagerByMobile(String mobile) {
+        return userMapper.selectManagerByMobile(mobile);
+    }
+
+    @Override
+    public User getUserByMobile(String mobile) {
+        return userMapper.selectUserByMobile(mobile);
+    }
 }

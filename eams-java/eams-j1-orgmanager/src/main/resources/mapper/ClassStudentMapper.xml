@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.project.j1.orgmanager.mapper.staff.ClassStudentMapper">
+
+    <resultMap type="com.zeroone.star.project.DO.ClassStudent" id="ClassStudentMap">
+        <id property="id" column="id" />
+        <result property="classId" column="class_id" />
+        <result property="studentId" column="student_id" />
+        <result property="addTime" column="add_time" />
+        <result property="creator" column="creator" />
+        <result property="reason" column="reason" />
+        <result property="deleted" column="deleted" />
+        <result property="remark" column="remark" />
+        <result property="consumeCourseId" column="consume_course_id" />
+    </resultMap>
+
+</mapper>

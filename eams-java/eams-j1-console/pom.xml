@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>eams-java</artifactId>
+        <groupId>com.zeroone.star</groupId>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>eams-j1-console</artifactId>
+    <dependencies>
+        <!-- 导入apis保证编译通过 -->
+        <dependency>
+            <groupId>com.zeroone.star</groupId>
+            <artifactId>eams-apis</artifactId>
+        </dependency>
+        <!-- 导入domain保证编译通过 -->
+        <dependency>
+            <groupId>com.zeroone.star</groupId>
+            <artifactId>eams-domain</artifactId>
+        </dependency>
+        <!-- 导入common保证编译通过 -->
+        <dependency>
+            <groupId>com.zeroone.star</groupId>
+            <artifactId>eams-common</artifactId>
+        </dependency>
+        <!-- 导入web保证编译通过 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- nacos服务注册发现 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <!-- nacos配置中心 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <!-- bootstrap配置支持 -->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.cloud</groupId>-->
+        <!--            <artifactId>spring-cloud-starter-bootstrap</artifactId>-->
+        <!--        </dependency>-->
+        <!-- MySQL驱动 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <!-- mybatis plus -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        <!-- druid -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- knife4j -->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <configuration>
+                    <!-- Docker 远程管理地址-->
+                    <dockerHost>https://47.110.237.209:2375</dockerHost>
+                    <!-- CA 证书位置 -->
+                    <certPath>E:\2026-3(01big project)\console-docker-ca</certPath>
+                    <!-- 镜像设置 -->
+                    <images>
+                        <image>
+                            <!-- Docker 镜像名称定义 -->
+                            <name>01star/${project.artifactId}:${project.version}</name>
+                            <!-- 指定Dockerfile所在目录 -->
+                            <build>
+                                <contextDir>${project.basedir}</contextDir>
+                            </build>
+                            <!-- 别名用于容器命名 -->
+                            <alias>${project.artifactId}</alias>
+                            <!-- 容器run相关配置 -->
+                            <run>
+                                <!-- 配置运行时容器命名策略为:别名,如果不指定则默认为none,即使用随机分配名称 -->
+                                <namingStrategy>alias</namingStrategy>
+                                <!-- 端口映射 -->
+                                <ports>
+                                    <port>20009:20009</port>
+                                </ports>
+                                <!-- 数据卷 -->
+                                <volumes>
+                                    <bind>
+                                        <volume>/etc/localtime:/etc/localtime</volume>
+                                        <volume>/home/app/${project.artifactId}/logs:/tmp/logs</volume>
+                                    </bind>
+                                </volumes>
+                                <!-- 设置环境变量 -->
+                                <env>
+                                    <!-- JVM参数 -->
+                                    <JAVA_OPTS>-Xms256m -Xmx256m</JAVA_OPTS>
+                                    <!-- 启动替换参数 -->
+                                    <SPRING_ARGS>
+                                        --spring.profiles.active=test --spring.cloud.nacos.discovery.ip=47.110.237.209
+                                    </SPRING_ARGS>
+                                </env>
+                            </run>
+                        </image>
+                    </images>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.zeroone.star.j1.console.J1ConsoleApplication</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

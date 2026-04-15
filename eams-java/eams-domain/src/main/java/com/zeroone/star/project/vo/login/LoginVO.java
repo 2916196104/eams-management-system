@@ -7,26 +7,32 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * <p>
- * 描述：登录显示数据对象
- * </p>
- * <p>版权：&copy;01星球</p>
- * <p>地址：01星球总部</p>
- * @author 阿伟学长
- * @version 1.0.0
+ * Current logged-in user payload.
  */
-@ApiModel("登录显示对象")
+@ApiModel("Current logged-in user")
 @Data
 public class LoginVO {
-    @ApiModelProperty(value = "用户唯一编号", example = "1")
+    @ApiModelProperty(value = "User id", example = "1")
     private String id;
 
-    @ApiModelProperty(value = "用户名", example = "admin")
+    @ApiModelProperty(value = "Login account", example = "admin")
     private String username;
 
-    @ApiModelProperty(value = "是否启用 1 启用 0 禁用 ", example = "1")
+    @ApiModelProperty(value = "Display name", example = "Administrator")
+    private String name;
+
+    @ApiModelProperty(value = "Avatar URL", example = "https://example.com/avatar.png")
+    private String avatar;
+
+    @ApiModelProperty(value = "Mobile number", example = "13800138000")
+    private String mobile;
+
+    @ApiModelProperty(value = "Whether the account is enabled", example = "1")
     private Byte isEnabled;
 
-    @ApiModelProperty(value = "用户角色列表", example = "['ADMIN','MANAGER']")
+    @ApiModelProperty(value = "Role codes", example = "[\"ADMIN\"]")
     private List<String> roles;
+
+    @ApiModelProperty(value = "Permission codes", example = "[\"staff:add\",\"staff:update\"]")
+    private List<String> permissions;
 }

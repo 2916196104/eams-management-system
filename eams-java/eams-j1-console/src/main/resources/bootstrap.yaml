@@ -1,0 +1,13 @@
+#spring:
+#  application:
+#    name: eams-j1-console
+# 临时禁用Nacos配置中心
+#  cloud:
+#    nacos:
+#      config:
+#        server-addr: 10.167.151.159:8848
+#        namespace: ${NACOS_NAMESPACE:}
+#        file-extension: yaml
+#        shared-configs:
+#          - data-id: eams-common.yaml
+#            refresh: true

@@ -14,75 +14,92 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>
- * 描述：获取登录用户信息
+ * ��������ȡ��¼�û���Ϣ
  * </p>
- * <p>版权：&copy;01星球</p>
- * <p>地址：01星球总部</p>
- * @author 阿伟学长
+ * <p>��Ȩ��&copy;01����</p>
+ * <p>��ַ��01�����ܲ�</p>
+ * @author ��ΰѧ��
  * @version 1.0.0
  */
 @Component
 public class UserHolder {
+
+    private static final String TERMINAL_MANAGER = "manager";
+    private static final String TERMINAL_USER = "user";
+    private static final String MANAGER_CLIENT_ID = "eams-manager";
+    private static final String USER_CLIENT_ID = "eams-app";
+
     @Resource
     JwtComponent jwtComponent;
 
     /**
-     * 从请求头中获取用户信息
-     * @return 用户信息
-     * @throws Exception 解析失败抛出异常
+     * ������ͷ�л�ȡ�û���Ϣ
+     * @return �û���Ϣ
+     * @throws Exception ����ʧ���׳��쳣
      */
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     public UserDTO getCurrentUser() throws Exception {
-        // 从Header中获取用户信息
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes servletRequestAttributes =
+                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (servletRequestAttributes == null) {
             return null;
         }
+
         HttpServletRequest request = servletRequestAttributes.getRequest();
         String userStr = request.getHeader("user");
-        // 不是通过网关过来的，那么执行解析验证JWT
         if (userStr == null) {
-            //从token中解析用户信息并设置到Header中去
-            String realToken = request.getHeader("Authorization").replace("Bearer ", "");
+            String authorization = request.getHeader("Authorization");
+            if (!StringUtils.hasText(authorization)) {
+                return null;
+            }
+            String realToken = authorization.replace("Bearer ", "");
             userStr = jwtComponent.defaultRsaVerify(realToken);
         } else {
             userStr = UriEncoder.decode(userStr);
         }
+
         JSONObject userJsonObject = new JSONObject(userStr);
-
-//        // HARD_CODE 在没有办法使用token时候可以修改这里的代码伪造用户信息，注意伪造用户代码不要提交到仓库中
-//        userJsonObject = new JSONObject();
-//        userJsonObject.putOnce("id", 1);
-//        userJsonObject.putOnce("user_name", "王麻子");
-//        userJsonObject.putOnce("org_id", 1);
-//        ArrayList<Object> roles = new ArrayList<>();
-//        roles.add("ROLE_ADMIN");
-//        userJsonObject.putOnce("authorities", roles);
-
-        // FIXME: 如果要扩展用户信息，需要修改这里的代码
         return UserDTO.builder()
                 .id(Convert.toStr(userJsonObject.get("id")))
                 .username(userJsonObject.getStr("user_name"))
-                .orgId(Convert.toLong(userJsonObject.get("org_id")))
                 .isEnabled(Convert.toByte(1))
                 .roles(Convert.toList(String.class, userJsonObject.get("authorities")))
+                .orgId(Convert.toLong(userJsonObject.get("org_id")))
+                .terminalType(resolveTerminalType(userJsonObject))
                 .build();
     }
 
     /**
-     * 从请求头中获取当前请求的token
-     * @return 没有获取到返回null
+     * ������ͷ�л�ȡ��ǰ�����token
+     * @return û�л�ȡ������null
      */
     public String getCurrentToken() {
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes servletRequestAttributes =
+                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (servletRequestAttributes == null) {
             return null;
         }
         HttpServletRequest request = servletRequestAttributes.getRequest();
         String token = request.getHeader("Authorization");
-        if (StringUtils.isEmpty(token)) {
+        if (!StringUtils.hasText(token)) {
             return null;
         }
         return token.replace("Bearer ", "");
+    }
+
+    private String resolveTerminalType(JSONObject userJsonObject) {
+        String terminalType = userJsonObject.getStr("terminal_type");
+        if (StringUtils.hasText(terminalType)) {
+            return terminalType;
+        }
+
+        String clientId = userJsonObject.getStr("client_id");
+        if (USER_CLIENT_ID.equals(clientId)) {
+            return TERMINAL_USER;
+        }
+        if (MANAGER_CLIENT_ID.equals(clientId)) {
+            return TERMINAL_MANAGER;
+        }
+        return TERMINAL_MANAGER;
     }
 }

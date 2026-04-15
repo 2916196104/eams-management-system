@@ -60,6 +60,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>5.2.15.RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -76,9 +82,9 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <configuration>
                     <!-- Docker 远程管理地址-->
-                    <dockerHost>https://192.168.220.128:2375</dockerHost>
+                    <dockerHost>https://59.110.240.210:2375</dockerHost>
                     <!-- CA 证书位置 -->
-                    <certPath>/home/docker-ca</certPath>
+                    <certPath>E:\2026-3(01big project)\oauth2-docker-ca</certPath>
                     <!-- 镜像设置 -->
                     <images>
                         <image>
@@ -96,7 +102,7 @@
                                 <namingStrategy>alias</namingStrategy>
                                 <!-- 端口映射 -->
                                 <ports>
-                                    <port>10400:10400</port>
+                                    <port>20004:20004</port>
                                 </ports>
                                 <!-- 数据卷 -->
                                 <volumes>
@@ -111,7 +117,7 @@
                                     <JAVA_OPTS>-Xms256m -Xmx256m</JAVA_OPTS>
                                     <!-- 启动替换参数 -->
                                     <SPRING_ARGS>
-                                        --spring.profiles.active=test --spring.cloud.nacos.discovery.ip=192.168.220.128
+                                        --spring.profiles.active=test --spring.cloud.nacos.discovery.ip=59.110.240.210
                                     </SPRING_ARGS>
                                 </env>
                             </run>

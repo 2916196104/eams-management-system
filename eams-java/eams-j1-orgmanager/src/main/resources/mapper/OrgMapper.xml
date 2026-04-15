@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.project.j1.orgmanager.mapper.institution.OrgMapper">
+
+    <resultMap id="BaseResultMap" type="com.zeroone.star.project.DO.OrgDO">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="pid" column="pid" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="TINYINT"/>
+        <result property="shortname" column="shortname" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="TINYINT"/>
+        <result property="level" column="level" jdbcType="TINYINT"/>
+        <result property="idPath" column="id_path" jdbcType="VARCHAR"/>
+        <result property="namePath" column="name_path" jdbcType="VARCHAR"/>
+        <result property="contactName" column="contact_name" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="fax" column="fax" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="info" column="info" jdbcType="VARCHAR"/>
+        <result property="creator" column="creator" jdbcType="BIGINT"/>
+        <result property="editor" column="editor" jdbcType="BIGINT"/>
+        <result property="addTime" column="add_time" jdbcType="TIMESTAMP"/>
+        <result property="editTime" column="edit_time" jdbcType="TIMESTAMP"/>
+        <result property="deleted" column="deleted" jdbcType="TINYINT"/>
+        <result property="province" column="province" jdbcType="INTEGER"/>
+        <result property="city" column="city" jdbcType="INTEGER"/>
+        <result property="district" column="district" jdbcType="INTEGER"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="sortNum" column="sort_num" jdbcType="INTEGER"/>
+        <result property="license" column="license" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, pid, name, state, shortname, type, level, id_path, name_path,
+        contact_name, phone, fax, email, info, creator, editor,
+        add_time, edit_time, deleted, province, city, district, address, sort_num, license
+    </sql>
+
+    <sql id="Tree_Column_List">
+        id, pid, name, level
+    </sql>
+
+    <sql id="Detail_Column_List">
+        id, pid, name, shortname, level, state, contact_name, phone, fax, email,
+        province, city, district, address, sort_num, license, info, id_path, name_path
+    </sql>
+
+    <!-- 数据权限过滤条件 -->
+    <sql id="Data_Permission_Filter">
+        <if test="idPathPrefix != null and idPathPrefix != ''">
+            AND id_path LIKE CONCAT(#{idPathPrefix}, '%')
+        </if>
+    </sql>
+
+    <select id="selectChildrenByPid" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Tree_Column_List"/>
+        FROM org
+        WHERE pid = #{pid}
+          AND deleted = 0
+        <include refid="Data_Permission_Filter"/>
+        ORDER BY sort_num ASC
+    </select>
+
+    <select id="countChildrenByOrgId" resultType="int">
+        SELECT COUNT(1)
+        FROM org
+        WHERE pid = #{orgId}
+          AND deleted = 0
+        <include refid="Data_Permission_Filter"/>
+    </select>
+
+    <select id="selectDetailById" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Detail_Column_List"/>
+        FROM org
+        WHERE id = #{orgId}
+          AND deleted = 0
+        <include refid="Data_Permission_Filter"/>
+    </select>
+
+    <select id="selectListByCondition" resultMap="BaseResultMap">
+        SELECT id, pid, name, shortname, level, state, contact_name, phone, name_path
+        FROM org
+        WHERE deleted = 0
+        <if test="orgName != null and orgName != ''">
+            AND name LIKE CONCAT('%', #{orgName}, '%')
+        </if>
+        <if test="parentOrgId != null">
+            AND pid = #{parentOrgId}
+        </if>
+        <if test="orgType != null">
+            AND level = #{orgType}
+        </if>
+        <if test="status != null">
+            AND state = #{status}
+        </if>
+        <include refid="Data_Permission_Filter"/>
+        ORDER BY sort_num ASC, id ASC
+    </select>
+
+    <select id="selectParentNameById" resultType="java.lang.String">
+        SELECT name
+        FROM org
+        WHERE id = #{pid}
+          AND deleted = 0
+        <include refid="Data_Permission_Filter"/>
+    </select>
+
+    <select id="countStaffByOrgId" resultType="int">
+        SELECT COUNT(DISTINCT so.staff_id)
+        FROM staff_orginfo so
+        INNER JOIN staff s ON so.staff_id = s.id
+        WHERE so.org_id = #{orgId}
+          AND so.deleted = 0
+          AND s.deleted = 0
+    </select>
+
+    <select id="selectIdPathById" resultType="java.lang.String">
+        SELECT id_path
+        FROM org
+        WHERE id = #{orgId}
+          AND deleted = 0
+    </select>
+
+</mapper>

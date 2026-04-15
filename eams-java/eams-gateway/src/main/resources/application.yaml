@@ -47,6 +47,7 @@ zo:
           - "/actuator/**"
           - "/captcha/**"
           - "/auth/oauth/token"
+          - "/login/page-config"
           - "/login/auth-login"
           - "/login/refresh-token"
         # 配置内部路径(需要用到凭证但不需要权限验证的请求)

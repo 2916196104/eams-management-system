@@ -2,39 +2,41 @@ package com.zeroone.star.project.dto.login;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * <p>
- * 描述：用户登录传输数据
- * </p>
- * <p>版权：&copy;01星球</p>
- * <p>地址：01星球总部</p>
- * @author 阿伟学长
- * @version 1.0.0
- */
-@ApiModel("登录上传数据对象")
+import javax.validation.constraints.NotBlank;
+
+@ApiModel("\u767b\u5f55\u8bf7\u6c42\u6570\u636e\u5bf9\u8c61")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class LoginDTO {
-    /**
-     * 用户名
-     */
-    @ApiModelProperty(value = "用户名", example = "admin", required = true)
+
+    @ApiModelProperty(value = "\u7528\u6237\u540d", example = "admin", required = true)
+    @NotBlank(message = "\u7528\u6237\u540d\u4e0d\u80fd\u4e3a\u7a7a")
     private String username;
 
-    /**
-     * 密码
-     */
-    @ApiModelProperty(value = "密码", example = "123456", required = true)
+    @ApiModelProperty(value = "\u5bc6\u7801", example = "123456", required = true)
+    @NotBlank(message = "\u5bc6\u7801\u4e0d\u80fd\u4e3a\u7a7a")
     private String password;
 
-    /**
-     * 验证码
-     */
-    @ApiModelProperty(value = "验证码", example = "999818")
+    @ApiModelProperty(
+            value = "\u9a8c\u8bc1\u7801\u6821\u9a8c\u7ed3\u679c\uff0c\u9a8c\u8bc1\u7801\u672a\u5f00\u542f\u65f6\u53ef\u4e3a\u7a7a",
+            example = "captcha-check-result"
+    )
     private String code;
+
+    @ApiModelProperty(value = "\u7ec8\u7aef\u7c7b\u578b\uff0c\u53ef\u9009 manager / user\uff0c\u9ed8\u8ba4 manager", example = "manager")
+    private String terminalType = "manager";
+
+    public LoginDTO(String username, String password, String code) {
+        this(username, password, code, "manager");
+    }
+
+    public LoginDTO(String username, String password, String code, String terminalType) {
+        this.username = username;
+        this.password = password;
+        this.code = code;
+        this.terminalType = terminalType;
+    }
 }
