@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.sys.mapper.SysUserRoleMapper">
+
+    <select id="selectRoleStaffPage" resultType="com.zeroone.star.project.dto.j2.sys.Roleperm.RolepermStaffDTO">
+        SELECT
+        s.id,
+        s.name,
+        s.mobile
+        FROM staff s
+        INNER JOIN sys_user_role ur ON ur.user_id = CAST(s.id AS CHAR) AND ur.role_id = #{roleId}
+        WHERE (s.deleted = 0 OR s.deleted IS NULL)
+        <if test="name != null and name != ''">
+            AND s.name LIKE CONCAT('%', #{name}, '%')
+        </if>
+        ORDER BY s.add_time DESC, s.id DESC
+    </select>
+
+    <insert id="insertRoleStaff">
+        INSERT INTO sys_user_role (id, user_id, role_id)
+        SELECT
+            IFNULL(MAX(id), 0) + 1,
+            #{userId},
+            #{roleId}
+        FROM sys_user_role
+        WHERE NOT EXISTS (
+            SELECT 1 FROM sys_user_role WHERE user_id = #{userId} AND role_id = #{roleId}
+        )
+    </insert>
+
+    <delete id="deleteByRoleIdAndUserId">
+        DELETE FROM sys_user_role WHERE user_id = #{userId} AND role_id = #{roleId}
+    </delete>
+
+</mapper>

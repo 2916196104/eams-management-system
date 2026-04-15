@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.sys.mapper.roleperm.SysPermissionMapper">
+    <!-- 先删除该角色原有权限 -->
+    <delete id="deletePermissionByRoleId">
+        delete from sys_role_permission where role_id = #{roleId}
+    </delete>
+
+    <!-- 批量插入新权限 -->
+    <insert id="savePermission">
+        insert into sys_role_permission(role_id, permission_id)
+        values
+        <foreach collection="permissions" item="permission" separator=",">
+            (#{roleId}, #{permission.id})
+        </foreach>
+    </insert>
+</mapper>

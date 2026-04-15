@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.sys.mapper.datadict.DataDictMapper">
+
+    <resultMap id="BaseResultMap" type="com.zeroone.star.sys.entity.DictItem">
+            <id property="id" column="id" />
+            <result property="dictId" column="dict_id" />
+            <result property="name" column="name" />
+            <result property="info" column="info" />
+            <result property="sortNum" column="sort_num" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,dict_id,name,info,sort_num
+    </sql>
+</mapper>

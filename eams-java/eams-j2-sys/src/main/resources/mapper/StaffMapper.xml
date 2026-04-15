@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.sys.mapper.StaffMapper">
+
+    <select id="selectOptlogOperators" resultType="com.zeroone.star.project.dto.j2.sys.Optlog.OptlogOperatorDTO">
+        SELECT
+        s.id,
+        s.name,
+        p.name AS position_name
+        FROM staff s
+        LEFT JOIN staff_orginfo so ON so.id = (
+        SELECT so2.id
+        FROM staff_orginfo so2
+        WHERE so2.staff_id = s.id
+        AND (so2.deleted = 0 OR so2.deleted IS NULL)
+        AND so2.position_id IS NOT NULL
+        ORDER BY so2.add_time DESC, so2.id DESC
+        LIMIT 1
+        )
+        LEFT JOIN position p ON p.id = so.position_id AND (p.deleted = 0 OR p.deleted IS NULL)
+        WHERE (s.deleted = 0 OR s.deleted IS NULL)
+        <if test="name != null and name != ''">
+            AND s.name LIKE CONCAT('%', #{name}, '%')
+        </if>
+        ORDER BY s.add_time DESC, s.id DESC
+    </select>
+
+</mapper>
