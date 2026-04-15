@@ -211,6 +211,40 @@ https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#requirem
 | `MongoDB`   | 4.4.17                                                       | https://www.mongodb.com/try/download/community               |
 | `Jenkins`   | latest                                                       | https://www.jenkins.io/zh/doc/book/installing/               |
 
+## 效果预览图
+
+### PC管理端
+
+![](./documents/00、preview-pic/01.png)
+
+![](./documents/00、preview-pic/02.png)
+
+![](./documents/00、preview-pic/03.png)
+
+![](./documents/00、preview-pic/04.png)
+
+![](./documents/00、preview-pic/05.png)
+
+### 移动教师端
+
+![](./documents/00、preview-pic/06.png)
+
+![](./documents/00、preview-pic/07.png)
+
+![](./documents/00、preview-pic/08.png)
+
+![](./documents/00、preview-pic/09.png)
+
+### 移动学生端
+
+![](./documents/00、preview-pic/10.png)
+
+![](./documents/00、preview-pic/11.png)
+
+![](./documents/00、preview-pic/12.png)
+
+![](./documents/00、preview-pic/13.png)
+
 ## 特别鸣谢
 
 `zero-one-eams`的诞生离不开开源软件和社区的支持，感谢以下开源项目及项目维护者：
