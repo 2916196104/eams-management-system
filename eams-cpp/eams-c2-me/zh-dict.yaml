@@ -1,0 +1,147 @@
+parent:
+  tag: 家长信息
+  query:
+    summary: 获取家长信息
+  field:
+    phone: 电话号
+  modify-name:
+    summary: 修改家长信息
+    param: 需修改的姓名
+  modify-password:
+    summary: 修改家长密码
+    old-password: 旧密码
+    new-password: 新密码
+    verify-paaword: 重复新密码
+
+student:
+  tag: 学员相关
+  query:
+    grade: 查询可选年级  
+    point: 查询我的积分  
+  id: 学生id
+  changed_credit: 变动积分
+  current_credit: 当前积分
+  add_time: 积分变动时间
+  remark: 备注信息
+  switchStudent: 切换学员
+  removeStudent: 移除学员
+  getStudentList: 获取学员列表
+    
+address:
+  tag: 收货地址示例接口
+  add-address: 
+   summary: 添加收货地址
+  field:
+   id: 收货地址编号
+   contact: 联系人姓名
+   phone: 手机号码
+   province: 省份
+   city: 城市
+   country: 区县
+   address: 详细地址
+   remark: 备注信息
+
+user:
+ tag: 用户示例接口
+ query-all: 
+  summary: 查询所有用户
+ query-one:
+  summary: 获取当前学员信息
+ add-user:
+  summary: 保存学员
+ query-menu:
+  summary: 查询所有菜单
+ field:
+  id: 用户编号
+  age: 年龄
+  nickname: 昵称
+  idCard: 身份证号码
+  avatar: 头像编号
+  avatarUrl: 头像地址
+  addresses: 收货地址
+  menuname: 菜单名称
+  menuicon: 图标名称
+  menuhref: 路由地址
+  menusub: 子菜单
+sample:
+ tags:
+  t1: 基础示例接口
+  t2: 声明式服务示例接口
+ get:
+  summary: 分页查询示例数据666
+ post:
+  summary: 新增一条示例数据
+ put:
+  summary: 修改一条示例数据
+ delete:
+  summary: 删除数据支持批量
+ query-by-id:
+  summary: 通过ID获取单条数据
+ export:
+  summary: 导出示例数据(响应Excel文件)
+ export-pdf:
+  summary: 导出示例数据(响应PdfBase64字符串)
+ import:
+  summary: 导入示例数据
+ query-one:
+  summary: 使用声明式服务查询一条数据
+ query-all:
+  summary: 使用声明式服务查询多条数据
+ field:
+  id: 编号
+  age: 年龄
+  name: 姓名
+  sex: 性别
+  excel: 导入报表文件
+file:
+ tag: 文件示例接口
+ upload: 
+  summary: 单文件上传
+ upload-more:
+  summary: 多文件上传
+ upload-stream:
+  summary: 流上传文件
+ editor-upload-image:
+  summary: editor上传图片示例接口
+ info:
+  summary: 获取文件信息
+ download:
+  summary: 下载文件
+ html:
+  summary: HTML静态页面访问
+ field:
+  id: 文件编号
+  file: 要上传的文件
+  filename: 文件名
+  ft: 文件类型编码，如10001
+  ftn: 文件类型名称
+  st: 文件保存类型编码，如10001
+  stn: 文件保存类型名称
+  remark: 文件描述
+  path: 文件保存路径
+  status: 文件状态编码，1 使用，0 停用
+  suffix: 文件后缀
+  img-url: 图片src
+  img-alt: 图片文字描述
+  img-href: 图片链接地址
+
+help:
+ tag: 使用说明
+ querylist: 获取使用说明列表
+ querydetail: 获取使用说明详情
+ pageIndex: 页码
+ pageSize: 每页条数
+ id: 编号
+ title: 标题
+ content: 内容
+dtos:
+  # 学生列表 DTO
+  StudentListDTO:
+    id: "主键"
+    name: "姓名"
+    headImg: "头像"
+    credit: "剩余积分"
+    birthday: "生日"
+    age: "年龄"
+    gender: "性别,可用值:FEMALE,MALE,UNKNOWN"
+    stage: "学习阶段,可用值:GRADUATION,INTENTION,STUDYING"   

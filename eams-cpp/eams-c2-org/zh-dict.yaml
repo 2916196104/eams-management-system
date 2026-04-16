@@ -1,0 +1,192 @@
+staff:
+  tag: 员工管理
+  # 接口级中文描述（可选，对齐add-address的summary格式）
+  query-all:
+    summary: 查询所有员工
+  query-one:
+    summary: 查询员工详情
+  add-staff:
+    summary: 新增员工
+  edit-staff:
+    summary: 修改员工信息
+  delete-staff:
+    summary: 删除员工
+  # 字段级中文映射（核心，对齐address的field格式）
+  field:
+    id: 员工ID
+    orgId: 所属组织ID
+    deleted: 是否删除
+    isInner: 是否内部人员
+    name: 姓名
+    mobile: 手机号
+    idCard: 身份证号
+    headImg: 头像URL
+    state: 职工状态(离职或在职)
+    wxAccessId: 微信登录ID
+    email: 邮箱
+    birthday: 生日
+    gender: 性别
+    school: 毕业学校
+    degree: 学历
+    remark: 备注
+    isManager: 是否管理者
+    hireDate: 入职日期
+    fireDate: 离职日期
+    intro: 个人介绍
+    classFee: 课时费
+    assistantFee: 助教费
+    addTime: 创建时间
+    editTime: 编辑时间
+    creator: 创建人ID
+    editor: 编辑人ID
+    password: 密码
+    new-password: 新密码
+  getEmpList:
+    controller: 
+      summary: 获取员工列表
+      resp: 操作成功
+      empName: 员工姓名
+      phone: 手机号
+      status: 状态
+      zhangsan: 张三
+  dto:
+    id: 编号
+    pageIndex: 页码
+    pageSize: 每页条数
+    name: 姓名
+    phone: 手机号
+    status: 状态
+  saveEmp:
+    controller: 
+      summary: 保存员工(新增员工(不传id)+更新员工(传id))
+      resp: 操作成功
+      empName: 员工姓名
+      phone: 手机号
+      status: 状态
+      zhangsan: 张三
+    dto:
+      id: 编号(新增时不传，更新时传入)
+      name: 姓名
+      phone: 电话
+      mobile: 登录账号
+      orgId: 所属机构
+      positionId: 所属职位
+      gender: 性别
+      degree: 学历
+      birthday: 生日
+      school: 毕业学校
+      hireDate: 入职日期
+      classFee: 上课费
+      assistantFee: 助教费
+      intro: 简介
+      isInner: 是否是内部人员
+      isManager: 是否是管理者
+  setRole: 设置角色(支持批量)
+  setOnJob: 设置在职(支持批量)
+  setInstitution: 设置机构(支持批量)
+  change-psword: 
+    summary: 修改职工密码   
+  export-list: 
+    keyword: 导出查询关键字(姓名或手机号)
+    export: 是否导出
+    summary: 导出职工数据
+  get-lesson-record:
+    summary: 获取授课记录
+    start-date: 开始日期
+    end-date: 结束日期
+
+position:
+  tag: 职位管理
+  field:
+    id: 职位id
+    name: 职位名
+    data: 数据
+    total: 总数据数
+    totalPages:  总页数
+    limit: 每页数据数
+    page: 当前页码
+  interface:
+    fetchAll: 获取职位名称
+    title: 职位管理
+    pageQuery: 分页+搜索查询职位名称
+    save: 保存职位
+  datapermission:
+    endpoint:
+      modifyoradd: 修改职位数据权限
+      delete: 删除职位数据权限(支持批量删除)
+      resp:
+        addsuccess: 新增数据成功
+        addfail: 新增数据失败
+        modifysuccess: 修改数据成功
+        modifyfail: 修改数据失败(修改的结果与旧数据相同也会造成此结果)
+    psdto:
+      ename: 数据实体表表名
+      id: 权限记录id
+      info: 数据实体表描述(比如：在线购课订单表(b))
+      orgids: 组织/部门id, 配合scopeType使用
+      ownerfield: 数据实体表单条中描述记录负责人的字段
+      ownerorgfield: 数据实体表单条中描述记录所属组织的字段
+      positionid: 该职位id
+      scopetype: 数据权限范围类型
+
+
+institution:
+  field:
+    id: 机构编号 
+    name: 机构名称
+    type: 机构类型
+    pid: 父机构编号
+    parentId: 父机构编号
+    children: 子机构列表
+  tags:
+    t1: 机构管理
+  tree:
+    summary: 获取机构名称树
+  save:
+    summary: 保存机构名称
+    delete: 删除机构
+  api:
+    get: 获取机构树
+    save: 保存机构
+  getDutyRecord:
+    summary: 获取代班记录
+    resp: 获取成功
+    param1: 员工ID
+    param2: 代班日期
+  modifyAvatar:
+    summary: 修改员工头像
+    resp: 头像修改成功
+    param1: 员工ID
+    param2: 头像文件
+  sample:
+    tags: 员工管理
+  list:
+    summary: 获取机构列表(条件)
+  detail:
+    summary: 获取机构详情
+  delete:
+    summary: 删除机构
+
+field:
+  id: 机构编号
+  name: 机构名称
+  parentId: 父机构编号
+  children: 子机构列表
+  level: 级别
+  shortName: 简称
+  contact: 联系人
+  phone: 电话
+  fax: 传真
+  email: 邮箱
+  sort: 排序
+  status: 状态
+  description: 说明
+tags:
+  t1: 机构管理
+tree:
+  summary: 获取机构名称树
+save:
+  summary: 保存机构名称
+api:
+  get: 获取机构树
+  save: 保存机构
