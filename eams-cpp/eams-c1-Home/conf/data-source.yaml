@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:mysql://111.228.43.9:3307/zo_eams?useUnicode=true&useSSL=false&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: V9sgZWAO6JZ6BRPuvcRM
+    druid:
+     max-active: 5
+  redis:
+    host: 8.163.61.213
+    port: 19642
+    password: Redis627#Xq98
+  data:
+    mongodb:
+      uri: mongodb://awei:awei123asdfghjkl@47.112.10.62:21977/firstDb

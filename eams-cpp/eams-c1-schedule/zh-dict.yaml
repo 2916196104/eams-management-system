@@ -1,0 +1,78 @@
+schedule:
+  tag: 课表模块
+  appointment:
+    scheduleId: 预约课次ID
+    studentId: 预约学生ID
+    summary: 预约
+  leave: 
+    scheduleId: 请假课次ID
+    studentId: 请假学生ID
+    reason: 请假原因
+    summary: 请假
+  # Swagger 上的分组标签
+  tags:
+    main: "课表管理"
+
+  # 接口的标题/摘要
+  query:
+    summary: "获取课表"
+  signin:
+    summary: "签到"
+    success: "签到成功"
+    fail: "签到失败，请稍后重试"
+
+  # DTO/VO/Query 字段的描述
+  field:
+    id: "排课记录ID"
+    queryDate: "查询日期(格式: YYYY-MM-DD)"
+    scheduleType: "课表类型(1-普通课表, 2-预约课)"
+    startTime: "开始时间(如 15:34)"
+    endTime: "结束时间(如 16:34)"
+    courseStatusText: "课程状态(如 进行中/未开始)"
+    className: "班级名称"
+    courseName: "课程名称"
+    teacherName: "老师姓名"
+    classroomName: "教室名称"
+    signInStatusText: "签到状态文本"
+    canSignIn: "是否显示[签到]按钮"
+    canLeave: "是否显示[请假]按钮"
+    canReserve: "是否显示[预约]按钮"
+    scheduleId: "要签到的排课记录ID"
+
+lesson:
+  # Swagger 上的分组标签
+  tags:
+    main: "课表与签到"
+
+  # 接口的标题/摘要
+  list:
+    summary: "获取课表列表"
+  sign:
+    summary: "学生签到"
+    success: "签到成功"
+    fail: "签到失败"
+
+  # DTO/VO/Query 字段的描述
+  field:
+    id: "课程ID (lessonId)"
+    date: "上课日期"
+    startTime: "开始时间"
+    endTime: "结束时间"
+    courseName: "课程名称"
+    className: "班级名称"
+    teacherNames: "教师姓名"
+    classroom: "教室名称"
+    state: "课程状态"
+    studentSignState: "签到状态"
+    studentCanSign: "是否可签到"
+    studentCanLeave: "是否可请假"
+    bookable: "是否为预约课"
+
+  # Service 层用于翻译的状态字典
+  status:
+    not_started: "未开始"
+    ongoing: "进行中"
+    finished: "已结束"
+    unknown: "未知状态"
+    signed: "已签到"
+    unsigned: "未签到"

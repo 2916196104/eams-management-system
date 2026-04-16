@@ -45,7 +45,7 @@ endif()
 
 # 添加公用宏定义
 if (ZO_BT STREQUAL "r")
-	add_definitions(-DOATPP_DISABLE_ENV_OBJECT_COUNTERS)
+	add_definitions(-DOATPP_DISABLE_ENV_OBJECT_COUNTERS -DCLOSE_CROS_SUPPORT)
 endif()
 if (UNIX)
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS)
@@ -164,3 +164,7 @@ if(UNIX)
 	add_subdirectory ("nacos-register")
 endif()
 # 在后面添加你的模块
+add_subdirectory ("eams-c1-Home")
+add_subdirectory ("eams-c1-login")
+add_subdirectory ("eams-c1-schedule")
+
