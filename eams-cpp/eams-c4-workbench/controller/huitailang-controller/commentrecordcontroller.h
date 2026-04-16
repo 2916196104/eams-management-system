@@ -12,6 +12,7 @@
 #define API_TAG ZH_WORDS_GETTER("comment.getcomment")
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
+
 class getcommentrecord : public oatpp::web::server::api::ApiController
 {
 	API_ACCESS_DECLARE(getcommentrecord);
@@ -27,9 +28,8 @@ private: // 定义接口执行函数 执行函数的返回值是响应给前端的json函数
 	CommentrecordsonVO::Wrapper executeQueryComment(const CommentrecordQuery::Wrapper& query);
 };
 
-
 #include OATPP_CODEGEN_END(ApiController)
 
-
+#undef API_TAG
 
 #endif

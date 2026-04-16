@@ -5,12 +5,12 @@
 #include "Macros.h"   //中文字典需要引入的头文件
 #include "../../domain/vo/huitailang-vo/rollcallvo.h"
 #include "../../domain/query/huitailang-query/rollcallquery.h"
-#include "../lib-oatpp/include/ApiHelper.h"
+#include "ApiHelper.h"
 #include "domain/vo/BaseJsonVO.h"
 
 #define API_TAG ZH_WORDS_GETTER("rollcall.getrollrecord")
-
 #include OATPP_CODEGEN_BEGIN(ApiController)
+
 class getrollrecllrecord : public oatpp::web::server::api::ApiController
 {
 	API_ACCESS_DECLARE(getrollrecllrecord);
@@ -26,6 +26,6 @@ private: // 定义接口执行函数 执行函数的返回值是响应给前端的json函数
 	RollCallJsonVO::Wrapper executeQueryRollCall( const RollcallQuery::Wrapper& query);
 };
 
-
 #include OATPP_CODEGEN_END(ApiController)
+#undef API_TAG
 #endif // !GETROLLCALLRECORD_H

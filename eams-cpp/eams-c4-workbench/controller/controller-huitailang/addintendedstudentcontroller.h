@@ -27,7 +27,7 @@ private: // 定义接口执行函数 执行函数的返回值是响应给前端的json函数
 	StringJsonVO::Wrapper executeaddintendedstudent(const intendedstudentDTO::Wrapper& dto, const PayloadDTO& payload);
 };
 
-
+#undef API_TAG
 #include OATPP_CODEGEN_END(ApiController)
 
 

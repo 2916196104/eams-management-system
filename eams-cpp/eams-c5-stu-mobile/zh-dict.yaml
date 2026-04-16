@@ -1,0 +1,352 @@
+﻿redeemcredit:
+  tag: 积分兑换
+  summary: 兑换礼品
+  request-success: 兑换成功
+  field:
+    credit_id: 要兑换的礼品的id
+    student_id: 学生id
+    school_id: 学校id
+    redeem_count: 兑换数量
+    stock_count: 库存数量
+  request-failure:
+    failure1: 该礼品不可兑换
+    failure2: 礼品数量不足
+    failure3: 积分不足
+  remark: 兑换礼品
+  reason: 积分商城兑换礼品
+  num: 数量
+LessonComment:
+  tag: 点评记录
+  query-all:
+    summary: 获取点评记录（条件+分页）
+  field:
+    id: 主键ID
+    lesson_id: 课程id
+    class_id: 班级id,为空表示调课生
+    student_id: 学员id
+    dec_lesson_count: 实扣课次
+    lesson_count: 应扣课次
+    teacher_id: 点名的老师
+    sign_time: 签到时间
+    sign_type: 签到方式
+    sign_state: 签到结果
+    score: 老师评分
+    evaluation: 老师评语
+    evaluate_time: 评语时间
+    evaluate_teacher: 评语老师
+    evaluate_teacher_id: 评语老师id
+    consume_course_id: 实际消费课程
+    consume_student_course_id: 消费课程与学生关联表ID
+    counselor: 学生的顾问
+    add_time: 加入时间
+    org_id: 上课老师所属组织ID  
+EnrollCourse:
+  tag: 报名记录
+  query-all:
+    summary: 获取报名的课程（条件+分页）
+  field:
+    id: 主键ID
+    student_id: 学生id
+    course_id: 课程id
+    course_name: 课程名称
+    subject_id: 科目id
+    subject_name: 科目名称
+    start_date: 开始时间
+    expire_date: 过期日期
+    remark: 备注
+    count_lesson_total: 购买总课次
+    count_lesson_complete: 已上课次
+    count_lesson_refund: 退款次数
+    course_amount: 套餐金额
+    discount_amount: 优惠金额
+    amount: 成交/合约金额
+    paid_amount: 实付金额
+    pay_off: 是否付清 0 否1是
+    operater: 经手人
+    creator: 创建人
+    add_time: 录入时间
+    editor: 编辑人
+    edit_time: 编辑时间
+    deleted: 删除标记
+    verify_state: 审核状态
+    warning_times: 不足时已提醒次数
+    priority: 消课优先级
+    unit_price: 单价
+    from_trial: 是否来自于体验试用
+    org_id: 报名老师所属组织ID  
+
+Announcement:
+  tag:
+    t1: 公告提醒
+  field:
+    id: 主键ID
+    title: 标题
+    type: 类型
+    content: 发送内容
+    cover:
+    creator: 创建人
+    add_time: 添加时间
+    deleted: 删除标记
+    edit_time: 编辑时间
+    editor: 编辑人
+    state: 状态
+    sort_num:
+    code: 唯一码
+  getallannouncement:
+    summary: 获取所有公告(分页)
+    search1: 添加时间
+    search2: 类型
+    titlename1: 关于处理学生玩原神
+    typename1: 普通公告
+  getdisplayedannouncement:
+    summary: 获取显示通知公告
+    search1: 添加时间    
+
+Timeable:
+  tags:
+    t1: 获取课表
+  field:
+    id: 主键ID
+    course_id: 所属课程ID
+    title: 章节标题
+    lesson_count: 计划课时数
+    sn: 课程序号
+    date: 日期
+    start_time: 开始时间
+    end_time: 结束时间
+    teacher_id: 教师ID
+    schedule_id: 排课计划ID
+    teacher_name: 教师姓名
+    sign_state: 签到状态
+    creator: 创建人
+    editor: 编辑者
+    add_time: 添加时间
+    edit_time: 修改时间
+    deleted: 删除标记
+  gettimeable:
+    summary: 获取课表
+    resp: 操作成功
+    search1: 学生id
+    search2: 日期
+    search3: 班级id
+  course:
+    name1: 线性代数
+    teachername1: 老师
+    searchname1: 
+    searchname2:
+
+home:
+  trialCard:
+    summary: "试听卡"
+    name: "试听卡名称"
+    courseName: "试听卡课程名称"
+    lessonCount: "试听卡课时"
+    remainingQuantity: "试听卡剩余数量"
+    endData: "试听卡截止时间"
+    getTrialCardList:
+      info: "获取试听卡列表"
+student:
+  id: "学生ID"
+  name: "学生姓名"
+  phone: "学生手机号"
+  email: "学生邮箱"
+  getStudentInfo: "获取学生信息"
+login:
+  summary: "登录"
+  register:
+    summary: "注册账号"
+    field:
+      id: "编号ID"          
+      telephoneNumber:      
+        info: "手机号"
+        errMsg: "手机号格式有误"
+        errMsgExist: "当前手机号已被注册"
+      vertificationCode:    
+        info: "验证码"
+        errMsg: "验证码有误"
+      name:                
+        info: "姓名"
+        errMsg: "姓名为空"
+      password:
+        info: "密码"
+        errMsg: "密码必须是包含数字和字母且不少于8位"
+schedule:
+  summary: "课表"
+  appointment:
+    info: "预约"
+    id: "预约ID"
+    date: "预约时间"
+    courseId: "课程ID"
+    lessonId: "试听课次ID"
+    addTime: "预约时间"
+    teacher: "教师"
+    classroom: "教室"
+    startTime: "开始时间"
+    endTime: "结束时间"
+    team: "班级"
+    counselorId: "顾问ID"
+    errmsg: "参数为空"
+c5:
+  home:
+    class:
+      tag: 班级
+      classstudent:
+        tag: 班级学员
+        query-all:
+          summary: 获取班级学员列表
+        field:
+          id: 主键ID
+          class_id: 班级id
+          student_id: 学生id
+          add_time: 添加时间
+          creator: 创建人
+          reason: 加入原因
+          deleted: 删除标记
+          remark: 备注信息
+          consume_course_id: 默认消费课程ID
+          name: 姓名
+          gender: 性别
+    homework:
+      tag: 作业
+      query-all:
+        summary: 获取作业列表(条件+分页)
+      field:
+        id: 主键ID
+        class_id: 班级id
+        student_id: 学生id
+        title: 标题
+        content: 内容
+        creator: 创建人
+        editor: 编辑人
+        add_time: 添加时间
+        edit_time: 编辑时间
+        deleted: 删除标记
+        org_id: 创建者所属组织ID
+        class_name: 班级名称
+        submit_status: 提交状态
+        sub_0: 未交
+        sub_1: 已交
+
+get-credit-mall-list:
+  tag: 积分兑换
+  summary: 获取积分礼品列表（条件+分页）
+  field:
+    id: 主键
+    category_name: 分类名称
+    name: 礼品名称
+    credit: 兑换积分
+    cover: 封面图地址
+test :
+ summary: 测试接口
+ resp: 操作成功
+
+spsmtp:
+ summary: 发送密码短信验证
+ mail : 邮箱号
+
+api_post_code :
+ summary: 发送密码短信验证
+ resp: 操作成功
+ field:  
+  mail: 邮箱号
+
+
+credit_mall:
+ tags:
+  t1: 基础示例接口
+  t2: 声明式服务示例接口
+  t3: 积分兑换
+  t4: 登入
+ get:
+  summary-school_id: 通过学校id分页查询礼品数据
+  summary: 通过id查询礼品
+  summary-material_id: 通过物料id分页查询礼品数据
+  summary-category_id: 通过种类id分页查询礼品数据
+  summary-category_name: 通过种类名称分页查询礼品数据
+ post:
+  summary: 新增积分商城礼品数据  
+ put:
+  summary: 修改积分商城礼品数据    
+ delete:
+  summary: 批量删除积分商城礼品数据 
+ query-by-id:
+  summary: 获取积分礼品详情
+ export:
+  summary: 导出积分商城礼品数据(响应Excel文件)
+ export-pdf:
+  summary: 导出积分商城礼品数据(响应PdfBase64字符串)
+ import:
+  summary: 导入积分商城礼品数据
+ query-one:
+  summary: 使用声明式服务查询单条积分商城礼品数据
+ query-all:
+  summary: 使用声明式服务查询全部积分商城礼品数据
+ field:  
+  id: 编号
+  school_id: 所属学校id
+  material_id: 物料分类id
+  category_id: 礼品分类id
+  category_name: 种类名称
+  name: 礼品名称
+  credit: 兑换积分        
+  state: 是否可兑换          
+  sale_num: 历史兑换数量    
+  view_num: 预览次数         
+  cover: 礼品封面地址        
+  content: 礼品详情内容      
+  creator: 创建人ID        
+  editor: 编辑人ID          
+  add_time: 添加时间        
+  edit_time: 编辑时间        
+  deleted: 删除标记          
+  org_id: 创建者所属组织ID   
+  excel: 导入报表文件        
+
+
+file:
+ tag: 文件示例接口
+ upload: 
+  summary: 单文件上传
+ upload-more:
+  summary: 多文件上传
+ upload-stream:
+  summary: 流上传文件
+ editor-upload-image:
+  summary: editor上传图片示例接口
+ info:
+  summary: 获取文件信息
+ download:
+  summary: 下载文件
+ html:
+  summary: HTML静态页面访问
+ field:  
+  id: 文件编号
+  file: 要上传的文件
+  filename: 文件名
+  ft: 文件类型编码，如10001
+  ftn: 文件类型名称
+  st: 文件保存类型编码，如10001
+  stn: 文件保存类型名称
+  remark: 文件描述
+  path: 文件保存路径
+  status: 文件状态编码，1 使用，0 停用
+  suffix: 文件后缀
+  img-url: 图片src
+  img-alt: 图片文字描述
+  img-href: 图片链接地址
+
+
+sample:
+ tags:
+  t1: 基础示例接口
+  t2: 声明式服务示例接口
+ field:  
+  id: 示例编号
+  name: 示例名称
+  age: 示例年龄
+  sex: 示例性别
+
+mail:
+ topic: 测试主题
+ body1: <html><meta charset=\"UTF-8\"><body><p>我是<b>中文</b></p><p><font color=red>我是红色的中文</font></p></body></html>
+ body2: 我是中文，文字消息内容。

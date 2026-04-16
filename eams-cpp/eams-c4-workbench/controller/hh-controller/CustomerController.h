@@ -42,6 +42,7 @@ private:
 	CustomerLessonListJsonVO::Wrapper execQueryLessonById(const String& id);
 };
 
+#undef API_TAG
 #include OATPP_CODEGEN_END(ApiController) // 结束代码生成
 
 #endif

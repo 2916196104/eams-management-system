@@ -28,5 +28,8 @@ private:
 	StringJsonVO::Wrapper execSaveEnrolled(const EnrollDTO::Wrapper& dto, const PayloadDTO& payload);
 
 };
+
+#undef API_TAG2
+
 #include OATPP_CODEGEN_END(ApiController) //<- End Code-Gen Section	
 #endif // !_ENROLLMENTCONTROLLER_

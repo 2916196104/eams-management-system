@@ -42,6 +42,7 @@ private:
 	StringJsonVO::Wrapper executeaddFreeScheduling(const FreeSchedulingDTO::Wrapper& dto, const PayloadDTO& payload);
 };
 
-#undef API_TAG
 #include OATPP_CODEGEN_END(ApiController)
+#undef API_TAG
+
 #endif // !_SCHEDULINGCONTROLLER_H_

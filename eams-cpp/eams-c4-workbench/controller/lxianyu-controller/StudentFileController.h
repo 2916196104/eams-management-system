@@ -77,7 +77,7 @@ private:
 	StudentFileProJsonVO::Wrapper execQueryStudentById(const String& id);
 };
 
-
+#undef API_TAG
 
 // 0 取消API控制器使用宏
 #include OATPP_CODEGEN_END(ApiController) //<- End Codegen

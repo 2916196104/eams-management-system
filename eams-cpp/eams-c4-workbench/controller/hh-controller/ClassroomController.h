@@ -26,6 +26,8 @@ private:
 	ClassroomPageJsonVO::Wrapper execQueryClassroom(const ClassroomQuery::Wrapper& query);
 };
 
+#undef API_TAG2
+
 #include OATPP_CODEGEN_END(ApiController) // 结束代码生成
 
 #endif
