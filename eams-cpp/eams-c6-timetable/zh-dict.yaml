@@ -1,0 +1,117 @@
+# 课表接口
+timetable:
+  api-tag: "课表"
+
+  interface:
+    query-lesson: "获取课表"
+    sign: "签到"
+    reserve: "预约"
+    leave: "请假"
+   
+  field:
+    leave:
+      lesson-id: "课程ID"
+      reason: "请假原因"
+      student-id: "学员ID"
+
+    reserve:
+      lesson-id: "课程ID"
+      student-id: "学员ID"
+
+    sign:
+      lesson-id: "课程ID"
+      sign-type: "签到方式（1-老师管理端操作，2-家长端学生手动签到）"
+      student-id: "学员ID"
+
+    action:
+      success: "是否成功"
+      message: "提示消息"
+      lesson-id: "课程ID"
+      action-type: "操作类型（sign签到，reserve预约，leave请假）"
+
+
+    calendar:
+      date: "日期"
+      count: "当天课次数量"
+
+    query:
+      query-date: "查询日期（格式：yyyy-MM-dd，如2026-03-31）"
+      year: "年份"
+      month: "月份"
+      student-id: "学员ID"
+      include-reservable: "是否包含可预约课程"
+      calendar-list: "月历每天课表数量列表"
+      lesson-section: "课表分组"
+      reserve-section: "预约分组"
+
+    section:
+      section-title: "分组标题"
+      total: "节数"
+      course-list: "课程列表"
+      empty-tip: "空态提示（仅当该分组没有课程时返回）"
+
+    item:
+      lesson-id: "课程ID"
+      title: "课程标题"
+      class-id: "班级ID"
+      class-name: "班级名称"
+      room-id: "教室ID"
+      room-name: "教室名称"
+      teacher-id: "教师ID"
+      teacher-name: "教师姓名"
+      date: "上课日期"
+      start-time: "开始时间"
+      end-time: "结束时间"
+      remark: "备注"
+      lesson-state: "课程状态"
+      lesson-state-text: "课程状态文本"
+      card-type: "卡片类型"
+      sign-state: "签到状态"
+      sign-state-text: "签到状态文本"
+      can-sign: "是否可签到"
+      can-leave: "是否可请假"
+      can-reserve: "是否可预约"
+      action-type: "按钮类型"
+      action-text: "按钮文本"
+
+    sign-result:
+      success: "是否签到成功"
+      message: "提示信息"
+      lesson-id: "课程ID"
+      sign-type: "签到方式（1-老师管理端操作，2-家长端学生手动签到）"
+      sign-state: "签到结果状态（0未签到，1已签到，2补签，3请假，4旷课）"
+      sign-state-text: "签到结果状态文本"
+      sign-time: "签到时间"
+
+  words:
+    lesson-section-suffix: " 课表"
+    reserve-section-suffix: " 预约课"
+    empty-lesson-section: "当天暂无课表"
+    empty-reserve-section: "当天暂无可预约课程"
+
+    lesson-state-finished: "已结课"
+    lesson-state-running: "进行中"
+
+    sign-state-unsigned: "未签到"
+    sign-state-signed: "已签到"
+    sign-state-repair: "补签"
+    sign-state-leave: "请假"
+    sign-state-absence: "旷课"
+
+    action-sign: "签到"
+    action-reserve: "预约"
+
+    lesson-not-found: "课次不存在"
+    reserve-duplicated: "该课次已提交预约，请勿重复操作"
+    reserve-rejected: "该课次预约已被驳回，请预约下一次课"
+    reserve-submit-failed: "预约提交失败"
+    reserve-submit-success: "已提交预约申请"
+
+    sign-record-not-found: "未找到签到记录"
+    sign-failed: "签到失败"
+    sign-success: "签到成功"
+
+    leave-record-not-found: "未找到请假记录对应课次"
+    leave-failed: "请假失败"
+    leave-success: "请假成功"
+

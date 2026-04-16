@@ -1,0 +1,205 @@
+﻿#公共接口
+common:
+ api-tag: 公共接口
+ interface:
+  get-student-by-id: 获取学员详情
+  modify-student-picture: 修改学员头像
+  query-student-registration-record: 获取报名记录（条件+分页）
+  download-student-picture: 下载学员头像 
+  get-student-course-count: 获取学员课次数据
+  save-student: 保存学员
+  enrollstudentCourse: 学员报名课程
+  studentstage: 获取学员阶段
+  delete-contact-record: 删除跟进记录
+  modify-student-points: 调整学员积分
+  add-follow-up-record: 添加跟进记录
+  query-follow-up-records: 获取跟进记录
+  pay-fees: 缴欠费
+  refund: 退款
+  
+ field:
+  fees:
+   handler: 收款经手人
+   pay-amount: 付费总金额
+   subject-id: 科目id
+   course-id: 课程id
+   lessons: 退课课时
+   reason: 退款原因
+  contact-record:
+   ids: 跟进记录 ID 列表
+  file:
+   id: 文件ID
+  course:
+   name: 课程名称
+   total: 总课次
+   left: 剩余课次
+  student:
+   id: 学员ID
+   name: 学员姓名
+   phone: 手机号码
+   picture-path: 学员头像文件路径
+   left-course-count: 剩余课次
+   left-points: 剩余积分
+   stage: 学员阶段
+   sex: 学员性别
+   age: 学员年龄
+   birthday: 出生年月
+   identification-number: 身份证号
+   parent-name: 家长姓名
+   relation-type: 亲属关系
+   grade: 年级
+   enter-time: 入学时间
+   accurate-enter-time: 精确入学时间
+   note: 备注
+   course-progress: 课次进度
+   follow-up-stage: 跟进阶段
+   follow-up-person: 跟进人
+   startdate: 开始日期
+   enddate: 结束日期
+   follow-up-time: 跟进时间
+   customer: 客户
+   follow-up-way: 跟进方式
+   next-follow-up-time: 下次跟进时间
+   record-time: 记录时间
+   follow-up-content: 跟进内容
+   lost-stage: 丢失阶段
+   contact-channel: 联系途径
+   contact-time: 联系时间
+   next-contact-time: 下次联系时间
+   contact-way: 联系方式
+   modify-points: 调整积分数
+   modify-reason: 调整原因
+  registration-record:
+   id: 报名记录ID
+   add-time: 添加时间
+   course: 课程
+   subject: 科目
+   buy-count: 购买课次
+   unit-price: 单价
+   course-price: 课程价格
+   sale-price: 优惠价格
+   reality-price: 实际价格
+   arrearage: 欠费金额
+   begin-time: 开始时间
+   end-time: 结束时间
+   refund-price: 退费金额
+   drop-class-count: 退课数量
+   refund-describe: 退费说明
+   refund-status: 退费状态
+   price-people: 收款经手人
+
+finishstudent:
+ api-tag: 结业学员接口
+ interface:
+  export-finish-student: 导出结业学员报表
+  import-finish-student: 导入结业学员报表
+ field:
+  finish-student-query:
+   id: 编号
+   student-name: 学员姓名
+   parent-name: 家长姓名
+   family-relation: 亲属关系
+   mobile: 手机号码
+   counselor: 顾问
+   grade: 年级
+   school-name: 分校名称
+   lesson-count: 课次数
+   points: 积分
+   gender: 性别
+   age: 年龄
+   remark: 备注
+   graduation-date: 结业日期
+   operation: 操作
+   keyword: 学员姓名或手机号
+   total-count: 导入总行数
+   success-count: 导入成功行数
+   failed-count: 导入失败行数
+
+parentaccount:
+ api-tag: 家长账号
+ interface:
+  query-parent-account: 家长账号条件分页查询
+  modify-parent-account: 家长账户更改
+  modify-parent-password: 家长密码更改
+ field:
+  parent:
+   user-id: 家长id
+   mobile: 手机号
+   name: 家长姓名
+   student-name: 关联学生
+   wx-name: 微信昵称
+   keyword: 姓名或手机号
+   login-times: 登录次数
+   latest-login-time: 最近登录时间
+   latest-login-ip: 最近登录IP
+   add-time: 注册时间
+   state: 状态
+   operation: 操作
+   old-password: 旧密码
+   new-password: 新密码
+
+intendedstudent:
+ api-tag: 意向学员接口
+ interface:
+  export: 意向学员导出
+  import: 意向学员导入
+ field:
+  excel: 导入报表文件
+  student:
+   id: ID
+   sex: 学员性别
+   male: 男
+   female: 女
+   unknown: 未知
+   name: 学员名字
+   stage: 学员状态
+   mobile: 手机号码
+   parent: 家长姓名
+   parent-rel: 家长关系
+   school: 学校
+   grade: 年纪
+   counselor: 顾问
+   birthday: 生日
+   password: 登陆密码
+   idcard: 身份证密码
+
+onlinestudent:
+ api-tag: 在线成员接口
+ interface:
+  export: 在线成员导出
+  import: 在线成员导入
+  modify-counselor: 修改顾问
+  query-counselor-list: 查询顾问列表
+ field:
+  excel: 导入报表文件
+  counselor:
+   id: 顾问 ID
+   name: 顾问姓名
+   position: 职位
+  student:
+   id: ID
+   sex: 学员性别
+   male: 男
+   female: 女
+   name: 学员名字
+   stage: 学员状态
+   mobile: 手机号码
+   parent: 家长姓名
+   parent-rel: 家长关系
+   school: 学校
+   grade: 年纪
+   counselor: 顾问
+   birthday: 生日
+
+summaryclass:
+ api-tag: 课时汇总
+ interface:
+  query-summaryclass: 课时汇总查询
+ field:
+  student:
+   student-name: 学员姓名
+   course-name: 课程名字
+   attendance-record: 上课记录
+   total-lessons: 总课次
+   used-lessons: 已上课次
+   remaining-lessons: 剩余课次
