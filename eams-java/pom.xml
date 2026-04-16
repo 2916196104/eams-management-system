@@ -59,6 +59,9 @@
         <module>eams-j7-operation</module>
         <module>eams-j8-stumanager</module>
         <module>eams-j8-sysmanager</module>
+        <module>eams-j9-course</module>
+        <module>eams-j9-material</module>
+        <module>eams-j9-operation</module>
     </modules>
     <properties>
         <!-- 项目版本号 -->

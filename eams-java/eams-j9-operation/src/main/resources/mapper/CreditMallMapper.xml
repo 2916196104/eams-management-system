@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.operation.mapper.CreditMallMapper">
+
+    <!-- 分页查询礼品列表（关联org表获取学校名称） -->
+    <select id="pageQueryWithSchoolName" resultType="com.zeroone.star.project.vo.j9.operation.CreditMallPageVO">
+        SELECT
+        cm.id,
+        cm.cover,
+        cm.name,
+        org.name AS schoolName,
+        cm.credit,
+        cm.sale_num AS saleNum,
+        cm.view_num AS viewNum,
+        cm.edit_time AS editTime,
+        cm.state
+        FROM credit_mall cm
+        LEFT JOIN org ON cm.school_id = org.id
+        WHERE cm.deleted = 0
+        <!-- 动态查询条件：礼品名称模糊匹配 -->
+        <if test="query.name != null and query.name != ''">
+            AND cm.name LIKE CONCAT('%', #{query.name}, '%')
+        </if>
+        <!-- 动态查询条件：是否可兑换 -->
+        <if test="query.state != null">
+            AND cm.state = #{query.state}
+        </if>
+        <!-- 按最后编辑时间倒序 -->
+        ORDER BY cm.edit_time DESC
+    </select>
+</mapper>

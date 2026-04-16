@@ -1,0 +1,16 @@
+package com.zeroone.star.material;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+
+@SpringBootApplication
+@EnableDiscoveryClient
+public class MaterialApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(MaterialApplication.class, args);
+    }
+
+}
+

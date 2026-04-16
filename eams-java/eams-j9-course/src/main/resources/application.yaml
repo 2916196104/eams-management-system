@@ -1,0 +1,14 @@
+server:
+  port: ${sp.course}
+spring:
+  application:
+    name: ${sn.course}
+
+# MyBatis-Plus
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+# 接口文档
+knife4j:
+  enable: true

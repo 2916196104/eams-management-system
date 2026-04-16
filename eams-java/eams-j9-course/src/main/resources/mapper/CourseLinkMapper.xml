@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.course.mapper.CourseLinkMapper">
+
+    <!-- 批量移除关联关系：根据 course_id 和 linked_id 列表匹配 -->
+    <delete id="deleteBatchByCourseIdAndLinkedIds">
+        DELETE FROM course_link
+        WHERE course_id = #{courseId}
+        AND linked_id IN
+        <foreach collection="linkedIds" item="linkedId" open="(" separator="," close=")">
+            #{linkedId}
+        </foreach>
+    </delete>
+
+</mapper>

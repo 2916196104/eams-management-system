@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.operation.mapper.CreditExchangeMapper">
+
+    <select id="selectCreditExchangePage" resultType="com.zeroone.star.project.vo.j9.operation.CreditExchangeVO">
+        SELECT
+            ce.id,
+            cm.name AS giftName,
+            s.name AS studentName,
+            ce.num,
+            ce.credit,
+            ce.verify_state,
+            CASE ce.verify_state
+                WHEN 1 THEN '待审核'
+                WHEN 2 THEN '已通过'
+                WHEN 3 THEN '已拒绝'
+                ELSE '未知'
+            END AS verifyStateDesc,
+            ce.add_time AS addTime,
+            o.name AS schoolName,
+            stf.name AS verifyStaffName,
+            ce.verify_remark AS verifyRemark
+        FROM credit_exchange ce
+        LEFT JOIN credit_mall cm ON ce.credit_mall_id = cm.id
+        LEFT JOIN student s ON ce.student_id = s.id
+        LEFT JOIN org o ON ce.school_id = o.id
+        LEFT JOIN staff stf ON ce.verify_staff = stf.id
+        <where>
+            ce.deleted = 0
+            <if test="condition.giftName != null and condition.giftName != ''">
+                AND cm.name LIKE CONCAT('%', #{condition.giftName}, '%')
+            </if>
+            <if test="condition.verifyState != null">
+                AND ce.verify_state = #{condition.verifyState}
+            </if>
+            <if test="condition.startDate != null">
+                AND ce.add_time &gt;= #{condition.startDate}
+            </if>
+            <if test="condition.endDate != null">
+                AND ce.add_time &lt;= #{condition.endDate}
+            </if>
+        </where>
+        ORDER BY ce.add_time DESC
+    </select>
+
+</mapper>

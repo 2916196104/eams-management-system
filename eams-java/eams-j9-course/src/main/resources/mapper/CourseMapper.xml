@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.course.mapper.CourseMapper">
+
+    <!-- 分页查询课程列表（关联学科名） -->
+    <select id="selectCourseList" resultType="com.zeroone.star.project.vo.j9.course.CourseListVO">
+        SELECT
+            c.id,
+            c.name,
+            c.subject_id AS subjectId,
+            s.name AS subjectName,
+            c.state,
+            c.price,
+            c.unit_price AS unitPrice,
+            c.discount,
+            c.lesson_count AS lessonCount,
+            c.lesson_type AS lessonType,
+            c.cover,
+            c.for_sale AS forSale,
+            c.bookable,
+            c.recommend,
+            c.storage,
+            c.add_time AS addTime
+        FROM course c
+        LEFT JOIN subject s ON c.subject_id = s.id AND s.deleted = 0
+        WHERE c.deleted = 0
+        <if test="query.name != null and query.name != ''">
+            AND c.name LIKE CONCAT('%', #{query.name}, '%')
+        </if>
+        <if test="query.subjectId != null">
+            AND c.subject_id = #{query.subjectId}
+        </if>
+        <if test="query.state != null">
+            AND c.state = #{query.state}
+        </if>
+        <if test="query.lessonType != null">
+            AND c.lesson_type = #{query.lessonType}
+        </if>
+        <if test="query.forSale != null">
+            AND c.for_sale = #{query.forSale}
+        </if>
+        <if test="query.gradeName != null and query.gradeName != ''">
+            AND c.grade_names LIKE CONCAT('%', #{query.gradeName}, '%')
+        </if>
+        ORDER BY c.add_time DESC
+    </select>
+
+    <!-- 按条件查询课程列表（关联学科名，用于导出） -->
+    <select id="selectCourseExportList" resultType="com.zeroone.star.project.vo.j9.course.CourseExportVO">
+        SELECT
+            c.id,
+            c.name,
+            s.name AS subjectName,
+            CASE c.state WHEN 1 THEN '启用' ELSE '禁用' END AS stateText,
+            c.price,
+            c.unit_price AS unitPrice,
+            c.discount,
+            c.lesson_count AS lessonCount,
+            CASE c.lesson_type WHEN 1 THEN '大课' WHEN 2 THEN '小班课' WHEN 3 THEN '一对一' ELSE '未知' END AS lessonTypeText,
+            CASE c.for_sale WHEN 1 THEN '是' ELSE '否' END AS forSaleText,
+            CASE c.bookable WHEN 1 THEN '是' ELSE '否' END AS bookableText,
+            c.storage
+        FROM course c
+        LEFT JOIN subject s ON c.subject_id = s.id AND s.deleted = 0
+        WHERE c.deleted = 0
+        <if test="query.name != null and query.name != ''">
+            AND c.name LIKE CONCAT('%', #{query.name}, '%')
+        </if>
+        <if test="query.subjectId != null">
+            AND c.subject_id = #{query.subjectId}
+        </if>
+        <if test="query.state != null">
+            AND c.state = #{query.state}
+        </if>
+        <if test="query.lessonType != null">
+            AND c.lesson_type = #{query.lessonType}
+        </if>
+        <if test="query.forSale != null">
+            AND c.for_sale = #{query.forSale}
+        </if>
+        ORDER BY c.add_time DESC
+    </select>
+
+</mapper>

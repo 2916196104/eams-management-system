@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.material.mapper.MaterialRecordMapper">
+
+    <select id="selectMaterialRecordList" resultType="com.zeroone.star.project.dto.j9.material.MaterialRecordDTO">
+        SELECT
+            id,
+            material_id AS materialId,
+            amount,
+            reason,
+            change_type AS changeType,
+            change_target_id AS changeTargetId,
+            remark,
+            add_time AS addTime,
+            student_id AS studentId,
+            staff_id AS staffId
+        FROM material_record
+        WHERE deleted = 0
+        <if test="query.materialId != null">
+            AND material_id = #{query.materialId}
+        </if>
+        <if test="query.changeType != null and query.changeType != ''">
+            AND change_type = #{query.changeType}
+        </if>
+        <if test="query.studentId != null">
+            AND student_id = #{query.studentId}
+        </if>
+        <if test="query.staffId != null">
+            AND staff_id = #{query.staffId}
+        </if>
+        ORDER BY add_time DESC
+    </select>
+
+</mapper>

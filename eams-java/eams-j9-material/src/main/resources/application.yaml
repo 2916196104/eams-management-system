@@ -1,0 +1,5 @@
+server:
+  port: ${sp.material}
+spring:
+  application:
+    name: ${sn.material}
