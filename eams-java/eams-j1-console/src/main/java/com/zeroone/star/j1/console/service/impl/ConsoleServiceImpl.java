@@ -157,7 +157,7 @@ public class ConsoleServiceImpl implements IConsoleService {
 
     @Override
     public MyCustomerVO getMyCustomerList(MyCustomerQuery query) {
-        Page<StudentDO> page = new Page<>(query.getPageNum(), query.getPageSize());
+        Page<StudentDO> page = new Page<>(query.getPageIndex(), query.getPageSize());
         LambdaQueryWrapper<StudentDO> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(StudentDO::getDeleted, 0);
         wrapper.eq(StudentDO::getStage, 0); // 意向学员
