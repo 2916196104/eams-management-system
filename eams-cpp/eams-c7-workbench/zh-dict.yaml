@@ -1,0 +1,369 @@
+﻿user:
+ tag: 工作台
+
+ information:
+  summary: 获取当前用户信息
+ profile:
+  summary: 获取当前用户资料
+ changepicture:
+  summary: 修改头像
+ field:
+  id: 用户ID
+  name: 用户姓名
+  mobile: 用户手机号
+  age: 用户年龄
+  birthday: 用户生日
+  gender: 性别
+  idcard: 身份证
+  school: 毕业学校
+  degree: 学历
+  remark: 备注
+  state: 状态
+  headimg: 头像地址
+  hireDate: 入职时间
+  fireDate: 离职时间
+  isInner: 是否在职
+  head_img: 头像地址
+  file: 要上传的文件
+
+#qiu
+course:
+    detail:
+        summary: 课程详情
+        id: 课程id
+    list:
+        summary: 课程列表
+    type:
+        1: 大课
+        2: 小班课
+        3: 1v1
+    field:
+        courseId: 课程ID
+        course: 课程
+        reportType: 报名类型
+        stuName: 学生姓名
+        courseName: 课程名称
+        startTime: 开始时间
+        endTime: 结束时间
+        courseNum: 课程数
+        coursePrice: 课程价格
+        actualPayment: 实际支付
+        discountPrice: 优惠金额
+        tip: 备注
+        subjectName: 所属科目
+        expireMonths: 有效时间
+register:
+    save:
+        summary: 保存报名
+    field:
+        register: 报名
+        reportType: 报名类型
+        stuName: 学生姓名
+        courseName: 课程名称
+        startTime: 开始时间
+        endTime: 结束时间
+        courseNum: 课程数
+        coursePrice: 课程价格
+        actualPayment: 实际支付
+        discountPrice: 优惠金额
+        tip: 备注
+        subjectName: 所属科目
+        expireMonths: 有效时间
+cus:
+  tag: 我的客户
+  get-list:
+    summary: 获取我的客户
+  get-cus-details:
+    summary: 获取学员详情
+  get-cus-courses:
+    summary: 获取学员课程
+  field:
+    name: 学员名称
+    phoneNumber: 学员电话
+    sex:
+      male: 男      
+      female: 女   
+    age: 年龄
+    birth: 生日
+    type: 
+      formal: 正式   
+      trial: 试用 
+
+    notes: 备注
+  course:
+    field:
+      courseName: 课程名称
+      totalLessons: 总次数
+      finishedLessons: 已学次数
+      remainingLessons: 剩余次数
+      progress: 学习进度
+      expireTime: 到期时间
+
+sign:
+ tag: 点名记录
+ query-sign-page:
+  summary: 获取点名记录列表（条件+分页）
+ field:
+  stu-id: 学生编号
+  stu-name: 学生名称
+  date: 上课时间
+  stu-sign: 已签到
+  teacher-id: 当前管理员编号
+
+remark:
+ tag: 点评记录
+ query-remark-page:
+  summary: 获取点评记录列表 (条件+分页)
+ field:
+  stu-id: 学生编号
+  stu-name: 学生名称
+  remark: 评语
+  remark-time: 点评时间
+  score: 评分
+  teacher-id: 当前管理员编号
+  teacher-name: 当前管理员名称
+
+classroom:
+ tag: 教室管理
+ field:
+  id: 教室id
+  name: 教室名称
+  address: 教室地址
+ query-page: 
+  summary: 获取教室列表(条件+分页)
+
+homework:
+  tag: "作业管理"
+  detail:
+    summary: "获取作业详情"
+  assign:
+    summary: "布置作业"
+  record:
+    list:
+      summary: "获取作业提交记录列表"
+  review:
+   success: "点评成功"
+   fail: "点评失败"
+   param_incomplete: "参数不完整"
+   record_not_found: "提交记录不存在"
+  field:
+    id: "作业ID"
+    class-id: "班级ID"
+    class-name: "班级名称"
+    title: "作业标题"
+    content: "作业内容"
+    teacher-name: "教师姓名"
+    add-time: "创建时间"
+    total-students: "班级总人数"
+    submitted: "已提交人数"
+    reviewed: "已点评人数"
+    record-id: "提交记录ID"
+    student-id: "学生ID"
+    student-name: "学生姓名"
+    student-no: "学号"
+    score: "得分"
+    comment: "评语"
+    comment-time: "点评时间"
+    status: "状态"
+    records: "提交记录列表"
+    list: "数据列表"
+    success: "是否成功"
+    message: "提示信息"
+
+select_class:
+ tag: 选择班级
+ A: 获取名称
+ B: 获取列表（条件+分页）
+ resp: 操作成功
+ id: ID
+ name: 班级名称
+select_teacher:
+ tag: 上课老师
+ A: 获取名称
+ B: 获取列表（条件+分页）
+ resp: 操作成功
+ id: ID
+ name: 教师名称
+monthly_data:
+ tag: 我的本月数据
+ A: 获取名称
+ B: 获取用户本月数据
+ resp: 操作成功
+ monthly_class_count: 本月课次数
+ monthly_check-in_count: 本月点名人次
+ monthly_registration_amount: 月报名金额
+ new_monthly_students: 月新增学员
+
+
+repeatcourses:
+ tag: 重复排课
+ field:
+  id: 排课计划id
+  classid: 班级id
+  courseid: 课程id
+  teacherid: 教师id
+  assistantid: 助教id
+  classroomid: 教室id
+  startdate: 开始日期
+  enddate: 结束日期
+  limitpersonnum: 限制人数
+  skipholiday: 跳过节假日
+  openappointment: 开启预约
+  checkconflict: 是否检查冲突
+  weeks: 周几上课
+  starttime: 上课时间
+  endtime: 下课时间
+  decclasstime: 消课课时
+  classperiod: 排课周期
+ post:
+  summary: 新增重复排课 
+  
+freecourses:
+ tag: 自由排课
+ field:
+  id: 排课计划id
+  classid: 班级id
+  courseid: 课程id
+  teacherid: 教师id
+  assistantid: 助教id
+  classroomid: 教室id
+  classdate: 上课日期
+  starttime: 上课时间
+  endtime: 下课时间
+  decclasstime: 消课课时
+  limitpersonnum: 限制人数
+  openappointment: 开启预约
+  checkconflict: 是否检查冲突
+ post:
+   summary: 新增自由排课  
+
+stclassrecord:
+ dto:
+  title: 课程名称
+  state: 课程状态
+  signType: 是否签到
+  startTime: 课程开始时间
+  endTime: 课程结束时间
+ controller:
+  tag2: 获取学员课表（分页）
+  title: 获取学员课表（分页）
+
+stlist:
+ query:
+  name: 姓名
+  mobile: 电话号码
+ dto:
+  name: 学生姓名
+  mobile: 学生手机号
+  closeTime: 学生剩余课时
+  gender: 学生性别
+ controller:
+  tag1: 学生档案列表
+  title: 获取学生档案列表（条件+分页）
+  name: 姓名
+  mobile: 电话号码
+ 
+stprofiledetails:
+ dto:
+  name: 学生姓名
+  mobile: 手机号
+  closeTime: 剩余课时
+  credit: 积分
+  lessonCount: 体验卡
+  stage: 学习阶段
+  familyName: 家长姓名
+  familyRel: 亲属关系
+  className: 年级
+  gender: 性别
+  birthday: 生日
+  idcard: 身份证号码
+  grade: 入学年份
+  joinDate: 入学日期
+  addTime: 加入时间   
+ controller:
+  tag3: 获取学员档案详情
+  title: 获取学员档案详情
+
+
+
+StudentRecord:
+ test:
+  tag: 学生档案
+  summary1: 获取学员课程进度接口
+  summary2: 获取学员课时记录接口
+  summary3: 获取学员报名记录接口
+  resp: 操作成功
+ student:
+  field:
+   name: 学生姓名
+   id: 学生ID
+ course:
+  field:
+   name: 课程名称 
+   status: 课程状态
+   coursesum: 课程总数
+   finishedsum: 已完成课程数
+   unfinishedsum: 未完成课程数
+   time: 报名时间
+   buycoursesum: 购买课程数
+   pay: 费用
+   consume_course_num: 消课
+   course_balance: 剩余
+
+translation:
+    summary: 测试接口
+    resp: 操作成功
+    RegistRecordList: 获取报名记录（分页）
+    RegistRecordDetails: 获取报名记录详情
+    AddStudent: 添加意向学员
+    studentName: 学生姓名
+    courseName: 课程名称
+    courseFee: 课程金额
+    paidAmount: 实付金额
+    startDate: 开始时间
+    expireDate: 过期日期
+    countLessonTotal: 总购买课次
+    remainingCount: 剩余课次
+    countLessonComplete: 已完成课次
+    amount: 成交金额
+    courseAmount: 套餐金额
+    discountAmount: 优惠金额
+    refundAmount: 退款金额
+    refundLessonCount: 退费课时
+    subjectName: 课程科目
+    debt: 欠款金额
+    addTime: 提交时间
+    remark: 备注
+    refund: 退款信息
+    username: 家长姓名
+    kinship: 亲属关系
+    admitTime: 入学时间
+    grade: 年级
+    schoolId: 校区
+    sourse: 来源
+    payOff: 是否付清
+    id: 标识
+
+    post:
+        summary: 添加意向学员
+    tags:
+        t1: 基础示例接口
+        t2: 声明式服务示例接口
+    field:
+        name: 姓名
+        phonenumber: 电话号码
+        stage: 阶段状态
+        gender: 性别
+        birthday: 生日
+        idcard: 身份证号
+
+homeworklist:
+ dto:
+  title: 作业标题
+  number: 提交人数
+  className: 班级名称
+  courseName: 课程名称
+ controller:
+  tag4: 学生作业列表
+  title: 学生作业列表查询（分页）
+

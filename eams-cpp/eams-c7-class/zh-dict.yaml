@@ -1,0 +1,199 @@
+﻿
+class:
+  tag: 班级
+  query-classdetails: 
+    summary: 获取班级详细信息
+  query-classlist:
+    summary: 获取班级列表
+  list:
+    tag: "班级学员列表"
+  details:
+    tag: "班级学员详情"
+  course:
+    list:
+      tag: "学员课程列表"
+
+
+  field:
+    id: 班级ID
+    className: 班级名称
+    homeroom-teacher: 班主任
+    course: 课程
+    num-of-people: 人数
+    classroom: 教室
+    course-progress: 课程进度
+    enrollment-progress: 招生进度
+    remarks: 备注
+    createtime: 创建时间
+    endtime: 结束时间
+    status: 状态
+    classId: "班级ID"
+    studentId: "学员ID"
+    studentName: "学员姓名"
+    mobile: "手机号码"
+    gender: "性别"
+    age: "年龄"
+    birthday: "生日"
+    stage: "学员类型"
+    remark: "备注"
+    courseName: "课程名称"
+    recordId: "报名记录ID"
+    completedCount: "已上课次"
+    totalCount: "总课次"
+    remainingCount: "剩余课次"
+    expireDate: "过期日期"
+    progressText: "学习进度"
+    remainingText: "剩余次数"
+    expireText: "有效期"
+  get-class-student-list: "获取班级学员列表（分页）"
+  get-class-student-details: "获取班级学员详情"
+  get-student-course-list: "获取班级学员课程列表"
+  
+ 
+# class_student 表相关词条
+class_student:
+  field:
+    id: "主键ID"
+    classId: "班级ID"
+    studentId: "学员ID"
+    addTime: "加入班级时间"
+    creator: "创建人ID"
+    reason: "加入原因"
+    deleted: "删除标记"
+    remark: "备注信息"
+    consumeCourseId: "默认消费课程ID"
+  reason:
+    register: "报名加入"
+    transfer: "转班加入"
+    trial: "试听转入"
+    unknown: "未知"
+
+# subject 表相关词条
+subject:
+  field:
+    id: "科目ID"
+    name: "科目名称"
+    info: "科目简介"
+    creator: "创建人ID"
+    editor: "编辑人ID"
+    addTime: "新增时间"
+    editTime: "修改时间"
+    deleted: "删除标记"
+    sortNum: "排序值"
+    orgId: "所属组织ID"
+
+# student 表相关词条
+student:
+  field:
+    id: "学员ID"
+    userId: "家长账号ID"
+    familyRel: "家庭关系"
+    asDefault: "默认学员"
+    schoolId: "所属分校ID"
+    name: "学员姓名"
+    deleted: "删除标记"
+    stage: "学员阶段"
+    gender: "性别"
+    birthday: "生日"
+    headImg: "头像"
+    joinWay: "加入方式"
+    remark: "备注"
+    graduationDate: "结业日期"
+    graduationReason: "结业原因"
+    addTime: "加入时间"
+    counselor: "顾问ID"
+    creator: "创建人"
+    editor: "编辑人"
+    editTime: "编辑时间"
+    idcard: "身份证号"
+    grade: "入学年份"
+    joinDate: "入学日期"
+    wxAccessId: "微信登录ID"
+    credit: "积分"
+    orgId: "所属组织ID"
+    gradeId: "年级ID"
+    classStudentId: "班级学员关联ID"
+    consumeCourseId: "默认消费课程ID"
+    mobile: "手机号"
+    counselorName: "顾问姓名"
+  gender:
+    male: "男"
+    female: "女"
+    unknown: "未知"
+  stage:
+    intention: "意向学员"
+    studying: "在学学员"
+    graduated: "结业学员"
+    unknown: "未知"
+
+# student_course 表相关词条
+student_course:
+  field:
+    id: "报名记录ID"
+    studentId: "学员ID"
+    courseId: "课程ID"
+    subjectId: "科目ID"
+    startDate: "开始时间"
+    expireDate: "过期日期"
+    remark: "备注"
+    countLessonTotal: "总课次"
+    countLessonComplete: "已上课次"
+    countLessonRefund: "退款次数"
+    courseAmount: "套餐金额"
+    discountAmount: "优惠金额"
+    amount: "成交金额"
+    paidAmount: "实付金额"
+    payOff: "是否付清"
+    operatorId: "经手人"
+    creator: "创建人"
+    addTime: "报名时间"
+    editor: "编辑人"
+    editTime: "编辑时间"
+    deleted: "删除标记"
+    verifyState: "审核状态"
+    warningTimes: "提醒次数"
+    priority: "消课优先级"
+    unitPrice: "单价"
+    fromTrial: "是否体验课"
+    orgId: "组织ID"
+    courseName: "课程名称"
+    subjectName: "科目名称"
+    studentName: "学员姓名"
+  remainingPrefix: "剩余："
+  remainingSuffix: "次"
+  expirePrefix: "有效期"
+  expiredText: "已过期"
+
+# course 表相关词条
+course:
+  field:
+    id: "课程ID"
+    subjectId: "科目ID"
+    name: "课程名称"
+    state: "启用状态"
+    info: "提示信息"
+    creator: "创建人"
+    editor: "编辑人"
+    addTime: "添加时间"
+    editTime: "修改时间"
+    expireMonths: "有效期月数"
+    unitPrice: "单价"
+    price: "销售价"
+    unitName: "单位名称"
+    discount: "优惠金额"
+    lessonCount: "课次数"
+    lessonType: "课堂类型"
+    description: "描述"
+    deleted: "删除标记"
+    bookable: "是否可预约"
+    forSale: "是否上架"
+    recommend: "是否推荐"
+    cover: "封面"
+    closeDate: "报名截止日期"
+    teacherInfo: "师资信息"
+    serviceInfo: "服务说明"
+    storage: "库存"
+    orgId: "组织ID"
+    salary: "课酬"
+    gradeIds: "适用年级IDs"
+    gradeNames: "适用年级名称"
