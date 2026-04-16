@@ -1,0 +1,70 @@
+﻿class:
+  tag: 班级
+  queryClassStudentList:
+    summary: 获取班级学员列表（分页）
+  queryClassStudentDetail:
+    summary: 获取班级学员详情
+  queryClassStudentCourseList:
+    summary: 获取班级学员课程列表（分页）
+  field:
+    classId: 班级ID
+    classStudentId: 班级学员关系ID
+    studentId: 学员ID
+    keyword: 关键字
+  student:
+    list:
+      field:
+        id: 班级学员关系ID
+        classId: 班级ID
+        studentId: 学员ID
+        studentName: 学员姓名
+        gender: 性别
+        headImg: 头像
+        consumeCourseId: 默认消费课程ID
+        countLessonRemaining: 剩余课次
+    detail:
+      field:
+        id: 班级学员关系ID
+        classId: 班级ID
+        studentId: 学员ID
+        consumeCourseId: 默认消费课程ID
+        userId: 家长用户ID
+        name: 姓名
+        mobile: 手机号码
+        gender: 性别
+        birthday: 生日
+        age: 年龄
+        stage: 类型
+        headImg: 头像
+        remark: 备注
+        classStudentRemark: 班级学员备注
+    course:
+      field:
+        id: 报名签约ID
+        studentId: 学员ID
+        courseId: 课程ID
+        courseName: 课程名称
+        subjectId: 科目ID
+        subjectName: 科目名称
+        startDate: 开始时间
+        expireDate: 有效期
+        countLessonTotal: 购买总课次
+        countLessonComplete: 已上课次
+        countLessonRefund: 退款次数
+        countLessonRemaining: 剩余课次
+        progress: 学习进度
+        defaultConsumeCourse: 是否默认消费课程
+
+class1:
+ summary: 获取班级详情
+ detail.ID: 唯一标识ID
+
+Class:
+  get:
+   summary: 获取班级列表
+   tag: 班级
+  myclass:
+   myclass: 班级
+   teacher: 班主任
+   course: 课程
+   number: 人数

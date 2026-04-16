@@ -1,0 +1,264 @@
+enrollment:
+    summary1: 获取报名记录
+    summary2: 获取报名记录详情
+    summary3: 保存报名
+    resp: 保存成功
+teacher:
+ field:
+  id: 教师id
+  name: 教师姓名
+  position: 教师职务
+ query:
+  summary: 获取教师列表
+ tag: 排课
+class:
+ field:
+  id: 班级id
+  name: 班级名
+  grade: 年级
+ tag: 排课
+ query:
+  summary: 获取班级列表   
+comment:
+  teacherid: 教师id
+  stuname: 学生姓名
+  data: 评论时间
+  text: 评论内容
+  score: 综合评价
+  getcomment: 获取点评记录
+rollcall:
+  teacherid: 教师id
+  courseid: 课程id
+  stuname: 学生姓名
+  checkindate: 签到时间
+  getrollrecord: 获取点名记录
+intendedstudent:
+ stuname: 学生姓名
+ phonenumber: 手机号
+ stutype: 学生类型
+ sex: 性别
+ birthday: 出生年月
+ cardid: 身份证号
+ text: 备注信息
+ text2: 添加学员
+workbench:
+ tag: 学生档案
+ progress:
+  summary: 获取学员课程进度（分页）
+ hour:
+  summary: 获取学员课时记录（分页）
+ enrollment:
+  summary: 获取学员报名记录（分页）
+ field:
+  name: 课程名称
+  id: 学生ID
+  status-class: 上课状态
+  status-enrollment: 报名状态
+  remaining-hour: 剩余课时
+  status-review: 审核状态
+  total-course: 课程总数
+  completed-course: 已完成课程数
+  remaining-course: 剩余课程数
+  time-enrollment: 报名时间
+  course-enrollment: 报名课程数
+  fee: 课程费用
+ query-by-id:
+  summary: 通过ID获取单条数据
+ export:
+  summary: 导出示例数据(响应Excel文件)
+ export-pdf:
+  summary: 导出示例数据(响应PdfBase64字符串)
+ import:
+  summary: 导入示例数据
+ query-one:
+  summary: 使用声明式服务查询一条数据
+ query-all:
+  summary: 使用声明式服务查询多条数据
+schedule:
+  field:
+    classId: 班级ID
+    courseId: 课程ID
+    teacherId: 教师ID
+    assistantId: 助教ID
+    classroomId: 教室ID
+    schedulingId: 排课ID
+    hintMessage: 提示信息
+    Date: 上课日期
+    startDate: 开始日期
+    endDate: 结束日期
+    weekDays: 每周上课日
+    startTime: 上课时间
+    endTime: 下课时间
+    limitNum: 限制人数
+    skipHolidays: 跳过节假日
+    enableReservation: 开启预约
+    conflict: 是否冲突
+    date: 上课日期
+  api:
+    createRepeat: 创建重复排课
+    createFree: 创建自由排课
+    tag: 排课
+test:
+  repeat: 重复排课创建成功  
+  free: 自由排课创建成功
+customer:
+ tags: 
+  t1: 我的客户
+ get:
+  summary: 分页查询数据
+ detail:
+  summary: 客户详情查询
+ lesson:
+  summary: 客户课程查询
+ field:
+  id: 客户ID
+  name: 姓名
+  phone: 手机号码
+  sex: 性别
+  age: 年龄
+  birth: 生日
+  type: 类型
+  note: 备注
+  lessonName: 课程名
+  progress: 学习进度
+  deadline: 有效期
+  resttimes: 剩余次数
+  list: 课程列表
+classroom:
+ tag: 排课
+ get:
+  summary: 教室列表分页查询
+ field:
+  id: 教室ID
+  name: 教室名称
+  position: 地点
+
+StudentFile:
+  get:
+   summary: 获取学员档案列表  
+   details: 获取学员档案详情
+   stclass: 获取学员课表
+   file: 学生档案
+   tag1: 报名
+   tag2: 报名记录
+   tag3: 作业
+
+  dossier:
+   mobile: 电话
+   name: 姓名
+   reclass: 剩余课时
+   sex: 性别
+
+  class schedule:
+   time: 时间
+   course: 课程
+   state: 状态
+   signin: 签到
+
+  dossier2:
+   id: 编号
+   mobile: 电话
+   name: 姓名
+
+   reclass: 剩余课时
+   points: 我的积分
+   card: 试听卡
+
+   study: 学习阶段
+   name2: 家长姓名
+   relationship: 亲属关系
+   grade: 年级
+   sex: 性别
+   old: 年龄
+   birthday: 生日
+   number: 身份证号码
+   time1: 入学时间
+   time2: 加入时间
+   
+workbench-he:
+  tag: 用户相关
+  query-current-user-info.summary: 获取当前用户信息
+  current-user:
+    field:
+      id: 当前用户唯一标识
+      username: 当前用户名
+      authorities: 当前用户管理权限
+
+
+homework:
+  tag: 作业
+  list:
+    summary: 查询作业列表
+  detail:
+    summary: 查询作业详情
+  add:
+    summary: 发布作业
+  comment:
+    summary: 点评作业
+  query:
+    teacher_id: 教师用户ID（须与登录 Token 中 id 一致）
+    class_id: 班级ID（必填）
+    pageIndex: 当前页码（从 1 开始，与响应 data.pageIndex 一致）
+    pageSize: 每页条数（与响应 data.pageSize 一致）
+    homework_id: 作业ID
+  body:
+    add:
+      teacher_id: 教师用户ID（须与登录 Token 中 id 一致）
+      class_id: 班级ID
+      title: 作业标题
+      content: 作业内容
+      attachment: 附件说明或地址（可选）
+    comment:
+      teacher_id: 教师用户ID（须与登录 Token 中 id 一致）
+      submit_id: 学生提交记录ID（homework_record.id）
+      review: 点评对象（评分与评语）
+      score: 评分（0-100）
+      content: 教师点评文字
+  rsp:
+    code: 状态码
+    message: 提示信息
+  listRow:
+    homework_id: 作业ID
+    title: 作业标题
+    class_name: 班级名称
+    submit_count: 提交人数
+    create_time: 创建时间
+  page:
+    pageIndex: 当前页码
+    pageSize: 每页数据条数
+    total: 数据总条数
+    pages: 数据总页数
+    rows: 当前页数据列表
+  listPageVo:
+    data: 分页数据
+  detailData:
+    homework_id: 作业ID
+    title: 作业标题
+    class_id: 班级ID
+    class_name: 班级名称
+    content: 作业内容
+    attachment: 附件
+    create_time: 发布时间
+    submit_list: 提交记录列表
+  submitRecord:
+    record_id: 提交记录ID
+    student_id: 学生ID
+    submit_content: 提交内容
+    submit_time: 提交时间
+    score: 点评分数
+    comment: 点评内容
+    comment_time: 点评时间
+    comment_teacher: 点评教师
+  detailVo:
+    data: 详情数据
+  addData:
+    homework_id: 作业ID
+    title: 作业标题
+  addVo:
+    data: 新增作业数据
+  commentData:
+    comment_id: 点评ID
+    score: 评分
+    content: 点评内容
+  commentVo:
+    data: 点评数据
