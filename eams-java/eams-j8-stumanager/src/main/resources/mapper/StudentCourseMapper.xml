@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.stumanager.mapper.StudentCourseMapper">
+    <sql id="sqlStudentCourse">
+        SELECT
+            t1.id,
+            t5.name AS studentName,
+            t2.name AS courseName,
+            t1.count_lesson_total AS countLessonTotal,
+            t1.count_lesson_complete AS countLessonComplete,
+            (t1.count_lesson_total - t1.count_lesson_complete - IFNULL(t1.count_lesson_refund, 0)) AS countLessonRemaining,
+            CONCAT(
+                    '上', IFNULL((SELECT SUM(CASE WHEN ls.sign_state = 1 THEN 1 ELSE 0 END) FROM lesson_student ls LEFT JOIN lesson l ON ls.lesson_id = l.id WHERE ls.student_id = t1.student_id AND l.course_id = t1.course_id), 0),
+                    ' 假', IFNULL((SELECT SUM(CASE WHEN ls.sign_state = 3 THEN 1 ELSE 0 END) FROM lesson_student ls LEFT JOIN lesson l ON ls.lesson_id = l.id WHERE ls.student_id = t1.student_id AND l.course_id = t1.course_id), 0),
+                    ' 旷', IFNULL((SELECT SUM(CASE WHEN ls.sign_state = 4 THEN 1 ELSE 0 END) FROM lesson_student ls LEFT JOIN lesson l ON ls.lesson_id = l.id WHERE ls.student_id = t1.student_id AND l.course_id = t1.course_id), 0),
+                    ' 补', IFNULL((SELECT SUM(CASE WHEN ls.sign_state = 5 THEN 1 ELSE 0 END) FROM lesson_student ls LEFT JOIN lesson l ON ls.lesson_id = l.id WHERE ls.student_id = t1.student_id AND l.course_id = t1.course_id), 0)
+            ) AS attendanceRecord
+        FROM student_course t1
+                 LEFT JOIN course t2 ON t1.course_id = t2.id
+                 LEFT JOIN student t5 ON t1.student_id = t5.id
+    </sql>
+
+    <!-- 分页查询课时统计信息列表（按课程+学生姓名查询） -->
+    <select id="getList" resultType="com.zeroone.star.project.vo.j8.stumanager.StudentCourseVO">
+        <include refid="sqlStudentCourse"/>
+        <where>
+            <!-- 1. 按所选课程ID查询 -->
+            <if test="param.courseId != null">
+                AND t1.course_id = #{param.courseId}
+            </if>
+            <!-- 2. 按学生姓名模糊查询 -->
+            <if test="param.keyword != null and param.keyword != ''">
+                AND t5.name LIKE CONCAT('%', #{param.keyword}, '%')
+            </if>
+            <!-- 固定条件：未删除 + 已审核 -->
+            AND t1.deleted = 0
+            AND t1.verify_state = 2
+        </where>
+        ORDER BY t1.id DESC
+    </select>
+
+</mapper>

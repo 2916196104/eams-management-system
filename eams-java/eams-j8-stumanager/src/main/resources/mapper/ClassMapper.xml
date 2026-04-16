@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.stumanager.mapper.ClassMapper">
+
+    <select id="selectStuClassByPage" resultType="com.zeroone.star.project.vo.j8.stumanager.StuClassVO">
+        select stu_num.class_id as classId, c.name as className, subject.name as subjectName,
+               cr.name as classroomName, stu_num.num as studentNum, c.planned_student_count as overStudentName
+        from class as c
+        left join (select class_id, count(1) as num from class_student group by class_id) as stu_name
+        on stu_num.class_id = c.id
+        left join classroom as cr
+        on c.classroom_id = cr.id
+        left join course
+        on course.id = c.course_id
+        left join subject
+        on course.subject_id = subject.id
+        where c.id in (
+            select class_id from class_student where class_student.student_id = #{query.studentId}
+        )
+    </select>
+    <select id="selectClassScheduleByPage" resultType="com.zeroone.star.project.vo.j8.stumanager.ClassScheduleVO">
+        select l.id as id, l.date as date, l.start_time as startTime,
+        l.end_time as endTime, l.title as title, l.teach_type as listenType,
+        ls.sign_state as signState, ls.dec_lesson_count as decLessonCount,
+        s.name as teacher, c.name as className, cr.name as classroomName
+        from lesson as l
+        join lesson_student as ls
+        on l.id = ls.lesson_id and ls.student_id = #{query.studentId}
+        LEFT JOIN lesson_teacher lt
+        ON l.id = lt.lesson_id
+        LEFT JOIN staff s
+        ON lt.teacher_id = s.id
+        left join class c
+        on c.id = ls.class_id
+        left join classroom as cr
+        on c.classroom_id = cr.id
+        <where>
+            <if test="query.beginTime != null">
+                and l.start_time <![CDATA[ >= ]]> #{query.beginTime}
+            </if>
+            <if test="query.endTIme != null">
+                and l.close_time <![CDATA[ <= ]]> #{query.endTime}
+            </if>
+        </where>
+    </select>
+</mapper>

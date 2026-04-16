@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.stumanager.mapper.StudentMapper">
+
+    <select id="getStudentDetailsById" resultType="com.zeroone.star.project.vo.j8.stumanager.StudentVO">
+        select s.stage,s.sex,s.age,s.birthday,s.idcard,
+               u.name,s.family_rel,s.grade_id,s.join_date,s.add_time
+        from student s left join user u on s.user_id = u.id
+        where s.id=#{id}
+    </select>
+    <select id="selectStudents" resultType="com.zeroone.star.project.vo.j8.stumanager.ProspectiveStuVO">
+--         select id, user_id, family_rel, as_default, school_id, name, deleted, stage, gender, birthday, head_img,
+--                join_way, remark, graduation_date, graduation_reason, add_time, counselor,
+--         creator, editor, edit_time, idcard, redpoint_grade, redpoint_evaluate,
+--         grade, join_date, wx_access_id, credit, org_id, grade_id
+--         from student
+        select s.id as id, s.name as name, u.mobile as phone,
+        if(s.gender = 0, '男', '女') as sex, u.name as parentName,
+        if(s.family_rel = 0, '直系亲属', '非直系亲属'), org.name as school, cg.name as grade,
+        staff.name as counselor, s.birthday as birthday
+        from student as s
+        left join user as u
+        on s.user_id = u.id
+        left join org
+        on s.school_id = org.id
+        left join class_grade as cg
+        on cg.id = s.grade_id
+        left join staff
+        on staff.id = s.counselor
+        where s.stage = 0 and s.deleted = 0
+        <if test="ids != null and ids.size() > 0">
+        and s.id in
+            <foreach item="id" collection="ids" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
+    </select>
+<!--    <select id="getList" resultType="com.zeroone.star.project.vo.j8.stumanager.StudentListVO">-->
+<!--        SELECT-->
+<!--        t1.id,-->
+<!--        t1.name,-->
+<!--        t8.name as parentName,-->
+<!--        t1.family_rel as familyRel,-->
+<!--        t8.mobile,-->
+<!--        t3.name as counselorName,-->
+<!--        t10.name as gradeName,-->
+<!--        t4.name as schoolName,-->
+<!--        CASE-->
+<!--        WHEN #{query.gradeId} IS NOT NULL THEN-->
+<!--        (select sum(count_lesson_total - count_lesson_complete - count_lesson_refund)-->
+<!--        from student_course-->
+<!--        where student_id = t1.id-->
+<!--        and grade_id = #{query.gradeId}-->
+<!--        and expire_date &gt;= CURDATE())-->
+<!--        ELSE-->
+<!--        IFNULL(sum(t5.count_lesson_total - t5.count_lesson_complete - t5.count_lesson_refund), 0)-->
+<!--        END as countLessonRemaining,-->
+<!--        t1.credit,-->
+<!--        t1.gender,-->
+<!--        TIMESTAMPDIFF(YEAR, t1.birthday, CURDATE()) AS age,-->
+<!--        t1.remark,-->
+<!--        t9.name as joinWayName,-->
+<!--        t2.contact_time as contactTime,-->
+<!--        t2.contact_next_time as contactNextTime,-->
+<!--        t1.stage,-->
+<!--        t1.graduation_date as graduationDate-->
+<!--        FROM student t1-->
+<!--        LEFT JOIN user t8 on t8.id = t1.user_id-->
+<!--        LEFT JOIN staff t3 on t3.id = t1.counselor-->
+<!--        LEFT JOIN contact_record t2 on t2.student_id = t1.id-->
+<!--        AND t2.contact_time = (select max(contact_time) FROM contact_record where student_id = t1.id )-->
+<!--        LEFT JOIN org t4 on t4.id = t1.school_id-->
+<!--        LEFT JOIN student_course t5 on t5.student_id = t1.id-->
+<!--        AND t5.expire_date &gt;= CURDATE()-->
+<!--        AND t5.verify_state = 2-->
+<!--        LEFT JOIN dict_item t9 on t9.id = t1.join_way-->
+<!--        LEFT JOIN class_grade t10 on t10.id = t1.grade_id-->
+<!--        <where>-->
+<!--            t1.deleted = 0-->
+<!--            <if test="query.stage != null">-->
+<!--                AND t1.stage = #{query.stage.code}-->
+<!--            </if>-->
+<!--            <if test="query.keyword != null and query.keyword != ''">-->
+<!--                AND (-->
+<!--                t1.name like concat('%', #{query.keyword}, '%')-->
+<!--                or t8.mobile like concat('%', #{query.keyword}, '%')-->
+<!--                )-->
+<!--            </if>-->
+<!--            <if test="query.gradeId != null">-->
+<!--                AND t1.grade_id = #{query.gradeId}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--        GROUP BY t1.id-->
+<!--        ORDER BY t1.add_time DESC-->
+<!--    </select>-->
+    <select id="getList" resultType="com.zeroone.star.project.vo.j8.stumanager.StudentListVO">
+        SELECT
+        t1.id,
+        t1.name,
+        MAX(t8.name) as parentName,
+        MAX(t1.family_rel) as familyRel,
+        MAX(t8.mobile) as mobile,
+        MAX(t3.name) as counselorName,
+        MAX(t10.name) as gradeName,
+        MAX(t4.name) as schoolName,
+        CASE
+        WHEN #{query.gradeId} IS NOT NULL THEN
+        (select sum(count_lesson_total - count_lesson_complete - count_lesson_refund)
+        from student_course
+        where student_id = t1.id
+        and grade_id = #{query.gradeId}
+        and expire_date &gt;= CURDATE())
+        ELSE
+        IFNULL(sum(t5.count_lesson_total - t5.count_lesson_complete - t5.count_lesson_refund), 0)
+        END as countLessonRemaining,
+        MAX(t1.credit) as credit,
+        MAX(t1.gender) as gender,
+        MAX(TIMESTAMPDIFF(YEAR, t1.birthday, CURDATE())) AS age,
+        MAX(t1.remark) as remark,
+        MAX(t9.name) as joinWayName,
+        MAX(t2.contact_time) as contactTime,  <!-- 🔥 修复：加MAX -->
+        MAX(t2.contact_next_time) as contactNextTime,  <!-- 🔥 修复：加MAX -->
+        MAX(t1.stage) as stage,
+        MAX(t1.graduation_date) as graduationDate
+        FROM student t1
+        LEFT JOIN user t8 on t8.id = t1.user_id
+        LEFT JOIN staff t3 on t3.id = t1.counselor
+        LEFT JOIN contact_record t2 on t2.student_id = t1.id
+        AND t2.contact_time = (select max(contact_time) FROM contact_record where student_id = t1.id )
+        LEFT JOIN org t4 on t4.id = t1.school_id
+        LEFT JOIN student_course t5 on t5.student_id = t1.id
+        AND t5.expire_date &gt;= CURDATE()
+        AND t5.verify_state = 2
+        LEFT JOIN dict_item t9 on t9.id = t1.join_way
+        LEFT JOIN class_grade t10 on t10.id = t1.grade_id
+        <where>
+            t1.deleted = 0
+            <if test="query.stage != null">
+                AND t1.stage = #{query.stage.code}
+            </if>
+            <if test="query.keyword != null and query.keyword != ''">
+                AND (
+                t1.name like concat('%', #{query.keyword}, '%')
+                or t8.mobile like concat('%', #{query.keyword}, '%')
+                )
+            </if>
+            <if test="query.gradeId != null">
+                AND t1.grade_id = #{query.gradeId}
+            </if>
+        </where>
+        GROUP BY t1.id
+        ORDER BY t1.add_time DESC
+    </select>
+</mapper>
+
+        <!--阶段: 在学学员
+        性别: 女
+        年龄:
+        出生年月:
+        身份证号码:
+        家长姓名: 小李
+        亲属关系: 其他
+        年 级:
+        入学时间:
+        加入时间: 2026-03-24 11:22-->

@@ -57,6 +57,8 @@
         <module>eams-j7-console</module>
         <module>eams-j7-interaction</module>
         <module>eams-j7-operation</module>
+        <module>eams-j8-stumanager</module>
+        <module>eams-j8-sysmanager</module>
     </modules>
     <properties>
         <!-- 项目版本号 -->

@@ -1,0 +1,21 @@
+server:
+  port: ${sp.stumanager}
+spring:
+  application:
+    name: ${sn.stumanager}
+#  cloud:
+#    nacos:
+#      discovery:
+#        ephemeral: false
+  jackson:
+    date-format: yyyy-MM-dd
+    time-format: HH:mm
+    serialization:
+      write-dates-as-timestamps: false
+
+
+
+mybatis-plus:
+  configuration:
+    # ===================== 新增：开启 MyBatis-Plus 枚举处理器 =====================
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler

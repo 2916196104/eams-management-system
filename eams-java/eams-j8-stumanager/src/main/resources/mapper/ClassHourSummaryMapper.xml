@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.stumanager.mapper.ClassHourSummaryMapper">
+
+    <select id="pageList" resultType="com.zeroone.star.project.vo.j8.stumanager.ClassHourSummaryVO">
+        SELECT
+        s.name,
+        sc.subjectId,
+        FROM Student s
+        LEFT JOIN StudentCourse sc ON s.id = sc.studentId
+
+        <where>
+            <if test="query.name != null and query.name != ''">
+                AND s.name = #{query.name}
+            </if>
+            <if test="query.courseId != null">
+                AND sc.course_id = #{query.courseId}
+            </if>
+        </where>
+    </select>
+</mapper>
