@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.finance.mapper.MonthlyClassFeeMapper">
+
+    <select id="queryMonthlyClassFees" resultType="com.zeroone.star.project.vo.j6.finance.MonthlyClassFeeVO">
+        SELECT
+            s.name AS teacherName,
+            DATE_FORMAT(l.date, '%Y-%m') AS month,
+            IFNULL(s.class_fee, 0) AS singleClassFee,
+            CAST(SUM(CASE lt.type_num WHEN 1 THEN 1 ELSE 0 END) AS SIGNED) AS classCount,
+            IFNULL(s.class_fee, 0) * SUM(CASE lt.type_num WHEN 1 THEN 1 ELSE 0 END) AS classFeeSubtotal,
+            IFNULL(s.assistant_fee, 0) AS singleAssistantFee,
+            CAST(SUM(CASE lt.type_num WHEN 2 THEN 1 ELSE 0 END) AS SIGNED) AS assistantCount,
+            IFNULL(s.assistant_fee, 0) * SUM(CASE lt.type_num WHEN 2 THEN 1 ELSE 0 END) AS assistantFeeSubtotal
+        FROM lesson l
+        LEFT JOIN lesson_teacher lt ON lt.lesson_id = l.id
+        LEFT JOIN staff s ON s.id = lt.teacher_id
+        LEFT JOIN (
+            SELECT
+                lesson_id,
+                SUM(dec_lesson_count) AS dec_lesson_count
+            FROM lesson_student
+            GROUP BY lesson_id
+        ) ls ON ls.lesson_id = l.id
+        <where>
+            lt.teacher_id IS NOT NULL
+
+            AND IFNULL(l.deleted, 0) = 0
+            AND IFNULL(ls.dec_lesson_count, 0) > 0
+            <if test="condition != null and condition.name != null and condition.name != ''">
+                AND s.name LIKE CONCAT('%', #{condition.name}, '%')
+            </if>
+            <if test="condition != null and condition.startTime != null">
+                AND l.date <![CDATA[ >= ]]> DATE(#{condition.startTime})
+            </if>
+            <if test="condition != null and condition.endTime != null">
+                AND l.date <![CDATA[ <= ]]> DATE(#{condition.endTime})
+            </if>
+        </where>
+        GROUP BY
+            lt.teacher_id,
+            s.name,
+            DATE_FORMAT(l.date, '%Y-%m'),
+            s.class_fee,
+            s.assistant_fee
+        HAVING
+            SUM(CASE lt.type_num WHEN 1 THEN 1 ELSE 0 END) > 0
+            OR SUM(CASE lt.type_num WHEN 2 THEN 1 ELSE 0 END) > 0
+        ORDER BY month DESC, teacherName ASC
+    </select>
+
+</mapper>

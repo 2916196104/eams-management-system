@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.finance.mapper.FundManageMapper">
+
+    <!-- 分页查询款项列表 -->
+    <select id="selectPageDTO" resultType="com.zeroone.star.project.dto.j6.finance.FinanceRecordDTO">
+        SELECT
+            t.id,
+            t.item_type AS itemType,
+            t.title,
+            t.amount,
+            t.payer,
+            stu.name AS studentName,
+            t.operator,
+            sta.name AS handlerName,
+            t.remark,
+            t.add_time AS submitTime,
+            t.verify_state AS verifyState,
+            t.verify_remark AS verifyRemark
+        FROM finance_record t
+        LEFT JOIN student stu ON t.payer = stu.id
+        <if test="condition.payerName != null and condition.payerName != ''">
+            AND stu.name LIKE CONCAT('%', #{condition.payerName}, '%')
+        </if>
+        LEFT JOIN staff sta ON t.operator = sta.id
+        <if test="condition.handlerName != null and condition.handlerName != ''">
+            AND sta.name LIKE CONCAT('%', #{condition.handlerName}, '%')
+        </if>
+        <where>
+            <if test="condition.title != null and condition.title != ''">
+                AND t.title LIKE CONCAT('%', #{condition.title}, '%')
+            </if>
+            <if test="condition.verifyState != null">
+                AND t.verify_state = #{condition.verifyState}
+            </if>
+            <if test="condition.itemType != null">
+                AND t.item_type = #{condition.itemType}
+            </if>
+        </where>
+        ORDER BY t.id DESC
+    </select>
+
+    <!-- 批量确认款项 -->
+    <update id="batchConfirm">
+        UPDATE finance_record
+        SET verify_state = 1
+        WHERE id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        AND verify_state = 0
+    </update>
+
+    <!-- 批量拒绝款项 -->
+    <update id="batchRefuse">
+        UPDATE finance_record
+        SET verify_state = 2
+        WHERE id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        AND verify_state = 0
+    </update>
+
+    <!-- 查询所有款项（用于导出） -->
+    <select id="findAll" resultType="com.zeroone.star.project.vo.j6.finance.FinanceRecordVO">
+        SELECT
+            t.id,
+            t.item_type AS type,
+            t.title,
+            t.amount,
+            stu.name AS studentName,
+            t.operator,
+            t.remark,
+            t.verify_state AS verifyState,
+            t.verify_remark AS verifyRemark,
+            t.add_time AS submitTime
+        FROM finance_record t
+        LEFT JOIN student stu ON stu.id = t.payer
+        ORDER BY t.id DESC
+    </select>
+
+</mapper>

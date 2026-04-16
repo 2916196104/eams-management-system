@@ -51,6 +51,9 @@
         <module>eams-j5-courseschedule</module>
         <module>eams-j5-studentleave</module>
         <module>eams-j5-appoint</module>
+        <module>j6-eas</module>
+        <module>j6-interact</module>
+        <module>j6-finance</module>
     </modules>
     <properties>
         <!-- 项目版本号 -->

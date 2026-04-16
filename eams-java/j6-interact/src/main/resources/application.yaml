@@ -1,0 +1,8 @@
+server:
+  port: ${sp.interact}
+spring:
+  application:
+    name: ${sn.interact}
+
+seata:
+  enabled: false

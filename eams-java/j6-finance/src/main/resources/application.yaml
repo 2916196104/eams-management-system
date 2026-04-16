@@ -1,0 +1,8 @@
+server:
+  port: ${sp.finance}
+spring:
+  application:
+    name: ${sn.finance}
+
+seata:
+  enabled: false

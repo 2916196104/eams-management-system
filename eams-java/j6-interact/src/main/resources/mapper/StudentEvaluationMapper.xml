@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.interact.mapper.StudentEvaluationMapper">
+
+    <select id="queryPage" resultType="com.zeroone.star.project.dto.j6.interact.StudentEvaluationDTO">
+        SELECT
+        st.name          AS studentName,
+        l.title          AS lessonName,
+        ls.score         AS score,
+        ls.evaluation    AS evaluation,
+        sf.name          AS evaluateTeacherName,
+        ls.evaluate_time AS evaluateTime
+        FROM lesson_student ls
+        LEFT JOIN student st ON ls.student_id = st.id
+        LEFT JOIN lesson l   ON ls.lesson_id = l.id
+        LEFT JOIN staff sf   ON ls.evaluate_teacher = sf.id
+        <where>
+            <if test="lessonId != null">
+                AND ls.lesson_id = #{lessonId}
+            </if>
+            <if test="teacherId != null">
+                AND ls.evaluate_teacher = #{teacherId}
+            </if>
+            <if test="studentId != null">
+                AND ls.student_id = #{studentId}
+            </if>
+            <if test="evaluation != null and evaluation != ''">
+                AND ls.evaluation LIKE CONCAT('%', #{evaluation}, '%')
+            </if>
+            <if test="startTime != null">
+                AND DATE(ls.evaluate_time) <![CDATA[ >= ]]> #{startTime}
+            </if>
+            <if test="endTime != null">
+                AND DATE(ls.evaluate_time) <![CDATA[ <= ]]> #{endTime}
+            </if>
+        </where>
+        ORDER BY ls.evaluate_time DESC
+    </select>
+
+</mapper>

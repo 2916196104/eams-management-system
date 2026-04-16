@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.finance.mapper.ClassConsumptionFeeMapper">
+
+    <select id="queryClassConsumptionFees" resultType="com.zeroone.star.project.vo.j6.finance.ClassConsumptionFeeVO">
+        SELECT
+            s.name AS teacherName,
+            DATE_FORMAT(l.date, '%Y-%m') AS month,
+            c.name AS courseName,
+            CAST(SUM(ls.dec_lesson_count) AS SIGNED) AS consumptionCount,
+            IFNULL(c.salary, 0) * SUM(ls.dec_lesson_count) AS feeSubtotal
+        FROM lesson_student ls
+        LEFT JOIN lesson l ON l.id = ls.lesson_id
+        LEFT JOIN staff s ON s.id = l.teacher_id
+        LEFT JOIN course c ON c.id = ls.consume_course_id
+        <where>
+            l.teacher_id IS NOT NULL
+            AND ls.consume_course_id IS NOT NULL
+            AND l.state = 2
+            AND IFNULL(l.deleted, 0) = 0
+            <if test="condition != null and condition.name != null and condition.name != ''">
+                AND s.name LIKE CONCAT('%', #{condition.name}, '%')
+            </if>
+            <if test="condition != null and condition.startTime != null">
+                AND l.date <![CDATA[ >= ]]> DATE(#{condition.startTime})
+            </if>
+            <if test="condition != null and condition.endTime != null">
+                AND l.date <![CDATA[ <= ]]> DATE(#{condition.endTime})
+            </if>
+        </where>
+        GROUP BY
+            l.teacher_id,
+            s.name,
+            DATE_FORMAT(l.date, '%Y-%m'),
+            ls.consume_course_id,
+            c.name,
+            c.salary
+        HAVING SUM(ls.dec_lesson_count) > 0
+        ORDER BY month DESC, teacherName ASC, courseName ASC
+    </select>
+
+</mapper>

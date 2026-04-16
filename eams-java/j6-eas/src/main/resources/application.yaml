@@ -1,0 +1,8 @@
+server:
+  port: ${sp.eas}
+spring:
+  application:
+    name: ${sn.eas}
+
+seata:
+  enabled: false
