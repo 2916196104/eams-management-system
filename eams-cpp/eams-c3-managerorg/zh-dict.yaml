@@ -1,0 +1,207 @@
+﻿Grade:
+ tags:
+  t1: 成绩管理
+  t2: 声明式服务示例接口
+ get:
+  summary: 分页查询示例数据
+ save:
+  summary: 保存成绩
+ post:
+  summary: 新增一条示例数据
+ put:
+  summary: 修改一条示例数据
+ delete:
+  summary: 删除成绩
+ query-by-item:
+  summary: 获取成绩列表（条件+分页）
+ export:
+  summary: 导出示例数据(响应Excel文件)
+ export-pdf:
+  summary: 导出示例数据(响应PdfBase64字符串)
+ import:
+  summary: 导入成绩
+ query-one:
+  summary: 使用声明式服务查询一条数据
+ query-all:
+  summary: 使用声明式服务查询多条数据
+ field:
+  id: 文档里有这项，但是目前不知道干什么的，先做个保留，可能会删
+  operation: 操作
+  item: 考核项
+  name: 姓名
+  sc: 成绩
+
+Page:
+    page: 页号
+    pageSize: 单页数据条数
+    sortBy: 排序方式
+    sortType: 排序类别（这个和By没区分清楚，先打个备注）
+
+Homework:
+ backhomework: 课后作业
+ delHomework: 删除作业
+ delete:
+  successCount: 成功删除的作业数量
+  failIds: 删除失败的作业ID列表
+
+ query:
+  homeworkId: 作业ID
+  studentId: 学生ID
+  status: 作业提交状态
+ vo:
+  homeworkIds: 作业ID列表
+  deleteType: 删除类型
+  serialNo: 序号
+  submitterName: 提交人
+  submitContent: 提交内容
+  submitTime: 提交时间
+  reviewerName: 点评人
+  score: 点评得分
+  reviewComment: 点评内容
+  total: 总记录数
+  pageIndex: 当前页码
+  pageSize: 每页大小
+
+
+homework:
+  summary: 作业
+  gethomeworklist: 
+    summary: 获取作业列表(条件+分页)
+    id: 作业ID
+    title: 作业标题
+    class_id: 班级ID
+    creator: 作业发布者
+    add_time: 创建时间
+  gethomeworkdetail: 
+    summary: 获取作业详情
+    id: 作业ID
+    class_id: 班级ID
+    title: 作业标题
+    content: 作业内容
+  savehomework:
+    summary: 保存作业 
+    id: 作业ID
+
+
+SendHomework:
+ homeworkSend: 作业提交
+
+Common:
+ index: 序号
+
+GetHomeworkList:
+ summary: 获取作业提交列表（条件+分页）
+
+ReviewHomework:
+ summary: 点评作业
+ stuHomeworkId: 学生作业ID
+
+
+  # 学评教dto
+StuJudgeTeaDTO:
+  # 主键相关
+  id: 学评教记录ID
+  # 学员信息
+  studentId: 学员ID
+  studentName: 学员姓名（匿名显示）
+  # 授课老师信息
+  teacherId: 授课老师ID
+  teacherName: 授课老师姓名
+  # 课次信息
+  lessonId: 课次ID
+  lessonTitle: 课次标题
+  # 评分项
+  comprehensiveScore: 综合评分（1-5星）
+  classAtmosphere: 课堂气氛评分（1-5星）
+  teachingAttitude: 授课态度评分（1-5星）
+  teachingEffect: 教学效果评分（1-5星）
+  # 评价内容
+  evaluateContent: 学员文字评价内容
+  # 评价时间
+  evaluateTime: 评价提交时间
+  orgId: 教师所属组织id
+  anonymity: 是否匿名(0表示false  1表示true)
+  startEvaluateTime: 评价起始时间
+  endEvaluateTime: 评价结束时间
+  orgName: 教师所属组织名称
+
+  # 教评学
+TeaJudgeStuDTO:
+  id: 教评学记录ID
+  studentId: 学员ID
+  studentName: 学员姓名（脱敏显示）
+  lessonId: 课次ID
+  lessonTitle: 课次标题
+  evaluateScore: 点评得分
+  evaluateContent: 点评内容
+  lessonImage: 上课图片
+  teacherId: 点评老师ID
+  teacherName: 点评老师姓名
+  evaluateTime: 点评时间
+  # 成绩单
+GradeTableDTO:
+  id: 成绩单记录ID
+  itemName: 考核项
+  itemDesc: 考核说明
+  publisherId: 发布者ID
+  publisherName: 发布者姓名
+  publishTime: 发布时间
+
+TeaJudgeStu:
+  query: 获取教评学列表(条件+分页)
+  tags: 教评学
+StuJudgeTea:
+  query: 获取学评教列表(条件+分页)
+  tags: 学评教
+GradeTable:
+  query: 获取成绩单列表(条件+分页)
+  tags: 成绩单管理
+
+
+board:
+ tag: 公告管理
+ save:
+  summary: 保存公告
+ delete:
+  summary: 删除公告（支持批量删除）
+ start:
+  summary: 启用公告
+ end:
+  summary: 停用公告
+ field:
+  id: 编号
+  boardTitle: 公告标题
+  boardType: 公告类型
+  boardAddId: 文章编码(如果是新增不需要上传唯一ID,如果是修改就需要上传唯一ID)
+  boardText: 公告文字内容
+  boardPublisherName: 公告发布者名称
+  boardPublisherId: 公告发布者id
+  boardTime: 公告发布时间
+  boardStatus: 公告状态
+  sc: 成绩
+  viewNum: 阅读次数
+  boardEditorId: 编辑人id
+  deleted: 是否删除
+ list:
+  summary: "获取公告列表（条件+分页）"
+ detail:
+  summary: "获取公告详情"
+
+
+     
+grade_table:
+  tag: 成绩单
+  delete:
+    delete_list_title: 删除成绩单
+    ids: 所有删除表id
+    data: 数据
+    err_code: 错误码
+    msg: 错误信息
+  save:
+    save_list_title: 保存成绩单
+    id: 成绩单id
+    grade_id: 考核项id
+    student_id: 学生id
+    score: 分数
+    add_time: 添加时间
+    creator: 添加人

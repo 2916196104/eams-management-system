@@ -1,0 +1,192 @@
+# 中文词典配置
+# 用于Swagger UI接口文档的中文显示
+
+class:
+  tags:
+    t1: 班级管理
+  endpoints:
+    getStudentDetail:
+      title: 获取班级学员详情
+      summary: 根据学生ID获取班级学员的详细信息，包括基本信息和个人资料
+      params:
+        studentId: 学生ID
+        studentName: 学生姓名
+        phonenumber: 电话号码
+    getStudentCourseList:
+      title: 获取班级学员课程列表（分页）
+      summary: 获取班级学员的课程列表，支持分页查询，返回课程基本信息和学习进度
+      params:
+        studentId: 学生ID
+        page: 当前页码
+        size: 每页大小
+  dto:
+    StudentDetailDTO:
+      name: 姓名
+      phone: 电话号码
+      gender: 性别
+      age: 年龄
+      birthday: 出生日期
+      studentType: 学生类型
+      remark: 备注
+    CourseInfoDTO:
+      courseName: 课程名称
+      progress: 学习进度
+      validityPeriod: 有效期
+      remainingCount: 剩余次数
+    CourseListResponseDTO:
+      items: 课程列表
+      total: 总记录数
+      page: 当前页码
+      size: 每页大小
+    ClassDTO:
+      classNo: 班级编号
+      className: 班级名称
+      teacherName: 教师姓名
+      courseName: 课程名称
+      startTime: 开始时间
+      endTime: 结束时间
+      participantCount: 人数
+  list: 获取班级列表
+  studentList: 班级学员列表
+  teacher: 老师
+  name: 班级名
+  course: 课程
+  school: 学校
+  org: 组织
+  beOver: 是否完结
+  detail: 班级详情
+  status:
+    finished: 已结课
+    ongoing: 进行中
+  pageindex: 页索引
+  pagesize: 页大小
+classStudent:
+    classId: 班级ID
+    studentName: 学员姓名
+set_status:
+  title: 设置上课状态  
+  sign_time: 签到时间    
+  sign_type: 签到方式      
+  sign_state: 签到状态   
+  count: 实扣课次
+  id: Id（是每一条信息的id，不是学生id）
+  flag: 课表              
+  response:
+    code: 错误码
+    message: 错误信息
+evaluate: 
+  flag: 课表点评
+  title1: 获取课次点评列表（条件+分页）
+  title2: 点评指定学员
+  field:
+    id: Id（是每一条信息的id，不是学生id）
+    name: 学生姓名 
+    name_eg: 朱厚熜
+    score: 评分分数
+    has_sign: 是否签到
+    has_evaluation: 是否点评
+    evaluation: 点评
+    operator: 点评人
+    operation_time: 操作时间
+    lesson_id: 课程ID号
+  response:
+    code: 错误码
+    message: 错误信息
+api:
+ tag: 课表点名
+ tag1: 获取课表
+ get-common-datetime:
+  title: 获取指定日期的课表
+  param:
+   date: 课表日期
+ get-detail-cs:
+  title: 获取课次详情
+  param:
+   lesson-id: 课次ID
+ get-cs-stu-list:
+  title: 获取课次学生列表(条件+分页)
+  param:
+   page-index: 页码
+   page-size: 每页条数
+timetable:
+  tags:
+    studentManage: 学员管理模块
+  endpoints:
+    getStudentList:
+      title: 获取学员列表
+    insertStuToCS:
+      title: 添加学员到课次
+    getStudentCourseList:
+      title: 获取学员课程列表
+  query:
+    keyword: 搜索关键字(姓名/手机号)
+  dto:
+    TimetableStudentDTO:
+      studentId: 学员ID
+      studentName: 学员姓名
+      gender: 性别1男2女
+      phone: 手机号
+      restHour: 剩余课时
+    AddStudentToLessonDTO:
+      courseId: 课程ID
+      studentIds: 要添加的学员ID列表
+    TimetableStudentCourseDTO:
+      courseTitle: 课程标题
+      teacherId: 主讲人
+      sn: 课节数
+  message:
+    paramIncomplete: 参数不完整：课程ID或学员列表不能为空
+    studentIdEmpty: 学员ID不能为空
+
+student:
+ field:
+  name: 姓名
+  stage: 阶段（意向、在学、结业）
+
+lesson:
+  title: 课程名称，支持模糊匹配
+  school: 适用学校ID
+  course: 科目ID
+  state: 状态（1:正常 2:已关闭）
+  classId: 适用年级ID
+  field:
+    title: 课程名称，支持模糊匹配
+    course_id: 科目ID
+    class_id: 班级ID
+    teacher_id: 教师ID
+    date: 上课日期
+    state: 状态
+    bookable: 是否可约课
+    school_id: 学校ID
+    org_id: 组织ID
+staff:
+  field:
+    name: 姓名
+    mobile: 手机号
+    state: 状态
+    is_manager: 是否主管
+    org_id: 组织ID
+course:
+  field:
+    name: 课程名称
+    subject_id: 科目ID
+    state: 状态
+    lesson_type: 课次类型
+    bookable: 是否可约课
+    for_sale: 是否在售
+    recommend: 是否推荐
+    org_id: 组织ID
+classroom:
+  field:
+    name: 教室名称
+    address: 地址
+    school_id: 学校ID
+    org_id: 组织ID
+lessonStudent:
+  field:
+    lesson_id: 课次ID
+    class_id: 班级ID
+    student_id: 学员ID
+    teacher_id: 点名老师ID
+    sign_state: 签到结果
+    org_id: 组织ID
