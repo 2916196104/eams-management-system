@@ -17,8 +17,8 @@
         </dependency>
         <!-- 导入spring web保证编译通过 -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
             <scope>provided</scope>
         </dependency>
     </dependencies>
