@@ -1,0 +1,170 @@
+// SCSS Mixins - 常用样式混入
+
+@use "./variables.scss" as *;
+
+// ========== 响应式断点 ==========
+@mixin respond-to($breakpoint) {
+	@if $breakpoint == "xs" {
+		@media (max-width: 768px) {
+			@content;
+		}
+	} @else if $breakpoint == "sm" {
+		@media (min-width: 768px) {
+			@content;
+		}
+	} @else if $breakpoint == "md" {
+		@media (min-width: 992px) {
+			@content;
+		}
+	} @else if $breakpoint == "lg" {
+		@media (min-width: 1200px) {
+			@content;
+		}
+	} @else if $breakpoint == "xl" {
+		@media (min-width: 1920px) {
+			@content;
+		}
+	}
+}
+
+// ========== 文本省略 ==========
+@mixin text-ellipsis($lines: 1) {
+	@if $lines == 1 {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	} @else {
+		display: -webkit-box;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		-webkit-line-clamp: $lines;
+		-webkit-box-orient: vertical;
+	}
+}
+
+// ========== Flex 布局 ==========
+@mixin flex-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+@mixin flex-between {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+@mixin flex-start {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+@mixin flex-end {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+// ========== 清除浮动 ==========
+@mixin clearfix {
+	&::after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+}
+
+// ========== 滚动条样式 ==========
+@mixin scrollbar($width: 6px, $height: 6px) {
+	&::-webkit-scrollbar {
+		width: $width;
+		height: $height;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: $cui-border-color-dark;
+		border-radius: $cui-border-radius-base;
+
+		&:hover {
+			background-color: $cui-color-text-secondary;
+		}
+	}
+
+	&::-webkit-scrollbar-track {
+		background-color: $cui-fill-color-light;
+	}
+}
+
+// ========== 禁用状态 ==========
+@mixin disabled {
+	cursor: not-allowed;
+	opacity: 0.6;
+	pointer-events: none;
+}
+
+// ========== 过渡动画 ==========
+@mixin transition($property: all) {
+	transition: $property $cui-transition-duration $cui-transition-function-ease-in-out-bezier;
+}
+
+// ========== 阴影效果 ==========
+@mixin box-shadow($type: "base") {
+	@if $type == "base" {
+		box-shadow: $cui-box-shadow-base;
+	} @else if $type == "light" {
+		box-shadow: $cui-box-shadow-light;
+	} @else if $type == "lighter" {
+		box-shadow: $cui-box-shadow-lighter;
+	} @else if $type == "dark" {
+		box-shadow: $cui-box-shadow-dark;
+	}
+}
+
+// ========== 边框 ==========
+@mixin border($direction: "all", $color: $cui-border-color) {
+	@if $direction == "all" {
+		border: $cui-border-width $cui-border-style $color;
+	} @else if $direction == "top" {
+		border-top: $cui-border-width $cui-border-style $color;
+	} @else if $direction == "right" {
+		border-right: $cui-border-width $cui-border-style $color;
+	} @else if $direction == "bottom" {
+		border-bottom: $cui-border-width $cui-border-style $color;
+	} @else if $direction == "left" {
+		border-left: $cui-border-width $cui-border-style $color;
+	}
+}
+
+// ========== 绝对定位居中 ==========
+@mixin absolute-center {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+// ========== 隐藏元素（保留可访问性） ==========
+@mixin visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+// ========== 重置按钮样式 ==========
+@mixin reset-button {
+	padding: 0;
+	margin: 0;
+	border: none;
+	background: none;
+	cursor: pointer;
+	outline: none;
+	appearance: none;
+}

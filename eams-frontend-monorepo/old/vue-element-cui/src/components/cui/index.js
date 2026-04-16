@@ -1,0 +1,35 @@
+import Vue from "vue";
+
+import CuiDialog from "./CuiDialog";
+import CuiDialogForm from "./CuiDialogForm";
+import CuiForm from "./CuiForm";
+import CuiSearch from "./CuiSearch";
+import CuiSelect from "./CuiSelect";
+import CuiSelectBox from "./CuiSelectBox";
+import CuiSelectEnum from "./CuiSelectEnum";
+import CuiRadioEnum from "./CuiRadioEnum";
+import CuiTable from "./CuiTable";
+import CuiTab from "./CuiTab";
+import CuiExcel from "./CuiExcel";
+import CuiCheckboxEnum from "./CuiCheckboxEnum";
+import CuiDetail from "./CuiDetail";
+import CuiSelectDict from "./CuiSelectDict";
+import CuiRadioDict from "./CuiRadioDict";
+import CuiAutocomplete from "./CuiAutocomplete";
+
+Vue.component("cui-table", CuiTable);
+Vue.component("cui-search", CuiSearch);
+Vue.component("cui-select", CuiSelect);
+Vue.component("cui-select-enum", CuiSelectEnum);
+Vue.component("cui-radio-enum", CuiRadioEnum);
+Vue.component("cui-dialog", CuiDialog);
+Vue.component("cui-form", CuiForm);
+Vue.component("cui-dialog-form", CuiDialogForm);
+Vue.component("cui-tab", CuiTab);
+Vue.component("cui-checkbox-enum", CuiCheckboxEnum);
+Vue.component("cui-select-box", CuiSelectBox);
+Vue.component("cui-excel", CuiExcel);
+Vue.component("cui-detail", CuiDetail);
+Vue.component("cui-select-dict", CuiSelectDict);
+Vue.component("cui-radio-dict", CuiRadioDict);
+Vue.component("cui-autocomplete", CuiAutocomplete);

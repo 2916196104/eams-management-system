@@ -1,0 +1,37 @@
+{
+	"name": "@eams-monorepo/vue-element-cui-nuxt",
+	"description": "EAMS Vue Element CUI Nuxt Documentation Site",
+	"version": "2.0.0",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"dev": "nuxt dev",
+		"predev": "nuxt prepare",
+		"prebuild": "nuxt prepare",
+		"build": "nuxt build",
+		"generate": "nuxt generate",
+		"preview": "nuxt preview",
+		"test": "vitest run --config vitest.config.ts",
+		"test:watch": "vitest --config vitest.config.ts",
+		"postinstall": "nuxt prepare"
+	},
+	"dependencies": {
+		"@eams-monorepo/vue-element-cui": "workspace:*",
+		"element-plus": "^2.13.5",
+		"nuxt": "^3.21.2",
+		"shadcn-docs-nuxt": "^1.1.9",
+		"tailwindcss": "^4.2.1",
+		"tailwindcss-animate": "^1.0.7",
+		"vue": "^3.5.30",
+		"vue-router": "^4.6.4"
+	},
+	"devDependencies": {
+		"@iconify-json/lucide": "^1.2.98",
+		"@vitejs/plugin-vue": "^6.0.5",
+		"@vue/test-utils": "^2.4.6",
+		"jsdom": "^25.0.1",
+		"typescript": "^5.9.3",
+		"vite": "^8.0.0",
+		"vitest": "^4.1.0"
+	}
+}

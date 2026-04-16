@@ -1,0 +1,45 @@
+// CuiCheckboxEnum 组件样式
+@use "../variables.scss" as *;
+@use "../mixins.scss" as *;
+
+.cui-checkbox-enum {
+	--cui-checkbox-enum-gap: #{$cui-spacing-lg};
+
+	// ========== Elements ==========
+
+	&__group {
+		@include flex-start;
+		flex-wrap: wrap;
+		gap: var(--cui-checkbox-enum-gap);
+	}
+
+	&__item {
+		@include transition(color);
+	}
+
+	&__loading {
+		@include flex-center;
+		padding: $cui-spacing-sm;
+		color: $cui-color-text-secondary;
+		font-size: $cui-font-size-small;
+	}
+
+	// ========== Modifiers ==========
+
+	&--disabled {
+		@include disabled;
+	}
+
+	&--vertical {
+		.cui-checkbox-enum__group {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+	}
+
+	&--button {
+		.cui-checkbox-enum__group {
+			gap: 0;
+		}
+	}
+}

@@ -1,0 +1,94 @@
+// 样式入口文件
+@use "./variables.scss" as *;
+@use "./mixins.scss" as *;
+
+// ========== 组件样式 ==========
+// P0 组件
+@use "./components/cui-table";
+@use "./components/cui-form";
+@use "./components/cui-search";
+@use "./components/cui-dialog-form";
+
+// P1 组件
+@use "./components/cui-dialog";
+@use "./components/cui-detail";
+@use "./components/cui-excel";
+@use "./components/cui-tab";
+@use "./components/cui-select-box";
+
+// P2 组件
+@use "./components/cui-select";
+@use "./components/cui-select-enum";
+@use "./components/cui-select-dict";
+@use "./components/cui-radio-enum";
+@use "./components/cui-radio-dict";
+@use "./components/cui-checkbox-enum";
+@use "./components/cui-autocomplete";
+
+// ========== 全局样式重置 ==========
+* {
+	box-sizing: border-box;
+}
+
+// ========== CUI 组件命名空间 ==========
+.cui {
+	font-family: $cui-font-family;
+	font-size: $cui-font-size-base;
+	line-height: $cui-line-height-base;
+	color: $cui-color-text-primary;
+}
+
+// ========== 工具类 ==========
+.cui-text-primary {
+	color: $cui-color-text-primary;
+}
+
+.cui-text-regular {
+	color: $cui-color-text-regular;
+}
+
+.cui-text-secondary {
+	color: $cui-color-text-secondary;
+}
+
+.cui-text-placeholder {
+	color: $cui-color-text-placeholder;
+}
+
+.cui-text-disabled {
+	color: $cui-color-text-disabled;
+}
+
+// 间距工具类
+@each $size in (xs, sm, md, lg, xl, xxl) {
+	.cui-m-#{$size} {
+		margin: var(--cui-spacing-#{$size});
+	}
+	.cui-mt-#{$size} {
+		margin-top: var(--cui-spacing-#{$size});
+	}
+	.cui-mr-#{$size} {
+		margin-right: var(--cui-spacing-#{$size});
+	}
+	.cui-mb-#{$size} {
+		margin-bottom: var(--cui-spacing-#{$size});
+	}
+	.cui-ml-#{$size} {
+		margin-left: var(--cui-spacing-#{$size});
+	}
+	.cui-p-#{$size} {
+		padding: var(--cui-spacing-#{$size});
+	}
+	.cui-pt-#{$size} {
+		padding-top: var(--cui-spacing-#{$size});
+	}
+	.cui-pr-#{$size} {
+		padding-right: var(--cui-spacing-#{$size});
+	}
+	.cui-pb-#{$size} {
+		padding-bottom: var(--cui-spacing-#{$size});
+	}
+	.cui-pl-#{$size} {
+		padding-left: var(--cui-spacing-#{$size});
+	}
+}

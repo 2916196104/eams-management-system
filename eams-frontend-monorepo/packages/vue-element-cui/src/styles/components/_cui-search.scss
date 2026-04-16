@@ -1,0 +1,75 @@
+// CuiSearch 组件样式
+@use "../variables.scss" as *;
+@use "../mixins.scss" as *;
+
+.cui-search {
+	--cui-search-bg: #{$cui-bg-color};
+	--cui-search-padding: #{$cui-spacing-lg};
+	--cui-search-gap: #{$cui-spacing-md};
+
+	background-color: var(--cui-search-bg);
+	padding: var(--cui-search-padding);
+	border-radius: $cui-border-radius-base;
+
+	// ========== Elements ==========
+
+	&__field {
+		display: inline-flex;
+		align-items: center;
+		margin-right: var(--cui-search-gap);
+		margin-bottom: $cui-spacing-sm;
+	}
+
+	&__advanced {
+		@include transition(all);
+		overflow: hidden;
+
+		&--hidden {
+			max-height: 0;
+			opacity: 0;
+		}
+
+		&--visible {
+			max-height: 500px;
+			opacity: 1;
+		}
+	}
+
+	&__actions {
+		@include flex-start;
+		gap: $cui-spacing-sm;
+		margin-bottom: $cui-spacing-sm;
+	}
+
+	&__toggle {
+		@include reset-button;
+		color: $cui-color-primary;
+		font-size: $cui-font-size-base;
+		@include transition(color);
+
+		&:hover {
+			color: $cui-color-primary-light-3;
+		}
+
+		.cui-search__toggle-icon {
+			display: inline-block;
+			margin-left: $cui-spacing-xs;
+			@include transition(transform);
+		}
+
+		&--expanded .cui-search__toggle-icon {
+			transform: rotate(180deg);
+		}
+	}
+
+	// ========== Modifiers ==========
+
+	&--bordered {
+		@include border;
+	}
+
+	&--compact {
+		--cui-search-padding: #{$cui-spacing-sm};
+		--cui-search-gap: #{$cui-spacing-sm};
+	}
+}

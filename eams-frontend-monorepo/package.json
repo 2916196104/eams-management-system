@@ -1,0 +1,69 @@
+{
+	"name": "@eams-monorepo/root",
+	"description": "EAMS 前端单仓架构项目根目录",
+	"private": true,
+	"version": "1.0.0",
+	"type": "module",
+	"packageManager": "pnpm@10.32.1",
+	"engines": {
+		"node": ">=20.19.0 || >=22.12.0 || >=24.0.0"
+	},
+	"scripts": {
+		"up-taze": "pnpm -w up @ruan-cat/taze-config -L && npx taze -r",
+		"git:fetch": "git fetch -p",
+		"git:dev-2-main": "pnpm git:fetch && pnpm git:push && git rebase origin/f1-ruancat f1 && pnpm git:push",
+		"git:main-2-dev": "git rebase origin/f1 f1-ruancat && pnpm git:push",
+		"git:push": "git push --follow-tags",
+		"preinstall": "npx only-allow pnpm",
+		"postinstall": "simple-git-hooks",
+		"build": "turbo build",
+		"dev": "turbo dev",
+		"lint": "eslint .",
+		"format": "prettier --experimental-cli --write .",
+		"format:check": "prettier --check '**/*.{js,jsx,ts,tsx,mts,json,css,scss,md,yml,yaml,html,vue}' --ignore-path .gitignore",
+		"clean": "rimraf -g '**/{dist,.turbo,.cache,.temp}' --glob",
+		"clean:deps": "rimraf -g '**/node_modules' --glob",
+		"commit": "git-cz",
+		"changeset:add": "changeset add",
+		"changeset:version": "changeset version",
+		"changeset:publish": "changeset publish",
+		"release": "pnpm build && changeset publish"
+	},
+	"devDependencies": {
+		"@changesets/cli": "^2.30.0",
+		"@commitlint/cli": "^19.8.1",
+		"@commitlint/config-conventional": "^19.8.1",
+		"@prettier/plugin-oxc": "^0.1.3",
+		"@ruan-cat/commitlint-config": "^4.9.4",
+		"@ruan-cat/taze-config": "^1.0.4",
+		"@unocss/preset-legacy-compat": "^66.6.7",
+		"commitizen": "^4.3.1",
+		"cz-git": "^1.12.0",
+		"eslint": "^9.39.4",
+		"lint-staged": "^15.5.2",
+		"prettier": "^3.8.1",
+		"prettier-plugin-lint-md": "^1.0.1",
+		"rimraf": "^6.1.3",
+		"simple-git-hooks": "^2.13.1",
+		"taze": "^19.10.0",
+		"turbo": "^2.8.17",
+		"typescript": "^5.9.3",
+		"unocss": "66.0.0",
+		"vite": "5.4.21",
+		"vite-svg-loader": "^5.1.1",
+		"vue-i18n": "11.3.0"
+	},
+	"dependencies": {
+		"@eams-monorepo/admin": "workspace:^",
+		"@eams-monorepo/stu-app": "workspace:^",
+		"@eams-monorepo/tea-app": "workspace:^",
+		"@eams-monorepo/vue-element-cui": "workspace:^",
+		"@eams-monorepo/vue-element-cui-nuxt": "workspace:^",
+		"camunda-bpmn-moddle": "^7.0.1"
+	},
+	"pnpm": {
+		"patchedDependencies": {
+			"wot-design-uni@1.14.0": "patches/wot-design-uni@1.14.0.patch"
+		}
+	}
+}

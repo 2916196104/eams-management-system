@@ -1,0 +1,10 @@
+{
+	"name": "Activiti",
+	"uri": "http://activiti.org/bpmn",
+	"prefix": "activiti",
+	"xml": {
+		"tagAlias": "lowerCase"
+	},
+	"associations": [],
+	"types": []
+}

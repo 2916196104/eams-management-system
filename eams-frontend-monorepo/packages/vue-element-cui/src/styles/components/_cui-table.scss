@@ -1,0 +1,84 @@
+// CuiTable 组件样式
+@use "../variables.scss" as *;
+@use "../mixins.scss" as *;
+
+.cui-table {
+	--cui-table-header-bg: #{$cui-fill-color-light};
+	--cui-table-header-color: #{$cui-color-text-primary};
+	--cui-table-border-color: #{$cui-border-color-lighter};
+	--cui-table-row-hover-bg: #{$cui-fill-color-extra-light};
+	--cui-table-stripe-bg: #{$cui-fill-color-lighter};
+	--cui-table-font-size: #{$cui-font-size-base};
+	--cui-table-padding: #{$cui-spacing-sm} #{$cui-spacing-md};
+
+	width: 100%;
+	font-size: var(--cui-table-font-size);
+
+	// ========== Elements ==========
+
+	&__header {
+		background-color: var(--cui-table-header-bg);
+		color: var(--cui-table-header-color);
+		font-weight: $cui-font-weight-primary;
+	}
+
+	&__body {
+		color: $cui-color-text-regular;
+	}
+
+	&__row {
+		@include transition(background-color);
+
+		&:hover {
+			background-color: var(--cui-table-row-hover-bg);
+		}
+	}
+
+	&__cell {
+		padding: var(--cui-table-padding);
+		border-bottom: $cui-border-width $cui-border-style var(--cui-table-border-color);
+	}
+
+	&__empty {
+		@include flex-center;
+		padding: $cui-spacing-xxl;
+		color: $cui-color-text-secondary;
+	}
+
+	// ========== Modifiers ==========
+
+	&--loading {
+		position: relative;
+		pointer-events: none;
+		opacity: 0.7;
+	}
+
+	&--border {
+		@include border("all", var(--cui-table-border-color));
+		border-radius: $cui-border-radius-base;
+
+		.cui-table__cell {
+			border-right: $cui-border-width $cui-border-style var(--cui-table-border-color);
+
+			&:last-child {
+				border-right: none;
+			}
+		}
+	}
+
+	&--stripe {
+		.cui-table__row:nth-child(even) {
+			background-color: var(--cui-table-stripe-bg);
+		}
+	}
+
+	&--small {
+		--cui-table-font-size: #{$cui-font-size-extra-small};
+		--cui-table-padding: #{$cui-spacing-xs} #{$cui-spacing-sm};
+	}
+
+	&--large {
+		--cui-table-font-size: #{$cui-font-size-medium};
+		--cui-table-padding: #{$cui-spacing-md} #{$cui-spacing-lg};
+	}
+}

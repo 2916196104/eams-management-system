@@ -47,11 +47,7 @@
 > >
 > > `eams-cpp` -- `C++`项目主体
 > >
-> > `eams-frontend` -- 管理端前端项目主体
-> >
-> > `eams-frontstu` -- 家长端前端项目主体
-> >
-> > `eams-fronttea` -- 教师端前端项目主体
+> > `eams-frontend-monorepo` -- 前端项目主体
 
 ## 软件架构
 

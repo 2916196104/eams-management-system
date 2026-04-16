@@ -1,0 +1,84 @@
+// CuiTab 组件样式
+@use "../variables.scss" as *;
+@use "../mixins.scss" as *;
+
+.cui-tab {
+	--cui-tab-active-color: #{$cui-color-primary};
+	--cui-tab-color: #{$cui-color-text-regular};
+	--cui-tab-border-color: #{$cui-border-color};
+	--cui-tab-font-size: #{$cui-font-size-base};
+
+	// ========== Elements ==========
+
+	&__header {
+		@include flex-start;
+		border-bottom: $cui-border-width $cui-border-style var(--cui-tab-border-color);
+	}
+
+	&__item {
+		padding: $cui-spacing-sm $cui-spacing-lg;
+		font-size: var(--cui-tab-font-size);
+		color: var(--cui-tab-color);
+		cursor: pointer;
+		@include transition(color);
+		position: relative;
+
+		&:hover {
+			color: var(--cui-tab-active-color);
+		}
+
+		&--active {
+			color: var(--cui-tab-active-color);
+			font-weight: $cui-font-weight-primary;
+
+			&::after {
+				content: "";
+				position: absolute;
+				bottom: -1px;
+				left: 0;
+				right: 0;
+				height: 2px;
+				background-color: var(--cui-tab-active-color);
+			}
+		}
+
+		&--disabled {
+			color: $cui-color-text-disabled;
+			cursor: not-allowed;
+
+			&:hover {
+				color: $cui-color-text-disabled;
+			}
+		}
+	}
+
+	&__content {
+		padding: $cui-spacing-lg 0;
+	}
+
+	// ========== Modifiers ==========
+
+	&--card {
+		.cui-tab__header {
+			background-color: $cui-fill-color-light;
+			border-radius: $cui-border-radius-base $cui-border-radius-base 0 0;
+		}
+
+		.cui-tab__item {
+			@include border("all", transparent);
+			border-bottom: none;
+			margin-bottom: -1px;
+
+			&--active {
+				background-color: $cui-bg-color;
+				border-color: var(--cui-tab-border-color);
+				border-bottom-color: $cui-bg-color;
+				border-radius: $cui-border-radius-base $cui-border-radius-base 0 0;
+
+				&::after {
+					display: none;
+				}
+			}
+		}
+	}
+}
