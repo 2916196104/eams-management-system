@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.j7.interaction.mapper.HomeworkRecordMapper">
+
+    <select id="selectHomeworkRecordPage" resultType="com.zeroone.star.project.vo.j7.interaction.HomeworkRecordVO">
+        SELECT t1.id, t1.homework_id, t1.student_id, t1.add_time, t1.content,
+               t1.score, t1.comment, t1.comment_time, t1.images,
+               t2.name as student_name,
+               t3.name as comment_teacher_name
+        FROM homework_record t1
+        LEFT JOIN student t2 ON t2.id = t1.student_id
+        LEFT JOIN staff t3 ON t3.id = t1.comment_teacher
+        WHERE t1.homework_id = #{query.homeworkId}
+        ORDER BY t1.add_time DESC
+    </select>
+
+    <select id="selectListByHomeworkId" resultType="com.zeroone.star.project.vo.j7.interaction.HomeworkRecordVO">
+        SELECT t1.id, t1.homework_id, t1.student_id, t1.add_time, t1.content,
+               t1.score, t1.comment, t1.comment_time, t1.images,
+               t2.name as student_name,
+               t3.name as comment_teacher_name
+        FROM homework_record t1
+        LEFT JOIN student t2 ON t2.id = t1.student_id
+        LEFT JOIN staff t3 ON t3.id = t1.comment_teacher
+        WHERE t1.homework_id = #{homeworkId}
+        ORDER BY t1.add_time ASC
+    </select>
+
+</mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.j7.interaction.mapper.GradeRecordMapper">
+
+        <!-- 分页查询学生成绩列表 -->
+    <select id="selectGradeList" resultType="com.zeroone.star.project.vo.j7.interaction.GradeRecordVO">
+        SELECT
+            gr.id,
+            g.title as gradeItem,
+            g.info as gradeDescription,
+            stu.name as studentName,
+            gr.score as score,
+            gr.add_time as addTime,
+            gr.grade_id as gradeId,
+            gr.student_id as studentId,
+            gr.creator as creator
+        FROM grade_record gr
+        LEFT JOIN grade g ON gr.grade_id = g.id AND g.deleted = 0
+        LEFT JOIN student stu ON gr.student_id = stu.id
+        WHERE gr.deleted = 0
+          AND g.deleted = 0
+          AND (#{query.gradeId} IS NULL OR #{query.gradeId} = 0 OR gr.grade_id = #{query.gradeId})
+          AND (#{query.studentId} IS NULL OR #{query.studentId} = 0 OR gr.student_id = #{query.studentId})
+        ORDER BY gr.add_time DESC, gr.id DESC
+    </select>
+
+
+    <!-- 保存或更新学生成绩记录 -->
+    <insert id="saveOrUpdateGradeRecord">
+        INSERT INTO grade_record (
+            id, grade_id, student_id, score, add_time, creator
+        ) VALUES (
+            #{entity.id},
+            #{entity.gradeId},
+            #{entity.studentId},
+            #{entity.score},
+            #{entity.addTime},
+            #{entity.creator}
+        )
+        ON DUPLICATE KEY UPDATE
+            grade_id = #{entity.gradeId},
+            student_id = #{entity.studentId},
+            score = #{entity.score},
+            add_time = #{entity.addTime},
+            creator = #{entity.creator}
+    </insert>
+
+    <!-- 根据ID列表删除学生成绩记录 -->
+    <update id="deleteGradeRecords">
+        DELETE FROM grade_record
+        WHERE id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+</mapper>

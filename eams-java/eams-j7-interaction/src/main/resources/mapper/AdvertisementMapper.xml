@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.j7.interaction.mapper.AdvertisementMapper">
+    <resultMap id="Advertisement" type="com.zeroone.star.project.entity.Advertisement">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="type" column="type"/>
+        <result property="creator" column="creator"/>
+        <result property="cover" column="cover"/>
+        <result property="addTime" column="add_time"/>
+        <result property="editTime" column="edit_time"/>
+        <result property="editor" column="editor"/>
+        <result property="state" column="state"/>
+        <result property="sort_num" column="sort_num"/>
+        <result property="code" column="code"/>
+        <result property="deleted" column="deleted"/>
+
+    </resultMap>
+
+
+    <select id="queryPage" resultMap="Advertisement">
+        select
+            title,
+            content,
+            type,
+            cover
+        from
+            advertisement
+        where
+            title = #{title}
+        <if test = "creator != null">
+            and creator = #{creator}
+        </if>
+        <if test = "type != null">
+            and type = #{type}
+        </if>
+    </select>
+
+    <select id="queryAdvertisementDetail" resultMap="Advertisement">
+        select
+            title,
+            content,
+            type,
+            cover
+        from
+            advertisement
+        where
+            id = #{id}
+    </select>
+
+    <insert id="insertAdvertisement" useGeneratedKeys="true">
+        insert into advertisement(id,creator,editor,title, content, type,cover,add_time,edit_time,state,sort_num,code,deleted)
+        values(#{id},#{creator},#{editor},#{title}, #{content}, #{type},#{cover},#{addTime},#{editTime},#{state},#{sort_num},#{code},#{deleted})
+    </insert>
+
+    <update id="updateAdvertisement">
+        update advertisement
+        set title = #{title},
+            content = #{content},
+            type = #{type},
+            cover = #{cover},
+            editor = #{editor},
+            edit_time = #{editTime},
+            state = #{state},
+            sort_num = #{sort_num},
+            code = #{code},
+            deleted = #{deleted}
+
+        where id = #{id}
+    </update>
+
+    <select id="findAdvertisement" resultMap="Advertisement">
+        select
+            *
+        from
+            advertisement
+        where
+            id = #{id}
+    </select>
+
+    <select id="findAdvertisementByCode" resultMap="Advertisement">
+        select
+            *
+        from
+            advertisement
+        where
+            code = #{code}
+    </select>
+</mapper>

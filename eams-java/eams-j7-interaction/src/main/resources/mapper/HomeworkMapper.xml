@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.j7.interaction.mapper.HomeworkMapper">
+
+    <!-- 列表查询（复用原生业务SQL，过滤deleted=0） -->
+    <select id="selectHomeworkPage" resultType="com.zeroone.star.project.vo.j7.interaction.HomeworkVO">
+        SELECT t1.id, t1.class_id, t1.title, t1.content, t1.creator, t1.add_time,
+               t2.name as teacher_name, t3.name as class_name,
+               COUNT(t4.id) as complete_count
+               <if test="studentId != null">
+                   , (SELECT COUNT(1) FROM homework_record WHERE homework_id = t1.id AND student_id = #{studentId}) > 0 as completed
+               </if>
+        FROM homework t1
+        LEFT JOIN class t3 ON t3.id = t1.class_id
+        LEFT JOIN staff t2 ON t2.id = t1.creator
+        LEFT JOIN homework_record t4 ON t4.homework_id = t1.id
+        WHERE t1.deleted = 0
+        <if test="query.classId != null">
+            AND t1.class_id = #{query.classId}
+        </if>
+        <if test="query.teacherId != null">
+            AND t1.creator = #{query.teacherId}
+        </if>
+        <if test="query.title != null and query.title != ''">
+            AND t1.title LIKE CONCAT('%', #{query.title}, '%')
+        </if>
+        GROUP BY t1.id
+        ORDER BY t1.id DESC
+    </select>
+
+    <!-- 详情关联映射 resultMap (1对多嵌套) -->
+    <resultMap id="DetailResultMap" type="com.zeroone.star.project.vo.j7.interaction.HomeworkVO">
+        <id property="id" column="id"/>
+        <result property="classId" column="class_id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="creator" column="creator"/>
+        <result property="addTime" column="add_time"/>
+        <result property="teacherName" column="teacher_name"/>
+        <result property="className" column="class_name"/>
+        <result property="completeCount" column="complete_count"/>
+        
+        <!-- 一对多：关联提交记录 -->
+        <collection property="recordList" ofType="com.zeroone.star.project.vo.j7.interaction.HomeworkRecordVO">
+            <id property="id" column="rid"/>
+            <result property="homeworkId" column="r_homework_id"/>
+            <result property="studentId" column="r_student_id"/>
+            <result property="addTime" column="r_add_time"/>
+            <result property="content" column="r_content"/>
+            <result property="score" column="r_score"/>
+            <result property="comment" column="r_comment"/>
+            <result property="commentTime" column="r_comment_time"/>
+            <result property="images" column="r_images"/>
+            <result property="studentName" column="student_name"/>
+            <result property="commentTeacherName" column="comment_teacher_name"/>
+        </collection>
+    </resultMap>
+
+    <!-- 详情查询 -->
+    <select id="selectHomeworkDetail" resultMap="DetailResultMap">
+        SELECT t1.id, t1.class_id, t1.title, t1.content, t1.creator, t1.add_time,
+               t2.name as teacher_name, t3.name as class_name,
+               (SELECT COUNT(0) FROM homework_record WHERE homework_id = t1.id) as complete_count,
+               t4.id as rid, t4.homework_id as r_homework_id, t4.student_id as r_student_id,
+               t4.add_time as r_add_time, t4.content as r_content,
+               t4.score as r_score, t4.comment as r_comment, t4.comment_time as r_comment_time,
+               t4.images as r_images,
+               t5.name as student_name,
+               t6.name as comment_teacher_name
+        FROM homework t1
+        LEFT JOIN class t3 ON t3.id = t1.class_id
+        LEFT JOIN staff t2 ON t2.id = t1.creator
+        LEFT JOIN homework_record t4 ON t4.homework_id = t1.id
+        LEFT JOIN student t5 ON t5.id = t4.student_id
+        LEFT JOIN staff t6 ON t6.id = t4.comment_teacher
+        WHERE t1.id = #{id} AND t1.deleted = 0
+    </select>
+
+</mapper>

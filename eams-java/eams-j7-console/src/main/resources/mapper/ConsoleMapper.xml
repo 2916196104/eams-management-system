@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.console.mapper.ConsoleMapper">
+
+    <!-- 统计学员人数 -->
+    <select id="countStudents" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM student WHERE deleted = 0
+    </select>
+
+    <!-- 统计内部师资人数 -->
+    <select id="countTeachers" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM staff WHERE is_inner = 1 AND deleted = 0
+    </select>
+
+    <!-- 统计总课次 -->
+    <select id="countLessons" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM lesson WHERE deleted = 0
+    </select>
+
+    <!-- 统计本月报名金额 -->
+    <select id="sumMonthlyRevenue" resultType="java.math.BigDecimal">
+        SELECT COALESCE(SUM(sc.paid_amount), 0)
+        FROM student_course sc
+        WHERE sc.add_time BETWEEN #{startDate} AND #{endDate}
+          AND sc.deleted = 0
+    </select>
+
+    <!-- 查询本月每天的报名走势 -->
+    <select id="selectDailyRegistrationTrend" resultType="com.zeroone.star.project.dto.j7.console.MonthlyTrendDTO">
+        SELECT
+            DATE(sc.add_time) AS date,
+            COUNT(*) AS totalCount
+        FROM student_course sc
+        WHERE sc.add_time BETWEEN #{startDate} AND #{endDate}
+          AND sc.deleted = 0
+        GROUP BY DATE(sc.add_time)
+        ORDER BY date ASC
+    </select>
+
+    <!-- 查询课程报名TOP5 -->
+    <select id="selectTop5CourseRegistration" resultType="com.zeroone.star.project.dto.j7.console.CourseRegistrationDTO">
+        SELECT
+            c.id AS courseId,
+            c.name AS courseName,
+            COUNT(sc.id) AS totalCount
+        FROM course c
+                 LEFT JOIN student_course sc ON c.id = sc.course_id
+        WHERE c.deleted = 0
+          AND (sc.deleted = 0 OR sc.deleted IS NULL)
+        GROUP BY c.id, c.name
+        ORDER BY totalCount DESC
+            LIMIT 5
+    </select>
+
+</mapper>

@@ -98,4 +98,20 @@ public class EasyExcelComponent {
         EasyExcel.read(inputStream, clazz, listener).sheet(sheetName).doRead();
         return listener.getDataList();
     }
+    /**
+     * 解析 Excel（可跳过头部行）
+     * @param inputStream 解析的 Excel 的输入流
+     * @param sheetName   解析的 Excel 的 sheet 名称
+     * @param clazz       存储的数据类型
+     * @param <T>         解析元素实体类类型
+     * @return 解析后的数据集合
+     */
+    public <T> List<T> parseExcelWithSkipRows(InputStream inputStream, String sheetName, Class<T> clazz) {
+        ExcelReadListener<T> listener = new ExcelReadListener<>();
+        EasyExcel.read(inputStream, clazz, listener)
+                .sheet(sheetName)
+                .headRowNumber(2)  // 表头在第 2 行，数据从第 3 行开始
+                .doRead();
+        return listener.getDataList();
+    }
 }

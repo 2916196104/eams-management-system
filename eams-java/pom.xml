@@ -54,6 +54,9 @@
         <module>eams-j6-eas</module>
         <module>eams-j6-interact</module>
         <module>eams-j6-finance</module>
+        <module>eams-j7-console</module>
+        <module>eams-j7-interaction</module>
+        <module>eams-j7-operation</module>
     </modules>
     <properties>
         <!-- 项目版本号 -->

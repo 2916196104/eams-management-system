@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.operation.mapper.ExchangeMapper">
+
+    <!-- 分页查询兑换申请列表 -->
+    <select id="selectExchangePage" resultType="com.zeroone.star.project.dto.j7.operation.ExchangeDTO">
+        SELECT 
+            id, credit_mall_id, school_id, student_id, user_id, 
+            num, credit, verify_state, verify_staff, verify_time, verify_remark
+        FROM credit_exchange
+        <where>
+            <if test="query.giftName != null and query.giftName != ''">
+                AND credit_mall_id IN (SELECT id FROM credit_mall WHERE name LIKE CONCAT('%', #{query.giftName}, '%'))
+            </if>
+            <if test="query.verifyState != null">
+                AND verify_state = #{query.verifyState}
+            </if>
+            <if test="query.startDate != null and query.startDate != ''">
+                AND DATE(add_time) &gt;= #{query.startDate}
+            </if>
+            <if test="query.endDate != null and query.endDate != ''">
+                AND DATE(add_time) &lt;= #{query.endDate}
+            </if>
+        </where>
+        ORDER BY add_time DESC
+        LIMIT #{query.pageSize} OFFSET ${(query.pageIndex - 1) * query.pageSize}
+    </select>
+
+    <!-- 统计兑换申请总数 -->
+    <select id="countExchange" resultType="long">
+        SELECT COUNT(*) FROM credit_exchange
+        <where>
+            <if test="query.giftName != null and query.giftName != ''">
+                AND credit_mall_id IN (SELECT id FROM credit_mall WHERE name LIKE CONCAT('%', #{query.giftName}, '%'))
+            </if>
+            <if test="query.verifyState != null">
+                AND verify_state = #{query.verifyState}
+            </if>
+            <if test="query.startDate != null and query.startDate != ''">
+                AND DATE(add_time) &gt;= #{query.startDate}
+            </if>
+            <if test="query.endDate != null and query.endDate != ''">
+                AND DATE(add_time) &lt;= #{query.endDate}
+            </if>
+        </where>
+    </select>
+
+    <!-- 审核兑换申请 -->
+    <update id="updateExchangeVerify">
+        UPDATE credit_exchange
+        SET verify_state = #{dto.auditResult},
+            verify_staff = #{dto.verifyStaff},
+            verify_time = NOW(),
+            verify_remark = #{dto.remark},
+            editor = #{dto.verifyStaff},
+            edit_time = NOW()
+        WHERE id = #{dto.id}
+    </update>
+
+</mapper>

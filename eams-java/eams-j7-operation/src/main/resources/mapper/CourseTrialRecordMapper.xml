@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.operation.mapper.CourseTrialRecordMapper">
+
+    <select id="selectRecordPage" resultType="com.zeroone.star.project.vo.j7.operation.TrialRecordVO">
+        SELECT
+        ctr.id,
+        ctr.trial_id AS trialId,
+        ct.title AS trialTitle,
+        ctr.student_id AS studentId,
+        s.name AS studentName,
+        CASE
+        WHEN u.mobile IS NULL OR CHAR_LENGTH(u.mobile) &lt; 7 THEN u.mobile
+        ELSE CONCAT(LEFT(u.mobile, 3), '****', RIGHT(u.mobile, 4))
+        END AS mobile,
+        c.name AS courseName,
+        ctr.lesson_count AS lessonCount,
+        ctr.add_time AS addTime,
+        ctr.expired_date AS expiredDate
+        FROM course_trial_record ctr
+        LEFT JOIN course_trial ct ON ctr.trial_id = ct.id AND ct.deleted = 0
+        LEFT JOIN course c ON ctr.course_id = c.id AND c.deleted = 0
+        LEFT JOIN student s ON ctr.student_id = s.id AND s.deleted = 0
+        LEFT JOIN user u ON ctr.user_id = u.id
+        <where>
+            <if test="query.trialId != null">
+                ctr.trial_id = #{query.trialId}
+            </if>
+            <if test="query.studentId != null">
+                AND ctr.student_id = #{query.studentId}
+            </if>
+        </where>
+        ORDER BY ctr.add_time DESC, ctr.id DESC
+    </select>
+
+</mapper>

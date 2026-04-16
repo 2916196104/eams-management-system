@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.j7.interaction.mapper.GradeMapper">
+
+    <!-- 分页查询成绩单（考核项）列表 -->
+    <select id="selectGradePage" resultType="com.zeroone.star.project.entity.Grade">
+        SELECT
+            id, title, info, creator, add_time as addTime, deleted, editor, edit_time as editTime, org_id as orgId
+        FROM grade
+        WHERE deleted = 0
+          AND (#{query.title} IS NULL OR #{query.title} = '' OR title LIKE CONCAT('%', #{query.title}, '%'))
+        ORDER BY add_time DESC, id DESC
+    </select>
+
+    <!-- 批量逻辑删除成绩单 -->
+    <update id="deleteLogicBatchIds">
+        UPDATE grade
+        SET deleted = 1
+        WHERE id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+</mapper>

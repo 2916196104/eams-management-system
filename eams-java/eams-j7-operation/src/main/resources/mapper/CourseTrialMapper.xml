@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.operation.mapper.CourseTrialMapper">
+
+    <select id="selectTrialPage" resultType="com.zeroone.star.project.vo.j7.operation.TrialCardVO">
+        SELECT
+        ct.id,
+        ct.title,
+        ct.course_id AS courseId,
+        c.name AS courseName,
+        ct.lesson_count AS lessonCount,
+        ct.quantity,
+        COALESCE(r.recordCount, 0) AS recordCount,
+        ct.expire_days AS expireDays,
+        ct.end_date AS endDate,
+        ct.state,
+        ct.edit_time AS editTime,
+        u.name AS editorName
+        FROM course_trial ct
+        LEFT JOIN course c ON ct.course_id = c.id
+        LEFT JOIN staff u ON ct.editor = u.id
+        LEFT JOIN (SELECT trial_id, COUNT(*) AS recordCount FROM course_trial_record
+        GROUP BY trial_id) r ON r.trial_id = ct.id
+        <where>
+            ct.deleted = 0
+            <if test="query.title != null and query.title != ''">
+                AND ct.title LIKE CONCAT('%', #{query.title}, '%')
+            </if>
+            <if test="query.courseId != null">
+                AND ct.course_id = #{query.courseId}
+            </if>
+            <if test="query.state != null">
+                AND ct.state = #{query.state}
+            </if>
+        </where>
+        ORDER BY ct.add_time DESC, ct.id DESC
+    </select>
+
+    <select id="selectTrialDetail" resultType="com.zeroone.star.project.vo.j7.operation.TrialCardDetailVO">
+        SELECT ct.id,
+               ct.title,
+               ct.course_id    AS courseId,
+               c.name          AS courseName,
+               ct.quantity,
+               ct.lesson_count AS lessonCount,
+               ct.expire_days  AS expireDays,
+               ct.end_date     AS endDate,
+               ct.state
+        FROM course_trial ct
+                 LEFT JOIN course c ON ct.course_id = c.id
+        WHERE ct.id = #{id}
+          AND ct.deleted = 0
+    </select>
+
+</mapper>

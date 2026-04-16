@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.operation.mapper.PointsRecordMapper">
+
+    <select id="selectPointsRecordList" resultType="com.zeroone.star.project.dto.j7.operation.PointsRecordDTO">
+        SELECT
+            scl.id,
+            s.name as studentName,
+            scl.remark as changeReason,
+            scl.credit as changeCredit,
+            scl.current_credit as remainingCredit,
+            scl.remark as description,
+            scl.add_time as changeTime
+        FROM student_credit_log scl
+        LEFT JOIN student s ON scl.student_id = s.id
+        <where>
+            <if test="query.name != null and query.name != ''">
+                AND s.name LIKE CONCAT(CONCAT('%', #{query.name}), '%')
+            </if>
+            <if test="query.startTime != null">
+                AND scl.add_time >= #{query.startTime}
+            </if>
+            <if test="query.endTime != null">
+                AND scl.add_time <![CDATA[ <= ]]> #{query.endTime}
+            </if>
+        </where>
+        ORDER BY scl.add_time DESC, scl.id DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="countPointsRecord" resultType="int">
+        SELECT COUNT(*)
+        FROM student_credit_log scl
+        LEFT JOIN student s ON scl.student_id = s.id
+        <where>
+            <if test="query.name != null and query.name != ''">
+                AND s.name LIKE CONCAT(CONCAT('%', #{query.name}), '%')
+            </if>
+            <if test="query.startTime != null">
+                AND scl.add_time >= #{query.startTime}
+            </if>
+            <if test="query.endTime != null">
+                AND scl.add_time <![CDATA[ <= ]]> #{query.endTime}
+            </if>
+        </where>
+    </select>
+
+    <insert id="updatePointsRecord">
+        INSERT INTO student_credit_log (
+            student_id,
+            credit,
+            current_credit,
+            remark,
+            add_time
+        )
+        SELECT
+            s.id,
+            #{entity.point},
+            s.credit + #{entity.point},
+            #{entity.content},
+            NOW()
+        FROM student s
+        WHERE s.name = #{entity.name}
+        AND s.deleted = 0
+        LIMIT 1
+    </insert>
+</mapper>

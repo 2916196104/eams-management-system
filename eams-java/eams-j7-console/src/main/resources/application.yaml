@@ -1,0 +1,14 @@
+server:
+  port: ${sp.j7-console}
+spring:
+  application:
+    name: ${sn.j7-console}
+
+# Knife4j 配置
+knife4j:
+  enable: true
+  setting:
+    language: zh-CN
+# Swagger 配置
+swagger:
+  enable: true

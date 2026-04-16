@@ -1,0 +1,14 @@
+server:
+  port: ${sp.operation}
+spring:
+  application:
+    name: ${sn.operation}
+
+# Knife4j 配置
+knife4j:
+  enable: true
+  setting:
+    language: zh-CN
+# Swagger 配置
+swagger:
+  enable: true

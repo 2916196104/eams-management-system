@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeroone.star.operation.mapper.DemoCardMapper">
+
+    <!-- 保存试听卡 -->
+    <insert id="insertDemoCard" parameterType="com.zeroone.star.project.dto.j7.operation.DemoCardDTO">
+        INSERT INTO course_trial (
+            id, course_id, title, quantity, remaining_quantity, lesson_count, expire_days, end_date, state,
+            creator, editor, add_time, edit_time, deleted
+        ) VALUES (
+            #{dto.id}, #{dto.courseId}, #{dto.name}, #{dto.totalIssue}, #{dto.totalIssue}, #{dto.lessonCount},
+            #{dto.validDays}, #{dto.endDate}, IFNULL(#{dto.isActive}, 1),
+            1, 1, NOW(), NOW(), 0
+        )
+    </insert>
+
+</mapper>

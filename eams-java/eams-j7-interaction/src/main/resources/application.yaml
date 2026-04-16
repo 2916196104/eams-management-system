@@ -1,0 +1,13 @@
+server:
+  port: ${sp.interaction}
+spring:
+  application:
+    name: ${sn.interaction}
+# Knife4j 配置
+knife4j:
+  enable: true
+  setting:
+    language: zh-CN
+# Swagger 配置
+swagger:
+  enable: true
